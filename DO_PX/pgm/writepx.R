@@ -77,7 +77,7 @@ writepx.gs <- function ( obj.px, filename, heading = NULL, stub = NULL,
   
   # obj.px names may have changed (and got - changed into . by R)
   # we need to revert that  
-  names(obj.px) <- gsub("\\.", "-", names(obj.px))
+  names(obj.px) <- gsub("\\.", " ", names(obj.px))
   
   # LARP too much reverted modify for language-codes
   names(obj.px) <- gsub("\\-en-", "[en]", names(obj.px))
@@ -94,13 +94,15 @@ writepx.gs <- function ( obj.px, filename, heading = NULL, stub = NULL,
                 "DIRECTORY-PATH", "UPDATE-FREQUENCY", "TABLEID", "SYNONYMS",
                 "DEFAULT-GRAPH", "DECIMALS", "SHOWDECIMALS", "ROUNDING",
                 "MATRIX", "AGGREGALLOWED", "AUTOPEN", "SUBJECT-CODE",
-                "SUBJECT-AREA","SUBJECT-AREA.da.","SUBJECT-AREA.kl.]", "CONFIDENTIAL", "COPYRIGHT", "DESCRIPTION",
+                "SUBJECT-AREA","SUBJECT-AREA[da]","SUBJECT-AREA[kl]",
+                "CONFIDENTIAL", "COPYRIGHT", "DESCRIPTION",
                 "TITLE", "DESCRIPTIONDEFAULT", "CONTENTS", "UNITS", "STUB",
-                "HEADING", "CONTVARIABLE", "VALUES", "VALUES[da]", "VALUES[kl]", "TIMEVAL", "CODES",
+                "HEADING", "CONTVARIABLE", "VALUES", "VALUES[da]",
+                "VALUES[kl]", "TIMEVAL", "CODES",
                 "DOUBLECOLUMN", "PRESTEXT", "DOMAIN", "VARIABLE-TYPE",
                 "HIERARCHIES", "HIERARCHYLEVELS", "HIERARCHYLEVELSOPEN",
-                "HIERARCHYNAMES", "MAP", "PARTITIONED", "ELIMINATION", "PR",
-                "ECISION", "LAST-UPDATED", "STOCKFA", "CFPRICES", "DAYADJ",
+                "HIERARCHYNAMES", "MAP", "PARTITIONED", "ELIMINATION",
+                "PRECISION", "LAST-UPDATED", "STOCKFA", "CFPRICES", "DAYADJ",
                 "SEASADJ",  "CONTACT", "REFPERIOD", "BASEPERIOD",
                 "DATABASE", "SOURCE", "SURVEY", "LINK", "INFOFILE",
                 "FIRST-PUBLISHED", "META-ID", "OFFICIAL-STATISTICS", "INFO",

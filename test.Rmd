@@ -1,5 +1,5 @@
 ---
-title: "do_ _px Dataset on Greenlandic Life tables, v6"
+title: "do_ _px Dataset on Greenlandic Life tables, v7"
 author: "Lars Pedersen, Statistics Greenland"
 date: "`r format(Sys.time(), '%d. %B %Y')`"
 output: html_document
@@ -7,9 +7,7 @@ output: html_document
 
 ```{r setup, include=TRUE}
 
-print(getwd())
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
-print(getwd())
 
 ```
 
@@ -20,28 +18,28 @@ print(getwd())
 # CRAN
 library(pxR)
 library(tidyverse)
-library(writexl)
+# library(writexl)
 library(readxl)
 
 # non-CRAN
 # https://github.com/StatisticsGreenland/statgl
-library(statgl)
+# library(statgl)
 
 
 ## Local Paths ------------------------------------------------------
 
-hi <- getwd()
-workPath <- paste0(getwd(),"/DO_PX/tmp/")
-dataPath <- paste0(getwd(),"/DO_PX/datasaet/")
-pgmPath <- paste0(getwd(),"/DO_PX/pgm")
-resultsPath <- paste0(getwd(),"/DO_PX/results/")
-metaPath <- paste0(getwd(),"/DO_PX/metadata/")
+doPxDir     <- file.path("DO_PX")
+workPath    <- file.path(doPxDir, "tmp")
+dataPath    <- file.path(doPxDir, "datasaet")
+pgmPath     <- file.path(doPxDir, "pgm")
+resultsPath <- file.path(doPxDir, "results")
+metaPath    <- file.path(doPxDir, "metadata")
 
 # general get metadata for one variable from statbank
-source(paste0(pgmPath,"/getMetaFromStatbank.R"))
+source(file.path(pgmPath, "getMetaFromStatbank.R"))
 
 # write multilingual px file (based on pxR)
-source(paste0(pgmPath,"/writepx.R"))
+source(file.path(pgmPath, "writepx.R"))
 
 
 ```
@@ -85,8 +83,9 @@ langs <- c("en", "da", "kl")
 # read data from local copy of px_data_lt
 #*********************************
 
-px_data <- read_rds(paste0(dataPath,"px_data_lt.Rds")) 
+px_data <- read_rds(file.path(dataPath,"px_data_lt.Rds")) 
 
+px_data_tmp <- px_data |> filter(time >=2015)
 
 #*********************************
 
@@ -108,20 +107,47 @@ px_data <- read_rds(paste0(dataPath,"px_data_lt.Rds"))
 
 # Only if meta_<%PXMATRIX%>_Modified.xlsx is not found in metaPath a new meta-xlsx is created
 
-if(file.exists(paste0(metaPath,"/meta_",PXMATRIX,"_Modified.xlsx"))){
-  # no need TO DO
+if(file.exists(file.path(metaPath, glue::glue("meta_{PXMATRIX}_Modified.xlsx")))){
+# no need TO DO
 } else {
-source(paste0(pgmPath,"/DO_PX_step1.R"))
+source(file.path(pgmPath,"DO_PX_step1.R"))
 }
 
 
 # getModified xlsx
-source(paste0(pgmPath,"/getModifiedXLSX.R"))
+source(file.path(pgmPath,"getModifiedXLSX.R"))
 
 
 # to lists
 
-dat <- tidy_Codelists_lang %>% 
+lst_time_filter <- tidy_Variables %>% 
+  filter(toupper(type)=="TIME") %>% 
+  distinct(VarName, lang, lVarName)
+
+lst_time <- px_data_tmp %>% 
+#  filter(lst_time_filter) %>% 
+  distinct(time) %>% 
+  mutate(
+    code = glue::glue('"{time}"'),
+    value = glue::glue('"{time}"')
+  ) %>% 
+    group_by(time) %>%
+  nest(bob = time:value) %>%
+  mutate(
+    list = map(bob, pull, code),
+    value = map_chr(list, paste0, collapse = ","),
+    VarName="time"
+  ) %>% 
+  select(VarName,value) %>% 
+  left_join(lst_time_filter) %>% 
+  select(lVarName,lang, value) %>% 
+    mutate(CODES = paste0('CODES[',lang,']("',lVarName,'")'),
+         VALUES = paste0('VALUES[',lang,']("',lVarName,'")')) %>% 
+    select(VALUES,value) %>% 
+  deframe()
+
+
+lst_CODES <- tidy_Codelists_lang %>% 
   select(CODES, VALUES, code, value) %>%
   mutate(
     code = glue::glue('"{code}"'),
@@ -133,12 +159,13 @@ dat <- tidy_Codelists_lang %>%
     list = map(bob, pull, code),
     value = map_chr(list, paste0, collapse = ","),
     CODES = CODES %>% str_remove_all("\\[en]")
-  )
+  ) %>% 
+  select(CODES,value) %>% 
+  deframe()
   
-list0 <- dat %>% pull(value) %>% set_names(dat %>% pull(CODES))
-
-datval <- tidy_Codelists_lang %>% 
+lst_VALUES <- tidy_Codelists_lang %>% 
   select(CODES, VALUES, code, value) %>%
+    mutate(VALUES=across(VALUES,str_replace_all," ",".")) %>%
   mutate(
     code = glue::glue('"{code}"'),
     value = glue::glue('"{value}"')
@@ -148,81 +175,120 @@ datval <- tidy_Codelists_lang %>%
   mutate(
     list = map(bob, pull, value),
     value = map_chr(list, paste0, collapse = ","),
-    VALUES = VALUES  %>% str_remove_all("\\[en]")
-  )
-list1 <- datval %>% pull(value) %>% set_names(datval %>% pull(VALUES))
+    VALUES = VALUES  %>% str_remove_all("\\[en]") 
+  )%>% 
+  select(VALUES,value) %>% 
+  deframe()
 
-list2 <- tidy_Codelists %>% pull(value) %>% set_names(tidy_Codelists_lang %>% pull(VALUES))
 
-PXkey <- tidy_General |> mutate(name = "{keyword}[{lang}]" |> glue::glue() %>% str_remove_all("\\[]")) |> pull(name)
+lst_General <- tidy_General |> mutate(name = "{keyword}[{lang}]" |> glue::glue() %>% str_remove_all("\\[]")) %>% 
+  select(name,value) %>% 
+  deframe()
 
-PXvalue <- tidy_General |> pull(value)
-list3 <- PXvalue |> set_names(PXkey)
 
-stub_klar <-tidy_Variables %>% 
+# driller lars : linje 203
+lst_stub <-tidy_Variables %>% 
   filter(position %>% str_detect("s")) %>% 
   arrange(position) %>%
-  select(lang, lVarName) %>%
-  mutate(lang = glue::glue('STUB[{lang}]') %>% str_remove_all("\\[en]")) 
+  select(lang, lVarName) %>% 
+  mutate(lVarName=across(lVarName,str_replace_all," ",".")) %>%
+  mutate(lang = glue::glue('STUB[{lang}]') %>%
+           str_remove_all("\\[en]")) %>% 
+    group_by(lang) %>%
+  nest(data = lVarName) %>%
+  mutate(
+    list = map(data, pull, lVarName),
+    value = map_chr(list, paste, collapse = "\",\"")) %>% 
+  select(lang,value) %>% 
+  mutate(value=substr(as.character(value),3,str_length(value)-1)) %>% 
+  deframe()
 
-head_klar <-tidy_Variables %>% 
+lst_head <-tidy_Variables %>% 
   filter(position %>% str_detect("h")) %>% 
   arrange(position) %>%
   select(lang, lVarName) %>%
-  mutate(lang = glue::glue('HEADING[{lang}]') %>% str_remove_all("\\[en]"))
-
-dat4h <- head_klar %>% 
+  mutate(lang = glue::glue('HEADING[{lang}]') %>% str_remove_all("\\[en]")) %>% 
   group_by(lang) %>%
   nest(data = lVarName) %>%
   mutate(
     list = map(data, pull, lVarName),
-    value = map_chr(list, paste, collapse = "\",\""))
+    value = map_chr(list, paste, collapse = "\",\"")) %>% 
+  select(lang,value) %>% 
+  deframe()
 
-list4h <- dat4h %>% pull(value) %>% set_names(dat4h %>% pull(lang))
+lst_precision <- tidy_precision %>% 
+  deframe()
 
-dat4 <- stub_klar %>% 
-  group_by(lang) %>%
-  nest(data = lVarName) %>%
-  mutate(
-    list = map(data, pull, lVarName),
-    value = map_chr(list, paste, collapse = "\",\""))
+lst_elimination <- tidy_Variables |>
+  select(lVarName, lang, lelimination) %>%
+    mutate(eli=glue::glue('ELIMINATION[{lang}]("{lVarName}")'),
+    eli = eli  %>% str_remove_all("\\[en]") 
+  ) %>% 
+  select(eli,lelimination) %>% 
+  drop_na(lelimination) %>% 
+  mutate(lelimination = ifelse(!lelimination %in% c("YES","NO"), paste0('"',lelimination,'"'),lelimination)) %>% 
+  deframe()
 
-list4v <- dat4 %>% pull(value) 
-list4k <- dat4 %>% pull(lang) 
-list4 <- list4v %>% set_names(list4k)
+lst_General_nolang <- tidy_General_noLang %>% 
+  deframe()
 
-list7 <- tidy_precision %>% pull(value) %>% set_names(tidy_precision %>% pull(keyword))
+meta_list <- lst_General_nolang %>% 
+  append(lst_General) %>%
+  append(lst_stub) %>%
+  append(lst_head) %>%
+  append(lst_VALUES) %>%
+  append(lst_time) %>%
+  append(lst_CODES) %>%
+  append(lst_elimination) %>% 
+  append(lst_precision)
 
-list5 <- tidy_General_noLang %>% pull(value) %>% set_names(tidy_General_noLang %>% pull(keyword))
-
-meta_list <- list0 %>% append(list1) %>% append(list2) %>% append(list3) %>% append(list4) %>% append(list5) %>% append(list4h) %>% append(list7)
-
-hi <- as_tibble(meta_list)
+#hi <- enframe(meta_list)
 
 
-VarNames <- tidy_Variables %>% filter(lang=="en") %>% select(VarName)
+VarNames <- tidy_Variables %>% filter(lang=="en") %>% select(lVarName)
 
 # VarNames
 # 
 # px_data <- read_rds(paste0(dataPath,"px_data_lt.Rds")) 
 
 
-px_data <- px_data %>% select(time,
+# px_data <- px_data_tmp %>% select(time,
+#                                   measure=measure.code,
+#                                   calc.type=calcbase.code,
+#                                   gender=gender.code,
+#                                   age=age.code,
+#                                   no.of.years=nop.code,
+#                                   place.of.birth=pob,
+#                                   value) %>%
+#   filter(!is.infinite(value)) %>% 
+#   arrange(time,measure,calc.type,gender,age,no.of.years,place.of.birth)
+
+px_data <- px_data_tmp %>% select(time,
                               place.of.birth=pob,
                               no.of.years=nop.code,
                               age=age.code,
                               gender=gender.code,
                               calc.type=calcbase.code,
                               measure=measure.code,
-                              value)
+                              value) %>%
+  filter(!is.infinite(value))
 
 
+px <- px_data |> as.px(list.keys = meta_list)
 
-px <- px_data |> filter(time >=2015) |> as.px(list.keys = meta_list)
+px[['VALUES']] <- NULL
 
 px$`CREATION-DATE`$value <- format(Sys.time(), "%Y%m%d %H:%M")
+
+px[['TITLE']] <- px$DESCRIPTION
+px[['TITLE[da]']] <- px$`DESCRIPTION[da]`
+px[['TITLE[kl]']] <- px$`DESCRIPTION[kl]`
+
+px[['LAST-UPDATE']] <- NULL
 px$`LAST-UPDATED`$value <- format(Sys.time(), "%Y%m%d %H:%M")  
 
+px[['NEXT-UPDATE']] <- NULL
+px$`NEXT-UPDATE`$value <- format(Sys.time(), "%Y%m%d %H:%M") 
 px$LANGUAGE$value <- "en"
 px$LANGUAGES$value <- langs
 
@@ -235,7 +301,6 @@ px[['SHOWDECIMALS']] <- NULL
 px$SHOWDECIMALS$value <- Mod_General_MD  %>% filter(keyword=="SHOWDECIMAL") %>% select(value) %>%  as.character()
 
 px$MATRIX$value <- PXMATRIX
-
 
 px |> writepx.gs(paste0(resultsPath,"/",px$MATRIX$value,".px"))
 

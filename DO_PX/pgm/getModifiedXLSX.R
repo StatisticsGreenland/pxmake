@@ -36,7 +36,7 @@ tidy_Codelists <- Mod_Codelists_2MD %>%
 tidy_General_noLang <- Mod_General_MD %>% as_tibble() %>% 
   mutate(lang=str_sub(keyword,-2),
          keyword=str_replace_all(keyword,"_","-")) %>% 
-  filter(lang != "en" & lang != "da" & lang != "kl") %>% 
+  filter(!lang %in% c("en","da","kl")) %>% 
   select(-lang) %>% 
   mutate(keyword=ifelse(keyword=="DECIMAL","DECIMALS",keyword),
          keyword=ifelse(keyword=="SHOWDECIMAL","SHOWDECIMALS",keyword))
@@ -51,25 +51,25 @@ tidy_General <- Mod_General_MD %>%
 
 
 
-tidy_VarName <- Mod_Variables_MD %>% select(position,VarName,en_varName,da_varName,kl_varName) %>%
+tidy_VarName <- Mod_Variables_MD %>% select(position,VarName,type,en_varName,da_varName,kl_varName) %>%
   pivot_longer(cols=c(en_varName,da_varName,kl_varName),names_to = "text") %>%
   mutate(lang=str_sub(text,1,2)) %>% 
-  select(lang,VarName,position,lVarName=value)
+  select(lang,VarName,type,position,lVarName=value)
 
-tidy_VarNote <- Mod_Variables_MD %>% select(position,VarName,en_note,da_note,kl_note) %>%
+tidy_VarNote <- Mod_Variables_MD %>% select(position,VarName,type,en_note,da_note,kl_note) %>%
   pivot_longer(cols=c(en_note,da_note,kl_note),names_to = "text") %>%
   mutate(lang=str_sub(text,1,2)) %>% 
-  select(lang,VarName,position,lnote=value)
+  select(lang,VarName,type,position,lnote=value)
 
-tidy_VarDomain <- Mod_Variables_MD %>% select(position,VarName,en_domain,da_domain,kl_domain) %>%
+tidy_VarDomain <- Mod_Variables_MD %>% select(position,VarName,type,en_domain,da_domain,kl_domain) %>%
   pivot_longer(cols=c(en_domain,da_domain,kl_domain),names_to = "text") %>%
   mutate(lang=str_sub(text,1,2)) %>% 
-  select(lang,VarName,position,ldomain=value)
+  select(lang,VarName,type,position,ldomain=value)
 
-tidy_VarElim <- Mod_Variables_MD %>% select(position,VarName,en_elimination,da_elimination,kl_elimination) %>%
+tidy_VarElim <- Mod_Variables_MD %>% select(position,VarName,type,en_elimination,da_elimination,kl_elimination) %>%
   pivot_longer(cols=c(en_elimination,da_elimination,kl_elimination),names_to = "text") %>%
   mutate(lang=str_sub(text,1,2)) %>% 
-  select(lang,VarName,position,lelimination=value)
+  select(lang,VarName,type,position,lelimination=value)
 
 tidy_Variables <- tidy_VarName %>% 
   left_join(tidy_VarNote) %>% 

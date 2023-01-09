@@ -12,7 +12,7 @@
 <meta name="author" content="Lars Pedersen, Statistics Greenland" />
 
 
-<title>do_ _px Dataset on Greenlandic Life tables, v6</title>
+<title>do_ _px Dataset on Greenlandic Life tables, v7</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -363,18 +363,14 @@ pre code {
 
 
 <h1 class="title toc-ignore">do_ _px Dataset on Greenlandic Life tables,
-v6</h1>
+v7</h1>
 <h4 class="author">Lars Pedersen, Statistics Greenland</h4>
-<h4 class="date">05. januar 2023</h4>
+<h4 class="date">09. januar 2023</h4>
 
 </div>
 
 
-<pre class="r"><code>print(getwd())</code></pre>
-<pre><code>## [1] &quot;S:/STAT/GS/LARPtest/v6&quot;</code></pre>
-<pre class="r"><code>knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
-print(getwd())</code></pre>
-<pre><code>## [1] &quot;S:/STAT/GS/LARPtest/v6&quot;</code></pre>
+<pre class="r"><code>knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())</code></pre>
 <pre class="r"><code>## Packages -----------------------------------------------------
 
 # CRAN
@@ -401,27 +397,28 @@ library(pxR)</code></pre>
 ## x dplyr::rename()    masks plyr::rename()
 ## x dplyr::summarise() masks plyr::summarise()
 ## x dplyr::summarize() masks plyr::summarize()</code></pre>
-<pre class="r"><code>library(writexl)
+<pre class="r"><code># library(writexl)
 library(readxl)
 
 # non-CRAN
 # https://github.com/StatisticsGreenland/statgl
-library(statgl)</code></pre>
-<pre><code>## R Statistics Greenland (0.1.1)</code></pre>
-<pre class="r"><code>## Local Paths ------------------------------------------------------
+# library(statgl)
 
-hi &lt;- getwd()
-workPath &lt;- paste0(getwd(),&quot;/DO_PX/tmp/&quot;)
-dataPath &lt;- paste0(getwd(),&quot;/DO_PX/datasaet/&quot;)
-pgmPath &lt;- paste0(getwd(),&quot;/DO_PX/pgm&quot;)
-resultsPath &lt;- paste0(getwd(),&quot;/DO_PX/results/&quot;)
-metaPath &lt;- paste0(getwd(),&quot;/DO_PX/metadata/&quot;)
+
+## Local Paths ------------------------------------------------------
+
+doPxDir     &lt;- file.path(&quot;DO_PX&quot;)
+workPath    &lt;- file.path(doPxDir, &quot;tmp&quot;)
+dataPath    &lt;- file.path(doPxDir, &quot;datasaet&quot;)
+pgmPath     &lt;- file.path(doPxDir, &quot;pgm&quot;)
+resultsPath &lt;- file.path(doPxDir, &quot;results&quot;)
+metaPath    &lt;- file.path(doPxDir, &quot;metadata&quot;)
 
 # general get metadata for one variable from statbank
-source(paste0(pgmPath,&quot;/getMetaFromStatbank.R&quot;))
+source(file.path(pgmPath, &quot;getMetaFromStatbank.R&quot;))
 
 # write multilingual px file (based on pxR)
-source(paste0(pgmPath,&quot;/writepx.R&quot;))</code></pre>
+source(file.path(pgmPath, &quot;writepx.R&quot;))</code></pre>
 <div id="do_px" class="section level3">
 <h3>DO_PX</h3>
 <p>Udgangspunkt er et tidy dataset ‘px_data’ som indlæses fra

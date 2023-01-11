@@ -18,23 +18,22 @@
 # Time as only variable in heading
 # 
 
-timeName <- metatbl_varname("time","BEXSTA") %>%
-  mutate(values=strtoi(values)) %>% 
-  filter(code=="time") %>% 
-  filter(values==max(values)) %>%
-  mutate(position="h1",
-         type="time",
-         en_note="",
-         da_note="",
-         kl_note="",
-         en_domain="",
-         da_domain="",
-         kl_domain="",
-         en_elimination="",
-         da_elimination="",
-         kl_elimination="") %>%
+timeName <- tibble(code="time",
+                   position="h1",
+                   text.en="time",
+                   text.da="tid",
+                   text.kl="piffissaq",
+                   type="time",
+                   en_note="",
+                   da_note="",
+                   kl_note="",
+                   en_elimination="",
+                   da_elimination="",
+                   kl_elimination="",
+                   en_domain="",
+                   da_domain="",
+                   kl_domain="") %>%
   select(position,VarName=code,text.en,text.da,text.kl,type,en_note,da_note,kl_note,en_elimination,da_elimination,kl_elimination,en_domain,da_domain,kl_domain)
-
 
 
 #*******************************************************

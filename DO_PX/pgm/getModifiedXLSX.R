@@ -41,13 +41,15 @@ tidy_General_noLang <- Mod_General_MD %>% as_tibble() %>%
   mutate(keyword=ifelse(keyword=="DECIMAL","DECIMALS",keyword),
          keyword=ifelse(keyword=="SHOWDECIMAL","SHOWDECIMALS",keyword))
 
-
 tidy_General <- Mod_General_MD %>%
-  mutate(lang=str_sub(keyword,-2),
-         keyword=str_sub(keyword,1,-4),
-         keyword=str_replace_all(keyword,"_","-"),
-         lang=ifelse(lang=="en","",lang)) %>% 
-  filter(lang %in% c("","da","kl")) 
+  mutate(lang=str_sub(keyword,-2,-1),
+         keyword=str_sub(keyword,1,-4)) %>% 
+         # keyword=ifelse((lang=="en"),
+         #                keywordNEW,
+         #                paste0(keywordNEW,"[",lang,"]"))
+         # ) %>% 
+  filter(lang %in% c("en","da","kl")) %>% 
+  mutate(keyword=str_replace_all(keyword,"_","-"))
 
 
 

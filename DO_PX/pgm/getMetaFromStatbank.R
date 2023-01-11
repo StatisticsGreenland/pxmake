@@ -6,18 +6,7 @@
 #
 #*********************************
 
-# --------------------------------------------------------------------
-# getMetaFromStatbank (and testbank)
-# statbank-Hagstova:
-# "https://statbank.hagstova.fo:443/api/v1/fo/H2/DEV/COH/Lexis.px")
-# --------------------------------------------------------------------
 
-# hvordan kommer den til at virke med :
-#, api_url = "https://bank.stat.gl/api/v1/en/Greenland"
-
-#library(statgl)
-
-# General load of variables, values - code and text - helpers
 statgl_metatbl <- function(url) {
   url %>% 
     statgl_meta() %>% 
@@ -28,9 +17,8 @@ statgl_metatbl <- function(url) {
     select(code:valueTexts)
 }
 
-
 metatbl_var <- function(varname,varnameout,px_id) {
-  varBEXSTB <- langs %>% 
+  varBEXSTC <- langs %>% 
     map(statgl_url, table_id = px_id) %>% 
     map(statgl_metatbl) %>% 
     map2(langs, 
@@ -46,11 +34,8 @@ metatbl_var <- function(varname,varnameout,px_id) {
     select(VarName=variables,code=values,valueTexts.en,valueTexts.da,valueTexts.kl)
 }
 
-# CONST_statbank <- "https://bank.stat.gl/api/v1/en/Greenland"
-# , api_url = CONST_statbank
-
 metatbl_varname <- function(varname,px_id) {
-  varBEXSTB <- langs %>% 
+  varBEXSTC <- langs %>% 
     map(statgl_url, table_id = px_id) %>% 
     map(statgl_metatbl) %>% 
     map2(langs, 
@@ -61,4 +46,3 @@ metatbl_varname <- function(varname,px_id) {
     ) %>% 
     reduce(left_join, by = c("code", "values"))
 }  
-

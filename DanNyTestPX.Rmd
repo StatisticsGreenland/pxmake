@@ -1,32 +1,22 @@
 ---
-title: "do_ _px Dataset on Greenlandic Life tables, v7"
-author: "Lars Pedersen, Statistics Greenland"
+title: "Ny test px-fil"
+author: "LarsP"
 date: "`r format(Sys.time(), '%d. %B %Y')`"
 output: html_document
 ---
 
-```{r setup, include=TRUE}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 
-knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
-
-```
-
-```{r pgm}
-
-## Packages -----------------------------------------------------
 
 # CRAN
-library(pxR)
 library(tidyverse)
-# library(writexl)
+library(pxR)
+library(pxweb)
+library(writexl)
 library(readxl)
-
-# non-CRAN
-# https://github.com/StatisticsGreenland/statgl
+# library(expss)
 # library(statgl)
-
-
-## Local Paths ------------------------------------------------------
 
 doPxDir     <- file.path("DO_PX")
 workPath    <- file.path(doPxDir, "tmp")
@@ -35,84 +25,50 @@ pgmPath     <- file.path(doPxDir, "pgm")
 resultsPath <- file.path(doPxDir, "results")
 metaPath    <- file.path(doPxDir, "metadata")
 
-# general get metadata for one variable from statbank
-source(file.path(pgmPath, "getMetaFromStatbank.R"))
-
-# write multilingual px file (based on pxR)
-source(file.path(pgmPath, "writepx.R"))
-
 
 ```
 
+## Hent data
 
-### DO_PX
+Fra Statistikbank:
 
-Udgangspunkt er et tidy dataset 'px_data' som indlæses fra dataPath.
+```{r pressure, echo=FALSE}
 
-Metadata til px-fil hentes fra xlsx-fil på metaPath. xlsx-fil er i vores interne standard til at håndtere metadata (oversættelse) mm  
-
-
-px- filer kan editeres med pxedit (og pxjob). Program findes hos statFin  
-https://www.stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html
-
-px-filer kan vises med pxwin (windows-program) eller som i vores Statistikbank med pxweb  
-https://www.scb.se/en/services/statistical-programs-for-px-files/
-
-
-px format beskrivelse ses her:  
-https://www.scb.se/en/services/statistical-programs-for-px-files/px-file-format/
-
-```{r PX_file, fig.asp = 0.7, fig.width = 4, out.width = "60%", echo=FALSE, message=FALSE, warning=FALSE, collapse=TRUE}
-
-
-#*********************************
+# Gemt spørgsmål
+# https://bank.stat.gl:443/sq/f36e3638-870f-4697-b001-ae1e9cb81abc
 #
-# languages in px-file, PXMATRIX
-#
-#*********************************
+# I browser kan definitionbeskrivelse ses med:
+# https://bank.stat.gl:443/sqget.asp?f36e3638-870f-4697-b001-ae1e9cb81abc
 
 
-# PXMATRIX bruges som tabel ident. Både som filnavn med filtype .px og som MATRIX-nøgleord i fil
-PXMATRIX <- "BEXLTALL"
-
-# px-fil skal dannes med 3 sprog (en - engelsk, da - dansk og kl - grønlandsk)
-langs <- c("en", "da", "kl") 
+# sq_data <- read_csv("https://bank.stat.gl/sq/f36e3638-870f-4697-b001-ae1e9cb81abc.csv",
+#                      locale = locale(encoding = "latin1"))
 
 
-#*********************************
-# read data from local copy of px_data_lt
-#*********************************
+# Download data med pxweb (CRAN-pakke)
+px_data_raw <- 
+  pxweb_get(url = "https://bank.stat.gl/api/v1/da/Greenland/BE/BE01/BE0120/BEXSTA.px",
+      query = list("place of birth"   = c("T","N","S"),
+       "gender"= "*",
+       "time"= c("2018","2019","2020","2021","2022"))
+)
 
-px_data <- read_rds(file.path(dataPath,"px_data_lt.Rds")) 
-
-px_data_tmp <- px_data |> filter(time >=2015)
-
-#*********************************
-
-#*******************************************************
-#
-# the dataset px_data has these variables:
-# 
-# time, pob, nop, age, gender, calcbase, measure, value
-#
-# Metadata is found in meta_<%PXMATRIX%>_Modified.xlsx
-#
-# If Modified file is NOT found DO a metadata-draft and save in metaPath as meta_<%PXMATRIX%>.xlsx
-#
-# The format is identical to the format used by 
-# internal sas-makro procedures at Statistics Greenland
-#
-#*******************************************************
+# Convert to data.frame 
+px_data_new <- as.data.frame(px_data_raw, 
+                               column.name.type = "code",
+                               variable.value.type = "code"
+                            ) %>% 
+  select(pob=`place of birth`,
+         gender,
+         time,
+         count=`Befolkningen 1. januar`) %>% 
+#  mutate(time=strtoi(time)) %>% 
+  select(pob,gender,time,value=count) %>% 
+  arrange(pob,gender,time)
 
 
-# Only if meta_<%PXMATRIX%>_Modified.xlsx is not found in metaPath a new meta-xlsx is created
-
-if(file.exists(file.path(metaPath, glue::glue("meta_{PXMATRIX}_Modified.xlsx")))){
-# no need TO DO
-} else {
-source(file.path(pgmPath,"DO_PX_step1.R"))
-}
-
+PXMATRIX <- "BEXTESTNy"
+langs <- c("en","da","kl")
 
 # getModified xlsx
 source(file.path(pgmPath,"getModifiedXLSX.R"))
@@ -124,7 +80,11 @@ lst_time_filter <- tidy_Variables %>%
   filter(toupper(type)=="TIME") %>% 
   distinct(VarName, lang, lVarName)
 
-lst_time <- px_data_tmp %>% 
+lst_time_filter <- tidy_Variables %>% 
+  filter(toupper(type)=="TIME") %>% 
+  distinct(VarName="time", lang, lVarName)
+
+lst_time <- px_data_new %>% 
 #  filter(lst_time_filter) %>% 
   distinct(time) %>% 
   mutate(
@@ -165,14 +125,14 @@ lst_CODES <- tidy_Codelists_lang %>%
   
 lst_VALUES <- tidy_Codelists_lang %>% 
   select(CODES, VALUES, code, value) %>%
-    mutate(VALUES=across(VALUES,str_replace_all," ",".")) %>%
-  mutate(
+    dplyr::mutate(VALUES=across(VALUES,str_replace_all," ",".")) %>%
+  dplyr::mutate(
     code = glue::glue('"{code}"'),
     value = glue::glue('"{value}"')
   ) %>%
   group_by(VALUES) %>%
   nest(bob = c(CODES, code, value)) %>%
-  mutate(
+  dplyr::mutate(
     list = map(bob, pull, value),
     value = map_chr(list, paste0, collapse = ","),
     VALUES = VALUES  %>% str_remove_all("\\[en]") 
@@ -181,7 +141,7 @@ lst_VALUES <- tidy_Codelists_lang %>%
   deframe()
 
 
-lst_General <- tidy_General |> mutate(name = "{keyword}[{lang}]" |> glue::glue() %>% str_remove_all("\\[]")) %>% 
+lst_General <- tidy_General |> mutate(name = "{keyword}[{lang}]" |> glue::glue() %>% str_remove_all("\\[en]")) %>% 
   select(name,value) %>% 
   deframe()
 
@@ -189,12 +149,12 @@ lst_stub <-tidy_Variables %>%
   filter(position %>% str_detect("s")) %>% 
   arrange(position) %>%
   select(lang, lVarName) %>% 
-  mutate(lVarName=across(lVarName,str_replace_all," ",".")) %>%
-  mutate(lang = glue::glue('STUB[{lang}]') %>%
+  dplyr::mutate(lVarName=across(lVarName,str_replace_all," ",".")) %>%
+  dplyr::mutate(lang = glue::glue('STUB[{lang}]') %>%
            str_remove_all("\\[en]")) %>% 
     group_by(lang) %>%
   nest(data = lVarName) %>%
-  mutate(
+  dplyr::mutate(
     list = map(data, pull, lVarName),
     value = map_chr(list, paste, collapse = "\",\"") %>% 
       str_sub(3,-2)) %>% 
@@ -242,34 +202,11 @@ meta_list <- lst_General_nolang %>%
 
 hi <- enframe(meta_list)
 
-
-
-
 VarNames <- tidy_Variables %>% filter(lang=="en") %>% select(lVarName)
 
-# VarNames
-# 
-# px_data <- read_rds(paste0(dataPath,"px_data_lt.Rds")) 
-
-
-# px_data <- px_data_tmp %>% select(time,
-#                                   measure=measure.code,
-#                                   calc.type=calcbase.code,
-#                                   gender=gender.code,
-#                                   age=age.code,
-#                                   no.of.years=nop.code,
-#                                   place.of.birth=pob,
-#                                   value) %>%
-#   filter(!is.infinite(value)) %>% 
-#   arrange(time,measure,calc.type,gender,age,no.of.years,place.of.birth)
-
-px_data <- px_data_tmp %>% select(time,
+px_data <- px_data_new %>% select(time,
                               place.of.birth=pob,
-                              no.of.years=nop.code,
-                              age=age.code,
-                              gender=gender.code,
-                              calc.type=calcbase.code,
-                              measure=measure.code,
+                              gender=gender,
                               value) %>%
   filter(!is.infinite(value))
 
@@ -297,13 +234,17 @@ px[['DECIMALS']] <- NULL
 
 px$DECIMALS$value <- tidy_General_noLang  %>% filter(keyword=="DECIMALS") %>% select(value) %>%  as.character()
 
-px[['SHOWDECIMALS']] <- NULL
+px[['SHOWDECIMAL']] <- NULL
 
-px$SHOWDECIMALS$value <- tidy_General_noLang  %>% filter(keyword=="SHOWDECIMALS") %>% select(value) %>%  as.character()
+px$SHOWDECIMALS$value <- tidy_General_noLang  %>% filter(keyword=="SHOWDECIMAL") %>% select(value) %>%  as.character()
 
 px$MATRIX$value <- PXMATRIX
 
-px |> writepx.gs(paste0(resultsPath,"/",px$MATRIX$value,".px"))
+# write multilingual px file (based on pxR)
+source(file.path(pgmPath, "writepx.R"))
+
+px |> writepx.gs(file.path(resultsPath,paste0(px$MATRIX$value,".px")))
+
 
 
 ```

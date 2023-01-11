@@ -185,8 +185,6 @@ lst_General <- tidy_General |> mutate(name = "{keyword}[{lang}]" |> glue::glue()
   select(name,value) %>% 
   deframe()
 
-
-# driller lars : linje 203
 lst_stub <-tidy_Variables %>% 
   filter(position %>% str_detect("s")) %>% 
   arrange(position) %>%
@@ -198,9 +196,9 @@ lst_stub <-tidy_Variables %>%
   nest(data = lVarName) %>%
   mutate(
     list = map(data, pull, lVarName),
-    value = map_chr(list, paste, collapse = "\",\"")) %>% 
+    value = map_chr(list, paste, collapse = "\",\"") %>% 
+      str_sub(3,-2)) %>% 
   select(lang,value) %>% 
-  mutate(value=substr(as.character(value),3,str_length(value)-1)) %>% 
   deframe()
 
 lst_head <-tidy_Variables %>% 
@@ -242,7 +240,9 @@ meta_list <- lst_General_nolang %>%
   append(lst_elimination) %>% 
   append(lst_precision)
 
-#hi <- enframe(meta_list)
+hi <- enframe(meta_list)
+
+
 
 
 VarNames <- tidy_Variables %>% filter(lang=="en") %>% select(lVarName)
@@ -275,6 +275,7 @@ px_data <- px_data_tmp %>% select(time,
 
 
 px <- px_data |> as.px(list.keys = meta_list)
+
 
 px[['VALUES']] <- NULL
 

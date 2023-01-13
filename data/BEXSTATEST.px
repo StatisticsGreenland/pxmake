@@ -1,0 +1,69 @@
+SUBJECT-CODE="BE";
+CREATION-DATE="20190124 09:00";
+UPDATE-FREQUENCY="Annually";
+LAST-UPDATE="20210211 09:00";
+NEXT-UPDATE="20220211 09:00";
+DECIMALS=0;
+SHOWDECIMALS=0;
+CONTACT[da]="Lars Pedersen, LARP@stat.gl";
+CONTACT="Lars Pedersen, LARP@stat.gl";
+CONTACT[kl]="Lars Pedersen, LARP@stat.gl";
+NOTE[da]="Befolkningsstatistikregistret indeholder …";
+NOTE="Befolkningsstatistikregistret indeholder …";
+NOTE[kl]="Befolkningsstatistikregistret indeholder …";
+CONTENTS[da]="Befolkningen 1. januar";
+CONTENTS="Population January 1st";
+CONTENTS[kl]="1. Januaarimi innuttaasut";
+UNITS[da]="personer";
+UNITS="persons";
+UNITS[kl]="inuit amerlassusaat";
+SOURCE[da]="Grønlands Statistik";
+SOURCE[kl]="Naatsorsueqqissaartarfik";
+SOURCE="Statistics Greenland";
+SUBJECT-AREA[da]="Befolkning";
+SUBJECT-AREA="Population";
+SUBJECT-AREA[kl]="Innuttaasut";
+DESCRIPTION[da]="TESTBefolkningen pr 1. januar 2018 - 2022";
+DESCRIPTION="TESTPopulation January 1st 2018-2022";
+DESCRIPTION[kl]="1. Januaarimi TEST innuttaasut 2018-2022";
+LINK[da]="www.stat.gl/bed202201/m1";
+LINK="www.stat.gl/bee202201/m1";
+LINK[kl]="www.stat.gl/ben202201/m1";
+HEADING="time";
+HEADING[da]="tid";
+HEADING[kl]="piffissaq";
+STUB="place.of.birth","gender";
+STUB[da]="fødested","køn";
+STUB[kl]="inunngorfik","suiaassuseq";
+CODES("gender")="T","M","K";
+CODES("place.of.birth")="T","N","S";
+CODES[da]("fødested")="T","N","S";
+CODES[da]("køn")="T","M","K";
+CODES[kl]("inunngorfik")="T","N","S";
+CODES[kl]("suiaassuseq")="T","M","K";
+VALUES("gender")="Total","Men","Women";
+VALUES("place.of.birth")="Total","Greenland","Outside Greenland";
+VALUES[da]("fødested")="I alt","Grønland","Udenfor Grønland";
+VALUES[da]("køn")="I alt","Mænd","Kvinder";
+VALUES[kl]("inunngorfik")="Katillugit","Kalaallit Nunaat","Kalaallit Nunaata avataani";
+VALUES[kl]("suiaassuseq")="Katillugit","Angutit","Arnat";
+VALUES("time")="2018","2019","2020","2021","2022";
+VALUES[da]("tid")="2018","2019","2020","2021","2022";
+VALUES[kl]("piffissaq")="2018","2019","2020","2021","2022";
+ELIMINATION[da]("fødested")="I alt";
+ELIMINATION("place.of.birth")="Total";
+ELIMINATION[kl]("inunngorfik")="Katillugit";
+ELIMINATION[da]("køn")="I alt";
+ELIMINATION("gender")="Total";
+ELIMINATION[kl]("suiaassuseq")="Katillugit";
+DATA=
+55877 55992 56081 56421 56562
+29489 29553 29551 29749 29803
+26388 26439 26530 26672 26759
+50172 50252 50190 50365 50388
+25780 25818 25738 25824 25810
+24392 24434 24452 24541 24578
+5705 5740 5891 6056 6174
+3709 3735 3813 3925 3993
+1996 2005 2078 2131 2181
+;

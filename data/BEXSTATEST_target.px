@@ -1,78 +1,93 @@
 CHARSET="ANSI";
-AXIS-VERSION="2000";
+AXIS-VERSION="2010";
+CODEPAGE="Windows-1252";
 LANGUAGE="en";
 LANGUAGES="en","da","kl";
-CREATION-DATE="20230110 08:01";
-NEXT-UPDATE="20230110 08:24";
-UPDATE-FREQUENCY="Annually";
+CREATION-DATE="20190124 09:00";
 DECIMALS=0;
 SHOWDECIMALS=0;
-MATRIX="BEXTESTNy";
+MATRIX="BEXSTA";
+COPYRIGHT=YES;
 SUBJECT-CODE="BE";
 SUBJECT-AREA="Population";
-SUBJECT-AREA[da]="Befolkning";
-SUBJECT-AREA[kl]="Innuttaasut";
-DESCRIPTION="TESTPopulation January 1st 2018-2022";
-TITLE="TESTPopulation January 1st 2018-2022";
+DESCRIPTION="Population January 1st 1977-2022 <em>[BEESTA]</em>";
+TITLE="Population January 1st by place of birth, gender and time";
 CONTENTS="Population January 1st";
-UNITS="persons";
-STUB="gender","place of birth";
+STUB="place of birth","gender";
 HEADING="time";
-LAST-UPDATED="20230110 08:24";
-CONTACT="Lars Pedersen, LARP@stat gl";
-SOURCE="Statistics Greenland";
-LINK="www stat gl/bee202201/m1";
-INFO="Modified pxR write function";
-NOTE="Befolkningsstatistikregistret indeholder .";
-CONTACT[da]="Lars Pedersen, LARP@stat gl";
-CONTACT[kl]="Lars Pedersen, LARP@stat gl";
-NOTE[da]="Befolkningsstatistikregistret indeholder .";
-NOTE[kl]="Befolkningsstatistikregistret indeholder .";
-CONTENTS[da]="Befolkningen 1  januar";
-CONTENTS[kl]="1  Januaarimi innuttaasut";
-UNITS[da]="personer";
-UNITS[kl]="inuit amerlassusaat";
-SOURCE[da]="Grønlands Statistik";
-SOURCE[kl]="Naatsorsueqqissaartarfik";
-DESCRIPTION[da]="TESTBefolkningen pr 1  januar 2018 - 2022";
-DESCRIPTION[kl]="1  Januaarimi TEST innuttaasut 2018-2022";
-LINK[da]="www stat gl/bed202201/m1";
-LINK[kl]="www stat gl/ben202201/m1";
-STUB[da]="fødested", "køn";
-STUB[kl]="inunngorfik", "suiaassuseq";
-HEADING[da]="tid";
-HEADING[kl]="piffissaq";
 VALUES("place of birth")="Total","Greenland","Outside Greenland";
-VALUES[da]("fødested")="I alt","Grønland","Udenfor Grønland";
-VALUES[kl]("inunngorfik")="Katillugit","Kalaallit Nunaat","Kalaallit Nunaata avataani";
 VALUES("gender")="Total","Men","Women";
-VALUES[da]("køn")="I alt","Mænd","Kvinder";
-VALUES[kl]("suiaassuseq")="Katillugit","Angutit","Arnat";
 VALUES("time")="2018","2019","2020","2021","2022";
-VALUES[da]("tid")="2018","2019","2020","2021","2022";
-VALUES[kl]("piffissaq")="2018","2019","2020","2021","2022";
+TIMEVAL("time")=TLIST(A1),"2018","2019","2020","2021","2022";
 CODES("place of birth")="T","N","S";
-CODES[da]("fødested")="T","N","S";
-CODES[kl]("inunngorfik")="T","N","S";
 CODES("gender")="T","M","K";
-CODES[da]("køn")="T","M","K";
-CODES[kl]("suiaassuseq")="T","M","K";
+CODES("time")="2018","2019","2020","2021","2022";
 ELIMINATION("place of birth")="Total";
-ELIMINATION[da]("fødested")="I alt";
-ELIMINATION[kl]("inunngorfik")="Katillugit";
 ELIMINATION("gender")="Total";
+LAST-UPDATED="20220210 09:00";
+UNITS="persons";
+CONTACT="Lars Pedersen, LARP@stat.gl";
+SOURCE="Statistics Greenland";
+NOTE="The Population Register contains information on all persons who have resided in Greenland after 1 January 1977. ##The purpose of the register is to be the basis for population statistics, and to supplement other personal information #with basic informati"
+"on about each person, like address and family relations.The Population register is updated with information from CPR (Administrative Population Register) where the following information is retrieved: #name, gender, age, place of birth, citizenship, marit"
+"al status, reference to mother, father and spouse, address of residence and more.#According to §13 of the Act on Greenland Statistics, no person-related information is disclosed from the register, except for personal numbers, randomly drawn for surveys";
+LINK="www.stat.gl/bee202201/m1";
+NEXT-UPDATE="20230211 09:00";
+SUBJECT-AREA[da]="Befolkning";
+DESCRIPTION[da]="Befolkningen pr 1. januar 1977-2022 <em>[BEDSTA]</em>";
+TITLE[da]="Befolkningen 1. januar efter fødested, køn og tid";
+CONTENTS[da]="Befolkningen 1. januar";
+STUB[da]="fødested","køn";
+HEADING[da]="tid";
+VALUES[da]("fødested")="I alt","Grønland","Udenfor Grønland";
+VALUES[da]("køn")="I alt","Mænd","Kvinder";
+VALUES[da]("tid")="2018","2019","2020","2021","2022";
+TIMEVAL[da]("tid")=TLIST(A1),"2018","2019","2020","2021","2022";
+CODES[da]("fødested")="T","N","S";
+CODES[da]("køn")="T","M","K";
+ELIMINATION[da]("fødested")="I alt";
 ELIMINATION[da]("køn")="I alt";
+LAST-UPDATED[da]="20220210 09:00";
+UNITS[da]="personer";
+CONTACT[da]="Lars Pedersen, LARP@stat.gl";
+SOURCE[da]="Grønlands Statistik";
+NOTE[da]="Befolkningsstatistikregistret indeholder oplysninger om alle personer, som har haft bopæl i Grønland efter 1. januar 1977.##Registrets formål er at danne grundlag for befolkningsstatistikken, samt supplere andre personhenførbare oplysninger #med basisopl"
+"ysninger om personen, samt dennes adresse og familierelationer.#Befolkningsstatistikregistret opdateres med oplysninger fra CPR(Folkeregistrene) hvor følgende oplysninger hentes:#navn, køn, alder, fødested, statsborgerskab, civilstand, henvisning til mor"
+", far samt ægtefælle, bopælsadresse og tilflytningsdato.##Jfr §13 i Lov om Grønlands Statistik, videregives ingen personhenførbare oplysninger fra registret, bortset fra personnumre, som efter Datatilsynets godkendelse er udtrukket til interviewundersøge"
+"lser";
+LINK[da]="www.stat.gl/bed202201/m1";
+SUBJECT-AREA[kl]="Innuttaasut";
+DESCRIPTION[kl]="1. Januaarimi innuttaasut 1977-2022 <em>[BENSTA]</em>";
+TITLE[kl]="1. Januaarimi innuttaasut kingorna inunngorfik, suiaassuseq aamma piffissaq";
+CONTENTS[kl]="1. Januaarimi innuttaasut";
+STUB[kl]="inunngorfik","suiaassuseq";
+HEADING[kl]="piffissaq";
+VALUES[kl]("inunngorfik")="Katillugit","Kalaallit Nunaat","Kalaallit Nunaata avataani";
+VALUES[kl]("suiaassuseq")="Katillugit","Angutit","Arnat";
+VALUES[kl]("piffissaq")="2018","2019","2020","2021","2022";
+TIMEVAL[kl]("piffissaq")=TLIST(A1),"2018","2019","2020","2021","2022";
+CODES[kl]("inunngorfik")="T","N","S";
+CODES[kl]("suiaassuseq")="T","M","K";
+ELIMINATION[kl]("inunngorfik")="Katillugit";
 ELIMINATION[kl]("suiaassuseq")="Katillugit";
-TITLE[da]="TESTBefolkningen pr 1  januar 2018 - 2022";
-TITLE[kl]="1  Januaarimi TEST innuttaasut 2018-2022";
+LAST-UPDATED[kl]="20220210 09:00";
+UNITS[kl]="inuit amerlassusaat";
+CONTACT[kl]="Lars Pedersen, LARP@stat.gl";
+SOURCE[kl]="Naatsorsueqqissaartarfik";
+NOTE[kl]="Innuttaasunut nalunaarsuisarfik 1.januaari 1977 kingorna Kalaallit Nunaanni najugaqarsimasunut tamanut paasissutissanik imaqarpoq.#Innuttaasut pillugit kisitsisitigut paasissutissaliorsinnaaneq nalunaarsuisarfiup siunertaraa, taamaatullu inunnut tunngasu"
+"nut paasissutissanut allanut tapertaalluni.#Inuup paasissutissaanik tunngaviusunik, kiisali najugaanut ilaqutariinnermilu inissisimaneranut tunngasut.#Innuttaasunut kisitsisitigut paasissutissat nalunaarsuisarfiat paasissutissanit CPR-iminngaanneersunik "
+"(Inunnut nalunaarsuisarfiit) nutarterneqartarpoq tassani paasissutissat pineqartut aaneqarnerisigut:#Ateq, suiaassuseq, ukiut, inunngorfik, innuttaassuseq, aappaqarneq, anaanaasumut, ataataasumut aapparisamullu innersuunneqarneq, najukkami adresse aammal"
+"u qanga nuussimanermut ulloq.##Naatsorsueqqissaartarfik pillugu inatsimmi §13 malillugu inuit ataasiakkaat pillugit paasissutissat nalunaarsuiffinniittut allanut ingerlateqqinneqaqqusaanngillat,taamaallaat inuit normui Datatilsynemit immikkut akuersisoqa"
+"rtillugu apersuinissamut atugassat ingerlateqqinneqarsinnaapput.”";
+LINK[kl]="www.stat.gl/ben202201/m1";
 DATA=
-24392 24434 24452 24541 24578
-1996 2005 2078 2131 2181
-26388 26439 26530 26672 26759
-25780 25818 25738 25824 25810
-3709 3735 3813 3925 3993
-29489 29553 29551 29749 29803
-50172 50252 50190 50365 50388
-5705 5740 5891 6056 6174
-55877 55992 56081 56421 56562
+55877 55992 56081 56421 56562 
+29489 29553 29551 29749 29803 
+26388 26439 26530 26672 26759 
+50172 50252 50190 50365 50388 
+25780 25818 25738 25824 25810 
+24392 24434 24452 24541 24578 
+5705 5740 5891 6056 6174 
+3709 3735 3813 3925 3993 
+1996 2005 2078 2131 2181 
 ;

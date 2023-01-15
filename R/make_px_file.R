@@ -76,21 +76,6 @@ get_metadata <- function(table_name) {
     distinct(keyword, value)
   
   # Second sheet in Excel workbook.
-  metadata_general <-
-    excel_metadata_path %>% 
-    read_excel(sheet = "General_MD") %>%
-    separate(keyword, 
-             c("keyword", "lang"), 
-             sep = "_(?=[en|da|kl])",
-             fill = "right"
-    ) %>%
-    mutate(keyword = str_replace_all(keyword, "_", "-"),
-           keyword = add_language_to_keyword(keyword, lang)
-    ) %>% 
-    arrange(!is.na(lang)) %>% 
-    select(keyword, value)
-  
-  # Third sheet in Excel workbook.
   metadata_codes_values_precision <-
     excel_metadata_path %>% 
     read_excel(sheet = "Codelists_2MD") %>% 
@@ -120,6 +105,21 @@ get_metadata <- function(table_name) {
     drop_na(value) %>% 
     distinct(keyword, value) %>%
     relocate(keyword)
+  
+  # Third sheet in Excel workbook.
+  metadata_general <-
+    excel_metadata_path %>% 
+    read_excel(sheet = "General_MD") %>%
+    separate(keyword, 
+             c("keyword", "lang"), 
+             sep = "_(?=[en|da|kl])",
+             fill = "right"
+    ) %>%
+    mutate(keyword = str_replace_all(keyword, "_", "-"),
+           keyword = add_language_to_keyword(keyword, lang)
+    ) %>% 
+    arrange(!is.na(lang)) %>% 
+    select(keyword, value)
   
   return(bind_rows(metadata_general, 
                    metadata_stub_and_head,

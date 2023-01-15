@@ -85,7 +85,6 @@ get_metadata <- function(table_name) {
              fill = "right"
     ) %>%
     mutate(keyword = str_replace_all(keyword, "_", "-"),
-           keyword = str_replace(keyword, "DECIMAL", "DECIMALS"),
            keyword = add_language_to_keyword(keyword, lang)
     ) %>% 
     arrange(!is.na(lang)) %>% 

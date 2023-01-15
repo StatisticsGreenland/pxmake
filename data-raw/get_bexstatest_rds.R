@@ -22,11 +22,7 @@ bexstatest <-
   as.data.frame(column.name.type = "code",
                 variable.value.type = "code"
   ) %>% 
-  select(pob=`place of birth`,
-         gender,
-         time,
-         value=`Befolkningen 1. januar`
-         ) %>%
+  rename(value = last_col()) %>%
   arrange_all()
 
 write_rds(bexstatest, bexstatest_rds_path)

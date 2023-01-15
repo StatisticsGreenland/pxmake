@@ -136,11 +136,11 @@ get_data_cube <- function(table_name) {
     read_rds() %>% 
     as_tibble() %>% 
     pivot_wider(names_from = time, values_from = value) %>%
-    mutate(pob    = fct_relevel(pob,    c("T", "N", "S")),
+    mutate(`place of birth` = fct_relevel(`place of birth`, c("T", "N", "S")),
            gender = fct_relevel(gender, c("T", "M", "K"))
            ) %>% 
     arrange_all() %>%
-    select(-pob, -gender)
+    select(-`place of birth`, -gender)
 }
 
 format_px_data_as_lines <- function(metadata, data_cube) {

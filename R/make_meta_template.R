@@ -38,9 +38,12 @@ varget2 <- function(matrix,lang) {
   return(varipx)
 }
 
-lang <- c("en","da","kl")
-variablesintable2 <- varget2("BEXSTA",lang)
+# variablesintable2en <- varget2("BEXSTA","en")
 
+lang <- c("en","da","kl")
+
+hi <- lang %>% map_df(~ varget2("BEXSTD",.x),.id="langcode") %>% 
+  rbind()
 
 
 # # Eksempel fra Færøerne

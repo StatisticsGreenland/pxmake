@@ -1,7 +1,20 @@
+
+source(file.path('R', 'globals.R'))
+source(file.path(helper_functions_file_path))
+
+library(tidyverse)
+library(jsonlite)
+library(haven)
+
 # 
 # Purpose:
 # When a tidy dataset is ready to be transformed to a px-file, it only
 # holds codes for variablenames and codelists.
+
+# sas-dataset:
+datasas <- read_sas("data-raw/bexstatest.sas7bdat") %>% 
+  filter(strtoi(taar)>=2018)
+
 #   Multilingual texts and additional metadata needs to be defined.
 # The Statbank itself is used as a repository, as a lot of metadata
 # is allready translated between english/danish/greenlandic. At the 
@@ -12,15 +25,7 @@
 #
 # 
 
-source(file.path('R', 'globals.R'))
-source(file.path(helper_functions_file_path))
 
-library(tidyverse)
-library(jsonlite)
-library(haven)
-
-datasas <- read_sas("data-raw/bexstatest.sas7bdat") %>% 
-  filter(strtoi(taar)>=2018)
 
 
 # url <- "https://bank.stat.gl/api/v1/da/Greenland/KR/KRXAF.px"

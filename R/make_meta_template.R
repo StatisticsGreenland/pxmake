@@ -12,9 +12,15 @@
 #
 # 
 
+source(file.path('R', 'globals.R'))
+source(file.path(helper_functions_file_path))
 
 library(tidyverse)
 library(jsonlite)
+library(haven)
+
+datasas <- read_sas("data-raw/bexstatest.sas7bdat") %>% 
+  filter(strtoi(taar)>=2018)
 
 
 # url <- "https://bank.stat.gl/api/v1/da/Greenland/KR/KRXAF.px"

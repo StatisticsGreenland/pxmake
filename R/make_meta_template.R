@@ -12,8 +12,21 @@ library(haven)
 # holds codes for variablenames and codelists.
 
 # sas-dataset:
-datasas <- read_sas("data-raw/bexstatest.sas7bdat") %>% 
-  filter(strtoi(taar)>=2018)
+datasas <- read_sas("data-raw/bexstatest2.sas7bdat") %>% 
+  rename(time=taar,value=antal,`place of
+         birth`=fsted,gender=sex,age=alder,residence=bostedtyp)
+write_rds(datasas, bexstatest_rds_path)
+
+
+taar <- datasas %>% select(taar) %>% unique()
+sex <- datasas %>% select(sex) %>% unique()
+alder <- datasas %>% select(alder) %>% unique()
+bostedtyp <- datasas %>% select(bostedtyp) %>% unique()
+fsted <- datasas %>% select(fsted) %>% unique()
+
+# 331200 = 46*3*100*8*3
+# 240031 obs i datasæt
+
 
 #   Multilingual texts and additional metadata needs to be defined.
 # The Statbank itself is used as a repository, as a lot of metadata

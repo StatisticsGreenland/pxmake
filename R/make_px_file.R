@@ -14,7 +14,7 @@ read_excel_metadata_sheet <- function(table_name, sheet_name) {
 #' Get metadata from first Excel sheet
 get_varaibles_metadata <- function(table_name) {
   read_excel_metadata_sheet(table_name, "Variables_MD") %>% 
-    mutate(VarName = str_lowercase_and_dot_as_space(VarName)) %>% 
+    mutate(VarName = VarName) %>% 
     pivot_longer(cols = ends_with(c("_varName",
                                     "_note", 
                                     "_domain", 
@@ -26,13 +26,13 @@ get_varaibles_metadata <- function(table_name) {
                  ) %>%
     mutate(var_name = str_glue("l{var_name}")) %>% 
     pivot_wider(names_from = var_name, values_from = value) %>%
-    mutate(lvarName = str_lowercase_and_dot_as_space(lvarName))
+    mutate(lvarName = lvarName)
 }
 
 #' Get metadata from second Excel sheet
 get_codelist_metadata <- function(table_name) {
   read_excel_metadata_sheet(table_name, "Codelists_2MD") %>%
-    mutate(VarName = str_lowercase_and_dot_as_space(VarName)) %>% 
+    mutate(VarName = VarName) %>%
     pivot_longer(cols = ends_with("_codeLabel"), 
                  names_to = c("lang"),
                  names_pattern = "^(.*)_.*$"
@@ -148,19 +148,59 @@ get_metadata <- function(table_name) {
          )
 }
 
+#' Create data cube from source and meta data
+#' 
+#' The data cube has one column for each value of HEADING and is sorted by 
+#' value. There is one row for each combination of values of STUB varaibles. The
+#' ordering of STUB variables are set in the metadata.
 get_data_cube <- function(table_name) {
-  table_name %>% 
-    get_source_data_path() %>%
-    read_rds() %>% 
-    as_tibble() %>% 
-    pivot_wider(names_from = time, values_from = value) %>%
-    mutate(`place of birth` = fct_relevel(`place of birth`, c("T", "N", "S")),
-           gender = fct_relevel(gender, c("T", "M", "K"))
-           ) %>% 
-    arrange_all() %>%
-    select(-`place of birth`, -gender)
+  variables <- 
+    table_name %>% 
+    get_varaibles_metadata() %>% 
+    arrange(position)
+  
+  stub_vars <-
+    variables %>%
+    filter(str_starts(position, 's'), lang == "en") %>%
+    pull(lvarName)
+  
+  heading_var <- 
+    variables %>% 
+    filter(str_starts(position, 'h'), lang == "en") %>% 
+    pull(lvarName)
+  
+  if (length(heading_var) != 1) {
+    # Technically more headings can be used, but this is not implemented.
+    stop(str_glue("Need exactly 1 heading variable, there are: {length(heading_var)}."))
+  }
+  
+  codelist <- 
+    get_codelist_metadata(table_name) %>% 
+    left_join(variables %>% select(VarName, lang, lvarName),
+              by = c("VarName", "lang")
+              )
+  
+  source_data <-
+    table_name %>% 
+    get_source_data_path() %>% 
+    read_rds()
+  
+  data_cube <- 
+    source_data %>% 
+    pivot_longer(cols = stub_vars, names_to = "lvarName", values_to = "code") %>% 
+    left_join(select(codelist, lvarName, code, sortorder),
+              by = c("lvarName", "code")
+              ) %>% 
+    pivot_wider(names_from = "lvarName", values_from = c("code", "sortorder")) %>%
+    arrange_at(heading_var) %>% 
+    pivot_wider(names_from = !!heading_var, values_from = value) %>% 
+    arrange_at(str_c("sortorder_", stub_vars)) %>%
+    select(-contains(stub_vars))
+  
+  return(data_cube)
 }
 
+#' Turn metadata and data cube into text lines that can be written to a px file.
 format_px_data_as_lines <- function(metadata, data_cube) {
   metadata_lines <-
     str_c(metadata$keyword, 

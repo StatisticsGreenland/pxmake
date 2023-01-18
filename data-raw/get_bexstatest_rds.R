@@ -9,6 +9,7 @@ source(file.path('R', 'globals.R'))
 
 library(tidyverse)
 library(pxweb)
+library(haven)
 
 data_url <- "https://bank.stat.gl/api/v1/da/Greenland/BE/BE01/BE0120/BEXSTA.px"
 
@@ -26,3 +27,11 @@ bexstatest <-
   arrange_all()
 
 write_rds(bexstatest, bexstatest_rds_path)
+
+
+# sas-dataset:
+datasas <- read_sas("data-raw/bexstatest2.sas7bdat") %>% 
+  rename(time=taar,value=antal,`place of
+         birth`=fsted,gender=sex,age=alder,residence=bostedtyp)
+write_rds(datasas, bexstatest2_rds_path)
+

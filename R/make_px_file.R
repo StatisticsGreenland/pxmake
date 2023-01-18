@@ -228,3 +228,4 @@ make_px_file <- function(table_name) {
 
 table_name <- "BEXSTATEST"
 make_px_file(table_name)
+make_px_file("BEXSTATEST2")

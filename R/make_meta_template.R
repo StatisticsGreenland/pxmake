@@ -12,11 +12,7 @@ library(haven)
 # holds codes for variablenames and codelists.
 
 # sas-dataset:
-datasas <- read_sas("data-raw/bexstatest2.sas7bdat") %>% 
-  rename(time=taar,value=antal,`place of
-         birth`=fsted,gender=sex,age=alder,residence=bostedtyp)
-write_rds(datasas, bexstatest_rds_path)
-
+datasas <- read_rds(bexstatest2_rds_path)
 
 taar <- datasas %>% select(taar) %>% unique()
 sex <- datasas %>% select(sex) %>% unique()

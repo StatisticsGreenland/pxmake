@@ -1,13 +1,6 @@
 project_dir <- file.path('..', '..')
 source(file.path(project_dir, 'R', 'helper_functions.R'))
 
-test_that("strings are converted", {
-  input  <- c('UPPER', 'space to dot', ' edGe  CaSe  ', '', NA_character_)
-  expect <- c('upper', 'space.to.dot', '.edge..case..', '', NA_character_)
-  
-  expect_equal(str_lowercase_and_dot_as_space(input), expect)
-})
-
 test_that("strings are quoted", {
   input  <- c('hi',  ' " ',    'single\'quote')
   expect <- c('"hi"', '" " "', '"single\'quote"')

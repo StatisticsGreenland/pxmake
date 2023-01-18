@@ -1,11 +1,5 @@
 # Various helper functions. See examples in tests/testthat/...
 
-str_lowercase_and_dot_as_space <- function(str) {
-  str %>% 
-    stringr::str_to_lower() %>% 
-    stringr::str_replace_all(" ", ".")
-}
-
 str_quote <- function(str) {
   stringr::str_c('"', str, '"')
 }

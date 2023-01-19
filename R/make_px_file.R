@@ -236,7 +236,4 @@ make_px_file <- function(table_name) {
 table_name <- "BEXSTATEST2"
 
 make_px_file("BEXSTATEST")
-library(tictoc)
-tic()
 make_px_file("BEXSTATEST2")
-toc()

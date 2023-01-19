@@ -4,7 +4,10 @@ data_dir     <- file.path('data')
 data_raw_dir <- file.path('data-raw')
 metadata_dir <- file.path(data_raw_dir, 'metadata')
 
+# statistikbank
 bexstatest_rds_path <- file.path(data_raw_dir, "BEXSTATEST.rds")
+# sas
+bexstatest2_rds_path <- file.path(data_raw_dir, "BEXSTATEST2.rds")
 
 r_dir <- file.path('R')
 helper_functions_file_path <- file.path(r_dir, 'helper_functions.R')
@@ -20,5 +23,4 @@ get_source_data_path <- function(table_name) {
 get_px_file_path <- function(table_name) {
   file.path(data_dir, str_glue("{str_to_upper(table_name)}.px"))
 }
-
 

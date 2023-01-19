@@ -185,7 +185,9 @@ get_data_cube <- function(table_name) {
   source_data <-
     table_name %>% 
     get_source_data_path() %>% 
-    read_rds()
+    read_rds() %>%
+    # Complete data for rows withAdd missing rows, for data 
+    complete(!!!syms(heading_var), !!!syms(stub_vars))
   
   data_cube <-
     source_data %>%
@@ -235,8 +237,6 @@ make_px_file <- function(table_name) {
   
   write_lines(px_lines, file = get_px_file_path(table_name))
 }
-
-table_name <- "BEXSTATEST2"
 
 make_px_file("BEXSTATEST")
 make_px_file("BEXSTATEST2")

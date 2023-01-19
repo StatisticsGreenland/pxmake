@@ -178,23 +178,30 @@ get_data_cube <- function(table_name) {
     get_codelist_metadata(table_name) %>% 
     left_join(variables %>% select(VarName, lang, lvarName),
               by = c("VarName", "lang")
-              )
+              ) %>%
+    filter(lang == "en") %>% 
+    select(lvarName, sortorder, code)
   
   source_data <-
     table_name %>% 
     get_source_data_path() %>% 
     read_rds()
   
-  data_cube <- 
-    source_data %>% 
-    pivot_longer(cols = stub_vars, names_to = "lvarName", values_to = "code") %>% 
-    left_join(select(codelist, lvarName, code, sortorder),
-              by = c("lvarName", "code")
-              ) %>% 
-    pivot_wider(names_from = "lvarName", values_from = c("code", "sortorder")) %>%
+  data_cube <-
+    source_data %>%
+    mutate(id = row_number()) %>% # used to unpivot data after sortorder is added
+    pivot_longer(cols = all_of(stub_vars), 
+                 names_to = "lvarName",
+                 values_to = "code"
+                 ) %>%
+    left_join(codelist, by = c("lvarName", "code")) %>% 
+    pivot_wider(names_from = lvarName, 
+                values_from = c("code", "sortorder")
+                ) %>% 
+    select(-id) %>% 
     arrange_at(heading_var) %>% 
     pivot_wider(names_from = !!heading_var, values_from = value) %>% 
-    arrange_at(str_c("sortorder_", stub_vars)) %>%
+    arrange_at(str_c("sortorder_", stub_vars)) %>% 
     select(-contains(stub_vars))
   
   return(data_cube)
@@ -226,6 +233,10 @@ make_px_file <- function(table_name) {
   write_lines(px_lines, file = get_px_file_path(table_name))
 }
 
-table_name <- "BEXSTATEST"
-make_px_file(table_name)
+table_name <- "BEXSTATEST2"
+
+make_px_file("BEXSTATEST")
+library(tictoc)
+tic()
 make_px_file("BEXSTATEST2")
+toc()

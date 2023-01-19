@@ -218,6 +218,9 @@ format_px_data_as_lines <- function(metadata, data_cube) {
   
   data_lines <-
     data_cube %>% 
+    mutate(across(everything(), as.character),
+           across(everything(), ~replace_na(.x, '"-"'))
+           ) %>% 
     unite(tmp, sep = " ") %>% 
     pull(tmp) 
     

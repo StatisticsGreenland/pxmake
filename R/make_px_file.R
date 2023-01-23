@@ -96,7 +96,17 @@ get_metadata <- function(table_name) {
     ungroup() %>% 
     distinct(keyword, value)
   
-  metadata_elimination <-
+    metadata_domain <-
+    variables %>% 
+    drop_na(ldomain) %>%
+    arrange(position) %>% 
+    mutate(keyword = add_language_to_keyword("DOMAIN", lang) %>% 
+             add_sub_key_to_keyword(lvarName),
+           value   = str_quote(ldomain)
+    ) %>%
+    distinct(keyword, value)
+
+    metadata_elimination <-
     variables %>% 
     drop_na(lelimination) %>%
     arrange(position) %>% 
@@ -106,6 +116,16 @@ get_metadata <- function(table_name) {
     ) %>%
     distinct(keyword, value)
   
+  metadata_note <-
+    variables %>% 
+    drop_na(lnote) %>%
+    arrange(position) %>% 
+    mutate(keyword = add_language_to_keyword("NOTE", lang) %>% 
+             add_sub_key_to_keyword(lvarName),
+           value   = str_quote(lnote)
+    ) %>%
+    distinct(keyword, value)
+
   # Second sheet in Excel workbook.
   metadata_codes_values_precision <-
     get_codelist_metadata(table_name) %>% 
@@ -143,7 +163,9 @@ get_metadata <- function(table_name) {
                    metadata_stub_and_head,
                    metadata_codes_values_precision,
                    metadata_time,
-                   metadata_elimination
+                   metadata_domain,
+                   metadata_elimination,
+                   metadata_note
                    )
          )
 }

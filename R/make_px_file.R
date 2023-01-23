@@ -240,3 +240,6 @@ make_px_file <- function(table_name) {
 
 make_px_file("BEXSTATEST")
 make_px_file("BEXSTATEST2")
+
+make_px_file("BEXLTALL")
+make_px_file("BEXLTREG")

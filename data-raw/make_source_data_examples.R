@@ -37,3 +37,20 @@ read_sas("data-raw/bexstatest2.sas7bdat") %>%
   mutate(age = str_trim(age)) %>% 
   write_rds(bexstatest2_rds_path)
 
+
+"BEXLTALL_RAW" %>% 
+  get_source_data_path() %>% 
+  read_rds() %>%
+  rename(`place of birth`=pob,nop=nop.code,age=age.code,sex=sex.code,calcbase=calcbase.code,measure=measure.code) %>% 
+  mutate(age=as.character(age)) %>% 
+  write_rds(bexltall_rds_path)
+
+
+# "BEXLTREG_RAW" %>% 
+#   get_source_data_path() %>% 
+#   read_rds() %>%
+#   rename(`place of birth`=pob,area=area.code,nop=nop.code,age=age.code,sex=sex.code,calcbase=calcbase.code,measure=measure.code) %>% 
+#   mutate(age=as.character(age)) %>% 
+#   write_rds(bexltreg_rds_path)
+
+

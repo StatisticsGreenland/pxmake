@@ -9,6 +9,10 @@ bexstatest_rds_path <- file.path(data_raw_dir, "BEXSTATEST.rds")
 # sas
 bexstatest2_rds_path <- file.path(data_raw_dir, "BEXSTATEST2.rds")
 
+
+bexltall_rds_path <- file.path(data_raw_dir, "BEXLTALL.rds")
+#bexltreg_rds_path <- file.path(data_raw_dir, "BEXLTREG.rds")
+
 r_dir <- file.path('R')
 helper_functions_file_path <- file.path(r_dir, 'helper_functions.R')
 

@@ -14,7 +14,7 @@ read_excel_metadata_sheet <- function(table_name, sheet_name) {
 #' Get metadata from first Excel sheet
 get_varaibles_metadata <- function(table_name) {
   read_excel_metadata_sheet(table_name, "Variables_MD") %>% 
-    mutate(VarName = VarName) %>% 
+    mutate(VarName = str_to_lower(VarName)) %>% 
     pivot_longer(cols = ends_with(c("_varName",
                                     "_note", 
                                     "_domain", 
@@ -25,14 +25,13 @@ get_varaibles_metadata <- function(table_name) {
                  names_pattern = "(.*)_(.*)"
                  ) %>%
     mutate(var_name = str_glue("l{var_name}")) %>% 
-    pivot_wider(names_from = var_name, values_from = value) %>%
-    mutate(lvarName = lvarName)
+    pivot_wider(names_from = var_name, values_from = value)
 }
 
 #' Get metadata from second Excel sheet
 get_codelist_metadata <- function(table_name) {
   read_excel_metadata_sheet(table_name, "Codelists_2MD") %>%
-    mutate(VarName = VarName) %>%
+    mutate(VarName = str_to_lower(VarName)) %>%
     pivot_longer(cols = ends_with("_codeLabel"), 
                  names_to = c("lang"),
                  names_pattern = "^(.*)_.*$"
@@ -184,12 +183,12 @@ get_data_cube <- function(table_name) {
   stub_vars <-
     variables %>%
     filter(str_starts(position, 's'), lang == "en") %>%
-    pull(lvarName)
+    pull(VarName)
   
   heading_var <- 
     variables %>% 
     filter(str_starts(position, 'h'), lang == "en") %>% 
-    pull(lvarName)
+    pull(VarName)
   
   if (length(heading_var) != 1) {
     # Technically more headings can be used, but this is not implemented.
@@ -202,7 +201,7 @@ get_data_cube <- function(table_name) {
               by = c("VarName", "lang")
               ) %>%
     filter(lang == "en") %>% 
-    select(lvarName, sortorder, code)
+    select(VarName, sortorder, code)
   
   source_data <-
     table_name %>% 
@@ -215,11 +214,11 @@ get_data_cube <- function(table_name) {
     source_data %>%
     mutate(id = row_number()) %>% # used to unpivot data after sortorder is added
     pivot_longer(cols = all_of(stub_vars), 
-                 names_to = "lvarName",
+                 names_to = "VarName",
                  values_to = "code"
                  ) %>%
-    left_join(codelist, by = c("lvarName", "code")) %>% 
-    pivot_wider(names_from = lvarName, 
+    left_join(codelist, by = c("VarName", "code")) %>% 
+    pivot_wider(names_from = VarName, 
                 values_from = c("code", "sortorder")
                 ) %>% 
     select(-id) %>% 
@@ -262,6 +261,5 @@ make_px_file <- function(table_name) {
 
 make_px_file("BEXSTATEST")
 make_px_file("BEXSTATEST2")
-
 make_px_file("BEXLTALL")
 #make_px_file("BEXLTREG") - ikke med

@@ -11,7 +11,7 @@ library(tidyverse)
 library(pxweb)
 library(haven)
 
-data_url <- "https://bank.stat.gl/api/v1/da/Greenland/BE/BE01/BE0120/BEXSTA.px"
+data_url <- "https://bank.stat.gl/api/v1/en/Greenland/BE/BE01/BE0120/BEXSTA.px"
 
 pxweb_get(url = data_url,
           query = list("place of birth" = c("T","N","S"),
@@ -32,7 +32,7 @@ read_sas("data-raw/bexstatest2.sas7bdat") %>%
          `place of birth`=fsted,
          gender=sex,
          age=alder,
-         `residence type`=bostedtyp
+         residence=bostedtyp
          ) %>%
   mutate(age = str_trim(age)) %>% 
   write_rds(bexstatest2_rds_path)

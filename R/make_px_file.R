@@ -3,6 +3,7 @@ source(file.path(helper_functions_file_path))
 
 library(tidyverse)
 library(readxl)
+library(TAF)
 
 #' Read specific sheet in Excel metadata file
 read_excel_metadata_sheet <- function(table_name, sheet_name) {
@@ -188,6 +189,8 @@ get_metadata <- function(table_name) {
     ) %>% 
     distinct(type, keyword,keyword2, value) %>%
     mutate(keyword = ifelse(type == 'precision',keyword2,keyword)) %>% 
+    # PRECISION after VALUES
+    arrange(keyword2) %>% 
     select(keyword,value) %>% 
     distinct(keyword,value) %>%
     relocate(keyword)
@@ -299,6 +302,9 @@ make_px_file <- function(table_name) {
   px_lines <- format_px_data_as_lines(metadata, data_cube)
   
   write_lines(px_lines, file = get_px_file_path(table_name))
+  # if metadata.general.CHARSET = ANSI
+  utf8.to.latin1(get_px_file_path(table_name), force = FALSE)
+  
 }
 
 make_px_file("BEXSTATEST")

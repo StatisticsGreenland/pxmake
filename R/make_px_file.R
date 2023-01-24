@@ -12,7 +12,7 @@ read_excel_metadata_sheet <- function(table_name, sheet_name) {
 }
 
 #' Get metadata from first Excel sheet
-get_varaibles_metadata <- function(table_name) {
+get_variables_metadata <- function(table_name) {
   read_excel_metadata_sheet(table_name, "Variables_MD") %>% 
     mutate(VarName = str_to_lower(VarName)) %>% 
     pivot_longer(cols = ends_with(c("_varName",
@@ -125,12 +125,43 @@ get_metadata <- function(table_name) {
     ) %>%
     distinct(keyword, value)
 
+  # # Second sheet in Excel workbook.
+  # Johans kode - hvor Precision ikke bliver rigtig
+  
+  # metadata_codes_values_precision <-
+  #   get_codelist_metadata(table_name) %>% 
+  #   left_join(variables %>% select(VarName, lang, lvarName),
+  #             by = c("VarName", "lang")
+  #   ) %>%
+  #   pivot_longer(cols = c("code",  "value", "precision"),
+  #                names_to = "type"
+  #   ) %>%
+  #   mutate(keyword = case_when(type == 'code'      ~ 'CODES',
+  #                              type == 'value'     ~ 'VALUES',
+  #                              type == 'precision' ~ 'PRECISION',
+  #                              TRUE ~ NA_character_
+  #   ) %>% 
+  #     add_language_to_keyword(lang) %>%
+  #     add_sub_key_to_keyword(lvarName)
+  #   ) %>% 
+  #   arrange(keyword, sortorder) %>% 
+  #   group_by(keyword) %>% 
+  #   mutate(value = str_quote(value) %>% str_c(collapse = ',')) %>%
+  #   ungroup() %>%
+  #   drop_na(value) %>% 
+  #   distinct(keyword, value) %>%
+  #   relocate(keyword)
+  
+  
+    
   # Second sheet in Excel workbook.
+  # Lars tilpasset kode - hvor Precision er rigtig
   metadata_codes_values_precision <-
     get_codelist_metadata(table_name) %>% 
     left_join(variables %>% select(VarName, lang, lvarName),
               by = c("VarName", "lang")
               ) %>%
+    mutate(VarName2=paste0(lvarName,str_quote(","),value)) %>% 
     pivot_longer(cols = c("code",  "value", "precision"),
                  names_to = "type"
                  ) %>%
@@ -144,10 +175,20 @@ get_metadata <- function(table_name) {
     ) %>% 
     arrange(keyword, sortorder) %>% 
     group_by(keyword) %>% 
-    mutate(value = str_quote(value) %>% str_c(collapse = ',')) %>%
+    mutate(value = ifelse(type %in% c('code','value'),
+                          str_quote(value) %>% str_c(collapse = ','),
+           value)) %>%
     ungroup() %>%
     drop_na(value) %>% 
-    distinct(keyword, value) %>%
+    mutate(keyword2 = case_when(type == 'precision' ~ 'PRECISION',
+                               TRUE ~ NA_character_
+    ) %>% 
+      add_language_to_keyword(lang) %>%
+      add_sub_key_to_keyword(VarName2)
+    ) %>% 
+    distinct(type, keyword,keyword2, value) %>%
+    mutate(keyword = ifelse(type == 'precision',keyword2,keyword)) %>% 
+    select(keyword,value) %>% 
     relocate(keyword)
   
   # Third sheet in Excel workbook.

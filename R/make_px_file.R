@@ -61,7 +61,7 @@ get_metadata <- function(table_name) {
   
   # Generate metadata from first sheet in Excel workbook.
   # Datasets starting with 'metadata_' are part of the final metadataset.
-  variables <- get_varaibles_metadata(table_name)
+  variables <- get_variables_metadata(table_name)
   
   time_values <-
     table_name %>% 
@@ -189,6 +189,7 @@ get_metadata <- function(table_name) {
     distinct(type, keyword,keyword2, value) %>%
     mutate(keyword = ifelse(type == 'precision',keyword2,keyword)) %>% 
     select(keyword,value) %>% 
+    distinct(keyword,value) %>%
     relocate(keyword)
   
   # Third sheet in Excel workbook.
@@ -213,12 +214,12 @@ get_metadata <- function(table_name) {
 #' Create data cube from source and meta data
 #' 
 #' The data cube has one column for each value of HEADING and is sorted by 
-#' value. There is one row for each combination of values of STUB varaibles. The
+#' value. There is one row for each combination of values of STUB variables. The
 #' ordering of STUB variables are set in the metadata.
 get_data_cube <- function(table_name) {
   variables <- 
     table_name %>% 
-    get_varaibles_metadata() %>% 
+    get_variables_metadata() %>% 
     arrange(position)
   
   stub_vars <-

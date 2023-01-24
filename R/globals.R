@@ -14,6 +14,8 @@ bexltall_rds_path <- file.path(data_raw_dir, "BEXLTALL.rds")
 # Excel
 excelsample_rds_path <- file.path(data_raw_dir, "EXCELSAMPLE.rds")
 
+FOtest_rds_path <- file.path(data_raw_dir, "FOTEST.rds")
+
 
 r_dir <- file.path('R')
 helper_functions_file_path <- file.path(r_dir, 'helper_functions.R')

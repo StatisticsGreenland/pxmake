@@ -44,7 +44,7 @@ get_general_metadata <- function(table_name) {
   read_excel_metadata_sheet(table_name, "General_MD") %>%
     separate(keyword, 
              c("keyword", "lang"), 
-             sep = "_(?=[en|da|kl])",
+             sep = "_(?=[en|da|kl|fo])",
              fill = "right"
              ) %>%
     mutate(keyword = str_replace_all(keyword, "_", "-"))
@@ -310,4 +310,5 @@ make_px_file <- function(table_name) {
 make_px_file("BEXSTATEST")
 make_px_file("BEXSTATEST2")
 make_px_file("BEXLTALL")
-#make_px_file("BEXLTREG") - ikke med
+make_px_file("FOTest")
+#make_px_file("BEXLTREG") - ikke med på Github pga størrelse

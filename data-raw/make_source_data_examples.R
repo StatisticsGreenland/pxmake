@@ -31,6 +31,24 @@ pxweb_get(url = data_url,
   write_rds(bexstatest_rds_path)
 
 
+# From Statbank Hagstova
+#
+data_url <- "https://statbank.hagstova.fo:443/api/v1/fo/H2/DEV/COH/Lexis.px"
+
+pxweb_get(url = data_url,
+          query = list("event" = "*",
+                       "sex"= "*",
+                       "year"= as.character(2018:2021)
+          )
+) %>%
+  as.data.frame(column.name.type = "code",
+                variable.value.type = "code"
+  ) %>% 
+  rename(time=year,value = last_col()) %>%
+  arrange_all() %>% 
+  write_rds(FOtest_rds_path)
+
+
 
 # From a sas7bdat dataset
 #

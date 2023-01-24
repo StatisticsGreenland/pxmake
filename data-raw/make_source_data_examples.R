@@ -10,7 +10,11 @@ source(file.path('R', 'globals.R'))
 library(tidyverse)
 library(pxweb)
 library(haven)
+library(readxl)
 
+
+# From Statbank Greenland 
+#
 data_url <- "https://bank.stat.gl/api/v1/en/Greenland/BE/BE01/BE0120/BEXSTA.px"
 
 pxweb_get(url = data_url,
@@ -26,6 +30,10 @@ pxweb_get(url = data_url,
   arrange_all() %>% 
   write_rds(bexstatest_rds_path)
 
+
+
+# From a sas7bdat dataset
+#
 read_sas("data-raw/bexstatest2.sas7bdat") %>% 
   rename(time=taar,
          value=antal,
@@ -37,12 +45,19 @@ read_sas("data-raw/bexstatest2.sas7bdat") %>%
   mutate(age = str_trim(age)) %>% 
   write_rds(bexstatest2_rds_path)
 
-
+# From a dataset created in R
+#
 "BEXLTALL_RAW" %>% 
   get_source_data_path() %>% 
   read_rds() %>%
-  rename(`place of birth`=pob,nop=nop.code,age=age.code,sex=sex.code,calcbase=calcbase.code,measure=measure.code) %>% 
+  rename(`place of birth`=pob,
+         nop=nop.code,
+         age=age.code,
+         sex=sex.code,
+         calcbase=calcbase.code,
+         measure=measure.code) %>% 
   mutate(age=as.character(age)) %>% 
+  filter(is.finite(value)) %>% 
   write_rds(bexltall_rds_path)
 
 
@@ -54,3 +69,8 @@ read_sas("data-raw/bexstatest2.sas7bdat") %>%
 #   write_rds(bexltreg_rds_path)
 
 
+# From an Excel spreadsheet
+#
+# Read specific sheet in an Excel file
+# sheet_name <- "Sample"
+# Excelsample <- read_excel(path = excelsample_rds_path, sheet = sheet_name)

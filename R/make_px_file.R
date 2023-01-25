@@ -303,7 +303,8 @@ make_px_file <- function(table_name) {
   
   write_lines(px_lines, file = get_px_file_path(table_name))
   # if metadata.general.CHARSET = ANSI
-  utf8.to.latin1(get_px_file_path(table_name), force = FALSE)
+  convert2ANSI <- metadata %>% filter(keyword=="CHARSET") %>% pull(value)
+  ifelse(convert2ANSI=="ANSI",utf8.to.latin1(get_px_file_path(table_name), force = FALSE))
   
 }
 

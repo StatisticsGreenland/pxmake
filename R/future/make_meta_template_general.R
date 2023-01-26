@@ -12,8 +12,8 @@
 # exists in a nearby StatBank.
 #
 # This script set out to help build a metadata-xlsx-file with as
-# much metadata as possible, to minimize the manual task in 
-# finalizing the metadata-xlsx 
+# much metadata as possible, to minimize the manual task in
+# finalizing the metadata-xlsx
 #
 
 pxcontact <- "Lars Pedersen, LARP@stat.gl"
@@ -58,7 +58,7 @@ subjectget <- function(lang) {
 repository <- "https://bank.stat.gl/api/v1/{lang}/Greenland"
 lang <- c("en","da","kl")
 
-subarea <- lang %>% map_df(~ subjectget(.x),.id="langcode") %>% 
+subarea <- lang %>% map_df(~ subjectget(.x),.id="langcode") %>%
     filter(id=="BE")
 
 CHARSET <- "ANSI"
@@ -96,7 +96,7 @@ DECIMALS <- pxdecimals
 SHOWDECIMALS <- pxshowdecimals
 LINK_da <- pxmethods_da
 LINK_en <- pxmethods_en
-LINK_kl <- pxmethods_KL
+LINK_kl <- pxmethods_kl
 NOTEX_da <- pxnotex_da
 NOTEX_en <- pxnotex_en
 NOTEX_kl <- pxnotex_kl

@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(pxr)
+library(px)
 
-test_check("pxr")
+test_check("px")

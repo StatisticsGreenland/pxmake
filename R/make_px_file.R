@@ -3,7 +3,6 @@ source(file.path(helper_functions_file_path))
 
 library(tidyverse)
 library(readxl)
-library(TAF)
 
 #' Read specific sheet in Excel metadata file
 read_excel_metadata_sheet <- function(table_name, sheet_name) {
@@ -239,9 +238,9 @@ get_data_cube <- function(table_name) {
     # Technically more headings can be used, but this is not implemented.
     stop(str_glue("Need exactly 1 heading variable, there are: {length(heading_var)}."))
   }
-  
-  codelist <- 
-    get_codelist_metadata(table_name) %>% 
+
+  codelist <-
+    get_codelist_metadata(table_name) %>%
     left_join(variables %>% select(VarName, lang, lvarName),
               by = c("VarName", "lang")
               ) %>%

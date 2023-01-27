@@ -1,0 +1,74 @@
+CHARSET="ANSI";
+AXIS-VERSION=2000;
+LANGUAGE="en";
+LANGUAGES="en","fo";
+MATRIX="FOTEST";
+SUBJECT-CODE="BE";
+CREATION-DATE="20190124 09:00";
+UPDATE-FREQUENCY="Annually";
+LAST-UPDATED="20210211 09:00";
+NEXT-UPDATE="20220211 09:00";
+DECIMALS=0;
+SHOWDECIMALS=0;
+COPYRIGHT=YES;
+CONTACT[fo]="test, Lars Pedersen, LARP@stat.gl";
+CONTACT="Lars Pedersen, LARP@stat.gl";
+NOTEX[fo]="Tvungen fodnote";
+NOTEX="Tvungen fodnote";
+NOTE[fo]="Befolkningsstatistikregistret indeholder …";
+NOTE="Befolkningsstatistikregistret indeholder …";
+CONTENTS[fo]="Befolkningen 1. januar";
+CONTENTS="Population January 1st";
+UNITS[fo]="personer";
+UNITS="persons";
+SOURCE[fo]="Grønlands Statistik";
+SOURCE="Statistics Greenland";
+SUBJECT-AREA[fo]="Befolkning";
+SUBJECT-AREA="Population";
+DESCRIPTION[fo]="TESTBefolkningen pr 1. januar 2018 - 2022";
+DESCRIPTION="TESTPopulation January 1st 2018-2022";
+LINK[fo]="www.stat.gl/bed202201/m1";
+LINK="www.stat.gl/bee202201/m1";
+HEADING="time";
+HEADING[fo]="tid";
+STUB="event","gender";
+STUB[fo]="til- og frágongd","køn";
+CODES("event")="P","B","I","O","D","C","U";
+VALUES("event")="Population (start of year)","Birth","Immigration","Emigration","Death","Correction","Population (end of year)";
+CODES("gender")="T","M","K";
+VALUES("gender")="Total","Men","Women";
+CODES[fo]("køn")="T","M","K";
+VALUES[fo]("køn")="I alt","Mænd","Kvinder";
+CODES[fo]("til- og frágongd")="P","B","I","O","D","C","U";
+VALUES[fo]("til- og frágongd")="Fólkatalið fyrst í árinum","Livandi fødd","Flutt til Føroya","Flutt úr Føroyum","Deyð","Rættingar","Fólkatalið síðst í mánaðinum";
+VALUES("time")="2018","2019","2020","2021";
+VALUES[fo]("tid")="2018","2019","2020","2021";
+ELIMINATION[fo]("til- og frágongd")="Fólkatalið fyrst í árinum";
+ELIMINATION("event")="Population (start of year)";
+ELIMINATION[fo]("køn")="I alt";
+ELIMINATION("gender")="Total";
+NOTE[fo]("til- og frágongd")="dette er en fodnote til variabel";
+NOTE("event")="dette er en fodnote til variabel";
+DATA=
+50464 51278 52109 52909
+26003 26496 26952 27384
+24461 24782 25157 25525
+684 683 678 0
+346 343 368 0
+338 340 310 0
+1848 1766 1697 0
+1059 996 938 0
+789 770 759 0
+1324 1207 1209 0
+692 665 684 0
+632 542 525 0
+394 411 367 0
+219 218 191 0
+175 193 176 0
+0 0 1 0
+-1 0 1 0
+1 0 0 0
+51278 52109 52909 0
+26496 26952 27384 0
+24782 25157 25525 0
+;

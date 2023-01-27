@@ -3,7 +3,7 @@
 #
 # Every px-file is generated from a dataset with only codes and one value column
 # Metadata for these data are kept in an Excel spreadsheet which
-# dopxR combine to the px-file.
+# pxmake combine to the px-file.
 #
 # This can all be done from scratch or setting out from an allready
 # existing metadata-xlsx-file

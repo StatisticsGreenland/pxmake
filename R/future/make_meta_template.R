@@ -1,7 +1,7 @@
 #
 # Every px-file is generated from a dataset with only codes and one value column
 # Metadata for these data are kept in an Excel spreadsheet which
-# dopxR combine to the px-file.
+# pxmake combine to the px-file.
 #
 # This can all be done from scratch or setting out from an allready
 # existing metadata-xlsx-file
@@ -10,8 +10,8 @@
 # exists in a nearby StatBank.
 #
 # This script set out to help build a metadata-xlsx-file with as
-# much metadata as possible, to minimize the manual task in 
-# finalizing the metadata-xlsx 
+# much metadata as possible, to minimize the manual task in
+# finalizing the metadata-xlsx
 #
 # The metadata-xlsx has 3 sheets:
 # 1. Variables_MD
@@ -40,7 +40,7 @@ varget <- function(matrix,lang) {
 repository <- "https://bank.stat.gl/api/v1/{lang}/Greenland"
 lang <- c("en","da","kl")
 
-BEXSTC <- lang %>% map_df(~ varget("BEXSTC",.x),.id="langcode") %>% 
+BEXSTC <- lang %>% map_df(~ varget("BEXSTC",.x),.id="langcode") %>%
   rbind()
 
 print(BEXSTC$variables$text)
@@ -48,7 +48,7 @@ print(BEXSTC$variables$text)
 age <- BEXSTC %>%  filter(BEXSTC$variables$code=="age")
 
 
-UDXFDS <- lang %>% map_df(~ varget("UDXFDS",.x),.id="langcode") %>% 
+UDXFDS <- lang %>% map_df(~ varget("UDXFDS",.x),.id="langcode") %>%
   rbind()
 
 print(UDXFDS$variables$text)
@@ -57,7 +57,7 @@ school <- UDXFDS %>%  filter(UDXFDS$variables$code=="school")
 
 # Here variables age and school has been selected - to be formated as
 # metadata.xlsx
-to_metadata_xlsx <- age %>% 
+to_metadata_xlsx <- age %>%
   rbind(school)
 
 
@@ -65,7 +65,7 @@ to_metadata_xlsx <- age %>%
 repository <- "https://statbank.hagstova.fo/api/v1/{lang}/H2"
 lang <- c("en","fo")
 
-Lexis.px <- lang %>% map_df(~ varget("Lexis.px",.x),.id="langcode") %>% 
+Lexis.px <- lang %>% map_df(~ varget("Lexis.px",.x),.id="langcode") %>%
   rbind()
 
 event <- Lexis.px %>% filter(Lexis.px$variables$code=="event")
@@ -73,10 +73,10 @@ event <- Lexis.px %>% filter(Lexis.px$variables$code=="event")
 # # Hagstofa.is
 # repository <- "http://px.hagstofa.is/pxen/api/v1/{lang}/Ibuar"
 # lang <- c("en","is")
-# 
-# MAN09010.px <- lang %>% map_df(~ varget("MAN09010.px",.x),.id="langcode") %>% 
+#
+# MAN09010.px <- lang %>% map_df(~ varget("MAN09010.px",.x),.id="langcode") %>%
 #   rbind()
-# 
+#
 # print(MAN09010$variables$text)
 
 # SSB.no

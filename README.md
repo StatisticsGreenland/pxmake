@@ -1,4 +1,4 @@
-# dopx
+# pxmake
 Functions and templates to convert a tidy dataset into a PX file, combining necessary metadata of both technical and informational kind to data.
 
 # PX-Specification

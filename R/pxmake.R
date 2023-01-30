@@ -106,37 +106,7 @@ get_metadata <- function(metadata_path, source_data_path) {
     ) %>%
     dplyr::distinct(keyword, value)
 
-  # # Second sheet in Excel workbook.
-  # Johans kode - hvor Precision ikke bliver rigtig
-
-  # metadata_codes_values_precision <-
-  #   get_codelist_metadata(table_name) %>%
-  #   dplyr::left_join(variables %>% dplyr::select(VarName, lang, lvarName),
-  #             by = c("VarName", "lang")
-  #   ) %>%
-  #   tidyr::pivot_longer(cols = c("code",  "value", "precision"),
-  #                names_to = "type"
-  #   ) %>%
-  #   dplyr::mutate(keyword = dplyr::case_when(type == 'code'      ~ 'CODES',
-  #                              type == 'value'     ~ 'VALUES',
-  #                              type == 'precision' ~ 'PRECISION',
-  #                              TRUE ~ NA_character_
-  #   ) %>%
-  #     add_language_to_keyword(lang) %>%
-  #     add_sub_key_to_keyword(lvarName)
-  #   ) %>%
-  #   dplyr::arrange(keyword, sortorder) %>%
-  #   dplyr::group_by(keyword) %>%
-  #   dplyr::mutate(value = str_quote(value) %>% stringr::str_c(collapse = ',')) %>%
-  #   dplyr::ungroup() %>%
-  #   tidyr::drop_na(value) %>%
-  #   distinct(keyword, value) %>%
-  #   dplyr::relocate(keyword)
-
-
-
   # Second sheet in Excel workbook.
-  # Lars tilpasset kode - hvor Precision er rigtig
   metadata_codes_values_precision <-
     get_codelist_metadata(metadata_path) %>%
     dplyr::left_join(variables %>% dplyr::select(VarName, lang, lvarName),

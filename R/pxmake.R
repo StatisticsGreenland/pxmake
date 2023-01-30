@@ -1,6 +1,3 @@
-source(file.path('R', 'globals.R'))
-source(file.path(helper_functions_file_path))
-
 #' Get metadata from first Excel sheet
 get_variables_metadata <- function(metadata_path) {
   readxl::read_excel(metadata_path, sheet = "Variables_MD") %>%
@@ -241,6 +238,18 @@ format_px_data_as_lines <- function(metadata, data_cube) {
   c(metadata_lines, "DATA=", data_lines, ";")
 }
 
+#' Create pxfile
+#'
+#' `pxmake()` creates a px file by combine source data from a `.rds` file and
+#' metadata from an Excel workbook.
+#'
+#' @param source_data_path Path to `.rds` file with data source.
+#' @param metadata_path Path to Excel workbook with metadata.
+#' @param pxfile_path Path to save px file at.
+#'
+#' @return Nothing.
+#'
+#' @export
 pxmake <- function(source_data_path, metadata_path, pxfile_path) {
   metadata  <- get_metadata(metadata_path, source_data_path)
   data_cube <- get_data_cube(metadata_path, source_data_path)

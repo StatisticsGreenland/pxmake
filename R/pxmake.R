@@ -47,6 +47,7 @@ get_metadata <- function(metadata_path, source_data_path) {
   time_values <-
     source_data_path %>%
     readRDS() %>%
+    dplyr::ungroup() %>%
     dplyr::distinct(time) %>%
     dplyr::pull(1)
 
@@ -202,6 +203,7 @@ get_data_cube <- function(metadata_path, source_data_path) {
   source_data <-
     source_data_path %>%
     readRDS() %>%
+    dplyr::ungroup() %>%
     # Complete data so all values of all variables appear in all combinations
     tidyr::complete(!!!rlang::syms(heading_var), !!!rlang::syms(stub_vars))
 

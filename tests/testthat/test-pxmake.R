@@ -1,33 +1,51 @@
-test_that("px file is created", {
-  test_file_creation <- function(source_data_path,
-                                 metadata_path,
-                                 pxfile_path) {
-    if (file.exists(pxfile_path)) {
-      file.remove(pxfile_path)
+get_source_data_path <- function(table_name) {
+  test_path('fixtures', 'data', paste0(table_name, '.rds'))
+}
+
+get_metadata_path <- function(table_name) {
+  test_path('fixtures', 'metadata', glue::glue("metadata_{table_name}.xlsx"))
+}
+
+get_pxfile_path <- function(table_name) {
+  test_path('px', paste0(table_name, '.px'))
+}
+
+get_pxjobfile_path <- function(table_name) {
+  test_path('px', paste0(table_name, '_pxjob.px'))
+}
+
+
+test_that("pxmake runs without errors and creates a file", {
+  test_file_creation <- function(table_name) {
+    if (file.exists(get_pxfile_path(table_name))) {
+      file.remove(get_pxfile_path(table_name))
     }
 
-    pxmake(source_data_path, metadata_path, pxfile_path)
+    pxmake(get_source_data_path(table_name),
+           get_metadata_path(table_name),
+           get_pxfile_path(table_name)
+           )
 
-    expect_true(file.exists(pxfile_path))
+    expect_true(file.exists(get_pxfile_path(table_name)))
   }
 
-  test_file_creation(source_data_path = test_path('fixtures', 'data', 'BEXLTALL.rds'),
-                     metadata_path = test_path('fixtures', 'metadata', 'metadata_BEXLTALL.xlsx'),
-                     pxfile_path = test_path('px', 'BEXLTAL.px')
-                     )
+  test_file_creation("BEXLTALL")
+  test_file_creation("BEXSTA_large")
+  test_file_creation("BEXSTA_small")
+  test_file_creation("FOTEST")
+})
 
-  test_file_creation(source_data_path = test_path('fixtures', 'data', 'BEXSTA_large.rds'),
-                     metadata_path = test_path('fixtures', 'metadata', 'metadata_BEXSTA_large.xlsx'),
-                     pxfile_path = test_path('px', 'BEXSTA_large.px')
-  )
+test_that("pxjob exists without errors (exit code 0)", {
+  skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
-  test_file_creation(source_data_path = test_path('fixtures', 'data', 'BEXSTA_small.rds'),
-                     metadata_path = test_path('fixtures', 'metadata', 'metadata_BEXSTA_small.xlsx'),
-                     pxfile_path = test_path('px', 'BEXSTA_small.px')
-  )
+  run_pxjob <- function(table_name) {
+    pxjob64Win::pxjob(input = get_pxfile_path(table_name),
+                      output = get_pxjobfile_path(table_name)
+                      )
+  }
 
-  test_file_creation(source_data_path = test_path('fixtures', 'data', 'FOTEST.rds'),
-                     metadata_path = test_path('fixtures', 'metadata', 'metadata_FOTEST.xlsx'),
-                     pxfile_path = test_path('px', 'FOTEST.px')
-  )
+  expect_equal(run_pxjob("BEXLTALL"), 0)
+  expect_equal(run_pxjob("BEXSTA_large"), 0)
+  expect_equal(run_pxjob("BEXSTA_small"), 0)
+  expect_equal(run_pxjob("FOTEST"), 0)
 })

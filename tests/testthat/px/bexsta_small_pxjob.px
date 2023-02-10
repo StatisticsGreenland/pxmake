@@ -17,30 +17,30 @@ COPYRIGHT=YES;
 DESCRIPTION="TESTPopulation January 1st 2018-2022";
 DESCRIPTION[da]="TESTBefolkningen pr 1. januar 2018 - 2022";
 DESCRIPTION[kl]="1. Januaarimi TEST innuttaasut 2018-2022";
-TITLE="Population January 1st by place of birth, gender and time";
-TITLE[da]="Befolkningen 1. januar efter fødested, køn og tid";
-TITLE[kl]="1. Januaarimi innuttaasut : inunngorfik, suiaassuseq , piffissaq";
+TITLE="Population January 1st by place of birth, time and gender";
+TITLE[da]="Befolkningen 1. januar efter fødested, tid og køn";
+TITLE[kl]="1. Januaarimi innuttaasut : inunngorfik, piffissaq , suiaassuseq";
 CONTENTS="Population January 1st";
 CONTENTS[da]="Befolkningen 1. januar";
 CONTENTS[kl]="1. Januaarimi innuttaasut";
 UNITS="persons";
 UNITS[da]="personer";
 UNITS[kl]="inuit amerlassusaat";
-STUB="place of birth","gender";
-STUB[da]="fødested","køn";
-STUB[kl]="inunngorfik","suiaassuseq";
-HEADING="time";
-HEADING[da]="tid";
-HEADING[kl]="piffissaq";
+STUB="place of birth";
+STUB[da]="fødested";
+STUB[kl]="inunngorfik";
+HEADING="time","gender";
+HEADING[da]="tid","køn";
+HEADING[kl]="piffissaq","suiaassuseq";
 VALUES("place of birth")="Total","Greenland","Outside Greenland";
 VALUES[da]("fødested")="I alt","Grønland","Udenfor Grønland";
 VALUES[kl]("inunngorfik")="Katillugit","Kalaallit Nunaat","Kalaallit Nunaata avataani";
-VALUES("gender")="Total","Men","Women";
-VALUES[da]("køn")="I alt","Mænd","Kvinder";
-VALUES[kl]("suiaassuseq")="Katillugit","Angutit","Arnat";
 VALUES("time")="2018","2019","2020","2021","2022";
 VALUES[da]("tid")="2018","2019","2020","2021","2022";
 VALUES[kl]("piffissaq")="2018","2019","2020","2021","2022";
+VALUES("gender")="Total","Men","Women";
+VALUES[da]("køn")="I alt","Mænd","Kvinder";
+VALUES[kl]("suiaassuseq")="Katillugit","Angutit","Arnat";
 CODES("place of birth")="T","N","S";
 CODES[da]("fødested")="T","N","S";
 CODES[kl]("inunngorfik")="T","N","S";
@@ -76,12 +76,6 @@ NOTE("place of birth")="dette er en fodnote til variabel";
 NOTE[da]("fødested")="dette er en fodnote til variabel";
 NOTE[kl]("inunngorfik")="dette er en fodnote til variabel";
 DATA=
-55877 55992 56081 56421 56562 
-29489 29553 29551 29749 29803 
-26388 26439 26530 26672 26759 
-50172 50252 50190 50365 50388 
-25780 25818 25738 25824 25810 
-24392 24434 24452 24541 24578 
-5705 5740 5891 6056 6174 
-3709 3735 3813 3925 3993 
-1996 2005 2078 2131 2181; 
+26388 29489 55877 26439 29553 55992 26530 29551 56081 26672 29749 56421 26759 29803 56562 
+24392 25780 50172 24434 25818 50252 24452 25738 50190 24541 25824 50365 24578 25810 50388 
+1996 3709 5705 2005 3735 5740 2078 3813 5891 2131 3925 6056 2181 3993 6174; 

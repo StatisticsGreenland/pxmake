@@ -181,16 +181,10 @@ get_data_cube <- function(metadata_path, source_data_path) {
     dplyr::filter(stringr::str_starts(position, 's'), lang == "en") %>%
     dplyr::pull(VarName)
 
-  heading_var <-
+  heading_vars <-
     variables %>%
     dplyr::filter(stringr::str_starts(position, 'h'), lang == "en") %>%
     dplyr::pull(VarName)
-
-  if (length(heading_var) != 1) {
-    # Technically more headings can be used, but this is not implemented.
-    msg <- "Need exactly 1 heading variable, there are: {length(heading_var)}."
-    stop(stringr::str_glue(msg))
-  }
 
   codelist <-
     get_codelist_metadata(metadata_path) %>%
@@ -205,7 +199,7 @@ get_data_cube <- function(metadata_path, source_data_path) {
     readRDS() %>%
     dplyr::ungroup() %>%
     # Complete data so all values of all variables appear in all combinations
-    tidyr::complete(!!!rlang::syms(heading_var), !!!rlang::syms(stub_vars))
+    tidyr::complete(!!!rlang::syms(heading_vars), !!!rlang::syms(stub_vars))
 
   data_cube <-
     source_data %>%
@@ -219,8 +213,8 @@ get_data_cube <- function(metadata_path, source_data_path) {
                        values_from = c("code", "sortorder")
                        ) %>%
     dplyr::select(-id) %>%
-    dplyr::arrange_at(heading_var) %>%
-    tidyr::pivot_wider(names_from = !!heading_var, values_from = value) %>%
+    dplyr::arrange_at(heading_vars) %>%
+    tidyr::pivot_wider(names_from = !!heading_vars, values_from = value) %>%
     dplyr::arrange_at(stringr::str_c("sortorder_", stub_vars)) %>%
     dplyr::select(-contains(stub_vars))
 

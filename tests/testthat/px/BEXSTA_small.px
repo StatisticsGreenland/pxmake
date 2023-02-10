@@ -38,12 +38,12 @@ DESCRIPTION[kl]="1. Januaarimi TEST innuttaasut 2018-2022";
 LINK[da]="www.stat.gl/bed202201/m1";
 LINK="www.stat.gl/bee202201/m1";
 LINK[kl]="www.stat.gl/ben202201/m1";
-HEADING="time";
-HEADING[da]="tid";
-HEADING[kl]="piffissaq";
-STUB="place of birth","gender";
-STUB[da]="fødested","køn";
-STUB[kl]="inunngorfik","suiaassuseq";
+HEADING="time","gender";
+HEADING[da]="tid","køn";
+HEADING[kl]="piffissaq","suiaassuseq";
+STUB="place of birth";
+STUB[da]="fødested";
+STUB[kl]="inunngorfik";
 CODES("gender")="T","M","K";
 VALUES("gender")="Total","Men","Women";
 CODES("place of birth")="T","N","S";
@@ -62,23 +62,17 @@ VALUES[kl]("piffissaq")="2018","2019","2020","2021","2022";
 DOMAIN[da]("fødested")="test";
 DOMAIN("place of birth")="test2n";
 DOMAIN[kl]("inunngorfik")="testkl";
-ELIMINATION[da]("fødested")="I alt";
-ELIMINATION("place of birth")="Total";
-ELIMINATION[kl]("inunngorfik")="Katillugit";
 ELIMINATION[da]("køn")="I alt";
 ELIMINATION("gender")="Total";
 ELIMINATION[kl]("suiaassuseq")="Katillugit";
+ELIMINATION[da]("fødested")="I alt";
+ELIMINATION("place of birth")="Total";
+ELIMINATION[kl]("inunngorfik")="Katillugit";
 NOTE[da]("fødested")="dette er en fodnote til variabel";
 NOTE("place of birth")="dette er en fodnote til variabel";
 NOTE[kl]("inunngorfik")="dette er en fodnote til variabel";
 DATA=
-55877 55992 56081 56421 56562
-29489 29553 29551 29749 29803
-26388 26439 26530 26672 26759
-50172 50252 50190 50365 50388
-25780 25818 25738 25824 25810
-24392 24434 24452 24541 24578
-5705 5740 5891 6056 6174
-3709 3735 3813 3925 3993
-1996 2005 2078 2131 2181
+26388 29489 55877 26439 29553 55992 26530 29551 56081 26672 29749 56421 26759 29803 56562
+24392 25780 50172 24434 25818 50252 24452 25738 50190 24541 25824 50365 24578 25810 50388
+1996 3709 5705 2005 3735 5740 2078 3813 5891 2131 3925 6056 2181 3993 6174
 ;

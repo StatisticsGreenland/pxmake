@@ -1,3 +1,32 @@
+mandatory_keywords <- c("CONTENTS", "DATA", "DECIMALS", "DESCRIPTION",
+                        "HEADING", "MATRIX", "STUB", "SUBJECT-AREA",
+                        "SUBJECT-CODE", "TITLE", "UNITS", "VALUES"
+                        )
+
+optional_keywords <- c("AGGREGALLOWED", "ATTRIBUTE-ID", "ATTRIBUTE-TEXT",
+                       "ATTRIBUTES", "AUTOPEN", "AXIS-VERSION", "BASEPERIOD",
+                       "CELLNOTE", "CELLNOTEX", "CFPRICES", "CHARSET",
+                       "CODEPAGE", "CODES", "CONFIDENTIAL", "CONTACT",
+                       "CONTVARIABLE", "COPYRIGHT", "CREATION-DATE",
+                       "DATABASE", "DATANOTE", "DATANOTECELL", "DATANOTESUM",
+                       paste0("DATASYMBOL", 1:6), "DATASYMBOLNIL",
+                       "DATASYMBOLSUM", "DAYADJ", "DEFAULT-GRAPH",
+                       "DESCRIPTIONDEFAULT", "DIRECTORY-PATH", "DOMAIN",
+                       "DOUBLECOLUMN", "ELIMINATION", "FIRST-PUBLISHED",
+                       "HIERARCHIES", "HIERARCHYLEVELS", "HIERARCHYLEVELSOPEN",
+                       "HIERARCHYNAMES", "INFO", "INFOFILE", "KEYS",
+                       "LANGUAGE", "LANGUAGES", "LAST-UPDATED", "LINK", "MAP",
+                       "META-ID", "NEXT-UPDATE", "NOTE", "NOTEX",
+                       "OFFICIAL-STATISTICS", "PARTITIONED", "PRECISION",
+                       "PRESTEXT", "PX-SERVER", "REFPERIOD", "ROUNDING",
+                       "SEASADJ", "SHOWDECIMALS", "SOURCE", "STOCKFA",
+                       "SURVEY", "SYNONYMS", "TABLEID", "TIMEVAL",
+                       "UPDATE-FREQUENCY", "VALUENOTE", "VALUENOTEX",
+                       "VARIABLE-TYPE"
+                       )
+
+keywords <- c(mandatory_keywords, optional_keywords)
+
 get_source_data_path <- function(table_name) {
   test_path('fixtures', 'data', paste0(table_name, '.rds'))
 }
@@ -35,6 +64,31 @@ test_that("pxmake runs without errors and creates a file", {
   test_file_creation("FOTEST")
 })
 
+
+test_that("px lines are valid", {
+  valid_lines <-
+    c(paste0("^", keywords, "[=\\[\\(]"), # keyword followed by [ ( or =
+      '^[e[:digit:][:space:]"-.]+$',    # data lines
+      '^;$'                             # last line of file
+      )
+
+  regex <- paste0(valid_lines, collapse = "|")
+
+  get_invalid_lines <- function(table_name) {
+    px_lines <-
+      get_pxfile_path(table_name) %>%
+      readLines()
+
+    px_lines[stringr::str_detect(px_lines, regex, negate = TRUE)]
+  }
+
+  expect_equal(get_invalid_lines("BEXLTALL"), character(0))
+  expect_equal(get_invalid_lines("BEXSTA_large"), character(0))
+  expect_equal(get_invalid_lines("BEXSTA_small"), character(0))
+  expect_equal(get_invalid_lines("FOTEST"), character(0))
+})
+
+
 test_that("pxjob exists without errors (exit code 0)", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
@@ -49,3 +103,4 @@ test_that("pxjob exists without errors (exit code 0)", {
   expect_equal(run_pxjob("BEXSTA_small"), 0)
   expect_equal(run_pxjob("FOTEST"), 0)
 })
+

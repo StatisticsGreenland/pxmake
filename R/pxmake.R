@@ -151,7 +151,9 @@ get_metadata <- function(metadata_path, source_data_path) {
   # Third sheet in Excel workbook.
   metadata_general <-
     get_general_metadata(metadata_path) %>%
-    dplyr::mutate(keyword = add_language_to_keyword(keyword, lang)) %>%
+    dplyr::mutate(keyword = add_language_to_keyword(keyword, lang),
+                  value = tidyr::replace_na(value, "")
+                  ) %>%
     dplyr::arrange(!is.na(lang)) %>%
     dplyr::select(keyword, value)
 

@@ -59,8 +59,7 @@ test_that("pxmake runs without errors and creates a file", {
   }
 
   test_file_creation("BEXLTALL")
-  test_file_creation("BEXSTA_large")
-  test_file_creation("BEXSTA_small")
+  test_file_creation("BEXSTA")
   test_file_creation("FOTEST")
 })
 
@@ -83,8 +82,7 @@ test_that("px lines are valid", {
   }
 
   expect_equal(get_invalid_lines("BEXLTALL"), character(0))
-  expect_equal(get_invalid_lines("BEXSTA_large"), character(0))
-  expect_equal(get_invalid_lines("BEXSTA_small"), character(0))
+  expect_equal(get_invalid_lines("BEXSTA"), character(0))
   expect_equal(get_invalid_lines("FOTEST"), character(0))
 })
 
@@ -99,8 +97,7 @@ test_that("pxjob exists without errors (exit code 0)", {
   }
 
   expect_equal(run_pxjob("BEXLTALL"), 0)
-  expect_equal(run_pxjob("BEXSTA_large"), 0)
-  expect_equal(run_pxjob("BEXSTA_small"), 0)
+  expect_equal(run_pxjob("BEXSTA"), 0)
   expect_equal(run_pxjob("FOTEST"), 0)
 })
 

@@ -32,8 +32,7 @@ get_general_metadata <- function(metadata_path) {
                     c("keyword", "lang"),
                     sep = "_(?=[en|da|kl|fo])",
                     fill = "right"
-                    ) %>%
-    dplyr::mutate(keyword = stringr::str_replace_all(keyword, "_", "-"))
+                    )
 }
 
 #' Create metadata for header in PX file

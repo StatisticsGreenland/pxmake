@@ -77,35 +77,16 @@ get_metadata <- function(metadata_path, source_data_path) {
     dplyr::ungroup() %>%
     dplyr::distinct(keyword, value)
 
-  metadata_domain <-
+  metadata_variables <-
     variables %>%
-    tidyr::drop_na(ldomain) %>%
-    dplyr::arrange(position) %>%
-    dplyr::mutate(keyword = add_language_to_keyword("DOMAIN", lang) %>%
+    tidyr::pivot_longer(cols = c("lnote", "ldomain", "lelimination")) %>%
+    tidyr::drop_na(value) %>%
+    dplyr::arrange(name, position) %>%
+    dplyr::mutate(keyword = stringr::str_sub(name, 2, -1) %>% toupper() %>%
+                              add_language_to_keyword(lang) %>%
                               add_sub_key_to_keyword(lvarName),
-                  value = str_quote(ldomain)
-                  ) %>%
-    dplyr::distinct(keyword, value)
-
-  metadata_elimination <-
-    variables %>%
-    tidyr::drop_na(lelimination) %>%
-    dplyr::arrange(position) %>%
-    dplyr::mutate(keyword = add_language_to_keyword("ELIMINATION", lang) %>%
-                              add_sub_key_to_keyword(lvarName),
-                  value = str_quote(lelimination)
-                  ) %>%
-    dplyr::distinct(keyword, value)
-
-  metadata_note <-
-    variables %>%
-    tidyr::drop_na(lnote) %>%
-    dplyr::arrange(position) %>%
-    dplyr::mutate(keyword = add_language_to_keyword("NOTE", lang) %>%
-                              add_sub_key_to_keyword(lvarName),
-                  value = str_quote(lnote)
-                  ) %>%
-    dplyr::distinct(keyword, value)
+                  value = str_quote(value)
+                  )
 
   # Second sheet in Excel workbook.
   metadata_codes_values_precision <-
@@ -160,9 +141,7 @@ get_metadata <- function(metadata_path, source_data_path) {
                           metadata_stub_and_head,
                           metadata_codes_values_precision,
                           metadata_time,
-                          metadata_domain,
-                          metadata_elimination,
-                          metadata_note
+                          metadata_variables
                           )
          )
 }

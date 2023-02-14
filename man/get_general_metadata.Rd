@@ -2,10 +2,10 @@
 % Please edit documentation in R/pxmake.R
 \name{get_general_metadata}
 \alias{get_general_metadata}
-\title{Get metadata from third Excel sheet}
+\title{Get metadata from 'General' sheet in Excel Workbook}
 \usage{
 get_general_metadata(metadata_path)
 }
 \description{
-Get metadata from third Excel sheet
+Get metadata from 'General' sheet in Excel Workbook
 }

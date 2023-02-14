@@ -1,39 +1,35 @@
-#' Get metadata from first Excel sheet
-get_variables_metadata <- function(metadata_path) {
-  readxl::read_excel(metadata_path, sheet = "Variables_MD") %>%
-    dplyr::mutate(VarName = stringr::str_to_lower(VarName)) %>%
-    tidyr::pivot_longer(cols = ends_with(c("_varName",
-                                           "_note",
-                                           "_domain",
-                                           "_elimination")),
-                        names_to = c("lang", "var_name"),
-                        names_pattern = "(.*)_(.*)"
-                        ) %>%
-    dplyr::mutate(var_name = stringr::str_glue("l{var_name}")) %>%
-    tidyr::pivot_wider(names_from = var_name, values_from = value)
-}
-
-#' Get metadata from second Excel sheet
-get_codelist_metadata <- function(metadata_path) {
-  metadata_path %>%
-    readxl::read_excel(sheet = "Codelists_2MD") %>%
-    dplyr::mutate(VarName = stringr::str_to_lower(VarName)) %>%
-    tidyr::pivot_longer(cols = ends_with("_codeLabel"),
-                        names_to = c("lang"),
-                        names_pattern = "^(.*)_.*$"
-                        )
-}
-
-#' Get metadata from third Excel sheet
+#' Get metadata from 'General' sheet in Excel Workbook
 get_general_metadata <- function(metadata_path) {
   metadata_path %>%
-    readxl::read_excel(sheet = "General_MD") %>%
+    readxl::read_excel(sheet = "General") %>%
     tidyr::separate(keyword,
-                    c("keyword", "lang"),
+                    c("keyword", "language"),
                     sep = "_(?=[en|da|kl|fo])",
                     fill = "right"
                     )
 }
+
+#' Get metadata from 'Variables' sheet in Excel Workbook
+get_variables_metadata <- function(metadata_path) {
+  metadata_path %>%
+    readxl::read_excel(sheet = "Variables") %>%
+    tidyr::pivot_longer(cols = -c(position, variable, type),
+                        names_to = c("language", "long_name"),
+                        names_pattern = "^([[:alpha:]]*)_(.*)$"
+                        ) %>%
+    tidyr::pivot_wider(names_from = long_name, values_from = value)
+}
+
+#' Get metadata from 'Codelists' sheet in Excel Workbook
+get_codelist_metadata <- function(metadata_path) {
+  metadata_path %>%
+    readxl::read_excel(sheet = "Codelists") %>%
+    tidyr::pivot_longer(cols = ends_with("_code_label"),
+                        names_to = c("language"),
+                        names_pattern = "^([[:alpha:]]*)_.*$"
+                        )
+}
+
 
 #' Create metadata for header in PX file
 #'
@@ -52,9 +48,9 @@ get_metadata <- function(metadata_path, source_data_path) {
 
   metadata_time <-
     variables %>%
-    dplyr::filter(stringr::str_to_lower(type) == "time") %>%
-    dplyr::mutate(keyword = add_language_to_keyword("VALUES", lang) %>%
-                              add_sub_key_to_keyword(lvarName),
+    dplyr::filter(tolower(type) == "time") %>%
+    dplyr::mutate(keyword = add_language_to_keyword("VALUES", language) %>%
+                              add_sub_key_to_keyword(long_name),
                   value = str_quote(time_values) %>%
                             stringr::str_c(collapse = ',')
                   ) %>%
@@ -69,32 +65,31 @@ get_metadata <- function(metadata_path, source_data_path) {
                                      stringr::str_starts(position, 'h') ~ 'HEADING',
                                      TRUE ~ NA_character_
                                      ) %>%
-                                     add_language_to_keyword(lang)
+                                     add_language_to_keyword(language)
                   ) %>%
     dplyr::arrange(position, keyword) %>%
     dplyr::group_by(keyword) %>%
-    dplyr::mutate(value = str_quote(lvarName) %>% stringr::str_c(collapse = ',')) %>%
+    dplyr::mutate(value = str_quote(long_name) %>% stringr::str_c(collapse = ',')) %>%
     dplyr::ungroup() %>%
     dplyr::distinct(keyword, value)
 
   metadata_variables <-
     variables %>%
-    tidyr::pivot_longer(cols = c("lnote", "ldomain", "lelimination")) %>%
+    tidyr::pivot_longer(cols = c("note", "domain", "elimination")) %>%
     tidyr::drop_na(value) %>%
     dplyr::arrange(name, position) %>%
-    dplyr::mutate(keyword = stringr::str_sub(name, 2, -1) %>% toupper() %>%
-                              add_language_to_keyword(lang) %>%
-                              add_sub_key_to_keyword(lvarName),
+    dplyr::mutate(keyword = toupper(name) %>%
+                              add_language_to_keyword(language) %>%
+                              add_sub_key_to_keyword(long_name),
                   value = str_quote(value)
                   )
 
-  # Second sheet in Excel workbook.
   metadata_codes_values_precision <-
     get_codelist_metadata(metadata_path) %>%
-    dplyr::left_join(variables %>% dplyr::select(VarName, lang, lvarName),
-                     by = c("VarName", "lang")
+    dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
+                     by = c("variable", "language")
                      ) %>%
-    dplyr::mutate(VarName2 = paste0(lvarName, str_quote(","), value)) %>%
+    dplyr::mutate(VarName2 = paste0(long_name, str_quote(","), value)) %>%
     tidyr::pivot_longer(cols = c("code",  "value", "precision"),
                         names_to = "type"
                         ) %>%
@@ -103,8 +98,8 @@ get_metadata <- function(metadata_path, source_data_path) {
                                              type == 'precision' ~ 'PRECISION',
                                              TRUE ~ NA_character_
                                              ) %>%
-                                             add_language_to_keyword(lang) %>%
-                                             add_sub_key_to_keyword(lvarName)
+                                             add_language_to_keyword(language) %>%
+                                             add_sub_key_to_keyword(long_name)
                   ) %>%
     dplyr::arrange(keyword, sortorder) %>%
     dplyr::group_by(keyword) %>%
@@ -117,7 +112,7 @@ get_metadata <- function(metadata_path, source_data_path) {
     dplyr::mutate(keyword2 = dplyr::case_when(type == 'precision' ~ 'PRECISION',
                                               TRUE ~ NA_character_
                                               ) %>%
-                                              add_language_to_keyword(lang) %>%
+                                              add_language_to_keyword(language) %>%
                                               add_sub_key_to_keyword(VarName2)
                   ) %>%
     dplyr::distinct(type, keyword,keyword2, value) %>%
@@ -128,13 +123,12 @@ get_metadata <- function(metadata_path, source_data_path) {
     dplyr::distinct(keyword, value) %>%
     dplyr::relocate(keyword)
 
-  # Third sheet in Excel workbook.
   metadata_general <-
     get_general_metadata(metadata_path) %>%
-    dplyr::mutate(keyword = add_language_to_keyword(keyword, lang),
+    dplyr::mutate(keyword = add_language_to_keyword(keyword, language),
                   value = tidyr::replace_na(value, "")
                   ) %>%
-    dplyr::arrange(!is.na(lang)) %>%
+    dplyr::arrange(!is.na(language)) %>%
     dplyr::select(keyword, value)
 
   return(dplyr::bind_rows(metadata_general,
@@ -158,21 +152,21 @@ get_data_cube <- function(metadata_path, source_data_path) {
 
   stub_vars <-
     variables %>%
-    dplyr::filter(stringr::str_starts(position, 's'), lang == "en") %>%
-    dplyr::pull(VarName)
+    dplyr::filter(stringr::str_starts(position, 's'), language == "en") %>%
+    dplyr::pull(variable)
 
   heading_vars <-
     variables %>%
-    dplyr::filter(stringr::str_starts(position, 'h'), lang == "en") %>%
-    dplyr::pull(VarName)
+    dplyr::filter(stringr::str_starts(position, 'h'), language == "en") %>%
+    dplyr::pull(variable)
 
   codelist <-
     get_codelist_metadata(metadata_path) %>%
-    dplyr::left_join(variables %>% dplyr::select(VarName, lang, lvarName),
-                     by = c("VarName", "lang")
+    dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
+                     by = c("variable", "language")
                      ) %>%
-    dplyr::filter(lang == "en") %>%
-    dplyr::select(VarName, sortorder, code)
+    dplyr::filter(language == "en") %>%
+    dplyr::select(variable, sortorder, code)
 
   source_data <-
     source_data_path %>%
@@ -185,11 +179,11 @@ get_data_cube <- function(metadata_path, source_data_path) {
     source_data %>%
     dplyr::mutate(id = dplyr::row_number()) %>% # used to unpivot data later
     tidyr::pivot_longer(cols = all_of(stub_vars),
-                        names_to = "VarName",
+                        names_to = "variable",
                         values_to = "code"
                         ) %>%
-    dplyr::left_join(codelist, by = c("VarName", "code")) %>%
-    tidyr::pivot_wider(names_from = VarName,
+    dplyr::left_join(codelist, by = c("variable", "code")) %>%
+    tidyr::pivot_wider(names_from = variable,
                        values_from = c("code", "sortorder")
                        ) %>%
     dplyr::select(-id) %>%

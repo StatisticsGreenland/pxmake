@@ -2,10 +2,10 @@
 % Please edit documentation in R/pxmake.R
 \name{get_codelist_metadata}
 \alias{get_codelist_metadata}
-\title{Get metadata from second Excel sheet}
+\title{Get metadata from 'Codelists' sheet in Excel Workbook}
 \usage{
 get_codelist_metadata(metadata_path)
 }
 \description{
-Get metadata from second Excel sheet
+Get metadata from 'Codelists' sheet in Excel Workbook
 }

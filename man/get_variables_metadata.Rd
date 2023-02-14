@@ -2,10 +2,10 @@
 % Please edit documentation in R/pxmake.R
 \name{get_variables_metadata}
 \alias{get_variables_metadata}
-\title{Get metadata from first Excel sheet}
+\title{Get metadata from 'Variables' sheet in Excel Workbook}
 \usage{
 get_variables_metadata(metadata_path)
 }
 \description{
-Get metadata from first Excel sheet
+Get metadata from 'Variables' sheet in Excel Workbook
 }

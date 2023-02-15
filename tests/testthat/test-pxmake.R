@@ -1,32 +1,3 @@
-mandatory_keywords <- c("CONTENTS", "DATA", "DECIMALS", "DESCRIPTION",
-                        "HEADING", "MATRIX", "STUB", "SUBJECT-AREA",
-                        "SUBJECT-CODE", "TITLE", "UNITS", "VALUES"
-                        )
-
-optional_keywords <- c("AGGREGALLOWED", "ATTRIBUTE-ID", "ATTRIBUTE-TEXT",
-                       "ATTRIBUTES", "AUTOPEN", "AXIS-VERSION", "BASEPERIOD",
-                       "CELLNOTE", "CELLNOTEX", "CFPRICES", "CHARSET",
-                       "CODEPAGE", "CODES", "CONFIDENTIAL", "CONTACT",
-                       "CONTVARIABLE", "COPYRIGHT", "CREATION-DATE",
-                       "DATABASE", "DATANOTE", "DATANOTECELL", "DATANOTESUM",
-                       paste0("DATASYMBOL", 1:6), "DATASYMBOLNIL",
-                       "DATASYMBOLSUM", "DAYADJ", "DEFAULT-GRAPH",
-                       "DESCRIPTIONDEFAULT", "DIRECTORY-PATH", "DOMAIN",
-                       "DOUBLECOLUMN", "ELIMINATION", "FIRST-PUBLISHED",
-                       "HIERARCHIES", "HIERARCHYLEVELS", "HIERARCHYLEVELSOPEN",
-                       "HIERARCHYNAMES", "INFO", "INFOFILE", "KEYS",
-                       "LANGUAGE", "LANGUAGES", "LAST-UPDATED", "LINK", "MAP",
-                       "META-ID", "NEXT-UPDATE", "NOTE", "NOTEX",
-                       "OFFICIAL-STATISTICS", "PARTITIONED", "PRECISION",
-                       "PRESTEXT", "PX-SERVER", "REFPERIOD", "ROUNDING",
-                       "SEASADJ", "SHOWDECIMALS", "SOURCE", "STOCKFA",
-                       "SURVEY", "SYNONYMS", "TABLEID", "TIMEVAL",
-                       "UPDATE-FREQUENCY", "VALUENOTE", "VALUENOTEX",
-                       "VARIABLE-TYPE"
-                       )
-
-keywords <- c(mandatory_keywords, optional_keywords)
-
 get_source_data_path <- function(table_name) {
   test_path('fixtures', 'data', paste0(table_name, '.rds'))
 }
@@ -65,10 +36,12 @@ test_that("pxmake runs without errors and creates a file", {
 
 
 test_that("px lines are valid", {
+  keywords <- get_px_keywords() %>% dplyr::pull(keyword)
+
   valid_lines <-
     c(paste0("^", keywords, "[=\\[\\(]"), # keyword followed by [ ( or =
-      '^[e[:digit:][:space:]"-.]+$',    # data lines
-      '^;$'                             # last line of file
+      '^[e[:digit:][:space:]"-.]+$',      # data lines
+      '^;$'                               # last line of file
       )
 
   regex <- paste0(valid_lines, collapse = "|")

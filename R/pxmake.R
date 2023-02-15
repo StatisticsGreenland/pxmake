@@ -30,6 +30,18 @@ get_codelist_metadata <- function(metadata_path) {
                         )
 }
 
+#' Sort metdata keywords in recommended order
+#'
+#' @returns data frame
+sort_metadata <- function(metadata) {
+  metadata %>%
+    dplyr::mutate(tmp_keyword = stringr::str_extract(keyword, "[[:upper:]-]+")) %>%
+    dplyr::left_join(get_px_keywords()[c('keyword', 'order')],
+                     by = c('tmp_keyword' = 'keyword')
+                     ) %>%
+    dplyr::arrange(order, keyword) %>%
+    dplyr::select(-tmp_keyword, -order)
+}
 
 #' Create metadata for header in PX file
 #'
@@ -82,7 +94,8 @@ get_metadata <- function(metadata_path, source_data_path) {
                               add_language_to_keyword(language) %>%
                               add_sub_key_to_keyword(long_name),
                   value = str_quote(value)
-                  )
+                  ) %>%
+    dplyr::select(keyword, value)
 
   metadata_codes_values_precision <-
     get_codelist_metadata(metadata_path) %>%
@@ -117,9 +130,6 @@ get_metadata <- function(metadata_path, source_data_path) {
                   ) %>%
     dplyr::distinct(type, keyword,keyword2, value) %>%
     dplyr::mutate(keyword = ifelse(type == 'precision', keyword2, keyword)) %>%
-    # PRECISION after VALUES
-    dplyr::arrange(keyword2) %>%
-    dplyr::select(keyword, value) %>%
     dplyr::distinct(keyword, value) %>%
     dplyr::relocate(keyword)
 
@@ -136,7 +146,7 @@ get_metadata <- function(metadata_path, source_data_path) {
                           metadata_codes_values_precision,
                           metadata_time,
                           metadata_variables
-                          )
+                          ) %>% sort_metadata()
          )
 }
 

@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## New features
+- If no `source_data_path` is given, `pxmake()` looks for a 'Data' sheet in the
+metadata and uses that instead.
+
 # pxmake 0.2.0
 
 ## New features

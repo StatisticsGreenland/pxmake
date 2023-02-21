@@ -1,3 +1,22 @@
+# Test pxmake.
+#
+# The 3 data tables asserts the following features:
+#
+# Headings
+# - 1 heading (BEXLTALL, FOTEST)
+# - 2 headings (BEXSTA)
+
+# Languages
+# - 2-3 languages (BEXSTA, BEXLTALL, FOTEST)
+#
+# Data
+# - Data in 'Data' sheet in Excel (FOTEST)
+# - Data in .rds file (BEXSTA, BEXLTALL)
+#
+# Other
+# - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)
+# - Data with groups (BEXLTALL)
+
 get_source_data_path <- function(table_name) {
   test_path('fixtures', 'data', paste0(table_name, '.rds'))
 }
@@ -21,9 +40,15 @@ test_that("pxmake runs without errors and creates a file", {
       file.remove(get_pxfile_path(table_name))
     }
 
-    pxmake(get_source_data_path(table_name),
-           get_metadata_path(table_name),
-           get_pxfile_path(table_name)
+    if (table_name == "FOTEST") {
+      source_data_path <- NULL
+    } else {
+      source_data_path <- get_source_data_path(table_name)
+    }
+
+    pxmake(get_metadata_path(table_name),
+           get_pxfile_path(table_name),
+           source_data_path
            )
 
     expect_true(file.exists(get_pxfile_path(table_name)))

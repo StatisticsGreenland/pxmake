@@ -4,14 +4,15 @@
 \alias{pxmake}
 \title{Create pxfile}
 \usage{
-pxmake(source_data_path, metadata_path, pxfile_path)
+pxmake(metadata_path, pxfile_path, source_data_path = NULL)
 }
 \arguments{
-\item{source_data_path}{Path to \code{.rds} file with data source.}
-
 \item{metadata_path}{Path to Excel workbook with metadata.}
 
 \item{pxfile_path}{Path to save px file at.}
+
+\item{source_data_path}{Path to \code{.rds} file with data source, if left blank
+\code{pxmake()} uses the data the metadata sheet 'Data'.}
 }
 \value{
 Nothing.

@@ -225,19 +225,37 @@ format_px_data_as_lines <- function(metadata, data_cube) {
   c(metadata_lines, "DATA=", data_lines, ";")
 }
 
+#' Save Excel 'Data' sheet as a temporary .rds data set that can be used by
+#' other functions in the current R session.
+create_temp_source_data <- function(metadata_path) {
+  temp_source_data_path <- paste0(tempfile(), '.rds')
+
+  metadata_path %>%
+    readxl::read_excel(sheet = "Data") %>%
+    saveRDS(file = temp_source_data_path)
+
+  return(temp_source_data_path)
+}
+
 #' Create pxfile
 #'
 #' `pxmake()` creates a px file by combine source data from a `.rds` file and
 #' metadata from an Excel workbook.
 #'
-#' @param source_data_path Path to `.rds` file with data source.
 #' @param metadata_path Path to Excel workbook with metadata.
 #' @param pxfile_path Path to save px file at.
-#'
+#' @param source_data_path Path to `.rds` file with data source, if left blank
+#' `pxmake()` uses the data the metadata sheet 'Data'.
 #' @return Nothing.
 #'
 #' @export
-pxmake <- function(source_data_path, metadata_path, pxfile_path) {
+pxmake <- function(metadata_path, pxfile_path, source_data_path = NULL) {
+  if (is.null(source_data_path)) {
+    error_if_excel_sheet_does_not_exist("Data", metadata_path)
+
+    source_data_path <- create_temp_source_data(metadata_path)
+  }
+
   metadata  <- get_metadata(metadata_path, source_data_path)
   data_cube <- get_data_cube(metadata_path, source_data_path)
 

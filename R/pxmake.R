@@ -1,7 +1,7 @@
 #' Get metadata from 'General' sheet in Excel Workbook
 get_general_metadata <- function(metadata_path) {
   metadata_path %>%
-    readxl::read_excel(sheet = "General") %>%
+    readxl::read_xlsx(sheet = "General") %>%
     tidyr::separate(keyword,
                     c("keyword", "language"),
                     sep = "_(?=[en|da|kl|fo])",
@@ -12,7 +12,7 @@ get_general_metadata <- function(metadata_path) {
 #' Get metadata from 'Variables' sheet in Excel Workbook
 get_variables_metadata <- function(metadata_path) {
   metadata_path %>%
-    readxl::read_excel(sheet = "Variables") %>%
+    readxl::read_xlsx(sheet = "Variables") %>%
     tidyr::pivot_longer(cols = -c(position, variable, type),
                         names_to = c("language", "long_name"),
                         names_pattern = "^([[:alpha:]]*)_(.*)$"
@@ -23,7 +23,7 @@ get_variables_metadata <- function(metadata_path) {
 #' Get metadata from 'Codelists' sheet in Excel Workbook
 get_codelist_metadata <- function(metadata_path) {
   metadata_path %>%
-    readxl::read_excel(sheet = "Codelists") %>%
+    readxl::read_xlsx(sheet = "Codelists") %>%
     tidyr::pivot_longer(cols = ends_with("_code_label"),
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]*)_.*$"

@@ -21,19 +21,6 @@ pxweb_get(url = "https://bank.stat.gl/api/v1/en/Greenland/BE/BE01/BE0120/BEXSTA.
   arrange_all() %>%
   write_rds(test_path('fixtures', 'data', 'BEXSTA.rds'))
 
-pxweb_get(url = "https://statbank.hagstova.fo:443/api/v1/fo/H2/DEV/COH/Lexis.px",
-          query = list("event" = "*",
-                       "sex"= "*",
-                       "year"= as.character(2018:2021)
-                       )
-          ) %>%
-  as.data.frame(column.name.type = "code",
-                variable.value.type = "code"
-                ) %>%
-  rename(time = year, value = last_col()) %>%
-  arrange_all() %>%
-  write_rds(test_path('fixtures', 'data', 'FOTEST.rds'))
-
 test_path('fixtures', 'data-raw', 'BEXLTALL_RAW.rds') %>%
   read_rds() %>%
   rename(`place of birth` = pob,

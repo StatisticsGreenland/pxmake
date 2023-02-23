@@ -4,7 +4,7 @@
 \alias{pxmake}
 \title{Create pxfile}
 \usage{
-pxmake(metadata_path, pxfile_path, source_data_path = NULL)
+pxmake(metadata_path, pxfile_path, source_data_path = NULL, add_totals = NULL)
 }
 \arguments{
 \item{metadata_path}{Path to Excel workbook with metadata.}
@@ -13,6 +13,11 @@ pxmake(metadata_path, pxfile_path, source_data_path = NULL)
 
 \item{source_data_path}{Path to \code{.rds} file with data source, if left blank
 \code{pxmake()} uses the data the metadata sheet 'Data'.}
+
+\item{add_totals}{A list of variables to add a 'total' level to. The value
+of the total level is looked up in 'Variables' xx_elimination. The code for
+the level is found in 'Codelists'. The total is a sum of the values in the
+variables with type = FIGURES in 'Variables'.}
 }
 \value{
 Nothing.

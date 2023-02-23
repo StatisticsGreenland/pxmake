@@ -225,16 +225,57 @@ format_px_data_as_lines <- function(metadata, data_cube) {
   c(metadata_lines, "DATA=", data_lines, ";")
 }
 
-#' Save Excel 'Data' sheet as a temporary .rds data set that can be used by
-#' other functions in the current R session.
-create_temp_source_data <- function(metadata_path) {
-  temp_source_data_path <- paste0(tempfile(), '.rds')
+#' Save data set to temporary file
+#'
+#' Create a temporary .rds data file that can be used by other functions in the
+#' current R session.
+#'
+#' @param df Data frame to save.
+#'
+#' @return Path to temporary data
+save_temp_data <- function(df) {
+  temp_data_path <- paste0(tempfile(), '.rds')
 
-  metadata_path %>%
-    readxl::read_excel(sheet = "Data") %>%
-    saveRDS(file = temp_source_data_path)
+  saveRDS(df, temp_data_path)
 
-  return(temp_source_data_path)
+  return(temp_data_path)
+}
+
+#' Wrapper aroud add_totals() to get values arguments from metadata
+add_totals_to_source_data <- function(metadata_path,
+                                      source_data_path,
+                                      add_totals) {
+  variables <-
+    metadata_path %>%
+    get_variables_metadata()
+
+  sum_var <-
+    variables %>%
+    dplyr::filter(tolower(type) == "figures") %>%
+    dplyr::distinct(variable) %>%
+    dplyr::pull(variable)
+
+  codelist <-
+    metadata_path %>%
+    get_codelist_metadata() %>%
+    dplyr::select(variable, code, value)
+
+  params <-
+    variables %>%
+    dplyr::select(variable, language, elimination) %>%
+    dplyr::left_join(codelist, by = c("variable", "elimination" = "value")) %>%
+    dplyr::filter(variable %in% add_totals, language == "en") %>%
+    dplyr::distinct(variable, code)
+
+  source_data_path <-
+    add_totals(source_data_path %>% readRDS(),
+               vars = params$variable,
+               level_names = params$code,
+               sum_var = sum_var
+    ) %>%
+    save_temp_data()
+
+  return(source_data_path)
 }
 
 #' Create pxfile
@@ -246,14 +287,30 @@ create_temp_source_data <- function(metadata_path) {
 #' @param pxfile_path Path to save px file at.
 #' @param source_data_path Path to `.rds` file with data source, if left blank
 #' `pxmake()` uses the data the metadata sheet 'Data'.
+#' @param add_totals A list of variables to add a 'total' level to. The value
+#' of the total level is looked up in 'Variables' xx_elimination. The code for
+#' the level is found in 'Codelists'. The total is a sum of the values in the
+#' variables with type = FIGURES in 'Variables'.
 #' @return Nothing.
 #'
 #' @export
-pxmake <- function(metadata_path, pxfile_path, source_data_path = NULL) {
+pxmake <- function(metadata_path,
+                   pxfile_path,
+                   source_data_path = NULL,
+                   add_totals = NULL) {
   if (is.null(source_data_path)) {
     error_if_excel_sheet_does_not_exist("Data", metadata_path)
 
-    source_data_path <- create_temp_source_data(metadata_path)
+    source_data_path <-
+      metadata_path %>%
+      readxl::read_excel(sheet = "Data") %>%
+      save_temp_data()
+  }
+
+  if (!is.null(add_totals)) {
+    source_data_path <- add_totals_to_source_data(metadata_path,
+                                                  source_data_path,
+                                                  add_totals)
   }
 
   metadata  <- get_metadata(metadata_path, source_data_path)

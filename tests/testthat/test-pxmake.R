@@ -42,6 +42,22 @@ test_that("pxmake runs without errors and creates a file", {
   test_file_creation("FOTEST")
 })
 
+test_that("pxmake adds total levels to data without them", {
+  px_output <- get_pxfile_path("BEXSTA_ADDED_TOTALS")
+
+  pxmake(get_metadata_path("BEXSTA"),
+         px_output,
+         get_source_data_path("BEXSTA_WITHOUT_TOTALS"),
+         add_totals = c("place of birth", "gender")
+         )
+
+  output <- readLines(px_output)
+  expect <- readLines(get_pxfile_path("BEXSTA"))
+
+  expect_equal(output, expect)
+
+})
+
 
 test_that("px lines are valid", {
   keywords <- get_px_keywords() %>% dplyr::pull(keyword)
@@ -81,4 +97,3 @@ test_that("pxjob exists without errors (exit code 0)", {
   expect_equal(run_pxjob("BEXSTA"), 0)
   expect_equal(run_pxjob("FOTEST"), 0)
 })
-

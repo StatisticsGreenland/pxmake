@@ -6,6 +6,11 @@
 \usage{
 format_px_data_as_lines(metadata, data_cube)
 }
+\arguments{
+\item{metadata}{Dataframe with metadata}
+
+\item{data_cube}{Dataframe with data cube}
+}
 \description{
 Turn metadata and data cube into text lines that can be written to a px file.
 }

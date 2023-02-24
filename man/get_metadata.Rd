@@ -6,6 +6,11 @@
 \usage{
 get_metadata(metadata_path, source_data_path)
 }
+\arguments{
+\item{metadata_path}{Path to metadata}
+
+\item{source_data_path}{Path to source data}
+}
 \description{
 The metadata is generated from an Excel sheet and from the source data.
 }

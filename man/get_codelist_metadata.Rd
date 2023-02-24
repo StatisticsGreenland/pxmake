@@ -6,6 +6,9 @@
 \usage{
 get_codelist_metadata(metadata_path)
 }
+\arguments{
+\item{metadata_path}{Path to metadata file}
+}
 \description{
 Get metadata from 'Codelists' sheet in Excel Workbook
 }

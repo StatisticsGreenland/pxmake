@@ -6,6 +6,9 @@
 \usage{
 sort_metadata(metadata)
 }
+\arguments{
+\item{metadata}{Data frame with metadata.}
+}
 \value{
 data frame
 }

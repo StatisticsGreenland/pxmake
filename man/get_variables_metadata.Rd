@@ -6,6 +6,9 @@
 \usage{
 get_variables_metadata(metadata_path)
 }
+\arguments{
+\item{metadata_path}{Path to metadata file}
+}
 \description{
 Get metadata from 'Variables' sheet in Excel Workbook
 }

@@ -7,6 +7,9 @@ other functions in the current R session.}
 \usage{
 create_temp_source_data(metadata_path)
 }
+\arguments{
+\item{metadata_path}{Path to metadata file}
+}
 \description{
 Save Excel 'Data' sheet as a temporary .rds data set that can be used by
 other functions in the current R session.

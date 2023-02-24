@@ -6,6 +6,9 @@
 \usage{
 get_general_metadata(metadata_path)
 }
+\arguments{
+\item{metadata_path}{Path to metadata file}
+}
 \description{
 Get metadata from 'General' sheet in Excel Workbook
 }

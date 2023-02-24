@@ -1,5 +1,5 @@
 get_metadata_path <- function(table_name) {
-  test_path('fixtures', 'metadata', glue::glue("metadata_{table_name}.xlsx"))
+  test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))
 }
 
 test_that("Error if no 'Data' sheet exists when no source data is provided", {

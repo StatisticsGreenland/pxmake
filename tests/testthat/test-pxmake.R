@@ -22,7 +22,7 @@ get_source_data_path <- function(table_name) {
 }
 
 get_metadata_path <- function(table_name) {
-  test_path('fixtures', 'metadata', glue::glue("metadata_{table_name}.xlsx"))
+  test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))
 }
 
 get_pxfile_path <- function(table_name) {

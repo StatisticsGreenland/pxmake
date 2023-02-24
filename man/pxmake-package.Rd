@@ -2,8 +2,9 @@
 % Please edit documentation in R/pxmake-package.R
 \docType{package}
 \name{pxmake-package}
-\alias{pxmake}
 \alias{pxmake-package}
+\alias{_PACKAGE}
+\alias{pxmake-package.R}
 \title{pxmake: Create px files}
 \description{
 Create px files by using a data set and metadata from and excel sheet.

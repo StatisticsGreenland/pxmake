@@ -1,4 +1,6 @@
 #' Get metadata from 'General' sheet in Excel Workbook
+#'
+#' @param metadata_path Path to metadata file
 get_general_metadata <- function(metadata_path) {
   metadata_path %>%
     readxl::read_xlsx(sheet = "General") %>%
@@ -10,6 +12,8 @@ get_general_metadata <- function(metadata_path) {
 }
 
 #' Get metadata from 'Variables' sheet in Excel Workbook
+#'
+#' @param metadata_path Path to metadata file
 get_variables_metadata <- function(metadata_path) {
   metadata_path %>%
     readxl::read_xlsx(sheet = "Variables") %>%
@@ -21,6 +25,8 @@ get_variables_metadata <- function(metadata_path) {
 }
 
 #' Get metadata from 'Codelists' sheet in Excel Workbook
+#'
+#' @param metadata_path Path to metadata file
 get_codelist_metadata <- function(metadata_path) {
   metadata_path %>%
     readxl::read_xlsx(sheet = "Codelists") %>%
@@ -31,6 +37,8 @@ get_codelist_metadata <- function(metadata_path) {
 }
 
 #' Sort metdata keywords in recommended order
+#'
+#' @param metadata Data frame with metadata.
 #'
 #' @returns data frame
 sort_metadata <- function(metadata) {
@@ -46,6 +54,9 @@ sort_metadata <- function(metadata) {
 #' Create metadata for header in PX file
 #'
 #' The metadata is generated from an Excel sheet and from the source data.
+#'
+#' @param metadata_path Path to metadata
+#' @param source_data_path Path to source data
 get_metadata <- function(metadata_path, source_data_path) {
   # Generate metadata from first sheet in Excel workbook.
   # Datasets starting with 'metadata_' are part of the final metadataset.
@@ -155,6 +166,9 @@ get_metadata <- function(metadata_path, source_data_path) {
 #' The data cube has one column for each value of HEADING and is sorted by
 #' value. There is one row for each combination of values of STUB variables. The
 #' ordering of STUB variables are set in the metadata.
+#'
+#' @param metadata_path Path to metadata.
+#' @param source_data_path Path to source data
 get_data_cube <- function(metadata_path, source_data_path) {
   variables <-
     get_variables_metadata(metadata_path) %>%
@@ -206,6 +220,9 @@ get_data_cube <- function(metadata_path, source_data_path) {
 }
 
 #' Turn metadata and data cube into text lines that can be written to a px file.
+#'
+#' @param metadata Dataframe with metadata
+#' @param data_cube Dataframe with data cube
 format_px_data_as_lines <- function(metadata, data_cube) {
   metadata_lines <-
     stringr::str_c(metadata$keyword,
@@ -242,6 +259,10 @@ save_temp_data <- function(df) {
 }
 
 #' Wrapper aroud add_totals() to get values arguments from metadata
+#'
+#' @param metadata_path Path to metadata
+#' @param source_data_path Path to source data
+#' @param add_totals List of variables to add totals to.
 add_totals_to_source_data <- function(metadata_path,
                                       source_data_path,
                                       add_totals) {

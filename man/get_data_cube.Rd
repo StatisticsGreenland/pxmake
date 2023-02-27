@@ -6,6 +6,11 @@
 \usage{
 get_data_cube(metadata_path, source_data_path)
 }
+\arguments{
+\item{metadata_path}{Path to metadata.}
+
+\item{source_data_path}{Path to source data}
+}
 \description{
 The data cube has one column for each value of HEADING and is sorted by
 value. There is one row for each combination of values of STUB variables. The

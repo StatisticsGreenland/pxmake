@@ -6,6 +6,13 @@
 \usage{
 add_totals_to_source_data(metadata_path, source_data_path, add_totals)
 }
+\arguments{
+\item{metadata_path}{Path to metadata}
+
+\item{source_data_path}{Path to source data}
+
+\item{add_totals}{List of variables to add totals to.}
+}
 \description{
 Wrapper aroud add_totals() to get values arguments from metadata
 }

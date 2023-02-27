@@ -19,7 +19,7 @@ add_total_level_to_var <- function(df,
     dplyr::ungroup() %>%
     dplyr::mutate({{var}} := level_name) %>%
     dplyr::bind_rows(df) %>%
-    dplyr::relocate(column_order)
+    dplyr::relocate(all_of(column_order))
 }
 
 #' Add 'total' level to variables

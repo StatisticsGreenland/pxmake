@@ -17,23 +17,6 @@
 # - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)
 # - Data with groups (BEXLTALL)
 
-get_source_data_path <- function(table_name) {
-  test_path('fixtures', 'data', paste0(table_name, '.rds'))
-}
-
-get_metadata_path <- function(table_name) {
-  test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))
-}
-
-get_pxfile_path <- function(table_name) {
-  test_path('px', paste0(table_name, '.px'))
-}
-
-get_pxjobfile_path <- function(table_name) {
-  test_path('px', paste0(table_name, '_pxjob.px'))
-}
-
-
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {
     if (file.exists(get_pxfile_path(table_name))) {
@@ -57,6 +40,22 @@ test_that("pxmake runs without errors and creates a file", {
   test_file_creation("BEXLTALL")
   test_file_creation("BEXSTA")
   test_file_creation("FOTEST")
+})
+
+test_that("pxmake adds total levels to data without them", {
+  px_output <- get_pxfile_path("BEXSTA_ADDED_TOTALS")
+
+  pxmake(get_metadata_path("BEXSTA"),
+         px_output,
+         get_source_data_path("BEXSTA_WITHOUT_TOTALS"),
+         add_totals = c("place of birth", "gender")
+         )
+
+  output <- readLines(px_output)
+  expect <- readLines(get_pxfile_path("BEXSTA"))
+
+  expect_equal(output, expect)
+
 })
 
 
@@ -98,4 +97,3 @@ test_that("pxjob exists without errors (exit code 0)", {
   expect_equal(run_pxjob("BEXSTA"), 0)
   expect_equal(run_pxjob("FOTEST"), 0)
 })
-

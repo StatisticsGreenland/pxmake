@@ -1,16 +1,6 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-#
-# See https://github.com/r-lib/actions/tree/master/examples#readme for
-# additional example workflows available for the R community.
-
 name: R
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -19,10 +9,10 @@ permissions:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: windows-latest
     strategy:
       matrix:
-        r-version: ['3.6.3', '4.1.1']
+        r-version: ['4.1.1']
 
     steps:
       - uses: actions/checkout@v3

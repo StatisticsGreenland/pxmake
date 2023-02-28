@@ -1,6 +1,6 @@
 # pxmake
 
-![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/r.yml/badge.svg)
+![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)
 
 Functions and templates to convert a tidy dataset into a PX file, combining necessary metadata of both technical and informational kind to data.
 

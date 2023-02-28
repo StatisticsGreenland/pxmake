@@ -192,12 +192,25 @@ get_data_cube <- function(metadata_path, source_data_path) {
     dplyr::filter(language == "en") %>%
     dplyr::select(variable, sortorder, code)
 
-  source_data <-
+  # Complete data by adding all combinations of variable values in data and
+  # codelist
+  tmp_source_data <-
     source_data_path %>%
     readRDS() %>%
-    dplyr::ungroup() %>%
-    # Complete data so all values of all variables appear in all combinations
-    tidyr::complete(!!!rlang::syms(heading_vars), !!!rlang::syms(stub_vars))
+    dplyr::ungroup()
+
+  source_data_values <-
+    tmp_source_data %>%
+    dplyr::select(dplyr::all_of(c(heading_vars, stub_vars))) %>%
+    lst_distinct_and_arrange()
+
+  codelist_values <-
+    split(codelist$code, codelist$variable) %>%
+    lst_distinct_and_arrange()
+
+  data_values <- merge_named_lists(source_data_values, codelist_values)
+
+  source_data <- tidyr::complete(tmp_source_data, !!!data_values)
 
   data_cube <-
     source_data %>%

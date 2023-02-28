@@ -32,3 +32,15 @@ quote_unless_numeric_or_yes_no <- function(str) {
     stringr::str_c('"', str, '"')
   )
 }
+
+lst_distinct_and_arrange <- function(lst) {
+  tmp <- lapply(lapply(lst, unique), sort)
+  tmp[order(names(tmp))]
+}
+
+merge_named_lists <- function(lst1, lst2) {
+  keys <- unique(c(names(lst1), names(lst2)))
+  temp <- setNames(mapply(c, lst1[keys], lst2[keys]), keys)
+  lst_distinct_and_arrange(temp)
+}
+

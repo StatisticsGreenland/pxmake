@@ -3,6 +3,13 @@
 ## New features
 - If no `source_data_path` is given, `pxmake()` looks for a 'Data' sheet in the
 metadata and uses that instead.
+- New argument: add_totals. Choose variable(s) to add a total level to. 
+
+## Bug fixes and minor improvements
+- Complete data by using values both from codelist and data.
+- Lot of small changes to avoid warnings when running R CMD check.
+- Add automatic testing on GitHub.
+- Move helper functions to own file.
 
 # pxmake 0.2.0
 

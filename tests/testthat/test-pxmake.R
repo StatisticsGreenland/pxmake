@@ -1,6 +1,6 @@
 # Test pxmake.
 #
-# The 3 data tables asserts the following features:
+# The 3 main data tables asserts the following features:
 #
 # Headings
 # - 1 heading (BEXLTALL, FOTEST)
@@ -16,6 +16,7 @@
 # Other
 # - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)
 # - Data with groups (BEXLTALL)
+# - A value in 'Codelist' is not present in the data. (BEXLTALL)
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {

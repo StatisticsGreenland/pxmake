@@ -54,4 +54,16 @@ test_that("lists are merged and sorted", {
   expect_equal(merge_named_lists(lst1, lst2), expect)
 })
 
+test_that("Time values are classified", {
+  test_equal <- function(values, expect) {
+    expect_equal(get_timeval_type_from_values(values), expect)
+  }
 
+  test_equal(c("1995", "1996", "1997")         , "A")
+  test_equal(c("1995H1", "1995H2", "1996H1")   , "H")
+  test_equal(c("1995Q1", "1995Q2", "1995Q3")   , "Q")
+  test_equal(c("1995M01", "1995M02", "1995M03"), "M")
+  test_equal(c("1995W01", "1995W02", "1005W03"), "W")
+
+  test_equal(c("", NA, NULL, "2001Q1")         , "Q")
+})

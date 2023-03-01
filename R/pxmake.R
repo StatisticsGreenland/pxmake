@@ -101,7 +101,9 @@ get_metadata <- function(metadata_path, source_data_path) {
       dplyr::mutate(keyword = "TIMEVAL" %>%
                                 add_language_to_keyword(language) %>%
                                 add_sub_key_to_keyword(long_name),
-                    value = paste0("TLIST(Q1),",
+                    value = paste0("TLIST(",
+                                   get_timeval_type_from_values(time_values),
+                                   "1),",
                                    time_values %>%
                                      stringr::str_replace_all('[:alpha:]', '') %>%
                                      str_quote() %>%
@@ -115,10 +117,6 @@ get_metadata <- function(metadata_path, source_data_path) {
   } else {
     metadata_time <- NULL
   }
-
-
-
-
 
   metadata_stub_and_head <-
     variables %>%

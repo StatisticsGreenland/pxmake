@@ -59,16 +59,23 @@ test_that("Totals are added to two variables", {
 
 
 test_that("pxmake adds total levels to data without them", {
-  px_output <- get_pxfile_path("BEXSTA_ADDED_TOTALS")
+  metadata_path <- get_metadata_path("BEXSTA")
+  px_expect     <- get_pxfile_path("BEXSTA")
+  px_output     <- get_pxfile_path("BEXSTA_ADDED_TOTALS")
 
-  pxmake(get_metadata_path("BEXSTA"),
+  pxmake(metadata_path,
+         px_expect,
+         get_source_data_path("BEXSTA")
+  )
+
+  pxmake(metadata_path,
          px_output,
          get_source_data_path("BEXSTA_WITHOUT_TOTALS"),
          add_totals = c("place of birth", "gender")
   )
 
   output <- readLines(px_output)
-  expect <- readLines(get_pxfile_path("BEXSTA"))
+  expect <- readLines(px_expect)
 
   expect_equal(output, expect)
 

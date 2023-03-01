@@ -18,6 +18,7 @@ STUB="time";
 HEADING="gender";
 VALUES("gender")="Men","Women";
 VALUES("time")="2001Q1","2001Q2","2001Q3","2001Q4","2002Q1","2002Q2","2002Q3","2002Q4";
+TIMEVAL("time")="TLIST(Q1),"20011","20012","20013","20014","20021","20022","20023","20024"";
 CODES("gender")="M","F";
 LAST-UPDATED="";
 CONTACT="";

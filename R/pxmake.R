@@ -51,6 +51,13 @@ sort_metadata <- function(metadata) {
     dplyr::select(-tmp_keyword, -order)
 }
 
+metadata_has_time_variable <- function(metadata_path) {
+  metadata_path %>%
+    get_variables_metadata() %>%
+    dplyr::filter(tolower(type) == "time") %>%
+    nrow() > 0
+}
+
 #' Create metadata for header in PX file
 #'
 #' The metadata is generated from an Excel sheet and from the source data.
@@ -62,23 +69,56 @@ get_metadata <- function(metadata_path, source_data_path) {
   # Datasets starting with 'metadata_' are part of the final metadataset.
   variables <- get_variables_metadata(metadata_path)
 
-  time_values <-
-    source_data_path %>%
-    readRDS() %>%
-    dplyr::ungroup() %>%
-    dplyr::distinct(time) %>%
-    dplyr::pull(1)
+  if(metadata_has_time_variable(metadata_path)) {
+    time_variable <-
+      variables %>%
+      dplyr::filter(tolower(type) == "time") %>%
+      dplyr::pull(variable)
 
-  metadata_time <-
-    variables %>%
-    dplyr::filter(tolower(type) == "time") %>%
-    dplyr::mutate(keyword = add_language_to_keyword("VALUES", language) %>%
-                              add_sub_key_to_keyword(long_name),
-                  value = str_quote(time_values) %>%
-                            stringr::str_c(collapse = ',')
-                  ) %>%
-    dplyr::arrange(keyword) %>%
-    dplyr::select(keyword, value)
+    time_values <-
+      source_data_path %>%
+      readRDS() %>%
+      dplyr::ungroup() %>%
+      dplyr::distinct(time) %>%
+      dplyr::pull(1)
+
+    metadata_time_values <-
+      variables %>%
+      dplyr::filter(variable == time_variable) %>%
+      dplyr::mutate(keyword = "VALUES" %>%
+                                add_language_to_keyword(language) %>%
+                                add_sub_key_to_keyword(long_name),
+                    value = time_values %>%
+                              str_quote() %>%
+                              stringr::str_c(collapse = ',')
+                    ) %>%
+      dplyr::arrange(keyword) %>%
+      dplyr::select(keyword, value)
+
+    metadata_timeval <-
+      variables %>%
+      dplyr::filter(variable == time_variable) %>%
+      dplyr::mutate(keyword = "TIMEVAL" %>%
+                                add_language_to_keyword(language) %>%
+                                add_sub_key_to_keyword(long_name),
+                    value = paste0("TLIST(Q1),",
+                                   time_values %>%
+                                     stringr::str_replace_all('[:alpha:]', '') %>%
+                                     str_quote() %>%
+                                     stringr::str_c(collapse = ',')
+                                   )
+                    ) %>%
+      dplyr::arrange(keyword) %>%
+      dplyr::select(keyword, value)
+
+    metadata_time <- dplyr::bind_rows(metadata_time_values, metadata_timeval)
+  } else {
+    metadata_time <- NULL
+  }
+
+
+
+
 
   metadata_stub_and_head <-
     variables %>%

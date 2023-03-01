@@ -24,7 +24,7 @@ test_that("pxmake runs without errors and creates a file", {
       file.remove(get_pxfile_path(table_name))
     }
 
-    if (table_name == "FOTEST") {
+    if (table_name %in% c("FOTEST", "timeval_quater")) {
       source_data_path <- NULL
     } else {
       source_data_path <- get_source_data_path(table_name)
@@ -41,24 +41,26 @@ test_that("pxmake runs without errors and creates a file", {
   test_file_creation("BEXLTALL")
   test_file_creation("BEXSTA")
   test_file_creation("FOTEST")
+  test_file_creation("timeval_quater")
 })
 
-test_that("pxmake adds total levels to data without them", {
-  px_output <- get_pxfile_path("BEXSTA_ADDED_TOTALS")
+test_that("timevals are added", {
+  px_file_has_timeval <- function(table_name) {
+    px_lines <-
+      table_name %>%
+      get_pxfile_path() %>%
+      readLines()
 
-  pxmake(get_metadata_path("BEXSTA"),
-         px_output,
-         get_source_data_path("BEXSTA_WITHOUT_TOTALS"),
-         add_totals = c("place of birth", "gender")
-         )
+    timeval_lines <- px_lines[stringr::str_detect(px_lines, "^TIMEVAL")]
 
-  output <- readLines(px_output)
-  expect <- readLines(get_pxfile_path("BEXSTA"))
+    length(timeval_lines) > 0
+  }
 
-  expect_equal(output, expect)
-
+  expect_true(px_file_has_timeval("BEXLTALL"))
+  expect_true(px_file_has_timeval("BEXSTA"))
+  expect_true(px_file_has_timeval("FOTEST"))
+  expect_true(px_file_has_timeval("timeval_quater"))
 })
-
 
 test_that("px lines are valid", {
   keywords <- get_px_keywords() %>% dplyr::pull(keyword)
@@ -88,13 +90,14 @@ test_that("px lines are valid", {
 test_that("pxjob exists without errors (exit code 0)", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
-  run_pxjob <- function(table_name) {
-    pxjob64Win::pxjob(input = get_pxfile_path(table_name),
-                      output = get_pxjobfile_path(table_name)
-                      )
+  pxjob_runs_without_erros <- function(table_name) {
+    0 == pxjob64Win::pxjob(input = get_pxfile_path(table_name),
+                           output = get_pxjobfile_path(table_name)
+                           )
   }
 
-  expect_equal(run_pxjob("BEXLTALL"), 0)
-  expect_equal(run_pxjob("BEXSTA"), 0)
-  expect_equal(run_pxjob("FOTEST"), 0)
+  expect_true(pxjob_runs_without_erros("BEXLTALL"))
+  expect_true(pxjob_runs_without_erros("BEXSTA"))
+  expect_true(pxjob_runs_without_erros("FOTEST"))
+  expect_true(pxjob_runs_without_erros("timeval_quater"))
 })

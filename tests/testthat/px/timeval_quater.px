@@ -1,0 +1,37 @@
+CHARSET="ANSI";
+AXIS-VERSION=2000;
+LANGUAGE="en";
+LANGUAGES="en";
+CREATION-DATE="";
+NEXT-UPDATE="";
+UPDATE-FREQUENCY="";
+DECIMALS=0;
+SHOWDECIMALS=0;
+MATRIX="TIMEVAL";
+SUBJECT-CODE="BE";
+SUBJECT-AREA="Population";
+COPYRIGHT=YES;
+DESCRIPTION="Population";
+CONTENTS="Population January 1st";
+UNITS="persons";
+STUB="time";
+HEADING="gender";
+VALUES("gender")="Men","Women";
+VALUES("time")="2001Q1","2001Q2","2001Q3","2001Q4","2002Q1","2002Q2","2002Q3","2002Q4";
+CODES("gender")="M","F";
+LAST-UPDATED="";
+CONTACT="";
+SOURCE="Statistics Greenland";
+LINK="";
+NOTEX="";
+NOTE="";
+DATA=
+2 1
+4 3
+6 5
+8 7
+10 9
+12 11
+14 13
+16 15
+;

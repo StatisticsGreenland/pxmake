@@ -19,6 +19,7 @@ test_that("Total is added to one variable", {
                expect %>% dplyr::arrange_all())
 })
 
+
 test_that("Totals are added to two variables", {
   read_source_data <- function(table_name) {
     table_name %>%
@@ -54,4 +55,21 @@ test_that("Totals are added to two variables", {
     dplyr::arrange_all()
 
   expect_equal(dplyr::arrange_all(output2), dplyr::arrange_all(bexsta2))
+})
+
+
+test_that("pxmake adds total levels to data without them", {
+  px_output <- get_pxfile_path("BEXSTA_ADDED_TOTALS")
+
+  pxmake(get_metadata_path("BEXSTA"),
+         px_output,
+         get_source_data_path("BEXSTA_WITHOUT_TOTALS"),
+         add_totals = c("place of birth", "gender")
+  )
+
+  output <- readLines(px_output)
+  expect <- readLines(get_pxfile_path("BEXSTA"))
+
+  expect_equal(output, expect)
+
 })

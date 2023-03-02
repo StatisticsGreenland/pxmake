@@ -17,6 +17,10 @@
 # - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)
 # - Data with groups (BEXLTALL)
 # - A value in 'Codelist' is not present in the data. (BEXLTALL)
+#
+# Time
+# - Years (BEXSTA, BEXLTALL)
+# - Quaters (FOTEST)
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {
@@ -24,7 +28,7 @@ test_that("pxmake runs without errors and creates a file", {
       file.remove(get_pxfile_path(table_name))
     }
 
-    if (table_name %in% c("FOTEST", "timeval_quater")) {
+    if (table_name %in% c("FOTEST")) {
       source_data_path <- NULL
     } else {
       source_data_path <- get_source_data_path(table_name)
@@ -41,7 +45,6 @@ test_that("pxmake runs without errors and creates a file", {
   test_file_creation("BEXLTALL")
   test_file_creation("BEXSTA")
   test_file_creation("FOTEST")
-  test_file_creation("timeval_quater")
 })
 
 test_that("timevals are added", {
@@ -59,7 +62,6 @@ test_that("timevals are added", {
   expect_true(px_file_has_timeval("BEXLTALL"))
   expect_true(px_file_has_timeval("BEXSTA"))
   expect_true(px_file_has_timeval("FOTEST"))
-  expect_true(px_file_has_timeval("timeval_quater"))
 })
 
 test_that("px lines are valid", {
@@ -99,5 +101,4 @@ test_that("pxjob exists without errors (exit code 0)", {
   expect_true(pxjob_runs_without_erros("BEXLTALL"))
   expect_true(pxjob_runs_without_erros("BEXSTA"))
   expect_true(pxjob_runs_without_erros("FOTEST"))
-  expect_true(pxjob_runs_without_erros("timeval_quater"))
 })

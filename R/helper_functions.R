@@ -27,7 +27,8 @@ quote_unless_numeric_or_yes_no <- function(str) {
   }
 
   dplyr::if_else(
-    str %in% c('YES', 'NO') | str_is_numeric(str) | str_is_quoted(str),
+    str %in% c('YES', 'NO') | str_is_numeric(str) | str_is_quoted(str) |
+      stringr::str_starts(str, "TLIST\\("),
     str,
     stringr::str_c('"', str, '"')
   )

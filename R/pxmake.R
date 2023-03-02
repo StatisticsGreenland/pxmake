@@ -62,23 +62,57 @@ get_metadata <- function(metadata_path, source_data_path) {
   # Datasets starting with 'metadata_' are part of the final metadataset.
   variables <- get_variables_metadata(metadata_path)
 
-  time_values <-
-    source_data_path %>%
-    readRDS() %>%
-    dplyr::ungroup() %>%
-    dplyr::distinct(time) %>%
-    dplyr::pull(1)
-
-  metadata_time <-
+  time_variable <-
     variables %>%
     dplyr::filter(tolower(type) == "time") %>%
-    dplyr::mutate(keyword = add_language_to_keyword("VALUES", language) %>%
-                              add_sub_key_to_keyword(long_name),
-                  value = str_quote(time_values) %>%
-                            stringr::str_c(collapse = ',')
-                  ) %>%
-    dplyr::arrange(keyword) %>%
-    dplyr::select(keyword, value)
+    dplyr::distinct(variable) %>%
+    dplyr::pull(variable)
+
+  if(length(time_variable) > 0) {
+    error_if_more_than_one_time_variable(time_variable)
+
+    time_values <-
+      source_data_path %>%
+      readRDS() %>%
+      dplyr::ungroup() %>%
+      dplyr::distinct(across(all_of(time_variable))) %>%
+      dplyr::pull(1)
+
+    metadata_time_values <-
+      variables %>%
+      dplyr::filter(variable == time_variable) %>%
+      dplyr::mutate(keyword = "VALUES" %>%
+                      add_language_to_keyword(language) %>%
+                      add_sub_key_to_keyword(long_name),
+                    value = time_values %>%
+                      str_quote() %>%
+                      stringr::str_c(collapse = ',')
+      ) %>%
+      dplyr::arrange(keyword) %>%
+      dplyr::select(keyword, value)
+
+    metadata_timeval <-
+      variables %>%
+      dplyr::filter(variable == time_variable) %>%
+      dplyr::mutate(keyword = "TIMEVAL" %>%
+                      add_language_to_keyword(language) %>%
+                      add_sub_key_to_keyword(long_name),
+                    value = paste0("TLIST(",
+                                   get_timeval_type_from_values(time_values),
+                                   "1),",
+                                   time_values %>%
+                                     stringr::str_replace_all('[:alpha:]', '') %>%
+                                     str_quote() %>%
+                                     stringr::str_c(collapse = ',')
+                    )
+      ) %>%
+      dplyr::arrange(keyword) %>%
+      dplyr::select(keyword, value)
+
+    metadata_time <- dplyr::bind_rows(metadata_time_values, metadata_timeval)
+  } else {
+    metadata_time <- NULL
+  }
 
   metadata_stub_and_head <-
     variables %>%

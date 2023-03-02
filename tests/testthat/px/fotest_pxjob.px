@@ -31,8 +31,8 @@ VALUES[fo]("til- og frágongd")="Fólkatalið fyrst �- árinum","Livandi fødd",
 "Flutt úr Føroyum","Deyð","Rættingar","Fólkatalið s�-ðst �- mánaðinum";
 VALUES("gender")="Total","Men","Women";
 VALUES[fo]("køn")="I alt","Mænd","Kvinder";
-VALUES("time")="2018","2019","2020","2021";
-VALUES[fo]("tid")="2018","2019","2020","2021";
+VALUES("time")="2000Q1","2000Q2","2000Q3","2000Q4";
+VALUES[fo]("tid")="2000Q1","2000Q2","2000Q3","2000Q4";
 CODES("event")="P","B","I","O","D","C","U";
 CODES[fo]("til- og frágongd")="P","B","I","O","D","C","U";
 CODES("gender")="T","M","F";

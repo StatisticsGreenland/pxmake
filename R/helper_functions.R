@@ -27,7 +27,8 @@ quote_unless_numeric_or_yes_no <- function(str) {
   }
 
   dplyr::if_else(
-    str %in% c('YES', 'NO') | str_is_numeric(str) | str_is_quoted(str),
+    str %in% c('YES', 'NO') | str_is_numeric(str) | str_is_quoted(str) |
+      stringr::str_starts(str, "TLIST\\("),
     str,
     stringr::str_c('"', str, '"')
   )
@@ -44,3 +45,17 @@ merge_named_lists <- function(lst1, lst2) {
   lst_distinct_and_arrange(temp)
 }
 
+get_timeval_type_from_values <- function(values) {
+  time_type <-
+    values %>%
+    na.omit() %>%
+    stringr::str_replace_all('[:digit:]', '') %>%
+    paste(collapse = '') %>%
+    stringr::str_sub(1, 1)
+
+  if (time_type == '') {
+    time_type <- 'A'
+  }
+
+  time_type
+}

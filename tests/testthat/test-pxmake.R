@@ -28,7 +28,7 @@ test_that("pxmake runs without errors and creates a file", {
       file.remove(get_pxfile_path(table_name))
     }
 
-    if (table_name %in% c("FOTEST")) {
+    if (table_name %in% c("FOTEST", "no_timeval")) {
       source_data_path <- NULL
     } else {
       source_data_path <- get_source_data_path(table_name)
@@ -45,6 +45,7 @@ test_that("pxmake runs without errors and creates a file", {
   test_file_creation("BEXLTALL")
   test_file_creation("BEXSTA")
   test_file_creation("FOTEST")
+  test_file_creation("no_timeval")
 })
 
 test_that("timevals are added", {

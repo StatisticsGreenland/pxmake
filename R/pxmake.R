@@ -73,7 +73,10 @@ get_metadata <- function(metadata_path, source_data_path) {
     time_variable <-
       variables %>%
       dplyr::filter(tolower(type) == "time") %>%
+      dplyr::distinct(variable) %>%
       dplyr::pull(variable)
+
+    error_if_more_than_one_time_variable(time_variable)
 
     time_values <-
       source_data_path %>%

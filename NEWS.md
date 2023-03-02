@@ -1,6 +1,7 @@
-# pxmake (development version)
+# pxmake 0.3.0
 
 ## New features
+- Time values are added correctly the px file.
 - If no `source_data_path` is given, `pxmake()` looks for a 'Data' sheet in the
 metadata and uses that instead.
 - New argument: add_totals. Choose variable(s) to add a total level to. 

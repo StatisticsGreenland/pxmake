@@ -21,6 +21,7 @@
 # Time
 # - Years (BEXSTA, BEXLTALL)
 # - Quaters (FOTEST)
+# - Data without a timeval (no_timeval)
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {

@@ -19,3 +19,18 @@ error_if_more_than_one_time_variable <- function(time_variable) {
          )
   }
 }
+
+error_if_not_exactly_one_figures_variable <- function(figures_var) {
+  if (length(figures_var) == 0) {
+    stop(stringr::str_glue("There is no figures variable. Change the metadata ",
+                           "so one variable has `type=figures`."
+                           )
+         )
+  } else if (length(figures_var) > 1) {
+    stop(stringr::str_glue("There are more than one variable with figures. ",
+                           "Change the type of the variables {figures_var}, so ",
+                           "only one has `type=figures`."
+                           )
+         )
+  }
+}

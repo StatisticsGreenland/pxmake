@@ -1,3 +1,13 @@
+get_px_metadata_regex <- function() {
+  paste0("(?<keyword>[[:upper:]-]+)",                    # Leading keyword
+         "(?:\\[)?(?<language>[[:alpha:]_-]+)?(?:\\])?", # Maybe language
+         "(?:\\()?(?<variable>[^\\(\\)]+)?(?:\\))?",     # Maybe sub-key
+         "=",                                            # definitely =
+         "(?<value>[^;]*)",                              # Up to ending ;
+         "(?:;$)?"                                       # Maybe ;
+  )
+}
+
 #' Create an Excel metadata workbook from a px-file
 #'
 #' Turn a px-file into an Excel metadata workbook. If pxmake() is run on that
@@ -32,6 +42,12 @@ metamake <- function(px_file_path, out_path) {
                                 too_few = "align_start") %>%
     dplyr::mutate(value = str_replace(value, ";$", ""))
 
+  metadata_lines %>%
+    str_match(get_px_metadata_regex()) %>%
+    as_tibble() %>%
+    select(-V1)
+
+
   main_language <-
     metadata %>%
     filter(keyword == "LANGUAGE") %>%
@@ -40,7 +56,7 @@ metamake <- function(px_file_path, out_path) {
   position_variable <-
     metadata %>%
     filter(keyword %in% c("HEADING", "STUB")) %>%
-    filter(langauge == )
+ #   filter(langauge == )
     mutate(value = str_split(value, ",")) %>%
     unnest(value) %>%
     group_by(keyword) %>%

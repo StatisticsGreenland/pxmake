@@ -16,6 +16,7 @@
 # Other
 # - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)
 # - Data with groups (BEXLTALL)
+# - Numeric variable type ('age' in BEXLTALL)
 # - A value in 'Codelist' is not present in the data. (BEXLTALL)
 #
 # Time

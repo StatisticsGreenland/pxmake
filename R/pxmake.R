@@ -72,9 +72,7 @@ get_metadata <- function(metadata_path, source_data_path) {
     error_if_more_than_one_time_variable(time_variable)
 
     time_values <-
-      source_data_path %>%
-      readRDS() %>%
-      dplyr::ungroup() %>%
+      get_source_data(source_data_path, metadata_path) %>%
       dplyr::distinct(across(all_of(time_variable))) %>%
       dplyr::pull(1)
 
@@ -195,6 +193,22 @@ get_metadata <- function(metadata_path, source_data_path) {
          )
 }
 
+#' Get source data
+#'
+#' @param source_data_path Path to source data
+#' @param metadata_path Path to metadata.
+#'
+#' @returns Data frame
+get_source_data <- function(source_data_path, metadata_path) {
+  figures_var <- get_figures_variable(metadata_path)
+
+  source_data_path %>%
+    readRDS() %>%
+    dplyr::ungroup() %>%
+    # Change all variables without figures to character
+    dplyr::mutate(across(-one_of(figures_var), as.character))
+}
+
 #' Create data cube from source and meta data
 #'
 #' The data cube has one column for each value of HEADING and is sorted by
@@ -228,10 +242,7 @@ get_data_cube <- function(metadata_path, source_data_path) {
 
   # Complete data by adding all combinations of variable values in data and
   # codelist
-  tmp_source_data <-
-    source_data_path %>%
-    readRDS() %>%
-    dplyr::ungroup()
+  tmp_source_data <- get_source_data(source_data_path, metadata_path)
 
   source_data_values <-
     tmp_source_data %>%
@@ -305,6 +316,24 @@ save_temp_data <- function(df) {
   return(temp_data_path)
 }
 
+#' Get the name of figures variable
+#'
+#' @param metadata_path Path to metadata
+#'
+#' @returns Character
+get_figures_variable <- function(metadata_path) {
+  figures_var <-
+    metadata_path %>%
+    get_variables_metadata() %>%
+    dplyr::filter(tolower(type) == "figures") %>%
+    dplyr::distinct(variable) %>%
+    dplyr::pull(variable)
+
+  error_if_not_exactly_one_figures_variable(figures_var)
+
+  return(figures_var)
+}
+
 #' Wrapper aroud add_totals() to get values arguments from metadata
 #'
 #' @param metadata_path Path to metadata
@@ -316,12 +345,6 @@ add_totals_to_source_data <- function(metadata_path,
   variables <-
     metadata_path %>%
     get_variables_metadata()
-
-  sum_var <-
-    variables %>%
-    dplyr::filter(tolower(type) == "figures") %>%
-    dplyr::distinct(variable) %>%
-    dplyr::pull(variable)
 
   codelist <-
     metadata_path %>%
@@ -336,10 +359,10 @@ add_totals_to_source_data <- function(metadata_path,
     dplyr::distinct(variable, code)
 
   source_data_path <-
-    add_totals(source_data_path %>% readRDS(),
+    add_totals(get_source_data(source_data_path, metadata_path),
                vars = params$variable,
                level_names = params$code,
-               sum_var = sum_var
+               sum_var = get_figures_variable(metadata_path)
     ) %>%
     save_temp_data()
 

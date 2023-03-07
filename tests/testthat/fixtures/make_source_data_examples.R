@@ -36,7 +36,6 @@ test_path('fixtures', 'data-raw', 'BEXLTALL_RAW.rds') %>%
          calcbase = calcbase.code,
          measure = measure.code
          ) %>%
-  mutate(age = as.character(age)) %>%
   filter(is.finite(value)) %>%
   group_by(age) %>%
   write_rds(test_path('fixtures', 'data', 'BEXLTALL.rds'))

@@ -30,47 +30,101 @@ metamake <- function(px_file_path, out_path) {
   metadata_lines <- lines[c(1:data_line_index)]
   data_lines     <- lines[c((data_line_index+1):length(lines))]
 
-  metadata <-
+  tmp_metadata <-
     metadata_lines %>%
-    tidyr::as_tibble() %>%
-    tidyr::separate_wider_delim(value, "=", names = c("key", "value")) %>%
-    tidyr::separate_wider_regex(key, c(keyword = "[:upper:]*",
-                                       "\\[", language = "[:alpha:]+", "\\]",
-                                       '\\("', variable = ".+",
-                                       '"\\)'
-                                       ),
-                                too_few = "align_start") %>%
-    dplyr::mutate(value = str_replace(value, ";$", ""))
-
-  metadata_lines %>%
     str_match(get_px_metadata_regex()) %>%
+    magrittr::extract(,-1) %>% # remove full match column
     as_tibble() %>%
-    select(-V1)
-
+    mutate(across(everything(), ~str_replace_all(., '"', '')))
 
   main_language <-
-    metadata %>%
+    tmp_metadata %>%
     filter(keyword == "LANGUAGE") %>%
     pull(value)
 
-  position_variable <-
-    metadata %>%
+  tmp_metadata2 <-
+    tmp_metadata %>%
+    mutate(language = replace_na(language, main_language))
+
+  head_stub <-
+    tmp_metadata2 %>%
     filter(keyword %in% c("HEADING", "STUB")) %>%
- #   filter(langauge == )
-    mutate(value = str_split(value, ",")) %>%
-    unnest(value) %>%
-    group_by(keyword) %>%
+    mutate(long_name = str_split(value, ",")) %>%
+    unnest(long_name) %>%
+    group_by(keyword, language) %>%
     mutate(index = row_number()) %>%
     ungroup() %>%
-    mutate(position = paste0(substr(keyword, 1, 1),
-                             index
-                             ),
-           variable = value,
-           type     = ""
-           ) %>%
-    select(position, variable)
+    select(-variable, -value)
 
+  tmp <-
+    head_stub %>%
+    filter(language == main_language) %>%
+    select(-language) %>%
+    rename(variable = long_name) %>%
+    right_join(head_stub, by = join_by(keyword, index), multiple = "all")
+
+  position <-
+    tmp %>%
+    mutate(position = paste0(substr(keyword, 1, 1), index)) %>%
+    distinct(position, variable)
+
+  name_relation <- tmp %>% select(long_name, variable)
+
+  metadata <-
+    tmp_metadata2 %>%
+    rename(long_name = variable) %>%
+    left_join(name_relation, by = "long_name")
+
+  ###
+  ### Make variables sheet
+  ###
+  long_name <-
+    metadata %>%
+    distinct(variable, language, long_name) %>%
+    drop_na() %>%
+    pivot_wider(names_from = language,
+                names_glue = "{language}_long_name",
+                values_from = long_name
+    )
+
+  note_elimination_domain <-
+    metadata %>%
+    filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN", "HEADING")) %>%
+    drop_na(long_name) %>%
+    select(-long_name) %>%
+    pivot_wider(names_from = c(language, keyword),
+                names_glue = "{language}_{tolower(keyword)}",
+                values_from = value
+                )
+
+  time_vars <-
+    metadata %>%
+    filter(keyword == "TIMEVAL", language == main_language) %>%
+    pull(variable)
+
+  variables <-
+    position %>%
+    left_join(tibble(variable = time_vars, type = "time"), by = join_by(variable)) %>%
+    left_join(long_name, by = join_by(variable)) %>%
+    left_join(note_elimination_domain, by = join_by(variable)) %>%
+    bind_rows(tibble(variable = "_value", type = "figures"))
+
+
+  ###
+  ### Make Codelists
+  ###
+  metadata %>%
+    filter(keyword %in% c("CODES", "VALUES")) %>%
+    rename(long_name = variable) %>%
+    left_join(name_relation) %>%
+    select(-long_name) %>%
+    relocate(variable) %>%
+    arrange_all()
 
 
 
 }
+
+
+# px_file_path <- get_pxfile_path('BEXSTA')
+# library(tidyverse)

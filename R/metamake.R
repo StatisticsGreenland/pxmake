@@ -117,9 +117,33 @@ metamake <- function(px_file_path, out_path) {
   ###
   ### Make Codelists
   ###
-  metadata %>%
-    filter(keyword %in% c("CODES", "VALUES"))
+  codes <-
+    metadata %>%
+    filter(keyword %in% c("CODES"), language == main_language) %>%
+    unnest(value) %>%
+    rename(code = value) %>%
+    group_by(variable) %>%
+    mutate(sortorder = row_number()) %>%
+    ungroup() %>%
+    select(variable, code, sortorder)
 
+  values <-
+    metadata %>%
+    filter(keyword %in% c("VALUES")) %>%
+    unnest(value) %>%
+    group_by(variable, language) %>%
+    mutate(sortorder = row_number()) %>%
+    select(variable, value, language, sortorder)
+
+  codelsit <-
+    codes %>%
+    right_join(values, by = join_by(variable, sortorder), multiple = "all") %>%
+    drop_na(code) %>%
+    pivot_wider(names_from = language, names_glue = "{language}_code_label")
+
+  ###
+  ### Make General
+  ###
 
 
 }

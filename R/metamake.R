@@ -35,12 +35,15 @@ metamake <- function(px_file_path, out_path) {
     str_match(get_px_metadata_regex()) %>%
     magrittr::extract(,-1) %>% # remove full match column
     as_tibble() %>%
-    mutate(across(everything(), ~str_replace_all(., '"', '')))
+    mutate(across(everything(), ~str_replace_all(., '"', '')),
+           value = str_split(value, ",")
+           )
 
   main_language <-
     tmp_metadata %>%
     filter(keyword == "LANGUAGE") %>%
-    pull(value)
+    pull(value) %>%
+    unlist()
 
   tmp_metadata2 <-
     tmp_metadata %>%
@@ -49,12 +52,12 @@ metamake <- function(px_file_path, out_path) {
   head_stub <-
     tmp_metadata2 %>%
     filter(keyword %in% c("HEADING", "STUB")) %>%
-    mutate(long_name = str_split(value, ",")) %>%
-    unnest(long_name) %>%
+    unnest(value) %>%
+    rename(long_name = value) %>%
     group_by(keyword, language) %>%
     mutate(index = row_number()) %>%
     ungroup() %>%
-    select(-variable, -value)
+    select(-variable)
 
   tmp <-
     head_stub %>%
@@ -92,6 +95,7 @@ metamake <- function(px_file_path, out_path) {
     filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN", "HEADING")) %>%
     drop_na(long_name) %>%
     select(-long_name) %>%
+    unnest(value) %>%
     pivot_wider(names_from = c(language, keyword),
                 names_glue = "{language}_{tolower(keyword)}",
                 values_from = value
@@ -114,12 +118,7 @@ metamake <- function(px_file_path, out_path) {
   ### Make Codelists
   ###
   metadata %>%
-    filter(keyword %in% c("CODES", "VALUES")) %>%
-    rename(long_name = variable) %>%
-    left_join(name_relation) %>%
-    select(-long_name) %>%
-    relocate(variable) %>%
-    arrange_all()
+    filter(keyword %in% c("CODES", "VALUES"))
 
 
 

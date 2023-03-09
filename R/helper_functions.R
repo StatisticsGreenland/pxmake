@@ -62,8 +62,8 @@ get_timeval_type_from_values <- function(values) {
 
 #' Zips list
 #'
-#' Combine two list, by zipping them togehter in the order v1[1], v2[1], v1[2],
-#' v2[2], v1[3], ...
+#' Combine two list, by zipping them together in the order \code{v1[1]},
+#' \code{v2[1]}, \code{v1[2]}, \code{v2[2]}, \code{v1[3]}, ...
 #'
 #' @param v1 First vector Elements ends up on uneven indexes.
 #' @param v2 Second vector. Elements ends up on even indexes.

@@ -260,7 +260,7 @@ get_data_cube <- function(metadata_path, source_data_path) {
   data_cube <-
     source_data %>%
     dplyr::mutate(id = dplyr::row_number()) %>% # used to unpivot data later
-    tidyr::pivot_longer(cols = all_of(stub_vars),
+    tidyr::pivot_longer(cols = all_of(c(heading_vars, stub_vars)),
                         names_to = "variable",
                         values_to = "code"
                         ) %>%
@@ -269,10 +269,23 @@ get_data_cube <- function(metadata_path, source_data_path) {
                        values_from = c("code", "sortorder")
                        ) %>%
     dplyr::select(-id) %>%
-    dplyr::arrange_at(heading_vars) %>%
-    tidyr::pivot_wider(names_from = !!heading_vars, values_from = value) %>%
-    dplyr::arrange_at(stringr::str_c("sortorder_", stub_vars)) %>%
-    dplyr::select(-contains(stub_vars))
+    # Sort by sortorder for first heading var, codes for second heading var,
+    # sortorder for second heading var, etc.
+    dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", heading_vars),
+                                             paste0("code_", heading_vars)
+                                             )
+                                 )
+                   ) %>%
+    dplyr::select(-paste0("sortorder_", heading_vars)) %>%
+    tidyr::pivot_wider(names_from = !!paste0("code_", heading_vars),
+                       values_from = value
+                       ) %>%
+    dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", stub_vars),
+                                             paste0("code_", stub_vars)
+                                             )
+                                 )
+                   ) %>%
+    dplyr::select(-ends_with(paste0("_", stub_vars)))
 
   return(data_cube)
 }

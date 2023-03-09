@@ -59,3 +59,20 @@ get_timeval_type_from_values <- function(values) {
 
   time_type
 }
+
+#' Zips list
+#'
+#' Combine two list, by zipping them togehter in the order v1[1], v2[1], v1[2],
+#' v2[2], v1[3], ...
+#'
+#' @param v1 First vector Elements ends up on uneven indexes.
+#' @param v2 Second vector. Elements ends up on even indexes.
+#'
+#' @returns List
+zip_vectors <- function(v1, v2) {
+  if (length(v1) != length(v2)) {
+    stop("v1 and v2 must have same length.")
+  }
+
+  matrix(c(v1, v2), ncol = 2) %>% t() %>% as.list() %>% unlist()
+}

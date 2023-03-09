@@ -67,3 +67,9 @@ test_that("Time values are classified", {
 
   test_equal(c("", NA, NULL, "2001Q1")         , "Q")
 })
+
+test_that("Vectors are zipped", {
+  expect_equal(zip_vectors(c(1, 3, 5), c(2, 4, 6)),
+               c(1, 2, 3, 4, 5, 6)
+               )
+})

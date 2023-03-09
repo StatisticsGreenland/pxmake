@@ -92,7 +92,7 @@ metamake <- function(px_file_path, out_path) {
 
   note_elimination_domain <-
     metadata %>%
-    filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN", "HEADING")) %>%
+    filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN", "HEADING")) %>% #why heading?
     drop_na(long_name) %>%
     select(-long_name) %>%
     unnest(value) %>%
@@ -106,7 +106,7 @@ metamake <- function(px_file_path, out_path) {
     filter(keyword == "TIMEVAL", language == main_language) %>%
     pull(variable)
 
-  variables <-
+  sheet_variables <-
     position %>%
     left_join(tibble(variable = time_vars, type = "time"), by = join_by(variable)) %>%
     left_join(long_name, by = join_by(variable)) %>%
@@ -135,7 +135,7 @@ metamake <- function(px_file_path, out_path) {
     mutate(sortorder = row_number()) %>%
     select(variable, value, language, sortorder)
 
-  codelsit <-
+  sheet_codelist <-
     codes %>%
     right_join(values, by = join_by(variable, sortorder), multiple = "all") %>%
     drop_na(code) %>%
@@ -144,8 +144,30 @@ metamake <- function(px_file_path, out_path) {
   ###
   ### Make General
   ###
+  general_keywords <-
+    get_px_keywords() %>%
+    filter(metadata_sheet == "General") %>%
+    pull(keyword)
 
+  sheet_general <-
+    metadata %>%
+    filter(keyword %in% general_keywords) %>%
+    rowwise() %>%
+    mutate(value = paste(value, collapse = '","')) %>%
+    select(keyword, value)
 
+  wb <- openxlsx::createWorkbook()
+
+  add_sheet <- function(df, sheet_name) {
+    openxlsx::addWorksheet(wb, sheetName = sheet_name)
+    openxlsx::writeData(wb, sheet_name, df)
+  }
+
+  add_sheet(sheet_general,   "General")
+  add_sheet(sheet_variables, "Variables")
+  add_sheet(sheet_codelist,  "Codelists")
+
+  openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
 }
 
 

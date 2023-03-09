@@ -111,8 +111,7 @@ metamake <- function(px_file_path, out_path) {
     left_join(tibble(variable = time_vars, type = "time"), by = join_by(variable)) %>%
     left_join(long_name, by = join_by(variable)) %>%
     left_join(note_elimination_domain, by = join_by(variable)) %>%
-    bind_rows(tibble(variable = "_value", type = "figures"))
-
+    bind_rows(tibble(variable = "value", type = "figures"))
 
   ###
   ### Make Codelists
@@ -139,7 +138,8 @@ metamake <- function(px_file_path, out_path) {
     codes %>%
     right_join(values, by = join_by(variable, sortorder), multiple = "all") %>%
     drop_na(code) %>%
-    pivot_wider(names_from = language, names_glue = "{language}_code_label")
+    pivot_wider(names_from = language, names_glue = "{language}_code_label") %>%
+    mutate(precision = "")
 
   ###
   ### Make General
@@ -156,6 +156,58 @@ metamake <- function(px_file_path, out_path) {
     mutate(value = paste(value, collapse = '","')) %>%
     select(keyword, value)
 
+  ###
+  ### Make data
+  ###
+  heading_vars <-
+    metadata %>%
+    filter(keyword == "HEADING", language == main_language) %>%
+    pull(value) %>%
+    unlist()
+
+  stub_vars <-
+    metadata %>%
+    filter(keyword == "STUB", language == main_language) %>%
+    pull(value) %>%
+    unlist()
+
+  # Order: s1, s2, ..., h1, h2, ...
+  expand_order <-
+    head_stub %>%
+    filter(language == main_language) %>%
+    mutate(keyword_order = case_when(keyword == "STUB" ~ 1,
+                                     keyword == "HEADING" ~ 2,
+                                     TRUE ~ NA
+                                     )
+           ) %>%
+    arrange(across(c(keyword_order, index))) %>%
+    mutate(expand_order = row_number()) %>%
+    select(long_name, expand_order)
+
+  stub_and_heading_values <-
+    metadata %>%
+    filter(keyword == "VALUES",
+           language == main_language,
+           variable %in% c(heading_vars, stub_vars)
+           ) %>%
+    left_join(expand_order, by = "long_name") %>%
+    arrange(expand_order) %>%
+    select(variable, value) %>%
+    deframe()
+
+  value <-
+    data_lines %>%
+    str_replace_all(";", "") %>%
+    str_split(" ") %>% unlist() %>% head(-1) %>%
+    tibble(value = .)
+
+  sheet_data <-
+    do.call(expand_grid, stub_and_heading_values) %>%
+    bind_cols(value)
+
+  ###
+  ### Make workbook
+  ###
   wb <- openxlsx::createWorkbook()
 
   add_sheet <- function(df, sheet_name) {
@@ -166,10 +218,31 @@ metamake <- function(px_file_path, out_path) {
   add_sheet(sheet_general,   "General")
   add_sheet(sheet_variables, "Variables")
   add_sheet(sheet_codelist,  "Codelists")
+  add_sheet(sheet_data,  "Data")
 
   openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
 }
 
-
+#
 # px_file_path <- get_pxfile_path('BEXSTA')
 # library(tidyverse)
+
+# table_name <- "bexsta"
+# source_data_path <- get_source_data_path(table_name)
+# metadata_path <- get_metadata_path(table_name)
+# px_file_path <- get_pxfile_path(table_name)
+
+# source_data_path <-
+#   metadata_path %>%
+#   readxl::read_excel(sheet = "Data") %>%
+#   save_temp_data()
+
+# metamake(get_pxfile_path('fotest'), 'test.xlsx'); pxmake('test.xlsx', 'test.px')
+
+# metadata_path <-'test.xlsx'
+# px_file_path <- 'test.px'
+#
+# source_data_path <-
+#   metadata_path %>%
+#   readxl::read_excel(sheet = "Data") %>%
+#   save_temp_data()

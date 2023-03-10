@@ -1,5 +1,10 @@
 # pxmake (development version)
 
+## Bug fixes
+- CODES added for time variables. (#91)
+- Data cube is sorted correctly for data with more than one heading variable. (#93)
+- Non-figure variables are read as character. (#87, #84, #73)
+
 # pxmake 0.3.0
 
 ## New features

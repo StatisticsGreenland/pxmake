@@ -9,18 +9,16 @@
 # })
 
 test_that("metamake is the inverse of pxmake", {
-  table_name <- "metamake"
+  px_source    <- get_pxfile_path("bexsta")
+  metadata_out <- get_metadata_path("bexsta_by_metamake")
+  px_out       <- get_pxfile_path("BEXSTA_clone")
 
-  metamake(get_pxfile_path(table_name),
-           get_metadata_path(table_name)
-           )
+  metamake(px_source, metadata_out)
 
-  pxmake(get_metadata_path(table_name),
-         get_pxfile_path("metamake_clone")
-         )
+  pxmake(metadata_out, px_out)
 
-  output <- readLines(get_pxfile_path("metamake_clone"))
-  expect <- get_pxfile_path("metamake")
+  output <- readLines(px_source)
+  expect <- readLines(px_out)
 
   expect_equal(output, expect)
 })

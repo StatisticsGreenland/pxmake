@@ -70,7 +70,7 @@ get_px_keywords <- function() {
                     "OFFICIAL-STATISTICS",      FALSE,              NA,               FALSE,
                                    "INFO",      FALSE,              NA,                TRUE,
                                   "NOTEX",      FALSE,       "General",                TRUE,
-                                   "NOTE",      FALSE,     "Variables",                TRUE,
+                                   "NOTE",      FALSE,       "General",                TRUE,
                              "VALUENOTEX",      FALSE,              NA,                TRUE,
                               "VALUENOTE",      FALSE,              NA,                TRUE,
                               "CELLNOTEX",      FALSE,              NA,                TRUE,

@@ -116,8 +116,8 @@ get_metadata <- function(metadata_path, source_data_path) {
     variables %>%
     tidyr::drop_na(position) %>%
     dplyr::mutate(keyword =
-                    dplyr::case_when(stringr::str_starts(position, 's') ~ 'STUB',
-                                     stringr::str_starts(position, 'h') ~ 'HEADING',
+                    dplyr::case_when(substr(tolower(position), 1, 1) == 's' ~ 'STUB',
+                                     substr(tolower(position), 1, 1) == 'h' ~ 'HEADING',
                                      TRUE ~ NA_character_
                                      ) %>%
                                      add_language_to_keyword(language)

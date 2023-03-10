@@ -17,6 +17,8 @@ get_px_metadata_regex <- function() {
 #' @param out_path Path to save file at
 #'
 #' @returns Nothing
+#'
+#' @export
 metamake <- function(px_file_path, out_path) {
   lines <- readLines(px_file_path)
 
@@ -152,16 +154,17 @@ metamake <- function(px_file_path, out_path) {
   ###
   ### Make General
   ###
-  general_keywords <-
-    get_px_keywords() %>%
-    dplyr::filter(metadata_sheet == "General") %>%
-    dplyr::pull(keyword)
-
   sheet_general <-
     metadata %>%
-    dplyr::filter(keyword %in% general_keywords) %>%
+    dplyr::left_join(get_px_keywords(), by = "keyword") %>%
+    dplyr::filter(metadata_sheet == "General") %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(value = paste(value, collapse = '","')) %>%
+    dplyr::mutate(value = paste(value, collapse = '","'),
+                  keyword = ifelse(language_dependent,
+                                   paste0(keyword, "_", language),
+                                   keyword
+                                   )
+                  ) %>%
     dplyr::select(keyword, value)
 
   ###

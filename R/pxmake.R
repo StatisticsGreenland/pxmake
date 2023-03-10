@@ -86,7 +86,18 @@ get_metadata <- function(metadata_path, source_data_path) {
                       str_quote() %>%
                       stringr::str_c(collapse = ',')
       ) %>%
-      dplyr::arrange(keyword) %>%
+      dplyr::select(keyword, value)
+
+    metadata_codes <-
+      variables %>%
+      dplyr::filter(variable == time_variable) %>%
+      dplyr::mutate(keyword = "CODES" %>%
+                      add_language_to_keyword(language) %>%
+                      add_sub_key_to_keyword(long_name),
+                    value = time_values %>%
+                      str_quote() %>%
+                      stringr::str_c(collapse = ',')
+      ) %>%
       dplyr::select(keyword, value)
 
     metadata_timeval <-
@@ -104,10 +115,12 @@ get_metadata <- function(metadata_path, source_data_path) {
                                      stringr::str_c(collapse = ',')
                     )
       ) %>%
-      dplyr::arrange(keyword) %>%
       dplyr::select(keyword, value)
 
-    metadata_time <- dplyr::bind_rows(metadata_time_values, metadata_timeval)
+    metadata_time <- dplyr::bind_rows(metadata_time_values,
+                                      metadata_timeval,
+                                      metadata_codes
+                                      )
   } else {
     metadata_time <- NULL
   }

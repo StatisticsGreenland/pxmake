@@ -241,27 +241,3 @@ metamake <- function(px_file_path, out_path) {
 
   openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
 }
-
-#
-# px_file_path <- get_pxfile_path('BEXSTA')
-# library(tidyverse)
-
-# table_name <- "bexsta"
-# source_data_path <- get_source_data_path(table_name)
-# metadata_path <- get_metadata_path(table_name)
-# px_file_path <- get_pxfile_path(table_name)
-
-# source_data_path <-
-#   metadata_path %>%
-#   readxl::read_excel(sheet = "Data") %>%
-#   save_temp_data()
-
-# metamake(get_pxfile_path('fotest'), 'test.xlsx'); pxmake('test.xlsx', 'test.px')
-
-# metadata_path <-'test.xlsx'
-# px_file_path <- 'test.px'
-#
-# source_data_path <-
-#   metadata_path %>%
-#   readxl::read_excel(sheet = "Data") %>%
-#   save_temp_data()

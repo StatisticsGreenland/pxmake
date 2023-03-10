@@ -32,178 +32,186 @@ metamake <- function(px_file_path, out_path) {
 
   tmp_metadata <-
     metadata_lines %>%
-    str_match(get_px_metadata_regex()) %>%
+    stringr::str_match(get_px_metadata_regex()) %>%
     magrittr::extract(,-1) %>% # remove full match column
-    as_tibble() %>%
-    mutate(across(everything(), ~str_replace_all(., '"', '')),
-           value = str_split(value, ",")
-           )
+    dplyr::as_tibble() %>%
+    dplyr::mutate(dplyr::across(everything(), ~stringr::str_replace_all(., '"', '')),
+                  value = stringr::str_split(value, ",")
+                  )
 
   main_language <-
     tmp_metadata %>%
-    filter(keyword == "LANGUAGE") %>%
-    pull(value) %>%
+    dplyr::filter(keyword == "LANGUAGE") %>%
+    dplyr::pull(value) %>%
     unlist()
 
   tmp_metadata2 <-
     tmp_metadata %>%
-    mutate(language = replace_na(language, main_language))
+    dplyr::mutate(language = tidyr::replace_na(language, main_language))
 
   head_stub <-
     tmp_metadata2 %>%
-    filter(keyword %in% c("HEADING", "STUB")) %>%
-    unnest(value) %>%
-    rename(long_name = value) %>%
-    group_by(keyword, language) %>%
-    mutate(index = row_number()) %>%
-    ungroup() %>%
-    select(-variable)
+    dplyr::filter(keyword %in% c("HEADING", "STUB")) %>%
+    tidyr::unnest(value) %>%
+    dplyr::rename(long_name = value) %>%
+    dplyr::group_by(keyword, language) %>%
+    dplyr::mutate(index = dplyr::row_number()) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-variable)
 
   tmp <-
     head_stub %>%
-    filter(language == main_language) %>%
-    select(-language) %>%
-    rename(variable = long_name) %>%
-    right_join(head_stub, by = join_by(keyword, index), multiple = "all")
+    dplyr::filter(language == main_language) %>%
+    dplyr::select(-language) %>%
+    dplyr::rename(variable = long_name) %>%
+    dplyr::right_join(head_stub,
+                      by = dplyr::join_by(keyword, index),
+                      multiple = "all"
+                      )
 
   position <-
     tmp %>%
-    mutate(position = paste0(substr(keyword, 1, 1), index)) %>%
-    distinct(position, variable)
+    dplyr::mutate(position = paste0(substr(keyword, 1, 1), index)) %>%
+    dplyr::distinct(position, variable)
 
-  name_relation <- tmp %>% select(long_name, variable)
+  name_relation <- tmp %>% dplyr::select(long_name, variable)
 
   metadata <-
     tmp_metadata2 %>%
-    rename(long_name = variable) %>%
-    left_join(name_relation, by = "long_name")
+    dplyr::rename(long_name = variable) %>%
+    dplyr::left_join(name_relation, by = "long_name")
 
   ###
   ### Make variables sheet
   ###
   long_name <-
     metadata %>%
-    distinct(variable, language, long_name) %>%
-    drop_na() %>%
-    pivot_wider(names_from = language,
-                names_glue = "{language}_long_name",
-                values_from = long_name
+    dplyr::distinct(variable, language, long_name) %>%
+    tidyr::drop_na() %>%
+    tidyr::pivot_wider(names_from = language,
+                       names_glue = "{language}_long_name",
+                       values_from = long_name
     )
 
   note_elimination_domain <-
     metadata %>%
-    filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN", "HEADING")) %>% #why heading?
-    drop_na(long_name) %>%
-    select(-long_name) %>%
-    unnest(value) %>%
-    pivot_wider(names_from = c(language, keyword),
-                names_glue = "{language}_{tolower(keyword)}",
-                values_from = value
-                )
+    dplyr::filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN", "HEADING")) %>% #why heading?
+    tidyr::drop_na(long_name) %>%
+    dplyr::select(-long_name) %>%
+    tidyr::unnest(value) %>%
+    tidyr::pivot_wider(names_from = c(language, keyword),
+                       names_glue = "{language}_{tolower(keyword)}",
+                       values_from = value
+                       )
 
   time_vars <-
     metadata %>%
-    filter(keyword == "TIMEVAL", language == main_language) %>%
-    pull(variable)
+    dplyr::filter(keyword == "TIMEVAL", language == main_language) %>%
+    dplyr::pull(variable)
 
   sheet_variables <-
     position %>%
-    left_join(tibble(variable = time_vars, type = "time"), by = join_by(variable)) %>%
-    left_join(long_name, by = join_by(variable)) %>%
-    left_join(note_elimination_domain, by = join_by(variable)) %>%
-    bind_rows(tibble(variable = "value", type = "figures"))
+    dplyr::left_join(dplyr::tibble(variable = time_vars, type = "time"),
+                     by = dplyr::join_by(variable)
+                     ) %>%
+    dplyr::left_join(long_name, by = dplyr::join_by(variable)) %>%
+    dplyr::left_join(note_elimination_domain, by = dplyr::join_by(variable)) %>%
+    dplyr::bind_rows(dplyr::tibble(variable = "value", type = "figures"))
 
   ###
   ### Make Codelists
   ###
   codes <-
     metadata %>%
-    filter(keyword %in% c("CODES"), language == main_language) %>%
-    unnest(value) %>%
-    rename(code = value) %>%
-    group_by(variable) %>%
-    mutate(sortorder = row_number()) %>%
-    ungroup() %>%
-    select(variable, code, sortorder)
+    dplyr::filter(keyword %in% c("CODES"), language == main_language) %>%
+    tidyr::unnest(value) %>%
+    dplyr::rename(code = value) %>%
+    dplyr::group_by(variable) %>%
+    dplyr::mutate(sortorder = dplyr::row_number()) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(variable, code, sortorder)
 
   values <-
     metadata %>%
-    filter(keyword %in% c("VALUES")) %>%
-    unnest(value) %>%
-    group_by(variable, language) %>%
-    mutate(sortorder = row_number()) %>%
-    select(variable, value, language, sortorder)
+    dplyr::filter(keyword %in% c("VALUES")) %>%
+    tidyr::unnest(value) %>%
+    dplyr::group_by(variable, language) %>%
+    dplyr::mutate(sortorder = dplyr::row_number()) %>%
+    dplyr::select(variable, value, language, sortorder)
 
   sheet_codelist <-
     codes %>%
-    right_join(values, by = join_by(variable, sortorder), multiple = "all") %>%
-    drop_na(code) %>%
-    pivot_wider(names_from = language, names_glue = "{language}_code_label") %>%
-    mutate(precision = "")
+    dplyr::right_join(values,
+                      by = dplyr::join_by(variable, sortorder),
+                      multiple = "all"
+                      ) %>%
+    tidyr::drop_na(code) %>%
+    tidyr::pivot_wider(names_from = language, names_glue = "{language}_code_label") %>%
+    dplyr::mutate(precision = "")
 
   ###
   ### Make General
   ###
   general_keywords <-
     get_px_keywords() %>%
-    filter(metadata_sheet == "General") %>%
-    pull(keyword)
+    dplyr::filter(metadata_sheet == "General") %>%
+    dplyr::pull(keyword)
 
   sheet_general <-
     metadata %>%
-    filter(keyword %in% general_keywords) %>%
-    rowwise() %>%
-    mutate(value = paste(value, collapse = '","')) %>%
-    select(keyword, value)
+    dplyr::filter(keyword %in% general_keywords) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(value = paste(value, collapse = '","')) %>%
+    dplyr::select(keyword, value)
 
   ###
   ### Make data
   ###
   heading_vars <-
     metadata %>%
-    filter(keyword == "HEADING", language == main_language) %>%
-    pull(value) %>%
+    dplyr::filter(keyword == "HEADING", language == main_language) %>%
+    dplyr::pull(value) %>%
     unlist()
 
   stub_vars <-
     metadata %>%
-    filter(keyword == "STUB", language == main_language) %>%
-    pull(value) %>%
+    dplyr::filter(keyword == "STUB", language == main_language) %>%
+    dplyr::pull(value) %>%
     unlist()
 
   # Order: s1, s2, ..., h1, h2, ...
   expand_order <-
     head_stub %>%
-    filter(language == main_language) %>%
-    mutate(keyword_order = case_when(keyword == "STUB" ~ 1,
-                                     keyword == "HEADING" ~ 2,
-                                     TRUE ~ NA
-                                     )
-           ) %>%
-    arrange(across(c(keyword_order, index))) %>%
-    mutate(expand_order = row_number()) %>%
-    select(long_name, expand_order)
+    dplyr::filter(language == main_language) %>%
+    dplyr::mutate(keyword_order = dplyr::case_when(keyword == "STUB" ~ 1,
+                                                   keyword == "HEADING" ~ 2,
+                                                   TRUE ~ NA
+                                                   )
+                  ) %>%
+    dplyr::arrange(dplyr::across(c(keyword_order, index))) %>%
+    dplyr::mutate(expand_order = dplyr::row_number()) %>%
+    dplyr::select(long_name, expand_order)
 
   stub_and_heading_values <-
     metadata %>%
-    filter(keyword == "VALUES",
-           language == main_language,
-           variable %in% c(heading_vars, stub_vars)
-           ) %>%
-    left_join(expand_order, by = "long_name") %>%
-    arrange(expand_order) %>%
-    select(variable, value) %>%
-    deframe()
+    dplyr::filter(keyword == "VALUES",
+                  language == main_language,
+                  variable %in% c(heading_vars, stub_vars)
+                  ) %>%
+    dplyr::left_join(expand_order, by = "long_name") %>%
+    dplyr::arrange(expand_order) %>%
+    dplyr::select(variable, value) %>%
+    tibble::deframe()
 
   value <-
     data_lines %>%
-    str_replace_all(";", "") %>%
-    str_split(" ") %>% unlist() %>% head(-1) %>%
-    tibble(value = .)
+    stringr::str_replace_all(";", "") %>%
+    stringr::str_split(" ") %>% unlist() %>% head(-1) %>%
+    dplyr::tibble(value = .)
 
   sheet_data <-
-    do.call(expand_grid, stub_and_heading_values) %>%
-    bind_cols(value)
+    do.call(tidyr::expand_grid, stub_and_heading_values) %>%
+    dplyr::bind_cols(value)
 
   ###
   ### Make workbook

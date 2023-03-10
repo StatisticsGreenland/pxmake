@@ -1,13 +1,3 @@
-# test_that("metamake runs without errors", {
-#   table_name <- "metamake"
-#
-#   metamake(get_pxfile_path(table_name),
-#            get_metadata_path(table_name)
-#            )
-#
-#   expect(TRUE)
-# })
-
 test_that("metamake is the inverse of pxmake", {
   px_source    <- get_pxfile_path("bexsta")
   metadata_out <- get_metadata_path("bexsta_by_metamake")

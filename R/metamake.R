@@ -37,9 +37,12 @@ metamake <- function(px_file_path, out_path) {
     stringr::str_match(get_px_metadata_regex()) %>%
     magrittr::extract(,-1) %>% # remove full match column
     dplyr::as_tibble() %>%
-    dplyr::mutate(dplyr::across(everything(), ~stringr::str_replace_all(., '"', '')),
-                  value = stringr::str_split(value, ",")
+    # remove leading and trailing "
+    dplyr::mutate(dplyr::across(c(variable, value),
+                                ~stringr::str_replace_all(., '^"|"$', '')),
+                  value = stringr::str_split(value, '","')
                   )
+
 
   main_language <-
     tmp_metadata %>%
@@ -125,7 +128,10 @@ metamake <- function(px_file_path, out_path) {
   ###
   codes <-
     metadata %>%
-    dplyr::filter(keyword %in% c("CODES"), language == main_language) %>%
+    dplyr::filter(keyword %in% c("CODES"),
+                  language == main_language,
+                  !variable %in% time_vars #Time vars are not in codelist
+                  ) %>%
     tidyr::unnest(value) %>%
     dplyr::rename(code = value) %>%
     dplyr::group_by(variable) %>%
@@ -161,7 +167,7 @@ metamake <- function(px_file_path, out_path) {
     # Exclude variable specific notes
     dplyr::filter(!(keyword == "NOTE" & !is.na(variable))) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(value = paste(value, collapse = ','),
+    dplyr::mutate(value = paste(value, collapse = '","'),
                   keyword = ifelse(language_dependent,
                                    paste0(keyword, "_", language),
                                    keyword
@@ -199,7 +205,7 @@ metamake <- function(px_file_path, out_path) {
 
   stub_and_heading_values <-
     metadata %>%
-    dplyr::filter(keyword == "VALUES", #should probably be changed to codes
+    dplyr::filter(keyword == "CODES", #should probably be changed to codes
                   language == main_language,
                   variable %in% c(heading_vars, stub_vars)
                   ) %>%

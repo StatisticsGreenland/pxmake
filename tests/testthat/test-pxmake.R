@@ -67,6 +67,30 @@ test_that("timevals are added", {
   expect_true(px_file_has_timeval("FOTEST"))
 })
 
+test_that("Codes are defined for all values", {
+  expect_code_and_values_match <- function(table_name) {
+    px_lines <-
+      table_name %>%
+      get_pxfile_path() %>%
+      readLines()
+
+    value_lines <- px_lines[stringr::str_detect(px_lines, '^VALUES')]
+    code_lines  <- px_lines[stringr::str_detect(px_lines, '^CODES')]
+
+    # Equal number of variables
+    expect_equal(length(value_lines), length(code_lines))
+
+    # Equal number of values for each variable
+    expect_equal(stringr::str_count(value_lines, '","'),
+                 stringr::str_count(code_lines,  '","')
+    )
+  }
+
+  expect_code_and_values_match("BEXLTALL")
+  expect_code_and_values_match("BEXSTA")
+  expect_code_and_values_match("FOTEST")
+})
+
 test_that("px lines are valid", {
   keywords <- get_px_keywords() %>% dplyr::pull(keyword)
 
@@ -90,7 +114,6 @@ test_that("px lines are valid", {
   expect_equal(get_invalid_lines("BEXSTA"), character(0))
   expect_equal(get_invalid_lines("FOTEST"), character(0))
 })
-
 
 test_that("pxjob exists without errors (exit code 0)", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")

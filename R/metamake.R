@@ -34,6 +34,10 @@ metamake <- function(px_file_path, out_path) {
 
   tmp_metadata <-
     metadata_lines %>%
+    # Remove newlines in file; use semi-colon as line seperator
+    paste0(collapse = "") %>%
+    stringr::str_split(";") %>%
+    unlist() %>%
     stringr::str_match(get_px_metadata_regex()) %>%
     magrittr::extract(,-1) %>% # remove full match column
     dplyr::as_tibble() %>%
@@ -217,7 +221,9 @@ metamake <- function(px_file_path, out_path) {
   value <-
     data_lines %>%
     stringr::str_replace_all(";", "") %>%
-    stringr::str_split(" ") %>% unlist() %>% head(-1) %>%
+    stringr::str_split(" ") %>%
+    unlist() %>%
+    stringr::str_subset("^$", negate = TRUE) %>%
     dplyr::tibble(value = .)
 
   sheet_data <-

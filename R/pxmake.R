@@ -143,7 +143,10 @@ get_metadata <- function(metadata_path, source_data_path) {
 
   metadata_variables <-
     variables %>%
-    tidyr::pivot_longer(cols = c("note", "domain", "elimination")) %>%
+    tidyr::pivot_longer(cols = intersect(c("note", "domain", "elimination"),
+                                         names(.)
+                                         )
+                        ) %>%
     tidyr::drop_na(value) %>%
     dplyr::arrange(name, position) %>%
     dplyr::mutate(keyword = toupper(name) %>%

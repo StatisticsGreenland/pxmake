@@ -1,10 +1,18 @@
+#' Regular expression to parse header in pxfile
+#'
+#' @returns Character
 get_px_metadata_regex <- function() {
-  paste0("(?<keyword>[[:upper:]-]+)",                    # Leading keyword
-         "(?:\\[)?(?<language>[[:alpha:]_-]+)?(?:\\])?", # Maybe language
-         "(?:\\()?(?<variable>[^\\(\\)]+)?(?:\\))?",     # Maybe sub-key
-         "=",                                            # definitely =
-         "(?<value>[^;]*)",                              # Up to ending ;
-         "(?:;$)?"                                       # Maybe ;
+  paste0("(?<keyword>[[:upper:]-]+)",    # Leading keyword
+         "(?:\\[)?",                     # Maybe opening language bracket [
+         "(?<language>[[:alpha:]_-]+)?", # Maybe language
+         "(?:\\])?",                     # Maybe closing language bracket ]
+         "(?:\\()?",                     # Maybe opening sub-key parentheses (
+         "(?<variable>[^\\(\\),]+)?",    # Maybe sub-key
+         "(?:,)?(?<cell>[^\\(\\)]+)?",   # Maybe cell value (used by PRECISION)
+         "(?:\\))?",                     # Maybe closing sub-key parentheses )
+         "=",                            # definitely =
+         "(?<value>[^;]*)",              # Value is everything up to ending ;
+         "(?:;$)?"                       # Maybe ;
   )
 }
 
@@ -42,11 +50,10 @@ metamake <- function(px_file_path, out_path) {
     magrittr::extract(,-1) %>% # remove full match column
     dplyr::as_tibble() %>%
     # remove leading and trailing "
-    dplyr::mutate(dplyr::across(c(variable, value),
+    dplyr::mutate(dplyr::across(c(variable, value, cell),
                                 ~stringr::str_replace_all(., '^"|"$', '')),
                   value = stringr::str_split(value, '","')
                   )
-
 
   main_language <-
     tmp_metadata %>%
@@ -66,7 +73,7 @@ metamake <- function(px_file_path, out_path) {
     dplyr::group_by(keyword, language) %>%
     dplyr::mutate(index = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
-    dplyr::select(-variable)
+    dplyr::select(keyword, language, long_name, index)
 
   tmp <-
     head_stub %>%
@@ -104,9 +111,9 @@ metamake <- function(px_file_path, out_path) {
 
   note_elimination_domain <-
     metadata %>%
-    dplyr::filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN", "HEADING")) %>% #why heading?
+    dplyr::filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN")) %>%
     tidyr::drop_na(long_name) %>%
-    dplyr::select(-long_name) %>%
+    dplyr::select(-long_name, -cell) %>%
     tidyr::unnest(value) %>%
     tidyr::pivot_wider(names_from = c(language, keyword),
                        names_glue = "{language}_{tolower(keyword)}",
@@ -143,6 +150,13 @@ metamake <- function(px_file_path, out_path) {
     dplyr::ungroup() %>%
     dplyr::select(variable, code, sortorder)
 
+  precision <-
+    metadata %>%
+    dplyr::filter(keyword == "PRECISION") %>%
+    tidyr::unnest(value) %>%
+    dplyr::rename(value = cell, precision = value) %>%
+    dplyr::select(variable, value, precision)
+
   values <-
     metadata %>%
     dplyr::filter(keyword %in% c("VALUES")) %>%
@@ -157,9 +171,12 @@ metamake <- function(px_file_path, out_path) {
                       by = dplyr::join_by(variable, sortorder),
                       multiple = "all"
                       ) %>%
+    dplyr::left_join(precision,
+                     by = dplyr::join_by(variable, value)
+                     ) %>%
     tidyr::drop_na(code) %>%
     tidyr::pivot_wider(names_from = language, names_glue = "{language}_code_label") %>%
-    dplyr::mutate(precision = "")
+    dplyr::relocate(precision, .after = last_col())
 
   ###
   ### Make General
@@ -167,7 +184,7 @@ metamake <- function(px_file_path, out_path) {
   sheet_general <-
     metadata %>%
     dplyr::left_join(get_px_keywords(), by = "keyword") %>%
-    dplyr::filter(metadata_sheet == "General") %>%
+    dplyr::filter(in_general_sheet) %>%
     # Exclude variable specific notes
     dplyr::filter(!(keyword == "NOTE" & !is.na(variable))) %>%
     dplyr::rowwise() %>%

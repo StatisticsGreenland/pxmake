@@ -294,7 +294,7 @@ get_data_cube <- function(metadata_path, source_data_path) {
                    ) %>%
     dplyr::select(-paste0("sortorder_", heading_vars)) %>%
     tidyr::pivot_wider(names_from = !!paste0("code_", heading_vars),
-                       values_from = value
+                       values_from = get_figures_variable(metadata_path)
                        ) %>%
     dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", stub_vars),
                                              paste0("code_", stub_vars)

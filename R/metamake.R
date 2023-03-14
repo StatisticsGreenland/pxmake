@@ -132,7 +132,7 @@ metamake <- function(px_file_path, out_path) {
                      ) %>%
     dplyr::left_join(long_name, by = dplyr::join_by(variable)) %>%
     dplyr::left_join(note_elimination_domain, by = dplyr::join_by(variable)) %>%
-    dplyr::bind_rows(dplyr::tibble(variable = "value", type = "figures"))
+    dplyr::bind_rows(dplyr::tibble(variable = ".figures", type = "figures"))
 
   ###
   ### Make Codelists
@@ -235,17 +235,17 @@ metamake <- function(px_file_path, out_path) {
     dplyr::select(variable, value) %>%
     tibble::deframe()
 
-  value <-
+  figures <-
     data_lines %>%
     stringr::str_replace_all(";", "") %>%
     stringr::str_split(" ") %>%
     unlist() %>%
     stringr::str_subset("^$", negate = TRUE) %>%
-    dplyr::tibble(value = .)
+    dplyr::tibble(.figures = .)
 
   sheet_data <-
     do.call(tidyr::expand_grid, stub_and_heading_values) %>%
-    dplyr::bind_cols(value)
+    dplyr::bind_cols(figures)
 
   ###
   ### Make workbook
@@ -260,7 +260,7 @@ metamake <- function(px_file_path, out_path) {
   add_sheet(sheet_general,   "General")
   add_sheet(sheet_variables, "Variables")
   add_sheet(sheet_codelist,  "Codelists")
-  add_sheet(sheet_data,  "Data")
+  add_sheet(sheet_data,      "Data")
 
   openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
 }

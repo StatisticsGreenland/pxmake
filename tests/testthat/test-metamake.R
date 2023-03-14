@@ -1,4 +1,4 @@
-test_that("px = pxmake(metamake(pxfile))", {
+test_that("pxfile = pxmake(metamake(pxfile))", {
   run_metamake_pxmake_and_compare <- function(table_name) {
     px_source    <- get_pxfile_path(table_name)
     metadata_out <- get_metadata_path(paste0(table_name, "_by_metamake"))
@@ -19,7 +19,7 @@ test_that("px = pxmake(metamake(pxfile))", {
   run_metamake_pxmake_and_compare("BEXLTALL")
 })
 
-test_that("px and pxmake(metamake(pxfile)) are equivalent", {
+test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
   # Some files don't give an exact match in the px-file because there can be
   # subtle differences in formatting. PxJob is run on these file to test
   # that they are equivalent.

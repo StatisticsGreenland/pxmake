@@ -90,12 +90,12 @@ metamake <- function(px_file_path, out_path) {
     dplyr::mutate(position = paste0(substr(keyword, 1, 1), index)) %>%
     dplyr::distinct(position, variable)
 
-  name_relation <- tmp %>% dplyr::select(long_name, variable)
+  name_relation <- tmp %>% dplyr::select(variable, language, long_name)
 
   metadata <-
     tmp_metadata2 %>%
     dplyr::rename(long_name = variable) %>%
-    dplyr::left_join(name_relation, by = "long_name")
+    dplyr::left_join(name_relation, by = c("language", "long_name"))
 
   ###
   ### Make variables sheet

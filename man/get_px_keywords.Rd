@@ -10,5 +10,5 @@ get_px_keywords()
 data frame with all PX keywords
 }
 \description{
-The row order reflex the recommend sort order in the px-file specification.
+The row order reflects the recommended sort order in the px-file specification.
 }

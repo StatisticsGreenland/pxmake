@@ -51,7 +51,7 @@ test_that("pxmake runs without errors and creates a file", {
 })
 
 test_that("timevals are added", {
-  px_file_has_timeval <- function(table_name) {
+  pxfile_has_timeval <- function(table_name) {
     px_lines <-
       table_name %>%
       get_pxfile_path() %>%
@@ -62,9 +62,9 @@ test_that("timevals are added", {
     length(timeval_lines) > 0
   }
 
-  expect_true(px_file_has_timeval("BEXLTALL"))
-  expect_true(px_file_has_timeval("BEXSTA"))
-  expect_true(px_file_has_timeval("FOTEST"))
+  expect_true(pxfile_has_timeval("BEXLTALL"))
+  expect_true(pxfile_has_timeval("BEXSTA"))
+  expect_true(pxfile_has_timeval("FOTEST"))
 })
 
 test_that("Codes are defined for all values", {

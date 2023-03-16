@@ -4,17 +4,19 @@
 \alias{metamake}
 \title{Create an Excel metadata workbook from a px-file}
 \usage{
-metamake(px_file_path, out_path)
+metamake(pxfile_path, out_path, overwrite_xlsx = TRUE)
 }
 \arguments{
-\item{px_file_path}{Path to px file}
+\item{pxfile_path}{Path to px file}
 
-\item{out_path}{Path to save file at}
+\item{out_path}{Path to save xlsx file at}
+
+\item{overwrite_xlsx}{Should existing metadata workbook be overwritten?}
 }
 \value{
 Nothing
 }
 \description{
 Turn a px-file into an Excel metadata workbook. If pxmake() is run on that
-workbook it turns back into the same px-file.
+workbook it turns back into an equivalent px-file.
 }

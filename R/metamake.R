@@ -16,33 +16,42 @@ get_px_metadata_regex <- function() {
   )
 }
 
+#' Return the main language of the px-file
+#'
+#' @param metadata A data frame with metadata
+get_main_language <- function(metadata) {
+  metadata %>%
+    dplyr::filter(keyword == "LANGUAGE") %>%
+    dplyr::pull(value) %>%
+    unlist()
+}
+
 #' Create an Excel metadata workbook from a px-file
 #'
 #' Turn a px-file into an Excel metadata workbook. If pxmake() is run on that
-#' workbook it turns back into the same px-file.
+#' workbook it turns back into an equivalent px-file.
 #'
-#' @param px_file_path Path to px file
-#' @param out_path Path to save file at
+#' @param pxfile_path Path to px file
+#' @param out_path Path to save xlsx file at
+#' @param overwrite_xlsx Should existing metadata workbook be overwritten?
 #'
 #' @returns Nothing
 #'
 #' @export
-metamake <- function(px_file_path, out_path) {
-  lines <- readLines(px_file_path)
+metamake <- function(pxfile_path, out_path, overwrite_xlsx = TRUE) {
+  lines <- readLines(pxfile_path)
 
-  ## Split metadata in data cube and heading
+  ## Split metadata in heading and data cube
   data_line_index <- stringr::str_which(lines, '^DATA=$')
 
-  if(length(data_line_index) != 1) {
-    stop("unhandled error")
-  }
+  error_if_not_exactly_one_data_line(data_line_index)
 
   metadata_lines <- lines[c(1:data_line_index)]
   data_lines     <- lines[c((data_line_index+1):length(lines))]
 
   tmp_metadata <-
     metadata_lines %>%
-    # Remove newlines in file; use semi-colon as line seperator
+    # Remove newlines in file. Use semi-colon as line separator
     paste0(collapse = "") %>%
     stringr::str_split(";") %>%
     unlist() %>%
@@ -53,57 +62,49 @@ metamake <- function(px_file_path, out_path) {
     dplyr::mutate(dplyr::across(c(variable, value, cell),
                                 ~stringr::str_replace_all(., '^"|"$', '')),
                   value = stringr::str_split(value, '","')
+                  ) %>%
+    dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.)),
+                  main_language = language == get_main_language(.)
                   )
 
-  main_language <-
-    tmp_metadata %>%
-    dplyr::filter(keyword == "LANGUAGE") %>%
-    dplyr::pull(value) %>%
-    unlist()
-
-  tmp_metadata2 <-
-    tmp_metadata %>%
-    dplyr::mutate(language = tidyr::replace_na(language, main_language))
-
   head_stub <-
-    tmp_metadata2 %>%
+    tmp_metadata %>%
     dplyr::filter(keyword %in% c("HEADING", "STUB")) %>%
     tidyr::unnest(value) %>%
     dplyr::rename(long_name = value) %>%
     dplyr::group_by(keyword, language) %>%
     dplyr::mutate(index = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
-    dplyr::select(keyword, language, long_name, index)
+    dplyr::select(keyword, language, main_language, long_name, index)
 
-  tmp <-
+  variable_and_long_name <-
     head_stub %>%
-    dplyr::filter(language == main_language) %>%
-    dplyr::select(-language) %>%
+    dplyr::filter(main_language) %>%
+    dplyr::select(-language, -main_language) %>%
     dplyr::rename(variable = long_name) %>%
     dplyr::right_join(head_stub,
-                      by = dplyr::join_by(keyword, index),
+                      by = c("keyword", "index"),
                       multiple = "all"
-                      )
+                      ) %>%
+    dplyr::mutate(position = paste0(substr(keyword, 1, 1), index))
 
   position <-
-    tmp %>%
-    dplyr::mutate(position = paste0(substr(keyword, 1, 1), index)) %>%
+    variable_and_long_name %>%
     dplyr::distinct(position, variable)
 
-  name_relation <- tmp %>% dplyr::select(variable, language, long_name)
+  name_relation <-
+    variable_and_long_name %>%
+    dplyr::distinct(variable, language, long_name)
 
   metadata <-
-    tmp_metadata2 %>%
+    tmp_metadata %>%
     dplyr::rename(long_name = variable) %>%
     dplyr::left_join(name_relation, by = c("language", "long_name"))
 
-  ###
-  ### Make variables sheet
-  ###
+
+  ### Make metadata sheet: 'Variables'
   long_name <-
-    metadata %>%
-    dplyr::distinct(variable, language, long_name) %>%
-    tidyr::drop_na() %>%
+    name_relation %>%
     tidyr::pivot_wider(names_from = language,
                        names_glue = "{language}_long_name",
                        values_from = long_name
@@ -112,8 +113,7 @@ metamake <- function(px_file_path, out_path) {
   note_elimination_domain <-
     metadata %>%
     dplyr::filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN")) %>%
-    tidyr::drop_na(long_name) %>%
-    dplyr::select(-long_name, -cell) %>%
+    dplyr::select(keyword, language, variable, value) %>%
     tidyr::unnest(value) %>%
     tidyr::pivot_wider(names_from = c(language, keyword),
                        names_glue = "{language}_{tolower(keyword)}",
@@ -122,25 +122,22 @@ metamake <- function(px_file_path, out_path) {
 
   time_vars <-
     metadata %>%
-    dplyr::filter(keyword == "TIMEVAL", language == main_language) %>%
+    dplyr::filter(keyword == "TIMEVAL", main_language) %>%
     dplyr::pull(variable)
 
   sheet_variables <-
     position %>%
-    dplyr::left_join(dplyr::tibble(variable = time_vars, type = "time"),
-                     by = dplyr::join_by(variable)
+    dplyr::left_join(data.frame(variable = time_vars, type = "time"),
+                     by = "variable"
                      ) %>%
-    dplyr::left_join(long_name, by = dplyr::join_by(variable)) %>%
-    dplyr::left_join(note_elimination_domain, by = dplyr::join_by(variable)) %>%
-    dplyr::bind_rows(dplyr::tibble(variable = ".figures", type = "figures"))
+    dplyr::left_join(long_name, by = "variable") %>%
+    dplyr::left_join(note_elimination_domain, by = "variable") %>%
+    dplyr::bind_rows(data.frame(variable = ".figures", type = "figures"))
 
-  ###
-  ### Make Codelists
-  ###
+  ### Make metadata sheet: 'Codelists'
   codes <-
     metadata %>%
-    dplyr::filter(keyword %in% c("CODES"),
-                  language == main_language,
+    dplyr::filter(main_language, keyword %in% c("CODES"),
                   !variable %in% time_vars #Time vars are not in codelist
                   ) %>%
     tidyr::unnest(value) %>%
@@ -167,25 +164,18 @@ metamake <- function(px_file_path, out_path) {
 
   sheet_codelist <-
     codes %>%
-    dplyr::right_join(values,
-                      by = dplyr::join_by(variable, sortorder),
-                      multiple = "all"
-                      ) %>%
-    dplyr::left_join(precision,
-                     by = dplyr::join_by(variable, value)
-                     ) %>%
+    dplyr::right_join(values, by = c("variable", "sortorder"), multiple = "all") %>%
+    dplyr::left_join(precision, by = c("variable", "value")) %>%
     tidyr::drop_na(code) %>%
     tidyr::pivot_wider(names_from = language, names_glue = "{language}_code_label") %>%
     dplyr::relocate(precision, .after = last_col())
 
-  ###
-  ### Make General
-  ###
+  ### Make metadata sheet: 'General'
   sheet_general <-
     metadata %>%
     dplyr::left_join(get_px_keywords(), by = "keyword") %>%
     dplyr::filter(in_general_sheet) %>%
-    # Exclude variable specific notes
+    # Exclude variable specific NOTE
     dplyr::filter(!(keyword == "NOTE" & !is.na(variable))) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(value = paste(value, collapse = '","'),
@@ -196,25 +186,23 @@ metamake <- function(px_file_path, out_path) {
                   ) %>%
     dplyr::select(keyword, value)
 
-  ###
-  ### Make data
-  ###
+  ### Make metadata sheet: 'Data'
   heading_vars <-
     metadata %>%
-    dplyr::filter(keyword == "HEADING", language == main_language) %>%
+    dplyr::filter(main_language, keyword == "HEADING") %>%
     dplyr::pull(value) %>%
     unlist()
 
   stub_vars <-
     metadata %>%
-    dplyr::filter(keyword == "STUB", language == main_language) %>%
+    dplyr::filter(main_language, keyword == "STUB") %>%
     dplyr::pull(value) %>%
     unlist()
 
   # Order: s1, s2, ..., h1, h2, ...
   expand_order <-
     head_stub %>%
-    dplyr::filter(language == main_language) %>%
+    dplyr::filter(main_language) %>%
     dplyr::mutate(keyword_order = dplyr::case_when(keyword == "STUB" ~ 1,
                                                    keyword == "HEADING" ~ 2,
                                                    TRUE ~ NA
@@ -226,8 +214,7 @@ metamake <- function(px_file_path, out_path) {
 
   stub_and_heading_values <-
     metadata %>%
-    dplyr::filter(keyword == "CODES", #should probably be changed to codes
-                  language == main_language,
+    dplyr::filter(main_language, keyword == "CODES",
                   variable %in% c(heading_vars, stub_vars)
                   ) %>%
     dplyr::left_join(expand_order, by = "long_name") %>%
@@ -241,15 +228,13 @@ metamake <- function(px_file_path, out_path) {
     stringr::str_split(" ") %>%
     unlist() %>%
     stringr::str_subset("^$", negate = TRUE) %>%
-    dplyr::tibble(.figures = .)
+    data.frame(.figures = .)
 
   sheet_data <-
     do.call(tidyr::expand_grid, stub_and_heading_values) %>%
     dplyr::bind_cols(figures)
 
-  ###
-  ### Make workbook
-  ###
+  ### Make sheets in workbook
   wb <- openxlsx::createWorkbook()
 
   add_sheet <- function(df, sheet_name) {
@@ -262,5 +247,5 @@ metamake <- function(px_file_path, out_path) {
   add_sheet(sheet_codelist,  "Codelists")
   add_sheet(sheet_data,      "Data")
 
-  openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
+  openxlsx::saveWorkbook(wb, out_path, overwrite = overwrite_xlsx)
 }

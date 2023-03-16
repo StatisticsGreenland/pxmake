@@ -29,8 +29,6 @@ test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
   # that they are equivalent.
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
-  skip(TRUE) # Turn on when support for CELLNOTEX is added (issue #101)
-
   run_metamake_pxmake_pxjob_and_compare <- function(table_name) {
     run_metamake_and_pxmake(table_name)
 
@@ -48,5 +46,8 @@ test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
     expect_equal(output, expect)
   }
 
-  run_metamake_pxmake_pxjob_and_compare("TUX01")
+  run_metamake_pxmake_pxjob_and_compare("SOXATI4")
+
+  # Turn on when support for CELLNOTEX is added (issue #101)
+  # run_metamake_pxmake_pxjob_and_compare("TUX01")
 })

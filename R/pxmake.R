@@ -129,8 +129,8 @@ get_metadata <- function(metadata_path, source_data_path) {
     variables %>%
     tidyr::drop_na(position) %>%
     dplyr::mutate(keyword =
-                    dplyr::case_when(stringr::str_starts(position, 's') ~ 'STUB',
-                                     stringr::str_starts(position, 'h') ~ 'HEADING',
+                    dplyr::case_when(substr(tolower(position), 1, 1) == 's' ~ 'STUB',
+                                     substr(tolower(position), 1, 1) == 'h' ~ 'HEADING',
                                      TRUE ~ NA_character_
                                      ) %>%
                                      add_language_to_keyword(language)
@@ -143,7 +143,10 @@ get_metadata <- function(metadata_path, source_data_path) {
 
   metadata_variables <-
     variables %>%
-    tidyr::pivot_longer(cols = c("note", "domain", "elimination")) %>%
+    tidyr::pivot_longer(cols = intersect(c("note", "domain", "elimination"),
+                                         names(.)
+                                         )
+                        ) %>%
     tidyr::drop_na(value) %>%
     dplyr::arrange(name, position) %>%
     dplyr::mutate(keyword = toupper(name) %>%
@@ -237,12 +240,12 @@ get_data_cube <- function(metadata_path, source_data_path) {
 
   stub_vars <-
     variables %>%
-    dplyr::filter(stringr::str_starts(position, 's'), language == "en") %>%
+    dplyr::filter(substr(tolower(position), 1, 1) == 's', language == "en") %>%
     dplyr::pull(variable)
 
   heading_vars <-
     variables %>%
-    dplyr::filter(stringr::str_starts(position, 'h'), language == "en") %>%
+    dplyr::filter(substr(tolower(position), 1, 1) == 'h', language == "en") %>%
     dplyr::pull(variable)
 
   codelist <-
@@ -291,7 +294,7 @@ get_data_cube <- function(metadata_path, source_data_path) {
                    ) %>%
     dplyr::select(-paste0("sortorder_", heading_vars)) %>%
     tidyr::pivot_wider(names_from = !!paste0("code_", heading_vars),
-                       values_from = value
+                       values_from = get_figures_variable(metadata_path)
                        ) %>%
     dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", stub_vars),
                                              paste0("code_", stub_vars)

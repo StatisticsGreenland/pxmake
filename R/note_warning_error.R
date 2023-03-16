@@ -34,3 +34,13 @@ error_if_not_exactly_one_figures_variable <- function(figures_var) {
          )
   }
 }
+
+error_if_not_exactly_one_data_line <- function(data_line_index) {
+  if(length(data_line_index) != 1) {
+    stop(stringr::str_glue("There are {length(data_line_index)} lines in the ",
+                           "px-file like this: 'DATA='. There needs to be ",
+                           "exactly 1."
+                           )
+         )
+  }
+}

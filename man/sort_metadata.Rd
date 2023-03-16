@@ -2,7 +2,7 @@
 % Please edit documentation in R/pxmake.R
 \name{sort_metadata}
 \alias{sort_metadata}
-\title{Sort metdata keywords in recommended order}
+\title{Sort metadata keywords in recommended order}
 \usage{
 sort_metadata(metadata)
 }
@@ -13,5 +13,5 @@ sort_metadata(metadata)
 data frame
 }
 \description{
-Sort metdata keywords in recommended order
+Sort metadata keywords in recommended order
 }

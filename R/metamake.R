@@ -170,11 +170,11 @@ metamake <- function(pxfile_path, out_path, overwrite_xlsx = TRUE) {
     tidyr::pivot_wider(names_from = language, names_glue = "{language}_code_label") %>%
     dplyr::relocate(precision, .after = last_col())
 
-  ### Make metadata sheet: 'General'
-  sheet_general <-
+  ### Make metadata sheet: 'Table'
+  sheet_table <-
     metadata %>%
     dplyr::left_join(get_px_keywords(), by = "keyword") %>%
-    dplyr::filter(in_general_sheet) %>%
+    dplyr::filter(in_table_sheet) %>%
     # Exclude variable specific NOTE
     dplyr::filter(!(keyword == "NOTE" & !is.na(variable))) %>%
     dplyr::rowwise() %>%
@@ -242,7 +242,7 @@ metamake <- function(pxfile_path, out_path, overwrite_xlsx = TRUE) {
     openxlsx::writeData(wb, sheet_name, df)
   }
 
-  add_sheet(sheet_general,   "General")
+  add_sheet(sheet_table,     "Table")
   add_sheet(sheet_variables, "Variables")
   add_sheet(sheet_codelist,  "Codelists")
   add_sheet(sheet_data,      "Data")

@@ -5,7 +5,7 @@
 #' @return data frame with all PX keywords
 get_px_keywords <- function() {
   tibble::tribble(
-                                 ~keyword, ~mandatory, ~in_general_sheet, ~language_dependent,
+                                 ~keyword, ~mandatory,   ~in_table_sheet, ~language_dependent,
                                 "CHARSET",      FALSE,              TRUE,               FALSE,
                            "AXIS-VERSION",      FALSE,              TRUE,               FALSE,
                                "CODEPAGE",      FALSE,              TRUE,               FALSE,

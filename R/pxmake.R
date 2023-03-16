@@ -1,9 +1,9 @@
-#' Get metadata from 'General' sheet in Excel Workbook
+#' Get metadata from 'Table' sheet in Excel Workbook
 #'
 #' @param metadata_path Path to metadata file
-get_general_metadata <- function(metadata_path) {
+get_table_metadata <- function(metadata_path) {
   metadata_path %>%
-    readxl::read_xlsx(sheet = "General") %>%
+    readxl::read_xlsx(sheet = "Table") %>%
     tidyr::separate(keyword,
                     c("keyword", "language"),
                     sep = "_(?=[en|da|kl|fo])",
@@ -36,7 +36,7 @@ get_codelist_metadata <- function(metadata_path) {
                         )
 }
 
-#' Sort metdata keywords in recommended order
+#' Sort metadata keywords in recommended order
 #'
 #' @param metadata Data frame with metadata.
 #'
@@ -192,15 +192,15 @@ get_metadata <- function(metadata_path, source_data_path) {
     dplyr::distinct(keyword, value) %>%
     dplyr::relocate(keyword)
 
-  metadata_general <-
-    get_general_metadata(metadata_path) %>%
+  metadata_table <-
+    get_table_metadata(metadata_path) %>%
     dplyr::mutate(keyword = add_language_to_keyword(keyword, language),
                   value = tidyr::replace_na(value, "")
                   ) %>%
     dplyr::arrange(!is.na(language)) %>%
     dplyr::select(keyword, value)
 
-  return(dplyr::bind_rows(metadata_general,
+  return(dplyr::bind_rows(metadata_table,
                           metadata_stub_and_head,
                           metadata_codes_values_precision,
                           metadata_time,

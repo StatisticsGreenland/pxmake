@@ -1,9 +1,15 @@
-# pxmake (development version)
+# pxmake 0.4.0
 
-## Bug fixes
+## New features
+- Add metamake() which creates an Excel metadata workbook from a px-file. This
+is the inverse function of pxmake(). (#68)
+
+## Bug fixes and minor improvements
 - CODES added for time variables. (#91)
 - Data cube is sorted correctly for data with more than one heading variable. (#93)
 - Non-figure variables are read as character. (#87, #84, #73)
+- Add keywords AUTOPEN and AGGREGALLOWED
+- Allow figures variable to have any name (previously only 'values')
 
 # pxmake 0.3.0
 

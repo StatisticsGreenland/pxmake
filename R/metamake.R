@@ -33,12 +33,18 @@ get_main_language <- function(metadata) {
 #'
 #' @param pxfile_path Path to px file
 #' @param out_path Path to save xlsx file at
+#' @param rds_data_path Path to save data cube as rds file. If NULL the data
+#' cube is added in the 'Data' sheet in the Excel metadata workbook.
 #' @param overwrite_xlsx Should existing metadata workbook be overwritten?
 #'
 #' @returns Nothing
 #'
 #' @export
-metamake <- function(pxfile_path, out_path, overwrite_xlsx = TRUE) {
+metamake <- function(pxfile_path,
+                     out_path,
+                     rds_data_path = NULL,
+                     overwrite_xlsx = TRUE) {
+
   lines <- readLines(pxfile_path)
 
   ## Split metadata in heading and data cube
@@ -246,7 +252,14 @@ metamake <- function(pxfile_path, out_path, overwrite_xlsx = TRUE) {
   add_sheet(sheet_table,     "Table")
   add_sheet(sheet_variables, "Variables")
   add_sheet(sheet_codelist,  "Codelists")
-  add_sheet(sheet_data,      "Data")
+
+  if (is.null(rds_data_path)) {
+    error_if_too_many_rows_for_excel(sheet_data)
+
+    add_sheet(sheet_data, "Data")
+  } else {
+    saveRDS(sheet_data, rds_data_path)
+  }
 
   openxlsx::saveWorkbook(wb, out_path, overwrite = overwrite_xlsx)
 }

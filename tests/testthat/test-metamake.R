@@ -23,6 +23,22 @@ test_that("pxfile = pxmake(metamake(pxfile))", {
   run_metamake_pxmake_and_compare("BEXLTALL")
 })
 
+test_that("metamake can create rds file", {
+  table_name   <- 'BEXSTA'
+  px_source    <- get_pxfile_path(table_name)
+  metadata_out <- get_metadata_path(paste0(table_name, "_by_metamake"))
+  rds_out      <- tempfile(fileext = ".rds")
+  px_out       <- get_pxfile_path(paste0(table_name, "_metamake_pxmake_rds"))
+
+  metamake(px_source, metadata_out, rds_data_path = rds_out)
+  pxmake(metadata_out, px_out, rds_out)
+
+  output <- readLines(get_pxfile_path(paste0(table_name, "_metamake_pxmake")))
+  expect <- readLines(get_pxfile_path(paste0(table_name, "_metamake_pxmake_rds")))
+
+  expect_equal(output, expect)
+})
+
 test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
   # Some files don't give an exact match in the px-file because there can be
   # subtle differences in formatting. PxJob is run on these file to test

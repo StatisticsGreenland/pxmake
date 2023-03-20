@@ -44,3 +44,17 @@ error_if_not_exactly_one_data_line <- function(data_line_index) {
          )
   }
 }
+
+error_if_too_many_rows_for_excel <- function(df) {
+  data_lines <- nrow(df)
+  excel_max_lines <- 1048576
+
+  if(data_lines > excel_max_lines) {
+   stop(stringr::str_glue("The data cube contains {data_lines} data lines ",
+                          "which is more than the {excel_max_lines} lines ",
+                          "supported by Excel. Use argument `rds_data_path=` ",
+                          "to store the data in an .rds file instead."
+                          )
+        )
+  }
+}

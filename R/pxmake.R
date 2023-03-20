@@ -405,8 +405,8 @@ add_totals_to_source_data <- function(metadata_path,
 #'
 #' @param metadata_path Path to Excel workbook with metadata.
 #' @param pxfile_path Path to save px file at.
-#' @param source_data_path Path to `.rds` file with data source, if left blank
-#' `pxmake()` uses the data the metadata sheet 'Data'.
+#' @param source_data_path A data frame or a path to an `.rds` file with data
+#' source. If NULL`pxmake()` uses the metadata sheet 'Data'.
 #' @param add_totals A list of variables to add a 'total' level to. The value
 #' of the total level is looked up in 'Variables' xx_elimination. The code for
 #' the level is found in 'Codelists'. The total is a sum of the values in the
@@ -425,6 +425,9 @@ pxmake <- function(metadata_path,
       metadata_path %>%
       readxl::read_excel(sheet = "Data") %>%
       save_temp_data()
+  } else if (is.data.frame(source_data_path)) {
+    source_data_path <-
+      save_temp_data(source_data_path)
   }
 
   if (!is.null(add_totals)) {

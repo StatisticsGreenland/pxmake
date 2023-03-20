@@ -11,8 +11,8 @@ pxmake(metadata_path, pxfile_path, source_data_path = NULL, add_totals = NULL)
 
 \item{pxfile_path}{Path to save px file at.}
 
-\item{source_data_path}{Path to \code{.rds} file with data source, if left blank
-\code{pxmake()} uses the data the metadata sheet 'Data'.}
+\item{source_data_path}{A data frame or a path to an \code{.rds} file with data
+source. If NULL\code{pxmake()} uses the metadata sheet 'Data'.}
 
 \item{add_totals}{A list of variables to add a 'total' level to. The value
 of the total level is looked up in 'Variables' xx_elimination. The code for

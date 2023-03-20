@@ -50,6 +50,22 @@ test_that("pxmake runs without errors and creates a file", {
   test_file_creation("no_timeval")
 })
 
+test_that("pxmake accepts a data frame object", {
+  table_name <- "BEXSTA"
+
+  df <- readRDS(get_source_data_path(table_name))
+
+  pxmake(get_metadata_path(table_name),
+         get_pxfile_path(paste0(table_name, "_with_df")),
+         source_data_path = df
+         )
+
+  expect <- readLines(get_pxfile_path(paste0(table_name)))
+  output <- readLines(get_pxfile_path(paste0(table_name, "_with_df")))
+
+  expect_equal(expect, output)
+})
+
 test_that("timevals are added", {
   pxfile_has_timeval <- function(table_name) {
     px_lines <-

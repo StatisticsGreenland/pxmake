@@ -45,7 +45,7 @@ metamake <- function(pxfile_path,
                      rds_data_path = NULL,
                      overwrite_xlsx = TRUE) {
 
-  lines <- readLines(pxfile_path)
+  lines <- readLines(pxfile_path, warn = FALSE)
 
   ## Split metadata in heading and data cube
   data_line_index <- stringr::str_which(lines, '^DATA=$')

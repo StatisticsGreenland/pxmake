@@ -138,7 +138,7 @@ metamake <- function(pxfile_path,
                      ) %>%
     dplyr::left_join(long_name, by = "variable") %>%
     dplyr::left_join(note_elimination_domain, by = "variable") %>%
-    dplyr::bind_rows(data.frame(variable = ".figures", type = "figures"))
+    dplyr::bind_rows(data.frame(variable = "figures_", type = "figures"))
 
   ### Make metadata sheet: 'Codelists'
   codes <-
@@ -234,7 +234,7 @@ metamake <- function(pxfile_path,
     stringr::str_split(" ") %>%
     unlist() %>%
     stringr::str_subset("^$", negate = TRUE) %>%
-    data.frame(.figures = .)
+    data.frame(figures_ = .)
 
   sheet_data <-
     do.call(tidyr::expand_grid, stub_and_heading_values) %>%

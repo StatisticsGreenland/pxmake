@@ -76,3 +76,30 @@ zip_vectors <- function(v1, v2) {
 
   matrix(c(v1, v2), ncol = 2) %>% t() %>% as.list() %>% unlist()
 }
+
+#' Split long strings at commas
+#'
+#' Long strings are split so they are no longer than 256 characters and end at
+#' a comma.
+#'
+#' @param str Character string
+#'
+#' @returns A character vector
+break_long_lines <- function(str, line_limit = 256) {
+  if (nchar(str) > line_limit) {
+    split <-
+      str %>%
+      stringr::str_locate_all('","') %>%
+      as.data.frame() %>%
+      dplyr::filter(start < line_limit) %>%
+      dplyr::slice_tail(n = 1) %>%
+      dplyr::pull(start) + 1
+
+    line_start <- stringr::str_sub(str, 1, split)
+    line_end   <- stringr::str_sub(str, split+1, -1)
+
+    return(c(line_start, break_long_lines(line_end)))
+  } else {
+    return(str)
+  }
+}

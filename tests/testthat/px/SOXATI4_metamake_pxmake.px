@@ -34,17 +34,22 @@ HEADING="time";
 HEADING[da]="tid";
 HEADING[kl]="piffissaq";
 VALUES("calculation method")="November","Annual average, permanent residents";
-VALUES("labour force status")="Total","00 Employed without further details","01-02 Employed students","03-04 Employed pensioners","05-12 Employed with income replacement benefits","20-21 Unemployed with income replacement benefits","23 Unemployed, without income replacement benefits","30-32 Students","40-41 Temporary income replacement","50-60 Pensioners","70 Children and young people up to and including 15 years of age","90 Others outside the workforce";
+VALUES("labour force status")="Total","00 Employed without further details","01-02 Employed students","03-04 Employed pensioners","05-12 Employed with income replacement benefits","20-21 Unemployed with income replacement benefits","23 Unemployed, without income replacement benefits",
+"30-32 Students","40-41 Temporary income replacement","50-60 Pensioners","70 Children and young people up to and including 15 years of age","90 Others outside the workforce";
 VALUES("time")="2016","2017","2018","2019","2020","2021";
 VALUES("uddannelsesniveau")="Total","Children and young people up to and including 15 years of age","Primary","Upper secondary - General","Upper secondary education - Vocational","Post-secondary education";
-VALUES[da]("arbejdsmarkedsstatus")="I alt","00 Beskæftigede uden nærmere angivelse","01-02 Beskæftigede studerende","03-04 Beskæftigede pensionister","05-12 Beskæftigede med midlertidigt indkomsterstattende ydelser","20-21 Ledige, Indkomsterstattende","23 Ledige, uden indkomsterstattende ydelse","30-32 Studerende","40-41 Midlertidigt indkomsterstattende","50-60 Pensionister","70 Børn og unge til og med 15 år","90 Øvrige uden for arbejdsstyrken";
+VALUES[da]("arbejdsmarkedsstatus")="I alt","00 Beskæftigede uden nærmere angivelse","01-02 Beskæftigede studerende","03-04 Beskæftigede pensionister","05-12 Beskæftigede med midlertidigt indkomsterstattende ydelser","20-21 Ledige, Indkomsterstattende",
+"23 Ledige, uden indkomsterstattende ydelse","30-32 Studerende","40-41 Midlertidigt indkomsterstattende","50-60 Pensionister","70 Børn og unge til og med 15 år","90 Øvrige uden for arbejdsstyrken";
 VALUES[da]("opgørelsesmetode")="November","Årsgennemsnit, fastboende";
 VALUES[da]("tid")="2016","2017","2018","2019","2020","2021";
 VALUES[da]("uddannelsesniveau")="I alt","Børn og unge til og med 15 år","Folkeskolen","Gymnasium","Erhversuddannelse","Videregående uddanelse";
 VALUES[kl]("ilinniarfimassuseq")="Katillugit","Meeqqat 15-inik ataallugilluunniit ukiullit","Meeqqat atuarfiat","Ilinniarnertuunngorniarfiit","Inuussutissarsiornermik ilinniarfiit","Ingerlariaqqiffiusumik ilinniarfiit";
 VALUES[kl]("nalunaarsuinermi periuseq")="Novembari","Najugaqavissut ukiumut agguaqatigiissillugu";
 VALUES[kl]("piffissaq")="2016","2017","2018","2019","2020","2021";
-VALUES[kl]("suliaqarfinni suliffeqarneq")="Katillugit","00 Suliffillit annertunerusumik nalunaarsuuteqanngitsut","01-02 Ilinniartut suliffillit","03-04 Soraarnerussutisiallit suliffillit","05-12 Utaqqiisaagallarumik isertitanut taarsiissutaasunik ikiorsiissutinik pisartagallit, ernereernermi pisartagallit ilanngullugit, suliffillit","20-21 Utaqqiisaagallarumik isertitanut taarsiissutaasunik ikiorsiissutinik pisartagallit, suliffissaaleqisut","23 Suliffissaaleqisut, isertitanut taarsiissutaasunik ikiorsiissuteqanngitsut","30-32 Ilinniartut","40-41 Utaqqiisaagallarumik isertitanut taarsiissutaasunik ikiorsiissutit","50-60 Soraarnerussutisiallit","70 Meeqqat 15-inik ataallugilluunniit ukiullit","90 Sulisinnaasunut ilaanngitsut allat";
+VALUES[kl]("suliaqarfinni suliffeqarneq")="Katillugit","00 Suliffillit annertunerusumik nalunaarsuuteqanngitsut","01-02 Ilinniartut suliffillit","03-04 Soraarnerussutisiallit suliffillit",
+"05-12 Utaqqiisaagallarumik isertitanut taarsiissutaasunik ikiorsiissutinik pisartagallit, ernereernermi pisartagallit ilanngullugit, suliffillit",
+"20-21 Utaqqiisaagallarumik isertitanut taarsiissutaasunik ikiorsiissutinik pisartagallit, suliffissaaleqisut","23 Suliffissaaleqisut, isertitanut taarsiissutaasunik ikiorsiissuteqanngitsut","30-32 Ilinniartut",
+"40-41 Utaqqiisaagallarumik isertitanut taarsiissutaasunik ikiorsiissutit","50-60 Soraarnerussutisiallit","70 Meeqqat 15-inik ataallugilluunniit ukiullit","90 Sulisinnaasunut ilaanngitsut allat";
 TIMEVAL("time")=TLIST(A1),"2016","2017","2018","2019","2020","2021";
 TIMEVAL[da]("tid")=TLIST(A1),"2016","2017","2018","2019","2020","2021";
 TIMEVAL[kl]("piffissaq")=TLIST(A1),"2016","2017","2018","2019","2020","2021";

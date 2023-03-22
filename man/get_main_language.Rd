@@ -4,10 +4,10 @@
 \alias{get_main_language}
 \title{Return the main language of the px-file}
 \usage{
-get_main_language(metadata)
+get_main_language(df)
 }
 \arguments{
-\item{metadata}{A data frame with metadata}
+\item{df}{A data frame with table metadata}
 }
 \description{
 Return the main language of the px-file

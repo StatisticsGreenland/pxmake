@@ -60,6 +60,10 @@ sort_metadata <- function(metadata) {
 get_metadata <- function(metadata_path, source_data_path) {
   # Generate metadata from first sheet in Excel workbook.
   # Datasets starting with 'metadata_' are part of the final metadataset.
+  main_language <-
+    get_table_metadata(metadata_path) %>%
+    get_main_language()
+
   variables <- get_variables_metadata(metadata_path)
 
   time_variable <-
@@ -80,7 +84,7 @@ get_metadata <- function(metadata_path, source_data_path) {
       variables %>%
       dplyr::filter(variable == time_variable) %>%
       dplyr::mutate(keyword = "VALUES" %>%
-                      add_language_to_keyword(language) %>%
+                      add_language_to_keyword(main_language, language) %>%
                       add_sub_key_to_keyword(long_name),
                     value = time_values %>%
                       str_quote() %>%
@@ -92,7 +96,7 @@ get_metadata <- function(metadata_path, source_data_path) {
       variables %>%
       dplyr::filter(variable == time_variable) %>%
       dplyr::mutate(keyword = "CODES" %>%
-                      add_language_to_keyword(language) %>%
+                      add_language_to_keyword(main_language, language) %>%
                       add_sub_key_to_keyword(long_name),
                     value = time_values %>%
                       str_quote() %>%
@@ -104,7 +108,7 @@ get_metadata <- function(metadata_path, source_data_path) {
       variables %>%
       dplyr::filter(variable == time_variable) %>%
       dplyr::mutate(keyword = "TIMEVAL" %>%
-                      add_language_to_keyword(language) %>%
+                      add_language_to_keyword(main_language, language) %>%
                       add_sub_key_to_keyword(long_name),
                     value = paste0("TLIST(",
                                    get_timeval_type_from_values(time_values),
@@ -133,7 +137,7 @@ get_metadata <- function(metadata_path, source_data_path) {
                                      substr(tolower(position), 1, 1) == 'h' ~ 'HEADING',
                                      TRUE ~ NA_character_
                                      ) %>%
-                                     add_language_to_keyword(language)
+                                     add_language_to_keyword(main_language, language)
                   ) %>%
     dplyr::arrange(position, keyword) %>%
     dplyr::group_by(keyword) %>%
@@ -150,7 +154,7 @@ get_metadata <- function(metadata_path, source_data_path) {
     tidyr::drop_na(value) %>%
     dplyr::arrange(name, position) %>%
     dplyr::mutate(keyword = toupper(name) %>%
-                              add_language_to_keyword(language) %>%
+                              add_language_to_keyword(main_language, language) %>%
                               add_sub_key_to_keyword(long_name),
                   value = str_quote(value)
                   ) %>%
@@ -170,7 +174,7 @@ get_metadata <- function(metadata_path, source_data_path) {
                                              type == 'precision' ~ 'PRECISION',
                                              TRUE ~ NA_character_
                                              ) %>%
-                                             add_language_to_keyword(language) %>%
+                                             add_language_to_keyword(main_language, language) %>%
                                              add_sub_key_to_keyword(long_name)
                   ) %>%
     dplyr::arrange(keyword, sortorder) %>%
@@ -184,7 +188,7 @@ get_metadata <- function(metadata_path, source_data_path) {
     dplyr::mutate(keyword2 = dplyr::case_when(type == 'precision' ~ 'PRECISION',
                                               TRUE ~ NA_character_
                                               ) %>%
-                                              add_language_to_keyword(language) %>%
+                                              add_language_to_keyword(main_language, language) %>%
                                               add_sub_key_to_keyword(VarName2)
                   ) %>%
     dplyr::distinct(type, keyword,keyword2, value) %>%
@@ -194,7 +198,7 @@ get_metadata <- function(metadata_path, source_data_path) {
 
   metadata_table <-
     get_table_metadata(metadata_path) %>%
-    dplyr::mutate(keyword = add_language_to_keyword(keyword, language),
+    dplyr::mutate(keyword = add_language_to_keyword(keyword, main_language, language),
                   value = tidyr::replace_na(value, "")
                   ) %>%
     dplyr::arrange(!is.na(language)) %>%
@@ -234,18 +238,23 @@ get_source_data <- function(source_data_path, metadata_path) {
 #' @param metadata_path Path to metadata.
 #' @param source_data_path Path to source data
 get_data_cube <- function(metadata_path, source_data_path) {
+  main_language <-
+    main_language <-
+    get_table_metadata(metadata_path) %>%
+    get_main_language()
+
   variables <-
     get_variables_metadata(metadata_path) %>%
     dplyr::arrange(position)
 
   stub_vars <-
     variables %>%
-    dplyr::filter(substr(tolower(position), 1, 1) == 's', language == "en") %>%
+    dplyr::filter(substr(tolower(position), 1, 1) == 's', language == main_language) %>%
     dplyr::pull(variable)
 
   heading_vars <-
     variables %>%
-    dplyr::filter(substr(tolower(position), 1, 1) == 'h', language == "en") %>%
+    dplyr::filter(substr(tolower(position), 1, 1) == 'h', language == main_language) %>%
     dplyr::pull(variable)
 
   codelist <-
@@ -253,7 +262,7 @@ get_data_cube <- function(metadata_path, source_data_path) {
     dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
                      by = c("variable", "language")
                      ) %>%
-    dplyr::filter(language == "en") %>%
+    dplyr::filter(language == main_language) %>%
     dplyr::select(variable, sortorder, code)
 
   # Complete data by adding all combinations of variable values in data and
@@ -389,6 +398,10 @@ get_figures_variable <- function(metadata_path) {
 add_totals_to_source_data <- function(metadata_path,
                                       source_data_path,
                                       add_totals) {
+  main_language <-
+    get_table_metadata(metadata_path) %>%
+    get_main_language()
+
   variables <-
     metadata_path %>%
     get_variables_metadata()
@@ -402,7 +415,7 @@ add_totals_to_source_data <- function(metadata_path,
     variables %>%
     dplyr::select(variable, language, elimination) %>%
     dplyr::left_join(codelist, by = c("variable", "elimination" = "value")) %>%
-    dplyr::filter(variable %in% add_totals, language == "en") %>%
+    dplyr::filter(variable %in% add_totals, language == main_language) %>%
     dplyr::distinct(variable, code)
 
   source_data_path <-

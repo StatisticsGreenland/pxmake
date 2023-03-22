@@ -7,7 +7,9 @@
 # - 2 headings (BEXSTA)
 
 # Languages
-# - 2-3 languages (BEXSTA, BEXLTALL, FOTEST)
+# - 1 language (FOTEST)
+# - 2-3 languages (BEXSTA, BEXLTALL)
+# - Other main language than English (FOTEST)
 #
 # Data
 # - Data in 'Data' sheet in Excel (FOTEST)

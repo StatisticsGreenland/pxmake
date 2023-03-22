@@ -18,9 +18,9 @@ get_px_metadata_regex <- function() {
 
 #' Return the main language of the px-file
 #'
-#' @param metadata A data frame with metadata
-get_main_language <- function(metadata) {
-  metadata %>%
+#' @param df A data frame with table metadata
+get_main_language <- function(df) {
+  df %>%
     dplyr::filter(keyword == "LANGUAGE") %>%
     dplyr::pull(value) %>%
     unlist()

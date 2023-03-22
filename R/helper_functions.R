@@ -4,8 +4,8 @@ str_quote <- function(str) {
   stringr::str_c('"', str, '"')
 }
 
-add_language_to_keyword <- function(keyword, language) {
-  dplyr::if_else(language == "en" | is.na(language),
+add_language_to_keyword <- function(keyword, main_language, language) {
+  dplyr::if_else(language == main_language | is.na(language),
                  keyword,
                  stringr::str_glue("{keyword}[{language}]") %>% as.character()
                  )

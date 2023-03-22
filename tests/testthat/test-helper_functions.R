@@ -7,6 +7,7 @@ test_that("strings are quoted", {
 
 test_that("keywords has language", {
   expect_equal(add_language_to_keyword(keyword = rep('STUB', 4),
+                                       main_language = "en",
                                        language = c("en", "da", "kl", NA)
                                        ),
                c("STUB", "STUB[da]", "STUB[kl]", "STUB")

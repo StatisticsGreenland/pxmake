@@ -1,3 +1,5 @@
 ^pxmake\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^helpers.R$
+

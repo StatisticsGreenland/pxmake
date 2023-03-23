@@ -93,12 +93,18 @@ break_long_lines <- function(str, line_limit = 256) {
       as.data.frame() %>%
       dplyr::filter(start < line_limit) %>%
       dplyr::slice_tail(n = 1) %>%
-      dplyr::pull(start) + 1
+      dplyr::pull(start)
 
-    line_start <- stringr::str_sub(str, 1, split)
-    line_end   <- stringr::str_sub(str, split+1, -1)
+    if (identical(split, numeric(0))) {
+      # no split character, split at specific point
+      line_start <- paste0(stringr::str_sub(str, 1, line_limit -2), '"')
+      line_end   <- paste0(stringr::str_sub(str, line_limit, -1), '"')
+    } else {
+      line_start <- stringr::str_sub(str, 1, split+1)
+      line_end   <- stringr::str_sub(str, split+2, -1)
+    }
 
-    return(c(line_start, break_long_lines(line_end)))
+    return(c(line_start, break_long_lines(line_end, line_limit)))
   } else {
     return(str)
   }

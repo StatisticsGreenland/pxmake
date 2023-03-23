@@ -6,7 +6,7 @@ get_table_metadata <- function(metadata_path) {
     readxl::read_xlsx(sheet = "Table") %>%
     tidyr::separate(keyword,
                     c("keyword", "language"),
-                    sep = "_(?=[en|da|kl|fo])",
+                    sep = "_(?=[[:alpha:]]+)",
                     fill = "right"
                     )
 }
@@ -19,7 +19,7 @@ get_variables_metadata <- function(metadata_path) {
     readxl::read_xlsx(sheet = "Variables") %>%
     tidyr::pivot_longer(cols = -c(position, variable, type),
                         names_to = c("language", "long_name"),
-                        names_pattern = "^([[:alpha:]]*)_(.*)$"
+                        names_pattern = "^([[:alpha:]]+)_(.*)$"
                         ) %>%
     tidyr::pivot_wider(names_from = long_name, values_from = value)
 }
@@ -32,7 +32,7 @@ get_codelist_metadata <- function(metadata_path) {
     readxl::read_xlsx(sheet = "Codelists") %>%
     tidyr::pivot_longer(cols = ends_with("_code_label"),
                         names_to = c("language"),
-                        names_pattern = "^([[:alpha:]]*)_.*$"
+                        names_pattern = "^([[:alpha:]]+)_.*$"
                         )
 }
 

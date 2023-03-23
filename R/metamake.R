@@ -26,6 +26,36 @@ get_main_language <- function(df) {
     unlist()
 }
 
+#' Get encoding from CODEPAGE string
+#'
+#' @param str Character containing CODEPAGE and its values.
+#' @param default Character of default encoding to return in no match is found.
+#'
+#' @returns Character
+str_extract_px_encoding <- function(str, default = 'utf-8') {
+  encoding <- stringr::str_extract(str, '(?<=CODEPAGE=").+(?=";)')
+
+  if (is.na(encoding)) {
+    encoding <- default
+  }
+
+  return(encoding)
+}
+
+#' Get file encoding listed in px-file
+#'
+#' The encoding is listed under CODEPAGE. If CODEPAGE isen't given, utf-8 is
+#' assumed.
+#'
+#' @param px_file_path Path to px file
+#'
+#' @returns Character
+get_pxfile_encoding <- function(px_file_path) {
+  px_file_path %>%
+    readChar(nchars = file.info(.)$size) %>%
+    str_extract_px_encoding()
+}
+
 #' Create an Excel metadata workbook from a px-file
 #'
 #' Turn a px-file into an Excel metadata workbook. If pxmake() is run on that
@@ -45,7 +75,9 @@ metamake <- function(pxfile_path,
                      rds_data_path = NULL,
                      overwrite_xlsx = TRUE) {
 
-  lines <- readLines(pxfile_path, warn = FALSE)
+  file_connection <- file(pxfile_path, encoding = get_pxfile_encoding(pxfile_path))
+  lines <- readLines(con = file_connection)
+  close(file_connection)
 
   ## Split metadata in heading and data cube
   data_line_index <- stringr::str_which(lines, '^DATA=$')

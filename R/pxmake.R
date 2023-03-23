@@ -472,7 +472,16 @@ pxmake <- function(metadata_path,
 
   px_lines <- format_px_data_as_lines(metadata, data_cube)
 
-  file_connection <- file(pxfile_path)
+  encoding_str <-
+    metadata %>%
+    dplyr::filter(keyword == "CODEPAGE") %>%
+    dplyr::pull(value)
+
+  if (identical(encoding_str, character(0))) {
+    encoding_str <- 'utf-8'
+  }
+
+  file_connection <- file(pxfile_path, encoding = encoding_str)
   writeLines(px_lines, file_connection)
   close(file_connection)
 }

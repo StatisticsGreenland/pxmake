@@ -8,6 +8,18 @@ run_metamake_and_pxmake <- function(table_name) {
   pxmake(metadata_out, px_out)
 }
 
+test_that("file encoding is correct", {
+  get_file_encoding_for_table <- function(table_name) {
+    get_pxfile_encoding(get_pxfile_path(table_name))
+  }
+
+  expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')
+  expect_equal(get_file_encoding_for_table('SOXATI4'), 'windows-1252')
+
+  # no encoding listed; utf-8 is default
+  expect_equal(get_file_encoding_for_table('BEXSTA'),  'utf-8')
+})
+
 test_that("pxfile = pxmake(metamake(pxfile))", {
   run_metamake_pxmake_and_compare <- function(table_name) {
     run_metamake_and_pxmake(table_name)

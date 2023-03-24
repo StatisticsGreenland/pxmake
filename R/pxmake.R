@@ -321,11 +321,29 @@ get_data_cube <- function(metadata_path, source_data_path) {
 #' @param data_cube Dataframe with data cube
 format_px_data_as_lines <- function(metadata, data_cube) {
   metadata_lines <-
-    stringr::str_c(metadata$keyword,
-                   "=",
-                   quote_unless_numeric_or_yes_no(metadata$value),
-                   ";"
-                   )
+    metadata %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(value = value %>%
+                    quote_unless_numeric_or_yes_no() %>%
+                    break_long_lines(max_line_length = 256) %>% list()
+                  ) %>%
+    dplyr::ungroup() %>%
+    tidyr::unnest(value) %>%
+    # Remove repeated keywords for long lines
+    dplyr::mutate(repeated = !is.na(dplyr::lag(keyword)) &
+                    keyword == dplyr::lag(keyword),
+                  last     = is.na(dplyr::lead(repeated)) |
+                    !dplyr::lead(repeated)
+                  ) %>%
+    dplyr::mutate(line = stringr::str_c(ifelse(repeated,
+                                               "",
+                                               paste0(keyword, "=")
+                                               ),
+                                        value,
+                                        ifelse(last, ";", "")
+                                        )
+                  ) %>%
+    dplyr::pull(line)
 
   data_lines <-
     data_cube %>%

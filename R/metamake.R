@@ -6,10 +6,12 @@ get_px_metadata_regex <- function() {
          "(?:\\[)?",                     # Maybe opening language bracket [
          "(?<language>[[:alpha:]_-]+)?", # Maybe language
          "(?:\\])?",                     # Maybe closing language bracket ]
-         "(?:\\()?",                     # Maybe opening sub-key parentheses (
-         "(?<variable>[^\\(\\),]+)?",    # Maybe sub-key
-         "(?:,)?(?<cell>[^\\(\\)]+)?",   # Maybe cell value (used by PRECISION)
-         "(?:\\))?",                     # Maybe closing sub-key parentheses )
+         "(?:\\(\")?",                   # Maybe opening sub-key parentheses (
+         "(?<variable>[ [:alpha:]_-]+)?",# Maybe sub-key
+         "(?:\",\")?",                   # Maybe comma before cell value
+         "(?<cell>[\" [:alpha:]_-]+)?",  # Maybe cell value (used by PRECISION)
+         "(?:\")?",                      # Maybe closing " after cell value
+         "(?:\"\\))?",                   # Maybe closing sub-key parentheses )
          "=",                            # definitely =
          "(?<value>[^;]*)",              # Value is everything up to ending ;
          "(?:;$)?"                       # Maybe ;
@@ -98,10 +100,10 @@ metamake <- function(pxfile_path,
     magrittr::extract(,-1) %>% # remove full match column
     dplyr::as_tibble() %>%
     # remove leading and trailing "
-    dplyr::mutate(dplyr::across(c(variable, value, cell),
-                                ~stringr::str_replace_all(., '^"|"$', '')),
-                  value = stringr::str_split(value, '","')
-                  ) %>%
+    dplyr::mutate(value = stringr::str_replace_all(value, '^"|"$', '')) %>%
+    # remove double quotes caused by collapsing values spanning multiple lines
+    dplyr::mutate(value = stringr::str_replace_all(value, '""', '')) %>%
+    dplyr::mutate(value = stringr::str_split(value, '","')) %>%
     dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.)),
                   main_language = language == get_main_language(.)
                   )

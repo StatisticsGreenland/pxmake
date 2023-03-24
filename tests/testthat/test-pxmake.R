@@ -20,15 +20,19 @@
 # - Quaters (FOTEST)
 # - Data without a timeval (no_timeval)
 #
+# Encoding
+# - utf-8 (BELTALL, BEXSTA, FOTEST)
+# - Windows-1252 (BEXSTA_windows_1251)
+#
+# Long lines
+# - VALUES longer than 256 characters (BEXLTALL)
+# - NOTE longer than 256 characters (BEXSTA)
+#
 # Other
 # - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)
 # - Data with groups (BEXLTALL)
 # - Numeric variable type ('age' in BEXLTALL)
 # - A value in 'Codelist' is not present in the data. (BEXLTALL)
-#
-# Encoding
-# - utf-8 (BELTALL, BEXSTA, FOTEST)
-# - Windows-1252 (BEXSTA_windows_1251)
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {
@@ -118,6 +122,7 @@ test_that("px lines are valid", {
 
   valid_lines <-
     c(paste0("^", keywords, "[=\\[\\(]"), # keyword followed by [ ( or =
+      '^".+[",;]$',                       # continued lines (when previous is longer than 256)
       '^[e[:digit:][:space:]"-.]+$',      # data lines
       '^;$'                               # last line of file
       )
@@ -135,6 +140,29 @@ test_that("px lines are valid", {
   expect_equal(get_invalid_lines("BEXLTALL"), character(0))
   expect_equal(get_invalid_lines("BEXSTA"), character(0))
   expect_equal(get_invalid_lines("FOTEST"), character(0))
+})
+
+test_that("header lines doesn't exceed 256 characters", {
+  file_does_not_have_too_long_lines <- function(table_name) {
+    px_lines <-
+      get_pxfile_path(table_name) %>%
+      readLines()
+
+    data_line_index <- stringr::str_which(px_lines, '^DATA=$')
+
+    long_lines <-
+      tibble::tibble(line = px_lines[1:data_line_index]) %>%
+      dplyr::mutate(text = stringr::str_extract(line, "(?<==).+"),
+                    length = nchar(text)
+      ) %>%
+      dplyr::filter(length > 256)
+
+    expect_equal(long_lines, dplyr::filter(long_lines, FALSE))
+  }
+
+  file_does_not_have_too_long_lines('BEXSTA')
+  file_does_not_have_too_long_lines('FOTEST')
+  file_does_not_have_too_long_lines('BEXLTALL')
 })
 
 test_that("pxjob exists without errors (exit code 0)", {

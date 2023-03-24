@@ -14,7 +14,7 @@ test_that("file encoding is correct", {
   }
 
   expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')
-  expect_equal(get_file_encoding_for_table('SOXATI4'), 'windows-1252')
+  expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
 
   # no encoding listed; utf-8 is default
   expect_equal(get_file_encoding_for_table('BEXSTA'),  'utf-8')
@@ -77,7 +77,7 @@ test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
   run_metamake_pxmake_pxjob_and_compare("SOXATI4")
 
   # Turn on when lines are broken correctly (issue #103)
-  # run_metamake_pxmake_pxjob_and_compare("BEXSTA_windows_1252")
+  run_metamake_pxmake_pxjob_and_compare("BEXSTA_windows_1252")
 
   # Turn on when support for CELLNOTEX is added (issue #101)
   # run_metamake_pxmake_pxjob_and_compare("TUX01")

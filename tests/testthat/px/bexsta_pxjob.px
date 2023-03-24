@@ -75,6 +75,15 @@ LINK[kl]="www.stat.gl/ben202201/m1";
 NOTEX="Tvungen fodnote";
 NOTEX[da]="Tvungen fodnote";
 NOTEX[kl]="Tvungen fodnote";
+NOTE="This is a very long note. It is longer than 256*2 characters to test what happens if a line is broken into 3 lines. Each line should only hold values up to 256 and then break line after a comma. When the line is so long that it is split into >=3 "
+"lines, the second line starts with no keywords, but just list values. The last line will do the same but has to end with a semi-colon to show that the list of values has ended. With this final sentence, that had to be extended a bit, this line is now 534 "
+"characters which is long enough.";
+NOTE[da]="This is a very long note. It is longer than 256*2 characters to test what happens if a line is broken into 3 lines. Each line should only hold values up to 256 and then break line after a comma. When the line is so long that it is split into >=3 "
+"lines, the second line starts with no keywords, but just list values. The last line will do the same but has to end with a semi-colon to show that the list of values has ended. With this final sentence, that had to be extended a bit, this line is now 534 "
+"characters which is long enough.";
+NOTE[kl]="This is a very long note. It is longer than 256*2 characters to test what happens if a line is broken into 3 lines. Each line should only hold values up to 256 and then break line after a comma. When the line is so long that it is split into >=3 "
+"lines, the second line starts with no keywords, but just list values. The last line will do the same but has to end with a semi-colon to show that the list of values has ended. With this final sentence, that had to be extended a bit, this line is now 534 "
+"characters which is long enough.";
 NOTE("place of birth")="dette er en fodnote til variabel";
 NOTE[da]("fødested")="dette er en fodnote til variabel";
 NOTE[kl]("inunngorfik")="dette er en fodnote til variabel";

@@ -15,16 +15,20 @@
 # - Data in 'Data' sheet in Excel (FOTEST)
 # - Data in .rds file (BEXSTA, BEXLTALL)
 #
+# Time
+# - Years (BEXSTA, BEXLTALL)
+# - Quaters (FOTEST)
+# - Data without a timeval (no_timeval)
+#
 # Other
 # - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)
 # - Data with groups (BEXLTALL)
 # - Numeric variable type ('age' in BEXLTALL)
 # - A value in 'Codelist' is not present in the data. (BEXLTALL)
 #
-# Time
-# - Years (BEXSTA, BEXLTALL)
-# - Quaters (FOTEST)
-# - Data without a timeval (no_timeval)
+# Encoding
+# - utf-8 (BELTALL, BEXSTA, FOTEST)
+# - Windows-1252 (BEXSTA_windows_1251)
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {

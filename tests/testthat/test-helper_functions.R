@@ -91,21 +91,21 @@ test_that("long lines are split into <=256 character bits", {
                )
   expect_equal(break_long_lines(input2), expect2)
 
-  input3  <- "string which is a single value"
-  expect3 <- c("string which is a ",
-               "single value"
+  input3  <- '"string which is a single value"'
+  expect3 <- c('"string which is a"',
+               '" single value"'
                )
-  expect_equal(break_long_lines(input3, line_limit = 20), expect3)
+  expect_equal(break_long_lines(input3, max_line_length = 20), expect3)
 
   input4 <- paste0('"a long string","composed of multiple values",',
-                   '"some of which are longer than the line_limit of 50 characters",',
-                   '"and here are","a few", "short","values'
+                   '"some of which are longer than the line limit of 50 characters",',
+                   '"and here are","a few", "short","values"'
                    )
 
   expect4 <- c('"a long string","composed of multiple values",',
-               '"some of which are longer than the line_limit of"',
+               '"some of which are longer than the line limit of"',
                '" 50 characters","and here are","a few", "short",',
                '"values"'
                )
-  expect_equal(break_long_lines(input4, line_limit = 50), expect4)
+  expect_equal(break_long_lines(input4, max_line_length = 50), expect4)
 })

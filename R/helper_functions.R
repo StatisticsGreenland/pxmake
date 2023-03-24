@@ -83,28 +83,29 @@ zip_vectors <- function(v1, v2) {
 #' a comma.
 #'
 #' @param str Character string
+#' @param max_line_length Integer longest allowed line length
 #'
 #' @returns A character vector
-break_long_lines <- function(str, line_limit = 256) {
-  if (nchar(str) > line_limit) {
-    split <-
+break_long_lines <- function(str, max_line_length = 256) {
+  if (nchar(str) > max_line_length) {
+    comma_split <-
       str %>%
       stringr::str_locate_all('","') %>%
       as.data.frame() %>%
-      dplyr::filter(start < line_limit) %>%
+      dplyr::filter(start < max_line_length) %>%
       dplyr::slice_tail(n = 1) %>%
       dplyr::pull(start)
 
-    if (identical(split, numeric(0))) {
-      # no split character, split at specific point
-      line_start <- paste0(stringr::str_sub(str, 1, line_limit -2), '"')
-      line_end   <- paste0(stringr::str_sub(str, line_limit, -1), '"')
+    if (identical(comma_split, integer(0))) {
+      # no comma_split character; split at specific point
+      line_start <- paste0(stringr::str_sub(str, 1, max_line_length - 2), '"')
+      line_end   <- paste0('"', stringr::str_sub(str, max_line_length - 1))
     } else {
-      line_start <- stringr::str_sub(str, 1, split+1)
-      line_end   <- stringr::str_sub(str, split+2, -1)
+      line_start <- stringr::str_sub(str, 1, comma_split + 1)
+      line_end   <- stringr::str_sub(str, comma_split + 2, -1)
     }
 
-    return(c(line_start, break_long_lines(line_end, line_limit)))
+    return(c(line_start, break_long_lines(line_end, max_line_length)))
   } else {
     return(str)
   }

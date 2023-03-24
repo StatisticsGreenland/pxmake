@@ -325,7 +325,7 @@ format_px_data_as_lines <- function(metadata, data_cube) {
     dplyr::rowwise() %>%
     dplyr::mutate(value = value %>%
                     quote_unless_numeric_or_yes_no() %>%
-                    break_long_lines(line_limit = 256) %>% list()
+                    break_long_lines(max_line_length = 256) %>% list()
                   ) %>%
     dplyr::ungroup() %>%
     tidyr::unnest(value) %>%

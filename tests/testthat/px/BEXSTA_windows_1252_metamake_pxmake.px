@@ -31,12 +31,14 @@ STUB[kl]="inunngorfik","suiaassuseq","ukiut","najugaqarfik";
 HEADING="time";
 HEADING[da]="tid";
 HEADING[kl]="piffissaq";
-VALUES("age")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
+VALUES("age")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52",
+"53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
 VALUES("gender")="Total","Men","Women";
 VALUES("place of birth")="Total","Greenland","Born outside Greenland";
 VALUES("residence type")="Total","Capital city","Main settlements","Larger settlements","Settlements","Smaller settlements","Smallest settlements","Other localities";
 VALUES("time")="2023";
-VALUES[da]("alder")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
+VALUES[da]("alder")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52",
+"53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
 VALUES[da]("bostedstype")="I alt","Hovedstad","Hovedbosteder","Større bosteder","Bosteder","Mindre bosteder","Mindste bosteder","Andre lokaliteter";
 VALUES[da]("fødested")="I alt","Grønland","Født udenfor Grønland";
 VALUES[da]("køn")="I alt","Mænd","Kvinder";
@@ -45,16 +47,19 @@ VALUES[kl]("inunngorfik")="Katillugit","Kalaallit Nunaat","Kalaallit Nunaata ava
 VALUES[kl]("najugaqarfik")="Katillugit","Inoqarfiit pingaarnersaat","Inoqarfiit pingaarnerusut","Inoqarfiit annerit","Inoqarfiit","Inoqarfiit minnerit","Inoqarfiit minnerpaat","Andre lokaliteter";
 VALUES[kl]("piffissaq")="2023";
 VALUES[kl]("suiaassuseq")="Katillugit","Angutit","Arnat";
-VALUES[kl]("ukiut")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
+VALUES[kl]("ukiut")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52",
+"53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
 TIMEVAL("time")=TLIST(A1),"2023";
 TIMEVAL[da]("tid")=TLIST(A1),"2023";
 TIMEVAL[kl]("piffissaq")=TLIST(A1),"2023";
-CODES("age")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
+CODES("age")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52",
+"53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
 CODES("gender")="T","M","K";
 CODES("place of birth")="T","N","S";
 CODES("residence type")="T","A","B","C","D","E","F","G";
 CODES("time")="2023";
-CODES[da]("alder")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
+CODES[da]("alder")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52",
+"53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
 CODES[da]("bostedstype")="T","A","B","C","D","E","F","G";
 CODES[da]("fødested")="T","N","S";
 CODES[da]("køn")="T","M","K";
@@ -63,7 +68,8 @@ CODES[kl]("inunngorfik")="T","N","S";
 CODES[kl]("najugaqarfik")="T","A","B","C","D","E","F","G";
 CODES[kl]("piffissaq")="2023";
 CODES[kl]("suiaassuseq")="T","M","K";
-CODES[kl]("ukiut")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
+CODES[kl]("ukiut")="0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52",
+"53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99";
 DOMAIN("age")="VPAge";
 DOMAIN[da]("alder")="VPAlder";
 DOMAIN[kl]("ukiut")="VPUkiut";
@@ -90,10 +96,20 @@ SOURCE[kl]="Naatsorsueqqissaartarfik";
 LINK="www.stat.gl/bee202301/m1";
 LINK[da]="www.stat.gl/bed202301/m1";
 LINK[kl]="www.stat.gl/ben202301/m1";
-NOTE="The Population Register contains information on all persons who have resided in Greenland after 1 January 1977. ##The purpose of the register is to be the basis for population statistics, and to supplement other personal information #with basic informati""on about each person, like address and family relations.The Population register is updated with information from CPR (Administrative Population Register) where the following information is retrieved: #name, gender, age, place of birth, citizenship, marit""al status, reference to mother, father and spouse, address of residence and more.#According to §13 of the Act on Greenland Statistics, no person-related information is disclosed from the register, except for personal numbers, randomly drawn for surveys";
-NOTE[da]="Befolkningsstatistikregistret indeholder oplysninger om alle personer, som har haft bopæl i Grønland efter 1. januar 1977.##Registrets formål er at danne grundlag for befolkningsstatistikken, samt supplere andre personhenførbare oplysninger #med basisopl""ysninger om personen, samt dennes adresse og familierelationer.#Befolkningsstatistikregistret opdateres med oplysninger fra CPR(Folkeregistrene) hvor følgende oplysninger hentes:#navn, køn, alder, fødested, statsborgerskab, civilstand, henvisning til mor"", far samt ægtefælle, bopælsadresse og tilflytningsdato.##Jfr §13 i Lov om Grønlands Statistik, videregives ingen personhenførbare oplysninger fra registret, bortset fra personnumre, som efter Datatilsynets godkendelse er udtrukket til interviewundersøge""lser";
-NOTE[da]("bostedstype")="Bostederne inddeles efter størrelse i følgende kategorier:#a) Hovedstad#b) Hovedbosteder#c) Større bosteder: 700 - 3.000 indbyggere#d) Bosteder: 200 - 699 indbyggere#e) Mindre bosteder: 50 - 199 indbyggere#f) Mindste bosteder: mindre end 50 indbyggere#g)"" Andre lokaliteter: Udenfor kommuneinddelingen som fx Pitufik, Sirius mm";
-NOTE[kl]="Innuttaasunut nalunaarsuisarfik 1.januaari 1977 kingorna Kalaallit Nunaanni najugaqarsimasunut tamanut paasissutissanik imaqarpoq.#Innuttaasut pillugit kisitsisitigut paasissutissaliorsinnaaneq nalunaarsuisarfiup siunertaraa, taamaatullu inunnut tunngasu""nut paasissutissanut allanut tapertaalluni.#Inuup paasissutissaanik tunngaviusunik, kiisali najugaanut ilaqutariinnermilu inissisimaneranut tunngasut.#Innuttaasunut kisitsisitigut paasissutissat nalunaarsuisarfiat paasissutissanit CPR-iminngaanneersunik ""(Inunnut nalunaarsuisarfiit) nutarterneqartarpoq tassani paasissutissat pineqartut aaneqarnerisigut:#Ateq, suiaassuseq, ukiut, inunngorfik, innuttaassuseq, aappaqarneq, anaanaasumut, ataataasumut aapparisamullu innersuunneqarneq, najukkami adresse aammal""u qanga nuussimanermut ulloq.##Naatsorsueqqissaartarfik pillugu inatsimmi §13 malillugu inuit ataasiakkaat pillugit paasissutissat nalunaarsuiffinniittut allanut ingerlateqqinneqaqqusaanngillat,taamaallaat inuit normui Datatilsynemit immikkut akuersisoqa""rtillugu apersuinissamut atugassat ingerlateqqinneqarsinnaapput.”";
+NOTE="The Population Register contains information on all persons who have resided in Greenland after 1 January 1977. ##The purpose of the register is to be the basis for population statistics, and to supplement other personal information #with basic informat"
+"ion about each person, like address and family relations.The Population register is updated with information from CPR (Administrative Population Register) where the following information is retrieved: #name, gender, age, place of birth, citizenship, mar"
+"ital status, reference to mother, father and spouse, address of residence and more.#According to §13 of the Act on Greenland Statistics, no person-related information is disclosed from the register, except for personal numbers, randomly drawn for surveys";
+NOTE[da]="Befolkningsstatistikregistret indeholder oplysninger om alle personer, som har haft bopæl i Grønland efter 1. januar 1977.##Registrets formål er at danne grundlag for befolkningsstatistikken, samt supplere andre personhenførbare oplysninger #med basisop"
+"lysninger om personen, samt dennes adresse og familierelationer.#Befolkningsstatistikregistret opdateres med oplysninger fra CPR(Folkeregistrene) hvor følgende oplysninger hentes:#navn, køn, alder, fødested, statsborgerskab, civilstand, henvisning til m"
+"or, far samt ægtefælle, bopælsadresse og tilflytningsdato.##Jfr §13 i Lov om Grønlands Statistik, videregives ingen personhenførbare oplysninger fra registret, bortset fra personnumre, som efter Datatilsynets godkendelse er udtrukket til interviewunders"
+"øgelser";
+NOTE[da]("bostedstype")="Bostederne inddeles efter størrelse i følgende kategorier:#a) Hovedstad#b) Hovedbosteder#c) Større bosteder: 700 - 3.000 indbyggere#d) Bosteder: 200 - 699 indbyggere#e) Mindre bosteder: 50 - 199 indbyggere#f) Mindste bosteder: mindre end 50 indbyggere#g"
+") Andre lokaliteter: Udenfor kommuneinddelingen som fx Pitufik, Sirius mm";
+NOTE[kl]="Innuttaasunut nalunaarsuisarfik 1.januaari 1977 kingorna Kalaallit Nunaanni najugaqarsimasunut tamanut paasissutissanik imaqarpoq.#Innuttaasut pillugit kisitsisitigut paasissutissaliorsinnaaneq nalunaarsuisarfiup siunertaraa, taamaatullu inunnut tunngas"
+"unut paasissutissanut allanut tapertaalluni.#Inuup paasissutissaanik tunngaviusunik, kiisali najugaanut ilaqutariinnermilu inissisimaneranut tunngasut.#Innuttaasunut kisitsisitigut paasissutissat nalunaarsuisarfiat paasissutissanit CPR-iminngaanneersuni"
+"k (Inunnut nalunaarsuisarfiit) nutarterneqartarpoq tassani paasissutissat pineqartut aaneqarnerisigut:#Ateq, suiaassuseq, ukiut, inunngorfik, innuttaassuseq, aappaqarneq, anaanaasumut, ataataasumut aapparisamullu innersuunneqarneq, najukkami adresse aam"
+"malu qanga nuussimanermut ulloq.##Naatsorsueqqissaartarfik pillugu inatsimmi §13 malillugu inuit ataasiakkaat pillugit paasissutissat nalunaarsuiffinniittut allanut ingerlateqqinneqaqqusaanngillat,taamaallaat inuit normui Datatilsynemit immikkut akuersi"
+"soqartillugu apersuinissamut atugassat ingerlateqqinneqarsinnaapput.”";
 DATA=
 747
 249

@@ -122,20 +122,20 @@ LINK="www.stat.gl/bee202301/m1";
 LINK[da]="www.stat.gl/bed202301/m1";
 LINK[kl]="www.stat.gl/ben202301/m1";
 NOTE="The Population Register contains information on all persons who have resided in Greenland after 1 January 1977. ##The purpose of the register is to be the basis for population statistics, and to supplement other personal information #with basic "
-"informati''on about each person, like address and family relations.The Population register is updated with information from CPR (Administrative Population Register) where the following information is retrieved: #name, gender, age, place of birth, "
-"citizenship, marit''al status, reference to mother, father and spouse, address of residence and more.#According to §13 of the Act on Greenland Statistics, no person-related information is disclosed from the register, except for personal numbers, randomly "
+"information about each person, like address and family relations.The Population register is updated with information from CPR (Administrative Population Register) where the following information is retrieved: #name, gender, age, place of birth, "
+"citizenship, marital status, reference to mother, father and spouse, address of residence and more.#According to §13 of the Act on Greenland Statistics, no person-related information is disclosed from the register, except for personal numbers, randomly "
 "drawn for surveys";
 NOTE[da]="Befolkningsstatistikregistret indeholder oplysninger om alle personer, som har haft bopæl i Grønland efter 1. januar 1977.##Registrets formål er at danne grundlag for befolkningsstatistikken, samt supplere andre personhenførbare oplysninger #med "
-"basisopl''ysninger om personen, samt dennes adresse og familierelationer.#Befolkningsstatistikregistret opdateres med oplysninger fra CPR(Folkeregistrene) hvor følgende oplysninger hentes:#navn, køn, alder, fødested, statsborgerskab, civilstand, "
-"henvisning til mor'', far samt ægtefælle, bopælsadresse og tilflytningsdato.##Jfr §13 i Lov om Grønlands Statistik, videregives ingen personhenførbare oplysninger fra registret, bortset fra personnumre, som efter Datatilsynets godkendelse er udtrukket "
-"til interviewundersøge''lser";
+"basisoplysninger om personen, samt dennes adresse og familierelationer.#Befolkningsstatistikregistret opdateres med oplysninger fra CPR(Folkeregistrene) hvor følgende oplysninger hentes:#navn, køn, alder, fødested, statsborgerskab, civilstand, henvisning "
+"til mor, far samt ægtefælle, bopælsadresse og tilflytningsdato.##Jfr §13 i Lov om Grønlands Statistik, videregives ingen personhenførbare oplysninger fra registret, bortset fra personnumre, som efter Datatilsynets godkendelse er udtrukket til "
+"interviewundersøgelser";
 NOTE[kl]="Innuttaasunut nalunaarsuisarfik 1.januaari 1977 kingorna Kalaallit Nunaanni najugaqarsimasunut tamanut paasissutissanik imaqarpoq.#Innuttaasut pillugit kisitsisitigut paasissutissaliorsinnaaneq nalunaarsuisarfiup siunertaraa, taamaatullu inunnut "
-"tunngasu''nut paasissutissanut allanut tapertaalluni.#Inuup paasissutissaanik tunngaviusunik, kiisali najugaanut ilaqutariinnermilu inissisimaneranut tunngasut.#Innuttaasunut kisitsisitigut paasissutissat nalunaarsuisarfiat paasissutissanit CPR-"
-"iminngaanneersunik ''(Inunnut nalunaarsuisarfiit) nutarterneqartarpoq tassani paasissutissat pineqartut aaneqarnerisigut:#Ateq, suiaassuseq, ukiut, inunngorfik, innuttaassuseq, aappaqarneq, anaanaasumut, ataataasumut aapparisamullu innersuunneqarneq, "
-"najukkami adresse aammal''u qanga nuussimanermut ulloq.##Naatsorsueqqissaartarfik pillugu inatsimmi §13 malillugu inuit ataasiakkaat pillugit paasissutissat nalunaarsuiffinniittut allanut ingerlateqqinneqaqqusaanngillat,taamaallaat inuit normui "
-"Datatilsynemit immikkut akuersisoqa''rtillugu apersuinissamut atugassat ingerlateqqinneqarsinnaapput.”";
+"tunngasunut paasissutissanut allanut tapertaalluni.#Inuup paasissutissaanik tunngaviusunik, kiisali najugaanut ilaqutariinnermilu inissisimaneranut tunngasut.#Innuttaasunut kisitsisitigut paasissutissat nalunaarsuisarfiat paasissutissanit CPR-"
+"iminngaanneersunik (Inunnut nalunaarsuisarfiit) nutarterneqartarpoq tassani paasissutissat pineqartut aaneqarnerisigut:#Ateq, suiaassuseq, ukiut, inunngorfik, innuttaassuseq, aappaqarneq, anaanaasumut, ataataasumut aapparisamullu innersuunneqarneq, "
+"najukkami adresse aammalu qanga nuussimanermut ulloq.##Naatsorsueqqissaartarfik pillugu inatsimmi §13 malillugu inuit ataasiakkaat pillugit paasissutissat nalunaarsuiffinniittut allanut ingerlateqqinneqaqqusaanngillat,taamaallaat inuit normui "
+"Datatilsynemit immikkut akuersisoqartillugu apersuinissamut atugassat ingerlateqqinneqarsinnaapput.”";
 NOTE[da]("bostedstype")="Bostederne inddeles efter størrelse i følgende kategorier:#a) Hovedstad#b) Hovedbosteder#c) Større bosteder: 700 - 3.000 indbyggere#d) Bosteder: 200 - 699 indbyggere#e) Mindre bosteder: 50 - 199 indbyggere#f) Mindste bosteder: "
-"mindre end 50 indbyggere#g)'' Andre lokaliteter: Udenfor kommuneinddelingen som fx Pitufik, Sirius mm";
+"mindre end 50 indbyggere#g) Andre lokaliteter: Udenfor kommuneinddelingen som fx Pitufik, Sirius mm";
 DATA=
 747 
 249 

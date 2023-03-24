@@ -20,13 +20,10 @@
 # - Quaters (FOTEST)
 # - Data without a timeval (no_timeval)
 #
-# Other
-# - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)
-# - Data with groups (BEXLTALL)
-# - Numeric variable type ('age' in BEXLTALL)
-# - A value in 'Codelist' is not present in the data. (BEXLTALL)
+# Encoding
+# - utf-8 (BELTALL, BEXSTA, FOTEST)
+# - Windows-1252 (BEXSTA_windows_1251)
 #
-<<<<<<< HEAD
 # Time
 # - Years (BEXSTA, BEXLTALL)
 # - Quaters (FOTEST)
@@ -35,11 +32,25 @@
 # Long lines
 # - VALUES longer than 256 characters (BEXLTALL)
 # - NOTE longer than 256 characters (BEXSTA)
-=======
+#
+# Other
+# - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)
+# - Data with groups (BEXLTALL)
+# - Numeric variable type ('age' in BEXLTALL)
+# - A value in 'Codelist' is not present in the data. (BEXLTALL)
+#
+# Time
+# - Years (BEXSTA, BEXLTALL)
+# - Quaters (FOTEST)
+# - Data without a timeval (no_timeval)
+#
+# Long lines
+# - VALUES longer than 256 characters (BEXLTALL)
+# - NOTE longer than 256 characters (BEXSTA)
+#
 # Encoding
 # - utf-8 (BELTALL, BEXSTA, FOTEST)
 # - Windows-1252 (BEXSTA_windows_1251)
->>>>>>> f6c2f98 (Add testcases for readChar bugfix (previous commit))
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {

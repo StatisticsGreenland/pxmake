@@ -52,7 +52,8 @@ str_extract_px_encoding <- function(str, default = 'utf-8') {
 #' @returns Character
 get_pxfile_encoding <- function(px_file_path) {
   px_file_path %>%
-    readChar(nchars = file.info(.)$size) %>%
+    readLines(warn = FALSE) %>%
+    paste(collapse = '\n') %>%
     str_extract_px_encoding()
 }
 
@@ -76,7 +77,7 @@ metamake <- function(pxfile_path,
                      overwrite_xlsx = TRUE) {
 
   file_connection <- file(pxfile_path, encoding = get_pxfile_encoding(pxfile_path))
-  lines <- readLines(con = file_connection)
+  lines <- readLines(con = file_connection, warn = FALSE)
   close(file_connection)
 
   ## Split metadata in heading and data cube

@@ -24,27 +24,9 @@
 # - utf-8 (BELTALL, BEXSTA, FOTEST)
 # - Windows-1252 (BEXSTA_windows_1251)
 #
-# Time
-# - Years (BEXSTA, BEXLTALL)
-# - Quaters (FOTEST)
-# - Data without a timeval (no_timeval)
-#
 # Long lines
 # - VALUES longer than 256 characters (BEXLTALL)
 # - NOTE longer than 256 characters (BEXSTA)
-#
-# Time
-# - Years (BEXSTA, BEXLTALL)
-# - Quaters (FOTEST)
-# - Data without a timeval (no_timeval)
-#
-# Long lines
-# - VALUES longer than 256 characters (BEXLTALL)
-# - NOTE longer than 256 characters (BEXSTA)
-#
-# Encoding
-# - utf-8 (BELTALL, BEXSTA, FOTEST)
-# - Windows-1252 (BEXSTA_windows_1251)
 #
 # Other
 # - >=2 STUBS (BEXSTA, BEXLTALL, FOTEST)

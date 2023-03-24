@@ -76,6 +76,9 @@ test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
 
   run_metamake_pxmake_pxjob_and_compare("SOXATI4")
 
+  # Turn on when lines are broken correctly (issue #103)
+  # run_metamake_pxmake_pxjob_and_compare("BEXSTA_windows_1252")
+
   # Turn on when support for CELLNOTEX is added (issue #101)
   # run_metamake_pxmake_pxjob_and_compare("TUX01")
 })

@@ -16,7 +16,7 @@ get_px_keywords <- function() {
             "PX-SERVER",      FALSE,           FALSE,               FALSE,
        "DIRECTORY-PATH",      FALSE,           FALSE,               FALSE,
      "UPDATE-FREQUENCY",      FALSE,            TRUE,               FALSE,
-              "TABLEID",      FALSE,           FALSE,               FALSE,
+              "TABLEID",      FALSE,            TRUE,               FALSE,
              "SYNONYMS",      FALSE,           FALSE,               FALSE,
         "DEFAULT-GRAPH",      FALSE,           FALSE,               FALSE,
              "DECIMALS",       TRUE,            TRUE,               FALSE,

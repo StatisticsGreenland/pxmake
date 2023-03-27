@@ -161,19 +161,25 @@ metamake <- function(pxfile_path,
                        values_from = value
                        )
 
-  time_vars <-
+  time_vars_vector <-
     metadata %>%
     dplyr::filter(keyword == "TIMEVAL", main_language) %>%
     dplyr::pull(variable)
 
+  if (identical(time_vars_vector, character(0))) {
+    time_vars <- data.frame(variable = character(0))
+  } else {
+    time_vars <- data.frame(variable = time_vars_vector, type = "time")
+  }
+
   sheet_variables <-
     position %>%
-    dplyr::left_join(data.frame(variable = time_vars, type = "time"),
-                     by = "variable"
-                     ) %>%
+    dplyr::left_join(time_vars, by = "variable") %>%
     dplyr::left_join(long_name, by = "variable") %>%
     dplyr::left_join(note_elimination_domain, by = "variable") %>%
     dplyr::bind_rows(data.frame(variable = "figures_", type = "figures"))
+
+
 
   ### Make metadata sheet: 'Codelists'
   codes <-

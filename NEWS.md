@@ -6,7 +6,7 @@
 
 - Rename 'General' metadata sheet to 'Table'. (#85)
 - Rename argument `pxmake(source_data_path)` to `source_data` (#71) 
-- Rename argument `metmake(out_path)` to `xlsx_path`. (#106)
+- Rename argument `metamake(out_path)` to `xlsx_path`. (#106)
 
 ## New features
 

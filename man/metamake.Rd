@@ -4,12 +4,12 @@
 \alias{metamake}
 \title{Create an Excel metadata workbook from a px-file}
 \usage{
-metamake(pxfile_path, out_path, rds_data_path = NULL, overwrite_xlsx = TRUE)
+metamake(pxfile_path, xlsx_path, rds_data_path = NULL, overwrite_xlsx = TRUE)
 }
 \arguments{
 \item{pxfile_path}{Path to px file}
 
-\item{out_path}{Path to save xlsx file at}
+\item{xlsx_path}{Path to save xlsx file at}
 
 \item{rds_data_path}{Path to save data cube as rds file. If NULL the data
 cube is added in the 'Data' sheet in the Excel metadata workbook.}

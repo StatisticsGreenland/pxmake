@@ -42,14 +42,14 @@ test_that("pxmake runs without errors and creates a file", {
     }
 
     if (table_name %in% c("FOTEST", "no_timeval_or_codes")) {
-      source_data_path <- NULL
+      source_data <- NULL
     } else {
-      source_data_path <- get_source_data_path(table_name)
+      source_data <- get_source_data_path(table_name)
     }
 
     pxmake(get_metadata_path(table_name),
            get_pxfile_path(table_name),
-           source_data_path
+           source_data
            )
 
     expect_true(file.exists(get_pxfile_path(table_name)))
@@ -68,7 +68,7 @@ test_that("pxmake accepts a data frame object", {
 
   pxmake(get_metadata_path(table_name),
          get_pxfile_path(paste0(table_name, "_with_df")),
-         source_data_path = df
+         source_data = df
          )
 
   expect <- readLines(get_pxfile_path(paste0(table_name)))

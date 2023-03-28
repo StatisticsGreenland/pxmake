@@ -65,7 +65,7 @@ get_pxfile_encoding <- function(px_file_path) {
 #' workbook it turns back into an equivalent px-file.
 #'
 #' @param pxfile_path Path to px file
-#' @param out_path Path to save xlsx file at
+#' @param xlsx_path Path to save xlsx file at
 #' @param rds_data_path Path to save data cube as rds file. If NULL the data
 #' cube is added in the 'Data' sheet in the Excel metadata workbook.
 #' @param overwrite_xlsx Should existing metadata workbook be overwritten?
@@ -74,7 +74,7 @@ get_pxfile_encoding <- function(px_file_path) {
 #'
 #' @export
 metamake <- function(pxfile_path,
-                     out_path,
+                     xlsx_path,
                      rds_data_path = NULL,
                      overwrite_xlsx = TRUE) {
 
@@ -301,5 +301,5 @@ metamake <- function(pxfile_path,
     saveRDS(sheet_data, rds_data_path)
   }
 
-  openxlsx::saveWorkbook(wb, out_path, overwrite = overwrite_xlsx)
+  openxlsx::saveWorkbook(wb, xlsx_path, overwrite = overwrite_xlsx)
 }

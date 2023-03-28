@@ -13,6 +13,9 @@ add_totals_to_source_data(metadata_path, source_data_path, add_totals)
 
 \item{add_totals}{List of variables to add totals to.}
 }
+\value{
+Data frame with added totals
+}
 \description{
 Wrapper aroud add_totals() to get values arguments from metadata
 }

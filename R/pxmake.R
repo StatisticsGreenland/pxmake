@@ -30,6 +30,9 @@ get_variables_metadata <- function(metadata_path) {
 get_codelist_metadata <- function(metadata_path) {
   metadata_path %>%
     readxl::read_xlsx(sheet = "Codelists") %>%
+    dplyr::mutate(across(-sortorder, as.character),
+                  across( sortorder, as.numeric)
+                  ) %>%
     tidyr::pivot_longer(cols = ends_with("_code_label"),
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]+)_.*$"
@@ -60,9 +63,18 @@ sort_metadata <- function(metadata) {
 get_metadata <- function(metadata_path, source_data_path) {
   # Generate metadata from first sheet in Excel workbook.
   # Datasets starting with 'metadata_' are part of the final metadataset.
+  source_data <- get_source_data(source_data_path, metadata_path)
+
   main_language <-
     get_table_metadata(metadata_path) %>%
     get_main_language()
+
+  all_languages <-
+    get_table_metadata(metadata_path) %>%
+    dplyr::filter(keyword == "LANGUAGES") %>%
+    dplyr::mutate(value = stringr::str_split(value, pattern = '","')) %>%
+    tidyr::unnest(value) %>%
+    dplyr::pull(value)
 
   variables <- get_variables_metadata(metadata_path)
 
@@ -76,7 +88,7 @@ get_metadata <- function(metadata_path, source_data_path) {
     error_if_more_than_one_time_variable(time_variable)
 
     time_values <-
-      get_source_data(source_data_path, metadata_path) %>%
+      source_data %>%
       dplyr::distinct(across(all_of(time_variable))) %>%
       dplyr::pull(1)
 
@@ -160,11 +172,28 @@ get_metadata <- function(metadata_path, source_data_path) {
                   ) %>%
     dplyr::select(keyword, value)
 
+  source_data_codes <-
+    source_data %>%
+    dplyr::select(-any_of(c(get_figures_variable(metadata_path),
+                            time_variable
+                            )
+                          )
+                  ) %>%
+    tidyr::pivot_longer(cols = everything(),
+                        names_to = "variable",
+                        values_to = "code"
+                        ) %>%
+    dplyr::distinct() %>%
+    tidyr::expand_grid(language = all_languages) %>%
+    dplyr::arrange_all()
+
   metadata_codes_values_precision <-
     get_codelist_metadata(metadata_path) %>%
+    dplyr::full_join(source_data_codes, by = c("variable", "code", "language")) %>%
     dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
                      by = c("variable", "language")
                      ) %>%
+    dplyr::mutate(value = ifelse(is.na(value), code, value)) %>%
     dplyr::mutate(VarName2 = paste0(long_name, str_quote(","), value)) %>%
     tidyr::pivot_longer(cols = c("code",  "value", "precision"),
                         names_to = "type"
@@ -192,7 +221,9 @@ get_metadata <- function(metadata_path, source_data_path) {
                                               add_sub_key_to_keyword(VarName2)
                   ) %>%
     dplyr::distinct(type, keyword,keyword2, value) %>%
-    dplyr::mutate(keyword = ifelse(type == 'precision', keyword2, keyword)) %>%
+    dplyr::mutate(keyword = ifelse(type == 'precision', keyword2, keyword),
+                  across(everything(), as.character)
+                  ) %>%
     dplyr::distinct(keyword, value) %>%
     dplyr::relocate(keyword)
 

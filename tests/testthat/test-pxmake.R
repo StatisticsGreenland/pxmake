@@ -18,7 +18,7 @@
 # Time
 # - Years (BEXSTA, BEXLTALL)
 # - Quaters (FOTEST)
-# - Data without a timeval (no_timeval)
+# - Data without a timeval (no_timeval_or_codes)
 #
 # Encoding
 # - utf-8 (BELTALL, BEXSTA, FOTEST)
@@ -33,6 +33,7 @@
 # - Data with groups (BEXLTALL)
 # - Numeric variable type ('age' in BEXLTALL)
 # - A value in 'Codelist' is not present in the data. (BEXLTALL)
+# - Data without codes (no_timeval_or_codes)
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {
@@ -40,7 +41,7 @@ test_that("pxmake runs without errors and creates a file", {
       file.remove(get_pxfile_path(table_name))
     }
 
-    if (table_name %in% c("FOTEST", "no_timeval")) {
+    if (table_name %in% c("FOTEST", "no_timeval_or_codes")) {
       source_data_path <- NULL
     } else {
       source_data_path <- get_source_data_path(table_name)
@@ -57,7 +58,7 @@ test_that("pxmake runs without errors and creates a file", {
   test_file_creation("BEXLTALL")
   test_file_creation("BEXSTA")
   test_file_creation("FOTEST")
-  test_file_creation("no_timeval")
+  test_file_creation("no_timeval_or_codes")
 })
 
 test_that("pxmake accepts a data frame object", {

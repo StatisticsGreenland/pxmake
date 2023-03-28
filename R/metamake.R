@@ -180,7 +180,6 @@ metamake <- function(pxfile_path,
     dplyr::bind_rows(data.frame(variable = "figures_", type = "figures"))
 
 
-
   ### Make metadata sheet: 'Codelists'
   codes <-
     metadata %>%
@@ -211,7 +210,7 @@ metamake <- function(pxfile_path,
 
   sheet_codelist <-
     codes %>%
-    dplyr::right_join(values, by = c("variable", "sortorder"), multiple = "all") %>%
+    dplyr::full_join(values, by = c("variable", "sortorder"), multiple = "all") %>%
     dplyr::left_join(precision, by = c("variable", "value")) %>%
     tidyr::drop_na(code) %>%
     tidyr::pivot_wider(names_from = language, names_glue = "{language}_code_label") %>%

@@ -33,7 +33,7 @@ test_that("pxfile = pxmake(metamake(pxfile))", {
   run_metamake_pxmake_and_compare("BEXSTA")
   run_metamake_pxmake_and_compare("FOTEST")
   run_metamake_pxmake_and_compare("BEXLTALL")
-  run_metamake_pxmake_and_compare("no_timeval")
+  run_metamake_pxmake_and_compare("no_timeval_or_codes")
 })
 
 test_that("metamake can create rds file", {

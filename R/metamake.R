@@ -2,19 +2,19 @@
 #'
 #' @returns Character
 get_px_metadata_regex <- function() {
-  paste0("(?<keyword>[[:upper:]-]+)",       # Leading keyword
-         "(?:\\[)?",                        # Maybe opening language bracket [
-         "(?<language>[[:alpha:]_-]+)?",    # Maybe language
-         "(?:\\])?",                        # Maybe closing language bracket ]
-         "(?:\\(\")?",                      # Maybe opening sub-key parentheses (
-         "(?<variable>[ [:alpha:]\\/_-]+)?",# Maybe sub-key
-         "(?:\",\")?",                      # Maybe comma before cell value
-         "(?<cell>[ [:alpha:]\\/_-]+)?",    # Maybe cell value (used by PRECISION)
-         "(?:\")?",                         # Maybe closing " after cell value
-         "(?:\"\\))?",                      # Maybe closing sub-key parentheses )
-         "=",                               # definitely =
-         "(?<value>[^;]*)",                 # Value is everything up to ending ;
-         "(?:;$)?"                          # Maybe ;
+  paste0("(?<keyword>[[:upper:]-]+)",        # Leading keyword
+         "(?:\\[)?",                         # Maybe opening language bracket [
+         "(?<language>[[:alpha:]_-]+)?",     # Maybe language
+         "(?:\\])?",                         # Maybe closing language bracket ]
+         "(?:\\(\")?",                       # Maybe opening sub-key parentheses (
+         "(?<variable>[ '[:alpha:]\\/_-]+)?",# Maybe sub-key
+         "(?:\",\")?",                       # Maybe comma before cell value
+         "(?<cell>[ '[:alpha:]\\/_-]+)?",    # Maybe cell value (used by PRECISION)
+         "(?:\")?",                          # Maybe closing " after cell value
+         "(?:\"\\))?",                       # Maybe closing sub-key parentheses )
+         "=",                                # definitely =
+         "(?<value>[^;]*)",                  # Value is everything up to ending ;
+         "(?:;$)?"                           # Maybe ;
   )
 }
 

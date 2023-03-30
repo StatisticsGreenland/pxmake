@@ -17,6 +17,9 @@ CONTENTS="Befolkningen 1. januar";
 UNITS="personer";
 STUB="til- og frágongd","køn";
 HEADING="tid";
+VARIABLECODE("til- og frágongd")="event";
+VARIABLECODE("køn")="sex";
+VARIABLECODE("tid")="time";
 VALUES("til- og frágongd")="Fólkatalið fyrst �- árinum","Livandi fødd","Flutt til Føroya",
 "Flutt úr Føroyum","Deyð","Rættingar","Fólkatalið s�-ðst �- mánaðinum";
 VALUES("køn")="I alt","Mænd","Kvinder";

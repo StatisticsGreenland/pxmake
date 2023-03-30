@@ -227,6 +227,16 @@ get_metadata <- function(metadata_path, source_data_path) {
     dplyr::distinct(keyword, value) %>%
     dplyr::relocate(keyword)
 
+  metadata_variablecode <-
+    variables %>%
+    dplyr::mutate(keyword = "VARIABLECODE" %>%
+                              add_language_to_keyword(main_language, language) %>%
+                              add_sub_key_to_keyword(long_name),
+                  value = variable
+                  ) %>%
+    dplyr::select(keyword, value)
+
+
   metadata_table <-
     get_table_metadata(metadata_path) %>%
     dplyr::mutate(keyword = add_language_to_keyword(keyword, main_language, language),
@@ -239,7 +249,8 @@ get_metadata <- function(metadata_path, source_data_path) {
                           metadata_stub_and_head,
                           metadata_codes_values_precision,
                           metadata_time,
-                          metadata_variables
+                          metadata_variables,
+                          metadata_variablecode
                           ) %>% sort_metadata()
          )
 }

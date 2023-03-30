@@ -118,19 +118,31 @@ metamake <- function(pxfile_path,
     dplyr::ungroup() %>%
     dplyr::select(keyword, language, main_language, long_name, index)
 
-  variable_and_long_name <-
-    head_stub %>%
+  # Use VARIABLECODE if it exists
+  variablecode <-
+    tmp_metadata %>%
+    dplyr::filter(keyword == "VARIABLECODE", main_language) %>%
+    tidyr::unnest(value) %>%
+    dplyr::select(variable = value,
+                  #language,
+                  long_name = variable
+                  )
+
+  #variable_and_long_name <-
+    head_stub %>% ## add figures variable
     dplyr::filter(main_language) %>%
     dplyr::select(-language, -main_language) %>%
-    dplyr::rename(variable = long_name) %>%
+    dplyr::full_join(variablecode, by = "long_name") %>%
+    dplyr::mutate(variable = ifelse(is.na(variable), long_name, variable)) %>%
+    dplyr::select(-long_name) %>%
     dplyr::right_join(head_stub,
-                      by = c("keyword", "index"),
-                      multiple = "all"
-                      ) %>%
-    dplyr::mutate(position = paste0(substr(keyword, 1, 1), index))
+                     by = c("keyword", "index"),
+                     multiple = "all"
+                     )
 
   position <-
     variable_and_long_name %>%
+    dplyr::mutate(position = paste0(substr(keyword, 1, 1), index)) %>%
     dplyr::distinct(position, variable)
 
   name_relation <-

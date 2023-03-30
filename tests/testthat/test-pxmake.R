@@ -34,6 +34,7 @@
 # - Numeric variable type ('age' in BEXLTALL)
 # - A value in 'Codelist' is not present in the data. (BEXLTALL)
 # - Data without codes (no_timeval_or_codes)
+# - Variable names in source data are preserved by using VARIABLECODE (FOTEST)
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {
@@ -164,6 +165,20 @@ test_that("header lines doesn't exceed 256 characters", {
   file_does_not_have_too_long_lines('BEXSTA')
   file_does_not_have_too_long_lines('FOTEST')
   file_does_not_have_too_long_lines('BEXLTALL')
+})
+
+test_that("Source data variable names are preserved",{
+  get_data_sheet_variable_names <- function(table_name) {
+    table_name %>%
+      get_metadata_path() %>%
+      readxl::read_excel(sheet = "Data") %>%
+      names()
+  }
+
+  expect_equal(
+    get_data_sheet_variable_names('FOTEST'),
+    get_data_sheet_variable_names('FOTEST_BY_METAMAKE')
+  )
 })
 
 test_that("pxjob exists without errors (exit code 0)", {

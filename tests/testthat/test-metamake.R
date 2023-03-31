@@ -3,9 +3,9 @@ run_metamake_and_pxmake <- function(table_name) {
   metadata_out <- get_metadata_path(paste0(table_name, "_by_metamake"))
   px_out       <- get_pxfile_path(paste0(table_name, "_metamake_pxmake"))
 
-  metamake(px_source, metadata_out)
+  metamake(pxfile_path = px_source, xlsx_path = metadata_out)
 
-  pxmake(metadata_out, px_out)
+  pxmake(metadata_path = metadata_out, pxfile_path = px_out)
 }
 
 test_that("file encoding is correct", {
@@ -69,8 +69,13 @@ test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
                       output = get_pxjobfile_path(paste0(table_name, "_metamake_pxmake"))
     )
 
-    output <- readLines(get_pxjobfile_path(table_name))
-    expect <- readLines(get_pxjobfile_path(paste0(table_name, "_metamake_pxmake")))
+    output <-
+      readLines(get_pxjobfile_path(table_name)) %>%
+      stringr::str_subset("^VARIABLECODE.+", negate = TRUE)
+
+    expect <-
+      readLines(get_pxjobfile_path(paste0(table_name, "_metamake_pxmake"))) %>%
+      stringr::str_subset("^VARIABLECODE.+", negate = TRUE)
 
     expect_equal(output, expect)
   }

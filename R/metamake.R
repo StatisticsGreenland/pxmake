@@ -124,30 +124,41 @@ metamake <- function(pxfile_path,
     dplyr::filter(keyword == "VARIABLECODE", main_language) %>%
     tidyr::unnest(value) %>%
     dplyr::select(variable = value,
-                  #language,
                   long_name = variable
                   )
 
-  #variable_and_long_name <-
+  variable_and_long_name <-
     head_stub %>% ## add figures variable
     dplyr::filter(main_language) %>%
     dplyr::select(-language, -main_language) %>%
     dplyr::full_join(variablecode, by = "long_name") %>%
+    # Use long_name in main langauge as VARIABLECODE if it's missing
     dplyr::mutate(variable = ifelse(is.na(variable), long_name, variable)) %>%
     dplyr::select(-long_name) %>%
-    dplyr::right_join(head_stub,
+    dplyr::full_join(head_stub,
                      by = c("keyword", "index"),
                      multiple = "all"
                      )
 
   position <-
     variable_and_long_name %>%
+    tidyr::drop_na(index) %>%
     dplyr::mutate(position = paste0(substr(keyword, 1, 1), index)) %>%
     dplyr::distinct(position, variable)
 
   name_relation <-
     variable_and_long_name %>%
     dplyr::distinct(variable, language, long_name)
+
+  figures_var <-
+    variable_and_long_name %>%
+    dplyr::filter(is.na(keyword)) %>%
+    dplyr::distinct(variable) %>%
+    dplyr::pull(variable)
+
+  if (identical(figures_var, character(0))) {
+    figures_var <- "figures_"
+  }
 
   metadata <-
     tmp_metadata %>%
@@ -158,6 +169,7 @@ metamake <- function(pxfile_path,
   ### Make metadata sheet: 'Variables'
   long_name <-
     name_relation %>%
+    tidyr::drop_na(language) %>%
     tidyr::pivot_wider(names_from = language,
                        names_glue = "{language}_long_name",
                        values_from = long_name
@@ -189,7 +201,7 @@ metamake <- function(pxfile_path,
     dplyr::left_join(time_vars, by = "variable") %>%
     dplyr::left_join(long_name, by = "variable") %>%
     dplyr::left_join(note_elimination_domain, by = "variable") %>%
-    dplyr::bind_rows(data.frame(variable = "figures_", type = "figures"))
+    dplyr::bind_rows(data.frame(variable = figures_var, type = "figures"))
 
 
   ### Make metadata sheet: 'Codelists'
@@ -246,16 +258,14 @@ metamake <- function(pxfile_path,
 
   ### Make metadata sheet: 'Data'
   heading_vars <-
-    metadata %>%
+    variable_and_long_name %>%
     dplyr::filter(main_language, keyword == "HEADING") %>%
-    dplyr::pull(value) %>%
-    unlist()
+    dplyr::pull(variable)
 
   stub_vars <-
-    metadata %>%
+    variable_and_long_name %>%
     dplyr::filter(main_language, keyword == "STUB") %>%
-    dplyr::pull(value) %>%
-    unlist()
+    dplyr::pull(variable)
 
   # Order: s1, s2, ..., h1, h2, ...
   expand_order <-
@@ -286,7 +296,7 @@ metamake <- function(pxfile_path,
     stringr::str_split(" ") %>%
     unlist() %>%
     stringr::str_subset("^$", negate = TRUE) %>%
-    data.frame(figures_ = .)
+    tibble::enframe(name = NULL, value = figures_var)
 
   sheet_data <-
     do.call(tidyr::expand_grid, stub_and_heading_values) %>%

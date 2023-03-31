@@ -21,7 +21,12 @@ get_variables_metadata <- function(metadata_path) {
                         names_to = c("language", "long_name"),
                         names_pattern = "^([[:alpha:]]+)_(.*)$"
                         ) %>%
-    tidyr::pivot_wider(names_from = long_name, values_from = value)
+    tidyr::pivot_wider(names_from = long_name, values_from = value) %>%
+    dplyr::mutate(long_name = ifelse(is.na(long_name) | tolower(type) %in% "figures",
+                                     variable,
+                                     long_name
+                                     )
+                  )
 }
 
 #' Get metadata from 'Codelists' sheet in Excel Workbook

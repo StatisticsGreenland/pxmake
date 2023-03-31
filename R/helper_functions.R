@@ -87,7 +87,11 @@ zip_vectors <- function(v1, v2) {
 #'
 #' @returns A character vector
 break_long_lines <- function(str, max_line_length = 256) {
-  if (nchar(str) > max_line_length) {
+  if (is.null(str)) {
+    return("")
+  } else if (is.na(str)) {
+    return("")
+  } else if (nchar(str) > max_line_length) {
     comma_split <-
       str %>%
       stringr::str_locate_all('","') %>%

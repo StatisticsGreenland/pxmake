@@ -76,6 +76,10 @@ test_that("Vectors are zipped", {
 })
 
 test_that("long lines are split into <=256 character bits", {
+  expect_equal(break_long_lines(""), "")
+  expect_equal(break_long_lines(NA), "")
+  expect_equal(break_long_lines(NULL), "")
+
   input1  <- '"a", "b", "c"'
   expect1 <- '"a", "b", "c"'
   expect_equal(break_long_lines(input1), expect1)

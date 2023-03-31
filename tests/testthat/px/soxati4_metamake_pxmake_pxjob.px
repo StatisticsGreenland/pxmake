@@ -33,6 +33,18 @@ STUB[kl]="suliaqarfinni suliffeqarneq","ilinniarfimassuseq","nalunaarsuinermi pe
 HEADING="time";
 HEADING[da]="tid";
 HEADING[kl]="piffissaq";
+VARIABLECODE("labour force status")="labour force status";
+VARIABLECODE[da]("arbejdsmarkedsstatus")="labour force status";
+VARIABLECODE[kl]("suliaqarfinni suliffeqarneq")="labour force status";
+VARIABLECODE("uddannelsesniveau")="uddannelsesniveau";
+VARIABLECODE[da]("uddannelsesniveau")="uddannelsesniveau";
+VARIABLECODE[kl]("ilinniarfimassuseq")="uddannelsesniveau";
+VARIABLECODE("calculation method")="calculation method";
+VARIABLECODE[da]("opgørelsesmetode")="calculation method";
+VARIABLECODE[kl]("nalunaarsuinermi periuseq")="calculation method";
+VARIABLECODE("time")="time";
+VARIABLECODE[da]("tid")="time";
+VARIABLECODE[kl]("piffissaq")="time";
 VALUES("labour force status")="Total","00 Employed without further details",
 "01-02 Employed students","03-04 Employed pensioners",
 "05-12 Employed with income replacement benefits",

@@ -1,4 +1,15 @@
-# pxmake (development version)
+# pxmake 0.5.1
+
+## New features
+
+- Add keyword VARIABLECODE which should variable names from source data.
+
+## Bug fixes and minor improvements
+
+- Remove quotes around YES in elimination.
+- Make Excel table theme less dominant.
+- Allow variable names to contain all characters except quotes (").
+- Improve installation instructions.
 
 # pxmake 0.5.0
 

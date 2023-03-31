@@ -286,7 +286,7 @@ metamake <- function(pxfile_path,
   add_sheet <- function(df, sheet_name) {
     openxlsx::addWorksheet(wb,sheet_name, gridLines = FALSE)
     openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = 'auto')
-    openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleMedium2")
+    openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
   }
 
   add_sheet(sheet_table,     "Table")

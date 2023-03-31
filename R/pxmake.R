@@ -168,7 +168,7 @@ get_metadata <- function(metadata_path, source_data_path) {
     dplyr::mutate(keyword = toupper(name) %>%
                               add_language_to_keyword(main_language, language) %>%
                               add_sub_key_to_keyword(long_name),
-                  value = str_quote(value)
+                  value = quote_unless_numeric_or_yes_no(value)
                   ) %>%
     dplyr::select(keyword, value)
 

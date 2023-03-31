@@ -194,3 +194,21 @@ test_that("pxjob exists without errors (exit code 0)", {
   expect_true(pxjob_runs_without_erros("BEXSTA"))
   expect_true(pxjob_runs_without_erros("FOTEST"))
 })
+
+test_that("Value YES and NO are never quoted", {
+  expect_no_lines_with_quoted_yes_no <- function(table_name) {
+    px_lines <-
+      table_name %>%
+      get_pxfile_path() %>%
+      readLines()
+
+    invalid_lines <- px_lines[stringr::str_detect(px_lines, '=\"(YES|NO)\"')]
+
+    expect_equal(invalid_lines, character(0))
+  }
+
+  expect_no_lines_with_quoted_yes_no("BEXLTALL")
+  expect_no_lines_with_quoted_yes_no("BEXSTA")
+  expect_no_lines_with_quoted_yes_no("FOTEST")
+  expect_no_lines_with_quoted_yes_no("no_timeval_or_codes")
+})

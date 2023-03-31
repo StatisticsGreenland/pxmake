@@ -21,7 +21,12 @@ get_variables_metadata <- function(metadata_path) {
                         names_to = c("language", "long_name"),
                         names_pattern = "^([[:alpha:]]+)_(.*)$"
                         ) %>%
-    tidyr::pivot_wider(names_from = long_name, values_from = value)
+    tidyr::pivot_wider(names_from = long_name, values_from = value) %>%
+    dplyr::mutate(long_name = ifelse(is.na(long_name) | tolower(type) %in% "figures",
+                                     variable,
+                                     long_name
+                                     )
+                  )
 }
 
 #' Get metadata from 'Codelists' sheet in Excel Workbook
@@ -227,6 +232,16 @@ get_metadata <- function(metadata_path, source_data_path) {
     dplyr::distinct(keyword, value) %>%
     dplyr::relocate(keyword)
 
+  metadata_variablecode <-
+    variables %>%
+    dplyr::mutate(keyword = "VARIABLECODE" %>%
+                              add_language_to_keyword(main_language, language) %>%
+                              add_sub_key_to_keyword(long_name),
+                  value = variable
+                  ) %>%
+    dplyr::select(keyword, value)
+
+
   metadata_table <-
     get_table_metadata(metadata_path) %>%
     dplyr::mutate(keyword = add_language_to_keyword(keyword, main_language, language),
@@ -239,7 +254,8 @@ get_metadata <- function(metadata_path, source_data_path) {
                           metadata_stub_and_head,
                           metadata_codes_values_precision,
                           metadata_time,
-                          metadata_variables
+                          metadata_variables,
+                          metadata_variablecode
                           ) %>% sort_metadata()
          )
 }

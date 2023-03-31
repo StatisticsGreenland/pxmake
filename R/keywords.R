@@ -44,6 +44,7 @@ get_px_keywords <- function() {
              "PRESTEXT",      FALSE,           FALSE,                TRUE,
                "DOMAIN",      FALSE,           FALSE,                TRUE,
         "VARIABLE-TYPE",      FALSE,           FALSE,                TRUE,
+         "VARIABLECODE",      FALSE,           FALSE,                TRUE, # Not defined in px specification
           "HIERARCHIES",      FALSE,           FALSE,                TRUE,
       "HIERARCHYLEVELS",      FALSE,           FALSE,                TRUE,
   "HIERARCHYLEVELSOPEN",      FALSE,           FALSE,                TRUE,

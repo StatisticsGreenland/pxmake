@@ -486,7 +486,7 @@ add_totals_to_source_data <- function(metadata_path,
 #' @param add_totals A list of variables to add a 'total' level to. The value
 #' of the total level is looked up in 'Variables' xx_elimination. The code for
 #' the level is found in 'Codelists'. The total is a sum of the values in the
-#' variables with type = FIGURES in 'Variables'.
+#' variables with type = FIGURES in 'Variables'. NAs are ignored when summing.
 #' @return Nothing.
 #'
 #' @export

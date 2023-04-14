@@ -15,7 +15,7 @@ add_total_level_to_var <- function(df,
 
   df %>%
     dplyr::group_by(across(-any_of(c(var, sum_var)))) %>%
-    dplyr::summarise({{sum_var}} := sum(!!rlang::sym(sum_var))) %>%
+    dplyr::summarise({{sum_var}} := sum(!!rlang::sym(sum_var), na.rm = TRUE)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate({{var}} := level_name) %>%
     dplyr::bind_rows(df) %>%

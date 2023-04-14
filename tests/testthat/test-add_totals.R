@@ -1,17 +1,17 @@
 test_that("Total is added to one variable", {
   input <- tibble::tribble(~cohort, ~sex, ~value,
-                               "a",  "m",      1,
+                               "a",  "m",     NA,
                                "a",  "f",      3,
                                "b",  "m",      2,
                                "b",  "f",      4
                            )
 
   expect <- tibble::tribble(~cohort, ~sex, ~value,
-                                "a",  "m",      1,
+                                "a",  "m",     NA,
                                 "a",  "f",      3,
                                 "b",  "m",      2,
                                 "b",  "f",      4,
-                            "Total",  "m",      3,
+                            "Total",  "m",      2,
                             "Total",  "f",      7
                             )
 

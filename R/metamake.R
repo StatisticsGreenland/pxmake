@@ -140,6 +140,16 @@ metamake <- function(pxfile_path,
                      multiple = "all"
                      )
 
+  heading_vars <-
+    variable_and_long_name %>%
+    dplyr::filter(main_language, keyword == "HEADING") %>%
+    dplyr::pull(variable)
+
+  stub_vars <-
+    variable_and_long_name %>%
+    dplyr::filter(main_language, keyword == "STUB") %>%
+    dplyr::pull(variable)
+
   position <-
     variable_and_long_name %>%
     tidyr::drop_na(index) %>%
@@ -185,20 +195,20 @@ metamake <- function(pxfile_path,
                        values_from = value
                        )
 
-  time_vars_vector <-
+  time_var <-
     metadata %>%
     dplyr::filter(keyword == "TIMEVAL", main_language) %>%
     dplyr::pull(variable)
 
-  if (identical(time_vars_vector, character(0))) {
-    time_vars <- data.frame(variable = character(0))
+  if (identical(time_var, character(0))) {
+    time_variable_df <- data.frame(variable = character(0))
   } else {
-    time_vars <- data.frame(variable = time_vars_vector, type = "time")
+    time_variable_df <- data.frame(variable = time_var, type = "time")
   }
 
   sheet_variables <-
     position %>%
-    dplyr::left_join(time_vars, by = "variable") %>%
+    dplyr::left_join(time_variable_df, by = "variable") %>%
     dplyr::left_join(long_name, by = "variable") %>%
     dplyr::left_join(note_elimination_domain, by = "variable") %>%
     dplyr::bind_rows(data.frame(variable = figures_var, type = "figures"))
@@ -208,7 +218,7 @@ metamake <- function(pxfile_path,
   codes <-
     metadata %>%
     dplyr::filter(main_language, keyword %in% c("CODES"),
-                  !variable %in% time_vars #Time vars are not in codelist
+                  !variable %in% time_variable_df #Time vars are not in codelist
                   ) %>%
     tidyr::unnest(value) %>%
     dplyr::rename(code = value) %>%
@@ -230,13 +240,19 @@ metamake <- function(pxfile_path,
     tidyr::unnest(value) %>%
     dplyr::group_by(variable, language) %>%
     dplyr::mutate(sortorder = dplyr::row_number()) %>%
-    dplyr::select(variable, value, language, sortorder)
+    dplyr::select(variable, value, language, main_language, sortorder)
+
+  codes_and_values <-
+    codes %>%
+    # Use values as codes, if codes are missing
+    dplyr::full_join(values, by = c("variable", "sortorder"), multiple = "all") %>%
+    dplyr::mutate(code = ifelse(is.na(code), value, code))
 
   sheet_codelist <-
-    codes %>%
-    dplyr::full_join(values, by = c("variable", "sortorder"), multiple = "all") %>%
+    codes_and_values %>%
+    dplyr::select(-main_language) %>%
+    dplyr::filter(!variable %in% time_var) %>%
     dplyr::left_join(precision, by = c("variable", "value")) %>%
-    tidyr::drop_na(code) %>%
     tidyr::pivot_wider(names_from = language, names_glue = "{language}_code_label") %>%
     dplyr::relocate(precision, .after = last_col())
 
@@ -257,15 +273,6 @@ metamake <- function(pxfile_path,
     dplyr::select(keyword, value)
 
   ### Make metadata sheet: 'Data'
-  heading_vars <-
-    variable_and_long_name %>%
-    dplyr::filter(main_language, keyword == "HEADING") %>%
-    dplyr::pull(variable)
-
-  stub_vars <-
-    variable_and_long_name %>%
-    dplyr::filter(main_language, keyword == "STUB") %>%
-    dplyr::pull(variable)
 
   # Order: s1, s2, ..., h1, h2, ...
   expand_order <-
@@ -278,16 +285,17 @@ metamake <- function(pxfile_path,
                   ) %>%
     dplyr::arrange(dplyr::across(c(keyword_order, index))) %>%
     dplyr::mutate(expand_order = dplyr::row_number()) %>%
-    dplyr::select(long_name, expand_order)
+    dplyr::left_join(name_relation, by = c("language", "long_name")) %>%
+    dplyr::select(variable, expand_order)
 
   stub_and_heading_values <-
-    metadata %>%
-    dplyr::filter(main_language, keyword == "CODES",
-                  variable %in% c(heading_vars, stub_vars)
-                  ) %>%
-    dplyr::left_join(expand_order, by = "long_name") %>%
+    codes_and_values %>%
+    dplyr::filter(main_language, variable %in% c(heading_vars, stub_vars)) %>%
+    dplyr::group_by(variable) %>%
+    dplyr::summarise(code = list(code)) %>%
+    dplyr::left_join(expand_order, by = "variable") %>%
     dplyr::arrange(expand_order) %>%
-    dplyr::select(variable, value) %>%
+    dplyr::select(variable, code) %>%
     tibble::deframe()
 
   figures <-

@@ -69,21 +69,29 @@ test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
                       output = get_pxjobfile_path(paste0(table_name, "_metamake_pxmake"))
     )
 
-    output <-
-      readLines(get_pxjobfile_path(table_name)) %>%
-      stringr::str_subset("^VARIABLECODE.+", negate = TRUE)
+    read_pxfile <- function(table_name) {
+      lines <-
+        table_name %>%
+        get_pxjobfile_path() %>%
+        readLines() %>%
+        stringr::str_subset("^VARIABLECODE.+", negate = TRUE)
 
-    expect <-
-      readLines(get_pxjobfile_path(paste0(table_name, "_metamake_pxmake"))) %>%
-      stringr::str_subset("^VARIABLECODE.+", negate = TRUE)
+      if (stringr::str_detect(table_name, "no_timeval_or_codes2")) {
+        lines <- stringr::str_subset(lines, "^CODES.+", negate = TRUE)
+      }
+
+      return(lines)
+    }
+
+    output <- read_pxfile(table_name)
+    expect <- read_pxfile(paste0(table_name, "_metamake_pxmake"))
 
     expect_equal(output, expect)
   }
 
   run_metamake_pxmake_pxjob_and_compare("SOXATI4")
-
-  # Turn on when lines are broken correctly (issue #103)
   run_metamake_pxmake_pxjob_and_compare("BEXSTA_windows_1252")
+  run_metamake_pxmake_pxjob_and_compare("no_timeval_or_codes2")
 
   # Turn on when support for CELLNOTEX is added (issue #101)
   # run_metamake_pxmake_pxjob_and_compare("TUX01")

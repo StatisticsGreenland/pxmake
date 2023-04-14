@@ -234,13 +234,13 @@ get_metadata <- function(metadata_path, source_data_path) {
 
   metadata_variablecode <-
     variables %>%
+    dplyr::filter(!tolower(type) %in% "figures") %>%
     dplyr::mutate(keyword = "VARIABLECODE" %>%
                               add_language_to_keyword(main_language, language) %>%
                               add_sub_key_to_keyword(long_name),
                   value = variable
                   ) %>%
     dplyr::select(keyword, value)
-
 
   metadata_table <-
     get_table_metadata(metadata_path) %>%

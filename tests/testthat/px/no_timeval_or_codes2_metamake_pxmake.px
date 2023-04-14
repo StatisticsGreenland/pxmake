@@ -22,7 +22,6 @@ CODES("gender")="F","M";
 CODES("type")="a","b","c","d";
 VARIABLECODE("gender")="gender";
 VARIABLECODE("type")="type";
-VARIABLECODE("value")="value";
 LAST-UPDATED="";
 CONTACT="";
 SOURCE="Statistics Greenland";

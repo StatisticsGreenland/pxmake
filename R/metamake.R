@@ -264,7 +264,7 @@ metamake <- function(pxfile_path,
     # Exclude variable specific NOTE
     dplyr::filter(!(keyword == "NOTE" & !is.na(variable))) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(value = paste(value, collapse = '","'),
+    dplyr::mutate(value = paste(value, collapse = ','),
                   keyword = ifelse(language_dependent,
                                    paste0(keyword, "_", language),
                                    keyword

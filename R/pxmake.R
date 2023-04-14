@@ -77,7 +77,11 @@ get_metadata <- function(metadata_path, source_data_path) {
   all_languages <-
     get_table_metadata(metadata_path) %>%
     dplyr::filter(keyword == "LANGUAGES") %>%
-    dplyr::mutate(value = stringr::str_split(value, pattern = '","')) %>%
+    dplyr::mutate(value = stringr::str_replace_all(value, " ", "") %>%
+                           # remove quotes to be compatible with previous versions
+                           stringr::str_replace_all('"', '') %>%
+                           stringr::str_split(pattern = ',')
+                  ) %>%
     tidyr::unnest(value) %>%
     dplyr::pull(value)
 
@@ -247,6 +251,17 @@ get_metadata <- function(metadata_path, source_data_path) {
     dplyr::mutate(keyword = add_language_to_keyword(keyword, main_language, language),
                   value = tidyr::replace_na(value, "")
                   ) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(value = ifelse(keyword %in% "LANGUAGES",
+                                 value %>% stringr::str_replace_all(" ", "") %>%
+                                           # remove quotes to be compatible with previous versions
+                                           stringr::str_replace_all('"', '') %>%
+                                           stringr::str_split(",") %>% unlist %>%
+                                           stringr::str_c(collapse = '","'),
+                                 value
+                                 )
+                  ) %>%
+    dplyr::ungroup() %>%
     dplyr::arrange(!is.na(language)) %>%
     dplyr::select(keyword, value)
 

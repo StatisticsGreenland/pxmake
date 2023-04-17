@@ -31,4 +31,17 @@ See the [PX-file format specification on Statistics Swedens homepage](https://ww
 
 ## Developers
 
+### PxJob
 Some tests cases uses [PxJob](https://www.stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html). Install [pxjob64Win](https://github.com/StatisticsGreenland/pxjob64Win) to be able ro run these tests. This only works on Windows.
+
+### How to create a new release
+1. Run `usethis::use_version('major'/'minor'/'patch')`. Answer 'No' to the prompt 'Is it ok to commit them?'.
+1. Update NEWS.md with all changes since last release.
+1. Commit changes with message 'Increment version number to X.Y.Z'.
+1. Run `git tag vX.Y.Z`.
+1. Run `git push --tags`.
+1. Run `devtools::use_github_release()`.
+1. Review relase description. If sattified, click the 'edit' pen in the upper right corner.
+1. Click 'Publish release'.
+1. Run `usethis::use_version('dev')`. Answer 'Yes' to the prompt 'Is it ok to commit them?'.
+1. Run `git push`.

@@ -1,6 +1,6 @@
 #' Regular expression to parse header in pxfile
 #'
-#' @returns Character
+#' @returns A character vector
 get_px_metadata_regex <- function() {
   paste0("(?<keyword>[[:upper:]-]+)",    # Leading keyword
          "(?:\\[)?",                     # Maybe opening language bracket [
@@ -18,80 +18,47 @@ get_px_metadata_regex <- function() {
   )
 }
 
-#' Return the main language of the px-file
+#' Get encoding listed in px file
 #'
-#' @param df A data frame with table metadata
-get_main_language <- function(df) {
-  df %>%
-    dplyr::filter(keyword == "LANGUAGE") %>%
-    dplyr::pull(value) %>%
-    unlist()
-}
-
-#' Get encoding from CODEPAGE string
+#' Encoding is listed in CODEPAGE.
 #'
-#' @param str Character containing CODEPAGE and its values.
-#' @param default Character of default encoding to return in no match is found.
+#' @inheritParams read_px_file
 #'
 #' @returns Character
-str_extract_px_encoding <- function(str, default = 'utf-8') {
-  encoding <- stringr::str_extract(str, '(?<=CODEPAGE=").+(?=";)')
+get_encoding_from_px_file <- function(px_path) {
+  encoding <-
+    px_path %>%
+    readLines(warn = FALSE) %>%
+    paste(collapse = '\n') %>%
+    stringr::str_extract('(?<=CODEPAGE=").+(?=";)')
 
   if (is.na(encoding)) {
-    encoding <- default
+    encoding <- get_default_encoding()
   }
 
   return(encoding)
 }
 
-#' Get file encoding listed in px-file
+#' Get px file content as lines
 #'
-#' The encoding is listed under CODEPAGE. If CODEPAGE isen't given, utf-8 is
-#' assumed.
+#' @param px_path Path to a px file
 #'
-#' @param px_file_path Path to px file
-#'
-#' @returns Character
-get_pxfile_encoding <- function(px_file_path) {
-  px_file_path %>%
-    readLines(warn = FALSE) %>%
-    paste(collapse = '\n') %>%
-    str_extract_px_encoding()
-}
-
-#' Create an Excel metadata workbook from a px-file
-#'
-#' Turn a px-file into an Excel metadata workbook. If pxmake() is run on that
-#' workbook it turns back into an equivalent px-file.
-#'
-#' @param pxfile_path Path to px file
-#' @param xlsx_path Path to save xlsx file at
-#' @param rds_data_path Path to save data cube as rds file. If NULL the data
-#' cube is added in the 'Data' sheet in the Excel metadata workbook.
-#' @param overwrite_xlsx Should existing metadata workbook be overwritten?
-#'
-#' @returns Nothing
-#'
-#' @export
-metamake <- function(pxfile_path,
-                     xlsx_path,
-                     rds_data_path = NULL,
-                     overwrite_xlsx = TRUE) {
-
-  file_connection <- file(pxfile_path, encoding = get_pxfile_encoding(pxfile_path))
+#' @returns A character vector
+read_px_file <- function(px_path) {
+  file_connection <- file(px_path, encoding = get_encoding_from_px_file(px_path))
   lines <- readLines(con = file_connection, warn = FALSE)
   close(file_connection)
 
-  ## Split metadata in heading and data cube
-  data_line_index <- stringr::str_which(lines, '^DATA=$')
+  return(lines)
+}
 
-  error_if_not_exactly_one_data_line(data_line_index)
-
-  metadata_lines <- lines[c(1:data_line_index)]
-  data_lines     <- lines[c((data_line_index+1):length(lines))]
-
-  tmp_metadata <-
-    metadata_lines %>%
+#' Get metdata df from px lines
+#'
+#' @param px_lines A character vector with the header of a px file.
+#'
+#' @returns A data frame
+get_metdata_df_from_px_lines <- function(px_lines) {
+  px_lines %>%
     # Remove newlines in file. Use semi-colon as line separator
     paste0(collapse = "") %>%
     stringr::str_split(";") %>%
@@ -106,10 +73,41 @@ metamake <- function(pxfile_path,
     dplyr::mutate(value = stringr::str_split(value, '","')) %>%
     dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.)),
                   main_language = language == get_main_language(.)
-                  )
+    )
+}
+
+#' Create an Excel metadata workbook from a px-file
+#'
+#' Turn a px-file into an Excel metadata workbook. If pxmake() is run on that
+#' workbook it turns back into an equivalent px-file.
+#'
+#' @inheritParams read_px_file
+#' @param xlsx_path Path to save xlsx file at
+#' @param rds_data_path Path to save data cube as rds file. If NULL the data
+#' cube is added in the 'Data' sheet in the Excel metadata workbook.
+#' @param overwrite_xlsx Should existing metadata workbook be overwritten?
+#'
+#' @returns Nothing
+#'
+#' @export
+metamake <- function(px_path,
+                     xlsx_path,
+                     rds_data_path = NULL,
+                     overwrite_xlsx = TRUE) {
+
+  px_lines <- read_px_file(px_path)
+
+  data_line_index <- stringr::str_which(px_lines, '^DATA=$')
+
+  error_if_not_exactly_one_data_line(data_line_index)
+
+  metadata_lines <- px_lines[c(1:data_line_index)]
+  data_lines     <- px_lines[c((data_line_index+1):length(px_lines))]
+
+  metadata_df <- get_metdata_df_from_px_lines(metadata_lines)
 
   head_stub <-
-    tmp_metadata %>%
+    metadata_df %>%
     dplyr::filter(keyword %in% c("HEADING", "STUB")) %>%
     tidyr::unnest(value) %>%
     dplyr::rename(long_name = value) %>%
@@ -120,7 +118,7 @@ metamake <- function(pxfile_path,
 
   # Use VARIABLECODE if it exists
   variablecode <-
-    tmp_metadata %>%
+    metadata_df %>%
     dplyr::filter(keyword == "VARIABLECODE", main_language) %>%
     tidyr::unnest(value) %>%
     dplyr::select(variable = value,
@@ -171,7 +169,7 @@ metamake <- function(pxfile_path,
   }
 
   metadata <-
-    tmp_metadata %>%
+    metadata_df %>%
     dplyr::rename(long_name = variable) %>%
     dplyr::left_join(name_relation, by = c("language", "long_name"))
 
@@ -193,7 +191,7 @@ metamake <- function(pxfile_path,
     tidyr::pivot_wider(names_from = c(language, keyword),
                        names_glue = "{language}_{tolower(keyword)}",
                        values_from = value
-                       )
+    )
 
   time_var <-
     metadata %>%
@@ -219,7 +217,7 @@ metamake <- function(pxfile_path,
     metadata %>%
     dplyr::filter(main_language, keyword %in% c("CODES"),
                   !variable %in% time_variable_df #Time vars are not in codelist
-                  ) %>%
+    ) %>%
     tidyr::unnest(value) %>%
     dplyr::rename(code = value) %>%
     dplyr::group_by(variable) %>%
@@ -268,8 +266,8 @@ metamake <- function(pxfile_path,
                   keyword = ifelse(language_dependent,
                                    paste0(keyword, "_", language),
                                    keyword
-                                   )
-                  ) %>%
+                  )
+    ) %>%
     dplyr::select(keyword, value)
 
   ### Make metadata sheet: 'Data'

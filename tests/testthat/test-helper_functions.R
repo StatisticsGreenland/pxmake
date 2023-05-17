@@ -17,17 +17,27 @@ test_that("keywords has language", {
 
 test_that("keyword has sub-key", {
   expect_equal(add_sub_key_to_keyword(keyword = c("ELIMINATION",
-                                                "ELIMINATION[da]",
-                                                "ELIMINATION[kl]"),
+                                                  "ELIMINATION[da]",
+                                                  "ELIMINATION[kl]"),
                                       name    = c("place of birth",
-                                                "fødested",
-                                                "inunngorfik"
-                                                )
+                                                  "fødested",
+                                                  NA)
                                       ),
                c('ELIMINATION("place of birth")',
                  'ELIMINATION[da]("fødested")',
-                 'ELIMINATION[kl]("inunngorfik")'
+                 'ELIMINATION[kl]'
                  )
+               )
+})
+
+test_that("keyword has cell name", {
+  expect_equal(add_cell_to_keyword(keyword = c('PRECISION("measure")',
+                                               'PRECISION[da]("measure")'
+                                               ),
+                                   name = c("Life expectancy", NA)
+                                   ),
+               c('PRECISION("measure","Life expectancy")',
+                 'PRECISION[da]("measure")')
                )
 })
 
@@ -112,4 +122,16 @@ test_that("long lines are split into <=256 character bits", {
                '"values"'
                )
   expect_equal(break_long_lines(input4, max_line_length = 50), expect4)
+})
+
+test_that("Variables are converted to lists", {
+  input <- tidyr::tibble(x = letters[1:3],
+                         y = c(1, 2, NA)
+                         )
+
+  expect <- tidyr::tibble(x = letters[1:3],
+                          y = c(list(1), list(2), list(NA_real_))
+                          )
+
+  expect_equal(wrap_varaible_in_list(input, y), expect)
 })

@@ -7,7 +7,7 @@
 get_px_metadata_regex()
 }
 \value{
-Character
+A character vector
 }
 \description{
 Regular expression to parse header in pxfile

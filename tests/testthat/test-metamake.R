@@ -3,14 +3,14 @@ run_metamake_and_pxmake <- function(table_name) {
   metadata_out <- get_metadata_path(paste0(table_name, "_by_metamake"))
   px_out       <- get_pxfile_path(paste0(table_name, "_metamake_pxmake"))
 
-  metamake(pxfile_path = px_source, xlsx_path = metadata_out)
+  metamake(px_path = px_source, xlsx_path = metadata_out)
 
-  pxmake(metadata_path = metadata_out, pxfile_path = px_out)
+  pxmake(excel_metadata_path = metadata_out, px_path = px_out)
 }
 
 test_that("file encoding is correct", {
   get_file_encoding_for_table <- function(table_name) {
-    get_pxfile_encoding(get_pxfile_path(table_name))
+    get_encoding_from_px_file(get_pxfile_path(table_name))
   }
 
   expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')

@@ -12,7 +12,17 @@ add_language_to_keyword <- function(keyword, main_language, language) {
 }
 
 add_sub_key_to_keyword <- function(keyword, name) {
-  stringr::str_glue('{keyword}("{name}")')
+  ifelse(is.na(name),
+         keyword,
+         stringr::str_glue('{keyword}("{name}")')
+         )
+}
+
+add_cell_to_keyword <- function(keyword, name) {
+  ifelse(is.na(name),
+         keyword,
+         stringr::str_glue('{stringr::str_sub(keyword, 1, -2)},"{name}")')
+         )
 }
 
 quote_unless_numeric_or_yes_no <- function(str) {
@@ -113,4 +123,24 @@ break_long_lines <- function(str, max_line_length = 256) {
   } else {
     return(str)
   }
+}
+
+#' Convert a variable to a list
+#'
+#' @param df Data frame
+#' @param var Variable to convert to list
+#'
+#' @return Data frame
+wrap_varaible_in_list <- function(df, var) {
+  df %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate({{ var }} := list({{ var }})) %>%
+    dplyr::ungroup()
+}
+
+#' Default encoding to read and save px-file in
+#'
+#' @returns Character
+get_default_encoding <- function() {
+  return('utf-8')
 }

@@ -4,10 +4,10 @@
 \alias{metamake}
 \title{Create an Excel metadata workbook from a px-file}
 \usage{
-metamake(pxfile_path, xlsx_path, rds_data_path = NULL, overwrite_xlsx = TRUE)
+metamake(px_path, xlsx_path, rds_data_path = NULL, overwrite_xlsx = TRUE)
 }
 \arguments{
-\item{pxfile_path}{Path to px file}
+\item{px_path}{Path to a px file}
 
 \item{xlsx_path}{Path to save xlsx file at}
 

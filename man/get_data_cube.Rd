@@ -2,17 +2,20 @@
 % Please edit documentation in R/pxmake.R
 \name{get_data_cube}
 \alias{get_data_cube}
-\title{Create data cube from source and meta data}
+\title{Get data cube used in px file format}
 \usage{
-get_data_cube(metadata_path, source_data_path)
+get_data_cube(metadata_df, data_table_df, excel_metadata_path)
 }
 \arguments{
-\item{metadata_path}{Path to metadata.}
+\item{metadata_df}{Data frame with metadata.}
 
-\item{source_data_path}{Path to source data}
+\item{data_table_df}{Data frame with data table in tidy format.}
+
+\item{excel_metadata_path}{Path to Excel workbook with metadata.}
+}
+\value{
+Data frame
 }
 \description{
-The data cube has one column for each value of HEADING and is sorted by
-value. There is one row for each combination of values of STUB variables. The
-ordering of STUB variables are set in the metadata.
+Get data cube used in px file format
 }

@@ -1,136 +1,210 @@
-#' Get metadata from 'Table' sheet in Excel Workbook
+#' Get data frame from data table argument
 #'
-#' @param metadata_path Path to metadata file
-get_table_metadata <- function(metadata_path) {
-  metadata_path %>%
-    readxl::read_xlsx(sheet = "Table") %>%
-    tidyr::separate(keyword,
-                    c("keyword", "language"),
-                    sep = "_(?=[[:alpha:]]+)",
-                    fill = "right"
-                    )
+#' @inheritParams get_figures_variable
+#' @inheritParams get_data_table_df
+#'
+#' @returns Data frame
+get_df_from_data_table_argument <- function(excel_metadata_path, data_table) {
+  if (is.null(data_table)) {
+    return(get_data_sheet(excel_metadata_path))
+  } else if (is.data.frame(data_table)) {
+    return(data_table)
+  } else if (file.exists(data_table)) {
+    # try catch
+    return(readRDS(data_table))
+  } else {
+    # error
+  }
 }
 
-#' Get metadata from 'Variables' sheet in Excel Workbook
+#' Get table data as data frame
 #'
-#' @param metadata_path Path to metadata file
-get_variables_metadata <- function(metadata_path) {
-  metadata_path %>%
-    readxl::read_xlsx(sheet = "Variables") %>%
-    tidyr::pivot_longer(cols = -c(position, variable, type),
-                        names_to = c("language", "long_name"),
-                        names_pattern = "^([[:alpha:]]+)_(.*)$"
-                        ) %>%
-    tidyr::pivot_wider(names_from = long_name, values_from = value) %>%
-    dplyr::mutate(long_name = ifelse(is.na(long_name) | tolower(type) %in% "figures",
-                                     variable,
-                                     long_name
-                                     )
+#' @inheritParams get_figures_variable
+#' @param data_table A data frame or a path to an `.rds` file with data source.
+#' If NULL, the data is taken from the sheet 'Data' in the Excel metadata
+#' workbook.
+#' @param add_totals A list of variables to add a 'total' level to. The value
+#' of the total level is looked up in 'Variables' xx_elimination. The code for
+#' the level is found in 'Codelists'. The total is a sum of the values in the
+#' variables with type = FIGURES in 'Variables'. NAs are ignored when summing.
+#'
+#' @returns a data frame
+get_data_table_df  <- function(excel_metadata_path, data_table, add_totals) {
+  data_table_df <-
+    get_df_from_data_table_argument(excel_metadata_path, data_table) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(across(-one_of(get_figures_variable(excel_metadata_path)),
+                         as.character
+                         )
                   )
-}
 
-#' Get metadata from 'Codelists' sheet in Excel Workbook
-#'
-#' @param metadata_path Path to metadata file
-get_codelist_metadata <- function(metadata_path) {
-  metadata_path %>%
-    readxl::read_xlsx(sheet = "Codelists") %>%
-    dplyr::mutate(across(-sortorder, as.character),
-                  across( sortorder, as.numeric)
-                  ) %>%
-    tidyr::pivot_longer(cols = ends_with("_code_label"),
-                        names_to = c("language"),
-                        names_pattern = "^([[:alpha:]]+)_.*$"
-                        )
-}
+  if (is.null(add_totals)) {
+    return(data_table_df)
+  }
 
-#' Sort metadata keywords in recommended order
-#'
-#' @param metadata Data frame with metadata.
-#'
-#' @returns data frame
-sort_metadata <- function(metadata) {
-  metadata %>%
-    dplyr::mutate(tmp_keyword = stringr::str_extract(keyword, "[[:upper:]-]+")) %>%
-    dplyr::left_join(get_px_keywords()[c('keyword', 'order')],
-                     by = c('tmp_keyword' = 'keyword')
+  variables <-
+    get_variables_metadata(excel_metadata_path) %>%
+    dplyr::select(variable, language, elimination)
+
+  codelist <-
+    get_codelists_metadata(excel_metadata_path, data_table_df) %>%
+    dplyr::select(variable, code, value)
+
+  params <-
+    variables %>%
+    dplyr::left_join(codelist,
+                     by = c("variable", "elimination" = "value"),
+                     multiple = "all"
                      ) %>%
-    dplyr::arrange(order, keyword) %>%
-    dplyr::select(-tmp_keyword, -order)
+    dplyr::filter(variable %in% add_totals) %>%
+    dplyr::distinct(variable, code)
+
+  add_totals(data_table_df,
+             vars = params$variable,
+             level_names = params$code,
+             sum_var = get_figures_variable(excel_metadata_path)
+             )
 }
 
-#' Create metadata for header in PX file
+#' Get encoding name from metadata
 #'
-#' The metadata is generated from an Excel sheet and from the source data.
-#'
-#' @param metadata_path Path to metadata
-#' @param source_data_path Path to source data
-get_metadata <- function(metadata_path, source_data_path) {
-  # Generate metadata from first sheet in Excel workbook.
-  # Datasets starting with 'metadata_' are part of the final metadataset.
-  source_data <- get_source_data(source_data_path, metadata_path)
-
-  main_language <-
-    get_table_metadata(metadata_path) %>%
-    get_main_language()
-
-  all_languages <-
-    get_table_metadata(metadata_path) %>%
-    dplyr::filter(keyword == "LANGUAGES") %>%
-    dplyr::mutate(value = stringr::str_replace_all(value, " ", "") %>%
-                           # remove quotes to be compatible with previous versions
-                           stringr::str_replace_all('"', '') %>%
-                           stringr::str_split(pattern = ',')
-                  ) %>%
+#' @inherit get_main_language
+get_encoding_from_metadata <- function(metadata_df) {
+  encoding_str <-
+    metadata_df %>%
+    dplyr::filter(keyword == "CODEPAGE") %>%
     tidyr::unnest(value) %>%
     dplyr::pull(value)
 
-  variables <- get_variables_metadata(metadata_path)
+  if (length(encoding_str) == 0) {
+    encoding_str <- get_default_encoding()
+  }
+
+  return(encoding_str)
+}
+
+#' Get the main language from metadata
+#'
+#' @inheritParams sort_metadata_df
+#'
+#' @returns Character
+get_main_language <- function(metadata_df) {
+  metadata_df %>%
+    dplyr::filter(keyword == "LANGUAGE") %>%
+    tidyr::unnest(value) %>%
+    dplyr::pull(value)
+}
+
+#' Sort metadata data frame
+#'
+#' The data frame is first sorted by the keyword order defined in the
+#' px-specification and then by the language order.
+#'
+#' @param metadata_df Data frame with metadata.
+#'
+#' @returns A data frame
+sort_metadata_df <- function(metadata_df) {
+  languages <-
+    metadata_df %>%
+    dplyr::filter(keyword == "LANGUAGES") %>%
+    tidyr::unnest(value) %>%
+    dplyr::mutate(language_order = dplyr::row_number()) %>%
+    dplyr::select(language = value, language_order)
+
+  metadata_df %>%
+    dplyr::left_join(get_px_keywords() %>% dplyr::select('keyword', 'order'),
+                     by = "keyword"
+                     ) %>%
+    dplyr::left_join(languages, by = "language") %>%
+    dplyr::arrange(order, keyword, language_order, !is.na(variable), variable, cell) %>%
+    dplyr::select(-order, -language_order)
+}
+
+#' Get a data frame with metadata
+#'
+#' The metadata from the 3 sheets in the Excel workbook are combined into one
+#' data frame, in a format that's both easy to read, query and convert to a
+#' px-file.
+#'
+#' @inheritParams get_figures_variable
+#' @param data_table_df Data frame with data table in tidy format.
+#'
+#' @returns A data frame
+get_metadata_df <- function(excel_metadata_path, data_table_df) {
+  df <- dplyr::tibble(keyword  = character(),
+                      language = character(),
+                      variable = character(),
+                      cell     = character(),
+                      value    = list(character())
+                      )
+
+  variables_long <-
+    excel_metadata_path %>%
+    get_variables_metadata() %>%
+    tidyr::pivot_longer(cols = -c(position, variable, type, language, long_name),
+                        names_to = "keyword"
+                        )
+
+  note_etc <-
+    variables_long %>%
+    tidyr::drop_na(value) %>%
+    dplyr::mutate(keyword = toupper(keyword)) %>%
+    wrap_varaible_in_list(value) %>%
+    dplyr::select(keyword, variable = long_name, language, value) %>%
+    dplyr::arrange_all()
+
+  variables_long_distinct <-
+    variables_long %>%
+    tidyr::drop_na(position) %>%
+    dplyr::distinct(position, variable, language, long_name)
+
+  variablecode <-
+    variables_long_distinct %>%
+    dplyr::distinct(keyword = "VARIABLECODE",
+                    value = variable,
+                    variable = long_name,
+                    language
+                    ) %>%
+    wrap_varaible_in_list(value)
+
+  # Simplify when #124 is implemented.
+  head_stub <-
+    variables_long_distinct %>%
+    # Simplify when #124 is implemented.
+    dplyr::mutate(type     = substr(position, 1, 1) %>% tolower(),
+                  order    = substr(position, 2, nchar(position)),
+                  keyword  = dplyr::case_when(type == 's' ~ 'STUB',
+                                              type == 'h' ~ 'HEADING',
+                                              TRUE ~ NA_character_
+                                              )
+                  ) %>%
+    dplyr::arrange(keyword, order) %>%
+    dplyr::group_by(keyword, language) %>%
+    dplyr::summarise(value = list(paste(long_name, sep = ", ")), .groups = "keep")
+
+  time_metadata <-
+    variables_long %>%
+    dplyr::filter(tolower(type) == "time") %>%
+    dplyr::distinct(variable, language, long_name)
 
   time_variable <-
-    variables %>%
-    dplyr::filter(tolower(type) == "time") %>%
+    time_metadata %>%
     dplyr::distinct(variable) %>%
     dplyr::pull(variable)
 
-  if(length(time_variable) > 0) {
+  if (length(time_variable) == 0) {
+    timeval <- NULL
+  } else {
     error_if_more_than_one_time_variable(time_variable)
 
     time_values <-
-      source_data %>%
+      data_table_df %>%
       dplyr::distinct(across(all_of(time_variable))) %>%
       dplyr::pull(1)
 
-    metadata_time_values <-
-      variables %>%
-      dplyr::filter(variable == time_variable) %>%
-      dplyr::mutate(keyword = "VALUES" %>%
-                      add_language_to_keyword(main_language, language) %>%
-                      add_sub_key_to_keyword(long_name),
-                    value = time_values %>%
-                      str_quote() %>%
-                      stringr::str_c(collapse = ',')
-      ) %>%
-      dplyr::select(keyword, value)
-
-    metadata_codes <-
-      variables %>%
-      dplyr::filter(variable == time_variable) %>%
-      dplyr::mutate(keyword = "CODES" %>%
-                      add_language_to_keyword(main_language, language) %>%
-                      add_sub_key_to_keyword(long_name),
-                    value = time_values %>%
-                      str_quote() %>%
-                      stringr::str_c(collapse = ',')
-      ) %>%
-      dplyr::select(keyword, value)
-
-    metadata_timeval <-
-      variables %>%
-      dplyr::filter(variable == time_variable) %>%
-      dplyr::mutate(keyword = "TIMEVAL" %>%
-                      add_language_to_keyword(main_language, language) %>%
-                      add_sub_key_to_keyword(long_name),
+    timeval <-
+      time_metadata %>%
+      dplyr::mutate(keyword = "TIMEVAL",
                     value = paste0("TLIST(",
                                    get_timeval_type_from_values(time_values),
                                    "1),",
@@ -138,202 +212,94 @@ get_metadata <- function(metadata_path, source_data_path) {
                                      stringr::str_replace_all('[:alpha:]', '') %>%
                                      str_quote() %>%
                                      stringr::str_c(collapse = ',')
-                    )
-      ) %>%
-      dplyr::select(keyword, value)
-
-    metadata_time <- dplyr::bind_rows(metadata_time_values,
-                                      metadata_timeval,
-                                      metadata_codes
-                                      )
-  } else {
-    metadata_time <- NULL
+                                   )
+                    ) %>%
+      dplyr::select(keyword, language, variable = long_name, value) %>%
+      wrap_varaible_in_list(value)
   }
 
-  metadata_stub_and_head <-
-    variables %>%
-    tidyr::drop_na(position) %>%
-    dplyr::mutate(keyword =
-                    dplyr::case_when(substr(tolower(position), 1, 1) == 's' ~ 'STUB',
-                                     substr(tolower(position), 1, 1) == 'h' ~ 'HEADING',
-                                     TRUE ~ NA_character_
-                                     ) %>%
-                                     add_language_to_keyword(main_language, language)
-                  ) %>%
-    dplyr::arrange(position, keyword) %>%
-    dplyr::group_by(keyword) %>%
-    dplyr::mutate(value = str_quote(long_name) %>% stringr::str_c(collapse = ',')) %>%
-    dplyr::ungroup() %>%
-    dplyr::distinct(keyword, value)
+  codelists <- get_codelists_metadata(excel_metadata_path, data_table_df)
 
-  metadata_variables <-
-    variables %>%
-    tidyr::pivot_longer(cols = intersect(c("note", "domain", "elimination"),
-                                         names(.)
-                                         )
-                        ) %>%
-    tidyr::drop_na(value) %>%
-    dplyr::arrange(name, position) %>%
-    dplyr::mutate(keyword = toupper(name) %>%
-                              add_language_to_keyword(main_language, language) %>%
-                              add_sub_key_to_keyword(long_name),
-                  value = quote_unless_numeric_or_yes_no(value)
-                  ) %>%
-    dplyr::select(keyword, value)
-
-  source_data_codes <-
-    source_data %>%
-    dplyr::select(-any_of(c(get_figures_variable(metadata_path),
-                            time_variable
-                            )
-                          )
-                  ) %>%
-    tidyr::pivot_longer(cols = everything(),
-                        names_to = "variable",
-                        values_to = "code"
-                        ) %>%
-    dplyr::distinct() %>%
-    tidyr::expand_grid(language = all_languages) %>%
-    dplyr::arrange_all()
-
-  metadata_codes_values_precision <-
-    get_codelist_metadata(metadata_path) %>%
-    dplyr::full_join(source_data_codes, by = c("variable", "code", "language")) %>%
-    dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
-                     by = c("variable", "language")
-                     ) %>%
-    dplyr::mutate(value = ifelse(is.na(value), code, value)) %>%
-    dplyr::mutate(VarName2 = paste0(long_name, str_quote(","), value)) %>%
-    tidyr::pivot_longer(cols = c("code",  "value", "precision"),
-                        names_to = "type"
-                        ) %>%
-    dplyr::mutate(keyword = dplyr::case_when(type == 'code'      ~ 'CODES',
-                                             type == 'value'     ~ 'VALUES',
-                                             type == 'precision' ~ 'PRECISION',
-                                             TRUE ~ NA_character_
-                                             ) %>%
-                                             add_language_to_keyword(main_language, language) %>%
-                                             add_sub_key_to_keyword(long_name)
-                  ) %>%
+  code_value <-
+    codelists %>%
+    tidyr::pivot_longer(cols = c("code",  "value"), names_to = "type") %>%
+    # Update when implementing #140
+    dplyr::mutate(keyword = toupper(paste0(type, "s"))) %>%
     dplyr::arrange(keyword, sortorder) %>%
-    dplyr::group_by(keyword) %>%
-    dplyr::mutate(value = ifelse(type %in% c('code','value'),
-                                 str_quote(value) %>% stringr::str_c(collapse = ','),
-                                 value)
-                  ) %>%
-    dplyr::ungroup() %>%
-    tidyr::drop_na(value) %>%
-    dplyr::mutate(keyword2 = dplyr::case_when(type == 'precision' ~ 'PRECISION',
-                                              TRUE ~ NA_character_
-                                              ) %>%
-                                              add_language_to_keyword(main_language, language) %>%
-                                              add_sub_key_to_keyword(VarName2)
-                  ) %>%
-    dplyr::distinct(type, keyword,keyword2, value) %>%
-    dplyr::mutate(keyword = ifelse(type == 'precision', keyword2, keyword),
-                  across(everything(), as.character)
-                  ) %>%
-    dplyr::distinct(keyword, value) %>%
-    dplyr::relocate(keyword)
+    dplyr::group_by(keyword, language, variable = long_name) %>%
+    dplyr::summarise(value = list(paste(value, sep = ", "))) %>%
+    dplyr::ungroup()
 
-  metadata_variablecode <-
-    variables %>%
-    dplyr::filter(!tolower(type) %in% "figures") %>%
-    dplyr::mutate(keyword = "VARIABLECODE" %>%
-                              add_language_to_keyword(main_language, language) %>%
-                              add_sub_key_to_keyword(long_name),
-                  value = variable
-                  ) %>%
-    dplyr::select(keyword, value)
+  precision <-
+    codelists %>%
+    dplyr::mutate(keyword = "PRECISION") %>%
+    tidyr::drop_na(precision) %>%
+    wrap_varaible_in_list(precision) %>%
+    dplyr::select(keyword,
+                  language,
+                  variable = long_name,
+                  cell = value,
+                  value = precision
+                  )
 
-  metadata_table <-
-    get_table_metadata(metadata_path) %>%
-    dplyr::mutate(keyword = add_language_to_keyword(keyword, main_language, language),
-                  value = tidyr::replace_na(value, "")
-                  ) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(value = ifelse(keyword %in% "LANGUAGES",
-                                 value %>% stringr::str_replace_all(" ", "") %>%
-                                           # remove quotes to be compatible with previous versions
-                                           stringr::str_replace_all('"', '') %>%
-                                           stringr::str_split(",") %>% unlist %>%
-                                           stringr::str_c(collapse = '","'),
-                                 value
-                                 )
-                  ) %>%
-    dplyr::ungroup() %>%
-    dplyr::arrange(!is.na(language)) %>%
-    dplyr::select(keyword, value)
-
-  return(dplyr::bind_rows(metadata_table,
-                          metadata_stub_and_head,
-                          metadata_codes_values_precision,
-                          metadata_time,
-                          metadata_variables,
-                          metadata_variablecode
-                          ) %>% sort_metadata()
-         )
+  dplyr::bind_rows(df,
+                   get_table_metadata(excel_metadata_path),
+                   variablecode,
+                   note_etc,
+                   head_stub,
+                   timeval,
+                   code_value,
+                   precision
+                   ) %>%
+    sort_metadata_df()
 }
 
-#' Get source data
+#' Get data cube used in px file format
 #'
-#' @param source_data_path Path to source data
-#' @param metadata_path Path to metadata.
+#' @inheritParams sort_metadata_df
+#' @inheritParams get_metadata_df
 #'
 #' @returns Data frame
-get_source_data <- function(source_data_path, metadata_path) {
-  figures_var <- get_figures_variable(metadata_path)
+get_data_cube <- function(metadata_df, data_table_df, excel_metadata_path) {
+  metadata_df_main_language <-
+    metadata_df %>%
+    dplyr::filter(language == get_main_language(metadata_df))
 
-  source_data_path %>%
-    readRDS() %>%
-    dplyr::ungroup() %>%
-    # Change all variables without figures to character
-    dplyr::mutate(across(-one_of(figures_var), as.character))
-}
+  long_names <-
+    metadata_df_main_language %>%
+    dplyr::filter(keyword == "VARIABLECODE") %>%
+    tidyr::unnest(value) %>%
+    dplyr::select(long_name = variable, variable = value)
 
-#' Create data cube from source and meta data
-#'
-#' The data cube has one column for each value of HEADING and is sorted by
-#' value. There is one row for each combination of values of STUB variables. The
-#' ordering of STUB variables are set in the metadata.
-#'
-#' @param metadata_path Path to metadata.
-#' @param source_data_path Path to source data
-get_data_cube <- function(metadata_path, source_data_path) {
-  main_language <-
-    main_language <-
-    get_table_metadata(metadata_path) %>%
-    get_main_language()
-
-  variables <-
-    get_variables_metadata(metadata_path) %>%
-    dplyr::arrange(position)
+  stub_and_heading_df <-
+    metadata_df_main_language %>%
+    dplyr::filter(keyword %in% c("STUB", "HEADING")) %>%
+    tidyr::unnest(value) %>%
+    dplyr::select(keyword, long_name = value) %>%
+    dplyr::left_join(long_names, by = "long_name")
 
   stub_vars <-
-    variables %>%
-    dplyr::filter(substr(tolower(position), 1, 1) == 's', language == main_language) %>%
+    stub_and_heading_df %>%
+    dplyr::filter(keyword == "STUB") %>%
     dplyr::pull(variable)
 
   heading_vars <-
-    variables %>%
-    dplyr::filter(substr(tolower(position), 1, 1) == 'h', language == main_language) %>%
+    stub_and_heading_df %>%
+    dplyr::filter(keyword == "HEADING") %>%
     dplyr::pull(variable)
 
+  head_stub_variable_names <- c(heading_vars, stub_vars)
+
   codelist <-
-    get_codelist_metadata(metadata_path) %>%
-    dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
-                     by = c("variable", "language")
-                     ) %>%
-    dplyr::filter(language == main_language) %>%
+    get_codelists_metadata(excel_metadata_path, data_table_df) %>%
+    dplyr::filter(language == get_main_language(metadata_df)) %>%
     dplyr::select(variable, sortorder, code)
 
   # Complete data by adding all combinations of variable values in data and
   # codelist
-  tmp_source_data <- get_source_data(source_data_path, metadata_path)
-
   source_data_values <-
-    tmp_source_data %>%
-    dplyr::select(dplyr::all_of(c(heading_vars, stub_vars))) %>%
+    data_table_df %>%
+    dplyr::select(dplyr::all_of(head_stub_variable_names)) %>%
     lst_distinct_and_arrange()
 
   codelist_values <-
@@ -342,12 +308,11 @@ get_data_cube <- function(metadata_path, source_data_path) {
 
   data_values <- merge_named_lists(source_data_values, codelist_values)
 
-  source_data <- tidyr::complete(tmp_source_data, !!!data_values)
-
   data_cube <-
-    source_data %>%
-    dplyr::mutate(id = dplyr::row_number()) %>% # used to unpivot data later
-    tidyr::pivot_longer(cols = all_of(c(heading_vars, stub_vars)),
+    data_table_df %>%
+    tidyr::complete(!!!data_values) %>%
+    dplyr::mutate(id_ = dplyr::row_number()) %>% # used to unpivot data later
+    tidyr::pivot_longer(cols = all_of(head_stub_variable_names),
                         names_to = "variable",
                         values_to = "code"
                         ) %>%
@@ -355,8 +320,8 @@ get_data_cube <- function(metadata_path, source_data_path) {
     tidyr::pivot_wider(names_from = variable,
                        values_from = c("code", "sortorder")
                        ) %>%
-    dplyr::select(-id) %>%
-    # Sort by sortorder for first heading var, codes for second heading var,
+    dplyr::select(-id_) %>%
+    # Sort by sortorder for first heading var, codes for first heading var,
     # sortorder for second heading var, etc.
     dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", heading_vars),
                                              paste0("code_", heading_vars)
@@ -365,7 +330,7 @@ get_data_cube <- function(metadata_path, source_data_path) {
                    ) %>%
     dplyr::select(-paste0("sortorder_", heading_vars)) %>%
     tidyr::pivot_wider(names_from = !!paste0("code_", heading_vars),
-                       values_from = get_figures_variable(metadata_path)
+                       values_from = get_figures_variable(excel_metadata_path)
                        ) %>%
     dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", stub_vars),
                                              paste0("code_", stub_vars)
@@ -377,27 +342,43 @@ get_data_cube <- function(metadata_path, source_data_path) {
   return(data_cube)
 }
 
-#' Turn metadata and data cube into text lines that can be written to a px file.
+#' Turn metadata and data cube into px lines
 #'
-#' @param metadata Dataframe with metadata
-#' @param data_cube Dataframe with data cube
-format_px_data_as_lines <- function(metadata, data_cube) {
+#' @inheritParams sort_metadata_df
+#' @param data_cube Data frame
+#'
+#' @returns A character vector
+format_data_as_px_lines <- function(metadata_df, data_cube) {
+  time_variables <-
+    metadata_df %>%
+    dplyr::filter(keyword == "TIMEVAL") %>%
+    dplyr::pull(variable)
+
   metadata_lines <-
-    metadata %>%
+    metadata_df %>%
     dplyr::rowwise() %>%
+    dplyr::mutate(keyword = keyword %>%
+                              add_language_to_keyword(get_main_language(metadata_df),
+                                                      language
+                                                      ) %>%
+                              add_sub_key_to_keyword(variable) %>%
+                              add_cell_to_keyword(cell)
+                  ) %>%
     dplyr::mutate(value = value %>%
-                    quote_unless_numeric_or_yes_no() %>%
-                    break_long_lines(max_line_length = 256) %>% list()
+                            tidyr::replace_na("") %>%
+                            paste(collapse = '","') %>%
+                            quote_unless_numeric_or_yes_no() %>%
+                            break_long_lines(max_line_length = 256) %>%
+                            list()
                   ) %>%
     dplyr::ungroup() %>%
     tidyr::unnest(value) %>%
-    # Remove repeated keywords for long lines
-    dplyr::mutate(repeated = !is.na(dplyr::lag(keyword)) &
-                    keyword == dplyr::lag(keyword),
-                  last     = is.na(dplyr::lead(repeated)) |
-                    !dplyr::lead(repeated)
+    dplyr::mutate(repeated_keyword = !is.na(dplyr::lag(keyword)) &
+                                     keyword == dplyr::lag(keyword),
+                  last = is.na(dplyr::lead(repeated_keyword)) |
+                         !dplyr::lead(repeated_keyword)
                   ) %>%
-    dplyr::mutate(line = stringr::str_c(ifelse(repeated,
+    dplyr::mutate(line = stringr::str_c(ifelse(repeated_keyword,
                                                "",
                                                paste0(keyword, "=")
                                                ),
@@ -418,132 +399,36 @@ format_px_data_as_lines <- function(metadata, data_cube) {
   c(metadata_lines, "DATA=", data_lines, ";")
 }
 
-#' Save data set to temporary file
+#' Write lines to file
 #'
-#' Create a temporary .rds data file that can be used by other functions in the
-#' current R session.
-#'
-#' @param df Data frame to save.
-#'
-#' @return Path to temporary data
-save_temp_data <- function(df) {
-  temp_data_path <- paste0(tempfile(), '.rds')
-
-  saveRDS(df, temp_data_path)
-
-  return(temp_data_path)
+#' @param lines Character vector
+#' @param path Path to save file at
+#' @param encoding File encoding
+write_lines_to_file <- function(lines, path, encoding) {
+  file_connection <- file(path, encoding = encoding)
+  writeLines(lines, file_connection)
+  close(file_connection)
 }
 
-#' Get the name of figures variable
+#' Create a px-file from an Excel metadata workbook and a data table
 #'
-#' @param metadata_path Path to metadata
+#' @param px_path Path to save px file at
+#' @inheritParams get_data_table_df
 #'
-#' @returns Character
-get_figures_variable <- function(metadata_path) {
-  figures_var <-
-    metadata_path %>%
-    get_variables_metadata() %>%
-    dplyr::filter(tolower(type) == "figures") %>%
-    dplyr::distinct(variable) %>%
-    dplyr::pull(variable)
-
-  error_if_not_exactly_one_figures_variable(figures_var)
-
-  return(figures_var)
-}
-
-#' Wrapper aroud add_totals() to get values arguments from metadata
-#'
-#' @param metadata_path Path to metadata
-#' @param source_data_path Path to source data
-#' @param add_totals List of variables to add totals to.
-#'
-#' @returns Data frame with added totals
-add_totals_to_source_data <- function(metadata_path,
-                                      source_data_path,
-                                      add_totals) {
-  main_language <-
-    get_table_metadata(metadata_path) %>%
-    get_main_language()
-
-  variables <-
-    metadata_path %>%
-    get_variables_metadata()
-
-  codelist <-
-    metadata_path %>%
-    get_codelist_metadata() %>%
-    dplyr::select(variable, code, value)
-
-  params <-
-    variables %>%
-    dplyr::select(variable, language, elimination) %>%
-    dplyr::left_join(codelist, by = c("variable", "elimination" = "value")) %>%
-    dplyr::filter(variable %in% add_totals, language == main_language) %>%
-    dplyr::distinct(variable, code)
-
-  get_source_data(source_data_path, metadata_path) %>%
-    add_totals(vars = params$variable,
-               level_names = params$code,
-               sum_var = get_figures_variable(metadata_path)
-               )
-}
-
-#' Create pxfile
-#'
-#' `pxmake()` creates a px file by combine source data from a `.rds` file and
-#' metadata from an Excel workbook.
-#'
-#' @param metadata_path Path to Excel workbook with metadata.
-#' @param pxfile_path Path to save px file at.
-#' @param source_data A data frame or a path to an `.rds` file with data source.
-#' If NULL, `pxmake()` uses the metadata sheet 'Data'.
-#' @param add_totals A list of variables to add a 'total' level to. The value
-#' of the total level is looked up in 'Variables' xx_elimination. The code for
-#' the level is found in 'Codelists'. The total is a sum of the values in the
-#' variables with type = FIGURES in 'Variables'. NAs are ignored when summing.
-#' @return Nothing.
+#' @returns Nothing
 #'
 #' @export
-pxmake <- function(metadata_path,
-                   pxfile_path,
-                   source_data = NULL,
+pxmake <- function(excel_metadata_path,
+                   px_path,
+                   data_table = NULL,
                    add_totals = NULL) {
-  if (is.null(source_data)) {
-    error_if_excel_sheet_does_not_exist("Data", metadata_path)
 
-    source_data_path <-
-      metadata_path %>%
-      readxl::read_excel(sheet = "Data") %>%
-      save_temp_data()
-  } else if (is.data.frame(source_data)) {
-    source_data_path <-
-      save_temp_data(df = source_data)
-  } else if (file.exists(source_data)) {
-    source_data_path <- source_data
-  }
+  data_table_df  <- get_data_table_df(excel_metadata_path, data_table, add_totals)
+  metadata_df    <- get_metadata_df(excel_metadata_path, data_table_df)
 
-  if (!is.null(add_totals)) {
-    source_data_path <-
-      add_totals_to_source_data(metadata_path, source_data_path, add_totals) %>%
-      save_temp_data()
-  }
+  data_cube <- get_data_cube(metadata_df, data_table_df, excel_metadata_path)
 
-  metadata  <- get_metadata(metadata_path, source_data_path)
-  data_cube <- get_data_cube(metadata_path, source_data_path)
+  px_lines <- format_data_as_px_lines(metadata_df, data_cube)
 
-  px_lines <- format_px_data_as_lines(metadata, data_cube)
-
-  encoding_str <-
-    metadata %>%
-    dplyr::filter(keyword == "CODEPAGE") %>%
-    dplyr::pull(value)
-
-  if (identical(encoding_str, character(0))) {
-    encoding_str <- 'utf-8'
-  }
-
-  file_connection <- file(pxfile_path, encoding = encoding_str)
-  writeLines(px_lines, file_connection)
-  close(file_connection)
+  write_lines_to_file(px_lines, px_path, get_encoding_from_metadata(metadata_df))
 }

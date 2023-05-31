@@ -39,6 +39,7 @@ Some tests cases uses [PxJob](https://www.stat.fi/tup/tilastotietokannat/px-tuot
 1. Update NEWS.md with all changes since last release.
 1. Commit changes with message 'Increment version number to X.Y.Z'.
 1. Run `git tag vX.Y.Z`.
+1. Run 'git push'.
 1. Run `git push --tags`.
 1. Run `devtools::use_github_release()`.
 1. Review relase description. If sattified, click the 'edit' pen in the upper right corner.

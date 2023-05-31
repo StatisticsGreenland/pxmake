@@ -1,4 +1,7 @@
-# pxmake (development version)
+# pxmake 0.6.0
+
+## Breaking changes
+- Rewrite `pxmake` and `metamake` to improve readability.
 
 # pxmake 0.5.2
 

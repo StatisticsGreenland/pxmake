@@ -66,9 +66,10 @@ get_figures_variable <- function(excel_metadata_path) {
 get_all_languages <- function(excel_metadata_path) {
   excel_metadata_path %>%
     get_table_metadata() %>%
-    dplyr::filter(keyword == "LANGUAGES") %>%
+    dplyr::filter(keyword %in% c("LANGUAGE", "LANGUAGES")) %>%
     dplyr::pull(value) %>%
-    unlist()
+    unlist() %>%
+    unique()
 }
 
 #' Get general table metadata
@@ -94,7 +95,8 @@ get_table_metadata <- function(excel_metadata_path) {
                                    stringr::str_split(pattern = ','),
                                  value
                                  )
-                  )
+                  ) %>%
+    wrap_varaible_in_list(value)
 }
 
 #' Get metadata about variables
@@ -128,7 +130,7 @@ get_codelists_metadata <- function(excel_metadata_path, data_table_df) {
     tidyr::pivot_longer(cols = everything(),
                         names_to = "variable",
                         values_to = "code"
-    ) %>%
+                        ) %>%
     dplyr::distinct() %>%
     tidyr::expand_grid(language = get_all_languages(excel_metadata_path)) %>%
     dplyr::arrange_all()
@@ -142,16 +144,16 @@ get_codelists_metadata <- function(excel_metadata_path, data_table_df) {
     get_codelists_sheet() %>%
     dplyr::mutate(across(-sortorder, as.character),
                   across( sortorder, as.numeric)
-    ) %>%
+                  ) %>%
     tidyr::pivot_longer(cols = ends_with("_code_label"),
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]+)_.*$"
-    ) %>%
+                        ) %>%
     dplyr::full_join(source_data_codes, by = c("variable", "code", "language")) %>%
     # Add long_name (VARIABLECODE) (change when implementing #139)
     dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
                      by = c("variable", "language")
-    ) %>%
+                     ) %>%
     dplyr::mutate(value = ifelse(is.na(value), code, value))
 
   return(codelists)

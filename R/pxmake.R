@@ -227,7 +227,7 @@ get_metadata_df <- function(excel_metadata_path, data_table_df) {
     dplyr::mutate(keyword = toupper(paste0(type, "s"))) %>%
     dplyr::arrange(keyword, sortorder) %>%
     dplyr::group_by(keyword, language, variable = long_name) %>%
-    dplyr::summarise(value = list(paste(value, sep = ", "))) %>%
+    dplyr::summarise(value = list(paste(value, sep = ", ")), .groups = "keep") %>%
     dplyr::ungroup()
 
   precision <-

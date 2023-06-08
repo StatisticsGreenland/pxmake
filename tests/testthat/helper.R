@@ -29,7 +29,8 @@ expect_equal_lines <- function(path1, path2) {
   expect_equal(lines1, lines2)
 }
 
-#' Version of pxmake that deletes created file once finished
+#' Versions of pxmake, metamke, and pxjob, that deletes the files they have
+#' created
 pxmake_clean <- function(excel_metadata_path,
                          px_path,
                          data_table = NULL,

@@ -7,20 +7,21 @@ test_that("file encoding is correct", {
   expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
 
   # no encoding listed; utf-8 is default
+  px_file <- tempfile()
   pxmake_clean(get_metadata_path("BEXSTA"),
-               get_pxfile_path("BEXSTA"),
+               px_file,
                get_source_data_path("BEXSTA")
                )
-  expect_equal(get_file_encoding_for_table('BEXSTA'),  'utf-8')
+  expect_equal(get_encoding_from_px_file(px_file),  'utf-8')
 })
 
 test_that("pxfile = pxmake(metamake(pxfile))", {
   run_metamake_pxmake_and_compare <- function(table_name) {
-    px1   <- get_pxfile_path(table_name)
+    px1   <- tempfile()
     meta1 <- get_metadata_path(table_name)
     data1 <- get_source_data_path(table_name)
-    px2   <- get_pxfile_path(paste0(table_name, "_metamake_pxmake"))
-    meta2 <- get_metadata_path(paste0(table_name, "_by_metamake"))
+    px2   <- tempfile()
+    meta2 <- tempfile()
 
     pxmake_clean(meta1, px1, data1)
     metamake_clean(px1, meta2)
@@ -37,14 +38,13 @@ test_that("pxfile = pxmake(metamake(pxfile))", {
 
 test_that("metamake can create rds file", {
   table_name   <- 'BEXSTA'
-  px1     <- get_pxfile_path(table_name)
+  px1     <- tempfile()
   meta1   <- get_metadata_path(table_name)
   data1   <- get_source_data_path(table_name)
 
-  table_name2  <- paste0(table_name, "_by_metamake")
-  rds_out <- get_source_data_path(table_name2)
-  meta2   <- get_metadata_path(table_name2)
-  px2     <- get_pxfile_path(table_name2)
+  rds_out <- tempfile()
+  meta2   <- tempfile()
+  px2     <- tempfile()
 
   pxmake_clean(meta1, px1, data1)
   metamake_clean(px1, meta2, rds_data_path = rds_out)
@@ -61,17 +61,14 @@ test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   run_metamake_pxmake_pxjob_and_compare <- function(table_name) {
-    px1   <- get_pxfile_path(table_name)
+    px1    <- get_pxfile_path(table_name)
+    px2    <- temp_pxfile() # pxjob requires the .px extension
+    meta1  <- temp_pxfile()
+    pxjob1 <- temp_pxfile()
+    pxjob2 <- temp_pxfile()
 
-    table_name2  <- paste0(table_name, "_by_metamake")
-    px2   <- get_pxfile_path(paste0(table_name, "_metamake_pxmake"))
-    meta2 <- get_metadata_path(paste0(table_name, "_by_metamake"))
-
-    pxjob1 <- get_pxjobfile_path(table_name)
-    pxjob2 <- get_pxjobfile_path(table_name2)
-
-    metamake_clean(px1, meta2)
-    pxmake_clean(meta2, px2)
+    metamake_clean(px1, meta1)
+    pxmake_clean(meta1, px2)
 
     pxjob_clean(input = px1, output = pxjob1)
     pxjob_clean(input = px2, output = pxjob2)

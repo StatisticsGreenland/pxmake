@@ -60,8 +60,8 @@ test_that("Totals are added to two variables", {
 
 test_that("pxmake adds total levels to data without them", {
   metadata_path <- get_metadata_path("BEXSTA")
-  px_expect     <- get_pxfile_path("BEXSTA")
-  px_output     <- get_pxfile_path("BEXSTA_ADDED_TOTALS")
+  px_expect     <- tempfile()
+  px_output     <- tempfile()
 
   pxmake_clean(metadata_path,
                px_expect,

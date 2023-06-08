@@ -18,6 +18,10 @@ get_pxjobfile_path <- function(table_name) {
   test_path('px', paste0(table_name, '_pxjob.px'))
 }
 
+temp_pxfile <- function() {
+  tempfile(fileext = ".px")
+}
+
 expect_equal_lines <- function(path1, path2) {
   lines1 <- readLines(path1)
   lines2 <- readLines(path2)

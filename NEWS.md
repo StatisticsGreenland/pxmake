@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Support px-files without LANGUAGES keyword. (#143)
+- Remove dependencies between test and run them in parallel (#112)
+
 # pxmake 0.6.0
 
 ## Breaking changes

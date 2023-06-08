@@ -1,6 +1,6 @@
 Package: pxmake
 Title: Create px files
-Version: 0.6.0.9001
+Version: 0.6.0.9002
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",
@@ -24,7 +24,10 @@ Imports:
     rlang,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    withr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Config/testthat/parallel: true
+Config/testthat/start-first: pxmake, metamake

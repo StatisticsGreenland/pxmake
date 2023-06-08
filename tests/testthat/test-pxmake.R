@@ -38,22 +38,14 @@
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {
-    if (file.exists(get_pxfile_path(table_name))) {
-      file.remove(get_pxfile_path(table_name))
-    }
+    px_file <- tempfile()
 
-    if (table_name %in% c("FOTEST", "no_timeval_or_codes")) {
-      data_table <- NULL
-    } else {
-      data_table <- get_source_data_path(table_name)
-    }
+    pxmake_clean(get_metadata_path(table_name),
+                 px_file,
+                 get_source_data_path(table_name)
+                 )
 
-    pxmake(get_metadata_path(table_name),
-           get_pxfile_path(table_name),
-           data_table
-           )
-
-    expect_true(file.exists(get_pxfile_path(table_name)))
+    expect_true(file.exists(px_file))
   }
 
   test_file_creation("BEXLTALL")
@@ -65,42 +57,49 @@ test_that("pxmake runs without errors and creates a file", {
 test_that("pxmake accepts a data frame object", {
   table_name <- "BEXSTA"
 
-  df <- readRDS(get_source_data_path(table_name))
+  px1   <- tempfile()
+  meta1 <- get_metadata_path(table_name)
+  data1 <- get_source_data_path(table_name)
+  px2   <-  tempfile()
+  df    <- readRDS(get_source_data_path(table_name))
 
-  pxmake(get_metadata_path(table_name),
-         get_pxfile_path(paste0(table_name, "_with_df")),
-         data_table = df
-         )
+  pxmake_clean(meta1, px1, data_table = data1)
+  pxmake_clean(meta1, px2, data_table = df)
 
-  expect <- readLines(get_pxfile_path(paste0(table_name)))
-  output <- readLines(get_pxfile_path(paste0(table_name, "_with_df")))
-
-  expect_equal(expect, output)
+  expect_equal_lines(px1, px2)
 })
 
 test_that("timevals are added", {
-  pxfile_has_timeval <- function(table_name) {
-    px_lines <-
-      table_name %>%
-      get_pxfile_path() %>%
-      readLines()
+  expect_that_pxfile_has_timeval <- function(table_name) {
+    px_path <- tempfile()
+
+    pxmake_clean(get_metadata_path(table_name),
+                 px_path,
+                 get_source_data_path(table_name)
+                 )
+
+    px_lines <- readLines(px_path)
 
     timeval_lines <- px_lines[stringr::str_detect(px_lines, "^TIMEVAL")]
 
-    length(timeval_lines) > 0
+    expect_true(length(timeval_lines) > 0)
   }
 
-  expect_true(pxfile_has_timeval("BEXLTALL"))
-  expect_true(pxfile_has_timeval("BEXSTA"))
-  expect_true(pxfile_has_timeval("FOTEST"))
+  expect_that_pxfile_has_timeval("BEXLTALL")
+  expect_that_pxfile_has_timeval("BEXSTA")
+  expect_that_pxfile_has_timeval("FOTEST")
 })
 
 test_that("Codes are defined for all values", {
   expect_code_and_values_match <- function(table_name) {
-    px_lines <-
-      table_name %>%
-      get_pxfile_path() %>%
-      readLines()
+    px_path <- tempfile()
+
+    pxmake_clean(get_metadata_path(table_name),
+                 px_path,
+                 get_source_data_path(table_name)
+                 )
+
+    px_lines <- readLines(px_path)
 
     value_lines <- px_lines[stringr::str_detect(px_lines, '^VALUES')]
     code_lines  <- px_lines[stringr::str_detect(px_lines, '^CODES')]
@@ -131,24 +130,36 @@ test_that("px lines are valid", {
 
   regex <- paste0(valid_lines, collapse = "|")
 
-  get_invalid_lines <- function(table_name) {
-    px_lines <-
-      get_pxfile_path(table_name) %>%
-      readLines()
+  expect_no_invalid_lines <- function(table_name) {
+    px_path <- tempfile()
 
-    px_lines[stringr::str_detect(px_lines, regex, negate = TRUE)]
+    pxmake_clean(get_metadata_path(table_name),
+                 px_path,
+                 get_source_data_path(table_name)
+                 )
+
+    px_lines <- readLines(px_path)
+
+    invalid_lines <- px_lines[stringr::str_detect(px_lines, regex, negate = TRUE)]
+
+    expect_equal(invalid_lines, character(0))
   }
 
-  expect_equal(get_invalid_lines("BEXLTALL"), character(0))
-  expect_equal(get_invalid_lines("BEXSTA"), character(0))
-  expect_equal(get_invalid_lines("FOTEST"), character(0))
+  expect_no_invalid_lines("BEXLTALL")
+  expect_no_invalid_lines("BEXSTA")
+  expect_no_invalid_lines("FOTEST")
 })
 
 test_that("header lines doesn't exceed 256 characters", {
-  file_does_not_have_too_long_lines <- function(table_name) {
-    px_lines <-
-      get_pxfile_path(table_name) %>%
-      readLines()
+  expect_no_lines_long_lines <- function(table_name) {
+    px_path <- tempfile()
+
+    pxmake_clean(get_metadata_path(table_name),
+                 px_path,
+                 get_source_data_path(table_name)
+                 )
+
+    px_lines <- readLines(px_path)
 
     data_line_index <- stringr::str_which(px_lines, '^DATA=$')
 
@@ -156,51 +167,73 @@ test_that("header lines doesn't exceed 256 characters", {
       tibble::tibble(line = px_lines[1:data_line_index]) %>%
       dplyr::mutate(text = stringr::str_extract(line, "(?<==).+"),
                     length = nchar(text)
-      ) %>%
+                    ) %>%
       dplyr::filter(length > 256)
 
     expect_equal(long_lines, dplyr::filter(long_lines, FALSE))
   }
 
-  file_does_not_have_too_long_lines('BEXSTA')
-  file_does_not_have_too_long_lines('FOTEST')
-  file_does_not_have_too_long_lines('BEXLTALL')
+  expect_no_lines_long_lines('BEXSTA')
+  expect_no_lines_long_lines('FOTEST')
+  expect_no_lines_long_lines('BEXLTALL')
 })
 
 test_that("Source data variable names are preserved",{
-  get_data_sheet_variable_names <- function(table_name) {
-    table_name %>%
-      get_metadata_path() %>%
+  table_name <- "FOTEST"
+  px1   <- tempfile()
+  meta1 <- get_metadata_path(table_name)
+  meta2 <- tempfile()
+
+  pxmake_clean(meta1, px1)
+  metamake_clean(px1, meta2)
+
+  get_data_sheet_variable_names <- function(path) {
+    path %>%
       readxl::read_excel(sheet = "Data") %>%
       names()
   }
 
-  expect_equal(
-    get_data_sheet_variable_names('FOTEST'),
-    get_data_sheet_variable_names('FOTEST_BY_METAMAKE')
-  )
+  expect_equal(get_data_sheet_variable_names(meta1),
+               get_data_sheet_variable_names(meta2)
+               )
 })
 
 test_that("pxjob exists without errors (exit code 0)", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
-  pxjob_runs_without_erros <- function(table_name) {
-    0 == pxjob64Win::pxjob(input = get_pxfile_path(table_name),
-                           output = get_pxjobfile_path(table_name)
-                           )
+  expect_that_pxjob_runs_without_erros <- function(table_name) {
+    px_path <- temp_pxfile()
+
+    pxmake_clean(get_metadata_path(table_name),
+                 px_path,
+                 get_source_data_path(table_name)
+                 )
+
+    output <- get_pxjobfile_path(table_name)
+
+    pxjob_exit_code <- pxjob64Win::pxjob(px_path, output)
+    expect_equal(0, pxjob_exit_code)
+
+    # File is removed manually because pxjob_clean cannot be used becuase the
+    # exit code from pxjob64Win::pxjob is needed.
+    file.remove(output)
   }
 
-  expect_true(pxjob_runs_without_erros("BEXLTALL"))
-  expect_true(pxjob_runs_without_erros("BEXSTA"))
-  expect_true(pxjob_runs_without_erros("FOTEST"))
+  expect_that_pxjob_runs_without_erros("BEXLTALL")
+  expect_that_pxjob_runs_without_erros("BEXSTA")
+  expect_that_pxjob_runs_without_erros("FOTEST")
 })
 
 test_that("Value YES and NO are never quoted", {
   expect_no_lines_with_quoted_yes_no <- function(table_name) {
-    px_lines <-
-      table_name %>%
-      get_pxfile_path() %>%
-      readLines()
+    px_path <- get_pxfile_path(table_name)
+
+    pxmake_clean(get_metadata_path(table_name),
+                 px_path,
+                 get_source_data_path(table_name)
+                 )
+
+    px_lines <- readLines(px_path)
 
     invalid_lines <- px_lines[stringr::str_detect(px_lines, '=\"(YES|NO)\"')]
 

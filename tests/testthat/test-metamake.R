@@ -1,13 +1,3 @@
-run_metamake_and_pxmake <- function(table_name) {
-  px_source    <- get_pxfile_path(table_name)
-  metadata_out <- get_metadata_path(paste0(table_name, "_by_metamake"))
-  px_out       <- get_pxfile_path(paste0(table_name, "_metamake_pxmake"))
-
-  metamake(px_path = px_source, xlsx_path = metadata_out)
-
-  pxmake(excel_metadata_path = metadata_out, px_path = px_out)
-}
-
 test_that("file encoding is correct", {
   get_file_encoding_for_table <- function(table_name) {
     get_encoding_from_px_file(get_pxfile_path(table_name))
@@ -17,17 +7,27 @@ test_that("file encoding is correct", {
   expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
 
   # no encoding listed; utf-8 is default
-  expect_equal(get_file_encoding_for_table('BEXSTA'),  'utf-8')
+  px_file <- tempfile()
+  pxmake_clean(get_metadata_path("BEXSTA"),
+               px_file,
+               get_source_data_path("BEXSTA")
+               )
+  expect_equal(get_encoding_from_px_file(px_file),  'utf-8')
 })
 
 test_that("pxfile = pxmake(metamake(pxfile))", {
   run_metamake_pxmake_and_compare <- function(table_name) {
-    run_metamake_and_pxmake(table_name)
+    px1   <- tempfile()
+    meta1 <- get_metadata_path(table_name)
+    data1 <- get_source_data_path(table_name)
+    px2   <- tempfile()
+    meta2 <- tempfile()
 
-    output <- readLines(get_pxfile_path(table_name))
-    expect <- readLines(get_pxfile_path(paste0(table_name, "_metamake_pxmake")))
+    pxmake_clean(meta1, px1, data1)
+    metamake_clean(px1, meta2)
+    pxmake_clean(meta2, px2)
 
-    expect_equal(output, expect)
+    expect_equal_lines(px1, px2)
   }
 
   run_metamake_pxmake_and_compare("BEXSTA")
@@ -38,18 +38,20 @@ test_that("pxfile = pxmake(metamake(pxfile))", {
 
 test_that("metamake can create rds file", {
   table_name   <- 'BEXSTA'
-  px_source    <- get_pxfile_path(table_name)
-  metadata_out <- get_metadata_path(paste0(table_name, "_by_metamake"))
-  rds_out      <- tempfile(fileext = ".rds")
-  px_out       <- get_pxfile_path(paste0(table_name, "_metamake_pxmake_rds"))
+  px1     <- tempfile()
+  meta1   <- get_metadata_path(table_name)
+  data1   <- get_source_data_path(table_name)
 
-  metamake(px_source, metadata_out, rds_data_path = rds_out)
-  pxmake(metadata_out, px_out, rds_out)
+  rds_out <- tempfile()
+  meta2   <- tempfile()
+  px2     <- tempfile()
 
-  output <- readLines(get_pxfile_path(paste0(table_name, "_metamake_pxmake")))
-  expect <- readLines(get_pxfile_path(paste0(table_name, "_metamake_pxmake_rds")))
+  pxmake_clean(meta1, px1, data1)
+  metamake_clean(px1, meta2, rds_data_path = rds_out)
+  pxmake_clean(meta2, px2, rds_out)
 
-  expect_equal(output, expect)
+  expect_true(file.exists(rds_out))
+  expect_equal_lines(px1, px2)
 })
 
 test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
@@ -59,34 +61,33 @@ test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   run_metamake_pxmake_pxjob_and_compare <- function(table_name) {
-    run_metamake_and_pxmake(table_name)
+    px1    <- get_pxfile_path(table_name)
+    px2    <- temp_pxfile() # pxjob requires the .px extension
+    meta1  <- temp_pxfile()
+    pxjob1 <- temp_pxfile()
+    pxjob2 <- temp_pxfile()
 
-    pxjob64Win::pxjob(input = get_pxfile_path(table_name),
-                      output = get_pxjobfile_path(table_name)
-    )
+    metamake_clean(px1, meta1)
+    pxmake_clean(meta1, px2)
 
-    pxjob64Win::pxjob(input = get_pxfile_path(paste0(table_name, "_metamake_pxmake")),
-                      output = get_pxjobfile_path(paste0(table_name, "_metamake_pxmake"))
-    )
+    pxjob_clean(input = px1, output = pxjob1)
+    pxjob_clean(input = px2, output = pxjob2)
 
-    read_pxfile <- function(table_name) {
+    #' Read pxjob file and remove lines that doesn't need to be equal
+    read_pxjobfile <- function(path) {
       lines <-
-        table_name %>%
-        get_pxjobfile_path() %>%
+        path %>%
         readLines() %>%
         stringr::str_subset("^VARIABLECODE.+", negate = TRUE)
 
-      if (stringr::str_detect(table_name, "no_timeval_or_codes2")) {
+      if (table_name %in% c("no_timeval_or_codes2")) {
         lines <- stringr::str_subset(lines, "^CODES.+", negate = TRUE)
       }
 
       return(lines)
     }
 
-    output <- read_pxfile(table_name)
-    expect <- read_pxfile(paste0(table_name, "_metamake_pxmake"))
-
-    expect_equal(output, expect)
+    expect_equal(read_pxjobfile(pxjob1), read_pxjobfile(pxjob2))
   }
 
   run_metamake_pxmake_pxjob_and_compare("SOXATI4")

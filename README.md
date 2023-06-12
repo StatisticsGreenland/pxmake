@@ -81,7 +81,7 @@ pxmake('table2.rds', 'table2.px')
 pxmake('table3.rds', 'table3.px')
 ```
 
-Run `metamake` to convert the files back into Excel metadata workbooks, so the chnages are now present in all files.
+Running `metamake` can convert the files back into Excel metadata workbooks, so they are now updated with the bulk changes.
 
 ```r
 metamake('table1.px', 'table1.xlsx')

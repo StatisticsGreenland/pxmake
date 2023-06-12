@@ -54,7 +54,7 @@ When converting directly from `.xlsx` to `.px`, `pxmake` internally first conver
 pxmake(metadata = "example.xlsx", out_path = "example.px")
 ```
 
-is equivalent to
+creates the same px file as
 
 ```r
 pxmake(metadata = "example.xlsx", out_path = "example.rds")

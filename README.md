@@ -24,11 +24,9 @@ devtools::install_github('StatisticsGreenland/pxmake')
 
 'pxmake' is not available on CRAN.
 
-## PX specification
+## How to use
 
-See the [PX-file format specification on Statistics Swedens homepage](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf).
-
-## Data formats
+### Data formats
 `pxmake` and `metamake` can convert between Excel files, `.rds` (data frame), and `.px` files.
 
 ```mermaid
@@ -74,7 +72,7 @@ pxmake('table3.xlsx', 'table3.rds')
 
 readRDS('table.rds') %>% 
   mutate(value = ifelse(keyword == "CONTACT" & language == "en",
-                        "johan@ejstrud.com",
+                        "new@contact.com",
                         value
                         ),
          ) %>% 
@@ -86,6 +84,10 @@ metame('table.px', 'metadata.xlsx')
 ```
 
 ## For developers
+
+### PX specification
+
+See the [PX-file format specification on Statistics Swedens homepage](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf).
 
 ### PxJob
 Some tests cases uses [PxJob](https://www.stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html). Install [pxjob64Win](https://github.com/StatisticsGreenland/pxjob64Win) to be able ro run these tests. This only works on Windows.

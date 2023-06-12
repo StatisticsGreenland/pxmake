@@ -81,6 +81,14 @@ pxmake('table2.rds', 'table2.px')
 pxmake('table3.rds', 'table3.px')
 ```
 
+Run `metamake` to convert the files back into Excel metadata workbooks, so the chnages are now present in all files.
+
+```r
+metamake('table1.px', 'table1.xlsx')
+metamake('table2.px', 'table2.xlsx')
+metamake('table3.px', 'table3.xlsx')
+```
+
 ## For developers
 
 ### PX specification

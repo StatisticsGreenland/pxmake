@@ -2,20 +2,10 @@
 % Please edit documentation in R/pxmake.R
 \name{get_metadata_df}
 \alias{get_metadata_df}
-\title{Get a data frame with metadata}
+\title{Fisk}
 \usage{
-get_metadata_df(excel_metadata_path, data_table_df)
-}
-\arguments{
-\item{excel_metadata_path}{Path to Excel workbook with metadata.}
-
-\item{data_table_df}{Data frame with data table in tidy format.}
-}
-\value{
-A data frame
+get_metadata_df(input, data_table_df)
 }
 \description{
-The metadata from the 3 sheets in the Excel workbook are combined into one
-data frame, in a format that's both easy to read, query and convert to a
-px-file.
+Fisk
 }

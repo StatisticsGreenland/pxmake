@@ -25,9 +25,10 @@ Imports:
     stringr,
     tibble,
     tidyr,
+    tools,
     withr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/testthat/parallel: true
-Config/testthat/start-first: pxmake, metamake
+Config/testthat/start-first: pxmake, metamake, interface

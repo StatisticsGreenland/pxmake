@@ -1,69 +1,89 @@
-#' Get data frame from data table argument
+#' Get the name of figures variable
 #'
-#' @inheritParams get_figures_variable
+#' An error is thrown if there is not exactly one figures variable.
+#'
 #' @inheritParams get_data_table_df
 #'
-#' @returns Data frame
-get_df_from_data_table_argument <- function(excel_metadata_path, data_table) {
-  if (is.null(data_table)) {
-    return(get_data_sheet(excel_metadata_path))
+#' @returns Character
+get_figures_variable <- function(input, data_table) {
+  if (is_rds_file(input)) {
+    input <- readRDS(input)
+  } else if (is.data.frame(input)) {
+    if (is_rds_file(data_table)) {
+      data_table <- readRDS(data_table)
+    }
+    input <- list("metadata" = input, "data_table" = data_table)
+  }
+
+  if (is_xlsx_file(input)) {
+    figures_var <-
+      input %>%
+        get_variables_sheet() %>%
+        dplyr::filter(toupper(type) == "FIGURES") %>%
+        dplyr::distinct(variable) %>%
+        dplyr::pull(variable)
+  } else if (is_rds_list(input)) {
+    # simplify when implementing #132
+    non_figure_variables <-
+      input$metadata %>%
+      dplyr::filter(keyword == "VARIABLECODE") %>%
+      dplyr::distinct(value) %>%
+      dplyr::pull(value)
+
+    data_variables <- names(input$data_table)
+
+    figures_var <- setdiff(data_variables, non_figure_variables)
+  } else {
+    unhandled_error()
+  }
+
+  error_if_not_exactly_one_figures_variable(figures_var)
+  return(figures_var)
+}
+
+#' sldfjk
+#'
+#' @inheritParams pxmake
+#'
+#' @returns A data frame
+get_raw_data_table <- function(input, data_table) {
+  if (is_xlsx_file(input) & is.null(data_table)) {
+    return(get_data_sheet(input))
+  } else if (is_rds_file(input)) {
+    return(readRDS(input)$data_table)
+  } else if (is_rds_list(input)) {
+    return(input$data_table)
   } else if (is.data.frame(data_table)) {
     return(data_table)
-  } else if (file.exists(data_table)) {
-    # try catch
+  } else if (is_rds_file(data_table)) {
     return(readRDS(data_table))
   } else {
-    # error
+    unhandled_error()
   }
 }
 
 #' Get table data as data frame
 #'
-#' @inheritParams get_figures_variable
-#' @param data_table A data frame or a path to an `.rds` file with data source.
-#' If NULL, the data is taken from the sheet 'Data' in the Excel metadata
-#' workbook.
-#' @param add_totals A list of variables to add a 'total' level to. The value
-#' of the total level is looked up in 'Variables' xx_elimination. The code for
-#' the level is found in 'Codelists'. The total is a sum of the values in the
-#' variables with type = FIGURES in 'Variables'. NAs are ignored when summing.
+#' @inheritParams pxmake
 #'
-#' @returns a data frame
-get_data_table_df  <- function(excel_metadata_path, data_table, add_totals) {
+#' @returns A data frame
+get_data_table_df  <- function(input, data_table, add_totals) {
   data_table_df <-
-    get_df_from_data_table_argument(excel_metadata_path, data_table) %>%
+    get_raw_data_table(input, data_table) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(across(-one_of(get_figures_variable(excel_metadata_path)),
+    dplyr::mutate(across(-one_of(get_figures_variable(input, data_table)),
                          as.character
                          )
                   )
 
-  if (is.null(add_totals)) {
-    return(data_table_df)
+  if (!is.null(add_totals)) {
+    data_table_df <- add_totals_to_data_table_df(data_table_df,
+                                                 input,
+                                                 add_totals
+                                                 )
   }
 
-  variables <-
-    get_variables_metadata(excel_metadata_path) %>%
-    dplyr::select(variable, language, elimination)
-
-  codelist <-
-    get_codelists_metadata(excel_metadata_path, data_table_df) %>%
-    dplyr::select(variable, code, value)
-
-  params <-
-    variables %>%
-    dplyr::left_join(codelist,
-                     by = c("variable", "elimination" = "value"),
-                     multiple = "all"
-                     ) %>%
-    dplyr::filter(variable %in% add_totals) %>%
-    dplyr::distinct(variable, code)
-
-  add_totals(data_table_df,
-             vars = params$variable,
-             level_names = params$code,
-             sum_var = get_figures_variable(excel_metadata_path)
-             )
+  return(data_table_df)
 }
 
 #' Get encoding name from metadata
@@ -126,11 +146,11 @@ sort_metadata_df <- function(metadata_df) {
 #' data frame, in a format that's both easy to read, query and convert to a
 #' px-file.
 #'
-#' @inheritParams get_figures_variable
+#' @param excel_metadata_path Path to xlsx workbook with metadata.
 #' @param data_table_df Data frame with data table in tidy format.
 #'
 #' @returns A data frame
-get_metadata_df <- function(excel_metadata_path, data_table_df) {
+get_metadata_df_from_excel <- function(excel_metadata_path, data_table_df) {
   df <- dplyr::tibble(keyword  = character(),
                       language = character(),
                       variable = character(),
@@ -242,15 +262,17 @@ get_metadata_df <- function(excel_metadata_path, data_table_df) {
                   value = precision
                   )
 
-  dplyr::bind_rows(df,
-                   get_table_metadata(excel_metadata_path),
-                   variablecode,
-                   note_etc,
-                   head_stub,
-                   timeval,
-                   code_value,
-                   precision
-                   ) %>%
+  metadata_df <-
+    dplyr::bind_rows(df,
+                     get_table_metadata(excel_metadata_path),
+                     variablecode,
+                     note_etc,
+                     head_stub,
+                     timeval,
+                     code_value,
+                     precision
+                     ) %>%
+    dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.))) %>%
     sort_metadata_df()
 }
 
@@ -260,7 +282,7 @@ get_metadata_df <- function(excel_metadata_path, data_table_df) {
 #' @inheritParams get_metadata_df
 #'
 #' @returns Data frame
-get_data_cube <- function(metadata_df, data_table_df, excel_metadata_path) {
+get_data_cube <- function(metadata_df, data_table_df) {
   metadata_df_main_language <-
     metadata_df %>%
     dplyr::filter(language == get_main_language(metadata_df))
@@ -290,10 +312,26 @@ get_data_cube <- function(metadata_df, data_table_df, excel_metadata_path) {
 
   head_stub_variable_names <- c(heading_vars, stub_vars)
 
+  # If input was xlsx codelist needs to be taken from there.
+
+  # codelist <-
+  #   get_codelists_metadata(input, data_table_df) %>%
+  #   dplyr::filter(language == get_main_language(metadata_df)) %>%
+  #   dplyr::select(variable, sortorder, code)
+
   codelist <-
-    get_codelists_metadata(excel_metadata_path, data_table_df) %>%
-    dplyr::filter(language == get_main_language(metadata_df)) %>%
-    dplyr::select(variable, sortorder, code)
+    metadata_df %>%
+    dplyr::filter(keyword == "CODES",
+                  language == get_main_language(metadata_df)
+                  ) %>%
+    dplyr::select(keyword, variable, value) %>%
+    tidyr::unnest(value) %>%
+    dplyr::rename(long_name = variable) %>%
+    dplyr::group_by(long_name) %>%
+    dplyr::mutate(sortorder = dplyr::row_number()) %>%
+    dplyr::ungroup() %>%
+    dplyr::left_join(long_names, by = "long_name") %>%
+    dplyr::select(variable, sortorder, code = value)
 
   # Complete data by adding all combinations of variable values in data and
   # codelist
@@ -330,7 +368,9 @@ get_data_cube <- function(metadata_df, data_table_df, excel_metadata_path) {
                    ) %>%
     dplyr::select(-paste0("sortorder_", heading_vars)) %>%
     tidyr::pivot_wider(names_from = !!paste0("code_", heading_vars),
-                       values_from = get_figures_variable(excel_metadata_path)
+                       values_from = get_figures_variable(metadata_df,
+                                                          data_table_df
+                                                          )
                        ) %>%
     dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", stub_vars),
                                              paste0("code_", stub_vars)
@@ -410,25 +450,67 @@ write_lines_to_file <- function(lines, path, encoding) {
   close(file_connection)
 }
 
-#' Create a px-file from an Excel metadata workbook and a data table
+
+#' Fisk
+get_metadata_df <- function(input, data_table_df) {
+  if (is_xlsx_file(input)) {
+    return(get_metadata_df_from_excel(input, data_table_df))
+  } else if (is_rds_file(input)) {
+    return(readRDS(input)$metadata)
+  } else if (is_rds_list(input)) {
+    return(input$metadata)
+  } else if (is.data.frame(input)) {
+    return(input)
+  } else {
+    unhandled_error()
+  }
+}
+
+#' Create a px-file from metadata and data table
 #'
-#' @param px_path Path to save px file at
-#' @inheritParams get_data_table_df
+#' @param input Metadata can be provided in one of four ways:
+#' 1. A path to an `.xlsx` metadata file.
+#' 1. A path to an `.rds` file created by \link{metamake}.
+#' 1. A named list with two data frames "metadata" and "data table" (like
+#' \link{metamake} `.rds` file).
+#' 1. A data frame with metadata (metadata part of `.rds` file by
+#' \link{metamake}.)
+#' @param out_path Path to save output at. Either as an `.rds` or `.px` file.
+#' @param data_table Either a data frame, or a path to an `.rds` file. If NULL,
+#' the data table must be provided as part of the `metadata` argument, either in
+#' option 1. as the sheet 'Data' in the Excel metadata workbook, or as the
+#' "data_table" in option 2 or 3.
+#' @param add_totals A list of variables to add a 'total' level to. The option
+#' is only available if `input` is an `.xlsx` file (option 1). The value of the
+#' total level is looked up in 'Variables' xx_elimination. The code for the
+#' level is found in 'Codelists'. The total is a sum of the values in the
+#' variables with `type = FIGURES` in 'Variables'. NAs are ignored when summing.
 #'
 #' @returns Nothing
 #'
+#' @seealso \link{metamake}
+#'
 #' @export
-pxmake <- function(excel_metadata_path,
-                   px_path,
+pxmake <- function(input,
+                   out_path,
                    data_table = NULL,
                    add_totals = NULL) {
 
-  data_table_df  <- get_data_table_df(excel_metadata_path, data_table, add_totals)
-  metadata_df    <- get_metadata_df(excel_metadata_path, data_table_df)
+  validate_pxmake_arguments(input, out_path, data_table, add_totals)
 
-  data_cube <- get_data_cube(metadata_df, data_table_df, excel_metadata_path)
+  data_table_df <- get_data_table_df(input, data_table, add_totals)
+  metadata_df   <- get_metadata_df(input, data_table_df)
 
-  px_lines <- format_data_as_px_lines(metadata_df, data_cube)
+  if (is_rds_file(out_path)) {
+    rds <- list("metadata" = metadata_df, "data_table" = data_table_df)
+    saveRDS(rds, out_path)
+  } else if (is_px_file(out_path)) {
+    data_cube <- get_data_cube(metadata_df, data_table_df)
 
-  write_lines_to_file(px_lines, px_path, get_encoding_from_metadata(metadata_df))
+    px_lines <- format_data_as_px_lines(metadata_df, data_cube)
+
+    write_lines_to_file(px_lines, out_path, get_encoding_from_metadata(metadata_df))
+  } else {
+    unhandled_error()
+  }
 }

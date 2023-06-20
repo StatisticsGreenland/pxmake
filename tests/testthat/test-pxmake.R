@@ -38,7 +38,7 @@
 
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {
-    px_file <- tempfile()
+    px_file <- temp_pxfile()
 
     pxmake_clean(get_metadata_path(table_name),
                  px_file,
@@ -57,10 +57,10 @@ test_that("pxmake runs without errors and creates a file", {
 test_that("pxmake accepts a data frame object", {
   table_name <- "BEXSTA"
 
-  px1   <- tempfile()
+  px1   <- temp_pxfile()
   meta1 <- get_metadata_path(table_name)
   data1 <- get_source_data_path(table_name)
-  px2   <-  tempfile()
+  px2   <- temp_pxfile()
   df    <- readRDS(get_source_data_path(table_name))
 
   pxmake_clean(meta1, px1, data_table = data1)
@@ -71,7 +71,7 @@ test_that("pxmake accepts a data frame object", {
 
 test_that("timevals are added", {
   expect_that_pxfile_has_timeval <- function(table_name) {
-    px_path <- tempfile()
+    px_path <- temp_pxfile()
 
     pxmake_clean(get_metadata_path(table_name),
                  px_path,
@@ -92,7 +92,7 @@ test_that("timevals are added", {
 
 test_that("Codes are defined for all values", {
   expect_code_and_values_match <- function(table_name) {
-    px_path <- tempfile()
+    px_path <- temp_pxfile()
 
     pxmake_clean(get_metadata_path(table_name),
                  px_path,
@@ -131,7 +131,7 @@ test_that("px lines are valid", {
   regex <- paste0(valid_lines, collapse = "|")
 
   expect_no_invalid_lines <- function(table_name) {
-    px_path <- tempfile()
+    px_path <- temp_pxfile()
 
     pxmake_clean(get_metadata_path(table_name),
                  px_path,
@@ -152,7 +152,7 @@ test_that("px lines are valid", {
 
 test_that("header lines doesn't exceed 256 characters", {
   expect_no_lines_long_lines <- function(table_name) {
-    px_path <- tempfile()
+    px_path <- temp_pxfile()
 
     pxmake_clean(get_metadata_path(table_name),
                  px_path,
@@ -180,9 +180,9 @@ test_that("header lines doesn't exceed 256 characters", {
 
 test_that("Source data variable names are preserved",{
   table_name <- "FOTEST"
-  px1   <- tempfile()
+  px1   <- temp_pxfile()
   meta1 <- get_metadata_path(table_name)
-  meta2 <- tempfile()
+  meta2 <- temp_xlsx_file()
 
   pxmake_clean(meta1, px1)
   metamake_clean(px1, meta2)
@@ -214,7 +214,7 @@ test_that("pxjob exists without errors (exit code 0)", {
     pxjob_exit_code <- pxjob64Win::pxjob(px_path, output)
     expect_equal(0, pxjob_exit_code)
 
-    # File is removed manually because pxjob_clean cannot be used becuase the
+    # File is removed manually because pxjob_clean cannot be used because the
     # exit code from pxjob64Win::pxjob is needed.
     file.remove(output)
   }

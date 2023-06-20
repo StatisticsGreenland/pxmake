@@ -7,8 +7,6 @@
 get_codelists_metadata(excel_metadata_path, data_table_df)
 }
 \arguments{
-\item{excel_metadata_path}{Path to Excel workbook with metadata.}
-
 \item{data_table_df}{A data frame with data}
 }
 \value{

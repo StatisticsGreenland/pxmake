@@ -1,5 +1,4 @@
 # Helper functions for throwing errors, warnings and notes.
-
 error_if_excel_sheet_does_not_exist <- function(sheet_name, excel_path) {
   if (! sheet_name %in% readxl::excel_sheets(excel_path)) {
     stop(stringr::str_glue("The sheet {sheet_name} is missing in: ",
@@ -56,5 +55,53 @@ error_if_too_many_rows_for_excel <- function(df) {
                           "to store the data in an .rds file instead."
                           )
         )
+  }
+}
+
+unhandled_error <- function(msg) {
+  stop(msg)
+}
+
+validate_metamake_argument <- function() {
+
+}
+
+
+#' Check all pxmake arguments
+#'
+#' @inheritParams pxmake
+#'
+#' @returns Nothing
+validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
+  if (!is_rds_file(out_path) & !is_px_file(out_path)) {
+    stop("Argument 'out_path' should be a path to an .rds or .xlsx file.")
+  }
+
+  if (!is.null(add_totals)) {
+    if (class(add_totals) != "character") {
+      stop("Argument 'add_totals' should be of type 'character'.")
+    }
+
+    if (!is_xlsx_file(input)) {
+      stop("Argument 'add_totals' can only be used when `input` is an .xlsx file.")
+    }
+  }
+
+  if (!is_xlsx_file(input) &
+      !is_rds_file(input) &
+      !is.data.frame(input) &
+      !is_rds_list(input)
+      ) {
+    stop("Argument 'input' has wrong format. See ?pxmake.")
+  }
+
+  if (is.null(data_table)) {
+    if (is.data.frame(input)) {
+      stop("No data table is provided. See ?pxmake.")
+    } else if (is_xlsx_file(input)) {
+      error_if_excel_sheet_does_not_exist("Data", input)
+    }
+  } else if (!is.data.frame(data_table) & !is_rds_file(data_table)) {
+    stop("Argument 'data_table' must be a data frame or a path to an .rds file.")
   }
 }

@@ -4,22 +4,29 @@
 \alias{metamake}
 \title{Create an Excel metadata workbook from a px-file}
 \usage{
-metamake(px_path, xlsx_path, rds_data_path = NULL, overwrite_xlsx = TRUE)
+metamake(input, out_path, data_table_path = NULL)
 }
 \arguments{
-\item{px_path}{Path to a px file}
+\item{input}{Input can be provided in one of three ways:
+\enumerate{
+\item A path to a \code{.px} file.
+\item A path to a \code{.rds} file created by \link{pxmake}.
+\item A named list with two data frames "metadata" and "data_table" (same as
+option 2).
+}}
 
-\item{xlsx_path}{Path to save xlsx file at}
+\item{out_path}{Path to save metadata at. Use \code{.xlsx} extension to save
+as an Excel workbook. Use \code{.rds} to save as an rds file.}
 
-\item{rds_data_path}{Path to save data cube as rds file. If NULL the data
-cube is added in the 'Data' sheet in the Excel metadata workbook.}
-
-\item{overwrite_xlsx}{Should existing metadata workbook be overwritten?}
+\item{data_table_path}{Path to save data table as an .rds file. If NULL, the
+data table is saved as the sheet 'Data' in the Excel metadata workbook.}
 }
 \value{
 Nothing
 }
 \description{
-Turn a px-file into an Excel metadata workbook. If pxmake() is run on that
-workbook it turns back into an equivalent px-file.
+Create an Excel metadata workbook from a px-file
+}
+\seealso{
+\link{pxmake}
 }

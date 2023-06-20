@@ -22,6 +22,14 @@ temp_pxfile <- function() {
   tempfile(fileext = ".px")
 }
 
+temp_rds_file <- function() {
+  tempfile(fileext = ".rds")
+}
+
+temp_xlsx_file <- function() {
+  tempfile(fileext = ".xlsx")
+}
+
 expect_equal_lines <- function(path1, path2) {
   lines1 <- readLines(path1)
   lines2 <- readLines(path2)
@@ -29,36 +37,44 @@ expect_equal_lines <- function(path1, path2) {
   expect_equal(lines1, lines2)
 }
 
+#' Compare rds but don't require same sort order
+expect_equal_rds <- function(rds1, rds2) {
+  expect_equal(rds1$metadata, rds2$metadata)
+
+  expect_equal(dplyr::arrange_all(rds1$data_table),
+               dplyr::arrange_all(rds2$data_table)
+  )
+}
+
 #' Versions of pxmake, metamke, and pxjob, that deletes the files they have
 #' created
-pxmake_clean <- function(excel_metadata_path,
-                         px_path,
+pxmake_clean <- function(input,
+                         out_path,
                          data_table = NULL,
                          add_totals = NULL,
                          env = parent.frame()) {
-  pxmake(excel_metadata_path, px_path, data_table, add_totals)
+  pxmake(input, out_path, data_table, add_totals)
 
   withr::defer(envir = env, {
     Sys.sleep(1)
-    file.remove(px_path)
+    file.remove(out_path)
     }
   )
 }
 
-metamake_clean <- function(px_path,
-                           xlsx_path,
-                           rds_data_path = NULL,
-                           overwrite_xlsx = TRUE,
+metamake_clean <- function(input,
+                           out_path,
+                           data_table_path = NULL,
                            env = parent.frame()) {
 
-  metamake(px_path, xlsx_path, rds_data_path, overwrite_xlsx)
+  metamake(input, out_path, data_table_path)
 
   withr::defer(envir = env, {
     Sys.sleep(.1)
-    file.remove(xlsx_path)
+    file.remove(out_path)
 
-    if (! is.null(rds_data_path)) {
-      file.remove(rds_data_path)
+    if (! is.null(data_table_path)) {
+      file.remove(data_table_path)
     }
   }
   )

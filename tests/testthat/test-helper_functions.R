@@ -135,3 +135,13 @@ test_that("Variables are converted to lists", {
 
   expect_equal(wrap_varaible_in_list(input, y), expect)
 })
+
+test_that("File extensions work", {
+  expect_true(is_xlsx_file('test.xlsx'))
+  expect_true(is_rds_file('test.rds'))
+  expect_true(is_px_file('test.PX'))
+  expect_false(is_xlsx_file('test.px'))
+  expect_false(is_xlsx_file(NULL))
+  expect_false(is_xlsx_file(TRUE))
+  expect_false(is_xlsx_file(data.frame()))
+})

@@ -46,3 +46,34 @@ add_totals <- function(df,
 
   return(df)
 }
+
+#' Wrapper around add_totals
+#'
+#'
+add_totals_to_data_table_df <- function(data_table_df,
+                                        excel_metadata_path,
+                                        add_totals) {
+  variables <-
+    get_variables_metadata(excel_metadata_path) %>%
+    dplyr::select(variable, language, elimination)
+
+  codelist <-
+    get_codelists_metadata(excel_metadata_path, data_table_df) %>%
+    dplyr::select(variable, code, value)
+
+  params <-
+    variables %>%
+    dplyr::left_join(codelist,
+                     by = c("variable", "elimination" = "value"),
+                     multiple = "all"
+    ) %>%
+    dplyr::filter(variable %in% add_totals) %>%
+    dplyr::distinct(variable, code)
+
+  add_totals(data_table_df,
+             vars = params$variable,
+             level_names = params$code,
+             sum_var = get_figures_variable(excel_metadata_path)
+  )
+
+}

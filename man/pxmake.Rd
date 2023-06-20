@@ -2,27 +2,40 @@
 % Please edit documentation in R/pxmake.R
 \name{pxmake}
 \alias{pxmake}
-\title{Create a px-file from an Excel metadata workbook and a data table}
+\title{Create a px-file from metadata and data table}
 \usage{
-pxmake(excel_metadata_path, px_path, data_table = NULL, add_totals = NULL)
+pxmake(input, out_path, data_table = NULL, add_totals = NULL)
 }
 \arguments{
-\item{excel_metadata_path}{Path to Excel workbook with metadata.}
+\item{input}{Metadata can be provided in one of four ways:
+\enumerate{
+\item A path to an \code{.xlsx} metadata file.
+\item A path to an \code{.rds} file created by \link{metamake}.
+\item A named list with two data frames "metadata" and "data table" (like
+\link{metamake} \code{.rds} file).
+\item A data frame with metadata (metadata part of \code{.rds} file by
+\link{metamake}.)
+}}
 
-\item{px_path}{Path to save px file at}
+\item{out_path}{Path to save output at. Either as an \code{.rds} or \code{.px} file.}
 
-\item{data_table}{A data frame or a path to an \code{.rds} file with data source.
-If NULL, the data is taken from the sheet 'Data' in the Excel metadata
-workbook.}
+\item{data_table}{Either a data frame, or a path to an \code{.rds} file. If NULL,
+the data table must be provided as part of the \code{metadata} argument, either in
+option 1. as the sheet 'Data' in the Excel metadata workbook, or as the
+"data_table" in option 2 or 3.}
 
-\item{add_totals}{A list of variables to add a 'total' level to. The value
-of the total level is looked up in 'Variables' xx_elimination. The code for
-the level is found in 'Codelists'. The total is a sum of the values in the
-variables with type = FIGURES in 'Variables'. NAs are ignored when summing.}
+\item{add_totals}{A list of variables to add a 'total' level to. The option
+is only available if \code{input} is an \code{.xlsx} file (option 1). The value of the
+total level is looked up in 'Variables' xx_elimination. The code for the
+level is found in 'Codelists'. The total is a sum of the values in the
+variables with \code{type = FIGURES} in 'Variables'. NAs are ignored when summing.}
 }
 \value{
 Nothing
 }
 \description{
-Create a px-file from an Excel metadata workbook and a data table
+Create a px-file from metadata and data table
+}
+\seealso{
+\link{metamake}
 }

@@ -144,3 +144,35 @@ wrap_varaible_in_list <- function(df, var) {
 get_default_encoding <- function() {
   return('utf-8')
 }
+
+#' Check if a path has a specific extension (function factory)
+is_path_extension <- function(extension) {
+  function(path) {
+    if (is.character(path)) {
+      identical(TRUE, tolower(tools::file_ext(path)) == extension)
+    } else {
+      FALSE
+    }
+  }
+}
+
+is_rds_file  <- is_path_extension("rds")
+is_xlsx_file <- is_path_extension("xlsx")
+is_px_file   <- is_path_extension("px")
+
+
+is_rds_list <- function(lst) {
+  if (!is.list(lst)) {
+    return(FALSE)
+  }
+
+  if (!identical(sort(names(lst)), c("data_table", "metadata"))) {
+    return(FALSE)
+  }
+
+  if (!is.data.frame(lst$metadata) | !is.data.frame(lst$data_table)) {
+    return(FALSE)
+  }
+
+  return(TRUE)
+}

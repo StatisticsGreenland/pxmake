@@ -38,26 +38,6 @@ get_data_sheet <- function(path) {
   get_excel_sheet(path, "Data")
 }
 
-#' Get the name of figures variable
-#'
-#' An error is thrown if there is not exactly one figures variable.
-#'
-#' @param excel_metadata_path Path to Excel workbook with metadata.
-#'
-#' @returns Character
-get_figures_variable <- function(excel_metadata_path) {
-  figures_var <-
-    excel_metadata_path %>%
-    get_variables_sheet() %>%
-    dplyr::filter(toupper(type) == "FIGURES") %>%
-    dplyr::distinct(variable) %>%
-    dplyr::pull(variable)
-
-  error_if_not_exactly_one_figures_variable(figures_var)
-
-  return(figures_var)
-}
-
 #' Get all languages in metadata
 #'
 #' @inheritParams get_figures_variable

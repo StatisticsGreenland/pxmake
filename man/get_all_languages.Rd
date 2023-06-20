@@ -6,9 +6,6 @@
 \usage{
 get_all_languages(excel_metadata_path)
 }
-\arguments{
-\item{excel_metadata_path}{Path to Excel workbook with metadata.}
-}
 \value{
 List
 }

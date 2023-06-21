@@ -1,46 +1,24 @@
 #' Get specific sheet from Excel workbook
 #'
 #' @param sheet String. Sheet to read.
-#'
-#' @inherit get_table_sheet
-get_excel_sheet <- function(path, sheet) {
-  error_if_excel_sheet_does_not_exist(sheet, path)
-  readxl::read_xlsx(path, sheet = sheet)
-}
-
-#' Get sheet 'Table' from Excel workbook
-#'
 #' @param path Path to Excel workbook (xls/xlsx).
 #'
-#' @returns A data frame
-get_table_sheet <- function(path) {
-  get_excel_sheet(path, "Table")
+#' @returns A data frame.
+get_excel_sheet <- function(sheet) {
+  function(path) {
+    error_if_excel_sheet_does_not_exist(sheet, path)
+    readxl::read_xlsx(path, sheet = sheet)
+  }
 }
 
-#' Get sheet 'Variables' from Excel workbook
-#'
-#' @inherit get_table_sheet
-get_variables_sheet <- function(path) {
-  get_excel_sheet(path, "Variables")
-}
+get_table_sheet     <- get_excel_sheet("Table")
+get_variables_sheet <- get_excel_sheet("Variables")
+get_codelists_sheet <- get_excel_sheet("Codelists")
+get_data_sheet      <- get_excel_sheet("Data")
 
-#' Get sheet 'Codelists' from Excel workbook
+#' Get all languages in Excel metadata
 #'
-#' @inherit get_table_sheet
-get_codelists_sheet <- function(path) {
-  get_excel_sheet(path, "Codelists")
-}
-
-#' Get sheet 'Data' from Excel workbook
-#'
-#' @inherit get_table_sheet
-get_data_sheet <- function(path) {
-  get_excel_sheet(path, "Data")
-}
-
-#' Get all languages in metadata
-#'
-#' @inheritParams get_figures_variable
+#' @inheritParams get_metadata_df_from_excel
 #'
 #' @returns List
 get_all_languages <- function(excel_metadata_path) {
@@ -57,7 +35,7 @@ get_all_languages <- function(excel_metadata_path) {
 #' General contains metadata about the entire data table, e.g. its name, subject
 #' area, contact person, etc.
 #'
-#' @inheritParams get_figures_variable
+#' @inheritParams get_metadata_df_from_excel
 #'
 #' @returns A data frame
 get_table_metadata <- function(excel_metadata_path) {
@@ -84,7 +62,9 @@ get_table_metadata <- function(excel_metadata_path) {
 #' Varaibles contains the name the variable in each language, as well as their
 #' type, notes, etc.
 #'
-#' @inherit get_table_metadata
+#' @inheritParams get_metadata_df_from_excel
+#'
+#' @returns A data frame
 get_variables_metadata <- function(excel_metadata_path) {
   excel_metadata_path %>%
     get_variables_sheet() %>%
@@ -101,8 +81,9 @@ get_variables_metadata <- function(excel_metadata_path) {
 #' data table and the labels used for each language. It also contains
 #' information about sort order and numeric precision for each value.
 #'
-#' @inherit get_table_metadata
-#' @param data_table_df A data frame with data
+#' @inheritParams get_metadata_df_from_excel
+#'
+#' @returns A data frame
 get_codelists_metadata <- function(excel_metadata_path, data_table_df) {
   source_data_codes <-
     data_table_df %>%

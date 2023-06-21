@@ -31,27 +31,17 @@ test_that("pxmake can take 4 types of input and give the same result", {
   expect_true(TRUE) #required to run
 })
 
-test_that("metamake can take 3 types of input and give the same result", {
-  meta <- get_metadata_path('FOTEST')
-  px   <- temp_pxfile()
-  rds  <- temp_rds_file()
+test_that("pxmake accepts a data frame object", {
+  table_name <- "BEXSTA"
 
-  pxmake_clean(meta, rds)
-  pxmake_clean(meta, px)
+  px1   <- temp_pxfile()
+  meta1 <- get_metadata_path(table_name)
+  data1 <- get_source_data_path(table_name)
+  px2   <- temp_pxfile()
+  df    <- readRDS(get_source_data_path(table_name))
 
-  rds1 <- temp_rds_file()
-  rds2 <- temp_rds_file()
-  rds3 <- temp_rds_file()
+  pxmake_clean(meta1, px1, data_table = data1)
+  pxmake_clean(meta1, px2, data_table = df)
 
-  # option 1
-  metamake_clean(px, rds1)
-
-  # option 2
-  metamake_clean(rds, rds2)
-
-  # option 3
-  metamake_clean(readRDS(rds), rds3)
-
-  expect_equal(readRDS(rds1), readRDS(rds2))
-  expect_equal(readRDS(rds1), readRDS(rds3))
+  expect_equal_lines(px1, px2)
 })

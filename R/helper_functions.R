@@ -145,6 +145,27 @@ get_default_encoding <- function() {
   return('utf-8')
 }
 
+#' Get encoding listed in px file
+#'
+#' Encoding is listed in CODEPAGE.
+#'
+#' @inheritParams read_px_file
+#'
+#' @returns Character
+get_encoding_from_px_file <- function(px_path) {
+  encoding <-
+    px_path %>%
+    readLines(warn = FALSE) %>%
+    paste(collapse = '\n') %>%
+    stringr::str_extract('(?<=CODEPAGE=").+(?=";)')
+
+  if (is.na(encoding)) {
+    encoding <- get_default_encoding()
+  }
+
+  return(encoding)
+}
+
 #' Check if a path has a specific extension (function factory)
 is_path_extension <- function(extension) {
   function(path) {

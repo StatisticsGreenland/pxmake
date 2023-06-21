@@ -14,7 +14,6 @@ test_that("keywords has language", {
                )
 })
 
-
 test_that("keyword has sub-key", {
   expect_equal(add_sub_key_to_keyword(keyword = c("ELIMINATION",
                                                   "ELIMINATION[da]",
@@ -144,4 +143,21 @@ test_that("File extensions work", {
   expect_false(is_xlsx_file(NULL))
   expect_false(is_xlsx_file(TRUE))
   expect_false(is_xlsx_file(data.frame()))
+})
+
+test_that("file encoding is correct", {
+  get_file_encoding_for_table <- function(table_name) {
+    get_encoding_from_px_file(get_pxfile_path(table_name))
+  }
+
+  expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')
+  expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
+
+  # no encoding listed; utf-8 is default
+  px_file <- temp_pxfile()
+  pxmake_clean(get_metadata_path("BEXSTA"),
+               px_file,
+               get_source_data_path("BEXSTA")
+  )
+  expect_equal(get_encoding_from_px_file(px_file),  'utf-8')
 })

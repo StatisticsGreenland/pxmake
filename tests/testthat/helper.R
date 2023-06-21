@@ -46,8 +46,22 @@ expect_equal_rds <- function(rds1, rds2) {
   )
 }
 
-#' Versions of pxmake, metamke, and pxjob, that deletes the files they have
-#' created
+#' Metamake is the inverse of pxamke
+expect_metamake_and_pxmake_cancel_out <- function(table_name) {
+  px1   <- temp_pxfile()
+  meta1 <- get_metadata_path(table_name)
+  data1 <- get_source_data_path(table_name)
+  px2   <- temp_pxfile()
+  meta2 <- temp_xlsx_file()
+
+  pxmake_clean(meta1, px1, data1)
+  metamake_clean(px1, meta2)
+  pxmake_clean(meta2, px2)
+
+  expect_equal_lines(px1, px2)
+}
+
+#' Run pxmake and delete created files when environment is killed
 pxmake_clean <- function(input,
                          out_path,
                          data_table = NULL,
@@ -62,6 +76,7 @@ pxmake_clean <- function(input,
   )
 }
 
+#' Run metamake and delete created files when environment is killed
 metamake_clean <- function(input,
                            out_path,
                            data_table_path = NULL,
@@ -80,6 +95,7 @@ metamake_clean <- function(input,
   )
 }
 
+#' Run pxjob and delete created files when environment is killed
 pxjob_clean <- function(input, output, env = parent.frame()) {
   pxjob64Win::pxjob(input, output)
 
@@ -88,3 +104,15 @@ pxjob_clean <- function(input, output, env = parent.frame()) {
   })
 }
 
+#' Run pxmake for a specific table. Return path to file.
+create_px_file <- function(table_name) {
+  px_path <- temp_pxfile()
+
+  pxmake_clean(get_metadata_path(table_name),
+               px_path,
+               get_source_data_path(table_name),
+               env = parent.frame(n=1)
+               )
+
+  return(px_path)
+}

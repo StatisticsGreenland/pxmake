@@ -1,16 +1,35 @@
-# Various helper functions. See examples in tests/testthat/...
+# Various helper functions. See test cases in test-00-helper_function.R for
+# examples of function input and outputs.
 
+#' Add quotes around string
+#'
+#' @param str String to quote
+#'
+#' @returns String
 str_quote <- function(str) {
   stringr::str_c('"', str, '"')
 }
 
+#' Add language, other than the main langue, to keyword
+#'
+#' @inheritParams add_sub_key_to_keyword
+#' @param main_language Main language of px file
+#' @param language Lange to add to keyword
+#'
+#' @returns String
 add_language_to_keyword <- function(keyword, main_language, language) {
-  dplyr::if_else(language == main_language | is.na(language),
-                 keyword,
-                 stringr::str_glue("{keyword}[{language}]") %>% as.character()
-                 )
+  ifelse(language == main_language | is.na(language),
+         keyword,
+         stringr::str_glue("{keyword}[{language}]") %>% as.character()
+         )
 }
 
+#' Add a sub key word (see px-specification for details on sub keys)
+#'
+#' @param keyword String, name of keyword
+#' @param name String, name of sub key
+#'
+#' @returns String
 add_sub_key_to_keyword <- function(keyword, name) {
   ifelse(is.na(name),
          keyword,
@@ -18,6 +37,12 @@ add_sub_key_to_keyword <- function(keyword, name) {
          )
 }
 
+#' Add cell name to keywords that support it (see px-specification)
+#'
+#' @inheritParams add_sub_key_to_keyword
+#' @param name String, cell name to add to keyword
+#'
+#' @returns String
 add_cell_to_keyword <- function(keyword, name) {
   ifelse(is.na(name),
          keyword,
@@ -25,6 +50,11 @@ add_cell_to_keyword <- function(keyword, name) {
          )
 }
 
+#' Add quotes around unless in some very specific cases requied by the px format
+#'
+#' @inheritParams str_quote
+#'
+#' @returns String
 quote_unless_numeric_or_yes_no <- function(str) {
   str_is_numeric <- function(str) {
     stringr::str_detect(str, "^[0-9.]+$")
@@ -36,25 +66,41 @@ quote_unless_numeric_or_yes_no <- function(str) {
       stringr::str_sub(str, -1, -1) == '"'
   }
 
-  dplyr::if_else(
+  ifelse(
     str %in% c('YES', 'NO') | str_is_numeric(str) | str_is_quoted(str) |
       stringr::str_starts(str, "TLIST\\("),
     str,
-    stringr::str_c('"', str, '"')
+    str_quote(str)
   )
 }
 
+#' Get a sorted list of distinct values in list
+#'
+#' @param lst List to sort
+#'
+#' @returns List
 lst_distinct_and_arrange <- function(lst) {
   tmp <- lapply(lapply(lst, unique), sort)
   tmp[order(names(tmp))]
 }
 
+#' Put to named lists together, remove duplicates and sort
+#'
+#' @param lst1 List to merge
+#' @param lst2 List to merge
+#'
+#' @returns List
 merge_named_lists <- function(lst1, lst2) {
   keys <- unique(c(names(lst1), names(lst2)))
   temp <- setNames(mapply(c, lst1[keys], lst2[keys]), keys)
   lst_distinct_and_arrange(temp)
 }
 
+#' Get time scale code from values (see TIMEVAL in px-specification)
+#'
+#' @param values Values form px file
+#'
+#' @returns A character vector
 get_timeval_type_from_values <- function(values) {
   time_type <-
     values %>%
@@ -67,7 +113,7 @@ get_timeval_type_from_values <- function(values) {
     time_type <- 'A'
   }
 
-  time_type
+  return(time_type)
 }
 
 #' Zips list
@@ -92,7 +138,7 @@ zip_vectors <- function(v1, v2) {
 #' Long strings are split so they are no longer than 256 characters and end at
 #' a comma.
 #'
-#' @param str Character string
+#' @param str String
 #' @param max_line_length Integer longest allowed line length
 #'
 #' @returns A character vector
@@ -130,12 +176,27 @@ break_long_lines <- function(str, max_line_length = 256) {
 #' @param df Data frame
 #' @param var Variable to convert to list
 #'
-#' @return Data frame
+#' @returns A data frame
 wrap_varaible_in_list <- function(df, var) {
   df %>%
     dplyr::rowwise() %>%
     dplyr::mutate({{ var }} := list({{ var }})) %>%
     dplyr::ungroup()
+}
+
+#' Get px file content as lines
+#'
+#' Read file with correct encoding.
+#'
+#' @param px_path Path to a px file
+#'
+#' @returns A character vector
+read_px_file <- function(px_path) {
+  file_connection <- file(px_path, encoding = get_encoding_from_px_file(px_path))
+  lines <- readLines(con = file_connection, warn = FALSE)
+  close(file_connection)
+
+  return(lines)
 }
 
 #' Default encoding to read and save px-file in
@@ -168,7 +229,7 @@ get_encoding_from_px_file <- function(px_path) {
 
 #' Check if a path has a specific extension (function factory)
 #'
-#' @param extension String, file name extenstion
+#' @param extension String, file name extension
 #'
 #' @returns Logic
 is_path_extension <- function(extension) {
@@ -185,7 +246,11 @@ is_rds_file  <- is_path_extension("rds")
 is_xlsx_file <- is_path_extension("xlsx")
 is_px_file   <- is_path_extension("px")
 
-
+#' Check if rds object is properly formatted
+#'
+#' @param lst List to check
+#'
+#' @returns Logic
 is_rds_list <- function(lst) {
   if (!is.list(lst)) {
     return(FALSE)

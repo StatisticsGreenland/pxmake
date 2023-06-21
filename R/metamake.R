@@ -18,19 +18,6 @@ get_px_metadata_regex <- function() {
   )
 }
 
-#' Get px file content as lines
-#'
-#' @param px_path Path to a px file
-#'
-#' @returns A character vector
-read_px_file <- function(px_path) {
-  file_connection <- file(px_path, encoding = get_encoding_from_px_file(px_path))
-  lines <- readLines(con = file_connection, warn = FALSE)
-  close(file_connection)
-
-  return(lines)
-}
-
 #' Get metdata df from px lines
 #'
 #' @param metadata_lines A character vector with the header of a px file.

@@ -12,7 +12,7 @@ wrap_varaible_in_list(df, var)
 \item{var}{Variable to convert to list}
 }
 \value{
-Data frame
+A data frame
 }
 \description{
 Convert a variable to a list

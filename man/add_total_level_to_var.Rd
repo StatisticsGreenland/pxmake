@@ -7,13 +7,13 @@
 add_total_level_to_var(df, var, level_name = "Total", sum_var = "value")
 }
 \arguments{
-\item{df}{Data frame}
+\item{df}{Data frame to add total levels to.}
 
-\item{var}{String, name of variable to total level in}
+\item{var}{Name of variable to add total level to.}
 
-\item{level_name}{String, total level name}
+\item{level_name}{Total level name.}
 
-\item{sum_var}{String, name of variable to sum over}
+\item{sum_var}{String, name of variable to sum over.}
 }
 \value{
 Data frame

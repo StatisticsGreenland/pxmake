@@ -2,10 +2,9 @@
 #'
 #' Add a new level to a variables which is the sum of all other levels.
 #'
-#' @param df Data frame
-#' @param var String, name of variable to total level in
-#' @param level_name String, total level name
-#' @param sum_var String, name of variable to sum over
+#' @inheritParams add_totals
+#' @param var Name of variable to add total level to.
+#' @param level_name Total level name.
 #'
 #' @return Data frame
 add_total_level_to_var <- function(df,
@@ -29,11 +28,11 @@ add_total_level_to_var <- function(df,
 #' Wrapper around \link{add_total_level_to_var} to add levels to total level to
 #' multiple variables.
 #'
-#' @param df Data frame
-#' @param vars List of variables to add total levels to
+#' @param df Data frame to add total levels to.
+#' @param vars List of variables to add total levels to.
 #' @param level_names Names of total levels. Should have length 1 or same length
 #' as `vars`.
-#' @param sum_var String, name of variable to sum over
+#' @param sum_var String, name of variable to sum over.
 add_totals <- function(df,
                        vars,
                        level_names = "Total",

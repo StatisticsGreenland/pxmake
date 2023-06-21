@@ -77,10 +77,7 @@ get_data_table_df  <- function(input, data_table, add_totals) {
                   )
 
   if (!is.null(add_totals)) {
-    data_table_df <- add_totals_to_data_table_df(data_table_df,
-                                                 input,
-                                                 add_totals
-                                                 )
+    data_table_df <- add_totals_to_data_table_df(input, data_table_df, add_totals)
   }
 
   return(data_table_df)

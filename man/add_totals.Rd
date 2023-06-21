@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_totals.R
 \name{add_totals}
 \alias{add_totals}
-\title{Add 'total' level to variables}
+\title{Add 'total' levels to multiple variables}
 \usage{
 add_totals(df, vars, level_names = "Total", sum_var = "value")
 }
@@ -17,5 +17,6 @@ as \code{vars}.}
 \item{sum_var}{String, name of variable to sum over}
 }
 \description{
-Add 'total' level to variables
+Wrapper around \link{add_total_level_to_var} to add levels to total level to
+multiple variables.
 }

@@ -196,7 +196,6 @@ metamake <- function(input,
     dplyr::rename(long_name = variable) %>%
     dplyr::left_join(name_relation, by = c("language", "long_name"))
 
-
   ### Make metadata sheet: 'Variables'
   long_name <-
     name_relation %>%

@@ -1,8 +1,10 @@
 #' Add 'total' level to variable
 #'
+#' Add a new level to a variables which is the sum of all other levels.
+#'
 #' @param df Data frame
-#' @param var String, name of variable to add a total level in
-#' @param level_name Total level name
+#' @param var String, name of variable to total level in
+#' @param level_name String, total level name
 #' @param sum_var String, name of variable to sum over
 #'
 #' @return Data frame
@@ -22,7 +24,10 @@ add_total_level_to_var <- function(df,
     dplyr::relocate(all_of(column_order))
 }
 
-#' Add 'total' level to variables
+#' Add 'total' levels to multiple variables
+#'
+#' Wrapper around \link{add_total_level_to_var} to add levels to total level to
+#' multiple variables.
 #'
 #' @param df Data frame
 #' @param vars List of variables to add total levels to
@@ -47,11 +52,16 @@ add_totals <- function(df,
   return(df)
 }
 
-#' Wrapper around add_totals
+#' Add totals to data table
 #'
+#' Wrapper around \link{add_totals} to get the parameters needed to run the
+#' function from metadata. Add totals can only be run if Excel metadata is used
+#' in \link{pxmake}.
 #'
-add_totals_to_data_table_df <- function(data_table_df,
-                                        excel_metadata_path,
+#' @inheritParams get_metadata_df_from_excel
+#' @inheritParams pxmake
+add_totals_to_data_table_df <- function(excel_metadata_path,
+                                        data_table_df,
                                         add_totals) {
   variables <-
     get_variables_metadata(excel_metadata_path) %>%
@@ -66,7 +76,7 @@ add_totals_to_data_table_df <- function(data_table_df,
     dplyr::left_join(codelist,
                      by = c("variable", "elimination" = "value"),
                      multiple = "all"
-    ) %>%
+                     ) %>%
     dplyr::filter(variable %in% add_totals) %>%
     dplyr::distinct(variable, code)
 
@@ -74,6 +84,5 @@ add_totals_to_data_table_df <- function(data_table_df,
              vars = params$variable,
              level_names = params$code,
              sum_var = get_figures_variable(excel_metadata_path)
-  )
-
+             )
 }

@@ -2,10 +2,23 @@
 % Please edit documentation in R/pxmake.R
 \name{get_metadata_df}
 \alias{get_metadata_df}
-\title{Fisk}
+\title{..}
 \usage{
 get_metadata_df(input, data_table_df)
 }
+\arguments{
+\item{input}{Metadata can be provided in one of four ways:
+\enumerate{
+\item A path to an \code{.xlsx} metadata file.
+\item A path to an \code{.rds} file created by \link{metamake}.
+\item A named list with two data frames "metadata" and "data table" (like
+\link{metamake} \code{.rds} file).
+\item A data frame with metadata (metadata part of \code{.rds} file by
+\link{metamake}.)
+}}
+
+\item{data_table_df}{Data frame with data table in tidy format.}
+}
 \description{
-Fisk
+..
 }

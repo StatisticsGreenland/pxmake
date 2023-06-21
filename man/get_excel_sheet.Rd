@@ -8,8 +8,6 @@ get_excel_sheet(sheet)
 }
 \arguments{
 \item{sheet}{String. Sheet to read.}
-
-\item{path}{Path to Excel workbook (xls/xlsx).}
 }
 \value{
 A data frame.

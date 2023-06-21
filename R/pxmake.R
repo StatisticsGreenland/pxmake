@@ -276,7 +276,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_table_df) {
 #' Get data cube used in px file format
 #'
 #' @inheritParams sort_metadata_df
-#' @inheritParams get_metadata_df
+#' @inheritParams get_metadata_df_from_excel
 #'
 #' @returns Data frame
 get_data_cube <- function(metadata_df, data_table_df) {
@@ -448,7 +448,10 @@ write_lines_to_file <- function(lines, path, encoding) {
 }
 
 
-#' Fisk
+#' ..
+#'
+#' @inheritParams pxmake
+#' @inheritParams get_metadata_df_from_excel
 get_metadata_df <- function(input, data_table_df) {
   if (is_xlsx_file(input)) {
     return(get_metadata_df_from_excel(input, data_table_df))

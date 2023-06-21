@@ -167,6 +167,10 @@ get_encoding_from_px_file <- function(px_path) {
 }
 
 #' Check if a path has a specific extension (function factory)
+#'
+#' @param extension String, file name extenstion
+#'
+#' @returns Logic
 is_path_extension <- function(extension) {
   function(path) {
     if (is.character(path)) {

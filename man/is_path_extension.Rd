@@ -6,6 +6,12 @@
 \usage{
 is_path_extension(extension)
 }
+\arguments{
+\item{extension}{String, file name extenstion}
+}
+\value{
+Logic
+}
 \description{
 Check if a path has a specific extension (function factory)
 }

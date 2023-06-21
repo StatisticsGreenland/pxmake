@@ -8,6 +8,8 @@ get_data_cube(metadata_df, data_table_df)
 }
 \arguments{
 \item{metadata_df}{Data frame with metadata.}
+
+\item{data_table_df}{Data frame with data table in tidy format.}
 }
 \value{
 Data frame

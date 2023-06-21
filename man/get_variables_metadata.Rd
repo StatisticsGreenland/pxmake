@@ -13,6 +13,6 @@ get_variables_metadata(excel_metadata_path)
 A data frame
 }
 \description{
-Varaibles contains the name the variable in each language, as well as their
-type, notes, etc.
+Variables contains the name of the variable in each language, as well as
+their type, notes, etc.
 }

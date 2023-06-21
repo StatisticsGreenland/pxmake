@@ -1,7 +1,6 @@
 #' Get specific sheet from Excel workbook
 #'
 #' @param sheet String. Sheet to read.
-#' @param path Path to Excel workbook (xls/xlsx).
 #'
 #' @returns A data frame.
 get_excel_sheet <- function(sheet) {
@@ -59,8 +58,8 @@ get_table_metadata <- function(excel_metadata_path) {
 
 #' Get metadata about variables
 #'
-#' Varaibles contains the name the variable in each language, as well as their
-#' type, notes, etc.
+#' Variables contains the name of the variable in each language, as well as
+#' their type, notes, etc.
 #'
 #' @inheritParams get_metadata_df_from_excel
 #'

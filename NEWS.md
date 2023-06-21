@@ -2,7 +2,8 @@
 
 ## Bug fixes and minor improvements
 - Support px-files without LANGUAGES keyword. (#143)
-- Remove dependencies between test and run them in parallel (#112)
+- Remove dependencies between test and run them in parallel. (#112)
+- Split tests into more files to run them faster in parallel. (#149) 
 
 # pxmake 0.6.0
 

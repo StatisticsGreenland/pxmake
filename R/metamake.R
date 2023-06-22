@@ -18,7 +18,7 @@ get_px_metadata_regex <- function() {
   )
 }
 
-#' Get metdata df from px lines
+#' Get metadata df from px lines
 #'
 #' @param metadata_lines A character vector with the header of a px file.
 #'
@@ -69,6 +69,8 @@ metamake <- function(input,
                      out_path,
                      data_table_path = NULL
                      ) {
+  validate_metamake_arguments(input, out_path, data_table_path)
+
   if (is_rds_file(input)) {
     input <- readRDS(input)
   }
@@ -87,7 +89,7 @@ metamake <- function(input,
 
     metadata_df <- get_metdata_df_from_px_lines(metadata_lines)
   } else {
-    unhandled_error()
+    unexpected_error()
   }
 
   metadata_df <-
@@ -255,7 +257,7 @@ metamake <- function(input,
                                    paste0(keyword, "_", language),
                                    keyword
                   )
-    ) %>%
+                  ) %>%
     dplyr::select(keyword, value)
 
   ### Make metadata sheet: 'Data'
@@ -329,10 +331,10 @@ metamake <- function(input,
     } else if (tools::file_ext(data_table_path) == "rds") {
       saveRDS(sheet_data, data_table_path)
     } else {
-      unhandled_error()
+      unexpected_error()
     }
     openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
   } else {
-    unhandled_error()
+    unexpected_error()
   }
 }

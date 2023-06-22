@@ -58,8 +58,8 @@ error_if_too_many_rows_for_excel <- function(df) {
   }
 }
 
-unhandled_error <- function(msg) {
-  stop(msg)
+unexpected_error <- function() {
+  stop()
 }
 
 validate_metamake_argument <- function() {
@@ -103,5 +103,31 @@ validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
     }
   } else if (!is.data.frame(data_table) & !is_rds_file(data_table)) {
     stop("Argument 'data_table' must be a data frame or a path to an .rds file.")
+  }
+}
+
+#' Check all metamake arguments
+#'
+#' @inheritParams metamake
+#'
+#' @retruns Nothing
+validate_metamake_arguments <- function(input, out_path, data_table_path) {
+  if (!is_px_file(input) & !is_rds_file(input) & !is_rds_list(input)) {
+    stop("Argument 'input' has wrong format. See ?metamake.")
+  }
+
+  if (!is_xlsx_file(out_path) & !is_rds_file(out_path)) {
+    stop("Argument 'output' needs to be an .xlsx or .rds file.")
+  }
+
+  if (!is.null(data_table_path)) {
+    if (!is_rds_file(data_table_path)) {
+      stop("Argument 'data_table_path' should be an .rds file.")
+    }
+
+    if (!is_xlsx_file(out_path)) {
+      stop("Argument 'data_table_path' can only be used when 'input' is an
+           .xlsx file.")
+    }
   }
 }

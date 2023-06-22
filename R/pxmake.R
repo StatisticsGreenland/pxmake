@@ -34,7 +34,7 @@ get_figures_variable <- function(input, data_table) {
 
     figures_var <- setdiff(data_variables, non_figure_variables)
   } else {
-    unhandled_error()
+    unexpected_error()
   }
 
   error_if_not_exactly_one_figures_variable(figures_var)
@@ -58,7 +58,7 @@ get_raw_data_table <- function(input, data_table) {
   } else if (is_rds_file(data_table)) {
     return(readRDS(data_table))
   } else {
-    unhandled_error()
+    unexpected_error()
   }
 }
 
@@ -462,7 +462,7 @@ get_metadata_df <- function(input, data_table_df) {
   } else if (is.data.frame(input)) {
     return(input)
   } else {
-    unhandled_error()
+    unexpected_error()
   }
 }
 
@@ -511,6 +511,6 @@ pxmake <- function(input,
 
     write_lines_to_file(px_lines, out_path, get_encoding_from_metadata(metadata_df))
   } else {
-    unhandled_error()
+    unexpected_error()
   }
 }

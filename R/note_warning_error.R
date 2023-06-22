@@ -59,13 +59,12 @@ error_if_too_many_rows_for_excel <- function(df) {
 }
 
 unexpected_error <- function() {
-  stop()
+  stop(paste("An unexpected error occurred. Please report the issue on GitHub,",
+             "ideally with a minimal reproducible example.",
+             "https://github.com/StatisticsGreenland/pxmake/issues "
+             )
+       )
 }
-
-validate_metamake_argument <- function() {
-
-}
-
 
 #' Check all pxmake arguments
 #'

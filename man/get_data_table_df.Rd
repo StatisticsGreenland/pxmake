@@ -2,7 +2,7 @@
 % Please edit documentation in R/pxmake.R
 \name{get_data_table_df}
 \alias{get_data_table_df}
-\title{Get table data as data frame}
+\title{Get data table as data frame}
 \usage{
 get_data_table_df(input, data_table, add_totals)
 }
@@ -32,5 +32,5 @@ variables with \code{type = FIGURES} in 'Variables'. NAs are ignored when summin
 A data frame
 }
 \description{
-Get table data as data frame
+Get data table as data frame
 }

@@ -26,5 +26,5 @@ option 1. as the sheet 'Data' in the Excel metadata workbook, or as the
 Character
 }
 \description{
-An error is thrown if there is not exactly one figures variable.
+Get the name of figures variable
 }

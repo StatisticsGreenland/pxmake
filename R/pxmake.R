@@ -1,7 +1,5 @@
 #' Get the name of figures variable
 #'
-#' An error is thrown if there is not exactly one figures variable.
-#'
 #' @inheritParams get_data_table_df
 #'
 #' @returns Character
@@ -41,7 +39,7 @@ get_figures_variable <- function(input, data_table) {
   return(figures_var)
 }
 
-#' sldfjk
+#' Get data frame from data_table argument
 #'
 #' @inheritParams pxmake
 #'
@@ -62,7 +60,25 @@ get_raw_data_table <- function(input, data_table) {
   }
 }
 
-#' Get table data as data frame
+#' Get data frame from metadata argument
+#'
+#' @inheritParams pxmake
+#' @inheritParams get_metadata_df_from_excel
+get_metadata_df <- function(input, data_table_df) {
+  if (is_xlsx_file(input)) {
+    return(get_metadata_df_from_excel(input, data_table_df))
+  } else if (is_rds_file(input)) {
+    return(readRDS(input)$metadata)
+  } else if (is_rds_list(input)) {
+    return(input$metadata)
+  } else if (is.data.frame(input)) {
+    return(input)
+  } else {
+    unexpected_error()
+  }
+}
+
+#' Get data table as data frame
 #'
 #' @inheritParams pxmake
 #'
@@ -278,7 +294,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_table_df) {
 #' @inheritParams sort_metadata_df
 #' @inheritParams get_metadata_df_from_excel
 #'
-#' @returns Data frame
+#' @returns A data frame
 get_data_cube <- function(metadata_df, data_table_df) {
   metadata_df_main_language <-
     metadata_df %>%
@@ -308,13 +324,6 @@ get_data_cube <- function(metadata_df, data_table_df) {
     dplyr::pull(variable)
 
   head_stub_variable_names <- c(heading_vars, stub_vars)
-
-  # If input was xlsx codelist needs to be taken from there.
-
-  # codelist <-
-  #   get_codelists_metadata(input, data_table_df) %>%
-  #   dplyr::filter(language == get_main_language(metadata_df)) %>%
-  #   dplyr::select(variable, sortorder, code)
 
   codelist <-
     metadata_df %>%
@@ -381,11 +390,10 @@ get_data_cube <- function(metadata_df, data_table_df) {
 
 #' Turn metadata and data cube into px lines
 #'
-#' @inheritParams sort_metadata_df
-#' @param data_cube Data frame
+#' @inheritParams get_data_cube
 #'
 #' @returns A character vector
-format_data_as_px_lines <- function(metadata_df, data_cube) {
+format_data_as_px_lines <- function(metadata_df, data_table_df) {
   time_variables <-
     metadata_df %>%
     dplyr::filter(keyword == "TIMEVAL") %>%
@@ -425,6 +433,8 @@ format_data_as_px_lines <- function(metadata_df, data_cube) {
                   ) %>%
     dplyr::pull(line)
 
+  data_cube <- get_data_cube(metadata_df, data_table_df)
+
   data_lines <-
     data_cube %>%
     dplyr::mutate(dplyr::across(everything(), as.character),
@@ -434,36 +444,6 @@ format_data_as_px_lines <- function(metadata_df, data_cube) {
     dplyr::pull(tmp)
 
   c(metadata_lines, "DATA=", data_lines, ";")
-}
-
-#' Write lines to file
-#'
-#' @param lines Character vector
-#' @param path Path to save file at
-#' @param encoding File encoding
-write_lines_to_file <- function(lines, path, encoding) {
-  file_connection <- file(path, encoding = encoding)
-  writeLines(lines, file_connection)
-  close(file_connection)
-}
-
-
-#' ..
-#'
-#' @inheritParams pxmake
-#' @inheritParams get_metadata_df_from_excel
-get_metadata_df <- function(input, data_table_df) {
-  if (is_xlsx_file(input)) {
-    return(get_metadata_df_from_excel(input, data_table_df))
-  } else if (is_rds_file(input)) {
-    return(readRDS(input)$metadata)
-  } else if (is_rds_list(input)) {
-    return(input$metadata)
-  } else if (is.data.frame(input)) {
-    return(input)
-  } else {
-    unexpected_error()
-  }
 }
 
 #' Create a px-file from metadata and data table
@@ -505,9 +485,7 @@ pxmake <- function(input,
     rds <- list("metadata" = metadata_df, "data_table" = data_table_df)
     saveRDS(rds, out_path)
   } else if (is_px_file(out_path)) {
-    data_cube <- get_data_cube(metadata_df, data_table_df)
-
-    px_lines <- format_data_as_px_lines(metadata_df, data_cube)
+    px_lines <- format_data_as_px_lines(metadata_df, data_table_df)
 
     write_lines_to_file(px_lines, out_path, get_encoding_from_metadata(metadata_df))
   } else {

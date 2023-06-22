@@ -12,7 +12,7 @@ get_data_cube(metadata_df, data_table_df)
 \item{data_table_df}{Data frame with data table in tidy format.}
 }
 \value{
-Data frame
+A data frame
 }
 \description{
 Get data cube used in px file format

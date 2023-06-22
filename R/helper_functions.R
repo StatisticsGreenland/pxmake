@@ -227,6 +227,19 @@ get_encoding_from_px_file <- function(px_path) {
   return(encoding)
 }
 
+#' Write lines to file
+#'
+#' Save file with specific encoding
+#'
+#' @param lines Character vector
+#' @param path Path to save file at
+#' @param encoding File encoding
+write_lines_to_file <- function(lines, path, encoding) {
+  file_connection <- file(path, encoding = encoding)
+  writeLines(lines, file_connection)
+  close(file_connection)
+}
+
 #' Check if a path has a specific extension (function factory)
 #'
 #' @param extension String, file name extension

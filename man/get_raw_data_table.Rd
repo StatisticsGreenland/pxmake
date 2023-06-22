@@ -2,7 +2,7 @@
 % Please edit documentation in R/pxmake.R
 \name{get_raw_data_table}
 \alias{get_raw_data_table}
-\title{sldfjk}
+\title{Get data frame from data_table argument}
 \usage{
 get_raw_data_table(input, data_table)
 }
@@ -26,5 +26,5 @@ option 1. as the sheet 'Data' in the Excel metadata workbook, or as the
 A data frame
 }
 \description{
-sldfjk
+Get data frame from data_table argument
 }

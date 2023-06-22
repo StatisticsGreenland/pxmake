@@ -2,7 +2,7 @@
 % Please edit documentation in R/pxmake.R
 \name{get_metadata_df}
 \alias{get_metadata_df}
-\title{..}
+\title{Get data frame from metadata argument}
 \usage{
 get_metadata_df(input, data_table_df)
 }
@@ -20,5 +20,5 @@ get_metadata_df(input, data_table_df)
 \item{data_table_df}{Data frame with data table in tidy format.}
 }
 \description{
-..
+Get data frame from metadata argument
 }

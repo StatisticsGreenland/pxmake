@@ -4,8 +4,8 @@ test_that("pxmake can make xlsx to rds, and rds to px",{
   metadata <- get_metadata_path(table_name)
   data_table <- get_source_data_path(table_name)
 
-  px1 <- temp_pxfile()
-  px2 <- temp_pxfile()
+  px1 <- temp_px_file()
+  px2 <- temp_px_file()
   rds <- temp_rds_file()
 
   # xlsx to rds to px
@@ -20,9 +20,9 @@ test_that("pxmake can make xlsx to rds, and rds to px",{
 })
 
 test_that('metmake can make px to rds, and rds to xlsx', {
-  px0   <- get_pxfile_path('BEXSTA_windows_1252')
-  px1   <- temp_pxfile()
-  px2   <- temp_pxfile()
+  px0   <- get_px_filepath('BEXSTA_windows_1252')
+  px1   <- temp_px_file()
+  px2   <- temp_px_file()
   rds   <- temp_rds_file()
   xlsx1 <- temp_xlsx_file()
   xlsx2 <- temp_xlsx_file()
@@ -56,7 +56,7 @@ test_that('pxmake can make rds to rds', {
 test_that('metamake can make rds to rds', {
   # One-language file
   meta <- get_metadata_path('FOTEST')
-  px   <- temp_pxfile()
+  px   <- temp_px_file()
   rds1  <- temp_rds_file()
   rds2  <- temp_rds_file()
 
@@ -69,7 +69,7 @@ test_that('metamake can make rds to rds', {
 
 test_that("Source data variable names are preserved",{
   table_name <- "FOTEST"
-  px1   <- temp_pxfile()
+  px1   <- temp_px_file()
   meta1 <- get_metadata_path(table_name)
   meta2 <- temp_xlsx_file()
 

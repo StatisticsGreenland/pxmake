@@ -1,15 +1,15 @@
-test_that("pxfile and pxmake(metamake(pxfile)) are equivalent", {
+test_that("px file and pxmake(metamake(px file)) are equivalent", {
   # Some files don't give an exact match in the px-file because there can be
   # subtle differences in formatting. PxJob is run on these file to test
   # that they are equivalent.
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   run_metamake_pxmake_pxjob_and_compare <- function(table_name) {
-    px1    <- get_pxfile_path(table_name)
-    px2    <- temp_pxfile() # pxjob requires the .px extension
+    px1    <- get_px_filepath(table_name)
+    px2    <- temp_px_file() # pxjob requires the .px extension
     meta1  <- temp_xlsx_file()
-    pxjob1 <- temp_pxfile()
-    pxjob2 <- temp_pxfile()
+    pxjob1 <- temp_px_file()
+    pxjob2 <- temp_px_file()
 
     metamake_clean(px1, meta1)
     pxmake_clean(meta1, px2)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/metamake.R
 \name{get_px_metadata_regex}
 \alias{get_px_metadata_regex}
-\title{Regular expression to parse header in pxfile}
+\title{Regular expression to parse header in px file}
 \usage{
 get_px_metadata_regex()
 }
@@ -10,5 +10,5 @@ get_px_metadata_regex()
 A character vector
 }
 \description{
-Regular expression to parse header in pxfile
+Regular expression to parse header in px file
 }

@@ -1,4 +1,4 @@
-#' Regular expression to parse header in pxfile
+#' Regular expression to parse header in px file
 #'
 #' @returns A character vector
 get_px_metadata_regex <- function() {

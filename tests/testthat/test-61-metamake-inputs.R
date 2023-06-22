@@ -1,6 +1,6 @@
 test_that("metamake can take 3 types of input and give the same result", {
   meta <- get_metadata_path('FOTEST')
-  px   <- temp_pxfile()
+  px   <- temp_px_file()
   rds  <- temp_rds_file()
 
   pxmake_clean(meta, rds)

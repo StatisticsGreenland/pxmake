@@ -10,7 +10,7 @@ get_metadata_path <- function(table_name) {
   test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))
 }
 
-get_pxfile_path <- function(table_name) {
+get_px_filepath <- function(table_name) {
   test_path('px', paste0(table_name, '.px'))
 }
 
@@ -18,17 +18,15 @@ get_pxjobfile_path <- function(table_name) {
   test_path('px', paste0(table_name, '_pxjob.px'))
 }
 
-temp_pxfile <- function() {
-  tempfile(fileext = ".px")
+temp_file_with_extension <- function(extension) {
+  function() {
+    return(tempfile(fileext = extension))
+  }
 }
 
-temp_rds_file <- function() {
-  tempfile(fileext = ".rds")
-}
-
-temp_xlsx_file <- function() {
-  tempfile(fileext = ".xlsx")
-}
+temp_px_file    <- temp_file_with_extension(".px")
+temp_rds_file  <- temp_file_with_extension(".rds")
+temp_xlsx_file <- temp_file_with_extension(".xlsx")
 
 expect_equal_lines <- function(path1, path2) {
   lines1 <- readLines(path1)
@@ -48,10 +46,10 @@ expect_equal_rds <- function(rds1, rds2) {
 
 #' Metamake is the inverse of pxamke
 expect_metamake_and_pxmake_cancel_out <- function(table_name) {
-  px1   <- temp_pxfile()
+  px1   <- temp_px_file()
   meta1 <- get_metadata_path(table_name)
   data1 <- get_source_data_path(table_name)
-  px2   <- temp_pxfile()
+  px2   <- temp_px_file()
   meta2 <- temp_xlsx_file()
 
   pxmake_clean(meta1, px1, data1)
@@ -106,7 +104,7 @@ pxjob_clean <- function(input, output, env = parent.frame()) {
 
 #' Run pxmake for a specific table. Return path to file.
 create_px_file <- function(table_name) {
-  px_path <- temp_pxfile()
+  px_path <- temp_px_file()
 
   pxmake_clean(get_metadata_path(table_name),
                px_path,

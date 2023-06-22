@@ -147,14 +147,14 @@ test_that("File extensions work", {
 
 test_that("file encoding is correct", {
   get_file_encoding_for_table <- function(table_name) {
-    get_encoding_from_px_file(get_pxfile_path(table_name))
+    get_encoding_from_px_file(get_px_filepath(table_name))
   }
 
   expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')
   expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
 
   # no encoding listed; utf-8 is default
-  px_file <- temp_pxfile()
+  px_file <- temp_px_file()
   pxmake_clean(get_metadata_path("BEXSTA"),
                px_file,
                get_source_data_path("BEXSTA")

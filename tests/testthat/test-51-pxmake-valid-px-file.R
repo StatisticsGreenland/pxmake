@@ -91,7 +91,7 @@ test_that("px file is valid", {
   })
 
   test_that("timevals are added", {
-    expect_that_pxfile_has_timeval <- function(path) {
+    expect_that_px_filehas_timeval <- function(path) {
       px_lines <- readLines(path)
 
       timeval_lines <- px_lines[stringr::str_detect(px_lines, "^TIMEVAL")]
@@ -99,9 +99,9 @@ test_that("px file is valid", {
       expect_true(length(timeval_lines) > 0)
     }
 
-    expect_that_pxfile_has_timeval(bexsta)
-    expect_that_pxfile_has_timeval(bexltall)
-    expect_that_pxfile_has_timeval(fotest)
+    expect_that_px_filehas_timeval(bexsta)
+    expect_that_px_filehas_timeval(bexltall)
+    expect_that_px_filehas_timeval(fotest)
   })
 
   expect_true(TRUE) #needed to run

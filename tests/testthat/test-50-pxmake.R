@@ -1,6 +1,6 @@
 test_that("pxmake runs without errors and creates a file", {
   test_file_creation <- function(table_name) {
-    px_file <- temp_pxfile()
+    px_file <- temp_px_file()
 
     pxmake_clean(get_metadata_path(table_name),
                  px_file,

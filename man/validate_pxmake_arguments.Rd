@@ -34,5 +34,5 @@ variables with \code{type = FIGURES} in 'Variables'. NAs are ignored when summin
 Nothing
 }
 \description{
-Check all pxmake arguments
+Throw an error if there are problems with the function arguments.
 }

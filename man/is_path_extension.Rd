@@ -7,7 +7,7 @@
 is_path_extension(extension)
 }
 \arguments{
-\item{extension}{String, file name extenstion}
+\item{extension}{String, file name extension}
 }
 \value{
 Logic

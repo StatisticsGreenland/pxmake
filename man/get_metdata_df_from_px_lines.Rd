@@ -2,7 +2,7 @@
 % Please edit documentation in R/metamake.R
 \name{get_metdata_df_from_px_lines}
 \alias{get_metdata_df_from_px_lines}
-\title{Get metdata df from px lines}
+\title{Get metadata df from px lines}
 \usage{
 get_metdata_df_from_px_lines(metadata_lines)
 }
@@ -13,5 +13,5 @@ get_metdata_df_from_px_lines(metadata_lines)
 A data frame
 }
 \description{
-Get metdata df from px lines
+Get metadata df from px lines
 }

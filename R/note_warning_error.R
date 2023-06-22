@@ -68,6 +68,8 @@ unexpected_error <- function() {
 
 #' Check all pxmake arguments
 #'
+#' Throw an error if there are problems with the function arguments.
+#'
 #' @inheritParams pxmake
 #'
 #' @returns Nothing
@@ -107,9 +109,11 @@ validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
 
 #' Check all metamake arguments
 #'
+#' @inherit validate_pxmake_arguments description
+#'
 #' @inheritParams metamake
 #'
-#' @retruns Nothing
+#' @returns Nothing
 validate_metamake_arguments <- function(input, out_path, data_table_path) {
   if (!is_px_file(input) & !is_rds_file(input) & !is_rds_list(input)) {
     stop("Argument 'input' has wrong format. See ?metamake.")

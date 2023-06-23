@@ -46,7 +46,7 @@ get_figures_variable <- function(input, data_table) {
 #' @returns A data frame
 get_raw_data_table <- function(input, data_table) {
   if (is_xlsx_file(input) & is.null(data_table)) {
-    return(get_data_sheet(input))
+    return(get_data_table_sheet(input))
   } else if (is_rds_file(input)) {
     return(readRDS(input)$data_table)
   } else if (is_rds_list(input)) {
@@ -341,7 +341,7 @@ get_data_cube <- function(metadata_df, data_table_df) {
 
   # Complete data by adding all combinations of variable values in data and
   # codelist
-  source_data_values <-
+  data_table_values <-
     data_table_df %>%
     dplyr::select(dplyr::all_of(head_stub_variable_names)) %>%
     lst_distinct_and_arrange()
@@ -350,7 +350,7 @@ get_data_cube <- function(metadata_df, data_table_df) {
     split(codelist$code, codelist$variable) %>%
     lst_distinct_and_arrange()
 
-  data_values <- merge_named_lists(source_data_values, codelist_values)
+  data_values <- merge_named_lists(data_table_values, codelist_values)
 
   data_cube <-
     data_table_df %>%

@@ -4,16 +4,47 @@
 #'
 #' @returns A data frame.
 get_excel_sheet <- function(sheet) {
-  function(path) {
-    error_if_excel_sheet_does_not_exist(sheet, path)
-    readxl::read_xlsx(path, sheet = sheet)
+  function(excel_path) {
+    error_if_excel_sheet_does_not_exist(sheet, excel_path)
+    readxl::read_xlsx(excel_path, sheet = sheet)
   }
 }
 
 get_table_sheet     <- get_excel_sheet("Table")
 get_variables_sheet <- get_excel_sheet("Variables")
 get_codelists_sheet <- get_excel_sheet("Codelists")
-get_data_sheet      <- get_excel_sheet("Data")
+
+#' Find 'Data table' sheet in Excel workbook
+#'
+#' Returns the index of the 'Data table' sheet. To be backwards compatible any
+#' sheet that starts with 'Data' is accepted.
+#'
+#' @inheritParams get_data_table_sheet
+#'
+#' @returns Numeric
+get_data_sheet_index <- function(excel_path) {
+  sheets <- readxl::excel_sheets(excel_path)
+
+  sheet_index <- stringr::str_which(sheets, "^Data.*")[1]
+
+  if (!is.numeric(sheet_index) | is.na(sheet_index) | length(sheet_index) != 1) {
+    error_if_excel_sheet_does_not_exist("Data table", excel_path)
+  }
+
+  return(sheet_index)
+}
+
+#' Get 'Data table' sheet from Excel workbook
+#'
+#' To be backwards compatible the function returns any sheet starting with
+#' 'Data'.
+#'
+#' @param excel_path Path to an xlsx workbook
+#'
+#' @returns A data frame.
+get_data_table_sheet <- function(excel_path) {
+  readxl::read_xlsx(excel_path, sheet = get_data_sheet_index(excel_path))
+}
 
 #' Get all languages in Excel metadata
 #'
@@ -84,7 +115,7 @@ get_variables_metadata <- function(excel_metadata_path) {
 #'
 #' @returns A data frame
 get_codelists_metadata <- function(excel_metadata_path, data_table_df) {
-  source_data_codes <-
+  data_table_codes <-
     data_table_df %>%
     dplyr::select(-any_of(get_figures_variable(excel_metadata_path))) %>%
     tidyr::pivot_longer(cols = everything(),
@@ -109,7 +140,7 @@ get_codelists_metadata <- function(excel_metadata_path, data_table_df) {
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]+)_.*$"
                         ) %>%
-    dplyr::full_join(source_data_codes, by = c("variable", "code", "language")) %>%
+    dplyr::full_join(data_table_codes, by = c("variable", "code", "language")) %>%
     # Add long_name (VARIABLECODE) (change when implementing #139)
     dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
                      by = c("variable", "language")

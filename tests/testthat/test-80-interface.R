@@ -2,7 +2,7 @@ test_that("pxmake can make xlsx to rds, and rds to px",{
   table_name <- "BEXSTA"
 
   metadata <- get_metadata_path(table_name)
-  data_table <- get_source_data_path(table_name)
+  data_table <- get_data_table_path(table_name)
 
   px1 <- temp_px_file()
   px2 <- temp_px_file()
@@ -78,7 +78,7 @@ test_that("Source data variable names are preserved",{
 
   get_data_sheet_variable_names <- function(path) {
     path %>%
-      readxl::read_excel(sheet = "Data") %>%
+      readxl::read_excel(sheet = "Data table") %>%
       names()
   }
 

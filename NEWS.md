@@ -3,6 +3,10 @@
 ## New features
 - Return rds object invisibly from `pxmake` and `metamake`.
 
+## Bug fixes and minor improvements
+- Rename sheet 'Data' to 'Data table' and all internal functions from 
+'source_data' to 'data_table'.
+
 # pxmake 0.7.0
 
 ## New features

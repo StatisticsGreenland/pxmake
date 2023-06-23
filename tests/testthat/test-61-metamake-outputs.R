@@ -2,7 +2,7 @@ test_that("metamake can create rds file", {
   table_name   <- 'BEXSTA'
   px1     <- temp_px_file()
   meta1   <- get_metadata_path(table_name)
-  data1   <- get_source_data_path(table_name)
+  data1   <- get_data_table_path(table_name)
 
   rds_out <- temp_rds_file()
   meta2   <- temp_xlsx_file()

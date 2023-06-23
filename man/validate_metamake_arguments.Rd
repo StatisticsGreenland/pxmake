@@ -16,7 +16,8 @@ option 2).
 }}
 
 \item{out_path}{Path to save metadata at. Use \code{.xlsx} extension to save
-as an Excel workbook. Use \code{.rds} to save as an rds file.}
+as an Excel workbook. Use \code{.rds} to save as an rds file. If NULL, no file is
+saved.}
 
 \item{data_table_path}{Path to save data table as an .rds file. If NULL, the
 data table is saved as the sheet 'Data' in the Excel metadata workbook.}

@@ -4,7 +4,7 @@ test_that("pxmake runs without errors and creates a file", {
 
     pxmake_clean(get_metadata_path(table_name),
                  px_file,
-                 get_source_data_path(table_name)
+                 get_data_table_path(table_name)
                  )
 
     expect_true(file.exists(px_file))

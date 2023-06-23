@@ -3,7 +3,7 @@ error_if_excel_sheet_does_not_exist <- function(sheet_name, excel_path) {
   if (! sheet_name %in% readxl::excel_sheets(excel_path)) {
     stop(stringr::str_glue("The sheet {sheet_name} is missing in: ",
                            "{excel_path}. Add the sheet or provide a ",
-                           "source_data_path."
+                           "data_table_path."
                            )
          )
   }
@@ -100,7 +100,7 @@ validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
     if (is.data.frame(input)) {
       stop("No data table is provided. See ?pxmake.")
     } else if (is_xlsx_file(input)) {
-      error_if_excel_sheet_does_not_exist("Data", input)
+      get_data_sheet_index(input) # Throws error if no data sheet is found
     }
   } else if (!is.data.frame(data_table) & !is_rds_file(data_table)) {
     stop("Argument 'data_table' must be a data frame or a path to an .rds file.")

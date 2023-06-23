@@ -8,7 +8,7 @@ Functions and templates to convert a tidy dataset into a PX file, combining nece
 
 Install the latest release of 'pxmake' by running:
 
-```r
+``` r
 # install.packages('devtools')
 # Latest release
 devtools::install_github('StatisticsGreenland/pxmake/@*release')
@@ -16,7 +16,7 @@ devtools::install_github('StatisticsGreenland/pxmake/@*release')
 
 Install the development version by running:
 
-```r
+``` r
 # install.packages('devtools')
 # Development version
 devtools::install_github('StatisticsGreenland/pxmake')
@@ -27,9 +27,10 @@ devtools::install_github('StatisticsGreenland/pxmake')
 ## How to use
 
 ### Data formats
-`pxmake` and `metamake` can convert between Excel files, `.rds` (data frames), and `.px` files.
 
-```mermaid
+`pxmake` and `metamake` can convert between `.xlsx` files (Excel), `.rds` (data frames), and `.px` files.
+
+``` mermaid
 graph LR
     x -->|pxmake| r
     x -->|pxmake| p
@@ -45,48 +46,69 @@ graph LR
 ;
 ```
 
-The file type that is converted from and to is determined by the file extension in the paths provided to `pxmake` and `metamake`. 
+When `pxmake` convert directly from `.xlsx` to `.px` it gives the same result as first converting from `.xlsx` to `.rds` and then from `.rds` to `.px`. So in the example below `example1.px` and `example2.px` are identical.
 
-When converting directly from `.xlsx` to `.px`, `pxmake` internally first converts to `.rds` and then to `.px`. Therefore
-
-```r
-pxmake(metadata = "example.xlsx", out_path = "example.px")
+``` r
+# From .xlsx to .px
+pxmake(input = "example.xlsx", out_path = "example1.px")
 ```
 
-creates the same px file as
-
-```r
-pxmake(metadata = "example.xlsx", out_path = "example.rds")
-pxmake(metadata = "exmaple.rds",  out_path = "example.px")
+``` r
+# From .xlsx to .rds to .px
+pxmake(input = "example.xlsx", out_path = "example.rds")
+pxmake(input = "exmaple.rds",  out_path = "example2.px")
 ```
 
-It's also possible to make modifications to the `.rds` file before converting it to `.px`. This allows for bulk modifications of multiple `.rds` files, which might be easier than changing individual Excel files.
+This makes it possible to do modifications to the `.rds` file before converting to `.px`. In some cases this can be useful to do bulk modifications on the `.rds` files, rather than manually doing the changes in the `.xlsx` files.
 
-```r
-# Code example isn't finished
-pxmake('table1.xlsx', 'table1.rds')
-pxmake('table2.xlsx', 'table2.rds')
-pxmake('table3.xlsx', 'table3.rds')
+``` r
+# Update contact info in all .xlsx file in directory
+library(pxmake)
+library(tidyverse)
 
-readRDS('table.rds') %>% 
-  mutate(value = ifelse(keyword == "CONTACT" & language == "en",
-                        "new@contact.com",
-                        value
-                        ),
-         ) %>% 
-  saveRDS('table.rds')
+# List all xlsx files in directory
+xlsx_files <- list.files(pattern="*.xlsx")
 
-pxmake('table1.rds', 'table1.px')
-pxmake('table2.rds', 'table2.px')
-pxmake('table3.rds', 'table3.px')
+# Create rds file names by replacing file extension
+rds_files  <- str_replace(xlsx_files, ".xlsx$", ".rds")
+
+# Run pxmake on all xlsx_files
+map2(xlsx_files, rds_files, pxmake)
+
+# Define function to set a new value for a keyword and overwrite the rds file
+update_keyword_value <- function(rds_path, keyword2, new_value) {
+  rds <- readRDS(rds_path)
+  
+  rds$metadata <- 
+    rds$metadata %>%  
+    dplyr::mutate(value = ifelse(keyword == keyword2,
+                                 new_value,
+                                 value
+                                 )
+                  )
+  
+  saveRDS(rds, rds_path)
+}
+
+# Run the update functino on all rds files to set a new email address under CONTACT
+walk(rds_files, function(x) update_keyword_value(x, 
+                                                 keyword2 = 'CONTACT', 
+                                                 new_value = "new@contact.com"
+                                                 )
+     )
 ```
 
-Running `metamake` can convert the files back into Excel metadata workbooks, so they are now updated with the bulk changes.
+After updating, the rds files can be converted to `.px` by running `pxmake` on the new rds files:
 
-```r
-metamake('table1.px', 'table1.xlsx')
-metamake('table2.px', 'table2.xlsx')
-metamake('table3.px', 'table3.xlsx')
+``` r
+px_files <- str_replace(xlsx_files, ".xlsx$", ".px")
+map2(rds_files, px_files, pxmake)
+```
+
+or you can use `metamake` to convert the `.rds` files back to `.xlsx` so the contact information is updated there:
+
+``` r
+map2(rds_files, xlsx_files, metamake)
 ```
 
 ## For developers
@@ -96,18 +118,20 @@ metamake('table3.px', 'table3.xlsx')
 See the [PX-file format specification on Statistics Swedens homepage](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf).
 
 ### PxJob
+
 Some tests cases uses [PxJob](https://www.stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html). Install [pxjob64Win](https://github.com/StatisticsGreenland/pxjob64Win) to be able ro run these tests. This only works on Windows.
 
 ### How to create a new release
-1. Checkout 'main' branch.
-1. Run `usethis::use_version('major'/'minor'/'patch')`. Answer 'No' to the prompt 'Is it ok to commit them?'.
-1. Update NEWS.md with all changes since last release.
-1. Commit changes with message 'Increment version number to X.Y.Z'.
-1. Run `git tag vX.Y.Z`.
-1. Run `git push`.
-1. Run `git push --tags`.
-1. Run `devtools::use_github_release()`.
-1. Review relase description. If sattified, click the 'edit' pen in the upper right corner.
-1. Click 'Publish release'.
-1. Run `usethis::use_version('dev')`. Answer 'Yes' to the prompt 'Is it ok to commit them?'.
-1. Run `git push`.
+
+1.  Checkout 'main' branch.
+2.  Run `usethis::use_version('major'/'minor'/'patch')`. Answer 'No' to the prompt 'Is it ok to commit them?'.
+3.  Update NEWS.md with all changes since last release.
+4.  Commit changes with message 'Increment version number to X.Y.Z'.
+5.  Run `git tag vX.Y.Z`.
+6.  Run `git push`.
+7.  Run `git push --tags`.
+8.  Run `devtools::use_github_release()`.
+9.  Review relase description. If sattified, click the 'edit' pen in the upper right corner.
+10. Click 'Publish release'.
+11. Run `usethis::use_version('dev')`. Answer 'Yes' to the prompt 'Is it ok to commit them?'.
+12. Run `git push`.

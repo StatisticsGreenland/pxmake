@@ -24,7 +24,7 @@ temp_file_with_extension <- function(extension) {
   }
 }
 
-temp_px_file    <- temp_file_with_extension(".px")
+temp_px_file   <- temp_file_with_extension(".px")
 temp_rds_file  <- temp_file_with_extension(".rds")
 temp_xlsx_file <- temp_file_with_extension(".xlsx")
 
@@ -35,7 +35,7 @@ expect_equal_lines <- function(path1, path2) {
   expect_equal(lines1, lines2)
 }
 
-#' Compare rds but don't require same sort order
+#' Compare rds but don't require same sort order for data table
 expect_equal_rds <- function(rds1, rds2) {
   expect_equal(rds1$metadata, rds2$metadata)
 

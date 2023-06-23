@@ -1,9 +1,15 @@
-# pxmake (development version)
+# pxmake 0.7.0
+
+## New features
+- Make `pxmake` and `metamake` read and write to `.rds` files.
 
 ## Bug fixes and minor improvements
+- Validate arguments to `pxmake` and `metamake` and give helpful error messages.
 - Support px-files without LANGUAGES keyword. (#143)
 - Remove dependencies between test and run them in parallel. (#112)
 - Split tests into more files to run them faster in parallel. (#149) 
+- GitHub actions cancels build if a newer commit is pushed.
+- Lots of documentation improvements.
 
 # pxmake 0.6.0
 

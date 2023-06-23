@@ -100,7 +100,7 @@ validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
     if (is.data.frame(input)) {
       stop("No data table is provided. See ?pxmake.")
     } else if (is_xlsx_file(input)) {
-      get_data_sheet_index(input) # Throws error if no data sheet is found
+      error_if_excel_sheet_does_not_exist("Data table", input)
     }
   } else if (!is.data.frame(data_table) & !is_rds_file(data_table)) {
     stop("Argument 'data_table' must be a data frame or a path to an .rds file.")

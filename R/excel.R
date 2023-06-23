@@ -10,41 +10,10 @@ get_excel_sheet <- function(sheet) {
   }
 }
 
-get_table_sheet     <- get_excel_sheet("Table")
-get_variables_sheet <- get_excel_sheet("Variables")
-get_codelists_sheet <- get_excel_sheet("Codelists")
-
-#' Find 'Data table' sheet in Excel workbook
-#'
-#' Returns the index of the 'Data table' sheet. To be backwards compatible any
-#' sheet that starts with 'Data' is accepted.
-#'
-#' @inheritParams get_data_table_sheet
-#'
-#' @returns Numeric
-get_data_sheet_index <- function(excel_path) {
-  sheets <- readxl::excel_sheets(excel_path)
-
-  sheet_index <- stringr::str_which(sheets, "^Data.*")[1]
-
-  if (!is.numeric(sheet_index) | is.na(sheet_index) | length(sheet_index) != 1) {
-    error_if_excel_sheet_does_not_exist("Data table", excel_path)
-  }
-
-  return(sheet_index)
-}
-
-#' Get 'Data table' sheet from Excel workbook
-#'
-#' To be backwards compatible the function returns any sheet starting with
-#' 'Data'.
-#'
-#' @param excel_path Path to an xlsx workbook
-#'
-#' @returns A data frame.
-get_data_table_sheet <- function(excel_path) {
-  readxl::read_xlsx(excel_path, sheet = get_data_sheet_index(excel_path))
-}
+get_table_sheet      <- get_excel_sheet("Table")
+get_variables_sheet  <- get_excel_sheet("Variables")
+get_codelists_sheet  <- get_excel_sheet("Codelists")
+get_data_table_sheet <- get_excel_sheet("Data table")
 
 #' Get all languages in Excel metadata
 #'

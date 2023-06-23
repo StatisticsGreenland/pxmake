@@ -74,8 +74,8 @@ unexpected_error <- function() {
 #'
 #' @returns Nothing
 validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
-  if (!is_rds_file(out_path) & !is_px_file(out_path)) {
-    stop("Argument 'out_path' should be a path to an .rds or .xlsx file.")
+  if (!is_rds_file(out_path) & !is_px_file(out_path) & !is.null(out_path)) {
+    stop("Argument 'out_path' should be a path to an .rds or .px file or NULL.")
   }
 
   if (!is.null(add_totals)) {
@@ -119,8 +119,8 @@ validate_metamake_arguments <- function(input, out_path, data_table_path) {
     stop("Argument 'input' has wrong format. See ?metamake.")
   }
 
-  if (!is_xlsx_file(out_path) & !is_rds_file(out_path)) {
-    stop("Argument 'output' needs to be an .xlsx or .rds file.")
+  if (!is_xlsx_file(out_path) & !is_rds_file(out_path) & !is.null(out_path)) {
+    stop("Argument 'output' needs to be an .xlsx or .rds file or NULL.")
   }
 
   if (!is.null(data_table_path)) {

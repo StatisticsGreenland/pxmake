@@ -56,17 +56,18 @@ get_metdata_df_from_px_lines <- function(metadata_lines) {
 #' 1. A named list with two data frames "metadata" and "data_table" (same as
 #' option 2).
 #' @param out_path Path to save metadata at. Use `.xlsx` extension to save
-#' as an Excel workbook. Use `.rds` to save as an rds file.
+#' as an Excel workbook. Use `.rds` to save as an rds file. If NULL, no file is
+#' saved.
 #' @param data_table_path Path to save data table as an .rds file. If NULL, the
 #' data table is saved as the sheet 'Data' in the Excel metadata workbook.
 #'
-#' @returns Nothing
+#' @returns Returns rds object invisibly.
 #'
 #' @seealso \link{pxmake}
 #'
 #' @export
 metamake <- function(input,
-                     out_path,
+                     out_path = NULL,
                      data_table_path = NULL
                      ) {
   validate_metamake_arguments(input, out_path, data_table_path)
@@ -305,12 +306,12 @@ metamake <- function(input,
       dplyr::bind_cols(figures)
   }
 
+  rds <- list("metadata" = dplyr::select(metadata_df, -main_language),
+              "data_table" = sheet_data
+              )
+
   if (is_rds_file(out_path)) {
-    saveRDS(list("metadata" = dplyr::select(metadata_df, -main_language),
-                 "data_table" = sheet_data
-                 ),
-            out_path
-            )
+    saveRDS(rds, out_path)
   } else if (is_xlsx_file(out_path)) {
     ### Make sheets in workbook
     wb <- openxlsx::createWorkbook()
@@ -334,7 +335,11 @@ metamake <- function(input,
       unexpected_error()
     }
     openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
+  } else if (is.null(out_path)) {
+    # pass
   } else {
     unexpected_error()
   }
+
+  invisible(rds)
 }

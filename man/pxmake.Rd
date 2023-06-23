@@ -4,7 +4,7 @@
 \alias{pxmake}
 \title{Create a px-file from metadata and data table}
 \usage{
-pxmake(input, out_path, data_table = NULL, add_totals = NULL)
+pxmake(input, out_path = NULL, data_table = NULL, add_totals = NULL)
 }
 \arguments{
 \item{input}{Metadata can be provided in one of four ways:
@@ -17,7 +17,8 @@ pxmake(input, out_path, data_table = NULL, add_totals = NULL)
 \link{metamake}.)
 }}
 
-\item{out_path}{Path to save output at. Either as an \code{.rds} or \code{.px} file.}
+\item{out_path}{Path to save output at, either as an \code{.rds} or \code{.px} file.
+If NULL, no file is saved.}
 
 \item{data_table}{Either a data frame, or a path to an \code{.rds} file. If NULL,
 the data table must be provided as part of the \code{metadata} argument, either in
@@ -31,7 +32,7 @@ level is found in 'Codelists'. The total is a sum of the values in the
 variables with \code{type = FIGURES} in 'Variables'. NAs are ignored when summing.}
 }
 \value{
-Nothing
+Returns rds object invisibly.
 }
 \description{
 Create a px-file from metadata and data table

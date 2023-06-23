@@ -6,7 +6,7 @@ test_that("pxmake can take 4 types of input and give the same result", {
 
   table_name <- "BEXSTA"
   xlsx       <- get_metadata_path(table_name)
-  data_table <- get_source_data_path(table_name)
+  data_table <- get_data_table_path(table_name)
 
   # option 1 (see ?pxmake)
   pxmake_clean(xlsx, px1, data_table)
@@ -36,9 +36,9 @@ test_that("pxmake accepts a data frame object", {
 
   px1   <- temp_px_file()
   meta1 <- get_metadata_path(table_name)
-  data1 <- get_source_data_path(table_name)
+  data1 <- get_data_table_path(table_name)
   px2   <- temp_px_file()
-  df    <- readRDS(get_source_data_path(table_name))
+  df    <- readRDS(get_data_table_path(table_name))
 
   pxmake_clean(meta1, px1, data_table = data1)
   pxmake_clean(meta1, px2, data_table = df)

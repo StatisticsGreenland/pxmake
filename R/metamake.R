@@ -288,7 +288,7 @@ metamake <- function(input,
     tibble::deframe()
 
   if (is_rds_list(input)) {
-    sheet_data <-
+    sheet_data_table <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
       dplyr::left_join(input$data_table, by = c(stub_vars, heading_vars))
   } else {
@@ -301,13 +301,13 @@ metamake <- function(input,
       tibble::enframe(name = NULL, value = figures_var) %>%
       dplyr::mutate(across(everything(), ~ suppressWarnings(as.numeric(.x))))
 
-    sheet_data <-
+    sheet_data_table <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
       dplyr::bind_cols(figures)
   }
 
   rds <- list("metadata" = dplyr::select(metadata_df, -main_language),
-              "data_table" = sheet_data
+              "data_table" = sheet_data_table
               )
 
   if (is_rds_file(out_path)) {
@@ -327,10 +327,10 @@ metamake <- function(input,
     add_sheet(sheet_codelist,  "Codelists")
 
     if (is.null(data_table_path)) {
-      error_if_too_many_rows_for_excel(sheet_data)
-      add_sheet(sheet_data, "Data")
+      error_if_too_many_rows_for_excel(sheet_data_table)
+      add_sheet(sheet_data_table, "Data table")
     } else if (tools::file_ext(data_table_path) == "rds") {
-      saveRDS(sheet_data, data_table_path)
+      saveRDS(sheet_data_table, data_table_path)
     } else {
       unexpected_error()
     }

@@ -17,7 +17,8 @@ validate_pxmake_arguments(input, out_path, data_table, add_totals)
 \link{metamake}.)
 }}
 
-\item{out_path}{Path to save output at. Either as an \code{.rds} or \code{.px} file.}
+\item{out_path}{Path to save output at, either as an \code{.rds} or \code{.px} file.
+If NULL, no file is saved.}
 
 \item{data_table}{Either a data frame, or a path to an \code{.rds} file. If NULL,
 the data table must be provided as part of the \code{metadata} argument, either in

@@ -1,4 +1,4 @@
-get_source_data_path <- function(table_name) {
+get_data_table_path <- function(table_name) {
   if (table_name %in% c("FOTEST", "no_timeval_or_codes")) {
     NULL
   } else {
@@ -48,7 +48,7 @@ expect_equal_rds <- function(rds1, rds2) {
 expect_metamake_and_pxmake_cancel_out <- function(table_name) {
   px1   <- temp_px_file()
   meta1 <- get_metadata_path(table_name)
-  data1 <- get_source_data_path(table_name)
+  data1 <- get_data_table_path(table_name)
   px2   <- temp_px_file()
   meta2 <- temp_xlsx_file()
 
@@ -108,7 +108,7 @@ create_px_file <- function(table_name) {
 
   pxmake_clean(get_metadata_path(table_name),
                px_path,
-               get_source_data_path(table_name),
+               get_data_table_path(table_name),
                env = parent.frame(n=1)
                )
 

@@ -4,16 +4,16 @@
 #'
 #' @returns A data frame.
 get_excel_sheet <- function(sheet) {
-  function(path) {
-    error_if_excel_sheet_does_not_exist(sheet, path)
-    readxl::read_xlsx(path, sheet = sheet)
+  function(excel_path) {
+    error_if_excel_sheet_does_not_exist(sheet, excel_path)
+    readxl::read_xlsx(excel_path, sheet = sheet)
   }
 }
 
-get_table_sheet     <- get_excel_sheet("Table")
-get_variables_sheet <- get_excel_sheet("Variables")
-get_codelists_sheet <- get_excel_sheet("Codelists")
-get_data_sheet      <- get_excel_sheet("Data")
+get_table_sheet      <- get_excel_sheet("Table")
+get_variables_sheet  <- get_excel_sheet("Variables")
+get_codelists_sheet  <- get_excel_sheet("Codelists")
+get_data_table_sheet <- get_excel_sheet("Data table")
 
 #' Get all languages in Excel metadata
 #'
@@ -84,7 +84,7 @@ get_variables_metadata <- function(excel_metadata_path) {
 #'
 #' @returns A data frame
 get_codelists_metadata <- function(excel_metadata_path, data_table_df) {
-  source_data_codes <-
+  data_table_codes <-
     data_table_df %>%
     dplyr::select(-any_of(get_figures_variable(excel_metadata_path))) %>%
     tidyr::pivot_longer(cols = everything(),
@@ -109,7 +109,7 @@ get_codelists_metadata <- function(excel_metadata_path, data_table_df) {
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]+)_.*$"
                         ) %>%
-    dplyr::full_join(source_data_codes, by = c("variable", "code", "language")) %>%
+    dplyr::full_join(data_table_codes, by = c("variable", "code", "language")) %>%
     # Add long_name (VARIABLECODE) (change when implementing #139)
     dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
                      by = c("variable", "language")

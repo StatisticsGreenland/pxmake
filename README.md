@@ -59,6 +59,8 @@ pxmake(input = "example.xlsx", out_path = "example.rds")
 pxmake(input = "exmaple.rds",  out_path = "example2.px")
 ```
 
+#### Bulk updates
+
 This makes it possible to do modifications to the `.rds` file before converting to `.px`. In some cases this can be useful to do bulk modifications on the `.rds` files, rather than manually doing the changes in the `.xlsx` files.
 
 ``` r
@@ -76,12 +78,12 @@ rds_files  <- str_replace(xlsx_files, ".xlsx$", ".rds")
 map2(xlsx_files, rds_files, pxmake)
 
 # Define function to set a new value for a keyword and overwrite the rds file
-update_keyword_value <- function(rds_path, keyword2, new_value) {
+update_keyword_value <- function(rds_path, keyword_name, new_value) {
   rds <- readRDS(rds_path)
   
   rds$metadata <- 
     rds$metadata %>%  
-    dplyr::mutate(value = ifelse(keyword == keyword2,
+    dplyr::mutate(value = ifelse(keyword == keyword_name,
                                  new_value,
                                  value
                                  )
@@ -92,7 +94,7 @@ update_keyword_value <- function(rds_path, keyword2, new_value) {
 
 # Run the update functino on all rds files to set a new email address under CONTACT
 walk(rds_files, function(x) update_keyword_value(x, 
-                                                 keyword2 = 'CONTACT', 
+                                                 keyword_name = 'CONTACT', 
                                                  new_value = "new@contact.com"
                                                  )
      )

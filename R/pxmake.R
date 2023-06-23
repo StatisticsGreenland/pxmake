@@ -446,6 +446,30 @@ format_data_as_px_lines <- function(metadata_df, data_table_df) {
   c(metadata_lines, "DATA=", data_lines, ";")
 }
 
+#' Save output form pxmake to out_path
+#'
+#' @inheritParams pxmake
+#' @inheritParams get_data_cube
+#'
+#' @returns rds object
+save_pxmake_output <- function(out_path, metadata_df, data_table_df) {
+  rds <- list("metadata" = metadata_df, "data_table" = data_table_df)
+
+  if (is_rds_file(out_path)) {
+    saveRDS(rds, out_path)
+  } else if (is_px_file(out_path)) {
+    px_lines <- format_data_as_px_lines(metadata_df, data_table_df)
+
+    write_lines_to_file(px_lines, out_path, get_encoding_from_metadata(metadata_df))
+  } else if(is.null(out_path)) {
+    # pass
+  } else {
+    unexpected_error()
+  }
+
+  return(rds)
+}
+
 #' Create a px-file from metadata and data table
 #'
 #' @param input Metadata can be provided in one of four ways:
@@ -455,7 +479,8 @@ format_data_as_px_lines <- function(metadata_df, data_table_df) {
 #' \link{metamake} `.rds` file).
 #' 1. A data frame with metadata (metadata part of `.rds` file by
 #' \link{metamake}.)
-#' @param out_path Path to save output at. Either as an `.rds` or `.px` file.
+#' @param out_path Path to save output at, either as an `.rds` or `.px` file.
+#' If NULL, no file is saved.
 #' @param data_table Either a data frame, or a path to an `.rds` file. If NULL,
 #' the data table must be provided as part of the `metadata` argument, either in
 #' option 1. as the sheet 'Data' in the Excel metadata workbook, or as the
@@ -466,13 +491,13 @@ format_data_as_px_lines <- function(metadata_df, data_table_df) {
 #' level is found in 'Codelists'. The total is a sum of the values in the
 #' variables with `type = FIGURES` in 'Variables'. NAs are ignored when summing.
 #'
-#' @returns Nothing
+#' @returns Returns rds object invisibly.
 #'
 #' @seealso \link{metamake}
 #'
 #' @export
 pxmake <- function(input,
-                   out_path,
+                   out_path = NULL,
                    data_table = NULL,
                    add_totals = NULL) {
 
@@ -481,14 +506,7 @@ pxmake <- function(input,
   data_table_df <- get_data_table_df(input, data_table, add_totals)
   metadata_df   <- get_metadata_df(input, data_table_df)
 
-  if (is_rds_file(out_path)) {
-    rds <- list("metadata" = metadata_df, "data_table" = data_table_df)
-    saveRDS(rds, out_path)
-  } else if (is_px_file(out_path)) {
-    px_lines <- format_data_as_px_lines(metadata_df, data_table_df)
+  rds <- save_pxmake_output(out_path, metadata_df, data_table_df)
 
-    write_lines_to_file(px_lines, out_path, get_encoding_from_metadata(metadata_df))
-  } else {
-    unexpected_error()
-  }
+  invisible(rds)
 }

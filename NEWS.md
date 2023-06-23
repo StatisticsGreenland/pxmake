@@ -1,3 +1,8 @@
+# pxmake (development version)
+
+## New features
+- Return rds object invisibly from `pxmake` and `metamake`.
+
 # pxmake 0.7.0
 
 ## New features

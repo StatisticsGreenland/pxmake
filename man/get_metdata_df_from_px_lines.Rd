@@ -2,16 +2,16 @@
 % Please edit documentation in R/metamake.R
 \name{get_metdata_df_from_px_lines}
 \alias{get_metdata_df_from_px_lines}
-\title{Get metdata df from px lines}
+\title{Get metadata df from px lines}
 \usage{
-get_metdata_df_from_px_lines(px_lines)
+get_metdata_df_from_px_lines(metadata_lines)
 }
 \arguments{
-\item{px_lines}{A character vector with the header of a px file.}
+\item{metadata_lines}{A character vector with the header of a px file.}
 }
 \value{
 A data frame
 }
 \description{
-Get metdata df from px lines
+Get metadata df from px lines
 }

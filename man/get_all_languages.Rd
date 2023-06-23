@@ -2,16 +2,16 @@
 % Please edit documentation in R/excel.R
 \name{get_all_languages}
 \alias{get_all_languages}
-\title{Get all languages in metadata}
+\title{Get all languages in Excel metadata}
 \usage{
 get_all_languages(excel_metadata_path)
 }
 \arguments{
-\item{excel_metadata_path}{Path to Excel workbook with metadata.}
+\item{excel_metadata_path}{Path to xlsx workbook with metadata.}
 }
 \value{
 List
 }
 \description{
-Get all languages in metadata
+Get all languages in Excel metadata
 }

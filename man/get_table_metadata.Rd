@@ -7,7 +7,7 @@
 get_table_metadata(excel_metadata_path)
 }
 \arguments{
-\item{excel_metadata_path}{Path to Excel workbook with metadata.}
+\item{excel_metadata_path}{Path to xlsx workbook with metadata.}
 }
 \value{
 A data frame

@@ -4,12 +4,12 @@
 \alias{format_data_as_px_lines}
 \title{Turn metadata and data cube into px lines}
 \usage{
-format_data_as_px_lines(metadata_df, data_cube)
+format_data_as_px_lines(metadata_df, data_table_df)
 }
 \arguments{
 \item{metadata_df}{Data frame with metadata.}
 
-\item{data_cube}{Data frame}
+\item{data_table_df}{Data frame with data table in tidy format.}
 }
 \value{
 A character vector

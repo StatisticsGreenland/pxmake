@@ -4,17 +4,15 @@
 \alias{get_data_cube}
 \title{Get data cube used in px file format}
 \usage{
-get_data_cube(metadata_df, data_table_df, excel_metadata_path)
+get_data_cube(metadata_df, data_table_df)
 }
 \arguments{
 \item{metadata_df}{Data frame with metadata.}
 
 \item{data_table_df}{Data frame with data table in tidy format.}
-
-\item{excel_metadata_path}{Path to Excel workbook with metadata.}
 }
 \value{
-Data frame
+A data frame
 }
 \description{
 Get data cube used in px file format

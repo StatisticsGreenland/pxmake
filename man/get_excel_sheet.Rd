@@ -4,15 +4,13 @@
 \alias{get_excel_sheet}
 \title{Get specific sheet from Excel workbook}
 \usage{
-get_excel_sheet(path, sheet)
+get_excel_sheet(sheet)
 }
 \arguments{
-\item{path}{Path to Excel workbook (xls/xlsx).}
-
 \item{sheet}{String. Sheet to read.}
 }
 \value{
-A data frame
+A data frame.
 }
 \description{
 Get specific sheet from Excel workbook

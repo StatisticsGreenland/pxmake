@@ -2,20 +2,21 @@
 % Please edit documentation in R/add_totals.R
 \name{add_totals}
 \alias{add_totals}
-\title{Add 'total' level to variables}
+\title{Add 'total' levels to multiple variables}
 \usage{
 add_totals(df, vars, level_names = "Total", sum_var = "value")
 }
 \arguments{
-\item{df}{Data frame}
+\item{df}{Data frame to add total levels to.}
 
-\item{vars}{List of variables to add total levels to}
+\item{vars}{List of variables to add total levels to.}
 
 \item{level_names}{Names of total levels. Should have length 1 or same length
 as \code{vars}.}
 
-\item{sum_var}{String, name of variable to sum over}
+\item{sum_var}{String, name of variable to sum over.}
 }
 \description{
-Add 'total' level to variables
+Wrapper around \link{add_total_level_to_var} to add levels to total level to
+multiple variables.
 }

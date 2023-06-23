@@ -7,12 +7,12 @@
 get_variables_metadata(excel_metadata_path)
 }
 \arguments{
-\item{excel_metadata_path}{Path to Excel workbook with metadata.}
+\item{excel_metadata_path}{Path to xlsx workbook with metadata.}
 }
 \value{
 A data frame
 }
 \description{
-Varaibles contains the name the variable in each language, as well as their
-type, notes, etc.
+Variables contains the name of the variable in each language, as well as
+their type, notes, etc.
 }

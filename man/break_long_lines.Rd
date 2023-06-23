@@ -7,7 +7,7 @@
 break_long_lines(str, max_line_length = 256)
 }
 \arguments{
-\item{str}{Character string}
+\item{str}{String}
 
 \item{max_line_length}{Integer longest allowed line length}
 }

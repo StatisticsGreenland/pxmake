@@ -10,17 +10,23 @@ get_metadata_path <- function(table_name) {
   test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))
 }
 
-get_pxfile_path <- function(table_name) {
-  test_path('px', paste0(table_name, '.px'))
+get_px_file_path <- function(table_name) {
+  test_path('fixtures', 'px', paste0(table_name, '.px'))
 }
 
-get_pxjobfile_path <- function(table_name) {
-  test_path('px', paste0(table_name, '_pxjob.px'))
+get_pxjob_file_path <- function(table_name) {
+  test_path('fixtures', paste0(table_name, '_pxjob.px'))
 }
 
-temp_pxfile <- function() {
-  tempfile(fileext = ".px")
+temp_file_with_extension <- function(extension) {
+  function() {
+    return(tempfile(fileext = extension))
+  }
 }
+
+temp_px_file   <- temp_file_with_extension(".px")
+temp_rds_file  <- temp_file_with_extension(".rds")
+temp_xlsx_file <- temp_file_with_extension(".xlsx")
 
 expect_equal_lines <- function(path1, path2) {
   lines1 <- readLines(path1)
@@ -29,41 +35,65 @@ expect_equal_lines <- function(path1, path2) {
   expect_equal(lines1, lines2)
 }
 
-#' Versions of pxmake, metamke, and pxjob, that deletes the files they have
-#' created
-pxmake_clean <- function(excel_metadata_path,
-                         px_path,
+#' Compare rds but don't require same sort order for data table
+expect_equal_rds <- function(rds1, rds2) {
+  expect_equal(rds1$metadata, rds2$metadata)
+
+  expect_equal(dplyr::arrange_all(rds1$data_table),
+               dplyr::arrange_all(rds2$data_table)
+  )
+}
+
+#' Metamake is the inverse of pxamke
+expect_metamake_and_pxmake_cancel_out <- function(table_name) {
+  px1   <- temp_px_file()
+  meta1 <- get_metadata_path(table_name)
+  data1 <- get_source_data_path(table_name)
+  px2   <- temp_px_file()
+  meta2 <- temp_xlsx_file()
+
+  pxmake_clean(meta1, px1, data1)
+  metamake_clean(px1, meta2)
+  pxmake_clean(meta2, px2)
+
+  expect_equal_lines(px1, px2)
+}
+
+#' Run pxmake and delete created files when environment is killed
+pxmake_clean <- function(input,
+                         out_path,
                          data_table = NULL,
                          add_totals = NULL,
                          env = parent.frame()) {
-  pxmake(excel_metadata_path, px_path, data_table, add_totals)
+  pxmake(input, out_path, data_table, add_totals)
 
   withr::defer(envir = env, {
     Sys.sleep(1)
-    file.remove(px_path)
+    file.remove(out_path)
     }
   )
 }
 
-metamake_clean <- function(px_path,
-                           xlsx_path,
-                           rds_data_path = NULL,
-                           overwrite_xlsx = TRUE,
+#' Run metamake and delete created files when environment is killed
+metamake_clean <- function(input,
+                           out_path,
+                           data_table_path = NULL,
                            env = parent.frame()) {
 
-  metamake(px_path, xlsx_path, rds_data_path, overwrite_xlsx)
+  metamake(input, out_path, data_table_path)
 
   withr::defer(envir = env, {
     Sys.sleep(.1)
-    file.remove(xlsx_path)
+    file.remove(out_path)
 
-    if (! is.null(rds_data_path)) {
-      file.remove(rds_data_path)
+    if (! is.null(data_table_path)) {
+      file.remove(data_table_path)
     }
   }
   )
 }
 
+#' Run pxjob and delete created files when environment is killed
 pxjob_clean <- function(input, output, env = parent.frame()) {
   pxjob64Win::pxjob(input, output)
 
@@ -72,3 +102,15 @@ pxjob_clean <- function(input, output, env = parent.frame()) {
   })
 }
 
+#' Run pxmake for a specific table. Return path to file.
+create_px_file <- function(table_name) {
+  px_path <- temp_px_file()
+
+  pxmake_clean(get_metadata_path(table_name),
+               px_path,
+               get_source_data_path(table_name),
+               env = parent.frame(n=1)
+               )
+
+  return(px_path)
+}

@@ -1,4 +1,4 @@
-#' Regular expression to parse header in pxfile
+#' Regular expression to parse header in px file
 #'
 #' @returns A character vector
 get_px_metadata_regex <- function() {
@@ -18,47 +18,13 @@ get_px_metadata_regex <- function() {
   )
 }
 
-#' Get encoding listed in px file
+#' Get metadata df from px lines
 #'
-#' Encoding is listed in CODEPAGE.
-#'
-#' @inheritParams read_px_file
-#'
-#' @returns Character
-get_encoding_from_px_file <- function(px_path) {
-  encoding <-
-    px_path %>%
-    readLines(warn = FALSE) %>%
-    paste(collapse = '\n') %>%
-    stringr::str_extract('(?<=CODEPAGE=").+(?=";)')
-
-  if (is.na(encoding)) {
-    encoding <- get_default_encoding()
-  }
-
-  return(encoding)
-}
-
-#' Get px file content as lines
-#'
-#' @param px_path Path to a px file
-#'
-#' @returns A character vector
-read_px_file <- function(px_path) {
-  file_connection <- file(px_path, encoding = get_encoding_from_px_file(px_path))
-  lines <- readLines(con = file_connection, warn = FALSE)
-  close(file_connection)
-
-  return(lines)
-}
-
-#' Get metdata df from px lines
-#'
-#' @param px_lines A character vector with the header of a px file.
+#' @param metadata_lines A character vector with the header of a px file.
 #'
 #' @returns A data frame
-get_metdata_df_from_px_lines <- function(px_lines) {
-  px_lines %>%
+get_metdata_df_from_px_lines <- function(metadata_lines) {
+  metadata_lines %>%
     # Remove newlines in file. Use semi-colon as line separator
     paste0(collapse = "") %>%
     stringr::str_split(";") %>%
@@ -66,45 +32,70 @@ get_metdata_df_from_px_lines <- function(px_lines) {
     stringr::str_match(get_px_metadata_regex()) %>%
     magrittr::extract(,-1) %>% # remove full match column
     dplyr::as_tibble() %>%
-    # remove leading and trailing "
-    dplyr::mutate(value = stringr::str_replace_all(value, '^"|"$', '')) %>%
+    # remove leading and trailing " on all keywords except TIMEVAL
+    dplyr::mutate(value = ifelse(keyword != "TIMEVAL",
+                                 stringr::str_replace_all(value, '^"|"$', ''),
+                                 value
+                                 )
+                  ) %>%
     # remove double quotes caused by collapsing values spanning multiple lines
     dplyr::mutate(value = stringr::str_replace_all(value, '""', '')) %>%
-    dplyr::mutate(value = stringr::str_split(value, '","')) %>%
-    dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.)),
-                  main_language = language == get_main_language(.)
-    )
+    dplyr::mutate(value = ifelse(keyword != "TIMEVAL",
+                                 stringr::str_split(value, '","'),
+                                 value
+                                 )
+                  ) %>%
+    dplyr::filter(keyword != "DATA")
 }
 
 #' Create an Excel metadata workbook from a px-file
 #'
-#' Turn a px-file into an Excel metadata workbook. If pxmake() is run on that
-#' workbook it turns back into an equivalent px-file.
-#'
-#' @inheritParams read_px_file
-#' @param xlsx_path Path to save xlsx file at
-#' @param rds_data_path Path to save data cube as rds file. If NULL the data
-#' cube is added in the 'Data' sheet in the Excel metadata workbook.
-#' @param overwrite_xlsx Should existing metadata workbook be overwritten?
+#' @param input Input can be provided in one of three ways:
+#' 1. A path to a `.px` file.
+#' 1. A path to a `.rds` file created by \link{pxmake}.
+#' 1. A named list with two data frames "metadata" and "data_table" (same as
+#' option 2).
+#' @param out_path Path to save metadata at. Use `.xlsx` extension to save
+#' as an Excel workbook. Use `.rds` to save as an rds file.
+#' @param data_table_path Path to save data table as an .rds file. If NULL, the
+#' data table is saved as the sheet 'Data' in the Excel metadata workbook.
 #'
 #' @returns Nothing
 #'
+#' @seealso \link{pxmake}
+#'
 #' @export
-metamake <- function(px_path,
-                     xlsx_path,
-                     rds_data_path = NULL,
-                     overwrite_xlsx = TRUE) {
+metamake <- function(input,
+                     out_path,
+                     data_table_path = NULL
+                     ) {
+  validate_metamake_arguments(input, out_path, data_table_path)
 
-  px_lines <- read_px_file(px_path)
+  if (is_rds_file(input)) {
+    input <- readRDS(input)
+  }
 
-  data_line_index <- stringr::str_which(px_lines, '^DATA=$')
+  if (is_rds_list(input)) {
+    metadata_df <- input$metadata
+  } else if (is_px_file(input)) {
+    px_lines <- read_px_file(input)
 
-  error_if_not_exactly_one_data_line(data_line_index)
+    data_line_index <- stringr::str_which(px_lines, '^DATA=$')
 
-  metadata_lines <- px_lines[c(1:data_line_index)]
-  data_lines     <- px_lines[c((data_line_index+1):length(px_lines))]
+    error_if_not_exactly_one_data_line(data_line_index)
 
-  metadata_df <- get_metdata_df_from_px_lines(metadata_lines)
+    metadata_lines <- px_lines[c(1:data_line_index)]
+    data_lines     <- px_lines[c((data_line_index+1):length(px_lines))]
+
+    metadata_df <- get_metdata_df_from_px_lines(metadata_lines)
+  } else {
+    unexpected_error()
+  }
+
+  metadata_df <-
+    metadata_df %>%
+    dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.))) %>%
+    dplyr::mutate(main_language = language == get_main_language(.))
 
   head_stub <-
     metadata_df %>%
@@ -173,7 +164,6 @@ metamake <- function(px_path,
     dplyr::rename(long_name = variable) %>%
     dplyr::left_join(name_relation, by = c("language", "long_name"))
 
-
   ### Make metadata sheet: 'Variables'
   long_name <-
     name_relation %>%
@@ -217,7 +207,7 @@ metamake <- function(px_path,
     metadata %>%
     dplyr::filter(main_language, keyword %in% c("CODES"),
                   !variable %in% time_variable_df #Time vars are not in codelist
-    ) %>%
+                  ) %>%
     tidyr::unnest(value) %>%
     dplyr::rename(code = value) %>%
     dplyr::group_by(variable) %>%
@@ -267,7 +257,7 @@ metamake <- function(px_path,
                                    paste0(keyword, "_", language),
                                    keyword
                   )
-    ) %>%
+                  ) %>%
     dplyr::select(keyword, value)
 
   ### Make metadata sheet: 'Data'
@@ -296,38 +286,55 @@ metamake <- function(px_path,
     dplyr::select(variable, code) %>%
     tibble::deframe()
 
-  figures <-
-    data_lines %>%
-    stringr::str_replace_all(";", "") %>%
-    stringr::str_split(" ") %>%
-    unlist() %>%
-    stringr::str_subset("^$", negate = TRUE) %>%
-    tibble::enframe(name = NULL, value = figures_var)
-
-  sheet_data <-
-    do.call(tidyr::expand_grid, stub_and_heading_values) %>%
-    dplyr::bind_cols(figures)
-
-  ### Make sheets in workbook
-  wb <- openxlsx::createWorkbook()
-
-  add_sheet <- function(df, sheet_name) {
-    openxlsx::addWorksheet(wb,sheet_name, gridLines = FALSE)
-    openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = 'auto')
-    openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
-  }
-
-  add_sheet(sheet_table,     "Table")
-  add_sheet(sheet_variables, "Variables")
-  add_sheet(sheet_codelist,  "Codelists")
-
-  if (is.null(rds_data_path)) {
-    error_if_too_many_rows_for_excel(sheet_data)
-
-    add_sheet(sheet_data, "Data")
+  if (is_rds_list(input)) {
+    sheet_data <-
+      do.call(tidyr::expand_grid, stub_and_heading_values) %>%
+      dplyr::left_join(input$data_table, by = c(stub_vars, heading_vars))
   } else {
-    saveRDS(sheet_data, rds_data_path)
+    figures <-
+      data_lines %>%
+      stringr::str_replace_all(";", "") %>%
+      stringr::str_split(" ") %>%
+      unlist() %>%
+      stringr::str_subset("^$", negate = TRUE) %>%
+      tibble::enframe(name = NULL, value = figures_var) %>%
+      dplyr::mutate(across(everything(), ~ suppressWarnings(as.numeric(.x))))
+
+    sheet_data <-
+      do.call(tidyr::expand_grid, stub_and_heading_values) %>%
+      dplyr::bind_cols(figures)
   }
 
-  openxlsx::saveWorkbook(wb, xlsx_path, overwrite = overwrite_xlsx)
+  if (is_rds_file(out_path)) {
+    saveRDS(list("metadata" = dplyr::select(metadata_df, -main_language),
+                 "data_table" = sheet_data
+                 ),
+            out_path
+            )
+  } else if (is_xlsx_file(out_path)) {
+    ### Make sheets in workbook
+    wb <- openxlsx::createWorkbook()
+
+    add_sheet <- function(df, sheet_name) {
+      openxlsx::addWorksheet(wb,sheet_name, gridLines = FALSE)
+      openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = 'auto')
+      openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
+    }
+
+    add_sheet(sheet_table,     "Table")
+    add_sheet(sheet_variables, "Variables")
+    add_sheet(sheet_codelist,  "Codelists")
+
+    if (is.null(data_table_path)) {
+      error_if_too_many_rows_for_excel(sheet_data)
+      add_sheet(sheet_data, "Data")
+    } else if (tools::file_ext(data_table_path) == "rds") {
+      saveRDS(sheet_data, data_table_path)
+    } else {
+      unexpected_error()
+    }
+    openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
+  } else {
+    unexpected_error()
+  }
 }

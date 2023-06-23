@@ -1,5 +1,4 @@
 # Helper functions for throwing errors, warnings and notes.
-
 error_if_excel_sheet_does_not_exist <- function(sheet_name, excel_path) {
   if (! sheet_name %in% readxl::excel_sheets(excel_path)) {
     stop(stringr::str_glue("The sheet {sheet_name} is missing in: ",
@@ -56,5 +55,82 @@ error_if_too_many_rows_for_excel <- function(df) {
                           "to store the data in an .rds file instead."
                           )
         )
+  }
+}
+
+unexpected_error <- function() {
+  stop(paste("An unexpected error occurred. Please report the issue on GitHub,",
+             "ideally with a minimal reproducible example.",
+             "https://github.com/StatisticsGreenland/pxmake/issues "
+             )
+       )
+}
+
+#' Check all pxmake arguments
+#'
+#' Throw an error if there are problems with the function arguments.
+#'
+#' @inheritParams pxmake
+#'
+#' @returns Nothing
+validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
+  if (!is_rds_file(out_path) & !is_px_file(out_path)) {
+    stop("Argument 'out_path' should be a path to an .rds or .xlsx file.")
+  }
+
+  if (!is.null(add_totals)) {
+    if (class(add_totals) != "character") {
+      stop("Argument 'add_totals' should be of type 'character'.")
+    }
+
+    if (!is_xlsx_file(input)) {
+      stop("Argument 'add_totals' can only be used when `input` is an .xlsx file.")
+    }
+  }
+
+  if (!is_xlsx_file(input) &
+      !is_rds_file(input) &
+      !is.data.frame(input) &
+      !is_rds_list(input)
+      ) {
+    stop("Argument 'input' has wrong format. See ?pxmake.")
+  }
+
+  if (is.null(data_table)) {
+    if (is.data.frame(input)) {
+      stop("No data table is provided. See ?pxmake.")
+    } else if (is_xlsx_file(input)) {
+      error_if_excel_sheet_does_not_exist("Data", input)
+    }
+  } else if (!is.data.frame(data_table) & !is_rds_file(data_table)) {
+    stop("Argument 'data_table' must be a data frame or a path to an .rds file.")
+  }
+}
+
+#' Check all metamake arguments
+#'
+#' @inherit validate_pxmake_arguments description
+#'
+#' @inheritParams metamake
+#'
+#' @returns Nothing
+validate_metamake_arguments <- function(input, out_path, data_table_path) {
+  if (!is_px_file(input) & !is_rds_file(input) & !is_rds_list(input)) {
+    stop("Argument 'input' has wrong format. See ?metamake.")
+  }
+
+  if (!is_xlsx_file(out_path) & !is_rds_file(out_path)) {
+    stop("Argument 'output' needs to be an .xlsx or .rds file.")
+  }
+
+  if (!is.null(data_table_path)) {
+    if (!is_rds_file(data_table_path)) {
+      stop("Argument 'data_table_path' should be an .rds file.")
+    }
+
+    if (!is_xlsx_file(out_path)) {
+      stop("Argument 'data_table_path' can only be used when 'input' is an
+           .xlsx file.")
+    }
   }
 }

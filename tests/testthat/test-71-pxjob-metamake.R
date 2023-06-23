@@ -5,7 +5,7 @@ test_that("px file and pxmake(metamake(px file)) are equivalent", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   run_metamake_pxmake_pxjob_and_compare <- function(table_name) {
-    px1    <- get_px_filepath(table_name)
+    px1    <- get_px_file_path(table_name)
     px2    <- temp_px_file() # pxjob requires the .px extension
     meta1  <- temp_xlsx_file()
     pxjob1 <- temp_px_file()

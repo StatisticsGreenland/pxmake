@@ -147,7 +147,7 @@ test_that("File extensions work", {
 
 test_that("file encoding is correct", {
   get_file_encoding_for_table <- function(table_name) {
-    get_encoding_from_px_file(get_px_filepath(table_name))
+    get_encoding_from_px_file(get_px_file_path(table_name))
   }
 
   expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')

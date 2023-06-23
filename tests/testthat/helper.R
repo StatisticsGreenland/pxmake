@@ -10,12 +10,12 @@ get_metadata_path <- function(table_name) {
   test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))
 }
 
-get_px_filepath <- function(table_name) {
-  test_path('px', paste0(table_name, '.px'))
+get_px_file_path <- function(table_name) {
+  test_path('fixtures', 'px', paste0(table_name, '.px'))
 }
 
-get_pxjobfile_path <- function(table_name) {
-  test_path('px', paste0(table_name, '_pxjob.px'))
+get_pxjob_file_path <- function(table_name) {
+  test_path('fixtures', paste0(table_name, '_pxjob.px'))
 }
 
 temp_file_with_extension <- function(extension) {

@@ -20,7 +20,7 @@ test_that("pxmake can make xlsx to rds, and rds to px",{
 })
 
 test_that('metmake can make px to rds, and rds to xlsx', {
-  px0   <- get_px_filepath('BEXSTA_windows_1252')
+  px0   <- get_px_file_path('BEXSTA_windows_1252')
   px1   <- temp_px_file()
   px2   <- temp_px_file()
   rds   <- temp_rds_file()

@@ -1,4 +1,4 @@
-test_that("Error if no 'Data' sheet exists when no data table is provided", {
+test_that("Error if no 'Data' sheet exists when no data argument is provided", {
   expect_error(pxmake_clean(get_metadata_path("BEXSTA"),
                             out_path = temp_px_file()
                             ),

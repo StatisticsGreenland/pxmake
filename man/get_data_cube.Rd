@@ -4,12 +4,12 @@
 \alias{get_data_cube}
 \title{Get data cube used in px file format}
 \usage{
-get_data_cube(metadata_df, data_table_df)
+get_data_cube(metadata_df, data_df)
 }
 \arguments{
 \item{metadata_df}{Data frame with metadata.}
 
-\item{data_table_df}{Data frame with data table in tidy format.}
+\item{data_df}{Data frame with data in tidy format.}
 }
 \value{
 A data frame

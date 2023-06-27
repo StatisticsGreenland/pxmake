@@ -4,12 +4,12 @@
 \alias{get_metadata_df_from_excel}
 \title{Get a data frame with metadata}
 \usage{
-get_metadata_df_from_excel(excel_metadata_path, data_table_df)
+get_metadata_df_from_excel(excel_metadata_path, data_df)
 }
 \arguments{
 \item{excel_metadata_path}{Path to xlsx workbook with metadata.}
 
-\item{data_table_df}{Data frame with data table in tidy format.}
+\item{data_df}{Data frame with data in tidy format.}
 }
 \value{
 A data frame

@@ -157,7 +157,7 @@ test_that("file encoding is correct", {
   px_file <- temp_px_file()
   pxmake_clean(get_metadata_path("BEXSTA"),
                px_file,
-               get_data_table_path("BEXSTA")
+               get_data_path("BEXSTA")
   )
   expect_equal(get_encoding_from_px_file(px_file),  'utf-8')
 })

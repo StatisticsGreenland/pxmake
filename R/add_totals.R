@@ -51,7 +51,7 @@ add_totals <- function(df,
   return(df)
 }
 
-#' Add totals to data table
+#' Add totals
 #'
 #' Wrapper around \link{add_totals} to get the parameters needed to run the
 #' function from metadata. Add totals can only be run if Excel metadata is used
@@ -59,15 +59,13 @@ add_totals <- function(df,
 #'
 #' @inheritParams get_metadata_df_from_excel
 #' @inheritParams pxmake
-add_totals_to_data_table_df <- function(excel_metadata_path,
-                                        data_table_df,
-                                        add_totals) {
+add_totals_to_data_df <- function(excel_metadata_path, data_df, add_totals) {
   variables <-
     get_variables_metadata(excel_metadata_path) %>%
     dplyr::select(variable, language, elimination)
 
   codelist <-
-    get_codelists_metadata(excel_metadata_path, data_table_df) %>%
+    get_codelists_metadata(excel_metadata_path, data_df) %>%
     dplyr::select(variable, code, value)
 
   params <-
@@ -79,7 +77,7 @@ add_totals_to_data_table_df <- function(excel_metadata_path,
     dplyr::filter(variable %in% add_totals) %>%
     dplyr::distinct(variable, code)
 
-  add_totals(data_table_df,
+  add_totals(data_df,
              vars = params$variable,
              level_names = params$code,
              sum_var = get_figures_variable(excel_metadata_path)

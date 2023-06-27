@@ -13,6 +13,6 @@ get_table_metadata(excel_metadata_path)
 A data frame
 }
 \description{
-General contains metadata about the entire data table, e.g. its name, subject
-area, contact person, etc.
+General contains metadata relevant for the entire data set, e.g. its name,
+subject, area, contact person, etc.
 }

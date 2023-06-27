@@ -1,9 +1,9 @@
 # Helper functions for throwing errors, warnings and notes.
 error_if_excel_sheet_does_not_exist <- function(sheet_name, excel_path) {
   if (! sheet_name %in% readxl::excel_sheets(excel_path)) {
-    stop(stringr::str_glue("The sheet {sheet_name} is missing in: ",
-                           "{excel_path}. Add the sheet or provide a ",
-                           "data_table_path."
+    stop(stringr::str_glue("The sheet '{sheet_name}' is missing in: ",
+                           "{excel_path}.\nAdd the sheet or use the argument ",
+                           "'data_path ='."
                            )
          )
   }
@@ -73,7 +73,7 @@ unexpected_error <- function() {
 #' @inheritParams pxmake
 #'
 #' @returns Nothing
-validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
+validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
   if (!is_rds_file(out_path) & !is_px_file(out_path) & !is.null(out_path)) {
     stop("Argument 'out_path' should be a path to an .rds or .px file or NULL.")
   }
@@ -96,14 +96,14 @@ validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
     stop("Argument 'input' has wrong format. See ?pxmake.")
   }
 
-  if (is.null(data_table)) {
+  if (is.null(data)) {
     if (is.data.frame(input)) {
-      stop("No data table is provided. See ?pxmake.")
+      stop("No data is provided. See ?pxmake.")
     } else if (is_xlsx_file(input)) {
-      error_if_excel_sheet_does_not_exist("Data table", input)
+      error_if_excel_sheet_does_not_exist("Data", input)
     }
-  } else if (!is.data.frame(data_table) & !is_rds_file(data_table)) {
-    stop("Argument 'data_table' must be a data frame or a path to an .rds file.")
+  } else if (!is.data.frame(data) & !is_rds_file(data)) {
+    stop("Argument 'data' must be a data frame or a path to an .rds file.")
   }
 }
 
@@ -114,7 +114,7 @@ validate_pxmake_arguments <- function(input, out_path, data_table, add_totals) {
 #' @inheritParams metamake
 #'
 #' @returns Nothing
-validate_metamake_arguments <- function(input, out_path, data_table_path) {
+validate_metamake_arguments <- function(input, out_path, data_path) {
   if (!is_px_file(input) & !is_rds_file(input) & !is_rds_list(input)) {
     stop("Argument 'input' has wrong format. See ?metamake.")
   }
@@ -123,14 +123,13 @@ validate_metamake_arguments <- function(input, out_path, data_table_path) {
     stop("Argument 'output' needs to be an .xlsx or .rds file or NULL.")
   }
 
-  if (!is.null(data_table_path)) {
-    if (!is_rds_file(data_table_path)) {
-      stop("Argument 'data_table_path' should be an .rds file.")
+  if (!is.null(data_path)) {
+    if (!is_rds_file(data_path)) {
+      stop("Argument 'data_path' should be an .rds file.")
     }
 
     if (!is_xlsx_file(out_path)) {
-      stop("Argument 'data_table_path' can only be used when 'input' is an
-           .xlsx file.")
+      stop("Argument 'data_path' can only be used when 'input' is an .xlsx file.")
     }
   }
 }

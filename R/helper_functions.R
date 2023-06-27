@@ -269,11 +269,11 @@ is_rds_list <- function(lst) {
     return(FALSE)
   }
 
-  if (!identical(sort(names(lst)), c("data_table", "metadata"))) {
+  if (!identical(sort(names(lst)), c("data", "metadata"))) {
     return(FALSE)
   }
 
-  if (!is.data.frame(lst$metadata) | !is.data.frame(lst$data_table)) {
+  if (!is.data.frame(lst$metadata) | !is.data.frame(lst$data)) {
     return(FALSE)
   }
 

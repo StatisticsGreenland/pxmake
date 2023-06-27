@@ -1,8 +1,7 @@
 # pxmake (development version)
 
 ## Breaking changes
-- Rename sheet 'Data' to 'Data table' and all internal functions from 
-'source_data' to 'data_table'.
+- Rename all internal functions from 'source_data' to 'data'.
 
 ## New features
 - Return rds object invisibly from `pxmake` and `metamake`.

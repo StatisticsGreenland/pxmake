@@ -10,10 +10,10 @@ get_excel_sheet <- function(sheet) {
   }
 }
 
-get_table_sheet      <- get_excel_sheet("Table")
-get_variables_sheet  <- get_excel_sheet("Variables")
-get_codelists_sheet  <- get_excel_sheet("Codelists")
-get_data_table_sheet <- get_excel_sheet("Data table")
+get_table_sheet     <- get_excel_sheet("Table")
+get_variables_sheet <- get_excel_sheet("Variables")
+get_codelists_sheet <- get_excel_sheet("Codelists")
+get_data_sheet      <- get_excel_sheet("Data")
 
 #' Get all languages in Excel metadata
 #'
@@ -31,8 +31,8 @@ get_all_languages <- function(excel_metadata_path) {
 
 #' Get general table metadata
 #'
-#' General contains metadata about the entire data table, e.g. its name, subject
-#' area, contact person, etc.
+#' General contains metadata relevant for the entire data set, e.g. its name,
+#' subject, area, contact person, etc.
 #'
 #' @inheritParams get_metadata_df_from_excel
 #'
@@ -77,15 +77,15 @@ get_variables_metadata <- function(excel_metadata_path) {
 #' Get codelists metadata
 #'
 #' Codelists contains the translation between the codes that are used in the
-#' data table and the labels used for each language. It also contains
-#' information about sort order and numeric precision for each value.
+#' data and the labels used for each language. It also contains information
+#' about sort order and numeric precision for each value.
 #'
 #' @inheritParams get_metadata_df_from_excel
 #'
 #' @returns A data frame
-get_codelists_metadata <- function(excel_metadata_path, data_table_df) {
-  data_table_codes <-
-    data_table_df %>%
+get_codelists_metadata <- function(excel_metadata_path, data_df) {
+  data_codes <-
+    data_df %>%
     dplyr::select(-any_of(get_figures_variable(excel_metadata_path))) %>%
     tidyr::pivot_longer(cols = everything(),
                         names_to = "variable",
@@ -109,7 +109,7 @@ get_codelists_metadata <- function(excel_metadata_path, data_table_df) {
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]+)_.*$"
                         ) %>%
-    dplyr::full_join(data_table_codes, by = c("variable", "code", "language")) %>%
+    dplyr::full_join(data_codes, by = c("variable", "code", "language")) %>%
     # Add long_name (VARIABLECODE) (change when implementing #139)
     dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
                      by = c("variable", "language")

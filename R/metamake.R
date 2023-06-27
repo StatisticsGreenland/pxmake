@@ -53,24 +53,20 @@ get_metdata_df_from_px_lines <- function(metadata_lines) {
 #' @param input Input can be provided in one of three ways:
 #' 1. A path to a `.px` file.
 #' 1. A path to a `.rds` file created by \link{pxmake}.
-#' 1. A named list with two data frames "metadata" and "data_table" (same as
-#' option 2).
+#' 1. A named list with two data frames "metadata" and "data" (same as option 2).
 #' @param out_path Path to save metadata at. Use `.xlsx` extension to save
 #' as an Excel workbook. Use `.rds` to save as an rds file. If NULL, no file is
 #' saved.
-#' @param data_table_path Path to save data table as an .rds file. If NULL, the
-#' data table is saved as the sheet 'Data' in the Excel metadata workbook.
+#' @param data_path Path to save data as an .rds file. If NULL, the data is
+#' saved as the sheet 'Data' in the Excel metadata workbook.
 #'
 #' @returns Returns rds object invisibly.
 #'
 #' @seealso \link{pxmake}
 #'
 #' @export
-metamake <- function(input,
-                     out_path = NULL,
-                     data_table_path = NULL
-                     ) {
-  validate_metamake_arguments(input, out_path, data_table_path)
+metamake <- function(input, out_path = NULL, data_path = NULL) {
+  validate_metamake_arguments(input, out_path, data_path)
 
   if (is_rds_file(input)) {
     input <- readRDS(input)
@@ -288,9 +284,9 @@ metamake <- function(input,
     tibble::deframe()
 
   if (is_rds_list(input)) {
-    sheet_data_table <-
+    sheet_data <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
-      dplyr::left_join(input$data_table, by = c(stub_vars, heading_vars))
+      dplyr::left_join(input$data, by = c(stub_vars, heading_vars))
   } else {
     figures <-
       data_lines %>%
@@ -301,13 +297,13 @@ metamake <- function(input,
       tibble::enframe(name = NULL, value = figures_var) %>%
       dplyr::mutate(across(everything(), ~ suppressWarnings(as.numeric(.x))))
 
-    sheet_data_table <-
+    sheet_data <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
       dplyr::bind_cols(figures)
   }
 
   rds <- list("metadata" = dplyr::select(metadata_df, -main_language),
-              "data_table" = sheet_data_table
+              "data" = sheet_data
               )
 
   if (is_rds_file(out_path)) {
@@ -326,11 +322,11 @@ metamake <- function(input,
     add_sheet(sheet_variables, "Variables")
     add_sheet(sheet_codelist,  "Codelists")
 
-    if (is.null(data_table_path)) {
-      error_if_too_many_rows_for_excel(sheet_data_table)
-      add_sheet(sheet_data_table, "Data table")
-    } else if (tools::file_ext(data_table_path) == "rds") {
-      saveRDS(sheet_data_table, data_table_path)
+    if (is.null(data_path)) {
+      error_if_too_many_rows_for_excel(sheet_data)
+      add_sheet(sheet_data, "Data")
+    } else if (tools::file_ext(data_path) == "rds") {
+      saveRDS(sheet_data, data_path)
     } else {
       unexpected_error()
     }

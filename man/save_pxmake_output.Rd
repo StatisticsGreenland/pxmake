@@ -4,7 +4,7 @@
 \alias{save_pxmake_output}
 \title{Save output form pxmake to out_path}
 \usage{
-save_pxmake_output(out_path, metadata_df, data_table_df)
+save_pxmake_output(out_path, metadata_df, data_df)
 }
 \arguments{
 \item{out_path}{Path to save output at, either as an \code{.rds} or \code{.px} file.
@@ -12,7 +12,7 @@ If NULL, no file is saved.}
 
 \item{metadata_df}{Data frame with metadata.}
 
-\item{data_table_df}{Data frame with data table in tidy format.}
+\item{data_df}{Data frame with data in tidy format.}
 }
 \value{
 rds object

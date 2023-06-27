@@ -4,23 +4,23 @@
 \alias{get_figures_variable}
 \title{Get the name of figures variable}
 \usage{
-get_figures_variable(input, data_table)
+get_figures_variable(input, data)
 }
 \arguments{
 \item{input}{Metadata can be provided in one of four ways:
 \enumerate{
 \item A path to an \code{.xlsx} metadata file.
 \item A path to an \code{.rds} file created by \link{metamake}.
-\item A named list with two data frames "metadata" and "data table" (like
+\item A named list with two data frames "metadata" and "data" (like
 \link{metamake} \code{.rds} file).
 \item A data frame with metadata (metadata part of \code{.rds} file by
 \link{metamake}.)
 }}
 
-\item{data_table}{Either a data frame, or a path to an \code{.rds} file. If NULL,
-the data table must be provided as part of the \code{metadata} argument, either in
+\item{data}{Either a data frame, or a path to an \code{.rds} file. If NULL,
+the data must be provided as part of the \code{metadata} argument, either in
 option 1. as the sheet 'Data' in the Excel metadata workbook, or as the
-"data_table" in option 2 or 3.}
+"data" in option 2 or 3.}
 }
 \value{
 Character

@@ -1,19 +1,19 @@
 test_that("pxmake can make xlsx to rds, and rds to px",{
   table_name <- "BEXSTA"
 
-  metadata <- get_metadata_path(table_name)
-  data_table <- get_data_table_path(table_name)
+  metadata  <- get_metadata_path(table_name)
+  data_path <- get_data_path(table_name)
 
   px1 <- temp_px_file()
   px2 <- temp_px_file()
   rds <- temp_rds_file()
 
   # xlsx to rds to px
-  pxmake_clean(metadata, rds, data_table)
+  pxmake_clean(metadata, rds, data_path)
   pxmake_clean(rds, px1)
 
   # xlsx direct to px
-  pxmake_clean(metadata, px2, data_table)
+  pxmake_clean(metadata, px2, data_path)
 
   expect_equal_lines(px1, px2)
   expect_true(TRUE) # otherwise test is skipped
@@ -78,7 +78,7 @@ test_that("Source data variable names are preserved",{
 
   get_data_sheet_variable_names <- function(path) {
     path %>%
-      readxl::read_excel(sheet = "Data table") %>%
+      readxl::read_excel(sheet = "Data") %>%
       names()
   }
 

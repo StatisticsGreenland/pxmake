@@ -21,15 +21,15 @@ test_that("Total is added to one variable", {
 
 
 test_that("Totals are added to two variables", {
-  read_data_table <- function(table_name) {
+  read_data <- function(table_name) {
     table_name %>%
-      get_data_table_path() %>%
+      get_data_path() %>%
       readRDS %>%
       dplyr::as_tibble()
   }
 
-  bexsta <- read_data_table("BEXSTA")
-  bexsta_without_totals <- read_data_table("BEXSTA_WITHOUT_TOTALS")
+  bexsta <- read_data("BEXSTA")
+  bexsta_without_totals <- read_data("BEXSTA_WITHOUT_TOTALS")
 
   output <-
     add_totals(df = bexsta_without_totals,
@@ -65,12 +65,12 @@ test_that("pxmake adds total levels to data without them", {
 
   pxmake_clean(metadata_path,
                px1,
-               get_data_table_path("BEXSTA")
+               get_data_path("BEXSTA")
                )
 
   pxmake_clean(metadata_path,
                px2,
-               get_data_table_path("BEXSTA_WITHOUT_TOTALS"),
+               get_data_path("BEXSTA_WITHOUT_TOTALS"),
                add_totals = c("place of birth", "gender")
                )
 

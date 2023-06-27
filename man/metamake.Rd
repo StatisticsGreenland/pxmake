@@ -4,23 +4,22 @@
 \alias{metamake}
 \title{Create an Excel metadata workbook from a px-file}
 \usage{
-metamake(input, out_path = NULL, data_table_path = NULL)
+metamake(input, out_path = NULL, data_path = NULL)
 }
 \arguments{
 \item{input}{Input can be provided in one of three ways:
 \enumerate{
 \item A path to a \code{.px} file.
 \item A path to a \code{.rds} file created by \link{pxmake}.
-\item A named list with two data frames "metadata" and "data_table" (same as
-option 2).
+\item A named list with two data frames "metadata" and "data" (same as option 2).
 }}
 
 \item{out_path}{Path to save metadata at. Use \code{.xlsx} extension to save
 as an Excel workbook. Use \code{.rds} to save as an rds file. If NULL, no file is
 saved.}
 
-\item{data_table_path}{Path to save data table as an .rds file. If NULL, the
-data table is saved as the sheet 'Data' in the Excel metadata workbook.}
+\item{data_path}{Path to save data as an .rds file. If NULL, the data is
+saved as the sheet 'Data' in the Excel metadata workbook.}
 }
 \value{
 Returns rds object invisibly.

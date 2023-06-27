@@ -1,4 +1,4 @@
-get_data_table_path <- function(table_name) {
+get_data_path <- function(table_name) {
   if (table_name %in% c("FOTEST", "no_timeval_or_codes")) {
     NULL
   } else {
@@ -35,12 +35,12 @@ expect_equal_lines <- function(path1, path2) {
   expect_equal(lines1, lines2)
 }
 
-#' Compare rds but don't require same sort order for data table
+#' Compare rds but don't require same sort order for data
 expect_equal_rds <- function(rds1, rds2) {
   expect_equal(rds1$metadata, rds2$metadata)
 
-  expect_equal(dplyr::arrange_all(rds1$data_table),
-               dplyr::arrange_all(rds2$data_table)
+  expect_equal(dplyr::arrange_all(rds1$data),
+               dplyr::arrange_all(rds2$data)
   )
 }
 
@@ -48,7 +48,7 @@ expect_equal_rds <- function(rds1, rds2) {
 expect_metamake_and_pxmake_cancel_out <- function(table_name) {
   px1   <- temp_px_file()
   meta1 <- get_metadata_path(table_name)
-  data1 <- get_data_table_path(table_name)
+  data1 <- get_data_path(table_name)
   px2   <- temp_px_file()
   meta2 <- temp_xlsx_file()
 
@@ -62,10 +62,10 @@ expect_metamake_and_pxmake_cancel_out <- function(table_name) {
 #' Run pxmake and delete created files when environment is killed
 pxmake_clean <- function(input,
                          out_path,
-                         data_table = NULL,
+                         data = NULL,
                          add_totals = NULL,
                          env = parent.frame()) {
-  pxmake(input, out_path, data_table, add_totals)
+  pxmake(input, out_path, data, add_totals)
 
   withr::defer(envir = env, {
     Sys.sleep(1)
@@ -77,17 +77,17 @@ pxmake_clean <- function(input,
 #' Run metamake and delete created files when environment is killed
 metamake_clean <- function(input,
                            out_path,
-                           data_table_path = NULL,
+                           data_path = NULL,
                            env = parent.frame()) {
 
-  metamake(input, out_path, data_table_path)
+  metamake(input, out_path, data_path)
 
   withr::defer(envir = env, {
     Sys.sleep(.1)
     file.remove(out_path)
 
-    if (! is.null(data_table_path)) {
-      file.remove(data_table_path)
+    if (! is.null(data_path)) {
+      file.remove(data_path)
     }
   }
   )
@@ -108,7 +108,7 @@ create_px_file <- function(table_name) {
 
   pxmake_clean(get_metadata_path(table_name),
                px_path,
-               get_data_table_path(table_name),
+               get_data_path(table_name),
                env = parent.frame(n=1)
                )
 

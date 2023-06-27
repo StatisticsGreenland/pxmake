@@ -4,18 +4,18 @@
 \alias{get_codelists_metadata}
 \title{Get codelists metadata}
 \usage{
-get_codelists_metadata(excel_metadata_path, data_table_df)
+get_codelists_metadata(excel_metadata_path, data_df)
 }
 \arguments{
 \item{excel_metadata_path}{Path to xlsx workbook with metadata.}
 
-\item{data_table_df}{Data frame with data table in tidy format.}
+\item{data_df}{Data frame with data in tidy format.}
 }
 \value{
 A data frame
 }
 \description{
 Codelists contains the translation between the codes that are used in the
-data table and the labels used for each language. It also contains
-information about sort order and numeric precision for each value.
+data and the labels used for each language. It also contains information
+about sort order and numeric precision for each value.
 }

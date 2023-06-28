@@ -18,7 +18,7 @@ bexsta <-
   as.data.frame(column.name.type = "code",
                 variable.value.type = "code"
                 ) %>%
-  rename(value = last_col()) %>%
+  rename(persons = last_col()) %>%
   arrange_all()
 
 write_rds(bexsta, test_path('fixtures', 'data', 'BEXSTA.rds'))

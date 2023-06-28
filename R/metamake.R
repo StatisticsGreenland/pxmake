@@ -104,27 +104,30 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     dplyr::ungroup() %>%
     dplyr::select(keyword, language, main_language, long_name, index)
 
-  # Use VARIABLECODE if it exists
-  variablecode <-
-    metadata_df %>%
-    dplyr::filter(keyword == "VARIABLECODE", main_language) %>%
-    tidyr::unnest(value) %>%
-    dplyr::select(variable = value,
-                  long_name = variable
-                  )
+  head_stub_main_langage <-
+    dplyr::filter(head_stub, main_language) %>%
+    dplyr::rename(main_language_long_name = long_name) %>%
+    dplyr::select(keyword, index, main_language_long_name)
 
   variable_and_long_name <-
-    head_stub %>% ## add figures variable
-    dplyr::filter(main_language) %>%
-    dplyr::select(-language, -main_language) %>%
-    dplyr::full_join(variablecode, by = "long_name") %>%
-    # Use long_name in main langauge as VARIABLECODE if it's missing
-    dplyr::mutate(variable = ifelse(is.na(variable), long_name, variable)) %>%
-    dplyr::select(-long_name) %>%
+    metadata_df %>%
+    dplyr::filter(keyword == "VARIABLECODE") %>%
+    tidyr::unnest(value) %>%
+    dplyr::select(variable = value,
+                  long_name = variable,
+                  language,
+                  main_language
+                  ) %>%
     dplyr::full_join(head_stub,
-                     by = c("keyword", "index"),
-                     multiple = "all"
-                     )
+                     by = c("long_name", "language", "main_language")) %>%
+    # Use long_name in main langauge as VARIABLECODE if it's missing
+    dplyr::left_join(head_stub_main_langage, by = c("keyword", "index")) %>%
+    dplyr::mutate(variable = ifelse(is.na(variable),
+                                    main_language_long_name,
+                                    variable
+                                    )
+                  ) %>%
+    dplyr::select(-main_language_long_name)
 
   heading_vars <-
     variable_and_long_name %>%
@@ -193,11 +196,10 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
 
   sheet_variables <-
     position %>%
-    dplyr::left_join(time_variable_df, by = "variable") %>%
+    dplyr::left_join(time_variable_df, by = c("variable")) %>%
+    dplyr::bind_rows(data.frame(variable = figures_var, type = "FIGURES")) %>%
     dplyr::left_join(long_name, by = "variable") %>%
-    dplyr::left_join(note_elimination_domain, by = "variable") %>%
-    dplyr::bind_rows(data.frame(variable = figures_var, type = "figures"))
-
+    dplyr::left_join(note_elimination_domain, by = "variable")
 
   ### Make metadata sheet: 'Codelists'
   codes <-

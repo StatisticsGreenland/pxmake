@@ -22,17 +22,50 @@ get_figures_variable <- function(input, data) {
         dplyr::pull(variable)
   } else if (is_rds_list(input)) {
     # simplify when implementing #132
-    unexpected_error()
-    # non_figure_variables <-
-    #   input$metadata %>%
-    #   dplyr::filter(keyword %in% c("HEADING", "STUB")) %>%
-    #   tidyr::unnest(value)  %>%
-    #   dplyr::distinct(value) %>%
-    #   dplyr::pull(value)
-    #
-    # data_variables <- names(input$data)
-    #
-    # figures_var <- setdiff(data_variables, non_figure_variables)
+    metadata_df <-
+      input$metadata %>%
+      dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.))) %>%
+      dplyr::mutate(main_language = language == get_main_language(.))
+
+    head_stub <-
+      metadata_df %>%
+      dplyr::filter(keyword %in% c("HEADING", "STUB")) %>%
+      tidyr::unnest(value) %>%
+      dplyr::rename(long_name = value) %>%
+      dplyr::group_by(keyword, language) %>%
+      dplyr::mutate(index = dplyr::row_number()) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(keyword, language, main_language, long_name, index)
+
+    head_stub_main_langage <-
+      dplyr::filter(head_stub, main_language) %>%
+      dplyr::rename(main_language_long_name = long_name) %>%
+      dplyr::select(keyword, index, main_language_long_name)
+
+    non_figure_variables <-
+      metadata_df %>%
+      dplyr::filter(keyword == "VARIABLECODE") %>%
+      tidyr::unnest(value) %>%
+      dplyr::select(variable = value,
+                    long_name = variable,
+                    language,
+                    main_language
+                    ) %>%
+      dplyr::full_join(head_stub,
+                       by = c("long_name", "language", "main_language")) %>%
+      # Use long_name in main langauge as VARIABLECODE if it's missing
+      dplyr::left_join(head_stub_main_langage, by = c("keyword", "index")) %>%
+      dplyr::mutate(variable = ifelse(is.na(variable),
+                                      main_language_long_name,
+                                      variable)
+                    ) %>%
+      dplyr::select(-main_language_long_name) %>%
+      dplyr::filter(!is.na(keyword)) %>%
+      dplyr::pull(variable)
+
+    data_variables <- names(input$data)
+
+    figures_var <- setdiff(data_variables, non_figure_variables)
   } else {
     unexpected_error()
   }
@@ -180,14 +213,6 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
                         names_to = "keyword"
                         )
 
-  #contvariable <-
-    # variables_long %>%
-    # dplyr::filter(toupper(type) == "FIGURES") %>%
-    # dplyr::distinct(keyword = "CONTVARIABLE",
-    #                 language = NA,
-    #                 variable
-    #                 )
-
   note_etc <-
     variables_long %>%
     tidyr::drop_na(value) %>%
@@ -196,13 +221,8 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
     dplyr::select(keyword, variable = long_name, language, value) %>%
     dplyr::arrange_all()
 
-  variables_long_distinct <-
-    variables_long %>%
-    tidyr::drop_na(position) %>%
-    dplyr::distinct(position, variable, language, long_name)
-
   variablecode <-
-    variables_long_distinct %>%
+    variables_long %>%
     dplyr::distinct(keyword = "VARIABLECODE",
                     value = variable,
                     variable = long_name,
@@ -212,7 +232,9 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
 
   # Simplify when #124 is implemented.
   head_stub <-
-    variables_long_distinct %>%
+    variables_long %>%
+    tidyr::drop_na(position) %>%
+    dplyr::distinct(position, variable, language, long_name) %>%
     # Simplify when #124 is implemented.
     dplyr::mutate(type     = substr(position, 1, 1) %>% tolower(),
                   order    = substr(position, 2, nchar(position)),
@@ -335,9 +357,7 @@ get_data_cube <- function(metadata_df, data_df) {
 
   head_stub_variable_names <- c(heading_vars, stub_vars)
 
-  figures_var <-
-    dplyr::anti_join(long_names, stub_and_heading_df, by = c("long_name")) %>%
-    dplyr::pull(variable)
+  figures_var <- setdiff(names(data_df),  head_stub_variable_names)
 
   error_if_not_exactly_one_figures_variable(figures_var)
 
@@ -390,7 +410,7 @@ get_data_cube <- function(metadata_df, data_df) {
                    ) %>%
     dplyr::select(-paste0("sortorder_", heading_vars)) %>%
     tidyr::pivot_wider(names_from = !!paste0("code_", heading_vars),
-                       values_from = figures_var
+                       values_from = dplyr::all_of(figures_var)
                        ) %>%
     dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", stub_vars),
                                              paste0("code_", stub_vars)
@@ -518,7 +538,7 @@ pxmake <- function(input,
   validate_pxmake_arguments(input, out_path, data, add_totals)
 
   data_df <- get_data_df(input, data, add_totals)
-  metadata_df   <- get_metadata_df(input, data_df)
+  metadata_df <- get_metadata_df(input, data_df)
 
   rds <- save_pxmake_output(out_path, metadata_df, data_df)
 

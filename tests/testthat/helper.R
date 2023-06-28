@@ -65,7 +65,7 @@ pxmake_clean <- function(input,
                          data = NULL,
                          add_totals = NULL,
                          env = parent.frame()) {
-  pxmake(input, out_path, data, add_totals)
+  rds <- pxmake(input, out_path, data, add_totals)
 
   return(invisible(rds))
 

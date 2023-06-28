@@ -22,15 +22,17 @@ get_figures_variable <- function(input, data) {
         dplyr::pull(variable)
   } else if (is_rds_list(input)) {
     # simplify when implementing #132
-    non_figure_variables <-
-      input$metadata %>%
-      dplyr::filter(keyword == "VARIABLECODE") %>%
-      dplyr::distinct(value) %>%
-      dplyr::pull(value)
-
-    data_variables <- names(input$data)
-
-    figures_var <- setdiff(data_variables, non_figure_variables)
+    unexpected_error()
+    # non_figure_variables <-
+    #   input$metadata %>%
+    #   dplyr::filter(keyword %in% c("HEADING", "STUB")) %>%
+    #   tidyr::unnest(value)  %>%
+    #   dplyr::distinct(value) %>%
+    #   dplyr::pull(value)
+    #
+    # data_variables <- names(input$data)
+    #
+    # figures_var <- setdiff(data_variables, non_figure_variables)
   } else {
     unexpected_error()
   }
@@ -177,6 +179,14 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
     tidyr::pivot_longer(cols = -c(position, variable, type, language, long_name),
                         names_to = "keyword"
                         )
+
+  #contvariable <-
+    # variables_long %>%
+    # dplyr::filter(toupper(type) == "FIGURES") %>%
+    # dplyr::distinct(keyword = "CONTVARIABLE",
+    #                 language = NA,
+    #                 variable
+    #                 )
 
   note_etc <-
     variables_long %>%
@@ -325,6 +335,12 @@ get_data_cube <- function(metadata_df, data_df) {
 
   head_stub_variable_names <- c(heading_vars, stub_vars)
 
+  figures_var <-
+    dplyr::anti_join(long_names, stub_and_heading_df, by = c("long_name")) %>%
+    dplyr::pull(variable)
+
+  error_if_not_exactly_one_figures_variable(figures_var)
+
   codelist <-
     metadata_df %>%
     dplyr::filter(keyword == "CODES",
@@ -374,9 +390,7 @@ get_data_cube <- function(metadata_df, data_df) {
                    ) %>%
     dplyr::select(-paste0("sortorder_", heading_vars)) %>%
     tidyr::pivot_wider(names_from = !!paste0("code_", heading_vars),
-                       values_from = get_figures_variable(metadata_df,
-                                                          data_df
-                                                          )
+                       values_from = figures_var
                        ) %>%
     dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", stub_vars),
                                              paste0("code_", stub_vars)

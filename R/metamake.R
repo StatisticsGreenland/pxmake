@@ -89,45 +89,9 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     unexpected_error()
   }
 
-  metadata_df <-
-    metadata_df %>%
-    dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.))) %>%
-    dplyr::mutate(main_language = language == get_main_language(.))
+  variable_and_long_name <- get_variable_long_names(metadata_df)
 
-  head_stub <-
-    metadata_df %>%
-    dplyr::filter(keyword %in% c("HEADING", "STUB")) %>%
-    tidyr::unnest(value) %>%
-    dplyr::rename(long_name = value) %>%
-    dplyr::group_by(keyword, language) %>%
-    dplyr::mutate(index = dplyr::row_number()) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(keyword, language, main_language, long_name, index)
-
-  head_stub_main_langage <-
-    dplyr::filter(head_stub, main_language) %>%
-    dplyr::rename(main_language_long_name = long_name) %>%
-    dplyr::select(keyword, index, main_language_long_name)
-
-  variable_and_long_name <-
-    metadata_df %>%
-    dplyr::filter(keyword == "VARIABLECODE") %>%
-    tidyr::unnest(value) %>%
-    dplyr::select(variable = value,
-                  long_name = variable,
-                  language,
-                  main_language
-                  ) %>%
-    dplyr::full_join(head_stub,
-                     by = c("long_name", "language", "main_language")) %>%
-    # Use long_name in main langauge as VARIABLECODE if it's missing
-    dplyr::left_join(head_stub_main_langage, by = c("keyword", "index")) %>%
-    dplyr::mutate(variable = ifelse(is.na(variable),
-                                    main_language_long_name,
-                                    variable
-                                    )
-                  ) %>%
-    dplyr::select(-main_language_long_name)
+  metadata_df <- add_main_language(metadata_df)
 
   heading_vars <-
     variable_and_long_name %>%
@@ -171,7 +135,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     tidyr::pivot_wider(names_from = language,
                        names_glue = "{language}_long_name",
                        values_from = long_name
-    )
+                       )
 
   note_elimination_domain <-
     metadata %>%
@@ -263,7 +227,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
 
   # Order: s1, s2, ..., h1, h2, ...
   expand_order <-
-    head_stub %>%
+    variable_and_long_name %>%
     dplyr::filter(main_language) %>%
     dplyr::mutate(keyword_order = dplyr::case_when(keyword == "STUB" ~ 1,
                                                    keyword == "HEADING" ~ 2,
@@ -272,7 +236,6 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
                   ) %>%
     dplyr::arrange(dplyr::across(c(keyword_order, index))) %>%
     dplyr::mutate(expand_order = dplyr::row_number()) %>%
-    dplyr::left_join(name_relation, by = c("language", "long_name")) %>%
     dplyr::select(variable, expand_order)
 
   stub_and_heading_values <-

@@ -1,12 +1,11 @@
 # pxmake (development version)
 
-## Breaking changes
-- Rename all internal functions from 'source_data' to 'data'.
-
 ## New features
-- Return rds object invisibly from `pxmake` and `metamake`.
+- Return rds object invisibly from `pxmake` and `metamake`. (#37)
+- Preserve name of FIGURES variable through all data formats.
 
 ## Bug fixes and minor improvements
+- Rename all internal functions from 'source_data' to 'data'. (#151)
 
 # pxmake 0.7.0
 

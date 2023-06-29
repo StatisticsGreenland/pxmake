@@ -98,7 +98,7 @@ get_figures_variable <- function(input, data) {
     figures_var <-
       input %>%
         get_variables_sheet() %>%
-        dplyr::filter(toupper(type) == "FIGURES") %>%
+        dplyr::filter(toupper(pivot) == "FIGURES") %>%
         dplyr::distinct(variable) %>%
         dplyr::pull(variable)
   } else if (is_rds_list(input)) {
@@ -241,7 +241,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
   variables_long <-
     excel_metadata_path %>%
     get_variables_metadata() %>%
-    tidyr::pivot_longer(cols = -c(position, variable, type, language, long_name),
+    tidyr::pivot_longer(cols = -c(pivot, order, variable, type, language, long_name),
                         names_to = "keyword"
                         )
 
@@ -262,19 +262,11 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
                     ) %>%
     wrap_varaible_in_list(value)
 
-  # Simplify when #124 is implemented.
   head_stub <-
     variables_long %>%
-    tidyr::drop_na(position) %>%
-    dplyr::distinct(position, variable, language, long_name) %>%
-    # Simplify when #124 is implemented.
-    dplyr::mutate(type     = substr(position, 1, 1) %>% tolower(),
-                  order    = substr(position, 2, nchar(position)),
-                  keyword  = dplyr::case_when(type == 's' ~ 'STUB',
-                                              type == 'h' ~ 'HEADING',
-                                              TRUE ~ NA_character_
-                                              )
-                  ) %>%
+    dplyr::filter(toupper(pivot) %in% c("STUB", "HEADING")) %>%
+    dplyr::distinct(pivot, order, variable, language, long_name) %>%
+    dplyr::mutate(keyword = toupper(pivot)) %>%
     dplyr::arrange(keyword, order) %>%
     dplyr::group_by(keyword, language) %>%
     dplyr::summarise(value = list(paste(long_name, sep = ", ")), .groups = "keep")
@@ -555,7 +547,7 @@ save_pxmake_output <- function(out_path, metadata_df, data_df) {
 #' is only available if `input` is an `.xlsx` file (option 1). The value of the
 #' total level is looked up in 'Variables' xx_elimination. The code for the
 #' level is found in 'Codelists'. The total is a sum of the values in the
-#' variables with `type = FIGURES` in 'Variables'. NAs are ignored when summing.
+#' variables with `pivot = FIGURES` in 'Variables'. NAs are ignored when summing.
 #'
 #' @returns Returns rds object invisibly.
 #'

@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## Breaking changes
+- Split column 'position' in 'Variables' sheet into 'pivot' and 'order'. (#159)
+
 ## New features
 - Return rds object invisibly from `pxmake` and `metamake`. (#37)
 - Preserve name of FIGURES variable through all data formats.

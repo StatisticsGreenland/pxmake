@@ -22,13 +22,13 @@ error_if_more_than_one_time_variable <- function(time_variable) {
 error_if_not_exactly_one_figures_variable <- function(figures_var) {
   if (length(figures_var) == 0) {
     stop(stringr::str_glue("There is no figures variable. Change the metadata ",
-                           "so one variable has `type=figures`."
+                           "so one variable has `pivot=FIGURES`."
                            )
          )
   } else if (length(figures_var) > 1) {
     stop(stringr::str_glue("There are more than one variable with figures. ",
                            "Change the type of the variables {figures_var}, so ",
-                           "only one has `type=figures`."
+                           "only one has `pivot=FIGURES`."
                            )
          )
   }
@@ -66,6 +66,43 @@ unexpected_error <- function() {
        )
 }
 
+get_mandatory_variables <- function() {
+  list("Table"     = c("keyword", "value"),
+       "Variables" = c("pivot", "order", "variable", "type"),
+       "Codelists" = c("variable", "sortorder", "code", "precision")
+  )
+}
+
+error_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
+  df <- get_excel_sheet(sheet)(excel_metadata_path)
+
+  missing_variables <- setdiff(get_mandatory_variables()[sheet] %>% unlist(),
+                               names(df)
+                               )
+
+  if (length(missing_variables) > 0) {
+    stop(stringr::str_glue("The sheet '{sheet}' is missing the mandatory variable ",
+                           "'{missing_variables[1]}'. Please add it to the sheet."
+                           )
+         )
+  }
+}
+
+#' Validate Excel metadata workbook
+#'
+#' @inheritParams get_metadata_df_from_excel
+#'
+#' @returns Nothing
+validate_xlsx_metadata <- function(excel_metadata_path) {
+  sheets <- c("Table", "Variables", "Codelists")
+
+  invisible(lapply(sheets,
+                   error_sheet_is_missing_variable,
+                   excel_metadata_path = excel_metadata_path
+                   )
+            )
+}
+
 #' Check all pxmake arguments
 #'
 #' Throw an error if there are problems with the function arguments.
@@ -94,6 +131,10 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
       !is_rds_list(input)
       ) {
     stop("Argument 'input' has wrong format. See ?pxmake.")
+  }
+
+  if (is_xlsx_file(input)) {
+    validate_xlsx_metadata(input)
   }
 
   if (is.null(data)) {

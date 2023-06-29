@@ -103,11 +103,13 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     dplyr::filter(main_language, keyword == "STUB") %>%
     dplyr::pull(variable)
 
-  position <-
+  pivot_order <-
     variable_and_long_name %>%
-    tidyr::drop_na(index) %>%
-    dplyr::mutate(position = paste0(substr(keyword, 1, 1), index)) %>%
-    dplyr::distinct(position, variable)
+    dplyr::filter(main_language, !is.na(keyword)) %>%
+    dplyr::distinct(pivot = keyword,
+                    order = index,
+                    variable
+                    )
 
   name_relation <-
     variable_and_long_name %>%
@@ -153,15 +155,15 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     dplyr::pull(variable)
 
   if (identical(time_var, character(0))) {
-    time_variable_df <- data.frame(variable = character(0))
+    time_variable_df <- data.frame(variable = character(0), type = character(0))
   } else {
     time_variable_df <- data.frame(variable = time_var, type = "time")
   }
 
   sheet_variables <-
-    position %>%
+    pivot_order %>%
     dplyr::left_join(time_variable_df, by = c("variable")) %>%
-    dplyr::bind_rows(data.frame(variable = figures_var, type = "FIGURES")) %>%
+    dplyr::bind_rows(data.frame(variable = figures_var, pivot = "FIGURES")) %>%
     dplyr::left_join(long_name, by = "variable") %>%
     dplyr::left_join(note_elimination_domain, by = "variable")
 

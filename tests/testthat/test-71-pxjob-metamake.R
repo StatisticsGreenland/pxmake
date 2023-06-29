@@ -6,7 +6,7 @@ test_that("px file and pxmake(metamake(px file)) are equivalent", {
 
   run_metamake_pxmake_pxjob_and_compare <- function(table_name) {
     px1    <- get_px_file_path(table_name)
-    px2    <- temp_px_file() # pxjob requires the .px extension
+    px2    <- temp_px_file()
     meta1  <- temp_xlsx_file()
     pxjob1 <- temp_px_file()
     pxjob2 <- temp_px_file()

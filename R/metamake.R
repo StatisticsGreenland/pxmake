@@ -89,42 +89,9 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     unexpected_error()
   }
 
-  metadata_df <-
-    metadata_df %>%
-    dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.))) %>%
-    dplyr::mutate(main_language = language == get_main_language(.))
+  variable_and_long_name <- get_variable_long_names(metadata_df)
 
-  head_stub <-
-    metadata_df %>%
-    dplyr::filter(keyword %in% c("HEADING", "STUB")) %>%
-    tidyr::unnest(value) %>%
-    dplyr::rename(long_name = value) %>%
-    dplyr::group_by(keyword, language) %>%
-    dplyr::mutate(index = dplyr::row_number()) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(keyword, language, main_language, long_name, index)
-
-  # Use VARIABLECODE if it exists
-  variablecode <-
-    metadata_df %>%
-    dplyr::filter(keyword == "VARIABLECODE", main_language) %>%
-    tidyr::unnest(value) %>%
-    dplyr::select(variable = value,
-                  long_name = variable
-                  )
-
-  variable_and_long_name <-
-    head_stub %>% ## add figures variable
-    dplyr::filter(main_language) %>%
-    dplyr::select(-language, -main_language) %>%
-    dplyr::full_join(variablecode, by = "long_name") %>%
-    # Use long_name in main langauge as VARIABLECODE if it's missing
-    dplyr::mutate(variable = ifelse(is.na(variable), long_name, variable)) %>%
-    dplyr::select(-long_name) %>%
-    dplyr::full_join(head_stub,
-                     by = c("keyword", "index"),
-                     multiple = "all"
-                     )
+  metadata_df <- add_main_language(metadata_df)
 
   heading_vars <-
     variable_and_long_name %>%
@@ -168,7 +135,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     tidyr::pivot_wider(names_from = language,
                        names_glue = "{language}_long_name",
                        values_from = long_name
-    )
+                       )
 
   note_elimination_domain <-
     metadata %>%
@@ -193,11 +160,10 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
 
   sheet_variables <-
     position %>%
-    dplyr::left_join(time_variable_df, by = "variable") %>%
+    dplyr::left_join(time_variable_df, by = c("variable")) %>%
+    dplyr::bind_rows(data.frame(variable = figures_var, type = "FIGURES")) %>%
     dplyr::left_join(long_name, by = "variable") %>%
-    dplyr::left_join(note_elimination_domain, by = "variable") %>%
-    dplyr::bind_rows(data.frame(variable = figures_var, type = "figures"))
-
+    dplyr::left_join(note_elimination_domain, by = "variable")
 
   ### Make metadata sheet: 'Codelists'
   codes <-
@@ -261,7 +227,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
 
   # Order: s1, s2, ..., h1, h2, ...
   expand_order <-
-    head_stub %>%
+    variable_and_long_name %>%
     dplyr::filter(main_language) %>%
     dplyr::mutate(keyword_order = dplyr::case_when(keyword == "STUB" ~ 1,
                                                    keyword == "HEADING" ~ 2,
@@ -270,7 +236,6 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
                   ) %>%
     dplyr::arrange(dplyr::across(c(keyword_order, index))) %>%
     dplyr::mutate(expand_order = dplyr::row_number()) %>%
-    dplyr::left_join(name_relation, by = c("language", "long_name")) %>%
     dplyr::select(variable, expand_order)
 
   stub_and_heading_values <-

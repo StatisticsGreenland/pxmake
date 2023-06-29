@@ -65,29 +65,37 @@ pxmake_clean <- function(input,
                          data = NULL,
                          add_totals = NULL,
                          env = parent.frame()) {
-  pxmake(input, out_path, data, add_totals)
+  rds <- pxmake(input, out_path, data, add_totals)
+
+  return(invisible(rds))
 
   withr::defer(envir = env, {
     Sys.sleep(1)
-    file.remove(out_path)
+    if (!is.null(out_path)) {
+      file.remove(out_path)
     }
-  )
+  })
 }
 
 #' Run metamake and delete created files when environment is killed
 metamake_clean <- function(input,
-                           out_path,
+                           out_path = NULL,
                            data_path = NULL,
                            env = parent.frame()) {
 
-  metamake(input, out_path, data_path)
+  rds <- metamake(input, out_path, data_path)
+
+  return(invisible(rds))
 
   withr::defer(envir = env, {
     Sys.sleep(.1)
-    file.remove(out_path)
 
-    if (! is.null(data_path)) {
-      file.remove(data_path)
+    if (!is.null(out_path)) {
+      file.remove(out_path)
+    }
+
+    if (!is.null(data_table_path)) {
+      file.remove(data_table_path)
     }
   }
   )

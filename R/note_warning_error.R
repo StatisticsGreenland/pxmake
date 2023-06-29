@@ -84,7 +84,7 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
     }
 
     if (!is_xlsx_file(input)) {
-      stop("Argument 'add_totals' can only be used when `input` is an .xlsx file.")
+      stop("Argument 'add_totals' can only be used when 'input' is an .xlsx file.")
     }
   }
 
@@ -104,6 +104,8 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
     }
   } else if (!is.data.frame(data) & !is_rds_file(data)) {
     stop("Argument 'data' must be a data frame or a path to an .rds file.")
+  } else if (!is_xlsx_file(input) & !is.data.frame(input)) {
+    stop("Argument 'data' can only be used if 'input' is an .xlsx file or a data frame.")
   }
 }
 

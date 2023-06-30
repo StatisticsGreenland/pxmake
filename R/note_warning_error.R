@@ -1,45 +1,55 @@
 # Helper functions for throwing errors, warnings and notes.
+
+#' Throw error
+#'
+#' @param msg String, error message
+#'
+#' @returns Nothing
+error <- function(msg) {
+  stop(msg, call. = FALSE)
+}
+
 error_if_excel_sheet_does_not_exist <- function(sheet_name, excel_path) {
   if (! sheet_name %in% readxl::excel_sheets(excel_path)) {
-    stop(stringr::str_glue("The sheet '{sheet_name}' is missing in: ",
-                           "{excel_path}.\nAdd the sheet or use the argument ",
-                           "'data_path ='."
-                           )
-         )
+    error(stringr::str_glue("The sheet '{sheet_name}' is missing in: ",
+                            "{excel_path}.\nAdd the sheet or use the argument ",
+                            "'data_path ='."
+                            )
+    )
   }
 }
 
 error_if_more_than_one_time_variable <- function(time_variable) {
   if (length(time_variable) > 1) {
-    stop(stringr::str_glue("The metadata has more than one variable where ",
-                           "`type=time`. Change the type of the variables ",
-                           "{time_variable}, so only one has `type=time`."
-                           )
-         )
+    error(stringr::str_glue("The metadata has more than one variable where ",
+                            "`type=time`. Change the type of the variables ",
+                            "{time_variable}, so only one has `type=time`."
+                            )
+          )
   }
 }
 
 error_if_not_exactly_one_figures_variable <- function(figures_var) {
   if (length(figures_var) == 0) {
-    stop(stringr::str_glue("There is no figures variable. Change the metadata ",
-                           "so one variable has `type=figures`."
-                           )
+    error(stringr::str_glue("There is no figures variable. Change the metadata ",
+                            "so one variable has `pivot=FIGURES`."
+                            )
          )
   } else if (length(figures_var) > 1) {
-    stop(stringr::str_glue("There are more than one variable with figures. ",
-                           "Change the type of the variables {figures_var}, so ",
-                           "only one has `type=figures`."
-                           )
+    error(stringr::str_glue("There are more than one variable with figures. ",
+                            "Change the type of the variables {figures_var}, so ",
+                            "only one has `pivot=FIGURES`."
+                            )
          )
   }
 }
 
 error_if_not_exactly_one_data_line <- function(data_line_index) {
   if(length(data_line_index) != 1) {
-    stop(stringr::str_glue("There are {length(data_line_index)} lines in the ",
-                           "px-file like this: 'DATA='. There needs to be ",
-                           "exactly 1."
-                           )
+    error(stringr::str_glue("There are {length(data_line_index)} lines in the ",
+                            "px-file like this: 'DATA='. There needs to be ",
+                            "exactly 1."
+                            )
          )
   }
 }
@@ -49,21 +59,110 @@ error_if_too_many_rows_for_excel <- function(df) {
   excel_max_lines <- 1048576
 
   if(data_lines > excel_max_lines) {
-   stop(stringr::str_glue("The data cube contains {data_lines} data lines ",
-                          "which is more than the {excel_max_lines} lines ",
-                          "supported by Excel. Use argument `rds_data_path=` ",
-                          "to store the data in an .rds file instead."
-                          )
+   error(stringr::str_glue("The data cube contains {data_lines} data lines ",
+                           "which is more than the {excel_max_lines} lines ",
+                           "supported by Excel. Use argument `rds_data_path=` ",
+                           "to store the data in an .rds file instead."
+                           )
         )
   }
 }
 
 unexpected_error <- function() {
-  stop(paste("An unexpected error occurred. Please report the issue on GitHub,",
-             "ideally with a minimal reproducible example.",
-             "https://github.com/StatisticsGreenland/pxmake/issues "
-             )
+  error(paste("An unexpected error occurred. Please report the issue on GitHub,",
+              "ideally with a minimal reproducible example.",
+              "https://github.com/StatisticsGreenland/pxmake/issues "
+              )
        )
+}
+
+#' A list of which variables should be in each sheet
+get_mandatory_variables <- function() {
+  list("Table"     = c("keyword", "value"),
+       "Variables" = c("pivot", "order", "variable", "type"),
+       "Codelists" = c("variable", "sortorder", "code", "precision")
+  )
+}
+
+get_legal_values <- function() {
+  dplyr::tribble(~sheet, ~variable, ~value,
+                 "Variables", "pivot", c("FIGURES", "STUB", "HEADING"),
+                 "Variables", "type",  c("TIME", NA)
+                 )
+}
+
+
+error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
+  legal_values <-
+    get_legal_values() %>%
+    dplyr::filter(sheet == sheet) %>%
+    dplyr::select(-sheet) %>%
+    tidyr::unnest(value)
+
+  data_values <-
+    get_excel_sheet(sheet)(excel_metadata_path) %>%
+    dplyr::select(dplyr::pull(legal_values, variable)) %>%
+    tidyr::pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
+    dplyr::mutate(value = toupper(value)) %>%
+    dplyr::distinct_all()
+
+  illegal_values <- dplyr::anti_join(data_values, legal_values,
+                                     by = c("variable", "value")
+                                     )
+
+  if (nrow(illegal_values) > 0) {
+    illegal_value <-
+      illegal_values %>%
+      head(1) %>%
+      as.list()
+
+    legal_values_list <-
+      legal_values %>%
+      dplyr::filter(variable == illegal_value$variable) %>%
+      dplyr::pull(value) %>%
+      paste(collapse="', '")
+
+    error(stringr::str_glue(
+      "The value '{illegal_value$value}' is not allowed in the variable ",
+      "'{illegal_value$variable}' in the sheet '{sheet}'.\n",
+      "Change it to one of the legal values: '{legal_values_list}'"
+      ))
+  }
+}
+
+
+error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
+  df <- get_excel_sheet(sheet)(excel_metadata_path)
+
+  missing_variables <- setdiff(get_mandatory_variables()[sheet] %>% unlist(),
+                               names(df)
+                               )
+
+  if (length(missing_variables) > 0) {
+    error(stringr::str_glue("The sheet '{sheet}' is missing the mandatory variable ",
+                            "'{missing_variables[1]}'. Please add it to the sheet."
+                            )
+         , call. = FALSE
+         )
+  }
+}
+
+#' Validate Excel metadata workbook
+#'
+#' @inheritParams get_metadata_df_from_excel
+#'
+#' @returns Nothing
+validate_xlsx_metadata <- function(excel_metadata_path) {
+  sheets <- c("Table", "Variables", "Codelists")
+
+  invisible(lapply(sheets,
+                   error_if_sheet_is_missing_variable,
+                   excel_metadata_path = excel_metadata_path
+                   )
+            )
+  error_if_variable_has_illegal_values(sheet = "Variables",
+                                       excel_metadata_path
+                                       )
 }
 
 #' Check all pxmake arguments
@@ -75,16 +174,16 @@ unexpected_error <- function() {
 #' @returns Nothing
 validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
   if (!is_rds_file(out_path) & !is_px_file(out_path) & !is.null(out_path)) {
-    stop("Argument 'out_path' should be a path to an .rds or .px file or NULL.")
+    error("Argument 'out_path' should be a path to an .rds or .px file or NULL.")
   }
 
   if (!is.null(add_totals)) {
     if (class(add_totals) != "character") {
-      stop("Argument 'add_totals' should be of type 'character'.")
+      error("Argument 'add_totals' should be of type 'character'.", call. = FALSE)
     }
 
     if (!is_xlsx_file(input)) {
-      stop("Argument 'add_totals' can only be used when 'input' is an .xlsx file.")
+      error("Argument 'add_totals' can only be used when 'input' is an .xlsx file.")
     }
   }
 
@@ -93,19 +192,23 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
       !is.data.frame(input) &
       !is_rds_list(input)
       ) {
-    stop("Argument 'input' has wrong format. See ?pxmake.")
+    error("Argument 'input' has wrong format. See ?pxmake.")
+  }
+
+  if (is_xlsx_file(input)) {
+    validate_xlsx_metadata(input)
   }
 
   if (is.null(data)) {
     if (is.data.frame(input)) {
-      stop("No data is provided. See ?pxmake.")
+      error("No data is provided. See ?pxmake.")
     } else if (is_xlsx_file(input)) {
       error_if_excel_sheet_does_not_exist("Data", input)
     }
   } else if (!is.data.frame(data) & !is_rds_file(data)) {
-    stop("Argument 'data' must be a data frame or a path to an .rds file.")
+    error("Argument 'data' must be a data frame or a path to an .rds file.")
   } else if (!is_xlsx_file(input) & !is.data.frame(input)) {
-    stop("Argument 'data' can only be used if 'input' is an .xlsx file or a data frame.")
+    error("Argument 'data' can only be used if 'input' is an .xlsx file or a data frame.")
   }
 }
 
@@ -118,20 +221,20 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
 #' @returns Nothing
 validate_metamake_arguments <- function(input, out_path, data_path) {
   if (!is_px_file(input) & !is_rds_file(input) & !is_rds_list(input)) {
-    stop("Argument 'input' has wrong format. See ?metamake.")
+    error("Argument 'input' has wrong format. See ?metamake.")
   }
 
   if (!is_xlsx_file(out_path) & !is_rds_file(out_path) & !is.null(out_path)) {
-    stop("Argument 'output' needs to be an .xlsx or .rds file or NULL.")
+    error("Argument 'output' needs to be an .xlsx or .rds file or NULL.")
   }
 
   if (!is.null(data_path)) {
     if (!is_rds_file(data_path)) {
-      stop("Argument 'data_path' should be an .rds file.")
+      error("Argument 'data_path' should be an .rds file.")
     }
 
     if (!is_xlsx_file(out_path)) {
-      stop("Argument 'data_path' can only be used when 'input' is an .xlsx file.")
+      error("Argument 'data_path' can only be used when 'input' is an .xlsx file.")
     }
   }
 }

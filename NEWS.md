@@ -1,11 +1,16 @@
 # pxmake (development version)
 
+## Breaking changes
+- Split column 'position' in 'Variables' sheet into 'pivot' and 'order'. (#159)
+- Check for illegal values in columns 'pivot' and 'type' in 'Variables sheet.
+
 ## New features
 - Return rds object invisibly from `pxmake` and `metamake`. (#37)
 - Preserve name of FIGURES variable through all data formats.
 
 ## Bug fixes and minor improvements
 - Rename all internal functions from 'source_data' to 'data'. (#151)
+- Print error message without the name of the function that threw the error.
 - Sort metadata before saving.
 
 # pxmake 0.7.0

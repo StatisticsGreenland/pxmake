@@ -26,7 +26,7 @@ option 1. as the sheet 'Data' in the Excel metadata workbook, or as the
 is only available if \code{input} is an \code{.xlsx} file (option 1). The value of the
 total level is looked up in 'Variables' xx_elimination. The code for the
 level is found in 'Codelists'. The total is a sum of the values in the
-variables with \code{type = FIGURES} in 'Variables'. NAs are ignored when summing.}
+variables with \code{pivot = FIGURES} in 'Variables'. NAs are ignored when summing.}
 }
 \value{
 A data frame

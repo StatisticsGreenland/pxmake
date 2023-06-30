@@ -67,7 +67,7 @@ get_table_metadata <- function(excel_metadata_path) {
 get_variables_metadata <- function(excel_metadata_path) {
   excel_metadata_path %>%
     get_variables_sheet() %>%
-    tidyr::pivot_longer(cols = -c(position, variable, type),
+    tidyr::pivot_longer(cols = -c(pivot, order, variable, type),
                         names_to = c("language", "keyword"),
                         names_pattern = "^([[:alpha:]]+)_(.*)$"
     ) %>%

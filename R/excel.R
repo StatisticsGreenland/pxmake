@@ -67,7 +67,7 @@ get_table_metadata <- function(excel_metadata_path) {
 get_variables_metadata <- function(excel_metadata_path) {
   excel_metadata_path %>%
     get_variables_sheet() %>%
-    tidyr::pivot_longer(cols = -c(pivot, order, variable, type),
+    tidyr::pivot_longer(cols = -c(pivot, order, `variable-code`, type),
                         names_to = c("language", "keyword"),
                         names_pattern = "^([[:alpha:]]+)_(.*)$"
     ) %>%
@@ -88,7 +88,7 @@ get_codelists_metadata <- function(excel_metadata_path, data_df) {
     data_df %>%
     dplyr::select(-any_of(get_figures_variable(excel_metadata_path))) %>%
     tidyr::pivot_longer(cols = everything(),
-                        names_to = "variable",
+                        names_to = "variable-code",
                         values_to = "code"
                         ) %>%
     dplyr::distinct() %>%
@@ -97,7 +97,7 @@ get_codelists_metadata <- function(excel_metadata_path, data_df) {
 
   variables <-
     get_variables_metadata(excel_metadata_path) %>%
-    dplyr::select(variable, language, long_name)
+    dplyr::select(`variable-code`, language, `variable-label`)
 
   codelists <-
     excel_metadata_path %>%
@@ -105,15 +105,12 @@ get_codelists_metadata <- function(excel_metadata_path, data_df) {
     dplyr::mutate(across(-sortorder, as.character),
                   across( sortorder, as.numeric)
                   ) %>%
-    tidyr::pivot_longer(cols = ends_with("_code_label"),
+    tidyr::pivot_longer(cols = ends_with("_code-label"),
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]+)_.*$"
                         ) %>%
-    dplyr::full_join(data_codes, by = c("variable", "code", "language")) %>%
-    # Add long_name (VARIABLECODE) (change when implementing #139)
-    dplyr::left_join(variables %>% dplyr::select(variable, language, long_name),
-                     by = c("variable", "language")
-                     ) %>%
+    dplyr::full_join(data_codes, by = c("variable-code", "code", "language")) %>%
+    dplyr::left_join(variables, by = c("variable-code", "language")) %>%
     dplyr::mutate(value = ifelse(is.na(value), code, value))
 
   return(codelists)

@@ -89,37 +89,37 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     unexpected_error()
   }
 
-  variable_and_long_name <- get_variable_long_names(metadata_df)
+  variable_label <- get_variable_label(metadata_df)
 
   metadata_df <- add_main_language(metadata_df)
 
   heading_vars <-
-    variable_and_long_name %>%
+    variable_label %>%
     dplyr::filter(main_language, keyword == "HEADING") %>%
-    dplyr::pull(variable)
+    dplyr::pull(`variable-code`)
 
   stub_vars <-
-    variable_and_long_name %>%
+    variable_label %>%
     dplyr::filter(main_language, keyword == "STUB") %>%
-    dplyr::pull(variable)
+    dplyr::pull(`variable-code`)
 
   pivot_order <-
-    variable_and_long_name %>%
+    variable_label %>%
     dplyr::filter(main_language, !is.na(keyword)) %>%
     dplyr::distinct(pivot = keyword,
                     order = index,
-                    variable
+                    `variable-code`
                     )
 
   name_relation <-
-    variable_and_long_name %>%
-    dplyr::distinct(variable, language, long_name)
+    variable_label %>%
+    dplyr::distinct(`variable-code`, language, `variable-label`)
 
   figures_var <-
-    variable_and_long_name %>%
+    variable_label %>%
     dplyr::filter(is.na(keyword)) %>%
-    dplyr::distinct(variable) %>%
-    dplyr::pull(variable)
+    dplyr::distinct(`variable-code`) %>%
+    dplyr::pull(`variable-code`)
 
   if (identical(figures_var, character(0))) {
     figures_var <- "figures_"
@@ -127,22 +127,22 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
 
   metadata <-
     metadata_df %>%
-    dplyr::rename(long_name = variable) %>%
-    dplyr::left_join(name_relation, by = c("language", "long_name"))
+    dplyr::rename(`variable-label` = variable) %>%
+    dplyr::left_join(name_relation, by = c("language", "variable-label"))
 
   ### Make metadata sheet: 'Variables'
-  long_name <-
+  variable_label_wide <-
     name_relation %>%
     tidyr::drop_na(language) %>%
     tidyr::pivot_wider(names_from = language,
-                       names_glue = "{language}_long_name",
-                       values_from = long_name
+                       names_glue = "{language}_variable-label",
+                       values_from = `variable-label`
                        )
 
   note_elimination_domain <-
     metadata %>%
     dplyr::filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN")) %>%
-    dplyr::select(keyword, language, variable, value) %>%
+    dplyr::select(keyword, language, `variable-code`, value) %>%
     tidyr::unnest(value) %>%
     tidyr::pivot_wider(names_from = c(language, keyword),
                        names_glue = "{language}_{tolower(keyword)}",
@@ -152,61 +152,68 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
   time_var <-
     metadata %>%
     dplyr::filter(keyword == "TIMEVAL", main_language) %>%
-    dplyr::pull(variable)
+    dplyr::pull(`variable-code`)
 
   if (identical(time_var, character(0))) {
-    time_variable_df <- data.frame(variable = character(0), type = character(0))
+    time_variable_df <- dplyr::tibble(`variable-code` = character(0),
+                                      type = character(0)
+                                      )
   } else {
-    time_variable_df <- data.frame(variable = time_var, type = "TIME")
+    time_variable_df <- dplyr::tibble(`variable-code` = time_var, type = "TIME")
   }
 
   sheet_variables <-
     pivot_order %>%
-    dplyr::left_join(time_variable_df, by = c("variable")) %>%
-    dplyr::bind_rows(data.frame(variable = figures_var, pivot = "FIGURES")) %>%
-    dplyr::left_join(long_name, by = "variable") %>%
-    dplyr::left_join(note_elimination_domain, by = "variable")
+    dplyr::left_join(time_variable_df, by = c("variable-code")) %>%
+    dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_var,
+                                   pivot = "FIGURES"
+                                   )
+                     ) %>%
+    dplyr::left_join(variable_label_wide, by = "variable-code") %>%
+    dplyr::left_join(note_elimination_domain, by = "variable-code")
 
   ### Make metadata sheet: 'Codelists'
   codes <-
     metadata %>%
     dplyr::filter(main_language, keyword %in% c("CODES"),
-                  !variable %in% time_variable_df #Time vars are not in codelist
+                  !`variable-code` %in% time_variable_df #Time vars are not in codelist
                   ) %>%
     tidyr::unnest(value) %>%
     dplyr::rename(code = value) %>%
-    dplyr::group_by(variable) %>%
+    dplyr::group_by(`variable-code`) %>%
     dplyr::mutate(sortorder = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
-    dplyr::select(variable, code, sortorder)
+    dplyr::select(`variable-code`, code, sortorder)
 
   precision <-
     metadata %>%
     dplyr::filter(keyword == "PRECISION") %>%
     tidyr::unnest(value) %>%
     dplyr::rename(value = cell, precision = value) %>%
-    dplyr::select(variable, value, precision)
+    dplyr::select(`variable-code`, value, precision)
 
   values <-
     metadata %>%
     dplyr::filter(keyword %in% c("VALUES")) %>%
     tidyr::unnest(value) %>%
-    dplyr::group_by(variable, language) %>%
+    dplyr::group_by(`variable-code`, language) %>%
     dplyr::mutate(sortorder = dplyr::row_number()) %>%
-    dplyr::select(variable, value, language, main_language, sortorder)
+    dplyr::select(`variable-code`, value, language, main_language, sortorder)
 
   codes_and_values <-
     codes %>%
     # Use values as codes, if codes are missing
-    dplyr::full_join(values, by = c("variable", "sortorder"), multiple = "all") %>%
+    dplyr::full_join(values, by = c("variable-code", "sortorder"),
+                     multiple = "all"
+                     ) %>%
     dplyr::mutate(code = ifelse(is.na(code), value, code))
 
   sheet_codelist <-
     codes_and_values %>%
     dplyr::select(-main_language) %>%
-    dplyr::filter(!variable %in% time_var) %>%
-    dplyr::left_join(precision, by = c("variable", "value")) %>%
-    tidyr::pivot_wider(names_from = language, names_glue = "{language}_code_label") %>%
+    dplyr::filter(!`variable-code` %in% time_var) %>%
+    dplyr::left_join(precision, by = c("variable-code", "value")) %>%
+    tidyr::pivot_wider(names_from = language, names_glue = "{language}_code-label") %>%
     dplyr::relocate(precision, .after = last_col())
 
   ### Make metadata sheet: 'Table'
@@ -215,13 +222,13 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     dplyr::left_join(get_px_keywords(), by = "keyword") %>%
     dplyr::filter(in_table_sheet) %>%
     # Exclude variable specific NOTE
-    dplyr::filter(!(keyword == "NOTE" & !is.na(variable))) %>%
+    dplyr::filter(!(keyword == "NOTE" & !is.na(`variable-code`))) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(value = paste(value, collapse = ','),
                   keyword = ifelse(language_dependent,
                                    paste0(keyword, "_", language),
                                    keyword
-                  )
+                                   )
                   ) %>%
     dplyr::select(keyword, value)
 
@@ -229,7 +236,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
 
   # Order: s1, s2, ..., h1, h2, ...
   expand_order <-
-    variable_and_long_name %>%
+    variable_label %>%
     dplyr::filter(main_language) %>%
     dplyr::mutate(keyword_order = dplyr::case_when(keyword == "STUB" ~ 1,
                                                    keyword == "HEADING" ~ 2,
@@ -238,16 +245,16 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
                   ) %>%
     dplyr::arrange(dplyr::across(c(keyword_order, index))) %>%
     dplyr::mutate(expand_order = dplyr::row_number()) %>%
-    dplyr::select(variable, expand_order)
+    dplyr::select(`variable-code`, expand_order)
 
   stub_and_heading_values <-
     codes_and_values %>%
-    dplyr::filter(main_language, variable %in% c(heading_vars, stub_vars)) %>%
-    dplyr::group_by(variable) %>%
+    dplyr::filter(main_language, `variable-code` %in% c(heading_vars, stub_vars)) %>%
+    dplyr::group_by(`variable-code`) %>%
     dplyr::summarise(code = list(code)) %>%
-    dplyr::left_join(expand_order, by = "variable") %>%
+    dplyr::left_join(expand_order, by = "variable-code") %>%
     dplyr::arrange(expand_order) %>%
-    dplyr::select(variable, code) %>%
+    dplyr::select(`variable-code`, code) %>%
     tibble::deframe()
 
   if (is_rds_list(input)) {

@@ -33,50 +33,51 @@ add_main_language <- function(metadata_df) {
     dplyr::mutate(main_language = language == get_main_language(.))
 }
 
-#' Get variables and long names
+#' Get variable code and label
 #'
-#' Get a data frame with variable names and there long names in all languages.
+#' Get a data frame with variable codes and label in all languages.
 #' If VARIABLECODE is used, the relation is defined there, but otherwise the
-#' variable name is set to be the main languages' long name.
+#' variable code is set to be the main languages' label.
 #'
 #' @inheritParams sort_metadata_df
 #'
 #' @returns A data frame
-get_variable_long_names <- function(metadata_df) {
+get_variable_label <- function(metadata_df) {
   metadata_df <- add_main_language(metadata_df)
 
   head_stub <-
     metadata_df %>%
     dplyr::filter(keyword %in% c("HEADING", "STUB")) %>%
     tidyr::unnest(value) %>%
-    dplyr::rename(long_name = value) %>%
+    dplyr::rename(`variable-label` = value) %>%
     dplyr::group_by(keyword, language) %>%
     dplyr::mutate(index = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
-    dplyr::select(keyword, language, main_language, long_name, index)
+    dplyr::select(keyword, language, main_language, `variable-label`, index)
 
   head_stub_main_language <-
     dplyr::filter(head_stub, main_language) %>%
-    dplyr::rename(main_language_long_name = long_name) %>%
-    dplyr::select(keyword, index, main_language_long_name)
+    dplyr::rename(main_language_label = `variable-label`) %>%
+    dplyr::select(keyword, index, main_language_label)
 
   metadata_df %>%
     dplyr::filter(keyword == "VARIABLECODE") %>%
     tidyr::unnest(value) %>%
-    dplyr::select(variable = value,
-                  long_name = variable,
+    dplyr::select(`variable-code` = value,
+                  `variable-label` = variable,
                   language,
                   main_language
                   ) %>%
     dplyr::full_join(head_stub,
-                     by = c("long_name", "language", "main_language")
+                     by = c("variable-label", "language", "main_language")
                      ) %>%
     dplyr::left_join(head_stub_main_language, by = c("keyword", "index")) %>%
-    dplyr::mutate(variable = ifelse(is.na(variable),
-                                    main_language_long_name,
-                                    variable)
+    dplyr::mutate(`variable-code` = ifelse(is.na(`variable-code`),
+                                           main_language_label,
+                                           `variable-code`
+                                           )
                   ) %>%
-    dplyr::select(-main_language_long_name)
+    dplyr::select(-main_language_label)
 }
 
 #' Get the name of figures variable
@@ -99,13 +100,13 @@ get_figures_variable <- function(input, data) {
       input %>%
         get_variables_sheet() %>%
         dplyr::filter(toupper(pivot) == "FIGURES") %>%
-        dplyr::distinct(variable) %>%
-        dplyr::pull(variable)
+        dplyr::distinct(`variable-code`) %>%
+        dplyr::pull(`variable-code`)
   } else if (is_rds_list(input)) {
     non_figure_variables <-
-      get_variable_long_names(input$metadata) %>%
+      get_variable_label(input$metadata) %>%
       dplyr::filter(!is.na(keyword), main_language) %>%
-      dplyr::pull(variable)
+      dplyr::pull(`variable-code`)
 
     data_variables <- names(input$data)
 
@@ -216,7 +217,9 @@ sort_metadata_df <- function(metadata_df) {
                      by = "keyword"
                      ) %>%
     dplyr::left_join(languages, by = "language") %>%
-    dplyr::arrange(order, keyword, language_order, !is.na(variable), variable, cell) %>%
+    dplyr::arrange(order, keyword, language_order,
+                   !is.na(variable), variable, cell
+                   ) %>%
     dplyr::select(-order, -language_order)
 }
 
@@ -241,7 +244,9 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
   variables_long <-
     excel_metadata_path %>%
     get_variables_metadata() %>%
-    tidyr::pivot_longer(cols = -c(pivot, order, variable, type, language, long_name),
+    tidyr::pivot_longer(cols = -c(pivot, order, `variable-code`, type, language,
+                                  `variable-label`
+                                  ),
                         names_to = "keyword"
                         )
 
@@ -250,14 +255,14 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
     tidyr::drop_na(value) %>%
     dplyr::mutate(keyword = toupper(keyword)) %>%
     wrap_varaible_in_list(value) %>%
-    dplyr::select(keyword, variable = long_name, language, value) %>%
+    dplyr::select(keyword, variable = `variable-label`, language, value) %>%
     dplyr::arrange_all()
 
   variablecode <-
     variables_long %>%
     dplyr::distinct(keyword = "VARIABLECODE",
-                    value = variable,
-                    variable = long_name,
+                    value = `variable-code`,
+                    variable = `variable-label`,
                     language
                     ) %>%
     wrap_varaible_in_list(value)
@@ -265,21 +270,23 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
   head_stub <-
     variables_long %>%
     dplyr::filter(toupper(pivot) %in% c("STUB", "HEADING")) %>%
-    dplyr::distinct(pivot, order, variable, language, long_name) %>%
+    dplyr::distinct(pivot, order, `variable-code`, language, `variable-label`) %>%
     dplyr::mutate(keyword = toupper(pivot)) %>%
     dplyr::arrange(keyword, order) %>%
     dplyr::group_by(keyword, language) %>%
-    dplyr::summarise(value = list(paste(long_name, sep = ", ")), .groups = "keep")
+    dplyr::summarise(value = list(paste(`variable-label`, sep = ", ")),
+                     .groups = "keep"
+                     )
 
   time_metadata <-
     variables_long %>%
     dplyr::filter(tolower(type) == "time") %>%
-    dplyr::distinct(variable, language, long_name)
+    dplyr::distinct(`variable-code`, language, `variable-label`)
 
   time_variable <-
     time_metadata %>%
-    dplyr::distinct(variable) %>%
-    dplyr::pull(variable)
+    dplyr::distinct(`variable-code`) %>%
+    dplyr::pull(`variable-code`)
 
   if (length(time_variable) == 0) {
     timeval <- NULL
@@ -303,7 +310,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
                                      stringr::str_c(collapse = ',')
                                    )
                     ) %>%
-      dplyr::select(keyword, language, variable = long_name, value) %>%
+      dplyr::select(keyword, language, variable = `variable-label`, value) %>%
       wrap_varaible_in_list(value)
   }
 
@@ -315,7 +322,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
     # Update when implementing #140
     dplyr::mutate(keyword = toupper(paste0(type, "s"))) %>%
     dplyr::arrange(keyword, sortorder) %>%
-    dplyr::group_by(keyword, language, variable = long_name) %>%
+    dplyr::group_by(keyword, language, variable = `variable-label`) %>%
     dplyr::summarise(value = list(paste(value, sep = ", ")), .groups = "keep") %>%
     dplyr::ungroup()
 
@@ -326,7 +333,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
     wrap_varaible_in_list(precision) %>%
     dplyr::select(keyword,
                   language,
-                  variable = long_name,
+                  variable = `variable-label`,
                   cell = value,
                   value = precision
                   )
@@ -358,18 +365,18 @@ get_data_cube <- function(metadata_df, data_df) {
     metadata_df %>%
     dplyr::filter(main_language)
 
-  long_names <-
+  labels <-
     metadata_df_main_language %>%
     dplyr::filter(keyword == "VARIABLECODE") %>%
     tidyr::unnest(value) %>%
-    dplyr::select(long_name = variable, variable = value)
+    dplyr::select(label = variable, variable = value)
 
   stub_and_heading_df <-
     metadata_df_main_language %>%
     dplyr::filter(keyword %in% c("STUB", "HEADING")) %>%
     tidyr::unnest(value) %>%
-    dplyr::select(keyword, long_name = value) %>%
-    dplyr::left_join(long_names, by = "long_name")
+    dplyr::select(keyword, label = value) %>%
+    dplyr::left_join(labels, by = "label")
 
   stub_vars <-
     stub_and_heading_df %>%
@@ -392,11 +399,11 @@ get_data_cube <- function(metadata_df, data_df) {
     dplyr::filter(keyword == "CODES", main_language) %>%
     dplyr::select(keyword, variable, value) %>%
     tidyr::unnest(value) %>%
-    dplyr::rename(long_name = variable) %>%
-    dplyr::group_by(long_name) %>%
+    dplyr::rename(label = variable) %>%
+    dplyr::group_by(label) %>%
     dplyr::mutate(sortorder = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
-    dplyr::left_join(long_names, by = "long_name") %>%
+    dplyr::left_join(labels, by = "label") %>%
     dplyr::select(variable, sortorder, code = value)
 
   # Complete data by adding all combinations of variable values in data and

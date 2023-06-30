@@ -79,8 +79,8 @@ unexpected_error <- function() {
 #' A list of which variables should be in each sheet
 get_mandatory_variables <- function() {
   list("Table"     = c("keyword", "value"),
-       "Variables" = c("pivot", "order", "variable", "type"),
-       "Codelists" = c("variable", "sortorder", "code", "precision")
+       "Variables" = c("pivot", "order", "variable-code", "variable-label", "type"),
+       "Codelists" = c("variable-code", "sortorder", "code", "code-label", "precision")
   )
 }
 
@@ -90,7 +90,6 @@ get_legal_values <- function() {
                  "Variables", "type",  c("TIME", NA)
                  )
 }
-
 
 error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
   legal_values <-
@@ -132,17 +131,22 @@ error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
 
 
 error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
-  df <- get_excel_sheet(sheet)(excel_metadata_path)
+  data_variable_names <-
+    get_excel_sheet(sheet)(excel_metadata_path) %>%
+    names() %>%
+    stringr::str_split_fixed("_", n = 2) %>%
+    as.data.frame() %>%
+    dplyr::mutate(variable_name_without_language_code = ifelse(V2=="", V1, V2)) %>%
+    dplyr::pull(variable_name_without_language_code)
 
   missing_variables <- setdiff(get_mandatory_variables()[sheet] %>% unlist(),
-                               names(df)
+                               data_variable_names
                                )
 
   if (length(missing_variables) > 0) {
     error(stringr::str_glue("The sheet '{sheet}' is missing the mandatory variable ",
                             "'{missing_variables[1]}'. Please add it to the sheet."
                             )
-         , call. = FALSE
          )
   }
 }

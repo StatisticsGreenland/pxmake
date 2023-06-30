@@ -11,6 +11,7 @@
 ## Bug fixes and minor improvements
 - Rename all internal functions from 'source_data' to 'data'. (#151)
 - Print error message without the name of the function that threw the error.
+- Sort metadata before saving.
 
 # pxmake 0.7.0
 

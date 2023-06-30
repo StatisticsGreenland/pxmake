@@ -511,6 +511,8 @@ format_data_as_px_lines <- function(metadata_df, data_df) {
 #'
 #' @returns rds object
 save_pxmake_output <- function(out_path, metadata_df, data_df) {
+  metadata_df <- sort_metadata_df(metadata_df)
+
   rds <- list("metadata" = metadata_df, "data" = data_df)
 
   if (is_rds_file(out_path)) {

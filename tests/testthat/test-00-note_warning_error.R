@@ -7,8 +7,7 @@ test_that("Error if no 'Data' sheet exists when no data argument is provided", {
 })
 
 test_that("Error if multiple time vars in variable", {
-  table_name <- "error_two_timevals"
-  expect_error(pxmake_clean(input = get_metadata_path(table_name),
+  expect_error(pxmake_clean(input = get_metadata_path("error_two_timevals"),
                             out_path = temp_px_file()
                             ),
                regexp = "type=time"

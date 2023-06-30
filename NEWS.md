@@ -3,6 +3,8 @@
 ## Breaking changes
 - Split column 'position' in 'Variables' sheet into 'pivot' and 'order'. (#159)
 - Check for illegal values in columns 'pivot' and 'type' in 'Variables sheet.
+- Rename 'variable' and 'long_name' to 'variable-code' and 'variable-label'. (#144)
+- Add check for language-dependent mandatory variables in Excel metadata.
 
 ## New features
 - Return rds object invisibly from `pxmake` and `metamake`. (#37)

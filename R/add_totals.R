@@ -62,23 +62,23 @@ add_totals <- function(df,
 add_totals_to_data_df <- function(excel_metadata_path, data_df, add_totals) {
   variables <-
     get_variables_metadata(excel_metadata_path) %>%
-    dplyr::select(variable, language, elimination)
+    dplyr::select(`variable-code`, language, elimination)
 
   codelist <-
     get_codelists_metadata(excel_metadata_path, data_df) %>%
-    dplyr::select(variable, code, value)
+    dplyr::select(`variable-code`, code, value)
 
   params <-
     variables %>%
     dplyr::left_join(codelist,
-                     by = c("variable", "elimination" = "value"),
+                     by = c("variable-code", "elimination" = "value"),
                      multiple = "all"
                      ) %>%
-    dplyr::filter(variable %in% add_totals) %>%
-    dplyr::distinct(variable, code)
+    dplyr::filter(`variable-code` %in% add_totals) %>%
+    dplyr::distinct(`variable-code`, code)
 
   add_totals(data_df,
-             vars = params$variable,
+             vars = params$`variable-code`,
              level_names = params$code,
              sum_var = get_figures_variable(excel_metadata_path)
              )

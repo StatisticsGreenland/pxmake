@@ -157,7 +157,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
   if (identical(time_var, character(0))) {
     time_variable_df <- data.frame(variable = character(0), type = character(0))
   } else {
-    time_variable_df <- data.frame(variable = time_var, type = "time")
+    time_variable_df <- data.frame(variable = time_var, type = "TIME")
   }
 
   sheet_variables <-

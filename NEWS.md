@@ -2,6 +2,7 @@
 
 ## Breaking changes
 - Split column 'position' in 'Variables' sheet into 'pivot' and 'order'. (#159)
+- Check for illegal values in columns 'pivot' and 'type' in 'Variables sheet.
 
 ## New features
 - Return rds object invisibly from `pxmake` and `metamake`. (#37)

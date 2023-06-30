@@ -84,6 +84,53 @@ get_mandatory_variables <- function() {
   )
 }
 
+get_legal_values <- function() {
+  dplyr::tribble(~sheet, ~variable, ~value,
+                 "Variables", "pivot", c("FIGURES", "STUB", "HEADING"),
+                 "Variables", "type",  c("TIME", NA)
+                 )
+}
+
+
+error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
+  legal_values <-
+    get_legal_values() %>%
+    dplyr::filter(sheet == sheet) %>%
+    dplyr::select(-sheet) %>%
+    tidyr::unnest(value)
+
+  data_values <-
+    get_excel_sheet(sheet)(excel_metadata_path) %>%
+    dplyr::select(dplyr::pull(legal_values, variable)) %>%
+    tidyr::pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
+    dplyr::mutate(value = toupper(value)) %>%
+    dplyr::distinct_all()
+
+  illegal_values <- dplyr::anti_join(data_values, legal_values,
+                                     by = c("variable", "value")
+                                     )
+
+  if (nrow(illegal_values) > 0) {
+    illegal_value <-
+      illegal_values %>%
+      head(1) %>%
+      as.list()
+
+    legal_values_list <-
+      legal_values %>%
+      dplyr::filter(variable == illegal_value$variable) %>%
+      dplyr::pull(value) %>%
+      paste(collapse="', '")
+
+    error(stringr::str_glue(
+      "The value '{illegal_value$value}' is not allowed in the variable ",
+      "'{illegal_value$variable}' in the sheet '{sheet}'.\n",
+      "Change it to one of the legal values: '{legal_values_list}'"
+      ))
+  }
+}
+
+
 error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
   df <- get_excel_sheet(sheet)(excel_metadata_path)
 
@@ -113,6 +160,9 @@ validate_xlsx_metadata <- function(excel_metadata_path) {
                    excel_metadata_path = excel_metadata_path
                    )
             )
+  error_if_variable_has_illegal_values(sheet = "Variables",
+                                       excel_metadata_path
+                                       )
 }
 
 #' Check all pxmake arguments

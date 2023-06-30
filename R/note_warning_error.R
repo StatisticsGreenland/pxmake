@@ -183,7 +183,7 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
 
   if (!is.null(add_totals)) {
     if (class(add_totals) != "character") {
-      error("Argument 'add_totals' should be of type 'character'.", call. = FALSE)
+      error("Argument 'add_totals' should be of type 'character'.")
     }
 
     if (!is_xlsx_file(input)) {

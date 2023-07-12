@@ -36,7 +36,7 @@ get_px_keywords <- function() {
                 "UNITS",       TRUE,            TRUE,                TRUE,
                  "STUB",       TRUE,           FALSE,                TRUE,
               "HEADING",       TRUE,           FALSE,                TRUE,
-         "CONTVARIABLE",      FALSE,           FALSE,                TRUE,
+         "CONTVARIABLE",      FALSE,            TRUE,                TRUE,
                "VALUES",       TRUE,           FALSE,                TRUE,
               "TIMEVAL",      FALSE,           FALSE,                TRUE,
                 "CODES",      FALSE,           FALSE,                TRUE,

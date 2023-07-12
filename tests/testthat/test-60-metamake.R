@@ -12,4 +12,3 @@ test_that("pxmake and metamake creates the same rds object", {
 
   expect_equal_rds(rds_pxmake, rds_metamake)
 })
-

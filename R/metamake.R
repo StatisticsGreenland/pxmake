@@ -128,6 +128,13 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
   metadata <-
     metadata_df %>%
     dplyr::rename(`variable-label` = variable) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(`variable-label` = ifelse(keyword %in% ("CONTVARIABLE"),
+                                            unlist(value),
+                                            `variable-label`
+                                            )
+                  ) %>%
+    dplyr::ungroup() %>%
     dplyr::left_join(name_relation, by = c("language", "variable-label"))
 
   ### Make metadata sheet: 'Variables'
@@ -149,22 +156,40 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
                        values_from = value
     )
 
+
+  # Make type df
+  empty_type_df <- tidyr::tibble(`variable-code` = character(0),
+                                 type = character(0)
+                                 )
+
   time_var <-
     metadata %>%
     dplyr::filter(keyword == "TIMEVAL", main_language) %>%
     dplyr::pull(`variable-code`)
 
   if (identical(time_var, character(0))) {
-    time_variable_df <- dplyr::tibble(`variable-code` = character(0),
-                                      type = character(0)
-                                      )
+    time_variable_df <- empty_type_df
   } else {
     time_variable_df <- dplyr::tibble(`variable-code` = time_var, type = "TIME")
   }
 
+  contvariable <-
+    metadata %>%
+    dplyr::filter(keyword == "CONTVARIABLE", main_language) %>%
+    tidyr::unnest(value) %>%
+    dplyr::pull(`variable-code`)
+
+  if (identical(contvariable, character(0))) {
+    contvariable_df <- empty_type_df
+  } else {
+    contvariable_df <- dplyr::tibble(`variable-code` = contvariable, type = "CONTVARIABLE")
+  }
+
+  type_df <- dplyr::bind_rows(time_variable_df, contvariable_df)
+
   sheet_variables <-
     pivot_order %>%
-    dplyr::left_join(time_variable_df, by = c("variable-code")) %>%
+    dplyr::left_join(type_df, by = "variable-code") %>%
     dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_var,
                                    pivot = "FIGURES"
                                    )

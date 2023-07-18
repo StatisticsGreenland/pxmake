@@ -341,6 +341,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
   metadata_df <-
     dplyr::bind_rows(df,
                      get_table_metadata(excel_metadata_path),
+                     get_table2_metadata(excel_metadata_path),
                      variablecode,
                      note_etc,
                      head_stub,

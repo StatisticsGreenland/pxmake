@@ -242,20 +242,36 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     dplyr::relocate(precision, .after = last_col())
 
   ### Make metadata sheet: 'Table'
-  sheet_table <-
+  table_sheet_data <-
     metadata %>%
     dplyr::left_join(get_px_keywords(), by = "keyword") %>%
     dplyr::filter(in_table_sheet) %>%
     # Exclude variable specific NOTE
     dplyr::filter(!(keyword == "NOTE" & !is.na(`variable-code`))) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(value = paste(value, collapse = ','),
-                  keyword = ifelse(language_dependent,
-                                   paste0(keyword, "_", language),
-                                   keyword
-                                   )
-                  ) %>%
+    dplyr::mutate(value = paste(value, collapse = ',')) %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(order)
+
+  sheet_table <-
+    table_sheet_data %>%
+    dplyr::filter(!language_dependent) %>%
     dplyr::select(keyword, value)
+
+  contvariable_codes <-
+    dplyr::filter(codes_and_values, `variable-code` %in% contvariable) %>%
+    dplyr::select(code, `variable-label` = value, language)
+
+  sheet_table2 <-
+    table_sheet_data %>%
+    dplyr::filter(language_dependent) %>%
+    dplyr::select(-cell) %>%
+    dplyr::left_join(contvariable_codes, by = c("language", "variable-label")) %>%
+    dplyr::select(keyword, code, language, value) %>%
+    tidyr::pivot_wider(names_from = language,
+                       names_glue = "{language}_value",
+                       values_from = "value"
+                       )
 
   ### Make metadata sheet: 'Data'
 
@@ -318,6 +334,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     }
 
     add_sheet(sheet_table,     "Table")
+    add_sheet(sheet_table2,    "Table2")
     add_sheet(sheet_variables, "Variables")
     add_sheet(sheet_codelist,  "Codelists")
 

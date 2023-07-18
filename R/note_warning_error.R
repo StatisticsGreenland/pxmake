@@ -11,11 +11,7 @@ error <- function(msg) {
 
 error_if_excel_sheet_does_not_exist <- function(sheet_name, excel_path) {
   if (! sheet_name %in% readxl::excel_sheets(excel_path)) {
-    error(stringr::str_glue("The sheet '{sheet_name}' is missing in: ",
-                            "{excel_path}.\nAdd the sheet or use the argument ",
-                            "'data_path ='."
-                            )
-    )
+    error(stringr::str_glue("The sheet '{sheet_name}' is missing in: {excel_path}."))
   }
 }
 
@@ -79,6 +75,7 @@ unexpected_error <- function() {
 #' A list of which variables should be in each sheet
 get_mandatory_variables <- function() {
   list("Table"     = c("keyword", "value"),
+       "Table2"    = c("keyword", "code"),
        "Variables" = c("pivot", "order", "variable-code", "variable-label", "type"),
        "Codelists" = c("variable-code", "sortorder", "code", "code-label", "precision")
   )
@@ -157,7 +154,7 @@ error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
 #'
 #' @returns Nothing
 validate_xlsx_metadata <- function(excel_metadata_path) {
-  sheets <- c("Table", "Variables", "Codelists")
+  sheets <- c("Table", "Table2", "Variables", "Codelists")
 
   invisible(lapply(sheets,
                    error_if_sheet_is_missing_variable,
@@ -229,7 +226,7 @@ validate_metamake_arguments <- function(input, out_path, data_path) {
   }
 
   if (!is_xlsx_file(out_path) & !is_rds_file(out_path) & !is.null(out_path)) {
-    error("Argument 'output' needs to be an .xlsx or .rds file or NULL.")
+    error("Argument 'out_path' needs to be an .xlsx or .rds file or NULL.")
   }
 
   if (!is.null(data_path)) {

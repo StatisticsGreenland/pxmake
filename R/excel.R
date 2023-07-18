@@ -11,6 +11,7 @@ get_excel_sheet <- function(sheet) {
 }
 
 get_table_sheet     <- get_excel_sheet("Table")
+get_table2_sheet    <- get_excel_sheet("Table2")
 get_variables_sheet <- get_excel_sheet("Variables")
 get_codelists_sheet <- get_excel_sheet("Codelists")
 get_data_sheet      <- get_excel_sheet("Data")
@@ -40,11 +41,8 @@ get_all_languages <- function(excel_metadata_path) {
 get_table_metadata <- function(excel_metadata_path) {
   excel_metadata_path %>%
     get_table_sheet() %>%
-    tidyr::separate(keyword,
-                    c("keyword", "language"),
-                    sep = "_(?=[[:alpha:]]+)",
-                    fill = "right"
-                    ) %>%
+    dplyr::filter(!is.na(keyword)) %>%
+    dplyr::mutate(dplyr::across(everything(), as.character)) %>%
     dplyr::mutate(value = ifelse(keyword == "LANGUAGES",
                                  stringr::str_replace_all(value, " ", "") %>%
                                    # remove quotes to be backwards compatible
@@ -53,6 +51,19 @@ get_table_metadata <- function(excel_metadata_path) {
                                  value
                                  )
                   ) %>%
+    wrap_varaible_in_list(value)
+}
+
+get_table2_metadata <- function(excel_metadata_path) {
+  excel_metadata_path %>%
+    get_table2_sheet() %>%
+    dplyr::filter(!is.na(keyword)) %>%
+    dplyr::mutate(dplyr::across(everything(), as.character)) %>%
+    tidyr::pivot_longer(cols = ends_with("_value"),
+                        names_to = c("language"),
+                        names_pattern = "^([[:alpha:]]+)_.*$"
+                        ) %>%
+    dplyr::rename(cell = code) %>%
     wrap_varaible_in_list(value)
 }
 
@@ -70,7 +81,7 @@ get_variables_metadata <- function(excel_metadata_path) {
     tidyr::pivot_longer(cols = -c(pivot, order, `variable-code`, type),
                         names_to = c("language", "keyword"),
                         names_pattern = "^([[:alpha:]]+)_(.*)$"
-    ) %>%
+                        ) %>%
     tidyr::pivot_wider(names_from = "keyword")
 }
 

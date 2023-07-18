@@ -34,10 +34,10 @@ test_that("px file and pxmake(metamake(px file)) are equivalent", {
     expect_equal(read_pxjobfile(pxjob1), read_pxjobfile(pxjob2))
   }
 
-  # run_metamake_pxmake_pxjob_and_compare("SOXATI4")
-  # run_metamake_pxmake_pxjob_and_compare("BEXSTA_windows_1252")
-  # run_metamake_pxmake_pxjob_and_compare("no_timeval_or_codes2")
-  run_metamake_pxmake_pxjob_and_compare("CONTVARIABLE")
+  run_metamake_pxmake_pxjob_and_compare("SOXATI4")
+  run_metamake_pxmake_pxjob_and_compare("BEXSTA_windows_1252")
+  run_metamake_pxmake_pxjob_and_compare("no_timeval_or_codes2")
+  # run_metamake_pxmake_pxjob_and_compare("CONTVARIABLE")
 
   # Turn on when support for CELLNOTEX is added (issue #101)
   # run_metamake_pxmake_pxjob_and_compare("TUX01")

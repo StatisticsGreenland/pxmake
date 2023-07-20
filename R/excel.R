@@ -30,7 +30,7 @@ get_all_languages <- function(excel_metadata_path) {
     unique()
 }
 
-#' Get general table metadata
+#' Get non-language dependent general table metadata
 #'
 #' General contains metadata relevant for the entire data set, e.g. its name,
 #' subject, area, contact person, etc.
@@ -54,6 +54,11 @@ get_table_metadata <- function(excel_metadata_path) {
     wrap_varaible_in_list(value)
 }
 
+#' Get language dependent general table metadata
+#'
+#' @inheritParams get_metadata_df_from_excel
+#'
+#' @returns A data frame
 get_table2_metadata <- function(excel_metadata_path) {
   excel_metadata_path %>%
     get_table2_sheet() %>%

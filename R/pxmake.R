@@ -338,13 +338,11 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
                   value = precision
                   )
 
-  tmp <-
-    codelists %>%
-    dplyr::select(code, language, cell = value)
-
   table_language_dependent <-
     get_table2_metadata(excel_metadata_path) %>%
-    dplyr::left_join(tmp, by = c("code", "language")) %>%
+    dplyr::left_join(dplyr::select(codelists, code, language, cell = value),
+                     by = c("code", "language")
+                     ) %>%
     dplyr::select(-code)
 
 

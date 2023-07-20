@@ -2,7 +2,7 @@
 % Please edit documentation in R/excel.R
 \name{get_table_metadata}
 \alias{get_table_metadata}
-\title{Get general table metadata}
+\title{Get non-language dependent general table metadata}
 \usage{
 get_table_metadata(excel_metadata_path)
 }

@@ -1,6 +1,7 @@
-# pxmake (development version)
+# pxmake 0.8.0
 
 ## Breaking changes
+- Split sheet 'Table' into two sheets by language dependency. (#65)
 - Split column 'position' in 'Variables' sheet into 'pivot' and 'order'. (#159)
 - Check for illegal values in columns 'pivot' and 'type' in 'Variables sheet.
 - Rename 'variable' and 'long_name' to 'variable-code' and 'variable-label'. (#144)
@@ -8,6 +9,7 @@
 
 ## New features
 - Return rds object invisibly from `pxmake` and `metamake`. (#37)
+- Support CONTVARIABLE. (#132)
 - Preserve name of FIGURES variable through all data formats.
 
 ## Bug fixes and minor improvements

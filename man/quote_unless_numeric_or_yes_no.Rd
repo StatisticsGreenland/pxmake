@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{quote_unless_numeric_or_yes_no}
 \alias{quote_unless_numeric_or_yes_no}
-\title{Add quotes around unless in some very specific cases requied by the px format}
+\title{Add quotes around unless in some very specific cases required by the px format}
 \usage{
 quote_unless_numeric_or_yes_no(str)
 }
@@ -13,5 +13,5 @@ quote_unless_numeric_or_yes_no(str)
 String
 }
 \description{
-Add quotes around unless in some very specific cases requied by the px format
+Add quotes around unless in some very specific cases required by the px format
 }

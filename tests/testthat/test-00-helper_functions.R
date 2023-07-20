@@ -31,12 +31,15 @@ test_that("keyword has sub-key", {
 
 test_that("keyword has cell name", {
   expect_equal(add_cell_to_keyword(keyword = c('PRECISION("measure")',
-                                               'PRECISION[da]("measure")'
+                                               'PRECISION[da]("measure")',
+                                               'UNIT'
                                                ),
-                                   name = c("Life expectancy", NA)
+                                   name = c("Life expectancy", NA, "Alive")
                                    ),
                c('PRECISION("measure","Life expectancy")',
-                 'PRECISION[da]("measure")')
+                 'PRECISION[da]("measure")',
+                 'UNIT("Alive")'
+                 )
                )
 })
 

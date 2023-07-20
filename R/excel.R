@@ -63,7 +63,6 @@ get_table2_metadata <- function(excel_metadata_path) {
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]+)_.*$"
                         ) %>%
-    dplyr::rename(cell = code) %>%
     wrap_varaible_in_list(value)
 }
 

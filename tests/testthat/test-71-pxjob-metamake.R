@@ -22,7 +22,10 @@ test_that("px file and pxmake(metamake(px file)) are equivalent", {
       lines <-
         path %>%
         readLines() %>%
-        stringr::str_subset("^VARIABLECODE.+", negate = TRUE)
+        stringr::str_subset("^VARIABLECODE.+", negate = TRUE) %>%
+        stringr::str_subset("^VARIABLE-TYPE.+", negate = TRUE) %>%
+        stringr::str_subset("^VALUENOTE.+", negate = TRUE) %>%
+        stringr::str_subset("^META-ID.+", negate = TRUE)
 
       if (table_name %in% c("no_timeval_or_codes2")) {
         lines <- stringr::str_subset(lines, "^CODES.+", negate = TRUE)
@@ -37,7 +40,8 @@ test_that("px file and pxmake(metamake(px file)) are equivalent", {
   run_metamake_pxmake_pxjob_and_compare("SOXATI4")
   run_metamake_pxmake_pxjob_and_compare("BEXSTA_windows_1252")
   run_metamake_pxmake_pxjob_and_compare("no_timeval_or_codes2")
-  # run_metamake_pxmake_pxjob_and_compare("CONTVARIABLE")
+  run_metamake_pxmake_pxjob_and_compare("CONTVARIABLE")
+  run_metamake_pxmake_pxjob_and_compare("CONTVARIABLE_multiple_languages")
 
   # Turn on when support for CELLNOTEX is added (issue #101)
   # run_metamake_pxmake_pxjob_and_compare("TUX01")

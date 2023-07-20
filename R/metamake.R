@@ -9,7 +9,7 @@ get_px_metadata_regex <- function() {
          "(?:\\(\")?",                   # Maybe opening sub-key parentheses (
          "(?<variable>[^\"]+)?",         # Maybe sub-key
          "(?:\",\")?",                   # Maybe comma before cell value
-         "(?<cell>[^\"]+)?",             # Maybe cell value (used by PRECISION)
+         "(?<cell>[^\"]+)?",             # Maybe cell value
          "(?:\")?",                      # Maybe closing " after cell value
          "(?:\"\\))?",                   # Maybe closing sub-key parentheses )
          "=",                            # definitely =
@@ -23,7 +23,12 @@ get_px_metadata_regex <- function() {
 #' @param metadata_lines A character vector with the header of a px file.
 #'
 #' @returns A data frame
-get_metdata_df_from_px_lines <- function(metadata_lines) {
+get_metadata_df_from_px_lines <- function(metadata_lines) {
+  keywords_indexed_by_contvariable <-
+    get_px_keywords() %>%
+    dplyr::filter(indexed_by_contvariable) %>%
+    dplyr::pull(keyword)
+
   metadata_lines %>%
     # Remove newlines in file. Use semi-colon as line separator
     paste0(collapse = "") %>%
@@ -37,6 +42,16 @@ get_metdata_df_from_px_lines <- function(metadata_lines) {
                                  stringr::str_replace_all(value, '^"|"$', ''),
                                  value
                                  )
+                  ) %>%
+    # Variables indexed by CONTVARIABLE are cell values not variable
+    dplyr::mutate(cell = ifelse(keyword %in% keywords_indexed_by_contvariable,
+                                variable,
+                                cell
+                                ),
+                  variable = ifelse(keyword %in% keywords_indexed_by_contvariable,
+                                    NA,
+                                    variable
+                                    )
                   ) %>%
     # remove double quotes caused by collapsing values spanning multiple lines
     dplyr::mutate(value = stringr::str_replace_all(value, '""', '')) %>%
@@ -84,7 +99,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     metadata_lines <- px_lines[c(1:data_line_index)]
     data_lines     <- px_lines[c((data_line_index+1):length(px_lines))]
 
-    metadata_df <- get_metdata_df_from_px_lines(metadata_lines)
+    metadata_df <- get_metadata_df_from_px_lines(metadata_lines)
   } else {
     unexpected_error()
   }
@@ -154,7 +169,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     tidyr::pivot_wider(names_from = c(language, keyword),
                        names_glue = "{language}_{tolower(keyword)}",
                        values_from = value
-    )
+                       )
 
 
   # Make type df
@@ -260,13 +275,12 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
 
   contvariable_codes <-
     dplyr::filter(codes_and_values, `variable-code` %in% contvariable) %>%
-    dplyr::select(code, `variable-label` = value, language)
+    dplyr::select(code, value, language)
 
   sheet_table2 <-
     table_sheet_data %>%
     dplyr::filter(language_dependent) %>%
-    dplyr::select(-cell) %>%
-    dplyr::left_join(contvariable_codes, by = c("language", "variable-label")) %>%
+    dplyr::left_join(contvariable_codes, by = c("cell" = "value", "language")) %>%
     dplyr::select(keyword, code, language, value) %>%
     tidyr::pivot_wider(names_from = language,
                        names_glue = "{language}_value",

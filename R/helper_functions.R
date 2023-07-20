@@ -44,13 +44,18 @@ add_sub_key_to_keyword <- function(keyword, name) {
 #'
 #' @returns String
 add_cell_to_keyword <- function(keyword, name) {
+  keyword_has_subkey <- stringr::str_sub(keyword, -1) == ")"
+
   ifelse(is.na(name),
          keyword,
-         stringr::str_glue('{stringr::str_sub(keyword, 1, -2)},"{name}")')
+         ifelse(keyword_has_subkey,
+                stringr::str_glue('{stringr::str_sub(keyword, 1, -2)},"{name}")'),
+                add_sub_key_to_keyword(keyword, name)
+                )
          )
 }
 
-#' Add quotes around unless in some very specific cases requied by the px format
+#' Add quotes around unless in some very specific cases required by the px format
 #'
 #' @inheritParams str_quote
 #'

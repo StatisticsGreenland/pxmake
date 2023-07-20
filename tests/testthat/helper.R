@@ -59,19 +59,6 @@ expect_metamake_and_pxmake_cancel_out <- function(table_name) {
   expect_equal_lines(px1, px2)
 }
 
-#' pxmake is the inverse of metamake
-expect_pxmake_and_metamake_cancel_out <- function(table_name) {
-  px1   <- get_px_file_path(table_name)
-  meta1 <- temp_xlsx_file()
-  px2   <- temp_px_file()
-
-
-  metamake_clean(px1, meta1)
-  pxmake_clean(meta1, px2)
-
-  expect_equal_lines(px1, px2)
-}
-
 #' Run pxmake and delete created files when environment is killed
 pxmake_clean <- function(input,
                          out_path,

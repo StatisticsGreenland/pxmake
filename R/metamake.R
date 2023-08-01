@@ -88,11 +88,15 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
   }
 
   if (is.data.frame(input)) {
-    stub_variables <- head(input %>% names(), -1)
+    variable_names <- names(input)
+
+    heading_variables <- head(variable_names, 1)
+    stub_variables    <- head(tail(variable_names, -1), -1)
+    figures_variable  <- tail(variable_names, 1)
 
     values <-
       df %>%
-      select(all_of(stub_variables)) %>%
+      select(-all_of(figures_variable)) %>%
       pivot_longer(cols = everything(), names_to = "variable") %>%
       dplyr::group_by(variable) %>%
       dplyr::summarise(value = list(unique(value)))
@@ -106,13 +110,20 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
       dplyr::bind_rows(tibble(keyword = c("NOTE", "ELIMINATION", "DOMAIN"))) %>%
       dplyr::mutate(value = list("")) %>%
       dplyr::bind_rows(
-        tribble(~keyword, ~value,
-                "STUB", stub_variables,
-                "DECIMALS", "0",
-                "LANGUAGE", "en"
-                ),
-        tibble(keyword = "VALUES", values)
-      ) %>%
+        tribble(~keyword,             ~value,
+                "STUB",       stub_variables,
+                "HEADING", heading_variables,
+                "DECIMALS",              "0",
+                "LANGUAGE",             "en"
+                ) %>%
+          wrap_varaible_in_list(value),
+        tibble(keyword = "VALUES", values),
+        #tibble(keyword = "CODES", values),
+        tibble(keyword = "VARIABLECODE",
+               variable = figures_variable,
+               value = list(figures_variable)
+               )
+        ) %>%
       dplyr::mutate(language = "en", cell = NA_character_) %>%
       dplyr::relocate(value, .after = last_col())
 

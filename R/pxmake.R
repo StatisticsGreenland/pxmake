@@ -385,7 +385,12 @@ get_data_cube <- function(metadata_df, data_df) {
     dplyr::filter(keyword %in% c("STUB", "HEADING")) %>%
     tidyr::unnest(value) %>%
     dplyr::select(keyword, label = value) %>%
-    dplyr::left_join(labels, by = "label")
+    dplyr::left_join(labels, by = "label") %>%
+    dplyr::mutate(variable = ifelse(is.na(variable),
+                                    label,
+                                    variable
+                                    )
+                  )
 
   stub_vars <-
     stub_and_heading_df %>%

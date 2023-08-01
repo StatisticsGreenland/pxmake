@@ -87,6 +87,38 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     input <- readRDS(input)
   }
 
+  if (is.data.frame(input)) {
+    stub_variables <- head(input %>% names(), -1)
+
+    values <-
+      df %>%
+      select(all_of(stub_variables)) %>%
+      pivot_longer(cols = everything(), names_to = "variable") %>%
+      dplyr::group_by(variable) %>%
+      dplyr::summarise(value = list(unique(value)))
+
+    metadata_df <-
+      get_px_keywords() %>%
+      dplyr::filter(mandatory,
+                    ! keyword %in% c("DATA", "STUB", "HEADING", "VALUES", "DECIMALS")
+                    ) %>%
+      dplyr::select(keyword) %>%
+      dplyr::bind_rows(tibble(keyword = c("NOTE", "ELIMINATION", "DOMAIN"))) %>%
+      dplyr::mutate(value = list("")) %>%
+      dplyr::bind_rows(
+        tribble(~keyword, ~value,
+                "STUB", stub_variables,
+                "DECIMALS", "0",
+                "LANGUAGE", "en"
+                ),
+        tibble(keyword = "VALUES", values)
+      ) %>%
+      dplyr::mutate(language = "en", cell = NA_character_) %>%
+      dplyr::relocate(value, .after = last_col())
+
+     input <- list("metadata" = metadata_df, "data" = input)
+  }
+
   if (is_rds_list(input)) {
     metadata_df <- input$metadata
   } else if (is_px_file(input)) {

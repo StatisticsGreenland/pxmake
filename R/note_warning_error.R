@@ -221,7 +221,9 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
 #'
 #' @returns Nothing
 validate_metamake_arguments <- function(input, out_path, data_path) {
-  if (!is_px_file(input) & !is_rds_file(input) & !is_rds_list(input)) {
+  if (!is_px_file(input) & !is_rds_file(input) &
+      !is_rds_list(input) & !is.data.frame(input)
+      ) {
     error("Argument 'input' has wrong format. See ?metamake.")
   }
 

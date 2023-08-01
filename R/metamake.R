@@ -118,7 +118,6 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
                 ) %>%
           wrap_varaible_in_list(value),
         tibble(keyword = "VALUES", values),
-        #tibble(keyword = "CODES", values),
         tibble(keyword = "VARIABLECODE",
                variable = figures_variable,
                value = list(figures_variable)

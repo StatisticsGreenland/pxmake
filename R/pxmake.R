@@ -475,6 +475,9 @@ format_data_as_px_lines <- function(metadata_df, data_df) {
 
   metadata_lines <-
     metadata_df %>%
+    dplyr::left_join(dplyr::select(get_px_keywords(), keyword, quote_value),
+                     by = 'keyword'
+                     ) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(keyword = keyword %>%
                               add_language_to_keyword(get_main_language(metadata_df),
@@ -486,7 +489,10 @@ format_data_as_px_lines <- function(metadata_df, data_df) {
     dplyr::mutate(value = value %>%
                             tidyr::replace_na("") %>%
                             paste(collapse = '","') %>%
-                            quote_unless_numeric_or_yes_no() %>%
+                            ifelse(quote_value,
+                                   quote_unless_yes_no(.),
+                                   .
+                                   ) %>%
                             break_long_lines(max_line_length = 256) %>%
                             list()
                   ) %>%

@@ -104,5 +104,22 @@ test_that("px file is valid", {
     expect_that_px_filehas_timeval(fotest)
   })
 
+  test_that("axis-version is quoted", {
+    expect_that_axis_version_is_quoted <- function(path) {
+      px_lines <- readLines(path)
+
+      n_quotes <-
+        stringr::str_count(px_lines[stringr::str_detect(px_lines, "^AXIS-VERSION")],
+                  '"'
+                  )
+
+      expect_equal(n_quotes, 2)
+    }
+
+    expect_that_axis_version_is_quoted(bexsta)
+    expect_that_axis_version_is_quoted(bexltall)
+    expect_that_axis_version_is_quoted(fotest)
+  })
+
   expect_true(TRUE) #needed to run
 })

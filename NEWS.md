@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Quote values of text keywords even if their text is a number. (#164)
+
 # pxmake 0.8.0
 
 ## Breaking changes

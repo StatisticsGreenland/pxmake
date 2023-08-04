@@ -95,9 +95,9 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     figures_variable  <- tail(variable_names, 1)
 
     values <-
-      df %>%
-      select(-all_of(figures_variable)) %>%
-      pivot_longer(cols = everything(), names_to = "variable") %>%
+      input %>%
+      dplyr::select(-all_of(figures_variable)) %>%
+      tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
       dplyr::group_by(variable) %>%
       dplyr::summarise(value = list(unique(value)))
 
@@ -280,6 +280,11 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     tidyr::unnest(value) %>%
     dplyr::group_by(`variable-code`, language) %>%
     dplyr::mutate(sortorder = dplyr::row_number()) %>%
+    dplyr::mutate(`variable-code` = ifelse(is.na(`variable-code`),
+                                           `variable-label`,
+                                           `variable-code`
+                                           )
+                  ) %>%
     dplyr::select(`variable-code`, value, language, main_language, sortorder)
 
   codes_and_values <-

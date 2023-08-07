@@ -86,7 +86,12 @@ get_variables_metadata <- function(excel_metadata_path) {
                         names_to = c("language", "keyword"),
                         names_pattern = "^([[:alpha:]]+)_(.*)$"
                         ) %>%
-    tidyr::pivot_wider(names_from = "keyword")
+    tidyr::pivot_wider(names_from = "keyword") %>%
+    dplyr::mutate(`variable-label` = ifelse(is.na(`variable-label`),
+                                            `variable-code`,
+                                            `variable-label`
+                                            )
+                  )
 }
 
 #' Get codelists metadata

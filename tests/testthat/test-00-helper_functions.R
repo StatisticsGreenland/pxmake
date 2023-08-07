@@ -44,10 +44,10 @@ test_that("keyword has cell name", {
 })
 
 test_that("strings are quoted", {
-  input  <- c(  'A',   ' b ',   '"', 0, 3.14, 'YES', 'NO', '"is quoted"', 'TLIST(A1,"2015";')
-  expect <- c('"A"', '" b "', '"""', 0, 3.14, 'YES', 'NO', '"is quoted"', 'TLIST(A1,"2015";')
+  input  <- c(  'A',   ' b ',   '"',     0,     3.14, 'YES', 'NO', '"is quoted"', 'TLIST(A1,"2015";')
+  expect <- c('"A"', '" b "', '"""', '"0"', '"3.14"', 'YES', 'NO', '"is quoted"', 'TLIST(A1,"2015";')
 
-  expect_equal(quote_unless_numeric_or_yes_no(input), expect)
+  expect_equal(quote_unless_yes_no(input), expect)
 })
 
 test_that("list values are unique and sorted", {

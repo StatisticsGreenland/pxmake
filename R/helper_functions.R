@@ -60,11 +60,7 @@ add_cell_to_keyword <- function(keyword, name) {
 #' @inheritParams str_quote
 #'
 #' @returns String
-quote_unless_numeric_or_yes_no <- function(str) {
-  str_is_numeric <- function(str) {
-    stringr::str_detect(str, "^[0-9.]+$")
-  }
-
+quote_unless_yes_no <- function(str) {
   str_is_quoted <- function(str) {
     stringr::str_length(str) >= 2 &
       stringr::str_sub(str, 1, 1) == '"' &
@@ -72,7 +68,7 @@ quote_unless_numeric_or_yes_no <- function(str) {
   }
 
   ifelse(
-    str %in% c('YES', 'NO') | str_is_numeric(str) | str_is_quoted(str) |
+    str %in% c('YES', 'NO') | str_is_quoted(str) |
       stringr::str_starts(str, "TLIST\\("),
     str,
     str_quote(str)

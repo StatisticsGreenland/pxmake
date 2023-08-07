@@ -1,5 +1,11 @@
 # pxmake (development version)
 
+# pxmake 0.8.1
+
+## Bug fixes and minor improvements
+- Use variable-code as variable-label if no label is given. (#173)
+- Quote values of text keywords even if their text is a number. (#164)
+
 # pxmake 0.8.0
 
 ## Breaking changes

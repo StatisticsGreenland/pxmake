@@ -1,5 +1,8 @@
 get_data_path <- function(table_name) {
-  if (table_name %in% c("FOTEST", "no_timeval_or_codes")) {
+  tables_with_data_in_excel <-
+    c("FOTEST", "no_timeval_or_codes", "zero_heading", "zero_stub")
+
+  if (table_name %in% tables_with_data_in_excel) {
     NULL
   } else {
     test_path('fixtures', 'data', paste0(table_name, '.rds'))

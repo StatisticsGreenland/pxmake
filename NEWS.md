@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Handle px-files with either zero heading variables or zero stub variables. (#95)
+
 # pxmake 0.8.1
 
 ## Bug fixes and minor improvements

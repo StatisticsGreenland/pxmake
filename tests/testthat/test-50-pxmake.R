@@ -14,4 +14,6 @@ test_that("pxmake runs without errors and creates a file", {
   test_file_creation("BEXSTA")
   test_file_creation("FOTEST")
   test_file_creation("no_timeval_or_codes")
+  test_file_creation("zero_heading")
+  test_file_creation("zero_stub")
 })

@@ -107,21 +107,21 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
                     ! keyword %in% c("DATA", "STUB", "HEADING", "VALUES", "DECIMALS")
                     ) %>%
       dplyr::select(keyword) %>%
-      dplyr::bind_rows(tibble(keyword = c("NOTE", "ELIMINATION", "DOMAIN"))) %>%
+      dplyr::bind_rows(dplyr::tibble(keyword = c("NOTE", "ELIMINATION", "DOMAIN"))) %>%
       dplyr::mutate(value = list("")) %>%
       dplyr::bind_rows(
-        tribble(~keyword,             ~value,
-                "STUB",       stub_variables,
-                "HEADING", heading_variables,
-                "DECIMALS",              "0",
-                "LANGUAGE",             "en"
-                ) %>%
+        dplyr::tribble(~keyword,             ~value,
+                       "STUB",       stub_variables,
+                       "HEADING", heading_variables,
+                       "DECIMALS",              "0",
+                       "LANGUAGE",             "en"
+                       ) %>%
           wrap_varaible_in_list(value),
-        tibble(keyword = "VALUES", values),
-        tibble(keyword = "VARIABLECODE",
-               variable = figures_variable,
-               value = list(figures_variable)
-               )
+        dplyr::tibble(keyword = "VALUES", values),
+        dplyr::tibble(keyword = "VARIABLECODE",
+                      variable = figures_variable,
+                      value = list(figures_variable)
+                      )
         ) %>%
       dplyr::mutate(language = "en", cell = NA_character_) %>%
       dplyr::relocate(value, .after = last_col())

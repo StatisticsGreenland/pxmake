@@ -56,6 +56,7 @@ test_that("list values are unique and sorted", {
   expect <- list(x = 'a', y = c(1, 2, 3), z = c('a', 'b'))
 
   expect_equal(lst_distinct_and_arrange(lst), expect)
+  expect_equal(lst_distinct_and_arrange(list()), list())
 })
 
 test_that("lists are merged and sorted", {
@@ -65,6 +66,17 @@ test_that("lists are merged and sorted", {
   expect <- list(x = c(1, 2, 3), y = c('a', 'b', 'c'))
 
   expect_equal(merge_named_lists(lst1, lst2), expect)
+
+  expect_equal(merge_named_lists(list(), list()), list())
+
+  lst4 <- list(x = 'a', y = 'b')
+  expect_equal(merge_named_lists(lst4, lst4), lst4)
+
+  lst5 <- list(y = 'b', x = 'a')
+  expect_equal(merge_named_lists(lst4, lst5), lst4)
+
+  expect_equal(merge_named_lists(list(), lst4), lst4)
+  expect_equal(merge_named_lists(lst4, list()), lst4)
 })
 
 test_that("Time values are classified", {

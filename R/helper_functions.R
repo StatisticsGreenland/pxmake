@@ -81,6 +81,10 @@ quote_unless_yes_no <- function(str) {
 #'
 #' @returns List
 lst_distinct_and_arrange <- function(lst) {
+  if (length(lst) == 0) {
+    return(lst)
+  }
+
   tmp <- lapply(lapply(lst, unique), sort)
   tmp[order(names(tmp))]
 }
@@ -93,7 +97,13 @@ lst_distinct_and_arrange <- function(lst) {
 #' @returns List
 merge_named_lists <- function(lst1, lst2) {
   keys <- unique(c(names(lst1), names(lst2)))
-  temp <- setNames(mapply(c, lst1[keys], lst2[keys]), keys)
+
+  if (identical(lst1[keys], lst2[keys])) {
+    temp <- lst1[keys]
+  } else {
+    temp <- setNames(mapply(c, lst1[keys], lst2[keys]), keys)
+  }
+
   lst_distinct_and_arrange(temp)
 }
 

@@ -431,11 +431,16 @@ get_data_cube <- function(metadata_df, data_df) {
     split(codelist$code, codelist$variable) %>%
     lst_distinct_and_arrange()
 
-  data_values <- merge_named_lists(data_values, codelist_values)
+  data_and_codelist_values <- merge_named_lists(data_values, codelist_values)
+
+  heading_code_vars      <- paste0("code_",      heading_vars, recycle0 = TRUE)
+  heading_sortorder_vars <- paste0("sortorder_", heading_vars, recycle0 = TRUE)
+  stub_code_vars         <- paste0("code_",      stub_vars,    recycle0 = TRUE)
+  stub_sortorder_vars    <- paste0("sortorder_", stub_vars,    recycle0 = TRUE)
 
   data_cube <-
     data_df %>%
-    tidyr::complete(!!!data_values) %>%
+    tidyr::complete(!!!data_and_codelist_values) %>%
     dplyr::mutate(id_ = dplyr::row_number()) %>% # used to unpivot data later
     tidyr::pivot_longer(cols = all_of(head_stub_variable_names),
                         names_to = "variable",
@@ -448,20 +453,18 @@ get_data_cube <- function(metadata_df, data_df) {
     dplyr::select(-id_) %>%
     # Sort by sortorder for first heading var, codes for first heading var,
     # sortorder for second heading var, etc.
-    dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", heading_vars),
-                                             paste0("code_", heading_vars)
-                                             )
-                                 )
-                   ) %>%
-    dplyr::select(-paste0("sortorder_", heading_vars)) %>%
-    tidyr::pivot_wider(names_from = !!paste0("code_", heading_vars),
-                       values_from = dplyr::all_of(figures_var)
-                       ) %>%
-    dplyr::arrange(dplyr::across(zip_vectors(paste0("sortorder_", stub_vars),
-                                             paste0("code_", stub_vars)
-                                             )
-                                 )
-                   ) %>%
+    dplyr::arrange(dplyr::across(zip_vectors(heading_sortorder_vars, heading_code_vars))) %>%
+    dplyr::select(-all_of(heading_sortorder_vars)) %>%
+    { if(length(heading_code_vars > 0)) {
+      tidyr::pivot_wider(.,
+                         names_from = all_of(heading_code_vars),
+                         values_from = all_of(figures_var)
+                         )
+      } else {
+        .
+      }
+    } %>%
+    dplyr::arrange(dplyr::across(zip_vectors(stub_sortorder_vars, stub_code_vars))) %>%
     dplyr::select(-ends_with(paste0("_", stub_vars)))
 
   return(data_cube)

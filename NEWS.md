@@ -2,6 +2,7 @@
 
 ## Bug fixes and minor improvements
 - Handle px-files with either zero heading variables or zero stub variables. (#95)
+- Bugfix: Fix edge case in list sorting caused by px-files with no codes.
 
 # pxmake 0.8.1
 

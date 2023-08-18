@@ -2,7 +2,8 @@
 
 ## Bug fixes and minor improvements
 - Handle px-files with either zero heading variables or zero stub variables. (#95)
-- Bugfix: Fix edge case in list sorting caused by px-files with no codes.
+- Fix edge case in list sorting caused by px-files with no codes.
+- Use values as codes if no code is given for add_totals variable.
 
 # pxmake 0.8.1
 

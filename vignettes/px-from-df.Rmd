@@ -103,18 +103,3 @@ rds$metadata <-
 
 pxmake(rds, out_path = 'population3.px')
 ```
-
-
-## Multiple languages
-
-```{r}
-rds_3_languages <- metamake(df)
-
-rds_3_languages$metadata <-
-  rds_3_languages$metadata %>% 
-  bind_rows(tibble(keyword = "LANGUAGES", value = list(c("en", "da", "kl"))))
-
-metamake(rds_3_languages, 'population_3_languages.xlsx')
-```
-
-

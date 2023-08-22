@@ -42,7 +42,7 @@ get_table_metadata <- function(excel_metadata_path) {
   excel_metadata_path %>%
     get_table_sheet() %>%
     dplyr::filter(!is.na(keyword)) %>%
-    dplyr::mutate(dplyr::across(everything(), as.character)) %>%
+    mutate_all_vars_to_character() %>%
     dplyr::mutate(value = ifelse(keyword == "LANGUAGES",
                                  stringr::str_replace_all(value, " ", "") %>%
                                    # remove quotes to be backwards compatible
@@ -63,7 +63,7 @@ get_table2_metadata <- function(excel_metadata_path) {
   excel_metadata_path %>%
     get_table2_sheet() %>%
     dplyr::filter(!is.na(keyword)) %>%
-    dplyr::mutate(dplyr::across(everything(), as.character)) %>%
+    mutate_all_vars_to_character() %>%
     tidyr::pivot_longer(cols = ends_with("_value"),
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]+)_.*$"

@@ -525,9 +525,8 @@ format_data_as_px_lines <- function(metadata_df, data_df) {
 
   data_lines <-
     data_cube %>%
-    dplyr::mutate(dplyr::across(everything(), as.character),
-                  dplyr::across(everything(), ~tidyr::replace_na(.x, '"-"'))
-                  ) %>%
+    mutate_all_vars_to_character() %>%
+    dplyr::mutate(dplyr::across(everything(), ~tidyr::replace_na(.x, '"-"'))) %>%
     tidyr::unite(tmp, sep = " ") %>%
     dplyr::pull(tmp)
 

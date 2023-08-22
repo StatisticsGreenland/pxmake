@@ -299,3 +299,13 @@ is_rds_list <- function(lst) {
 
   return(TRUE)
 }
+
+
+#' Change all variables to character
+#'
+#' @param df Data frame
+#'
+#' @returns A data frame
+mutate_all_vars_to_character <- function(df) {
+  dplyr::mutate(df, dplyr::across(everything(), as.character))
+}

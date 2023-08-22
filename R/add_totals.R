@@ -75,10 +75,10 @@ add_totals_to_data_df <- function(excel_metadata_path, data_df, add_totals) {
                      multiple = "all"
                      ) %>%
     dplyr::filter(`variable-code` %in% add_totals) %>%
-    dplyr::mutate(code =ifelse(is.na(code),
-                               elimination,
-                               code
-                               )
+    dplyr::mutate(code = ifelse(is.na(code),
+                                elimination,
+                                code
+                                )
                   ) %>%
     dplyr::distinct(`variable-code`, code)
 

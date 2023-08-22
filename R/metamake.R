@@ -41,7 +41,7 @@ get_metadata_template_from_data <- function(data_df) {
   get_px_keywords() %>%
     dplyr::filter(mandatory,
                   ! keyword %in% c("DATA", "STUB", "HEADING", "VALUES", "DECIMALS")
-    ) %>%
+                  ) %>%
     dplyr::select(keyword) %>%
     dplyr::bind_rows(dplyr::tibble(keyword = c("NOTE", "ELIMINATION", "DOMAIN"))) %>%
     dplyr::mutate(value = list("")) %>%
@@ -51,14 +51,14 @@ get_metadata_template_from_data <- function(data_df) {
                      "HEADING", heading_variables,
                      "DECIMALS",              "0",
                      "LANGUAGE",             "en"
-      ) %>%
+                     ) %>%
         wrap_varaible_in_list(value),
       dplyr::tibble(keyword = "VALUES", values),
       dplyr::tibble(keyword = "VARIABLECODE",
                     variable = figures_variable,
                     value = list(figures_variable)
-      )
-    ) %>%
+                    )
+      ) %>%
     dplyr::mutate(language = "en", cell = NA_character_) %>%
     dplyr::relocate(value, .after = last_col())
 }
@@ -114,7 +114,7 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
 #' 1. A path to a `.px` file.
 #' 1. A path to a `.rds` file created by \link{pxmake}.
 #' 1. A named list with two data frames "metadata" and "data" (same as option 2).
-#' 1. A data frame with data. A minimal metadata template will be created.
+#' 1. A data frame with. A minimal metadata template will be created.
 #' @param out_path Path to save metadata at. Use `.xlsx` extension to save
 #' as an Excel workbook. Use `.rds` to save as an rds file. If NULL, no file is
 #' saved.

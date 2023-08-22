@@ -12,7 +12,7 @@ metamake(input, out_path = NULL, data_path = NULL)
 \item A path to a \code{.px} file.
 \item A path to a \code{.rds} file created by \link{pxmake}.
 \item A named list with two data frames "metadata" and "data" (same as option 2).
-\item A data frame with data. A minimal metadata template will be created.
+\item A data frame with. A minimal metadata template will be created.
 }}
 
 \item{out_path}{Path to save metadata at. Use \code{.xlsx} extension to save

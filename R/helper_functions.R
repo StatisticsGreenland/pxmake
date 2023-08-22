@@ -300,7 +300,6 @@ is_rds_list <- function(lst) {
   return(TRUE)
 }
 
-
 #' Change all variables to character
 #'
 #' @param df Data frame

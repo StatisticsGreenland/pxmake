@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## New features
+- Let `metamake` accept a data frame as input and create a minimal metadata 
+template for the data.
+
 ## Bug fixes and minor improvements
 - Handle px-files with either zero heading variables or zero stub variables. (#95)
 - Fix edge case in list sorting caused by px-files with no codes.

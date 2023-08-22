@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.9.0
 
 ## New features
 - Let `metamake` accept a data frame as input and create a minimal metadata 

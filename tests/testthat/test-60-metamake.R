@@ -14,3 +14,8 @@ test_that("pxmake and metamake creates the same rds object", {
 
   expect_equal_rds(rds_pxmake, rds_metamake)
 })
+
+test_that("metamake accepts a data frame as input", {
+  metamake(input = women)
+  expect_true(TRUE)
+})

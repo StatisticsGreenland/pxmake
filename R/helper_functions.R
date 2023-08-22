@@ -89,19 +89,28 @@ lst_distinct_and_arrange <- function(lst) {
   tmp[order(names(tmp))]
 }
 
-#' Put to named lists together, remove duplicates and sort
+#' Put two named lists together, remove duplicates and sort
 #'
 #' @param lst1 List to merge
 #' @param lst2 List to merge
 #'
 #' @returns List
 merge_named_lists <- function(lst1, lst2) {
+  if (length(lst1) == 0) {
+    lst1 <- lst2
+  } else if (length(lst2) == 0) {
+    lst2 <- lst1
+  }
+
   keys <- unique(c(names(lst1), names(lst2)))
 
-  if (identical(lst1[keys], lst2[keys])) {
-    temp <- lst1[keys]
+  lst1_sorted <- lst_distinct_and_arrange(lst1[keys])
+  lst2_sorted <- lst_distinct_and_arrange(lst2[keys])
+
+  if (identical(lst1_sorted, lst2_sorted)) {
+    temp <- lst1_sorted
   } else {
-    temp <- setNames(mapply(c, lst1[keys], lst2[keys]), keys)
+    temp <- setNames(mapply(c, lst1_sorted, lst2_sorted), keys)
   }
 
   lst_distinct_and_arrange(temp)
@@ -289,4 +298,13 @@ is_rds_list <- function(lst) {
   }
 
   return(TRUE)
+}
+
+#' Change all variables to character
+#'
+#' @param df Data frame
+#'
+#' @returns A data frame
+mutate_all_vars_to_character <- function(df) {
+  dplyr::mutate(df, dplyr::across(everything(), as.character))
 }

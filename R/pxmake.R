@@ -385,7 +385,12 @@ get_data_cube <- function(metadata_df, data_df) {
     dplyr::filter(keyword %in% c("STUB", "HEADING")) %>%
     tidyr::unnest(value) %>%
     dplyr::select(keyword, label = value) %>%
-    dplyr::left_join(labels, by = "label")
+    dplyr::left_join(labels, by = "label") %>%
+    dplyr::mutate(variable = ifelse(is.na(variable),
+                                    label,
+                                    variable
+                                    )
+                  )
 
   stub_vars <-
     stub_and_heading_df %>%
@@ -520,9 +525,8 @@ format_data_as_px_lines <- function(metadata_df, data_df) {
 
   data_lines <-
     data_cube %>%
-    dplyr::mutate(dplyr::across(everything(), as.character),
-                  dplyr::across(everything(), ~tidyr::replace_na(.x, '"-"'))
-                  ) %>%
+    mutate_all_vars_to_character() %>%
+    dplyr::mutate(dplyr::across(everything(), ~tidyr::replace_na(.x, '"-"'))) %>%
     tidyr::unite(tmp, sep = " ") %>%
     dplyr::pull(tmp)
 

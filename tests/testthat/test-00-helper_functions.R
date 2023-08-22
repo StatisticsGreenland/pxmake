@@ -69,14 +69,19 @@ test_that("lists are merged and sorted", {
 
   expect_equal(merge_named_lists(list(), list()), list())
 
-  lst4 <- list(x = 'a', y = 'b')
+  lst4 <- list(x = c('a', 'b', 'c'), y = c('d', 'e', 'f'))
   expect_equal(merge_named_lists(lst4, lst4), lst4)
 
-  lst5 <- list(y = 'b', x = 'a')
+  lst5 <- list(y = c('f', 'e', 'd'), x = c('c', 'b', 'a'))
   expect_equal(merge_named_lists(lst4, lst5), lst4)
 
   expect_equal(merge_named_lists(list(), lst4), lst4)
   expect_equal(merge_named_lists(lst4, list()), lst4)
+
+  lst6 <- list(a="b")
+  lst6$a <- NULL
+
+  expect_equal(merge_named_lists(lst4, lst6), lst4)
 })
 
 test_that("Time values are classified", {

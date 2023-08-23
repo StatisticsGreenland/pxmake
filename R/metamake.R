@@ -18,6 +18,51 @@ get_px_metadata_regex <- function() {
   )
 }
 
+#' Create a minimal metadata template
+#'
+#' @param data_df A data frame with data to create metadata for
+#'
+#' @returns A data frame
+get_metadata_template_from_data <- function(data_df) {
+  variable_names <- names(data_df)
+
+  heading_variables <- head(variable_names, 1)
+  stub_variables    <- head(tail(variable_names, -1), -1)
+  figures_variable  <- tail(variable_names, 1)
+
+  values <-
+    data_df %>%
+    dplyr::select(-all_of(figures_variable)) %>%
+    mutate_all_vars_to_character() %>%
+    tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
+    dplyr::group_by(variable) %>%
+    dplyr::summarise(value = list(unique(value)))
+
+  get_px_keywords() %>%
+    dplyr::filter(mandatory,
+                  ! keyword %in% c("DATA", "STUB", "HEADING", "VALUES", "DECIMALS")
+                  ) %>%
+    dplyr::select(keyword) %>%
+    dplyr::bind_rows(dplyr::tibble(keyword = c("NOTE", "ELIMINATION", "DOMAIN"))) %>%
+    dplyr::mutate(value = list("")) %>%
+    dplyr::bind_rows(
+      dplyr::tribble(~keyword,             ~value,
+                     "STUB",       stub_variables,
+                     "HEADING", heading_variables,
+                     "DECIMALS",              "0",
+                     "LANGUAGE",             "en"
+                     ) %>%
+        wrap_varaible_in_list(value),
+      dplyr::tibble(keyword = "VALUES", values),
+      dplyr::tibble(keyword = "VARIABLECODE",
+                    variable = figures_variable,
+                    value = list(figures_variable)
+                    )
+      ) %>%
+    dplyr::mutate(language = "en", cell = NA_character_) %>%
+    dplyr::relocate(value, .after = last_col())
+}
+
 #' Get metadata df from px lines
 #'
 #' @param metadata_lines A character vector with the header of a px file.
@@ -65,10 +110,11 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
 
 #' Create an Excel metadata workbook from a px-file
 #'
-#' @param input Input can be provided in one of three ways:
+#' @param input Input can be provided in one of four ways:
 #' 1. A path to a `.px` file.
 #' 1. A path to a `.rds` file created by \link{pxmake}.
 #' 1. A named list with two data frames "metadata" and "data" (same as option 2).
+#' 1. A data frame with data. A minimal metadata template will be created.
 #' @param out_path Path to save metadata at. Use `.xlsx` extension to save
 #' as an Excel workbook. Use `.rds` to save as an rds file. If NULL, no file is
 #' saved.
@@ -85,6 +131,11 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
 
   if (is_rds_file(input)) {
     input <- readRDS(input)
+  } else if (is.data.frame(input)) {
+    data_df <- input
+    input <- list("metadata" = get_metadata_template_from_data(data_df),
+                  "data" = data_df
+                  )
   }
 
   if (is_rds_list(input)) {
@@ -238,6 +289,11 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     tidyr::unnest(value) %>%
     dplyr::group_by(`variable-code`, language) %>%
     dplyr::mutate(sortorder = dplyr::row_number()) %>%
+    dplyr::mutate(`variable-code` = ifelse(is.na(`variable-code`),
+                                           `variable-label`,
+                                           `variable-code`
+                                           )
+                  ) %>%
     dplyr::select(`variable-code`, value, language, main_language, sortorder)
 
   codes_and_values <-
@@ -315,7 +371,14 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
   if (is_rds_list(input)) {
     sheet_data <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
-      dplyr::left_join(input$data, by = c(stub_vars, heading_vars))
+      dplyr::left_join(input$data %>%
+                       dplyr::mutate(input$data,
+                                     dplyr::across(-one_of(get_figures_variable(input, .)),
+                                                   as.character
+                                                   )
+                                     ),
+                       by = c(stub_vars, heading_vars)
+                       )
   } else {
     figures <-
       data_lines %>%

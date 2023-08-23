@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{merge_named_lists}
 \alias{merge_named_lists}
-\title{Put to named lists together, remove duplicates and sort}
+\title{Put two named lists together, remove duplicates and sort}
 \usage{
 merge_named_lists(lst1, lst2)
 }
@@ -15,5 +15,5 @@ merge_named_lists(lst1, lst2)
 List
 }
 \description{
-Put to named lists together, remove duplicates and sort
+Put two named lists together, remove duplicates and sort
 }

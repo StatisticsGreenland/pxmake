@@ -1,0 +1,39 @@
+LANGUAGE="en";
+DECIMALS=0;
+MATRIX="BEXFIRST";
+SUBJECT-CODE="BE";
+SUBJECT-AREA="Population";
+DESCRIPTION="";
+TITLE="";
+CONTENTS="Sample persons";
+UNITS="Persons";
+STUB="age","time";
+HEADING="sex";
+VALUES("age")="0-15","16-25","26-50","Total";
+VALUES("sex")="Female","Male","Total";
+VALUES("time")="2021","2022","2023";
+CODES("age")="0-15","16-25","26-50","Total";
+CODES("sex")="Female","Male","Total";
+CODES("time")="2021","2022","2023";
+VARIABLECODE("age")="age";
+VARIABLECODE("sex")="sex";
+VARIABLECODE("time")="time";
+VARIABLECODE("value")="value";
+ELIMINATION("age")="Total";
+ELIMINATION("sex")="Total";
+NOTEX="Rough age groups only";
+NOTE="";
+DATA=
+21 26 47
+12 18 30
+23 27 50
+16 21 37
+26 23 49
+23 25 48
+12 20 32
+16 22 38
+22 24 46
+49 67 116
+54 63 117
+68 76 144
+;

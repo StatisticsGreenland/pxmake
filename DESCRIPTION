@@ -28,10 +28,7 @@ Imports:
     tools,
     withr
 Suggests: 
-    knitr,
-    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/testthat/start-first: 60-metamake-bexltall
-VignetteBuilder: knitr

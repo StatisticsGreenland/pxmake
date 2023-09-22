@@ -1,106 +1,103 @@
 #' Create microdata
 #'
 #' Turn a dataset and its metadata into a series of px-files, one for each
-#' variable in the original data set.
+#' variable in the original dataset, except time vars.
 #'
-#' @inheritParams pxmake
+#' @inheritParams metamake
 #' @param out_dir Directory to save px-files in.
 #'
 #' @returns Nothing
-micromake <- function(input, data) {
+micromake <- function(input, out_dir) {
+  temp_excel <- temp_xlsx_file()
+  temp_rds   <- temp_rds_file()
 
-  # convert to rds
-  # how to store additional information required for microdata conversion?
+  metamake(input, out_path = temp_excel, data_path = temp_rds)
 
-  # Create rds file for each variable
+  wb <- openxlsx::loadWorkbook(temp_excel)
 
+  variables <- openxlsx::readWorkbook(wb, sheet="Variables") %>% dplyr::as_tibble()
 
-  get_one_var('gender')
-  get_one_var('place of birth')
-}
+  variables_long <-
+    variables %>%
+    dplyr::mutate(across(-one_of("order"), as.character)) %>%
+    tidyr::pivot_longer(cols = -c(pivot, order, `variable-code`, type),
+                        names_to = c("language", "keyword"),
+                        names_pattern = "^([[:alpha:]]+)_(.*)$"
+                        ) %>%
+    tidyr::pivot_wider(names_from = "keyword")
 
-get_one_var <- function(varname) {
-  rds <- pxmake(get_metadata_path('bexsta'), data = get_data_path('bexsta'))
+  codelists <- openxlsx::readWorkbook(wb, sheet="Codelists")
 
-  name_relation <-
-    rds$metadata %>%
-    dplyr::filter(keyword == "VARIABLECODE") %>%
-    tidyr::unnest(value) %>%
-    dplyr::select(`variable-code` = value, variable, language)
+  codelists_long <-
+    codelists %>%
+    dplyr::as_tibble() %>%
+    tidyr::pivot_longer(cols = ends_with("_code-label"),
+                        names_to = c("language"),
+                        names_pattern = "^([[:alpha:]]+)_.*$"
+                        )
 
-  vars <-
-    dplyr::distinct(name_relation, `variable-code`) %>%
+  figures_var <-
+    variables %>%
+    dplyr::filter(toupper(pivot) == "FIGURES") %>%
     dplyr::pull(`variable-code`)
-
-  metadata <-
-    rds$metadata %>%
-    dplyr::left_join(name_relation, by = c('variable', 'language'))
 
   time_var <-
-    metadata %>%
-    dplyr::filter(keyword == "TIMEVAL") %>%
-    dplyr::distinct(`variable-code`) %>%
+    variables %>%
+    dplyr::filter(toupper(type) == "TIME") %>%
     dplyr::pull(`variable-code`)
 
-  head_and_stub <-
-    rds$metadata %>%
-    dplyr::filter(keyword %in% c("STUB", "HEADING")) %>%
-    tidyr::unnest(value) %>%
-    dplyr::left_join(name_relation, by = c('value' = 'variable', 'language')) %>%
-    dplyr::distinct(`variable-code`) %>%
+  stub_heading_vars <-
+    variables %>%
+    dplyr::filter(pivot %in% c("STUB", "HEADING")) %>%
     dplyr::pull(`variable-code`)
 
-  figures_var <- setdiff(vars, head_and_stub)
+  micro_vars <- setdiff(stub_heading_vars, time_var)
 
-  # also include timevar
+  for (varname in micro_vars) {
+    include_vars <- c(varname, time_var, figures_var)
 
-  include_vars <- c(varname, figures_var, time_var)
+    temp_wb <- wb
 
-  # loop
-  new_head_stub <-
-    metadata %>%
-    dplyr::filter(keyword %in% c("STUB", "HEADING")) %>%
-    dplyr::select(-`variable-code`) %>%
-    tidyr::unnest(value) %>%
-    dplyr::left_join(name_relation, by = c('value' = 'variable', 'language')) %>%
-    dplyr::filter(`variable-code` %in% include_vars) %>%
-    dplyr::select(-`variable-code`) %>%
-    dplyr::group_by(across(-value)) %>%
-    dplyr::summarise(value = list(value), .groups = "keep")
+    overwrite_sheet_data <- function(df, workbook, sheet_name) {
+      openxlsx::removeWorksheet(workbook, sheet_name)
+      openxlsx::addWorksheet(workbook, sheet_name)
+      openxlsx::writeDataTable(workbook, sheet_name, df)
+    }
 
+    variables %>%
+      dplyr::filter(`variable-code` %in% include_vars) %>%
+      dplyr::mutate(pivot = dplyr::case_when(`variable-code` %in% time_var    ~ "HEADING",
+                                             `variable-code` %in% varname     ~ "STUB",
+                                             `variable-code` %in% figures_var ~ "FIGURES",
+                                             TRUE ~ NA_character_
+                                             )
+                    ) %>%
+      overwrite_sheet_data(temp_wb, "Variables")
 
-  #use variable and stub, and timevar as heading
-  stub_df <-
-    name_relation %>%
-    dplyr::filter(`variable-code` %in% varname) %>%
-    dplyr::mutate(keyword = "STUB") %>%
-    dplyr::rename(value = variable) %>%
-    wrap_varaible_in_list(value)
+    codelists %>%
+      dplyr::as_tibble() %>%
+      dplyr::filter(`variable-code` %in% include_vars) %>%
+      overwrite_sheet_data(temp_wb, "Codelists")
 
-  heading_df <-
-    name_relation %>%
-    dplyr::filter(`variable-code` %in% time_var) %>%
-    dplyr::mutate(keyword = "HEADING") %>%
-    dplyr::rename(value = variable) %>%
-    wrap_varaible_in_list(value)
+    temp_workbook_path <- temp_xlsx_file()
+    openxlsx::saveWorkbook(temp_wb, file = temp_workbook_path)
 
-  metadata_new <-
-    metadata %>%
-    dplyr::filter(is.na(`variable-code`) | `variable-code` %in% include_vars) %>%
-    dplyr::filter(!keyword %in% c("STUB", "HEADING")) %>%
-    dplyr::bind_rows(stub_df,
-                     heading_df
-                     )
+    df <-
+      readRDS(temp_rds) %>%
+      dplyr::filter(dplyr::if_all(setdiff(micro_vars, varname), ~ . != 'T')) %>% #elimination
+      dplyr::select(all_of(include_vars)) %>%
+      dplyr::group_by(across(-all_of(figures_var))) %>%
+      dplyr::summarise({{figures_var}} := sum(!!rlang::sym(figures_var), na.rm = TRUE),
+                       .groups = "keep"
+                       )
 
-  data_new <-
-    rds$data %>%
-    dplyr::as_tibble() %>%
-    dplyr::filter(dplyr::if_all(everything(), ~ . != 'T')) %>% #elimination
-    dplyr::select(all_of(include_vars)) %>%
-    dplyr::group_by(across(-all_of(figures_var))) %>%
-    dplyr::summarise({{figures_var}} := sum(!!rlang::sym(figures_var), na.rm = TRUE))
-
-  rds_new <- list('metadata' = metadata_new, 'data' = data_new)
-
-  pxmake(rds_new, paste0(varname, '.px'))
+    # if elimination var is YES, or has value in data, that value should be
+    # selected otherwise all values should be selected
+    pxmake(input = temp_workbook_path,
+           out_path = file.path(out_dir, paste0('micro_', varname, '.px')),
+           data = df
+           )
+  }
 }
+
+

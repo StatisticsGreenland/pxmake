@@ -31,6 +31,12 @@ temp_px_file   <- temp_file_with_extension(".px")
 temp_rds_file  <- temp_file_with_extension(".rds")
 temp_xlsx_file <- temp_file_with_extension(".xlsx")
 
+temp_dir <- function() {
+  path <- tempfile()
+  dir.create(path)
+  return(path)
+}
+
 expect_equal_lines <- function(path1, path2) {
   lines1 <- readLines(path1)
   lines2 <- readLines(path2)
@@ -64,7 +70,7 @@ expect_metamake_and_pxmake_cancel_out <- function(table_name) {
 
 #' Run pxmake and delete created files when environment is killed
 pxmake_clean <- function(input,
-                         out_path,
+                         out_path = NULL,
                          data = NULL,
                          add_totals = NULL,
                          env = parent.frame()) {

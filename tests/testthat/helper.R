@@ -21,16 +21,6 @@ get_pxjob_file_path <- function(table_name) {
   test_path('fixtures', paste0(table_name, '_pxjob.px'))
 }
 
-temp_file_with_extension <- function(extension) {
-  function() {
-    return(tempfile(fileext = extension))
-  }
-}
-
-temp_px_file   <- temp_file_with_extension(".px")
-temp_rds_file  <- temp_file_with_extension(".rds")
-temp_xlsx_file <- temp_file_with_extension(".xlsx")
-
 temp_dir <- function() {
   path <- tempfile()
   dir.create(path)

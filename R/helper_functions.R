@@ -308,3 +308,13 @@ is_rds_list <- function(lst) {
 mutate_all_vars_to_character <- function(df) {
   dplyr::mutate(df, dplyr::across(everything(), as.character))
 }
+
+temp_file_with_extension <- function(extension) {
+  function() {
+    return(tempfile(fileext = extension))
+  }
+}
+
+temp_px_file   <- temp_file_with_extension(".px")
+temp_rds_file  <- temp_file_with_extension(".rds")
+temp_xlsx_file <- temp_file_with_extension(".xlsx")

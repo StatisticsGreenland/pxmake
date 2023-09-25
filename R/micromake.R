@@ -24,7 +24,8 @@ micromake <- function(input, out_dir) {
                         names_to = c("language", "keyword"),
                         names_pattern = "^([[:alpha:]]+)_(.*)$"
                         ) %>%
-    tidyr::pivot_wider(names_from = "keyword")
+    tidyr::pivot_wider(names_from = "keyword") %>%
+    dplyr::bind_rows(dplyr::tibble(elimination = character())) # remove with 181
 
   codelists <- openxlsx::readWorkbook(wb, sheet="Codelists")
 
@@ -54,7 +55,8 @@ micromake <- function(input, out_dir) {
   micro_vars <- setdiff(stub_heading_vars, time_var)
 
   for (varname in micro_vars) {
-    include_vars <- c(varname, time_var, figures_var)
+    include_vars   <- c(varname, time_var, figures_var)
+    eliminate_vars <- setdiff(micro_vars, varname)
 
     temp_wb <- wb
 
@@ -82,9 +84,51 @@ micromake <- function(input, out_dir) {
     temp_workbook_path <- temp_xlsx_file()
     openxlsx::saveWorkbook(temp_wb, file = temp_workbook_path)
 
+
+    #for all other varialbes than varname, the list should be filter down to the value in elimination
+    # if the value is YES, no values should be filtered away.
+    # If the value is NO, the variable canot be elimination, and so it should be
+    # included in the dataset
+
+    # for elimination vars, take elimination values if they exist,
+    # otherwise take all values
+
+    elimination_codes <-
+      variables_long %>%
+      dplyr::filter(`variable-code` %in% eliminate_vars) %>%
+      dplyr::filter(! is.na(elimination)) %>%
+      dplyr::select(`variable-code`, language, value = elimination) %>%
+      dplyr::semi_join(x = codelists_long, y = . ,
+                       by = c("variable-code", "language", "value")
+                       ) %>%
+      dplyr::distinct(`variable-code`, code)
+
+    include_everything_vars <-
+      variables_long %>%
+      dplyr::filter(`variable-code` %in% eliminate_vars) %>%
+      dplyr::filter(is.na(elimination)) %>%
+      dplyr::distinct(`variable-code`) %>%
+      dplyr::pull(`variable-code`)
+
+    include_codes <-
+      codelists_long %>%
+      dplyr::filter(`variable-code` %in% include_everything_vars) %>%
+      dplyr::distinct(`variable-code`, code)
+
     df <-
       readRDS(temp_rds) %>%
-      dplyr::filter(dplyr::if_all(setdiff(micro_vars, varname), ~ . != 'T')) %>% #elimination
+      { if(length(eliminate_vars) > 0)
+        dplyr::mutate(.data = ., id_ = dplyr::row_number()) %>%
+        tidyr::pivot_longer(cols = all_of(eliminate_vars),
+                            names_to = "variable-code", values_to = "code"
+                            ) %>%
+          dplyr::semi_join(dplyr::bind_rows(elimination_codes, include_codes),
+                                 by = c("variable-code", "code")
+                           ) %>%
+          tidyr::pivot_wider(names_from = `variable-code`, values_from = code) %>%
+          dplyr::select(-id_)
+        else .
+      } %>%
       dplyr::select(all_of(include_vars)) %>%
       dplyr::group_by(across(-all_of(figures_var))) %>%
       dplyr::summarise({{figures_var}} := sum(!!rlang::sym(figures_var), na.rm = TRUE),
@@ -92,7 +136,8 @@ micromake <- function(input, out_dir) {
                        )
 
     # if elimination var is YES, or has value in data, that value should be
-    # selected otherwise all values should be selected
+    # selected otherwise all values should be selected. If no, the value
+    # cannot be eliminated.
     pxmake(input = temp_workbook_path,
            out_path = file.path(out_dir, paste0('micro_', varname, '.px')),
            data = df

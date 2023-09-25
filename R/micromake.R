@@ -7,6 +7,7 @@
 #' @param out_dir Directory to save px-files in.
 #'
 #' @returns Nothing
+#' @export
 micromake <- function(input, out_dir) {
   temp_excel <- temp_xlsx_file()
   temp_rds   <- temp_rds_file()

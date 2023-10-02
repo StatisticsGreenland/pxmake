@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Add import of pipe. (Reverses commit #d59866c)
+
 # pxmake 0.9.0
 
 ## New features

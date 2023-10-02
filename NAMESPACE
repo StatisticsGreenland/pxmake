@@ -3,3 +3,4 @@
 export(metamake)
 export(micromake)
 export(pxmake)
+importFrom(magrittr,"%>%")

@@ -2,6 +2,7 @@
 
 ## Bug fixes and minor improvements
 - Add import of pipe. (Reverses commit #d59866c)
+- Add vignette about creating px file and multilingual px file.
 
 # pxmake 0.9.0
 

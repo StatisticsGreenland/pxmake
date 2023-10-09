@@ -2,7 +2,7 @@
 title: "My first multilingual px"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{first-ml-px}
+  %\VignetteIndexEntry{My first multilingual px}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

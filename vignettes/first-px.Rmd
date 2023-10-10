@@ -1,0 +1,141 @@
+---
+title: "My first px"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{My first px}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pxmake)
+```
+
+
+## Getting started
+
+This code turns a simple dataframe into a **px**-file with just enough metadata to open with **pxwin**
+
+Create a sample dataframe, **df**
+
+```{r sample_data, message=FALSE}
+
+library(dplyr)
+library(tidyr)
+
+df <-
+  expand_grid(sex = c("Female", "Male"),
+              age = c("0-15", "16-25", "26-50"),
+              time = c("2021", "2022", "2023")
+              ) %>%
+  mutate(value = round(rnorm(nrow(.), mean = 20, sd = 5), 0)) %>% 
+  as_tibble()
+
+df %>% print(n=5)
+
+```
+
+use the **pxmake** library to convert the dataframe to **.rds**, **.px** and **.xlsx**, like this:
+
+```{r}
+
+# devtools::install_github('StatisticsGreenland/pxmake')
+library(pxmake)
+
+# from dataframe to rds
+rds <- metamake(df)
+
+# MATRIX - used also for filename in this example
+px_matrix <- "BEXFIRST"
+
+# from dataframe to xlsx
+metamake(df, paste0(px_matrix,".xlsx"))
+
+# from rds to px
+pxmake(rds,paste0(px_matrix,".px"))
+
+# view(rds$metadata)
+# view(rds$data)
+```
+
+The sample dataframe can be edited in Excel or R. Metadata is still too vaguely defined for **pxwin** to show the file, but **pxedit** does (of course).
+
+For **pxwin** to show the **px**-file, these keywords cannot be blank:\
+MATRIX, CONTENTS, UNITS, SUBJECT-CODE, SUBJECT-AREA
+
+So update the keywords (can alternatively be edited in Excel):
+
+```{r}
+# Update keyword(s) 
+
+rds$metadata <-
+  rds$metadata %>%
+  mutate(
+    value = ifelse(keyword == "MATRIX",        px_matrix,           value),
+    value = ifelse(keyword == "CONTENTS",     "Sample persons",     value),
+    value = ifelse(keyword == "UNITS",        "Persons",            value),
+    value = ifelse(keyword == "SUBJECT-CODE", "BE",                 value),
+    value = ifelse(keyword == "SUBJECT-AREA", "Population",         value)
+    )
+
+# save metadata changes
+metamake(rds, paste0(px_matrix,".xlsx"))
+
+# convert to px-file
+pxmake(input = paste0(px_matrix,".xlsx"), 
+       out_path = paste0(px_matrix,".px"))
+
+
+```
+
+and the **px**-file will show in **pxwin**
+
+Additional keywords can be added, like this:
+
+```{r}
+
+# add keywords
+rds$metadata <-
+  rds$metadata %>%
+  bind_rows(tribble(~keyword, ~language,~variable,~value,
+                  "NOTEX","en","age",list("Rough age groups only")))
+
+# save metadata changes
+metamake(rds, paste0(px_matrix,".xlsx"))
+
+# convert to px-file
+pxmake(input = paste0(px_matrix,".xlsx"), 
+       out_path = paste0(px_matrix,".px"))
+
+
+```
+
+as can totals. First add metadata, and use the pxmake, add_totals setting
+
+```{r}
+
+# add metadata for totals 
+rds$metadata <-
+  rds$metadata %>%
+  filter(keyword != "ELIMINATION") %>%
+  bind_rows(tibble(keyword  = "ELIMINATION",
+                   language = "en",
+                   variable = c("age", "sex"),
+                   value    = list("Total")
+                   ))
+
+# save metadata changes
+metamake(rds, paste0(px_matrix,".xlsx"))
+
+# convert to px-file and calculate totals
+pxmake(input = paste0(px_matrix,".xlsx"), 
+       out_path = paste0(px_matrix,".px"),
+       add_totals = c("age","sex"))
+```

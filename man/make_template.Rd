@@ -4,12 +4,14 @@
 \alias{make_template}
 \title{Make template}
 \usage{
-make_template(data_df, languages = c("en"))
+make_template(data_df, languages = c("en"), out_path = temp_xlsx_file())
 }
 \arguments{
 \item{data_df}{A data frame to create metadata for}
 
 \item{languages}{A vector of languagecodes}
+
+\item{out_path}{Path to save .xlsx file at}
 }
 \value{
 A data frame

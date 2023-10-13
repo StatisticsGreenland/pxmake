@@ -5,10 +5,11 @@
 #'
 #' @param data_df A data frame to create metadata for
 #' @param languages A vector of languagecodes
+#' @param out_path Path to save .xlsx file at
 #'
 #' @return A data frame
 #' @export
-make_template <- function(data_df, languages = c("en")) {
+make_template <- function(data_df, languages = c("en"), out_path = temp_xlsx_file()) {
   metadata_df <-
     get_metadata_template_from_data(data_df) %>%
     dplyr::mutate(value = ifelse(keyword == "LANGUAGE", languages[1], value))
@@ -38,11 +39,9 @@ make_template <- function(data_df, languages = c("en")) {
                        )
   }
 
-  xlsx_temp_file <- temp_xlsx_file()
-
   metamake(list("data" = data_df, "metadata" = metadata_df),
-           out_path = xlsx_temp_file
+           out_path = out_path
            )
 
-  message('Template created at: ', xlsx_temp_file)
+  message('Template created at: ', out_path)
 }

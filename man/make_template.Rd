@@ -6,20 +6,21 @@
 \usage{
 make_template(
   data_df,
-  out_path = temp_xlsx_file(),
   languages = c("en"),
-  time_variable = NULL
+  time_variable = NULL,
+  out_path = NULL
 )
 }
 \arguments{
 \item{data_df}{A data frame to create metadata for}
 
-\item{out_path}{Path to save .xlsx file at}
-
 \item{languages}{A vector of languagecodes. The first value is the main
 language.}
 
 \item{time_variable}{String. Variable to use as time variable}
+
+\item{out_path}{Path to save .xlsx file at. If not specified a temporary file
+is created.}
 }
 \value{
 A data frame

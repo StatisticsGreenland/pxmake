@@ -7,16 +7,19 @@
 #' @param data_df A data frame to create metadata for
 #' @param languages A vector of languagecodes. The first value is the main
 #' language.
-#' @param out_path Path to save .xlsx file at
+#' @param out_path Path to save .xlsx file at. If not specified a temporary file
+#' is created.
 #' @param time_variable String. Variable to use as time variable
 #'
 #' @return A data frame
 #' @export
 make_template <- function(data_df,
-                          out_path = temp_xlsx_file(),
                           languages = c("en"),
-                          time_variable = NULL
+                          time_variable = NULL,
+                          out_path = NULL
                           ) {
+
+  if (is.null(out_path)) out_path <- temp_xlsx_file()
 
   main_language <- languages[1]
 

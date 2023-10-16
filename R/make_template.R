@@ -1,18 +1,28 @@
 #' Make template
 #'
-#' Create a minimal metadata template for a data frame. This function will be
-#' deprecated in the future when px object has been implemented (#179).
+#' Create a minimal metadata template for a data frame. The last column, becomes
+#' the FIGURES column. `make_template` will be deprecated in the future when a
+#' px object has been implemented (#179).
 #'
 #' @param data_df A data frame to create metadata for
-#' @param languages A vector of languagecodes
+#' @param languages A vector of languagecodes. The first value is the main
+#' language.
 #' @param out_path Path to save .xlsx file at
+#' @param time_variable String. Variable to use as time variable
 #'
 #' @return A data frame
 #' @export
-make_template <- function(data_df, languages = c("en"), out_path = temp_xlsx_file()) {
+make_template <- function(data_df,
+                          out_path = temp_xlsx_file(),
+                          languages = c("en"),
+                          time_variable = NULL
+                          ) {
+
+  main_language <- languages[1]
+
   metadata_df <-
     get_metadata_template_from_data(data_df) %>%
-    dplyr::mutate(value = ifelse(keyword == "LANGUAGE", languages[1], value))
+    dplyr::mutate(value = ifelse(keyword == "LANGUAGE", main_language, value))
 
   if(length(languages) > 1) {
     metadata_df <-
@@ -39,9 +49,34 @@ make_template <- function(data_df, languages = c("en"), out_path = temp_xlsx_fil
                        )
   }
 
+  if(!is.null(time_variable)) {
+    time_values <-
+      data_df %>%
+      dplyr::distinct(across(all_of(time_variable))) %>%
+      dplyr::pull(1)
+
+    time_var_df <-
+      dplyr::tibble(keyword = "TIMEVAL",
+                    language = main_language,
+                    variable = time_variable,
+                    value = paste0("TLIST(",
+                                   get_timeval_type_from_values(time_values),
+                                   "1),",
+                                   time_values %>%
+                                     stringr::str_replace_all('[:alpha:]', '') %>%
+                                     str_quote() %>%
+                                     stringr::str_c(collapse = ',')
+                    )
+      ) %>%
+      wrap_varaible_in_list(value)
+
+    metadata_df <- dplyr::bind_rows(metadata_df, time_var_df)
+  }
+
   metamake(list("data" = data_df, "metadata" = metadata_df),
            out_path = out_path
            )
 
   message('Template created at: ', out_path)
 }
+

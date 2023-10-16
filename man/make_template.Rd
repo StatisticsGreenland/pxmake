@@ -4,19 +4,28 @@
 \alias{make_template}
 \title{Make template}
 \usage{
-make_template(data_df, languages = c("en"), out_path = temp_xlsx_file())
+make_template(
+  data_df,
+  out_path = temp_xlsx_file(),
+  languages = c("en"),
+  time_variable = NULL
+)
 }
 \arguments{
 \item{data_df}{A data frame to create metadata for}
 
-\item{languages}{A vector of languagecodes}
-
 \item{out_path}{Path to save .xlsx file at}
+
+\item{languages}{A vector of languagecodes. The first value is the main
+language.}
+
+\item{time_variable}{String. Variable to use as time variable}
 }
 \value{
 A data frame
 }
 \description{
-Create a minimal metadata template for a data frame. This function will be
-deprecated in the future when px object has been implemented (#179).
+Create a minimal metadata template for a data frame. The last column, becomes
+the FIGURES column. \code{make_template} will be deprecated in the future when a
+px object has been implemented (#179).
 }

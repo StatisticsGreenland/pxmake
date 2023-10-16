@@ -27,6 +27,16 @@ temp_dir <- function() {
   return(path)
 }
 
+temp_file_with_extension <- function(extension) {
+  function() {
+    return(tempfile(fileext = extension))
+  }
+}
+
+temp_px_file   <- temp_file_with_extension(".px")
+temp_rds_file  <- temp_file_with_extension(".rds")
+temp_xlsx_file <- temp_file_with_extension(".xlsx")
+
 expect_equal_lines <- function(path1, path2) {
   lines1 <- readLines(path1)
   lines2 <- readLines(path2)

@@ -155,7 +155,7 @@ micromake <- function(input, out_dir) {
 #' Description
 #'
 #' @param data_df A data frame.
-#' @param metadata An Excel workbook created by metamake.
+#' @param metadata_path An Excel workbook created by metamake.
 #' @param out_dir Directory to save px-files in.
 #'
 #' @returns Nothing

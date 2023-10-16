@@ -14,6 +14,26 @@ knitr::opts_chunk$set(
 )
 ```
 
+Read data set
 ```{r setup}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 library(pxmake)
+library(tidyverse)
 ```
+
+Open dataset 
+```{r}
+df <- 
+  read_rds("micro.rds") %>% 
+  select(taar, civst, civdto, kirke)
+
+df
+```
+
+Create a metadata template with metamake.
+
+```{r}
+metamake(df, "micro.xlsx")
+```
+
+Open the template in Excel and fill in the metadata.

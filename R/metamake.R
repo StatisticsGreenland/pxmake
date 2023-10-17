@@ -120,14 +120,16 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
 #' saved.
 #' @param data_path Path to save data as an .rds file. If NULL, the data is
 #' saved as the sheet 'Data' in the Excel metadata workbook.
+#' @param create_data Logic. If FALSE the data table is not generated. This can
+#' be used to only generate metadata.
 #'
 #' @returns Returns rds object invisibly.
 #'
 #' @seealso \link{pxmake}
 #'
 #' @export
-metamake <- function(input, out_path = NULL, data_path = NULL) {
-  validate_metamake_arguments(input, out_path, data_path)
+metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRUE) {
+  validate_metamake_arguments(input, out_path, data_path, create_data)
 
   if (is_rds_file(input)) {
     input <- readRDS(input)
@@ -368,7 +370,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     dplyr::select(`variable-code`, code) %>%
     tibble::deframe()
 
-  if (is_rds_list(input)) {
+  if (is_rds_list(input) & create_data) {
     sheet_data <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
       dplyr::left_join(input$data %>%
@@ -379,7 +381,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
                                      ),
                        by = c(stub_vars, heading_vars)
                        )
-  } else {
+  } else if(create_data) {
     figures <-
       data_lines %>%
       stringr::str_replace_all(";", "") %>%
@@ -392,6 +394,10 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     sheet_data <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
       dplyr::bind_cols(figures)
+  } else if (isFALSE(create_data)) {
+    sheet_data <- NULL
+  } else {
+    unexpected_error()
   }
 
   rds <- list("metadata" = dplyr::select(metadata_df, -main_language),
@@ -415,11 +421,13 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     add_sheet(sheet_variables, "Variables")
     add_sheet(sheet_codelist,  "Codelists")
 
-    if (is.null(data_path)) {
+    if (is.null(data_path) & create_data) {
       error_if_too_many_rows_for_excel(sheet_data)
       add_sheet(sheet_data, "Data")
-    } else if (tools::file_ext(data_path) == "rds") {
+    } else if (tools::file_ext(data_path) == "rds" & create_data) {
       saveRDS(sheet_data, data_path)
+    } else if (isFALSE(create_data)) {
+      # pass
     } else {
       unexpected_error()
     }

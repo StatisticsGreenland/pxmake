@@ -220,7 +220,7 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
 #' @inheritParams metamake
 #'
 #' @returns Nothing
-validate_metamake_arguments <- function(input, out_path, data_path) {
+validate_metamake_arguments <- function(input, out_path, data_path, create_data) {
   if (!is_px_file(input) & !is_rds_file(input) &
       !is_rds_list(input) & !is.data.frame(input)
       ) {
@@ -239,5 +239,9 @@ validate_metamake_arguments <- function(input, out_path, data_path) {
     if (!is_xlsx_file(out_path)) {
       error("Argument 'data_path' can only be used when 'input' is an .xlsx file.")
     }
+  }
+
+  if (!isTRUE(create_data) & !isFALSE(create_data)) {
+    error("Argument 'create_data' should be TRUE or FALSE.")
   }
 }

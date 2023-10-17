@@ -9,9 +9,9 @@ micromake2(data_df, metadata_path, out_dir = temp_dir())
 \arguments{
 \item{data_df}{A data frame.}
 
-\item{out_dir}{Directory to save px-files in.}
+\item{metadata_path}{An Excel workbook created by metamake.}
 
-\item{metadata}{An Excel workbook created by metamake.}
+\item{out_dir}{Directory to save px-files in.}
 }
 \value{
 Nothing

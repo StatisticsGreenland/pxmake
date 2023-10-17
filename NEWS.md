@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## New features
+- Add `make_template` to create a minimial multilingual metadata template. (#186)
+
 ## Bug fixes and minor improvements
 - Add import of pipe. (Reverses commit #d59866c)
 - Add vignette about creating px file and multilingual px file.

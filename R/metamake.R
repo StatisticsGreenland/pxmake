@@ -296,12 +296,20 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
                   ) %>%
     dplyr::select(`variable-code`, value, language, main_language, sortorder)
 
+  valuenote <-
+    metadata %>%
+    dplyr::filter(keyword %in% c("VALUENOTE")) %>%
+    tidyr::unnest(value) %>%
+    dplyr::select(`variable-code`, language, value = cell, valuenote = value,
+                  language)
+
   codes_and_values <-
     codes %>%
     # Use values as codes, if codes are missing
     dplyr::full_join(values, by = c("variable-code", "sortorder"),
                      multiple = "all"
                      ) %>%
+    dplyr::full_join(valuenote, by = c("variable-code", "value", "language")) %>%
     dplyr::mutate(code = ifelse(is.na(code), value, code))
 
   sheet_codelist <-
@@ -309,8 +317,11 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     dplyr::select(-main_language) %>%
     dplyr::filter(!`variable-code` %in% time_var) %>%
     dplyr::left_join(precision, by = c("variable-code", "value")) %>%
-    tidyr::pivot_wider(names_from = language, names_glue = "{language}_code-label") %>%
-    dplyr::relocate(precision, .after = last_col())
+    dplyr::rename(`code-label` = value) %>%
+    tidyr::pivot_wider(values_from = c(`code-label`, valuenote),
+                       names_from = language,
+                       names_glue = "{language}_{.value}"
+                       )
 
   ### Make metadata sheet: 'Table'
   table_sheet_data <-

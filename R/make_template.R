@@ -77,7 +77,7 @@ make_template <- function(data_df,
   }
 
   metamake(list("data" = data_df, "metadata" = metadata_df),
-           out_path = out_path
+           out_path = out_path, create_data = FALSE
            )
 
   message('Template created at: ', out_path)

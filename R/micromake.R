@@ -172,23 +172,25 @@ micromake2 <- function(data_df, metadata_path, out_dir = temp_dir()) {
     dplyr::filter(toupper(type) == "TIME") %>%
     dplyr::pull(`variable-code`)
 
-  micro_vars <- setdiff(dplyr::pull(variables, `variable-code`), time_var)
+  micro_vars <- setdiff(names(data_df), time_var)
 
   for (micro_var in micro_vars) {
     data_df_micro <-
-      df %>%
+      data_df %>%
       select(all_of(c(time_var, micro_var))) %>%
-      dplyr::count(across(everything()))
+      dplyr::count(across(everything())) %>%
+      dplyr::arrange_all()
 
     # time_var headgin
     # micro_var stub
 
-    pxmake(input = list('data' = data_df_micro,
-                        'metadata' = metadata_path
-                        ),
+    pxmake(input = metadata_path,
+           data = data_df_micro,
            out_path = file.path(out_dir, paste0('micro_', micro_var, '.px'))
            )
   }
+
+  print(paste("Created px-files in:", out_dir))
 
 
 

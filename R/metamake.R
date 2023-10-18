@@ -424,7 +424,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
     if (is.null(data_path) & create_data) {
       error_if_too_many_rows_for_excel(sheet_data)
       add_sheet(sheet_data, "Data")
-    } else if (tools::file_ext(data_path) == "rds" & create_data) {
+    } else if (identical(tools::file_ext(data_path), "rds") & create_data) {
       saveRDS(sheet_data, data_path)
     } else if (isFALSE(create_data)) {
       # pass

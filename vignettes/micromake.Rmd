@@ -30,10 +30,23 @@ df <-
 df
 ```
 
-Create a metadata template with metamake.
+Create a metadata template.
 
 ```{r}
-metamake(df, "micro.xlsx")
+micro_metadata <- 'micro.xlsx' 
+make_template(data_df = df %>% mutate(n = NA), 
+              languages = c("en"),
+              time_variable = "taar",
+              out_path = micro_metadata
+              )
 ```
 
 Open the template in Excel and fill in the metadata.
+
+```{r}
+micromake2(data_df = df, 
+           metadata_path = micro_metadata
+           )
+```
+
+## continue on micromake2 example. pxmake should be able to handle more columns in metadata than in data table

@@ -167,7 +167,10 @@ get_data_df  <- function(input, data, add_totals) {
   data_df <-
     get_raw_data(input, data) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(across(-one_of(get_figures_variable(input, data)),
+    dplyr::mutate(across(-one_of(intersect(names(data),
+                                            get_figures_variable(input, data)
+                                            )
+                                 ),
                          as.character
                          )
                   )
@@ -395,12 +398,14 @@ get_data_cube <- function(metadata_df, data_df) {
   stub_vars <-
     stub_and_heading_df %>%
     dplyr::filter(keyword == "STUB") %>%
-    dplyr::pull(variable)
+    dplyr::pull(variable) %>%
+    intersect(names(data_df))
 
   heading_vars <-
     stub_and_heading_df %>%
     dplyr::filter(keyword == "HEADING") %>%
-    dplyr::pull(variable)
+    dplyr::pull(variable) %>%
+    intersect(names(data_df))
 
   head_stub_variable_names <- c(heading_vars, stub_vars)
 
@@ -413,6 +418,7 @@ get_data_cube <- function(metadata_df, data_df) {
     dplyr::filter(keyword == "CODES", main_language) %>%
     dplyr::select(keyword, variable, value) %>%
     tidyr::unnest(value) %>%
+    dplyr::filter(variable %in% names(data_df)) %>%
     dplyr::rename(label = variable) %>%
     dplyr::group_by(label) %>%
     dplyr::mutate(sortorder = dplyr::row_number()) %>%

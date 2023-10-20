@@ -3,6 +3,5 @@
 export(make_template)
 export(metamake)
 export(micromake)
-export(micromake2)
 export(pxmake)
 importFrom(magrittr,"%>%")

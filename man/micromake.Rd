@@ -4,16 +4,12 @@
 \alias{micromake}
 \title{Create microdata}
 \usage{
-micromake(input, out_dir)
+micromake(data_df, metadata_path, out_dir = temp_dir())
 }
 \arguments{
-\item{input}{Input can be provided in one of four ways:
-\enumerate{
-\item A path to a \code{.px} file.
-\item A path to a \code{.rds} file created by \link{pxmake}.
-\item A named list with two data frames "metadata" and "data" (same as option 2).
-\item A data frame with data. A minimal metadata template will be created.
-}}
+\item{data_df}{A data frame.}
+
+\item{metadata_path}{An Excel workbook created by metamake.}
 
 \item{out_dir}{Directory to save px-files in.}
 }

@@ -2,6 +2,7 @@
 
 ## New features
 - Add `make_template` to create a minimial multilingual metadata template. (#186)
+- Support keyword VALUENOTE (#187)
 
 ## Bug fixes and minor improvements
 - Add import of pipe. (Reverses commit #d59866c)

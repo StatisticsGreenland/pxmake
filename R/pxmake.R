@@ -326,6 +326,18 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
     dplyr::summarise(value = list(paste(value, sep = ", ")), .groups = "keep") %>%
     dplyr::ungroup()
 
+  valuenote <-
+    codelists %>%
+    dplyr::mutate(keyword = "VALUENOTE") %>%
+    tidyr::drop_na(valuenote) %>%
+    wrap_varaible_in_list(valuenote) %>%
+    dplyr::select(keyword,
+                  language,
+                  variable = `variable-label`,
+                  cell = value,
+                  value = valuenote
+                  )
+
   precision <-
     codelists %>%
     dplyr::mutate(keyword = "PRECISION") %>%
@@ -355,6 +367,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
                      head_stub,
                      timeval,
                      code_value,
+                     valuenote,
                      precision
                      ) %>%
     replace_na_language_with_main_language() %>%

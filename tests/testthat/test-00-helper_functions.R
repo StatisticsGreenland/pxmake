@@ -82,6 +82,10 @@ test_that("lists are merged and sorted", {
   lst6$a <- NULL
 
   expect_equal(merge_named_lists(lst4, lst6), lst4)
+
+  lst7 <- list(a = "b")
+  lst8 <- list(a = "c")
+  expect_equal(merge_named_lists(lst7, lst8), list(a = c("b", "c")))
 })
 
 test_that("Time values are classified", {

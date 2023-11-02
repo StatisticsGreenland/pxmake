@@ -110,7 +110,7 @@ merge_named_lists <- function(lst1, lst2) {
   if (identical(lst1_sorted, lst2_sorted)) {
     temp <- lst1_sorted
   } else {
-    temp <- setNames(mapply(c, lst1_sorted, lst2_sorted), keys)
+    temp <- setNames(mapply(c, lst1_sorted, lst2_sorted, SIMPLIFY = FALSE), keys)
   }
 
   lst_distinct_and_arrange(temp)

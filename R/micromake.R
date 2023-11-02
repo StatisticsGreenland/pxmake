@@ -9,9 +9,12 @@
 #'
 #' @returns Nothing
 #' @export
-micromake <- function(data_df, metadata_path, out_dir = temp_dir()) {
+micromake <- function(data_df, metadata_path, out_dir = NULL) {
   # Loop through all variables in data_df except the time variables
   # and create a px-file for each variable.
+  print_out_dir <- is.null(out_dir)
+  out_dir <- ifelse(is.null(out_dir), tempdir(), out_dir)
+
   wb <- openxlsx::loadWorkbook(metadata_path)
 
   variables <- openxlsx::readWorkbook(wb, sheet="Variables") %>% dplyr::as_tibble()
@@ -21,17 +24,21 @@ micromake <- function(data_df, metadata_path, out_dir = temp_dir()) {
     dplyr::filter(toupper(type) == "TIME") %>%
     dplyr::pull(`variable-code`)
 
-  micro_vars <- setdiff(names(data_df), time_var)
+  figures_var <-
+    variables %>%
+    dplyr::filter(toupper(pivot) == "FIGURES") %>%
+    dplyr::pull(`variable-code`)
+
+  micro_vars <- setdiff(names(data_df), c(time_var, figures_var))
 
   for (micro_var in micro_vars) {
     data_df_micro <-
       data_df %>%
-      select(all_of(c(time_var, micro_var))) %>%
+      dplyr::select(all_of(c(time_var, micro_var))) %>%
       dplyr::count(across(everything())) %>%
       dplyr::arrange_all()
 
-    # time_var headgin
-    # micro_var stub
+    print(micro_var)
 
     pxmake(input = metadata_path,
            data = data_df_micro,
@@ -39,7 +46,7 @@ micromake <- function(data_df, metadata_path, out_dir = temp_dir()) {
            )
   }
 
-  print(paste("Created px-files in:", out_dir))
+  if (print_out_dir) print(paste("Created px-files in:", out_dir))
 }
 
 

@@ -4,7 +4,7 @@
 \alias{micromake}
 \title{Create microdata}
 \usage{
-micromake(data_df, metadata_path, out_dir = temp_dir())
+micromake(data_df, metadata_path, out_dir = NULL)
 }
 \arguments{
 \item{data_df}{A data frame.}

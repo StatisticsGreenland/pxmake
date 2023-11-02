@@ -167,7 +167,7 @@ get_data_df  <- function(input, data, add_totals) {
   data_df <-
     get_raw_data(input, data) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(across(-one_of(intersect(names(data),
+    dplyr::mutate(across(-one_of(intersect(names(.),
                                             get_figures_variable(input, data)
                                             )
                                  ),
@@ -343,7 +343,8 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
 
   table_language_dependent <-
     get_table2_metadata(excel_metadata_path) %>%
-    dplyr::left_join(dplyr::select(codelists, code, language, cell = value),
+    dplyr::left_join(dplyr::select(codelists, code, language, cell = value) %>%
+                     tidyr::drop_na(code),
                      by = c("code", "language")
                      ) %>%
     dplyr::select(-code)
@@ -418,12 +419,12 @@ get_data_cube <- function(metadata_df, data_df) {
     dplyr::filter(keyword == "CODES", main_language) %>%
     dplyr::select(keyword, variable, value) %>%
     tidyr::unnest(value) %>%
-    dplyr::filter(variable %in% names(data_df)) %>%
     dplyr::rename(label = variable) %>%
     dplyr::group_by(label) %>%
     dplyr::mutate(sortorder = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
     dplyr::left_join(labels, by = "label") %>%
+    dplyr::filter(variable %in% names(data_df)) %>% # this line...
     dplyr::select(variable, sortorder, code = value)
 
   # Complete data by adding all combinations of variable values in data and

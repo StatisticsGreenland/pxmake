@@ -81,9 +81,10 @@ pxmake_clean <- function(input,
 metamake_clean <- function(input,
                            out_path = NULL,
                            data_path = NULL,
+                           create_data = TRUE,
                            env = parent.frame()) {
 
-  rds <- metamake(input, out_path, data_path)
+  rds <- metamake(input, out_path, data_path, create_data)
 
   return(invisible(rds))
 

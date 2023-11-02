@@ -44,9 +44,8 @@ make_template(data_df = df %>% mutate(n = NA),
 Open the template in Excel and fill in the metadata.
 
 ```{r}
-micromake2(data_df = df, 
-           metadata_path = micro_metadata
-           )
+micromake(data_df = df, 
+          metadata_path = micro_metadata,
+          out_dir = getwd()
+          )
 ```
-
-## continue on micromake2 example. pxmake should be able to handle more columns in metadata than in data table

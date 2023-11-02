@@ -13,7 +13,8 @@ micromake <- function(data_df, metadata_path, out_dir = NULL) {
   # Loop through all variables in data_df except the time variables
   # and create a px-file for each variable.
   print_out_dir <- is.null(out_dir)
-  out_dir <- ifelse(is.null(out_dir), tempdir(), out_dir)
+
+  if (is.null(out_dir)) out_dir <- temp_dir()
 
   wb <- openxlsx::loadWorkbook(metadata_path)
 

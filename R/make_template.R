@@ -19,6 +19,7 @@ make_template <- function(data_df,
                           out_path = NULL
                           ) {
 
+  print_out_path <- is.null(out_path)
   if (is.null(out_path)) out_path <- temp_xlsx_file()
 
   main_language <- languages[1]
@@ -80,6 +81,6 @@ make_template <- function(data_df,
            out_path = out_path, create_data = FALSE
            )
 
-  message('Template created at: ', out_path)
+  if (print_out_path) message('Template created at: ', out_path)
 }
 

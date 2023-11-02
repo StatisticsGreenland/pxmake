@@ -38,8 +38,6 @@ micromake <- function(data_df, metadata_path, out_dir = NULL) {
       dplyr::count(across(everything())) %>%
       dplyr::arrange_all()
 
-    print(micro_var)
-
     pxmake(input = metadata_path,
            data = data_df_micro,
            out_path = file.path(out_dir, paste0('micro_', micro_var, '.px'))

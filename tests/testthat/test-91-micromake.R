@@ -7,7 +7,7 @@ test_that("micromake runs without errors and creates px files", {
       dplyr::as_tibble() %>%
       dplyr::select(taar, civst, civdto, kirke)
 
-    make_template(data_df = df %>% dplyr::mutate(n = NA),
+    make_template(data_df = df,
                   languages = c("en"),
                   out_path = micro_metadata
                   )

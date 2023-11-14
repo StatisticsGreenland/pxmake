@@ -17,13 +17,16 @@ knitr::opts_chunk$set(
 Install.
 ```{r, eval= FALSE}
 devtools::install_github('StatisticsGreenland/pxmake',
-                         ref = '176-mikrodata'
+                         ref = '176-mikrodata',
+                         upgrade = "never"
                          )
 ```
 
 Load libraries.
 
 ```{r setup, message=FALSE}
+packageVersion('pxmake')
+
 library(pxmake)
 library(dplyr)
 ```

@@ -20,19 +20,47 @@ get_px_metadata_regex <- function() {
 
 #' Create a minimal metadata template
 #'
+#' Stub, heading, and figure variables can be controlled  with arguments. If not
+#' provided, one variable is choosen as heading, one as figures, and the
+#' remaining as stub.
+#'
 #' @param data_df A data frame with data to create metadata for
+#' @param stub_variables A character vector with stub variables.
+#' @param heading_variables A character vector with heading variables.
+#' @param figures_variable Name of figure variable,
 #'
 #' @returns A data frame
-get_metadata_template_from_data <- function(data_df) {
+get_metadata_template_from_data <- function(data_df,
+                                            stub_variables = NULL,
+                                            heading_variables = NULL,
+                                            figures_variable = NULL
+                                            ) {
   variable_names <- names(data_df)
 
-  heading_variables <- head(variable_names, 1)
-  stub_variables    <- head(tail(variable_names, -1), -1)
-  figures_variable  <- tail(variable_names, 1)
+  repeat {
+    unallocated_variables <- setdiff(variable_names,
+                                     c(stub_variables,
+                                       heading_variables,
+                                       figures_variable
+                                       )
+                                     )
+
+    if (length(unallocated_variables) == 0) {
+      break
+    }
+
+    if (length(figures_variable) < 1) {
+      figures_variable <- tail(unallocated_variables, 1)
+    } else if (length(heading_variables) < 1) {
+      heading_variables <- head(unallocated_variables, 1)
+    } else {
+      stub_variables <- c(stub_variables, head(head(unallocated_variables, 1)))
+    }
+  }
 
   values <-
     data_df %>%
-    dplyr::select(-all_of(figures_variable)) %>%
+    dplyr::select(setdiff(names(.), figures_variable)) %>%
     mutate_all_vars_to_character() %>%
     tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
     dplyr::group_by(variable) %>%

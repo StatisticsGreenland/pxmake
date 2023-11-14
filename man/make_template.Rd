@@ -8,6 +8,7 @@ make_template(
   data_df,
   languages = c("en"),
   time_variable = NULL,
+  figures_variable = NULL,
   out_path = NULL
 )
 }
@@ -19,6 +20,8 @@ language.}
 
 \item{time_variable}{String. Variable to use as time variable}
 
+\item{figures_variable}{String. Variable to use as figures variable}
+
 \item{out_path}{Path to save .xlsx file at. If not specified a temporary file
 is created.}
 }
@@ -26,7 +29,7 @@ is created.}
 A data frame
 }
 \description{
-Create a minimal metadata template for a data frame. The last column, becomes
-the FIGURES column. \code{make_template} will be deprecated in the future when a
-px object has been implemented (#179).
+Create a minimal metadata template for a data frame.
+\code{make_template} will be deprecated in the future when a px object has been
+implemented (#179).
 }

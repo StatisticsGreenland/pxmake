@@ -10,8 +10,6 @@
 #' @returns Nothing
 #' @export
 micromake <- function(data_df, metadata_path, out_dir = NULL) {
-  # Loop through all variables in data_df except the time variables
-  # and create a px-file for each variable.
   print_out_dir <- is.null(out_dir)
 
   if (is.null(out_dir)) out_dir <- temp_dir()
@@ -36,6 +34,7 @@ micromake <- function(data_df, metadata_path, out_dir = NULL) {
     data_df_micro <-
       data_df %>%
       dplyr::select(all_of(c(time_var, micro_var))) %>%
+      tidyr::drop_na(!!micro_var) %>%
       dplyr::count(across(everything())) %>%
       dplyr::arrange_all()
 

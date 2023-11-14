@@ -1,14 +1,15 @@
 #' Make template
 #'
-#' Create a minimal metadata template for a data frame. The last column, becomes
-#' the FIGURES column. `make_template` will be deprecated in the future when a
-#' px object has been implemented (#179).
+#' Create a minimal metadata template for a data frame.
+#' `make_template` will be deprecated in the future when a px object has been
+#' implemented (#179).
 #'
 #' @param data_df A data frame to create metadata for
 #' @param languages A vector of languagecodes. The first value is the main
 #' language.
 #' @param out_path Path to save .xlsx file at. If not specified a temporary file
 #' is created.
+#' @param figures_variable String. Variable to use as figures variable
 #' @param time_variable String. Variable to use as time variable
 #'
 #' @return A data frame
@@ -16,6 +17,7 @@
 make_template <- function(data_df,
                           languages = c("en"),
                           time_variable = NULL,
+                          figures_variable = NULL,
                           out_path = NULL
                           ) {
 
@@ -25,7 +27,10 @@ make_template <- function(data_df,
   main_language <- languages[1]
 
   metadata_df <-
-    get_metadata_template_from_data(data_df) %>%
+    get_metadata_template_from_data(data_df = data_df,
+                                    heading_variables = time_variable,
+                                    figures_variable = figures_variable
+                                    ) %>%
     dplyr::mutate(value = ifelse(keyword == "LANGUAGE", main_language, value))
 
   if(length(languages) > 1) {

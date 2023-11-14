@@ -251,7 +251,8 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
                                   `variable-label`
                                   ),
                         names_to = "keyword"
-                        )
+                        ) %>%
+    dplyr::filter(`variable-code` %in% names(data_df))
 
   note_etc <-
     variables_long %>%
@@ -317,7 +318,10 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
       wrap_varaible_in_list(value)
   }
 
-  codelists <- get_codelists_metadata(excel_metadata_path, data_df)
+  codelists <-
+    get_codelists_metadata(excel_metadata_path, data_df) %>%
+    dplyr::filter(`variable-code` %in% names(data_df)) %>%
+    tidyr::drop_na(code)
 
   code_value <-
     codelists %>%

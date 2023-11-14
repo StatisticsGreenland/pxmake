@@ -8,7 +8,9 @@ micromake_wrapper <- function(data_path, out_dir) {
 
   make_template(data_df = df,
                 languages = c("en"),
-                out_path = micro_metadata
+                time_var= "taar",
+                out_path = micro_metadata,
+                figures_variable = "n"
                 )
 
   micromake(data_df = df,
@@ -34,10 +36,10 @@ test_that("micromake runs without errors and creates px files", {
 test_that("micromake creates valid px files", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
-  expect_that_pxjob_runs_without_errors <- function(data_path) {
+  expect_that_pxjob_runs_without_errors <- function(data_path = get_data_path("micro")) {
     out_dir <- temp_dir()
 
-    micromake_wrapper(data_path = get_data_path("micro"),
+    micromake_wrapper(data_path = data_path,
                       out_dir = out_dir
                       )
 

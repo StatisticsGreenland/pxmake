@@ -223,7 +223,7 @@ read_px_file <- function(px_path) {
 #'
 #' @returns Character
 get_default_encoding <- function() {
-  return('utf-8')
+  return('latin1')
 }
 
 #' Get encoding listed in px file

@@ -86,7 +86,8 @@ get_metadata_template_from_data <- function(data_df,
       dplyr::tibble(keyword = "VARIABLECODE",
                     variable = figures_variable,
                     value = list(figures_variable)
-                    )
+                    )#,
+      #dplyr::tibble(keyword = "CODEPAGE", value = list('utf-8'))
       ) %>%
     dplyr::mutate(language = "en", cell = NA_character_) %>%
     dplyr::relocate(value, .after = last_col())

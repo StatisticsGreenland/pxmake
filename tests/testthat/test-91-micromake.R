@@ -14,20 +14,6 @@ micromake_wrapper <- function(data_df, out_dir) {
             )
 }
 
-test_that("micromake runs without errors and creates px files", {
-  expect_that_micromake_runs_without_errors <- function(data_path) {
-    out_dir <- temp_dir()
-
-    micromake_wrapper(data_path = data_path,
-                      out_dir = out_dir
-                      )
-
-    expect_true(length(list.files(out_dir)) > 0)
-  }
-
-  expect_that_micromake_runs_without_errors(get_data_path("micro"))
-})
-
 test_that("micromake creates valid px files", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 

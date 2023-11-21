@@ -63,6 +63,7 @@ get_metadata_template_from_data <- function(data_df,
     dplyr::select(setdiff(names(.), figures_variable)) %>%
     mutate_all_vars_to_character() %>%
     tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
+    dplyr::arrange_all() %>%
     dplyr::group_by(variable) %>%
     dplyr::summarise(value = list(unique(value)))
 

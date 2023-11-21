@@ -1,19 +1,14 @@
-micromake_wrapper <- function(data_path, out_dir) {
-  df <-
-    readRDS(data_path) %>%
-    dplyr::as_tibble() %>%
-    dplyr::select(taar, civst, civdto, kirke)
-
+micromake_wrapper <- function(data_df, out_dir) {
   micro_metadata <- temp_xlsx_file()
 
-  make_template(data_df = df,
+  make_template(data_df = data_df,
                 languages = c("en"),
                 time_var= "taar",
                 out_path = micro_metadata,
                 figures_variable = "n"
                 )
 
-  micromake(data_df = df,
+  micromake(data_df = data_df,
             metadata_path = micro_metadata,
             out_dir = out_dir
             )
@@ -36,10 +31,10 @@ test_that("micromake runs without errors and creates px files", {
 test_that("micromake creates valid px files", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
-  expect_that_pxjob_runs_without_errors <- function(data_path = get_data_path("micro")) {
+  expect_that_pxjob_runs_without_errors <- function(data_df) {
     out_dir <- temp_dir()
 
-    micromake_wrapper(data_path = data_path,
+    micromake_wrapper(data_df = data_df,
                       out_dir = out_dir
                       )
 
@@ -53,5 +48,11 @@ test_that("micromake creates valid px files", {
     }
   }
 
-  expect_that_pxjob_runs_without_errors(get_data_path("micro"))
+  get_data_path("micro") %>%
+    readRDS() %>%
+    dplyr::as_tibble() %>%
+    dplyr::mutate(sidedoer = stringr::str_trim(sidedoer),
+                  sidedoer = dplyr::na_if(sidedoer, "")
+                  ) %>%
+      expect_that_pxjob_runs_without_errors()
 })

@@ -35,8 +35,14 @@ Open data.
 
 ```{r}
 df <- 
-  readRDS("micro.rds") %>% 
-  select(taar, civst, civdto, kirke)
+  "micro.rds" %>%
+    readRDS() %>%
+    dplyr::as_tibble() %>%
+    dplyr::mutate(sidedoer = stringr::str_trim(sidedoer),
+                  sidedoer = dplyr::na_if(sidedoer, "")
+                  ) %>%
+    dplyr::mutate(across(where(lubridate::is.Date), ~ format(.x, "%Y-%m"))) %>%
+    dplyr::mutate(across(where(is.numeric), ~ cut(.x, breaks = pretty(.x))))
 
 df
 ```
@@ -58,7 +64,7 @@ The template can be used as is, or it can be edited in Excel to fill in more met
 ```{r}
 micromake(data_df = df, 
           metadata_path = micro_metadata,
-          out_dir = getwd()
+          out_dir = file.path(getwd(), 'tmp') 
           )
 ```
 

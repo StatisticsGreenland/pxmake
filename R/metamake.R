@@ -58,6 +58,8 @@ get_metadata_template_from_data <- function(data_df,
     }
   }
 
+  data_df <- format_data_df(data_df, figures_variable)
+
   values <-
     data_df %>%
     dplyr::select(setdiff(names(.), figures_variable)) %>%
@@ -213,14 +215,14 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
     variable_label %>%
     dplyr::distinct(`variable-code`, language, `variable-label`)
 
-  figures_var <-
+  figures_variable <-
     variable_label %>%
     dplyr::filter(is.na(keyword)) %>%
     dplyr::distinct(`variable-code`) %>%
     dplyr::pull(`variable-code`)
 
-  if (identical(figures_var, character(0))) {
-    figures_var <- "figures_"
+  if (identical(figures_variable, character(0))) {
+    figures_variable <- "figures_"
   }
 
   metadata <-
@@ -288,7 +290,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
   sheet_variables <-
     pivot_order %>%
     dplyr::left_join(type_df, by = "variable-code") %>%
-    dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_var,
+    dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,
                                    pivot = "FIGURES"
                                    )
                      ) %>%
@@ -403,12 +405,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
   if (is_rds_list(input) & create_data) {
     sheet_data <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
-      dplyr::left_join(input$data %>%
-                       dplyr::mutate(input$data,
-                                     dplyr::across(-one_of(get_figures_variable(input, .)),
-                                                   as.character
-                                                   )
-                                     ),
+      dplyr::left_join(format_data_df(input$data, figures_variable),
                        by = c(stub_vars, heading_vars)
                        )
   } else if(create_data) {
@@ -418,7 +415,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
       stringr::str_split(" ") %>%
       unlist() %>%
       stringr::str_subset("^$", negate = TRUE) %>%
-      tibble::enframe(name = NULL, value = figures_var) %>%
+      tibble::enframe(name = NULL, value = figures_variable) %>%
       dplyr::mutate(across(everything(), ~ suppressWarnings(as.numeric(.x))))
 
     sheet_data <-

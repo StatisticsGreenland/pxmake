@@ -49,7 +49,7 @@ df
 
 Create a metadata template.
 
-```{r}
+```{r, eval=FALSE}
 micro_metadata <- 'micro.xlsx' 
 make_template(data_df = df, 
               languages = c("en"),
@@ -61,7 +61,7 @@ make_template(data_df = df,
 
 The template can be used as is, or it can be edited in Excel to fill in more metadata. Either way, run `micromake` to create the px-files.
 
-```{r}
+```{r, eval=FALSE}
 micromake(data_df = df, 
           metadata_path = micro_metadata,
           out_dir = file.path(getwd(), 'tmp') 

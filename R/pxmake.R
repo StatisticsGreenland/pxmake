@@ -158,6 +158,28 @@ get_metadata_df <- function(input, data_df) {
   }
 }
 
+#' Format df for px format
+#'
+#' Turn all variables, except figures variable, into character and replace NA
+#' with dash.
+#'
+#' @inheritParams pxmake
+#' @param figures_variable Character. The name of the figures variable.
+#'
+#' @returns A data frame
+format_data_df <- function(data_df, figures_variable) {
+  data_df %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(across(-one_of(intersect(names(.), figures_variable)),
+                         as.character
+                         )
+                  ) %>%
+    dplyr::mutate(dplyr::across(where(is.character),
+                                ~ tidyr::replace_na(.x, "-")
+                                )
+                  )
+}
+
 #' Get data as data frame
 #'
 #' @inheritParams pxmake
@@ -166,14 +188,7 @@ get_metadata_df <- function(input, data_df) {
 get_data_df  <- function(input, data, add_totals) {
   data_df <-
     get_raw_data(input, data) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(across(-one_of(intersect(names(.),
-                                            get_figures_variable(input, data)
-                                            )
-                                 ),
-                         as.character
-                         )
-                  )
+    format_data_df(figures_variable = get_figures_variable(input, data))
 
   if (!is.null(add_totals)) {
     data_df <- add_totals_to_data_df(input, data_df, add_totals)
@@ -320,8 +335,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
 
   codelists <-
     get_codelists_metadata(excel_metadata_path, data_df) %>%
-    dplyr::filter(`variable-code` %in% names(data_df)) %>%
-    tidyr::drop_na(code)
+    dplyr::filter(`variable-code` %in% names(data_df))
 
   code_value <-
     codelists %>%

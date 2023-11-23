@@ -34,7 +34,6 @@ micromake <- function(data_df, metadata_path, out_dir = NULL) {
     data_df_micro <-
       data_df %>%
       dplyr::select(all_of(c(time_var, micro_var))) %>%
-      tidyr::drop_na(!!micro_var) %>%
       dplyr::count(across(everything())) %>%
       dplyr::arrange_all()
 

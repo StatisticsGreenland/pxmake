@@ -28,7 +28,6 @@ test_that("micromake creates valid px files", {
 
     for (px_path in px_paths) {
       output <- temp_px_file()
-
       pxjob_exit_code <- pxjob64Win::pxjob(px_path, output)
       expect_equal(0, pxjob_exit_code)
     }
@@ -38,7 +37,8 @@ test_that("micromake creates valid px files", {
     readRDS() %>%
     dplyr::as_tibble() %>%
     dplyr::mutate(sidedoer = stringr::str_trim(sidedoer),
-                  sidedoer = dplyr::na_if(sidedoer, "")
+                  sidedoer = dplyr::na_if(sidedoer, ""),
+                  pnr = NA
                   ) %>%
       expect_that_pxjob_runs_without_errors()
 })

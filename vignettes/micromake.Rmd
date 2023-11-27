@@ -41,7 +41,6 @@ df <-
     dplyr::mutate(sidedoer = stringr::str_trim(sidedoer),
                   sidedoer = dplyr::na_if(sidedoer, "")
                   ) %>%
-    dplyr::mutate(across(where(lubridate::is.Date), ~ format(.x, "%Y-%m"))) %>%
     dplyr::mutate(across(where(is.numeric), ~ cut(.x, breaks = pretty(.x))))
 
 df

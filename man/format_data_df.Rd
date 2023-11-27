@@ -7,6 +7,8 @@
 format_data_df(data_df, figures_variable)
 }
 \arguments{
+\item{data_df}{Data frame with data in tidy format.}
+
 \item{figures_variable}{Character. The name of the figures variable.}
 }
 \value{

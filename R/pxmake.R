@@ -163,7 +163,7 @@ get_metadata_df <- function(input, data_df) {
 #' Turn all variables, except figures variable, into character and replace NA
 #' with dash.
 #'
-#' @inheritParams pxmake
+#' @inheritParams get_metadata_df_from_excel
 #' @param figures_variable Character. The name of the figures variable.
 #'
 #' @returns A data frame

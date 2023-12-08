@@ -2,10 +2,15 @@
 
 ## New features
 - Add `make_template` to create a minimial multilingual metadata template. (#186)
+- Add `micromake` to create many small px-files from a large data set. See
+`vignette(micromake)`. (#176)
 
 ## Bug fixes and minor improvements
 - Add import of pipe. (Reverses commit #d59866c)
 - Add vignette about creating px file and multilingual px file.
+- Fix edge case in list mergeing.
+- Use latin1 to default encoding, but add CODEPAGE=utf-8.
+- Set maximum column width in Excel.
 
 # pxmake 0.9.0
 

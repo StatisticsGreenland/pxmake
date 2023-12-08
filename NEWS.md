@@ -4,6 +4,7 @@
 - Add `make_template` to create a minimial multilingual metadata template. (#186)
 - Add `micromake` to create many small px-files from a large data set. See
 `vignette(micromake)`. (#176)
+- Support keyword VALUENOTE (#187)
 
 ## Bug fixes and minor improvements
 - Add import of pipe. (Reverses commit #d59866c)

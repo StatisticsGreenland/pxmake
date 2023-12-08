@@ -125,10 +125,14 @@ get_codelists_metadata <- function(excel_metadata_path, data_df) {
     dplyr::mutate(across(-sortorder, as.character),
                   across( sortorder, as.numeric)
                   ) %>%
-    tidyr::pivot_longer(cols = ends_with("_code-label"),
-                        names_to = c("language"),
-                        names_pattern = "^([[:alpha:]]+)_.*$"
+    tidyr::pivot_longer(cols = ends_with(c("_code-label", "_valuenote")),
+                        names_to = c("language", "keyword"),
+                        names_pattern = "^([[:alpha:]]+)_(.*)$"
                         ) %>%
+    tidyr::pivot_wider(names_from = "keyword") %>%
+    # Add valuenote if it doesn't exist
+    dplyr::bind_rows(dplyr::tibble(valuenote = character())) %>%
+    dplyr::rename(value = `code-label`) %>%
     dplyr::full_join(data_codes, by = c("variable-code", "code", "language")) %>%
     dplyr::left_join(variables, by = c("variable-code", "language")) %>%
     dplyr::mutate(value = ifelse(is.na(value), code, value))

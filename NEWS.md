@@ -12,6 +12,7 @@
 - Fix edge case in list mergeing.
 - Use latin1 to default encoding, but add CODEPAGE=utf-8.
 - Set maximum column width in Excel.
+- Add `create_data` argument to `metamake` that can supress generation of data.
 
 # pxmake 0.9.0
 

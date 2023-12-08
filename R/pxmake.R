@@ -455,7 +455,7 @@ get_data_cube <- function(metadata_df, data_df) {
     dplyr::mutate(sortorder = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
     dplyr::left_join(labels, by = "label") %>%
-    dplyr::filter(variable %in% names(data_df)) %>% # this line...
+    dplyr::filter(variable %in% names(data_df)) %>%
     dplyr::select(variable, sortorder, code = value)
 
   # Complete data by adding all combinations of variable values in data and

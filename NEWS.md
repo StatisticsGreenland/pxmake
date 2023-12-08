@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.9.1
 
 ## New features
 - Add `make_template` to create a minimial multilingual metadata template. (#186)

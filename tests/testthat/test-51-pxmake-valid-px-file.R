@@ -33,7 +33,7 @@ test_that("px file is valid", {
 
   test_that("Codes are defined for all values", {
     expect_code_and_values_match <- function(path) {
-      px_lines <- readLines(path)
+      px_lines <- read_px_file(path)
 
       value_lines <- px_lines[stringr::str_detect(px_lines, '^VALUES')]
       code_lines  <- px_lines[stringr::str_detect(px_lines, '^CODES')]
@@ -55,7 +55,7 @@ test_that("px file is valid", {
 
   test_that("header lines doesn't exceed 256 characters", {
     expect_no_too_long_lines <- function(path) {
-      px_lines <- readLines(path)
+      px_lines <- read_px_file(path)
 
       data_line_index <- stringr::str_which(px_lines, '^DATA=$')
 

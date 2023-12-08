@@ -82,6 +82,10 @@ test_that("lists are merged and sorted", {
   lst6$a <- NULL
 
   expect_equal(merge_named_lists(lst4, lst6), lst4)
+
+  lst7 <- list(a = "b")
+  lst8 <- list(a = "c")
+  expect_equal(merge_named_lists(lst7, lst8), list(a = c("b", "c")))
 })
 
 test_that("Time values are classified", {
@@ -173,12 +177,12 @@ test_that("file encoding is correct", {
   expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')
   expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
 
-  # no encoding listed; utf-8 is default
+  # no encoding listed; latin1 is default
   px_file <- temp_px_file()
   pxmake_clean(get_metadata_path("BEXSTA"),
                px_file,
                get_data_path("BEXSTA")
                )
 
-  expect_equal(get_encoding_from_px_file(px_file),  'utf-8')
+  expect_equal(get_encoding_from_px_file(px_file),  'latin1')
 })

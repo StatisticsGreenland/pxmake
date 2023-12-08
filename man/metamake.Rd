@@ -4,7 +4,7 @@
 \alias{metamake}
 \title{Create an Excel metadata workbook from a px-file}
 \usage{
-metamake(input, out_path = NULL, data_path = NULL)
+metamake(input, out_path = NULL, data_path = NULL, create_data = TRUE)
 }
 \arguments{
 \item{input}{Input can be provided in one of four ways:
@@ -21,6 +21,9 @@ saved.}
 
 \item{data_path}{Path to save data as an .rds file. If NULL, the data is
 saved as the sheet 'Data' in the Excel metadata workbook.}
+
+\item{create_data}{Logic. If FALSE the data table is not generated. This can
+be used to only generate metadata.}
 }
 \value{
 Returns rds object invisibly.

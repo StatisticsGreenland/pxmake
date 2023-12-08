@@ -4,7 +4,7 @@
 \alias{validate_metamake_arguments}
 \title{Check all metamake arguments}
 \usage{
-validate_metamake_arguments(input, out_path, data_path)
+validate_metamake_arguments(input, out_path, data_path, create_data)
 }
 \arguments{
 \item{input}{Input can be provided in one of four ways:
@@ -21,6 +21,9 @@ saved.}
 
 \item{data_path}{Path to save data as an .rds file. If NULL, the data is
 saved as the sheet 'Data' in the Excel metadata workbook.}
+
+\item{create_data}{Logic. If FALSE the data table is not generated. This can
+be used to only generate metadata.}
 }
 \value{
 Nothing

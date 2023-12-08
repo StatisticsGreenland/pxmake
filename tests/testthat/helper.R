@@ -21,6 +21,13 @@ get_pxjob_file_path <- function(table_name) {
   test_path('fixtures', paste0(table_name, '_pxjob.px'))
 }
 
+
+temp_dir <- function() {
+  path <- tempfile()
+  dir.create(path)
+  return(path)
+}
+
 expect_equal_lines <- function(path1, path2) {
   lines1 <- readLines(path1)
   lines2 <- readLines(path2)
@@ -54,7 +61,7 @@ expect_metamake_and_pxmake_cancel_out <- function(table_name) {
 
 #' Run pxmake and delete created files when environment is killed
 pxmake_clean <- function(input,
-                         out_path,
+                         out_path = NULL,
                          data = NULL,
                          add_totals = NULL,
                          env = parent.frame()) {
@@ -74,9 +81,10 @@ pxmake_clean <- function(input,
 metamake_clean <- function(input,
                            out_path = NULL,
                            data_path = NULL,
+                           create_data = TRUE,
                            env = parent.frame()) {
 
-  rds <- metamake(input, out_path, data_path)
+  rds <- metamake(input, out_path, data_path, create_data)
 
   return(invisible(rds))
 

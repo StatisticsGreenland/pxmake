@@ -20,21 +20,52 @@ get_px_metadata_regex <- function() {
 
 #' Create a minimal metadata template
 #'
+#' Stub, heading, and figure variables can be controlled  with arguments. If not
+#' provided, one variable is choosen as heading, one as figures, and the
+#' remaining as stub.
+#'
 #' @param data_df A data frame with data to create metadata for
+#' @param stub_variables A character vector with stub variables.
+#' @param heading_variables A character vector with heading variables.
+#' @param figures_variable Name of figure variable,
 #'
 #' @returns A data frame
-get_metadata_template_from_data <- function(data_df) {
+get_metadata_template_from_data <- function(data_df,
+                                            stub_variables = NULL,
+                                            heading_variables = NULL,
+                                            figures_variable = NULL
+                                            ) {
   variable_names <- names(data_df)
 
-  heading_variables <- head(variable_names, 1)
-  stub_variables    <- head(tail(variable_names, -1), -1)
-  figures_variable  <- tail(variable_names, 1)
+  repeat {
+    unallocated_variables <- setdiff(variable_names,
+                                     c(stub_variables,
+                                       heading_variables,
+                                       figures_variable
+                                       )
+                                     )
+
+    if (length(unallocated_variables) == 0) {
+      break
+    }
+
+    if (length(figures_variable) < 1) {
+      figures_variable <- tail(unallocated_variables, 1)
+    } else if (length(heading_variables) < 1) {
+      heading_variables <- head(unallocated_variables, 1)
+    } else {
+      stub_variables <- c(stub_variables, head(head(unallocated_variables, 1)))
+    }
+  }
+
+  data_df <- format_data_df(data_df, figures_variable)
 
   values <-
     data_df %>%
-    dplyr::select(-all_of(figures_variable)) %>%
+    dplyr::select(setdiff(names(.), figures_variable)) %>%
     mutate_all_vars_to_character() %>%
     tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
+    dplyr::arrange_all() %>%
     dplyr::group_by(variable) %>%
     dplyr::summarise(value = list(unique(value)))
 
@@ -57,7 +88,8 @@ get_metadata_template_from_data <- function(data_df) {
       dplyr::tibble(keyword = "VARIABLECODE",
                     variable = figures_variable,
                     value = list(figures_variable)
-                    )
+                    ),
+      dplyr::tibble(keyword = "CODEPAGE", value = list('utf-8'))
       ) %>%
     dplyr::mutate(language = "en", cell = NA_character_) %>%
     dplyr::relocate(value, .after = last_col())
@@ -120,14 +152,16 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
 #' saved.
 #' @param data_path Path to save data as an .rds file. If NULL, the data is
 #' saved as the sheet 'Data' in the Excel metadata workbook.
+#' @param create_data Logic. If FALSE the data table is not generated. This can
+#' be used to only generate metadata.
 #'
 #' @returns Returns rds object invisibly.
 #'
 #' @seealso \link{pxmake}
 #'
 #' @export
-metamake <- function(input, out_path = NULL, data_path = NULL) {
-  validate_metamake_arguments(input, out_path, data_path)
+metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRUE) {
+  validate_metamake_arguments(input, out_path, data_path, create_data)
 
   if (is_rds_file(input)) {
     input <- readRDS(input)
@@ -181,14 +215,14 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     variable_label %>%
     dplyr::distinct(`variable-code`, language, `variable-label`)
 
-  figures_var <-
+  figures_variable <-
     variable_label %>%
     dplyr::filter(is.na(keyword)) %>%
     dplyr::distinct(`variable-code`) %>%
     dplyr::pull(`variable-code`)
 
-  if (identical(figures_var, character(0))) {
-    figures_var <- "figures_"
+  if (identical(figures_variable, character(0))) {
+    figures_variable <- "figures_"
   }
 
   metadata <-
@@ -256,7 +290,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
   sheet_variables <-
     pivot_order %>%
     dplyr::left_join(type_df, by = "variable-code") %>%
-    dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_var,
+    dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,
                                    pivot = "FIGURES"
                                    )
                      ) %>%
@@ -379,30 +413,29 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     dplyr::select(`variable-code`, code) %>%
     tibble::deframe()
 
-  if (is_rds_list(input)) {
+  if (is_rds_list(input) & create_data) {
     sheet_data <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
-      dplyr::left_join(input$data %>%
-                       dplyr::mutate(input$data,
-                                     dplyr::across(-one_of(get_figures_variable(input, .)),
-                                                   as.character
-                                                   )
-                                     ),
+      dplyr::left_join(format_data_df(input$data, figures_variable),
                        by = c(stub_vars, heading_vars)
                        )
-  } else {
+  } else if(create_data) {
     figures <-
       data_lines %>%
       stringr::str_replace_all(";", "") %>%
       stringr::str_split(" ") %>%
       unlist() %>%
       stringr::str_subset("^$", negate = TRUE) %>%
-      tibble::enframe(name = NULL, value = figures_var) %>%
+      tibble::enframe(name = NULL, value = figures_variable) %>%
       dplyr::mutate(across(everything(), ~ suppressWarnings(as.numeric(.x))))
 
     sheet_data <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
       dplyr::bind_cols(figures)
+  } else if (isFALSE(create_data)) {
+    sheet_data <- NULL
+  } else {
+    unexpected_error()
   }
 
   rds <- list("metadata" = dplyr::select(metadata_df, -main_language),
@@ -417,6 +450,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
 
     add_sheet <- function(df, sheet_name) {
       openxlsx::addWorksheet(wb,sheet_name, gridLines = FALSE)
+      options("openxlsx.maxWidth" = 40)
       openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = 'auto')
       openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
     }
@@ -426,11 +460,13 @@ metamake <- function(input, out_path = NULL, data_path = NULL) {
     add_sheet(sheet_variables, "Variables")
     add_sheet(sheet_codelist,  "Codelists")
 
-    if (is.null(data_path)) {
+    if (is.null(data_path) & create_data) {
       error_if_too_many_rows_for_excel(sheet_data)
       add_sheet(sheet_data, "Data")
-    } else if (tools::file_ext(data_path) == "rds") {
+    } else if (identical(tools::file_ext(data_path), "rds") & create_data) {
       saveRDS(sheet_data, data_path)
+    } else if (isFALSE(create_data)) {
+      # pass
     } else {
       unexpected_error()
     }

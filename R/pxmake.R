@@ -158,6 +158,28 @@ get_metadata_df <- function(input, data_df) {
   }
 }
 
+#' Format df for px format
+#'
+#' Turn all variables, except figures variable, into character and replace NA
+#' with dash.
+#'
+#' @inheritParams get_metadata_df_from_excel
+#' @param figures_variable Character. The name of the figures variable.
+#'
+#' @returns A data frame
+format_data_df <- function(data_df, figures_variable) {
+  data_df %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(across(-one_of(intersect(names(.), figures_variable)),
+                         as.character
+                         )
+                  ) %>%
+    dplyr::mutate(dplyr::across(where(is.character),
+                                ~ tidyr::replace_na(.x, "-")
+                                )
+                  )
+}
+
 #' Get data as data frame
 #'
 #' @inheritParams pxmake
@@ -166,11 +188,7 @@ get_metadata_df <- function(input, data_df) {
 get_data_df  <- function(input, data, add_totals) {
   data_df <-
     get_raw_data(input, data) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(across(-one_of(get_figures_variable(input, data)),
-                         as.character
-                         )
-                  )
+    format_data_df(figures_variable = get_figures_variable(input, data))
 
   if (!is.null(add_totals)) {
     data_df <- add_totals_to_data_df(input, data_df, add_totals)
@@ -248,7 +266,8 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
                                   `variable-label`
                                   ),
                         names_to = "keyword"
-                        )
+                        ) %>%
+    dplyr::filter(`variable-code` %in% names(data_df))
 
   note_etc <-
     variables_long %>%
@@ -314,7 +333,9 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
       wrap_varaible_in_list(value)
   }
 
-  codelists <- get_codelists_metadata(excel_metadata_path, data_df)
+  codelists <-
+    get_codelists_metadata(excel_metadata_path, data_df) %>%
+    dplyr::filter(`variable-code` %in% names(data_df))
 
   code_value <-
     codelists %>%
@@ -352,7 +373,8 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
 
   table_language_dependent <-
     get_table2_metadata(excel_metadata_path) %>%
-    dplyr::left_join(dplyr::select(codelists, code, language, cell = value),
+    dplyr::left_join(dplyr::select(codelists, code, language, cell = value) %>%
+                     tidyr::drop_na(code),
                      by = c("code", "language")
                      ) %>%
     dplyr::select(-code)
@@ -408,12 +430,14 @@ get_data_cube <- function(metadata_df, data_df) {
   stub_vars <-
     stub_and_heading_df %>%
     dplyr::filter(keyword == "STUB") %>%
-    dplyr::pull(variable)
+    dplyr::pull(variable) %>%
+    intersect(names(data_df))
 
   heading_vars <-
     stub_and_heading_df %>%
     dplyr::filter(keyword == "HEADING") %>%
-    dplyr::pull(variable)
+    dplyr::pull(variable) %>%
+    intersect(names(data_df))
 
   head_stub_variable_names <- c(heading_vars, stub_vars)
 
@@ -431,6 +455,7 @@ get_data_cube <- function(metadata_df, data_df) {
     dplyr::mutate(sortorder = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
     dplyr::left_join(labels, by = "label") %>%
+    dplyr::filter(variable %in% names(data_df)) %>% # this line...
     dplyr::select(variable, sortorder, code = value)
 
   # Complete data by adding all combinations of variable values in data and

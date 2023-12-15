@@ -320,14 +320,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
     timeval <-
       time_metadata %>%
       dplyr::mutate(keyword = "TIMEVAL",
-                    value = paste0("TLIST(",
-                                   get_timeval_type_from_values(time_values),
-                                   "1),",
-                                   time_values %>%
-                                     stringr::str_replace_all('[:alpha:]', '') %>%
-                                     str_quote() %>%
-                                     stringr::str_c(collapse = ',')
-                                   )
+                    value = format_time_values(time_values)
                     ) %>%
       dplyr::select(keyword, language, variable = `variable-label`, value) %>%
       wrap_varaible_in_list(value)

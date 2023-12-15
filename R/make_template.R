@@ -68,15 +68,8 @@ make_template <- function(data_df,
       dplyr::tibble(keyword = "TIMEVAL",
                     language = main_language,
                     variable = time_variable,
-                    value = paste0("TLIST(",
-                                   get_timeval_type_from_values(time_values),
-                                   "1),",
-                                   time_values %>%
-                                     stringr::str_replace_all('[:alpha:]', '') %>%
-                                     str_quote() %>%
-                                     stringr::str_c(collapse = ',')
-                    )
-      ) %>%
+                    value = format_time_values(time_values)
+                    ) %>%
       wrap_varaible_in_list(value)
 
     metadata_df <- dplyr::bind_rows(metadata_df, time_var_df)

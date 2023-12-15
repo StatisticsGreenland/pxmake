@@ -136,6 +136,24 @@ get_timeval_type_from_values <- function(values) {
   return(time_type)
 }
 
+#' Format time values for px file
+#'
+#' @param values Time values
+#'
+#' @returns A character vector
+format_time_values <- function(values) {
+  paste0("TLIST(",
+         get_timeval_type_from_values(values),
+         "1),",
+         values %>%
+           stringr::str_replace_all('[:alpha:]', '') %>%
+           str_quote() %>%
+           stringr::str_c(collapse = ',')
+         )
+}
+
+
+
 #' Zips list
 #'
 #' Combine two list, by zipping them together in the order \code{v1[1]},

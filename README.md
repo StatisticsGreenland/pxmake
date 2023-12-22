@@ -6,19 +6,10 @@ Functions and templates to convert a tidy dataset into a PX file, combining nece
 
 ## Installation
 
-Install the latest release of 'pxmake' by running:
+Install the latest version by running:
 
 ``` r
 # install.packages('devtools')
-# Latest release
-devtools::install_github('StatisticsGreenland/pxmake/@*release')
-```
-
-Install the development version by running:
-
-``` r
-# install.packages('devtools')
-# Development version
 devtools::install_github('StatisticsGreenland/pxmake')
 ```
 

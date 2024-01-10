@@ -307,13 +307,17 @@ is_rds_list <- function(lst) {
     return(FALSE)
   }
 
-  if (!identical(sort(names(lst)), c("data", "metadata"))) {
+  df_names <- c("table", "table2", "variables", "codelists", "data")
+
+  if (!identical(sort(names(lst)), sort(df_names))) {
     return(FALSE)
   }
 
-  if (!is.data.frame(lst$metadata) | !is.data.frame(lst$data)) {
+  if (! all(sapply(lst, is.data.frame))) {
     return(FALSE)
   }
+
+
 
   return(TRUE)
 }

@@ -1,8 +1,7 @@
-test_that("pxmake can take 4 types of input and give the same result", {
+test_that("pxmake can take 3 types of input and give the same result", {
   px1 <- temp_px_file()
   px2 <- temp_px_file()
   px3 <- temp_px_file()
-  px4 <- temp_px_file()
 
   table_name <- "BEXSTA"
   xlsx       <- get_metadata_path(table_name)
@@ -12,22 +11,18 @@ test_that("pxmake can take 4 types of input and give the same result", {
   pxmake_clean(xlsx, px1, data_path)
 
   rds <- temp_rds_file()
-  metamake_clean(px1, rds)
+  metamake_clean(input = px1, out_path = rds)
 
   # option 2
-  pxmake_clean(rds, px2)
+  pxmake_clean(input = rds, out_path = px2)
 
   # option 3
   metadata_rds <- readRDS(rds)
 
   pxmake_clean(metadata_rds$metadata, px3, metadata_rds$data)
 
-  # option 4
-  pxmake_clean(metadata_rds, px4)
-
   expect_equal_lines(px1, px2)
   expect_equal_lines(px1, px3)
-  expect_equal_lines(px1, px4)
   expect_true(TRUE) #required to run
 })
 

@@ -96,24 +96,18 @@ get_figures_variable <- function(input, data) {
   }
 
   if (is_xlsx_file(input)) {
-    figures_var <-
-      input %>%
-        get_variables_sheet() %>%
-        dplyr::filter(toupper(pivot) == "FIGURES") %>%
-        dplyr::distinct(`variable-code`) %>%
-        dplyr::pull(`variable-code`)
+    variables <- get_variables_sheet(input)
   } else if (is_rds_list(input)) {
-    non_figure_variables <-
-      get_variable_label(input$metadata) %>%
-      dplyr::filter(!is.na(keyword), main_language) %>%
-      dplyr::pull(`variable-code`)
-
-    data_variables <- names(input$data)
-
-    figures_var <- setdiff(data_variables, non_figure_variables)
+    variables <- input$variables
   } else {
     unexpected_error()
   }
+
+  figures_var <-
+    variables %>%
+    dplyr::filter(toupper(pivot) == "FIGURES") %>%
+    dplyr::distinct(`variable-code`) %>%
+    dplyr::pull(`variable-code`)
 
   error_if_not_exactly_one_figures_variable(figures_var)
   return(figures_var)
@@ -140,22 +134,36 @@ get_raw_data <- function(input, data) {
   }
 }
 
-#' Get data frame from metadata argument
+#' Get rds
 #'
 #' @inheritParams pxmake
-#' @inheritParams get_metadata_df_from_excel
-get_metadata_df <- function(input, data_df) {
+get_rds <- function(input, data, add_totals) {
+  data_df <- get_data_df(input, data, add_totals)
+
   if (is_xlsx_file(input)) {
-    return(get_metadata_df_from_excel(input, data_df))
+    return(get_rds_from_excel(input, data_df))
   } else if (is_rds_file(input)) {
-    return(readRDS(input)$metadata)
+    return(readRDS(input))
   } else if (is_rds_list(input)) {
-    return(input$metadata)
-  } else if (is.data.frame(input)) {
     return(input)
   } else {
     unexpected_error()
   }
+}
+
+#' Get rds from Excel
+#'
+#' @param excel_metadata_path Path to xlsx workbook with metadata.
+#' @param data_df Data frame with data in tidy format.
+#'
+#' @returns A data frame
+get_rds_from_excel <- function(excel_metadata_path, data_df) {
+  list("table"     = get_table_metadata(excel_metadata_path),
+       "table2"    = get_table2_metadata(excel_metadata_path),
+       "variables" = get_variables_metadata(excel_metadata_path),
+       "codelists" = get_codelists_metadata(excel_metadata_path, data_df),
+       "data"      = data_df
+       )
 }
 
 #' Format df for px format
@@ -241,17 +249,15 @@ sort_metadata_df <- function(metadata_df) {
     dplyr::select(-order, -language_order)
 }
 
-#' Get a data frame with metadata
+#' Get a data frame with metadata from rds
 #'
-#' The metadata from the 3 sheets in the Excel workbook are combined into one
-#' data frame, in a format that's both easy to read, query and convert to a
-#' px-file.
+#' Metadata gets combined into a data frame that closely resamples the header of
+#' a px file.
 #'
-#' @param excel_metadata_path Path to xlsx workbook with metadata.
-#' @param data_df Data frame with data in tidy format.
+#' @param rds A list of 5 datasets.
 #'
 #' @returns A data frame
-get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
+get_metadata_df_from_rds <- function(rds) {
   df <- dplyr::tibble(keyword  = character(),
                       language = character(),
                       variable = character(),
@@ -260,14 +266,17 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
                       )
 
   variables_long <-
-    excel_metadata_path %>%
-    get_variables_metadata() %>%
+    rds$variables %>%
     tidyr::pivot_longer(cols = -c(pivot, order, `variable-code`, type, language,
                                   `variable-label`
                                   ),
                         names_to = "keyword"
                         ) %>%
-    dplyr::filter(`variable-code` %in% names(data_df))
+    dplyr::filter(`variable-code` %in% names(rds$data))
+
+  name_relation <-
+    variables_long %>%
+    dplyr::distinct(`variable-code`, language, `variable-label`)
 
   note_etc <-
     variables_long %>%
@@ -313,7 +322,7 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
     error_if_more_than_one_time_variable(time_variable)
 
     time_values <-
-      data_df %>%
+      rds$data %>%
       dplyr::distinct(across(all_of(time_variable))) %>%
       dplyr::pull(1)
 
@@ -327,8 +336,10 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
   }
 
   codelists <-
-    get_codelists_metadata(excel_metadata_path, data_df) %>%
-    dplyr::filter(`variable-code` %in% names(data_df))
+     rds$codelists # get_data_path("BEXSTA")%>%
+  #   dplyr::filter(`variable-code` %in% names(rds$data)) %>%
+  #   dplyr::rename(value = `variable-label`) %>%
+  #   dplyr::left_join(name_relation, by = c("variable-code", "language"))
 
   code_value <-
     codelists %>%
@@ -365,17 +376,21 @@ get_metadata_df_from_excel <- function(excel_metadata_path, data_df) {
                   )
 
   table_language_dependent <-
-    get_table2_metadata(excel_metadata_path) %>%
+    rds$table2 %>%
     dplyr::left_join(dplyr::select(codelists, code, language, cell = value) %>%
-                     tidyr::drop_na(code),
+                       tidyr::drop_na(code),
                      by = c("code", "language")
                      ) %>%
-    dplyr::select(-code)
+    dplyr::select(-code) %>%
+    wrap_varaible_in_list(value)
+
+  table <- rds$table %>%
+    wrap_varaible_in_list(value)
 
 
   metadata_df <-
     dplyr::bind_rows(df,
-                     get_table_metadata(excel_metadata_path),
+                     table,
                      table_language_dependent,
                      variablecode,
                      note_etc,
@@ -564,41 +579,33 @@ format_data_as_px_lines <- function(metadata_df, data_df) {
   c(metadata_lines, "DATA=", data_lines, ";")
 }
 
-#' Save output form pxmake to out_path
+#' Save pxmake output to out_path
 #'
 #' @inheritParams pxmake
 #' @inheritParams get_data_cube
 #'
-#' @returns rds object
-save_pxmake_output <- function(out_path, metadata_df, data_df) {
-  metadata_df <- sort_metadata_df(metadata_df)
-
-  rds <- list("metadata" = metadata_df, "data" = data_df)
-
+#' @returns Nothing
+save_pxmake_output <- function(out_path, rds) {
   if (is_rds_file(out_path)) {
     saveRDS(rds, out_path)
   } else if (is_px_file(out_path)) {
-    px_lines <- format_data_as_px_lines(metadata_df, data_df)
+    metadata_df <- get_metadata_df_from_rds(rds)
+
+    px_lines <- format_data_as_px_lines(metadata_df, rds$data)
 
     write_lines_to_file(px_lines, out_path, get_encoding_from_metadata(metadata_df))
-  } else if(is.null(out_path)) {
-    # pass
   } else {
     unexpected_error()
   }
-
-  return(rds)
 }
 
 #' Create a px-file from metadata and data
 #'
-#' @param input Metadata can be provided in one of four ways:
+#' @param input Metadata can be provided in one of three ways:
 #' 1. A path to an `.xlsx` metadata file.
 #' 1. A path to an `.rds` file created by \link{metamake}.
 #' 1. A named list with two data frames "metadata" and "data" (like
 #' \link{metamake} `.rds` file).
-#' 1. A data frame with metadata (metadata part of `.rds` file by
-#' \link{metamake}.)
 #' @param out_path Path to save output at, either as an `.rds` or `.px` file.
 #' If NULL, no file is saved.
 #' @param data Either a data frame, or a path to an `.rds` file. If NULL,
@@ -623,10 +630,13 @@ pxmake <- function(input,
 
   validate_pxmake_arguments(input, out_path, data, add_totals)
 
-  data_df <- get_data_df(input, data, add_totals)
-  metadata_df <- get_metadata_df(input, data_df)
+  rds <- get_rds(input, data, add_totals)
 
-  rds <- save_pxmake_output(out_path, metadata_df, data_df)
+  if (! is.null(out_path)) {
+    save_pxmake_output(out_path, rds)
+  }
 
   invisible(rds)
+
+
 }

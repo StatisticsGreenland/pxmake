@@ -19,6 +19,21 @@ test_that("metamake can take 3 types of input and give the same result", {
   # option 3
   metamake_clean(readRDS(rds), rds3)
 
-  expect_equal(readRDS(rds1), readRDS(rds2))
-  expect_equal(readRDS(rds1), readRDS(rds3))
+  rds  <- readRDS(rds)
+  rds1 <- readRDS(rds1)
+  rds2 <- readRDS(rds2)
+  rds3 <- readRDS(rds3)
+
+  sort_and_expect_equal <- function(rds_a, rds_b) {
+    expect_equal(lapply(rds_a, dplyr::arrange_all),
+                 lapply(rds_b, dplyr::arrange_all)
+                 )
+  }
+
+  sort_and_expect_equal(rds, rds2)
+  sort_and_expect_equal(rds1, rds2)
+  sort_and_expect_equal(rds1, rds3)
+
+  # expect_equal(readRDS(rds1), readRDS(rds2))
+  # expect_equal(readRDS(rds1), readRDS(rds3))
 })

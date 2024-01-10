@@ -140,58 +140,21 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
     dplyr::filter(keyword != "DATA")
 }
 
-#' Create an Excel metadata workbook from a px-file
-#'
-#' @param input Input can be provided in one of four ways:
-#' 1. A path to a `.px` file.
-#' 1. A path to a `.rds` file created by \link{pxmake}.
-#' 1. A named list with two data frames "metadata" and "data" (same as option 2).
-#' 1. A data frame with data. A minimal metadata template will be created.
-#' @param out_path Path to save metadata at. Use `.xlsx` extension to save
-#' as an Excel workbook. Use `.rds` to save as an rds file. If NULL, no file is
-#' saved.
-#' @param data_path Path to save data as an .rds file. If NULL, the data is
-#' saved as the sheet 'Data' in the Excel metadata workbook.
-#' @param create_data Logic. If FALSE the data table is not generated. This can
-#' be used to only generate metadata.
-#'
-#' @returns Returns rds object invisibly.
-#'
-#' @seealso \link{pxmake}
-#'
-#' @export
-metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRUE) {
-  validate_metamake_arguments(input, out_path, data_path, create_data)
+get_rds_from_px <- function(px_file_path) {
+  px_lines <- read_px_file(px_file_path)
 
-  if (is_rds_file(input)) {
-    input <- readRDS(input)
-  } else if (is.data.frame(input)) {
-    data_df <- input
-    input <- list("metadata" = get_metadata_template_from_data(data_df),
-                  "data" = data_df
-                  )
-  }
+  data_line_index <- stringr::str_which(px_lines, '^DATA=$')
 
-  if (is_rds_list(input)) {
-    metadata_df <- input$metadata
-  } else if (is_px_file(input)) {
-    px_lines <- read_px_file(input)
+  error_if_not_exactly_one_data_line(data_line_index)
 
-    data_line_index <- stringr::str_which(px_lines, '^DATA=$')
+  metadata_lines <- px_lines[c(1:data_line_index)]
+  data_lines     <- px_lines[c((data_line_index+1):length(px_lines))]
 
-    error_if_not_exactly_one_data_line(data_line_index)
-
-    metadata_lines <- px_lines[c(1:data_line_index)]
-    data_lines     <- px_lines[c((data_line_index+1):length(px_lines))]
-
-    metadata_df <- get_metadata_df_from_px_lines(metadata_lines)
-  } else {
-    unexpected_error()
-  }
-
-  variable_label <- get_variable_label(metadata_df)
+  metadata_df <- get_metadata_df_from_px_lines(metadata_lines)
 
   metadata_df <- add_main_language(metadata_df)
+
+  variable_label <- get_variable_label(metadata_df)
 
   heading_vars <-
     variable_label %>%
@@ -237,27 +200,22 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
     dplyr::ungroup() %>%
     dplyr::left_join(name_relation, by = c("language", "variable-label"))
 
-  ### Make metadata sheet: 'Variables'
-  variable_label_wide <-
-    name_relation %>%
-    tidyr::drop_na(language) %>%
-    tidyr::pivot_wider(names_from = language,
-                       names_glue = "{language}_variable-label",
-                       values_from = `variable-label`
-                       )
-
+  ### Make rds df 'variables'
   note_elimination_domain <-
     metadata %>%
     dplyr::filter(keyword %in% c("NOTE", "ELIMINATION", "DOMAIN")) %>%
-    dplyr::select(keyword, language, `variable-code`, value) %>%
+    dplyr::select(keyword, `variable-code`, language, value) %>%
+    dplyr::mutate(keyword = tolower(keyword)) %>%
     tidyr::unnest(value) %>%
-    tidyr::pivot_wider(names_from = c(language, keyword),
-                       names_glue = "{language}_{tolower(keyword)}",
+    tidyr::pivot_wider(names_from = keyword,
                        values_from = value
-                       )
+    )
+  # tidyr::pivot_wider(names_from = c(language, keyword),
+  #                    names_glue = "{language}_{tolower(keyword)}",
+  #                    values_from = value
+  #                    )
 
 
-  # Make type df
   empty_type_df <- tidyr::tibble(`variable-code` = character(0),
                                  type = character(0)
                                  )
@@ -287,17 +245,24 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
 
   type_df <- dplyr::bind_rows(time_variable_df, contvariable_df)
 
-  sheet_variables <-
+  variables1 <-
     pivot_order %>%
     dplyr::left_join(type_df, by = "variable-code") %>%
     dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,
                                    pivot = "FIGURES"
                                    )
-                     ) %>%
-    dplyr::left_join(variable_label_wide, by = "variable-code") %>%
-    dplyr::left_join(note_elimination_domain, by = "variable-code")
+                     )
 
-  ### Make metadata sheet: 'Codelists'
+  variable2 <-
+    name_relation %>%
+    tidyr::drop_na(language) %>%
+    dplyr::left_join(note_elimination_domain, by = c("language", "variable-code"))
+
+  variables <-
+    dplyr::left_join(variables1, variable2, by = "variable-code")
+
+
+  ### Make rds df 'codelists'
   codes <-
     metadata %>%
     dplyr::filter(main_language, keyword %in% c("CODES"),
@@ -346,18 +311,18 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
     dplyr::full_join(valuenote, by = c("variable-code", "value", "language")) %>%
     dplyr::mutate(code = ifelse(is.na(code), value, code))
 
-  sheet_codelist <-
+  codelists <-
     codes_and_values %>%
     dplyr::select(-main_language) %>%
     dplyr::filter(!`variable-code` %in% time_var) %>%
     dplyr::left_join(precision, by = c("variable-code", "value")) %>%
-    dplyr::rename(`code-label` = value) %>%
-    tidyr::pivot_wider(values_from = c(`code-label`, valuenote),
-                       names_from = language,
-                       names_glue = "{language}_{.value}"
-                       )
+    dplyr::rename(`code-label` = value) #%>%
+    # tidyr::pivot_wider(values_from = c(`code-label`, valuenote),
+    #                    names_from = language,
+    #                    names_glue = "{language}_{.value}"
+    # )
 
-  ### Make metadata sheet: 'Table'
+  ### Make rds df 'table'
   table_sheet_data <-
     metadata %>%
     dplyr::left_join(get_px_keywords(), by = "keyword") %>%
@@ -369,27 +334,28 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
     dplyr::ungroup() %>%
     dplyr::arrange(order)
 
-  sheet_table <-
+  table <-
     table_sheet_data %>%
     dplyr::filter(!language_dependent) %>%
-    dplyr::select(keyword, value)
+    dplyr::select(keyword, value) %>%
+    wrap_varaible_in_list(value)
 
   contvariable_codes <-
     dplyr::filter(codes_and_values, `variable-code` %in% contvariable) %>%
     dplyr::select(code, value, language)
 
-  sheet_table2 <-
+  table2 <-
     table_sheet_data %>%
     dplyr::filter(language_dependent) %>%
     dplyr::left_join(contvariable_codes, by = c("cell" = "value", "language")) %>%
-    dplyr::select(keyword, code, language, value) %>%
-    tidyr::pivot_wider(names_from = language,
-                       names_glue = "{language}_value",
-                       values_from = "value"
-                       )
+    dplyr::select(keyword, code, language, value) # %>%
+    # tidyr::pivot_wider(names_from = language,
+    #                    names_glue = "{language}_value",
+    #                    values_from = "value"
+    #                    )
 
-  ### Make metadata sheet: 'Data'
 
+  ### Make rds df 'data'
   # Order: s1, s2, ..., h1, h2, ...
   expand_order <-
     variable_label %>%
@@ -413,13 +379,13 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
     dplyr::select(`variable-code`, code) %>%
     tibble::deframe()
 
-  if (is_rds_list(input) & create_data) {
-    sheet_data <-
-      do.call(tidyr::expand_grid, stub_and_heading_values) %>%
-      dplyr::left_join(format_data_df(input$data, figures_variable),
-                       by = c(stub_vars, heading_vars)
-                       )
-  } else if(create_data) {
+#  if (is_rds_list(input) & create_data) {
+    # sheet_data <-
+    #   do.call(tidyr::expand_grid, stub_and_heading_values) %>%
+    #   dplyr::left_join(format_data_df(input$data, figures_variable),
+    #                    by = c(stub_vars, heading_vars)
+    #   )
+#  } else if(create_data) {
     figures <-
       data_lines %>%
       stringr::str_replace_all(";", "") %>%
@@ -429,18 +395,64 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
       tibble::enframe(name = NULL, value = figures_variable) %>%
       dplyr::mutate(across(everything(), ~ suppressWarnings(as.numeric(.x))))
 
-    sheet_data <-
+    data_df <-
       do.call(tidyr::expand_grid, stub_and_heading_values) %>%
       dplyr::bind_cols(figures)
-  } else if (isFALSE(create_data)) {
-    sheet_data <- NULL
+  # } else if (isFALSE(create_data)) {
+  #   sheet_data <- NULL
+  # } else {
+  #   unexpected_error()
+  # }
+
+  rds <- list("table" = table,
+              "table2" = table2,
+              "variables" = variables,
+              "codelists" = codelists,
+              "data" = data_df
+              )
+
+  return(rds)
+}
+
+#' Create an Excel metadata workbook from a px-file
+#'
+#' @param input Input can be provided in one of three ways:
+#' 1. A path to a `.px` file.
+#' 1. A path to a `.rds` file created by \link{pxmake}.
+#' 1. A data frame with data. A minimal metadata template will be created.
+#' @param out_path Path to save metadata at. Use `.xlsx` extension to save
+#' as an Excel workbook. Use `.rds` to save as an rds file. If NULL, no file is
+#' saved.
+#' @param data_path Path to save data as an .rds file. If NULL, the data is
+#' saved as the sheet 'Data' in the Excel metadata workbook.
+#' @param create_data Logic. If FALSE the data table is not generated. This can
+#' be used to only generate metadata.
+#'
+#' @returns Returns rds object invisibly.
+#'
+#' @seealso \link{pxmake}
+#'
+#' @export
+metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRUE) {
+  validate_metamake_arguments(input, out_path, data_path, create_data)
+
+  if (is_rds_file(input)) {
+    input <- readRDS(input)
+  } else if (is.data.frame(input)) {
+    # re-write
+    data_df <- input
+    input <- list("metadata" = get_metadata_template_from_data(data_df),
+                  "data" = data_df
+                  )
+  }
+
+  if (is_rds_list(input)) {
+    rds <- input
+  } else if (is_px_file(input)) {
+    rds <- get_rds_from_px(input)
   } else {
     unexpected_error()
   }
-
-  rds <- list("metadata" = dplyr::select(metadata_df, -main_language),
-              "data" = sheet_data
-              )
 
   if (is_rds_file(out_path)) {
     saveRDS(rds, out_path)
@@ -455,16 +467,16 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
       openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
     }
 
-    add_sheet(sheet_table,     "Table")
-    add_sheet(sheet_table2,    "Table2")
-    add_sheet(sheet_variables, "Variables")
-    add_sheet(sheet_codelist,  "Codelists")
+    add_sheet(rds$table,     "Table")
+    add_sheet(rds$table2,    "Table2")
+    add_sheet(rds$variables, "Variables")
+    add_sheet(rds$codelist,  "Codelists")
 
     if (is.null(data_path) & create_data) {
-      error_if_too_many_rows_for_excel(sheet_data)
-      add_sheet(sheet_data, "Data")
+      error_if_too_many_rows_for_excel(rds$data)
+      add_sheet(rds$data, "Data")
     } else if (identical(tools::file_ext(data_path), "rds") & create_data) {
-      saveRDS(sheet_data, data_path)
+      saveRDS(rds$data, data_path)
     } else if (isFALSE(create_data)) {
       # pass
     } else {

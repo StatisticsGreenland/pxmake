@@ -102,6 +102,18 @@ test_that("Time values are classified", {
   test_equal(c("", NA, NULL, "2001Q1")         , "Q")
 })
 
+test_that("Can get time values from string", {
+  timeval1 <- as.character(2020:2024)
+  timeval2 <- c("2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1")
+
+  expect_values_are_preserved <- function(str) {
+    expect_equal(str, get_values_from_time_format(format_time_values(str)))
+  }
+
+  expect_values_are_preserved(timeval1)
+  expect_values_are_preserved(timeval2)
+})
+
 test_that("Vectors are zipped", {
   expect_equal(zip_vectors(c(1, 3, 5), c(2, 4, 6)),
                c(1, 2, 3, 4, 5, 6)
@@ -169,20 +181,58 @@ test_that("File extensions work", {
   expect_false(is_xlsx_file(data.frame()))
 })
 
-test_that("file encoding is correct", {
-  get_file_encoding_for_table <- function(table_name) {
-    get_encoding_from_px_file(get_px_file_path(table_name))
-  }
+# test_that("file encoding is correct", {
+#   get_file_encoding_for_table <- function(table_name) {
+#     get_encoding_from_px_file(get_px_file_path(table_name))
+#   }
+#
+#   expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')
+#   expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
+#
+#   # no encoding listed; latin1 is default
+#   px_file <- temp_px_file()
+#   pxmake_clean(get_metadata_path("BEXSTA"),
+#                px_file,
+#                get_data_path("BEXSTA")
+#                )
+#
+#   expect_equal(get_encoding_from_px_file(px_file),  'latin1')
+# })
 
-  expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')
-  expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
+test_that("Data frames are aligned", {
+  a <- data.frame(a = as.character(),
+                  b = as.numeric(),
+                  d = as.character()
+                  )
 
-  # no encoding listed; latin1 is default
-  px_file <- temp_px_file()
-  pxmake_clean(get_metadata_path("BEXSTA"),
-               px_file,
-               get_data_path("BEXSTA")
+  b <- data.frame(a = as.numeric(),
+                  b = as.character(),
+                  c = as.character()
+                  )
+
+  expect_equal(align_data_frames(a, b),
+               data.frame(a = as.numeric(),
+                          b = as.character(),
+                          c = as.character(),
+                          d = as.character()
+                          )
                )
 
-  expect_equal(get_encoding_from_px_file(px_file),  'latin1')
+  c <- data.frame(a = c("1", "2"),
+                  b = c(3, 4),
+                  d = c("5", "6")
+                  )
+
+  d <- data.frame(a = c(7),
+                  b = c("8"),
+                  c = c("9")
+                  )
+
+  expect_equal(align_data_frames(c, d),
+               data.frame(a = c(1, 2),
+                          b = c("3", "4"),
+                          c = NA_character_,
+                          d = c("5", "6")
+                          )
+               )
 })

@@ -174,8 +174,8 @@ validate_xlsx_metadata <- function(excel_metadata_path) {
 #'
 #' @returns Nothing
 validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
-  if (!is_rds_file(out_path) & !is_px_file(out_path) & !is.null(out_path)) {
-    error("Argument 'out_path' should be a path to an .rds or .px file or NULL.")
+  if (!is_xlsx_file(out_path) & !is_px_file(out_path) & !is.null(out_path)) {
+    error("Argument 'out_path' should be a path to an .xlsx, .px file or NULL.")
   }
 
   if (!is.null(add_totals)) {
@@ -243,5 +243,42 @@ validate_metamake_arguments <- function(input, out_path, data_path, create_data)
 
   if (!isTRUE(create_data) & !isFALSE(create_data)) {
     error("Argument 'create_data' should be TRUE or FALSE.")
+  }
+}
+
+#' Check all arguments to px()
+#'
+#' @inheritParams px
+#'
+#' @return Nothing
+validate_px_arguments <- function(input, data) {
+  if (! any(is_px_file(input), is_xlsx_file(input), is.list(input))) {
+    error("Argument 'input' has wrong format. See ?px.")
+  }
+
+  if (is.null(data)) {
+    if (is_xlsx_file(input)) {
+      error_if_excel_sheet_does_not_exist("Data", input)
+    }
+  } else {
+    if (! is_xlsx_file(input)) {
+      error("Argument 'data' can only be used if 'input' is an .xlsx file.")
+    }
+    if (! any(is.data.frame(data), is_rds_file(data))) {
+      error("Argument 'data' must be a data frame or a path to an .rds file.")
+    }
+  }
+}
+
+#' Check all arguments to pxsave()
+#'
+#' @inheritParams pxsave
+#'
+#' @return Nothing
+validate_pxsave_arguments <- function(px, out_path) {
+  validate_px(px)
+
+  if (! any(is_px_file(out_path), is_xlsx_file(out_path))) {
+    error("Argument 'out_path' must be a path to a .r .xlsx file.")
   }
 }

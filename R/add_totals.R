@@ -88,3 +88,35 @@ add_totals_to_data_df <- function(excel_metadata_path, data_df, add_totals) {
              sum_var = get_figures_variable(excel_metadata_path)
              )
 }
+
+
+
+add_totals_to_px <- function(px, vars) {
+  params <-
+    px$variables2 %>%
+    dplyr::left_join(dplyr::select(px$codelists2, `variable-code`, code, value),
+                     by = c("variable-code", "elimination" = "value"),
+                     multiple = "all"
+                     ) %>%
+    dplyr::filter(`variable-code` %in% vars) %>%
+    dplyr::mutate(code = ifelse(is.na(code),
+                                elimination,
+                                code
+                                )
+                  ) %>%
+    dplyr::distinct(`variable-code`, code)
+
+  figures_variable <-
+    px$variables1 %>%
+    dplyr::filter(pivot == "FIGURES") %>%
+    dplyr::pull(`variable-code`)
+
+  px$data <-
+    add_totals(px$data,
+               vars = params$`variable-code`,
+               level_names = params$code,
+               sum_var = figures_variable
+               )
+
+  return(px)
+}

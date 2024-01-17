@@ -1,15 +1,15 @@
-test_that("pxmake returns rds object invisibly", {
-  rds <- pxmake(get_metadata_path('FOTEST'))
+test_that("pxmake returns px object invisibly", {
+  px <- pxmake(get_metadata_path('FOTEST'))
 
-  expect_true(is_rds_list(rds))
+  validate_px(px)
 
-  pxmake_clean(rds, temp_px_file())
+  expect_true(TRUE)
 })
 
-test_that("metamake returns rds object invisibly", {
-  rds <- metamake(get_px_file_path('TUX01'))
+test_that("metamake returns px object invisibly", {
+  px <- metamake(get_px_file_path('TUX01'))
 
-  metamake_clean(rds, temp_xlsx_file())
+  validate_px(px)
 
-  expect_true(is_rds_list(rds))
+  expect_true(TRUE)
 })

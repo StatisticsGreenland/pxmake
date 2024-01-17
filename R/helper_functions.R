@@ -152,6 +152,31 @@ format_time_values <- function(values) {
          )
 }
 
+#' Get time values from formatted string
+#'
+#' @param str String with time values
+#'
+#' @returns A character vector
+get_values_from_time_format <- function(str) {
+  tmp <-
+    str %>%
+    stringr::str_split(',') %>%
+    unlist()
+
+  tlist <- tmp %>% head(1)
+  type  <- stringr::str_sub(tlist, 7, 7)
+
+ values <-
+    tmp %>%
+    tail(-1) %>%
+    stringr::str_replace_all('"', '')
+
+ if (type == "A") {
+   return(values)
+ } else {
+   return(paste0(stringr::str_sub(values, 1, 4), type, stringr::str_sub(values, 5)))
+ }
+}
 
 
 #' Zips list
@@ -340,3 +365,37 @@ temp_file_with_extension <- function(extension) {
 temp_px_file   <- temp_file_with_extension(".px")
 temp_rds_file  <- temp_file_with_extension(".rds")
 temp_xlsx_file <- temp_file_with_extension(".xlsx")
+
+
+#' Align data frames
+#'
+#' Align df_a to have the same columns and column types as df_b.
+#'
+#' @param df_a Data frame to align
+#' @param df_b Data frame to align to
+#'
+#' @returns A data frame
+align_data_frames <- function(df_a, df_b) {
+  names_a <- names(df_a)
+  names_b <- names(df_b)
+
+  # Add columns from b not in a to a
+  for (names in setdiff(names_b, names_a)) {
+    if (nrow(df_a) == 0) {
+      df_a[[names]] <- as.character()
+    } else {
+      df_a[[names]] <- NA
+    }
+  }
+
+  # Reorder
+  df_a <- dplyr::relocate(df_a, all_of(names_b))
+
+  # Align types
+  for (name in names_b) {
+    df_a[[name]] <- as(df_a[[name]], class(df_b[[name]]))
+  }
+
+  return(df_a)
+}
+

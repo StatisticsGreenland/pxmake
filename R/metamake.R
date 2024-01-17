@@ -209,7 +209,7 @@ get_rds_from_px <- function(px_file_path) {
     tidyr::unnest(value) %>%
     tidyr::pivot_wider(names_from = keyword,
                        values_from = value
-    )
+                       )
   # tidyr::pivot_wider(names_from = c(language, keyword),
   #                    names_glue = "{language}_{tolower(keyword)}",
   #                    values_from = value
@@ -414,12 +414,11 @@ get_rds_from_px <- function(px_file_path) {
   return(rds)
 }
 
-#' Create an Excel metadata workbook from a px-file
+#' Create a pxobject from a px-file
 #'
 #' @param input Input can be provided in one of three ways:
 #' 1. A path to a `.px` file.
 #' 1. A path to a `.rds` file created by \link{pxmake}.
-#' 1. A data frame with data. A minimal metadata template will be created.
 #' @param out_path Path to save metadata at. Use `.xlsx` extension to save
 #' as an Excel workbook. Use `.rds` to save as an rds file. If NULL, no file is
 #' saved.
@@ -436,58 +435,72 @@ get_rds_from_px <- function(px_file_path) {
 metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRUE) {
   validate_metamake_arguments(input, out_path, data_path, create_data)
 
-  if (is_rds_file(input)) {
-    input <- readRDS(input)
+  if (is_px_file(input)) {
+    p <- px(input)
   } else if (is.data.frame(input)) {
-    # re-write
-    data_df <- input
-    input <- list("metadata" = get_metadata_template_from_data(data_df),
-                  "data" = data_df
-                  )
-  }
-
-  if (is_rds_list(input)) {
-    rds <- input
-  } else if (is_px_file(input)) {
-    rds <- get_rds_from_px(input)
+    # pxtemplate
   } else {
     unexpected_error()
   }
 
-  if (is_rds_file(out_path)) {
-    saveRDS(rds, out_path)
-  } else if (is_xlsx_file(out_path)) {
-    ### Make sheets in workbook
-    wb <- openxlsx::createWorkbook()
-
-    add_sheet <- function(df, sheet_name) {
-      openxlsx::addWorksheet(wb,sheet_name, gridLines = FALSE)
-      options("openxlsx.maxWidth" = 40)
-      openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = 'auto')
-      openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
-    }
-
-    add_sheet(rds$table,     "Table")
-    add_sheet(rds$table2,    "Table2")
-    add_sheet(rds$variables, "Variables")
-    add_sheet(rds$codelist,  "Codelists")
-
-    if (is.null(data_path) & create_data) {
-      error_if_too_many_rows_for_excel(rds$data)
-      add_sheet(rds$data, "Data")
-    } else if (identical(tools::file_ext(data_path), "rds") & create_data) {
-      saveRDS(rds$data, data_path)
-    } else if (isFALSE(create_data)) {
-      # pass
-    } else {
-      unexpected_error()
-    }
-    openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
-  } else if (is.null(out_path)) {
-    # pass
-  } else {
-    unexpected_error()
+  if (is_xlsx_file(out_path)) {
+    pxsave(p, out_path)
   }
 
-  invisible(rds)
+  invisible(p)
+
+  # if (is_rds_file(input)) {
+  #   input <- readRDS(input)
+  # } else if (is.data.frame(input)) {
+  #   # re-write
+  #   data_df <- input
+  #   input <- list("metadata" = get_metadata_template_from_data(data_df),
+  #                 "data" = data_df
+  #                 )
+  # }
+  #
+  # if (is_rds_list(input)) {
+  #   rds <- input
+  # } else if (is_px_file(input)) {
+  #   rds <- get_rds_from_px(input)
+  # } else {
+  #   unexpected_error()
+  # }
+  #
+  # if (is_rds_file(out_path)) {
+  #   saveRDS(rds, out_path)
+  # } else if (is_xlsx_file(out_path)) {
+  #   ### Make sheets in workbook
+  #   wb <- openxlsx::createWorkbook()
+  #
+  #   add_sheet <- function(df, sheet_name) {
+  #     openxlsx::addWorksheet(wb,sheet_name, gridLines = FALSE)
+  #     options("openxlsx.maxWidth" = 40)
+  #     openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = 'auto')
+  #     openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
+  #   }
+  #
+  #   add_sheet(rds$table,     "Table")
+  #   add_sheet(rds$table2,    "Table2")
+  #   add_sheet(rds$variables, "Variables")
+  #   add_sheet(rds$codelist,  "Codelists")
+  #
+  #   if (is.null(data_path) & create_data) {
+  #     error_if_too_many_rows_for_excel(rds$data)
+  #     add_sheet(rds$data, "Data")
+  #   } else if (identical(tools::file_ext(data_path), "rds") & create_data) {
+  #     saveRDS(rds$data, data_path)
+  #   } else if (isFALSE(create_data)) {
+  #     # pass
+  #   } else {
+  #     unexpected_error()
+  #   }
+  #   openxlsx::saveWorkbook(wb, out_path, overwrite = TRUE)
+  # } else if (is.null(out_path)) {
+  #   # pass
+  # } else {
+  #   unexpected_error()
+  # }
+  #
+  # invisible(rds)
 }

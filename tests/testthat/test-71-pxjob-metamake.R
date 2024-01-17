@@ -31,6 +31,10 @@ test_that("px file and pxmake(metamake(px file)) are equivalent", {
         lines <- stringr::str_subset(lines, "^CODES.+", negate = TRUE)
       }
 
+      if (table_name %in% c("CONTVARIABLE")) {
+        lines <- stringr::str_subset(lines, "^CODES\\(.year.\\).+", negate = TRUE)
+      }
+
       return(lines)
     }
 

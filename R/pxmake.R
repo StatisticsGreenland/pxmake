@@ -601,24 +601,20 @@ save_pxmake_output <- function(out_path, rds) {
 
 #' Create a px-file from metadata and data
 #'
-#' @param input Metadata can be provided in one of three ways:
-#' 1. A path to an `.xlsx` metadata file.
-#' 1. A path to an `.rds` file created by \link{metamake}.
-#' 1. A named list with two data frames "metadata" and "data" (like
-#' \link{metamake} `.rds` file).
-#' @param out_path Path to save output at, either as an `.rds` or `.px` file.
-#' If NULL, no file is saved.
+#' @param input Path to a `.xlsx` metadata file.
+#' @param out_path Path to save output at, either as an `.rds`, `.px` or `.xlsx`
+#' file. If NULL, no file is saved.
 #' @param data Either a data frame, or a path to an `.rds` file. If NULL,
 #' the data must be provided as part of the `metadata` argument, either in
 #' option 1. as the sheet 'Data' in the Excel metadata workbook, or as the
-#' "data" in option 2 or 3.
+#' "data" in option 2.
 #' @param add_totals A list of variables to add a 'total' level to. The option
 #' is only available if `input` is an `.xlsx` file (option 1). The value of the
 #' total level is looked up in 'Variables' xx_elimination. The code for the
 #' level is found in 'Codelists'. The total is a sum of the values in the
 #' variables with `pivot = FIGURES` in 'Variables'. NAs are ignored when summing.
 #'
-#' @returns Returns rds object invisibly.
+#' @returns Returns px object invisibly.
 #'
 #' @seealso \link{metamake}
 #'
@@ -630,13 +626,15 @@ pxmake <- function(input,
 
   validate_pxmake_arguments(input, out_path, data, add_totals)
 
-  rds <- get_rds(input, data, add_totals)
+  p <- px(input, data)
 
-  if (! is.null(out_path)) {
-    save_pxmake_output(out_path, rds)
+  if (! is.null(add_totals)) {
+    p <- add_totals_to_px(p, vars = add_totals)
   }
 
-  invisible(rds)
+  if (! is.null(out_path)) {
+    pxsave(p, out_path)
+  }
 
-
+  invisible(p)
 }

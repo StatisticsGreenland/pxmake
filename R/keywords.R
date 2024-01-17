@@ -10,7 +10,7 @@ get_px_keywords <- function() {
          "AXIS-VERSION",      FALSE,            TRUE,               FALSE,                    FALSE,         TRUE,
              "CODEPAGE",      FALSE,            TRUE,               FALSE,                    FALSE,         TRUE,
              "LANGUAGE",      FALSE,            TRUE,               FALSE,                    FALSE,         TRUE,
-            "LANGUAGES",      FALSE,            TRUE,               FALSE,                    FALSE,         TRUE,
+            "LANGUAGES",      FALSE,           FALSE,               FALSE,                    FALSE,         TRUE,
         "CREATION-DATE",      FALSE,            TRUE,               FALSE,                    FALSE,         TRUE,
           "NEXT-UPDATE",      FALSE,            TRUE,               FALSE,                    FALSE,         TRUE,
             "PX-SERVER",      FALSE,           FALSE,               FALSE,                    FALSE,         TRUE,

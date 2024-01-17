@@ -82,3 +82,79 @@ make_template <- function(data_df,
   if (print_out_path) message('Template created at: ', out_path)
 }
 
+#' Create a minimal metadata template
+#'
+#' Stub, heading, and figure variables can be controlled  with arguments. If not
+#' provided, one variable is choosen as heading, one as figures, and the
+#' remaining as stub.
+#'
+#' @param data_df A data frame with data to create metadata for
+#' @param stub_variables A character vector with stub variables.
+#' @param heading_variables A character vector with heading variables.
+#' @param figures_variable Name of figure variable,
+#'
+#' @returns A data frame
+get_metadata_template_from_data <- function(data_df,
+                                            stub_variables = NULL,
+                                            heading_variables = NULL,
+                                            figures_variable = NULL
+                                            ) {
+  variable_names <- names(data_df)
+
+  repeat {
+    unallocated_variables <- setdiff(variable_names,
+                                     c(stub_variables,
+                                       heading_variables,
+                                       figures_variable
+                                       )
+                                     )
+
+    if (length(unallocated_variables) == 0) {
+      break
+    }
+
+    if (length(figures_variable) < 1) {
+      figures_variable <- tail(unallocated_variables, 1)
+    } else if (length(heading_variables) < 1) {
+      heading_variables <- head(unallocated_variables, 1)
+    } else {
+      stub_variables <- c(stub_variables, head(head(unallocated_variables, 1)))
+    }
+  }
+
+  data_df <- format_data_df(data_df, figures_variable)
+
+  values <-
+    data_df %>%
+    dplyr::select(setdiff(names(.), figures_variable)) %>%
+    mutate_all_vars_to_character() %>%
+    tidyr::pivot_longer(cols = everything(), names_to = "variable") %>%
+    dplyr::arrange_all() %>%
+    dplyr::group_by(variable) %>%
+    dplyr::summarise(value = list(unique(value)))
+
+  get_px_keywords() %>%
+    dplyr::filter(mandatory,
+                  ! keyword %in% c("DATA", "STUB", "HEADING", "VALUES", "DECIMALS")
+                  ) %>%
+    dplyr::select(keyword) %>%
+    dplyr::bind_rows(dplyr::tibble(keyword = c("NOTE", "ELIMINATION", "DOMAIN"))) %>%
+    dplyr::mutate(value = list("")) %>%
+    dplyr::bind_rows(
+      dplyr::tribble(~keyword,             ~value,
+                     "STUB",       stub_variables,
+                     "HEADING", heading_variables,
+                     "DECIMALS",              "0",
+                     "LANGUAGE",             "en"
+                     ) %>%
+        wrap_varaible_in_list(value),
+      dplyr::tibble(keyword = "VALUES", values),
+      dplyr::tibble(keyword = "VARIABLECODE",
+                    variable = figures_variable,
+                    value = list(figures_variable)
+                    ),
+      dplyr::tibble(keyword = "CODEPAGE", value = list('utf-8'))
+      ) %>%
+    dplyr::mutate(language = "en", cell = NA_character_) %>%
+    dplyr::relocate(value, .after = last_col())
+}

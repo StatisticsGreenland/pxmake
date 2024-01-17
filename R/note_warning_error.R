@@ -126,7 +126,6 @@ error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
   }
 }
 
-
 error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
   data_variable_names <-
     get_excel_sheet(sheet)(excel_metadata_path) %>%
@@ -150,7 +149,7 @@ error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
 
 #' Validate Excel metadata workbook
 #'
-#' @inheritParams get_metadata_df_from_excel
+#' @param excel_metadata_path Path to the Excel metadata workbook
 #'
 #' @returns Nothing
 validate_xlsx_metadata <- function(excel_metadata_path) {
@@ -190,8 +189,7 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
 
   if (!is_xlsx_file(input) &
       !is_rds_file(input) &
-      !is.data.frame(input) &
-      !is_rds_list(input)
+      !is.data.frame(input)
       ) {
     error("Argument 'input' has wrong format. See ?pxmake.")
   }
@@ -221,8 +219,7 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
 #'
 #' @returns Nothing
 validate_metamake_arguments <- function(input, out_path, data_path, create_data) {
-  if (!is_px_file(input) & !is_rds_file(input) &
-      !is_rds_list(input) & !is.data.frame(input)
+  if (!is_px_file(input) & !is_rds_file(input) & !is.data.frame(input)
       ) {
     error("Argument 'input' has wrong format. See ?metamake.")
   }
@@ -275,10 +272,10 @@ validate_px_arguments <- function(input, data) {
 #' @inheritParams pxsave
 #'
 #' @return Nothing
-validate_pxsave_arguments <- function(px, out_path) {
+validate_pxsave_arguments <- function(px, path) {
   validate_px(px)
 
-  if (! any(is_px_file(out_path), is_xlsx_file(out_path))) {
-    error("Argument 'out_path' must be a path to a .r .xlsx file.")
+  if (! any(is_px_file(path), is_xlsx_file(path))) {
+    error("Argument 'path' must be a path to a .r .xlsx file.")
   }
 }

@@ -73,21 +73,6 @@ new_px <- function(languages, table1, table2, variables1, variables2,
   structure(p, class = "px")
 }
 
-# Ideas for functions
-# px(input, data=NA) (create a px object from an input file)
-#
-# pxtemplate(data) (create a px object from just a data frame)
-# maybe pxtemplate is just px(input = data.frame, data = NA)
-#
-# pxsave(px, path) (save a px object to a path)
-#
-# add_totals(px, vars = list()) (add totals to a px object)
-#
-# bexsta <- px('path/to/px/file/bexsta.px')
-# bexsta$languages
-
-
-
 #' Validate px object
 #'
 #' @param x A supposed px object.

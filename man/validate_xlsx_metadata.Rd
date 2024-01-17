@@ -7,7 +7,7 @@
 validate_xlsx_metadata(excel_metadata_path)
 }
 \arguments{
-\item{excel_metadata_path}{Path to xlsx workbook with metadata.}
+\item{excel_metadata_path}{Path to the Excel metadata workbook}
 }
 \value{
 Nothing

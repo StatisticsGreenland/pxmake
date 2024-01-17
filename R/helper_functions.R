@@ -178,7 +178,6 @@ get_values_from_time_format <- function(str) {
  }
 }
 
-
 #' Zips list
 #'
 #' Combine two list, by zipping them together in the order \code{v1[1]},
@@ -322,31 +321,6 @@ is_rds_file  <- is_path_extension("rds")
 is_xlsx_file <- is_path_extension("xlsx")
 is_px_file   <- is_path_extension("px")
 
-#' Check if rds object is properly formatted
-#'
-#' @param lst List to check
-#'
-#' @returns Logic
-is_rds_list <- function(lst) {
-  if (!is.list(lst)) {
-    return(FALSE)
-  }
-
-  df_names <- c("table", "table2", "variables", "codelists", "data")
-
-  if (!identical(sort(names(lst)), sort(df_names))) {
-    return(FALSE)
-  }
-
-  if (! all(sapply(lst, is.data.frame))) {
-    return(FALSE)
-  }
-
-
-
-  return(TRUE)
-}
-
 #' Change all variables to character
 #'
 #' @param df Data frame
@@ -356,6 +330,13 @@ mutate_all_vars_to_character <- function(df) {
   dplyr::mutate(df, dplyr::across(everything(), as.character))
 }
 
+#' Create temporary file
+#'
+#' Get a temporary file path with a specific extension (function factory)
+#'
+#' @param extension String, file name extension
+#'
+#' @returns Path to temporary file
 temp_file_with_extension <- function(extension) {
   function() {
     return(tempfile(fileext = extension))
@@ -365,7 +346,6 @@ temp_file_with_extension <- function(extension) {
 temp_px_file   <- temp_file_with_extension(".px")
 temp_rds_file  <- temp_file_with_extension(".rds")
 temp_xlsx_file <- temp_file_with_extension(".xlsx")
-
 
 #' Align data frames
 #'
@@ -398,4 +378,3 @@ align_data_frames <- function(df_a, df_b) {
 
   return(df_a)
 }
-

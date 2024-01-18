@@ -1,16 +1,10 @@
 test_that("Error if no 'Data' sheet exists when no data argument is provided", {
-  expect_error(pxmake_clean(get_metadata_path("BEXSTA"),
-                            out_path = temp_px_file()
-                            ),
-               regexp = "Data"
-               )
+  expect_error(px(get_metadata_path("BEXSTA")), regexp = "Data")
 })
 
 test_that("Error if multiple time vars in variable", {
-  expect_error(pxmake_clean(input = get_metadata_path("error_two_timevals"),
-                            out_path = temp_px_file()
-                            ),
-               regexp = "type=time"
+  expect_error(px(input = get_metadata_path("error_two_timevals")),
+               regexp = "time"
                )
 })
 

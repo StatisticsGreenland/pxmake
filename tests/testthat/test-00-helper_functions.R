@@ -181,23 +181,22 @@ test_that("File extensions work", {
   expect_false(is_xlsx_file(data.frame()))
 })
 
-# test_that("file encoding is correct", {
-#   get_file_encoding_for_table <- function(table_name) {
-#     get_encoding_from_px_file(get_px_file_path(table_name))
-#   }
-#
-#   expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')
-#   expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
-#
-#   # no encoding listed; latin1 is default
-#   px_file <- temp_px_file()
-#   pxmake_clean(get_metadata_path("BEXSTA"),
-#                px_file,
-#                get_data_path("BEXSTA")
-#                )
-#
-#   expect_equal(get_encoding_from_px_file(px_file),  'latin1')
-# })
+test_that("file encoding is correct", {
+  get_file_encoding_for_table <- function(table_name) {
+    get_encoding_from_px_file(get_px_file_path(table_name))
+  }
+
+  expect_equal(get_file_encoding_for_table('TUX01'),   'iso-8859-15')
+  expect_equal(get_file_encoding_for_table('BEXSTA_windows_1252'), 'Windows-1252')
+
+  # no encoding listed; latin1 is default
+  px_file <- temp_px_file()
+
+  px(input = get_metadata_path("BEXSTA"), data = get_data_path("BEXSTA")) %>%
+    pxsave(path = px_file)
+
+  expect_equal(get_encoding_from_px_file(px_file),  'latin1')
+})
 
 test_that("Data frames are aligned", {
   a <- data.frame(a = as.character(),

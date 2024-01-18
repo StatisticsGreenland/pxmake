@@ -102,15 +102,14 @@ pxjob_clean <- function(input, output, env = parent.frame()) {
   })
 }
 
-#' Run pxmake for a specific table. Return path to file.
+#' Run px() and pxsave() for a specific table. Return path to file.
 create_px_file <- function(table_name) {
   px_path <- temp_px_file()
 
-  pxmake_clean(get_metadata_path(table_name),
-               px_path,
-               get_data_path(table_name),
-               env = parent.frame(n=1)
-               )
+  px(input = get_metadata_path(table_name),
+     data =  get_data_path(table_name)
+     ) %>%
+    pxsave(path = px_path)
 
   return(px_path)
 }

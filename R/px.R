@@ -119,5 +119,17 @@ validate_px <- function(x) {
     }
   }
 
+  time_variables <-
+    x$variables1 %>%
+    dplyr::filter(toupper(type) == "TIME") %>%
+    dplyr::pull(`variable-code`)
+
+  if (length(time_variables) > 1) {
+    stop("px object has more than one time variable: ",
+         paste0(time_variables, collapse = ", "),
+         call. = FALSE
+         )
+  }
+
   x
 }

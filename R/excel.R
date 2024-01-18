@@ -30,13 +30,14 @@ get_figures_variable_from_excel <- function(excel_path) {
     dplyr::pull(`variable-code`)
 
   error_if_not_exactly_one_figures_variable(figures_variable)
+
   return(figures_variable)
 }
 
-#' Turn Excel workbook into a px object
+#' Create a px object from an Excel workbook
 #'
 #' @param excel_path Path to Excel metadata workbook.
-#' @param data Data frame with data.
+#' @param data A data frame if data isen't stored in the Excel workbook.
 #'
 #' @return A px object.
 px_from_excel <- function(excel_path, data = NULL) {
@@ -100,15 +101,9 @@ px_from_excel <- function(excel_path, data = NULL) {
                   )
 
   # codelists1, codelists2
-  raw_data <-
-    if (is.null(data)) {
-      get_data_sheet(excel_path)
-    } else {
-      data
-    }
-
   data_df <-
-    raw_data %>%
+    data %>%
+    {if (is.null(.)) get_data_sheet(excel_path) else . } %>%
     format_data_df(figures_variable = get_figures_variable_from_excel(excel_path))
 
   codelists_sheet <-
@@ -144,8 +139,8 @@ px_from_excel <- function(excel_path, data = NULL) {
 
 #' Save px object as an Excel workbook
 #'
-#' @param px A px object.
-#' @param path Path to save Excel workbook.
+#' @param px A px object
+#' @param path Path to save Excel workbook
 #'
 #' @return Nothing
 save_px_as_xlsx <- function(px, path) {

@@ -52,6 +52,7 @@ add_totals_to_df <- function(df,
 }
 
 #' @rdname add_totals.px
+#' @inheritParams add_totals.px
 #' @export
 add_totals <- function(x, vars) {
   UseMethod("add_totals")

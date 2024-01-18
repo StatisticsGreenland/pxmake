@@ -7,9 +7,9 @@
 save_px_as_xlsx(px, path)
 }
 \arguments{
-\item{px}{A px object.}
+\item{px}{A px object}
 
-\item{path}{Path to save Excel workbook.}
+\item{path}{Path to save Excel workbook}
 }
 \value{
 Nothing

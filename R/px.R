@@ -1,12 +1,12 @@
-#' Create px object
+#' Create a px object
 #'
 #' Create a px object from a px-file, an Excel metadata workbook, or a list with
 #' a specific structure.
 #'
-#' @param input Path to px-file, path to an Excel metadata workbook, or a list.
+#' @param input Path to px-file, path to an Excel metadata workbook.
 #' @param data Either a data frame or a path to an `.rds` file with a data frame.
 #' This can only be used if the `input` argument is an Excel metadata workbook.
-#' If NULL, the data should be provided in the 'data' sheet of the Excel
+#' If NULL, the data should be provided in the 'Data' sheet of the Excel
 #' workbook.
 #'
 #' @return A px object invisibly.
@@ -19,10 +19,7 @@ px <- function(input, data = NULL) {
     data <- readRDS(data)
   }
 
-  if (is.list(input)) {
-    unexpected_error()
-    #px <- validate_px(new_px(input))
-  } else if (is_px_file(input)) {
+  if (is_px_file(input)) {
     px <- px_from_px_file(input)
   } else if (is_xlsx_file(input)) {
     px <- px_from_excel(input, data)

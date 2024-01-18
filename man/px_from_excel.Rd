@@ -2,18 +2,18 @@
 % Please edit documentation in R/excel.R
 \name{px_from_excel}
 \alias{px_from_excel}
-\title{Turn Excel workbook into a px object}
+\title{Create a px object from an Excel workbook}
 \usage{
 px_from_excel(excel_path, data = NULL)
 }
 \arguments{
 \item{excel_path}{Path to Excel metadata workbook.}
 
-\item{data}{Data frame with data.}
+\item{data}{A data frame if data isen't stored in the Excel workbook.}
 }
 \value{
 A px object.
 }
 \description{
-Turn Excel workbook into a px object
+Create a px object from an Excel workbook
 }

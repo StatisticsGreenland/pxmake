@@ -35,24 +35,6 @@ expect_equal_lines <- function(path1, path2) {
   expect_equal(lines1, lines2)
 }
 
-#' Compare rds but don't require same sort order for data
-expect_equal_rds <- function(rds1, rds2) {
-  expect_equal(rds1$metadata, rds2$metadata)
-
-  expect_equal(dplyr::arrange_all(rds1$data),
-               dplyr::arrange_all(rds2$data)
-  )
-}
-
-#' Compare rds but don't require same sort order for data
-expect_equal_rds <- function(rds1, rds2) {
-  expect_equal(rds1$metadata, rds2$metadata)
-
-  expect_equal(dplyr::arrange_all(rds1$data),
-               dplyr::arrange_all(rds2$data)
-  )
-}
-
 #' Metamake is the inverse of pxamke
 expect_metamake_and_pxmake_cancel_out <- function(table_name) {
   px1   <- temp_px_file()

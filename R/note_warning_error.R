@@ -88,7 +88,7 @@ get_legal_values <- function() {
                  )
 }
 
-error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
+error_if_variable_has_illegal_values <- function(excel_path, sheet) {
   legal_values <-
     get_legal_values() %>%
     dplyr::filter(sheet == sheet) %>%
@@ -96,7 +96,7 @@ error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
     tidyr::unnest(value)
 
   data_values <-
-    get_excel_sheet(sheet)(excel_metadata_path) %>%
+    get_excel_sheet(sheet)(excel_path) %>%
     dplyr::select(dplyr::pull(legal_values, variable)) %>%
     tidyr::pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
     dplyr::mutate(value = toupper(value)) %>%
@@ -126,9 +126,9 @@ error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
   }
 }
 
-error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
+error_if_sheet_is_missing_variable <- function(excel_path, sheet) {
   data_variable_names <-
-    get_excel_sheet(sheet)(excel_metadata_path) %>%
+    get_excel_sheet(sheet)(excel_path) %>%
     names() %>%
     stringr::str_split_fixed("_", n = 2) %>%
     as.data.frame() %>%
@@ -149,19 +149,19 @@ error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
 
 #' Validate Excel metadata workbook
 #'
-#' @param excel_metadata_path Path to the Excel metadata workbook
+#' @param excel_path Path to the Excel metadata workbook
 #'
 #' @returns Nothing
-validate_xlsx_metadata <- function(excel_metadata_path) {
+validate_xlsx_metadata <- function(excel_path) {
   sheets <- c("Table", "Table2", "Variables", "Codelists")
 
   invisible(lapply(sheets,
                    error_if_sheet_is_missing_variable,
-                   excel_metadata_path = excel_metadata_path
+                   excel_path = excel_path
                    )
             )
   error_if_variable_has_illegal_values(sheet = "Variables",
-                                       excel_metadata_path
+                                       excel_path
                                        )
 }
 

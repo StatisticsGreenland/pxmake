@@ -2,11 +2,11 @@
 #'
 #' Add a new level to a variables which is the sum of all other levels.
 #'
-#' @inheritParams add_totals
+#' @inheritParams add_totals_to_df
 #' @param var Name of variable to add total level to.
 #' @param level_name Total level name.
 #'
-#' @return Data frame
+#' @return A data frame
 add_total_level_to_var <- function(df,
                                    var,
                                    level_name = "Total",
@@ -33,10 +33,10 @@ add_total_level_to_var <- function(df,
 #' @param level_names Names of total levels. Should have length 1 or same length
 #' as `vars`.
 #' @param sum_var String, name of variable to sum over.
-add_totals <- function(df,
-                       vars,
-                       level_names = "Total",
-                       sum_var = "value") {
+add_totals_to_df <- function(df,
+                             vars,
+                             level_names = "Total",
+                             sum_var = "value") {
 
   params <- data.frame(vars = vars, level_names = level_names)
 
@@ -46,20 +46,30 @@ add_totals <- function(df,
                                  level_name = params$level_names[i],
                                  sum_var = sum_var
                                  )
-  }
+    }
 
   return(df)
 }
 
-#' Add 'totals' to a px object
+#' @rdname add_totals.px
+#' @export
+add_totals <- function(x, vars) {
+  UseMethod("add_totals")
+}
+
+#' Add 'total' level to variables
 #'
-#' Wrapper around \link{add_totals} to add total levels to a px object.
+#' Add 'total' level to multiple variables. The name of the total level is set
+#' as 'elimination' in px$variables2, otherwise 'Total' is used. The value of
+#' is the sum of the figures variable. NAs are ignored when summing.
 #'
-#' @param px Px object to add total levels to.
+#' @param px A px object
 #' @param vars List of variables to add total levels to.
 #'
 #' @return A px object
-add_totals_to_px <- function(px, vars) {
+#'
+#' @export
+add_totals.px <- function(px, vars) {
   params <-
     px$variables2 %>%
     dplyr::left_join(dplyr::select(px$codelists2, `variable-code`, code, value),
@@ -80,11 +90,11 @@ add_totals_to_px <- function(px, vars) {
     dplyr::pull(`variable-code`)
 
   px$data <-
-    add_totals(px$data,
-               vars = params$`variable-code`,
-               level_names = params$code,
-               sum_var = figures_variable
-               )
+    add_totals_to_df(px$data,
+                     vars = params$`variable-code`,
+                     level_names = params$code,
+                     sum_var = figures_variable
+                     )
 
   return(px)
 }

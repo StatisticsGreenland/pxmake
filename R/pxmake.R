@@ -28,7 +28,7 @@ pxmake <- function(input,
   p <- px(input, data)
 
   if (! is.null(add_totals)) {
-    p <- add_totals_to_px(p, vars = add_totals)
+    p <- add_totals(p, vars = add_totals)
   }
 
   if (! is.null(out_path)) {

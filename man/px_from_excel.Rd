@@ -8,6 +8,8 @@ px_from_excel(excel_path, data = NULL)
 }
 \arguments{
 \item{excel_path}{Path to Excel metadata workbook.}
+
+\item{data}{Data frame with data.}
 }
 \value{
 A px object.

@@ -4,10 +4,16 @@
 \alias{validate_pxsave_arguments}
 \title{Check all arguments to pxsave()}
 \usage{
-validate_pxsave_arguments(px, out_path)
+validate_pxsave_arguments(px, path)
 }
 \arguments{
 \item{px}{A px object.}
+
+\item{path}{Path to file. The file extension determines the format. Can be:
+\itemize{
+\item \code{.px} to save as a px-file
+\item \code{.xlsx} to save as an Excel metadata workbook
+}}
 }
 \value{
 Nothing

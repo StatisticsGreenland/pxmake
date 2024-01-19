@@ -1,8 +1,16 @@
-# pxmake
+# pxmake - Create px-files in R
 
 ![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)
 
-Functions and templates to convert a tidy dataset into a PX file, combining necessary metadata of both technical and informational kind to data.
+## Overview
+
+`pxmake` is an R package for creating and modifying px-files.
+
+-   You can import any\* PC-AXIS px-file, modify it, and save it as a new px-file.
+-   You can create a new px-file from scratch, by starting with a data frame.
+-   Save a px-file in an Excel Workbook.
+
+\**that is the goal at least*
 
 ## Installation
 
@@ -13,96 +21,60 @@ Install the latest version by running:
 devtools::install_github('StatisticsGreenland/pxmake')
 ```
 
-'pxmake' is not available on CRAN.
+`pxmake` is not available on CRAN.
 
 ## How to use
 
-### Data formats
-
-`pxmake` and `metamake` can convert between `.xlsx` files (Excel), `.rds` (data frames), and `.px` files.
-
-``` mermaid
-graph LR
-    x -->|pxmake| r
-    x -->|pxmake| p
-    r -->|pxmake| p
-    r -->|metamake| x
-    p -->|metamake| r
-    p -->|metamake| x
-
-
-   x[".xlsx"]
-   r[".rds"]
-   p[".px"]
-;
-```
-
-When `pxmake` convert directly from `.xlsx` to `.px` it gives the same result as first converting from `.xlsx` to `.rds` and then from `.rds` to `.px`. So in the example below `example1.px` and `example2.px` are identical.
+Use `px()` to import a px-file and convert it into a px object.
 
 ``` r
-# From .xlsx to .px
-pxmake(input = "example.xlsx", out_path = "example1.px")
-```
-
-``` r
-# From .xlsx to .rds to .px
-pxmake(input = "example.xlsx", out_path = "example.rds")
-pxmake(input = "exmaple.rds",  out_path = "example2.px")
-```
-
-#### Bulk updates
-
-This makes it possible to do modifications to the `.rds` file before converting to `.px`. In some cases this can be useful to do bulk modifications on the `.rds` files, rather than manually doing the changes in the `.xlsx` files.
-
-``` r
-# Update contact info in all .xlsx file in directory
 library(pxmake)
-library(tidyverse)
 
-# List all xlsx files in directory
-xlsx_files <- list.files(pattern="*.xlsx")
+x <- px(input = "path/to/px-file.px")
 
-# Create rds file names by replacing file extension
-rds_files  <- str_replace(xlsx_files, ".xlsx$", ".rds")
-
-# Run pxmake on all xlsx_files
-map2(xlsx_files, rds_files, pxmake)
-
-# Define function to set a new value for a keyword and overwrite the rds file
-update_keyword_value <- function(rds_path, keyword_name, new_value) {
-  rds <- readRDS(rds_path)
-  
-  rds$metadata <- 
-    rds$metadata %>%  
-    dplyr::mutate(value = ifelse(keyword == keyword_name,
-                                 new_value,
-                                 value
-                                 )
-                  )
-  
-  saveRDS(rds, rds_path)
-}
-
-# Run the update functino on all rds files to set a new email address under CONTACT
-walk(rds_files, function(x) update_keyword_value(x, 
-                                                 keyword_name = 'CONTACT', 
-                                                 new_value = "new@contact.com"
-                                                 )
-     )
+class(x)
+#> [1] "px"
 ```
 
-After updating, the rds files can be converted to `.px` by running `pxmake` on the new rds files:
+The px object is a list of 8 data frames. The first 7 contain metadata, and the last is the data table.
 
 ``` r
-px_files <- str_replace(xlsx_files, ".xlsx$", ".px")
-map2(rds_files, px_files, pxmake)
+> names(x)
+[1] "languages"  "table1"     "table2"     "variables1" "variables2" "codelists1" "codelists2" "data"
 ```
 
-or you can use `metamake` to convert the `.rds` files back to `.xlsx` so the contact information is updated there:
+The structure of the 7 metadata tables are hopefully intuitive, if you are familiar the px file format.
+
+Use `pxsave()` to save the px object.
 
 ``` r
-map2(rds_files, xlsx_files, metamake)
+pxsave(x, path = "path/to/new-px-file.px")
 ```
+
+### Excel workbook
+Apart from px-files, `pxmake` can also read and write Excel workbooks. This allows users who aren't familiar with the px file to edit that content, and convert it back to a px file.
+
+``` r
+# Convert a px-file to an Excel workbook
+x <- px("path/to/px-file.px")
+
+pxsave(x, path = "path/to/excel-file.xlsx")
+
+# Open and modify the Excel workbook, then convert it back into a px-file
+x <- px("path/to/excel-file.xlsx")
+
+pxsave(x, path = "path/to/new-px-file.px"")
+```
+
+### Add totals
+Variables in px-files commenly contain 'total' levels, which is a sum of all other levels in that variable. `pxmake` can add these totals automatically.
+
+``` r
+x <- px("path/to/px-file.px")
+
+x <- add_totals(x, vars = c("variable1", "variable2"))
+```
+See `?add_totals` for more information.
 
 ## For developers
 

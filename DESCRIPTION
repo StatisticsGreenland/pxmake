@@ -11,7 +11,7 @@ Authors@R: c(
                     role = c("cre", "aut")
                    )
             )
-Description: Create px files by using a data set and metadata from and excel sheet.
+Description: Create and modify px files in R.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

@@ -7,7 +7,7 @@
 \alias{pxmake-package.R}
 \title{pxmake: Create px files}
 \description{
-Create px files by using a data set and metadata from and excel sheet.
+Create and modify px files in R.
 }
 \author{
 \strong{Maintainer}: Lars Pedersen \email{larp@stat.gl}

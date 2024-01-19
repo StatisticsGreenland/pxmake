@@ -61,7 +61,7 @@ pxsave(x, path = "path/to/excel-file.xlsx")
 # Then convert the Excel workbook back into a px-file
 x <- px("path/to/excel-file.xlsx")
 
-pxsave(x, path = "path/to/new-px-file.px"")
+pxsave(x, path = "path/to/new-px-file.px")
 ```
 
 ### Add totals

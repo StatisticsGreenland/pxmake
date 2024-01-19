@@ -52,7 +52,6 @@ add_totals_to_df <- function(df,
 }
 
 #' @rdname add_totals.px
-#' @inheritParams add_totals.px
 #' @export
 add_totals <- function(x, vars) {
   UseMethod("add_totals")
@@ -64,16 +63,16 @@ add_totals <- function(x, vars) {
 #' as 'elimination' in px$variables2, otherwise 'Total' is used. The value of
 #' is the sum of the figures variable. NAs are ignored when summing.
 #'
-#' @param px A px object
+#' @param x A px object
 #' @param vars List of variables to add total levels to.
 #'
 #' @return A px object
 #'
 #' @export
-add_totals.px <- function(px, vars) {
+add_totals.px <- function(x, vars) {
   params <-
-    px$variables2 %>%
-    dplyr::left_join(dplyr::select(px$codelists2, `variable-code`, code, value),
+    x$variables2 %>%
+    dplyr::left_join(dplyr::select(x$codelists2, `variable-code`, code, value),
                      by = c("variable-code", "elimination" = "value"),
                      multiple = "all"
                      ) %>%
@@ -86,16 +85,16 @@ add_totals.px <- function(px, vars) {
     dplyr::distinct(`variable-code`, code)
 
   figures_variable <-
-    px$variables1 %>%
+    x$variables1 %>%
     dplyr::filter(pivot == "FIGURES") %>%
     dplyr::pull(`variable-code`)
 
-  px$data <-
-    add_totals_to_df(px$data,
+  x$data <-
+    add_totals_to_df(x$data,
                      vars = params$`variable-code`,
                      level_names = params$code,
                      sum_var = figures_variable
                      )
 
-  return(px)
+  return(x)
 }

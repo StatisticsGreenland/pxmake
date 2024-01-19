@@ -7,12 +7,12 @@
 \usage{
 add_totals(x, vars)
 
-\method{add_totals}{px}(px, vars)
+\method{add_totals}{px}(x, vars)
 }
 \arguments{
-\item{vars}{List of variables to add total levels to.}
+\item{x}{A px object}
 
-\item{px}{A px object}
+\item{vars}{List of variables to add total levels to.}
 }
 \value{
 A px object

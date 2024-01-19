@@ -442,7 +442,11 @@ px_from_px_file <- function(path) {
 
   stub_and_heading_values <-
     codes_and_values %>%
-    dplyr::filter(main_language, `variable-code` %in% c(heading_vars, stub_vars)) %>%
+    dplyr::filter(main_language,
+                  `variable-code` %in% c(heading_vars, stub_vars),
+                  # Exclude time variable as it is already in time_values_df
+                  ! `variable-code` %in% time_var
+                  ) %>%
     dplyr::bind_rows(time_values_df) %>%
     dplyr::distinct(`variable-code`, code) %>%
     dplyr::group_by(`variable-code`) %>%

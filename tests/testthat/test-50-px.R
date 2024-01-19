@@ -1,4 +1,4 @@
-test_that("px runs without errors", {
+test_that("px runs without errors (excel file)", {
   expect_runs_without_errors <- function(table_name) {
     px(input = get_metadata_path(table_name),
        data = get_data_path(table_name)
@@ -13,4 +13,19 @@ test_that("px runs without errors", {
   expect_runs_without_errors("no_timeval_or_codes")
   expect_runs_without_errors("zero_heading")
   expect_runs_without_errors("zero_stub")
+})
+
+test_that("px runs without errors (px file)", {
+  expect_runs_without_errors <- function(name) {
+    px(input = get_px_file_path(name))
+
+    expect_true(TRUE)
+  }
+
+  expect_runs_without_errors("BEXSTA_windows_1252")
+  expect_runs_without_errors("SOXATI4")
+  expect_runs_without_errors("TUX01")
+  expect_runs_without_errors("CONTVARIABLE")
+  expect_runs_without_errors("CONTVARIABLE_multiple_languages")
+  expect_runs_without_errors("PRXPRISH")
 })

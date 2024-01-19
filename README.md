@@ -6,11 +6,8 @@
 
 `pxmake` is an R package for creating and modifying px-files.
 
--   You can import any\* PC-AXIS px-file, modify it, and save it as a new px-file.
--   You can create a new px-file from scratch, by starting with a data frame.
--   Save a px-file in an Excel Workbook.
-
-\**that is the goal at least*
+-   Import a PC-AXIS px-file, modify it, and save it as a new px-file.
+-   Save a px-file as an Excel workbook.
 
 ## Installation
 
@@ -25,7 +22,7 @@ devtools::install_github('StatisticsGreenland/pxmake')
 
 ## How to use
 
-Use `px()` to import a px-file and convert it into a px object.
+Use `px()` to convert a px-file into a px object.
 
 ``` r
 library(pxmake)
@@ -40,10 +37,10 @@ The px object is a list of 8 data frames. The first 7 contain metadata, and the 
 
 ``` r
 > names(x)
-[1] "languages"  "table1"     "table2"     "variables1" "variables2" "codelists1" "codelists2" "data"
+[1] "languages" "table1" "table2" "variables1" "variables2" "codelists1" "codelists2" "data"
 ```
 
-The structure of the 7 metadata tables are hopefully intuitive, if you are familiar the px file format.
+The structure of the 7 metadata tables are hopefully intuitive if you are familiar with the px file format.
 
 Use `pxsave()` to save the px object.
 
@@ -52,26 +49,26 @@ pxsave(x, path = "path/to/new-px-file.px")
 ```
 
 ### Excel workbook
-Apart from px-files, `pxmake` can also read and write Excel workbooks. This allows users who aren't familiar with the px file to edit that content, and convert it back to a px file.
+Apart from px-files, `pxmake` can also read and write Excel workbooks. This allows users who aren't familiar with px-files to edit it and convert it back to a px file.
 
 ``` r
 # Convert a px-file to an Excel workbook
 x <- px("path/to/px-file.px")
-
 pxsave(x, path = "path/to/excel-file.xlsx")
 
-# Open and modify the Excel workbook, then convert it back into a px-file
+# Open and modify the Excel workbook
+
+# Then convert the Excel workbook back into a px-file
 x <- px("path/to/excel-file.xlsx")
 
 pxsave(x, path = "path/to/new-px-file.px"")
 ```
 
 ### Add totals
-Variables in px-files commenly contain 'total' levels, which is a sum of all other levels in that variable. `pxmake` can add these totals automatically.
+Variables in px-files often contain 'total' levels, which is a sum of all other levels in that variable. `pxmake` can add these automatically.
 
 ``` r
 x <- px("path/to/px-file.px")
-
 x <- add_totals(x, vars = c("variable1", "variable2"))
 ```
 See `?add_totals` for more information.

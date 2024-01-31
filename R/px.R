@@ -3,11 +3,11 @@
 #' Create a px object from a px-file, an Excel metadata workbook, or a list with
 #' a specific structure.
 #'
-#' @param input Path to px-file, path to an Excel metadata workbook.
+#' @param input Path to px-file, path to an Excel metadata workbook, or a data
+#' frame. If data frame a minimal px object with minimal metadata is created.
 #' @param data Either a data frame or a path to an `.rds` file with a data frame.
-#' This can only be used if the `input` argument is an Excel metadata workbook.
-#' If NULL, the data should be provided in the 'Data' sheet of the Excel
-#' workbook.
+#' This can only be used if `input` is an Excel metadata workbook. If NULL, the
+#' data should be provided in the 'Data' sheet of the Excel workbook.
 #'
 #' @return A px object invisibly.
 #'
@@ -23,6 +23,8 @@ px <- function(input, data = NULL) {
     px <- px_from_px_file(input)
   } else if (is_xlsx_file(input)) {
     px <- px_from_excel(input, data)
+  } else if (is.data.frame(input)) {
+    px <- px_from_data_df(input)
   } else {
     unexpected_error()
   }
@@ -48,11 +50,6 @@ pxsave <- function(px, path) {
   } else {
     unexpected_error()
   }
-}
-
-pxtemplate <- function(data) {
-  # same as data frame option in pxmake
-  validate_px(new_px(x))
 }
 
 new_px <- function(languages, table1, table2, variables1, variables2,

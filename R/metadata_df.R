@@ -145,8 +145,10 @@ add_main_language <- function(metadata_df) {
 #' @returns Character
 get_main_language <- function(metadata_df) {
   metadata_df %>%
-    dplyr::filter(keyword == "LANGUAGE") %>%
+    dplyr::filter(keyword %in% c("LANGUAGE", "LANGUAGES")) %>%
+    dplyr::arrange(keyword) %>%
     tidyr::unnest(value) %>%
+    dplyr::slice(1) %>%
     dplyr::pull(value)
 }
 
@@ -200,7 +202,7 @@ get_metadata_df_from_px <- function(px) {
                                      variable = character(),
                                      cell     = character(),
                                      value    = list(character())
-  )
+                                     )
 
   languages <-
     px$languages %>%
@@ -327,7 +329,7 @@ get_metadata_df_from_px <- function(px) {
                   variable = `variable-label`,
                   cell = value,
                   value = valuenote
-    )
+                  )
 
   precision <-
     codelists %>%
@@ -339,7 +341,7 @@ get_metadata_df_from_px <- function(px) {
                   variable = `variable-label`,
                   cell = value,
                   value = precision
-    )
+                  )
 
   metadata_df <-
     dplyr::bind_rows(metadata_template,
@@ -353,7 +355,7 @@ get_metadata_df_from_px <- function(px) {
                      code_value,
                      valuenote,
                      precision
-    ) %>%
+                     ) %>%
     replace_na_language_with_main_language() %>%
     sort_metadata_df()
 

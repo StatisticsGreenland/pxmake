@@ -249,21 +249,20 @@ validate_metamake_arguments <- function(input, out_path, data_path, create_data)
 #'
 #' @return Nothing
 validate_px_arguments <- function(input, data) {
-  if (! any(is_px_file(input), is_xlsx_file(input), is.list(input))) {
+  if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input))) {
     error("Argument 'input' has wrong format. See ?px.")
   }
 
-  if (is.null(data)) {
-    if (is_xlsx_file(input)) {
+  if (! any(is.null(data), is.data.frame(data), is_rds_file(data))) {
+    error("Argument 'data' has wrong format. See ?px.")
+  }
+
+  if (is.null(data) & is_xlsx_file(input)) {
       error_if_excel_sheet_does_not_exist("Data", input)
-    }
-  } else {
-    if (! is_xlsx_file(input)) {
+  }
+
+  if (! is.null(data) & ! is_xlsx_file(input)) {
       error("Argument 'data' can only be used if 'input' is an .xlsx file.")
-    }
-    if (! any(is.data.frame(data), is_rds_file(data))) {
-      error("Argument 'data' must be a data frame or a path to an .rds file.")
-    }
   }
 }
 

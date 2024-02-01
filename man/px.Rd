@@ -7,12 +7,12 @@
 px(input, data = NULL)
 }
 \arguments{
-\item{input}{Path to px-file, path to an Excel metadata workbook.}
+\item{input}{Path to px-file, path to an Excel metadata workbook, or a data
+frame. If data frame a minimal px object with minimal metadata is created.}
 
 \item{data}{Either a data frame or a path to an \code{.rds} file with a data frame.
-This can only be used if the \code{input} argument is an Excel metadata workbook.
-If NULL, the data should be provided in the 'Data' sheet of the Excel
-workbook.}
+This can only be used if \code{input} is an Excel metadata workbook. If NULL, the
+data should be provided in the 'Data' sheet of the Excel workbook.}
 }
 \value{
 A px object invisibly.

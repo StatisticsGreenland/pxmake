@@ -64,6 +64,7 @@ get_data_cube <- function(metadata_df, data_df) {
   # codelist
   data_values <-
     data_df %>%
+    mutate_all_vars_to_character() %>%
     dplyr::select(dplyr::all_of(head_stub_variable_names)) %>%
     lst_distinct_and_arrange()
 
@@ -80,6 +81,7 @@ get_data_cube <- function(metadata_df, data_df) {
 
   data_cube <-
     data_df %>%
+    mutate_all_vars_to_character() %>%
     tidyr::complete(!!!data_and_codelist_values) %>%
     dplyr::mutate(id_ = dplyr::row_number()) %>% # used to unpivot data later
     tidyr::pivot_longer(cols = all_of(head_stub_variable_names),

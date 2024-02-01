@@ -292,15 +292,18 @@ get_metadata_df_from_px <- function(px) {
 
   codes_not_in_codelist <-
     px$data %>%
-    dplyr::select(dplyr::all_of(head_stub_variable_names)) %>%
+    dplyr::select(dplyr::all_of(intersect(head_stub_variable_names, names(.)))) %>%
     tidyr::pivot_longer(cols = everything(),
                         names_to = "variable-code",
                         values_to = "code"
-    ) %>%
+                        ) %>%
     dplyr::distinct_all() %>%
+    align_data_frames(get_base_codelists2()) %>%
+    dplyr::select(`variable-code`, code) %>%
     dplyr::anti_join(px$codelists2, by = c("variable-code", "code")) %>%
     dplyr::mutate(value = code) %>%
     tidyr::crossing(language = px$languages$language)
+
 
   codelists <-
     px$codelists2 %>%

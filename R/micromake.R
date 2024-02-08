@@ -1,9 +1,9 @@
 #' Create microdata
 #'
-#' Turn a px object into many px-files, one for each variable except time vars.
+#' Turn a px object into many px files, one for each variable except time vars.
 #'
 #' @param px A px object.
-#' @param out_dir Directory to save px-files in.
+#' @param out_dir Directory to save px files in.
 #'
 #' @returns Nothing
 #' @export
@@ -45,5 +45,5 @@ micromake <- function(px, out_dir = NULL) {
       pxsave(path = file.path(out_dir, paste0('micro_', micro_var, '.px')))
   }
 
-  if (print_out_dir) print(paste("Created px-files in:", out_dir))
+  if (print_out_dir) print(paste("Created px files in:", out_dir))
 }

@@ -1,5 +1,7 @@
 #' Create a pxobject from a px-file
 #'
+#' This function will be deprecated in the future. Use `px` and `pxsave` instead.
+#'
 #' @param input Input can be provided in one of three ways:
 #' 1. A path to a `.px` file.
 #' 1. A path to a `.rds` file created by \link{pxmake}.

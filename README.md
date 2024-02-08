@@ -8,13 +8,13 @@
 ![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)
 <!-- badges: end -->
 
-pxmake is an R package for creating and modifying px-files.
+pxmake is an R package for creating and modifying px files.
 
 With pxmake you can:
 
-- Import a PC-AXIS px-file, modify it, and save it as a new px-file.
-- Save a px-file as an Excel workbook.
-- Do complex modifications to a px-file, like adding total levels to a
+- Import a PC-AXIS px file, modify it, and save it as a new px file.
+- Save a px file as an Excel workbook.
+- Do complex modifications to a px file, like adding total levels to a
   variable.
 
 ## Installation
@@ -68,11 +68,11 @@ x <- px(data.frame(year = as.character(rep(2021:2023, each = 3)),
         ) 
 
 head(x$data, 4)
-#>   year group      value
-#> 1 2021     a 0.92305012
-#> 2 2021     b 0.30387673
-#> 3 2021     c 0.09445156
-#> 4 2022     a 0.53663905
+#>   year group     value
+#> 1 2021     a 0.2807232
+#> 2 2021     b 0.4767129
+#> 3 2021     c 0.9360456
+#> 4 2022     a 0.3455163
 
 x %>% 
   timeval("year") %>%  # Set year as TIMEVAL

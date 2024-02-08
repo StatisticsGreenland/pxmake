@@ -19,13 +19,13 @@ knitr::opts_chunk$set(
 ![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)
 <!-- badges: end -->
 
-pxmake is an R package for creating and modifying px-files.
+pxmake is an R package for creating and modifying px files.
 
 With pxmake you can:
 
--   Import a PC-AXIS px-file, modify it, and save it as a new px-file.
--   Save a px-file as an Excel workbook.
--   Do complex modifications to a px-file, like adding total levels to a variable.
+-   Import a PC-AXIS px file, modify it, and save it as a new px file.
+-   Save a px file as an Excel workbook.
+-   Do complex modifications to a px file, like adding total levels to a variable.
 
 ## Installation
 

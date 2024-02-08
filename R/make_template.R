@@ -1,6 +1,7 @@
 #' Make template
 #'
 #' Create a minimal metadata template for a data frame.
+#'
 #' `make_template` will be deprecated in the future when a px object has been
 #' implemented (#179).
 #'

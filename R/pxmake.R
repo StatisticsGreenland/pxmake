@@ -1,5 +1,7 @@
 #' Create a px-file from metadata and data
 #'
+#' This function will be deprecated in the future. Use `px` and `pxsave` instead.
+#'
 #' @param input Path to a `.xlsx` metadata file.
 #' @param out_path Path to save output at, either as an `.rds`, `.px` or `.xlsx`
 #' file. If NULL, no file is saved.

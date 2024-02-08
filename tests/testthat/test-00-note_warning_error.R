@@ -27,7 +27,7 @@ test_that("Error if data is not NULL, a data frame, or .rds file", {
     )
   }
 
-  expect_data_error(data = matrix())
+  expect_data_error(data = base::matrix())
   expect_data_error(data = list())
   expect_data_error(data = get_metadata_path("BEXSTA"))
 })

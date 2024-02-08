@@ -40,6 +40,7 @@ px <- function(input, data = NULL) {
 #' - `.xlsx` to save as an Excel metadata workbook
 #'
 #' @return Nothing
+#' @export
 pxsave <- function(px, path) {
   validate_pxsave_arguments(px, path)
 

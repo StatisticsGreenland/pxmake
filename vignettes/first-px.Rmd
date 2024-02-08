@@ -1,0 +1,155 @@
+---
+title: "First px file"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{First px file}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+To create a px-file with `pxmake` you first create a `px` object and then save it with `pxsave`.
+
+## Create a px object
+
+Use `px()` to create a px object. The input can either be a:
+
+- path to a px-file
+- data frame
+- path to an Excel workbook in a specific format
+
+```{r setup}
+library(pxmake)
+```
+
+```{r, eval = FALSE}
+# px-file as input
+p1 <- px("path/to/pxfile.px")
+
+# data frame as input
+p2 <- px(data.frame(a = 1:3, b = c("a", "b", "c")))
+
+# Excel workbook as input
+p3 <- px("path/to/excel.xlsx")
+```
+
+If starting with a data frame some minimal metadata will be added in the px object.
+
+## Save a px object
+
+Use `pxsave()` to save a px object to a file. The file extension determines the format and can be either `.px` for a px-file or `.xlsx` for an Excel workbook.
+
+```{r, eval = FALSE}
+pxsave(p1, "path/to/pxfile.px")
+pxsave(p2, "path/to/excel.xlsx")
+```
+
+## Modifying a px object
+
+The most interesting part of `pxmake` is that it can modify px objects, so a px-file can be created entirely in R.
+
+### Modifying in Excel
+
+The easiest way to modify a px object is to use use the special Excel format that `pxmake` can convert from and to. 
+
+```{r, eval = FALSE}
+# Convert an existing px-file to a px object
+p4 <- px("path/to/pxfile.px")
+
+# Save the px object as an Excel workbook
+excel_path <- "path/to/excel.xlsx"
+pxsave(p4, excel_path)
+
+# Open the Excel workbook and modify it manually
+
+# After modification, convert the Excel workbook back to a px object and save it as a px-file
+p5 <- px(excel_path) 
+pxsave(p5, "path/to/modified_pxfile.px")
+```
+
+The advantage of the Excel format is that it's relatively easy to understand and modify, even for people who aren't familiar with the px format, or with using R.
+
+The disadvantage is, that all the modifications are manual so they can't be automated or saved.
+
+### Modifying in R
+
+For more advanced users, it's possible to modify the px object directly in R.
+
+Most modifying functions have the same name as the keyword they modify. For example, `decimals()` modifies the keyword DECIMALS.
+
+```{r}
+p6 <- px('example.px')
+
+p6$table1
+
+# Change keyword DECIMALS to 1
+p6 <- decimals(p6, "1")
+
+p6$table1
+```
+
+The first argument to the modifying funcitons is always a px object, so multiple changes can be changed together with pipes in tidyverse style:
+
+```{r}
+library(magrittr) # load pipes %>%
+
+'example.px' %>% 
+  px() %>% 
+  decimals("1") %>% 
+  pxsave("example_modified.px")
+```
+
+## Non-keyword modifications
+The function `add_totals` can be used to add totals to a table. It takes a px object and a list of tables to add totals to.
+
+```{r}
+p7 <- px('example.px')
+
+#add_totals(p7, )
+```
+
+
+
+# 
+# The px object is a list of 8 data frames. The first 7 contain metadata, and the last is the data table.
+# 
+# ``` r
+# > names(x)
+# [1] "languages" "table1" "table2" "variables1" "variables2" "codelists1" "codelists2" "data"
+# ```
+# 
+# The structure of the 7 metadata tables are hopefully intuitive if you are familiar with the px file format.
+
+### Excel workbook
+Apart from px-files, `pxmake` can also read and write Excel workbooks. This allows users who aren't familiar with px-files to edit it and convert it back to a px file.
+
+``` r
+# Convert a px-file to an Excel workbook
+x <- px("path/to/px-file.px")
+pxsave(x, path = "path/to/excel-file.xlsx")
+
+# Open and modify the Excel workbook
+
+# Then convert the Excel workbook back into a px-file
+x <- px("path/to/excel-file.xlsx")
+
+pxsave(x, path = "path/to/new-px-file.px")
+```
+
+### Add totals
+Variables in px-files often contain 'total' levels, which is a sum of all other levels in that variable. `pxmake` can add these automatically.
+
+``` r
+x <- px("path/to/px-file.px")
+x <- add_totals(x, vars = c("variable1", "variable2"))
+```
+See `?add_totals` for more information.
+
+
+

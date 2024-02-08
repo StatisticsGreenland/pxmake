@@ -1,4 +1,4 @@
-#' Create a pxobject from a px-file
+#' Create a pxobject from a px file
 #'
 #' This function will be deprecated in the future. Use `px` and `pxsave` instead.
 #'

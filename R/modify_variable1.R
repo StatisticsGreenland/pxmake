@@ -34,7 +34,7 @@ change_pivot_variables <- function(x, pivot, variables) {
 
 #' @rdname stub.px
 #' @export
-stub <- function(x, ...) {
+stub <- function(x, variables) {
   UseMethod("stub")
 }
 
@@ -55,7 +55,7 @@ stub.px <- function(x, variables) {
 
 #' @rdname heading.px
 #' @export
-heading <- function(x, ...) {
+heading <- function(x, variables) {
   UseMethod("heading")
 }
 
@@ -76,7 +76,7 @@ heading.px <- function(x, variables) {
 
 #' @rdname figures.px
 #' @export
-figures <- function(x, ...) {
+figures <- function(x, variable) {
   UseMethod("figures")
 }
 
@@ -105,7 +105,7 @@ figures.px <- function(x, variable) {
 
 #' @rdname timeval.px
 #' @export
-timeval <- function(x, ...) {
+timeval <- function(x, variable) {
   UseMethod("timeval")
 }
 

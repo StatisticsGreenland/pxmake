@@ -5,7 +5,7 @@
 \alias{heading.px}
 \title{Set HEADING}
 \usage{
-heading(x, ...)
+heading(x, variables)
 
 \method{heading}{px}(x, variables)
 }

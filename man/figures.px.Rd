@@ -5,7 +5,7 @@
 \alias{figures.px}
 \title{Set FIGURES}
 \usage{
-figures(x, ...)
+figures(x, variable)
 
 \method{figures}{px}(x, variable)
 }

@@ -4,12 +4,12 @@
 \alias{add_total_level_to_var}
 \title{Add 'total' level to variable}
 \usage{
-add_total_level_to_var(df, var, level_name = "Total", sum_var = "value")
+add_total_level_to_var(df, variable, level_name = "Total", sum_var = "value")
 }
 \arguments{
 \item{df}{Data frame to add total levels to.}
 
-\item{var}{Name of variable to add total level to.}
+\item{variable}{Name of variable to add total level to.}
 
 \item{level_name}{Total level name.}
 

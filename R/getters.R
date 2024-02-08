@@ -15,5 +15,3 @@ time_variable <- function(px) {
 stub_variables    <- function(px) pivot_variables(px, "STUB")
 heading_variables <- function(px) pivot_variables(px, "HEADING")
 figures_variable  <- function(px) pivot_variables(px, "FIGURES")
-
-

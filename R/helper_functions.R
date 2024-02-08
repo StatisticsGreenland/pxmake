@@ -261,7 +261,7 @@ read_px_file <- function(px_path) {
   return(lines)
 }
 
-#' Default encoding to read and save px-file in
+#' Default encoding to read and save px file in
 #'
 #' @returns Character
 get_default_encoding <- function() {

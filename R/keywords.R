@@ -1,6 +1,6 @@
 #' Get PX keywords
 #'
-#' The row order reflects the recommended sort order in the px-file specification.
+#' The row order reflects the recommended sort order in the px file specification.
 #'
 #' @return data frame with all PX keywords
 get_px_keywords <- function() {

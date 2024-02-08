@@ -8,6 +8,8 @@
 #' @returns Nothing
 #' @export
 micromake <- function(px, out_dir = NULL) {
+  validate_micromake_arguments(px, out_dir)
+
   print_out_dir <- is.null(out_dir)
 
   if (is.null(out_dir)) out_dir <- temp_dir()
@@ -28,8 +30,7 @@ micromake <- function(px, out_dir = NULL) {
       dplyr::select(all_of(c(time_var, micro_var))) %>%
       dplyr::count(across(everything())) %>%
       dplyr::arrange_all() %>%
-      mutate_all_vars_to_character() %>%
-      dplyr::mutate(dplyr::across(everything(), ~tidyr::replace_na(.x, '"-"')))
+      format_data_df(figures_variable = "n")
 
     data_names <- names(new_data)
 

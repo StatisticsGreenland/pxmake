@@ -5,7 +5,7 @@
 \alias{timeval.px}
 \title{Set TIMEVAL}
 \usage{
-timeval(x, ...)
+timeval(x, variable)
 
 \method{timeval}{px}(x, variable)
 }

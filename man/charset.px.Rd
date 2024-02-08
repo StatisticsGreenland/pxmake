@@ -5,9 +5,14 @@
 \alias{charset.px}
 \title{Set CHARSET}
 \usage{
-charset(x, ...)
+charset(x, value)
 
-\method{charset}{px}(x, value, validate = TRUE)
+\method{charset}{px}(x, value)
+}
+\arguments{
+\item{x}{A px object}
+
+\item{value}{A character string}
 }
 \description{
 Set CHARSET

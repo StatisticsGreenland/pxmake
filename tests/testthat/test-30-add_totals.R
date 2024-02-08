@@ -33,7 +33,7 @@ test_that("Totals are added to two variables", {
 
   output <-
     add_totals_to_df(df = bexsta_without_totals,
-                     vars = c("place of birth", "gender"),
+                     variables = c("place of birth", "gender"),
                      level_name = "T",
                      sum_var = "persons"
                      ) %>%
@@ -48,10 +48,10 @@ test_that("Totals are added to two variables", {
 
   output2 <-
     add_totals_to_df(df = bexsta_without_totals,
-               vars = c("place of birth", "gender"),
-               level_names = c("T", "Total"),
-               sum_var = "persons"
-               ) %>%
+                     variables = c("place of birth", "gender"),
+                     level_names = c("T", "Total"),
+                     sum_var = "persons"
+                     ) %>%
     dplyr::arrange_all()
 
   expect_equal(dplyr::arrange_all(output2), dplyr::arrange_all(bexsta2))

@@ -218,16 +218,5 @@ save_px_as_xlsx <- function(px, path) {
   error_if_too_many_rows_for_excel(px$data)
   add_sheet(px$data, "Data")
 
-  # if (is.null(data_path) & create_data) {
-  #   error_if_too_many_rows_for_excel(rds$data)
-  #   add_sheet(rds$data, "Data")
-  # } else if (identical(tools::file_ext(data_path), "rds") & create_data) {
-  #   saveRDS(rds$data, data_path)
-  # } else if (isFALSE(create_data)) {
-  #   # pass
-  # } else {
-  #   unexpected_error()
-  # }
-
   openxlsx::saveWorkbook(wb, path, overwrite = TRUE)
 }

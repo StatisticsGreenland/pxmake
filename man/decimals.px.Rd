@@ -9,6 +9,11 @@ decimals(x, value)
 
 \method{decimals}{px}(x, value)
 }
+\arguments{
+\item{x}{A px object}
+
+\item{value}{A character string}
+}
 \description{
 Set DECIMALS
 }

@@ -5,7 +5,7 @@
 \alias{stub.px}
 \title{Set STUB}
 \usage{
-stub(x, ...)
+stub(x, variables)
 
 \method{stub}{px}(x, variables)
 }

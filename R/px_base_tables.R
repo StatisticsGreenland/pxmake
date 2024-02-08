@@ -1,4 +1,4 @@
-# Define base structure for px object
+# Define base structures for px object
 get_base_languages <- function() {
   dplyr::tibble(language = as.character())
 }
@@ -65,5 +65,5 @@ get_base_px <- function() {
        codelists1 = get_base_codelists1(),
        codelists2 = get_base_codelists2(),
        data = get_base_data()
-  )
+       )
 }

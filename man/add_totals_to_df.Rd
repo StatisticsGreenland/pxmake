@@ -4,15 +4,15 @@
 \alias{add_totals_to_df}
 \title{Add 'total' levels to multiple variables}
 \usage{
-add_totals_to_df(df, vars, level_names = "Total", sum_var = "value")
+add_totals_to_df(df, variables, level_names = "Total", sum_var = "value")
 }
 \arguments{
 \item{df}{Data frame to add total levels to.}
 
-\item{vars}{List of variables to add total levels to.}
+\item{variables}{List of variables to add total levels to.}
 
 \item{level_names}{Names of total levels. Should have length 1 or same length
-as \code{vars}.}
+as \code{variables}.}
 
 \item{sum_var}{String, name of variable to sum over.}
 }

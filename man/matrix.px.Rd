@@ -9,6 +9,11 @@ matrix(x, value)
 
 \method{matrix}{px}(x, value)
 }
+\arguments{
+\item{x}{A px object}
+
+\item{value}{A character string}
+}
 \description{
 Set MATRIX
 }

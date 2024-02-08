@@ -36,8 +36,9 @@ px_from_data_df <- function(df) {
     mandatory_table_keywords %>%
     dplyr::filter(!language_dependent) %>%
     dplyr::select(keyword, value = default_value) %>%
-    dplyr::bind_rows(dplyr::tibble(keyword = "LANGUAGE",
-                                   value = default_language
+    dplyr::bind_rows(dplyr::tribble(~keyword, ~value,
+                                    "LANGUAGE", default_language,
+                                    "CHARSET", "ANSI"
                                    )
                      ) %>%
     align_data_frames(get_base_table1())
@@ -107,7 +108,6 @@ px_from_data_df <- function(df) {
                   value = code
                   ) %>%
     align_data_frames(get_base_codelists2())
-
 
   new_px(languages = dplyr::tibble(language = default_language),
          table1 = table1,

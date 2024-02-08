@@ -13,5 +13,5 @@ validate_px(x)
 A valid px object.
 }
 \description{
-Validate px object
+Throws an error if the px object is not valid.
 }

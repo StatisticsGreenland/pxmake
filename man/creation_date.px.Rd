@@ -9,6 +9,11 @@ creation_date(x, value)
 
 \method{creation_date}{px}(x, value = format(Sys.time(), "\%Y\%m\%d \%H:\%M"))
 }
+\arguments{
+\item{x}{A px object}
+
+\item{value}{A character string}
+}
 \description{
 Set CREATION-DATE
 }

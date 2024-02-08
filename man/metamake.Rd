@@ -2,7 +2,7 @@
 % Please edit documentation in R/metamake.R
 \name{metamake}
 \alias{metamake}
-\title{Create a pxobject from a px-file}
+\title{Create a pxobject from a px file}
 \usage{
 metamake(input, out_path = NULL, data_path = NULL, create_data = TRUE)
 }

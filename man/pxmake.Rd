@@ -27,7 +27,7 @@ variables with \code{pivot = FIGURES} in 'Variables'. NAs are ignored when summi
 Returns px object invisibly.
 }
 \description{
-Create a px-file from metadata and data
+This function will be deprecated in the future. Use \code{px} and \code{pxsave} instead.
 }
 \seealso{
 \link{metamake}

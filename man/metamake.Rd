@@ -27,7 +27,7 @@ be used to only generate metadata.}
 Returns rds object invisibly.
 }
 \description{
-Create a pxobject from a px-file
+This function will be deprecated in the future. Use \code{px} and \code{pxsave} instead.
 }
 \seealso{
 \link{pxmake}

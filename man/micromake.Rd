@@ -9,11 +9,11 @@ micromake(px, out_dir = NULL)
 \arguments{
 \item{px}{A px object.}
 
-\item{out_dir}{Directory to save px-files in.}
+\item{out_dir}{Directory to save px files in.}
 }
 \value{
 Nothing
 }
 \description{
-Turn a px object into many px-files, one for each variable except time vars.
+Turn a px object into many px files, one for each variable except time vars.
 }

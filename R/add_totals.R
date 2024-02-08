@@ -53,7 +53,7 @@ add_totals_to_df <- function(df,
 
 #' @rdname add_totals.px
 #' @export
-add_totals <- function(x, vars) {
+add_totals <- function(x, variables) {
   UseMethod("add_totals")
 }
 
@@ -64,12 +64,12 @@ add_totals <- function(x, vars) {
 #' is the sum of the figures variable. NAs are ignored when summing.
 #'
 #' @param x A px object
-#' @param vars List of variables to add total levels to.
+#' @param variables List of variables to add total levels to.
 #'
 #' @return A px object
 #'
 #' @export
-add_totals.px <- function(x, vars) {
+add_totals.px <- function(x, variables) {
   params <-
     x$variables2 %>%
     dplyr::left_join(dplyr::select(x$codelists2, `variable-code`, code, value),

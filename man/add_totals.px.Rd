@@ -5,14 +5,14 @@
 \alias{add_totals.px}
 \title{Add 'total' level to variables}
 \usage{
-add_totals(x, vars)
+add_totals(x, variables)
 
-\method{add_totals}{px}(x, vars)
+\method{add_totals}{px}(x, variables)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{vars}{List of variables to add total levels to.}
+\item{variables}{List of variables to add total levels to.}
 }
 \value{
 A px object

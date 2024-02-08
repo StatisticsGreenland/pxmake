@@ -1,0 +1,34 @@
+LANGUAGE="en";
+LANGUAGES="en";
+DECIMALS=2;
+MATRIX="";
+SUBJECT-CODE="";
+SUBJECT-AREA="";
+DESCRIPTION="";
+TITLE="";
+CONTENTS="";
+UNITS="";
+STUB="group";
+HEADING="year";
+VALUES("group")="a","b","c";
+VALUES("year")="2021","2022","2023";
+TIMEVAL("year")=TLIST(A1),"2021","2022","2023";
+CODES("group")="a","b","c";
+CODES("year")="2021","2022","2023";
+DOMAIN("group")="";
+DOMAIN("value")="";
+DOMAIN("year")="";
+VARIABLECODE("group")="group";
+VARIABLECODE("value")="value";
+VARIABLECODE("year")="year";
+ELIMINATION("group")="";
+ELIMINATION("value")="";
+ELIMINATION("year")="";
+NOTE("group")="";
+NOTE("value")="";
+NOTE("year")="";
+DATA=
+0.923050122801214 0.536639049183577 0.459416007157415
+0.303876725258306 0.50652142544277 0.504022105131298
+0.0944515592418611 0.631667707813904 0.206187479197979
+;

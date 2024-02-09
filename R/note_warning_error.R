@@ -295,10 +295,20 @@ validate_pxsave_arguments <- function(x, path) {
 #'
 #' @return Nothing
 validate_micromake_arguments <- function(x, out_dir) {
+  if (class(x) != "px") {
+    error("Argument 'x' must be a px object.")
+  }
+
   validate_px(x)
 
-  if (! any(is.character(out_dir), dir.exists(out_dir), is.null(out_dir))) {
-    error("Argument 'out_dir' must be a character string to an existing directory.")
+  if (! is.null(out_dir)) {
+    if (! is.character(out_dir)) {
+      error("Argument 'out_dir' must be a character string.")
+    }
+
+    if (! dir.exists(out_dir)) {
+      error("Argument 'out_dir' directory does not exist.")
+    }
   }
 }
 

@@ -2,6 +2,7 @@
 
 ## Bug fixes and minor improvements
 - Validate px after using modifying functions.
+- Check that arguments to micromake are valid.
 
 # pxmake 0.10.0
 

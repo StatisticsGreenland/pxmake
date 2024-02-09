@@ -59,4 +59,18 @@ test_that("Error wrong input", {
   expect_input_error(input = NULL, data = data.frame())
 })
 
+# micromake()
 
+test_that("micromake arguments are validated", {
+  expect_error(micromake(x = data.frame()),
+               regexp = "px object"
+               )
+
+  expect_error(micromake(x = px(women), out_dir = 5),
+               regexp = "character"
+               )
+
+  expect_error(micromake(x = px(women), out_dir = "not/a/directory"),
+               regexp = "directory does not exist"
+               )
+})

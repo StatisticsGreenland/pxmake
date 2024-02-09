@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.10.0
 
 ## New features
 - The function `px()` creates a *px object*. This is a major change to the way

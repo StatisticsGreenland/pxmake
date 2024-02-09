@@ -38,24 +38,3 @@ test_that('Table1 is modified', {
                dplyr::arrange(target, keyword)
                )
 })
-
-
-# Table1 keywords
-# keyword
-# <chr>
-# 1 CHARSET
-# 2 AXIS-VERSION
-# 3 CODEPAGE
-# 4 LANGUAGE
-# 5 CREATION-DATE
-# 6 NEXT-UPDATE
-# 7 UPDATE-FREQUENCY
-# 8 TABLEID
-# 9 DECIMALS
-# 10 SHOWDECIMALS
-# 11 MATRIX
-# 12 AGGREGALLOWED
-# 13 AUTOPEN
-# 14 SUBJECT-CODE
-# 15 CONFIDENTIAL
-# 16 COPYRIGHT

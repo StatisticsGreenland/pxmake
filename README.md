@@ -30,13 +30,7 @@ pxmake is not available on CRAN.
 
 ## How to use
 
-Use `px()` and `pxsave()` to read/write a px file into a px object.
-
-    #> 
-    #> Attaching package: 'pxmake'
-    #> The following object is masked from 'package:base':
-    #> 
-    #>     matrix
+Use `px()` and `pxsave()` to read/write a px file to a px object.
 
 ``` r
 library(pxmake)
@@ -69,10 +63,10 @@ x <- px(data.frame(year = as.character(rep(2021:2023, each = 3)),
 
 head(x$data, 4)
 #>   year group     value
-#> 1 2021     a 0.2807232
-#> 2 2021     b 0.4767129
-#> 3 2021     c 0.9360456
-#> 4 2022     a 0.3455163
+#> 1 2021     a 0.2655087
+#> 2 2021     b 0.3721239
+#> 3 2021     c 0.5728534
+#> 4 2022     a 0.9082078
 
 x %>% 
   timeval("year") %>%  # Set year as TIMEVAL
@@ -82,7 +76,7 @@ x %>%
   pxsave("example.px") # Save as px file
 ```
 
-### Keywords with modifying functions
+### Modifying functions
 
 Currently the following keywords have a modifying function in pxmake:
 

@@ -40,10 +40,11 @@ pxmake is not available on CRAN.
 
 ## How to use
 
-Use `px()` and `pxsave()` to read/write a px file into a px object.
+Use `px()` and `pxsave()` to read/write a px file to a px object.
 
-```{r echo=FALSE}
+```{r include=FALSE, messages = FALSE}
 library(pxmake)
+set.seed(1)
 ```
 
 
@@ -88,7 +89,7 @@ unlink("example.px")
 ```
 
 
-### Keywords with modifying functions
+### Modifying functions
 Currently the following keywords have a modifying function in pxmake:
 
 ```{r, include = FALSE}

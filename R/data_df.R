@@ -58,6 +58,8 @@ px_from_data_df <- function(df) {
 
   figures_variable <- tail(variable_names, 1)
 
+  data_df <- format_data_df(df, figures_variable)
+
   if (length(variable_names) >= 3) {
     heading_variables <- head(tail(variable_names, 2), 1)
     stub_variables    <- head(variable_names, length(variable_names) - 2)
@@ -87,9 +89,8 @@ px_from_data_df <- function(df) {
     align_data_frames(get_base_variables2())
 
   codelists1 <-
-    df %>%
+    data_df %>%
     dplyr::select(setdiff(names(.), figures_variable)) %>%
-    mutate_all_vars_to_character() %>%
     tidyr::pivot_longer(cols = everything(),
                         names_to = "variable-code",
                         values_to = "code"
@@ -116,6 +117,6 @@ px_from_data_df <- function(df) {
          variables2 = variables2,
          codelists1 = codelists1,
          codelists2 = codelists2,
-         data = df
+         data = data_df
   )
 }

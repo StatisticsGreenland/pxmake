@@ -249,8 +249,18 @@ validate_metamake_arguments <- function(input, out_path, data_path, create_data)
 #'
 #' @return Nothing
 validate_px_arguments <- function(input, data) {
-  if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input))) {
+  if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input),
+            is_rds_file(input))) {
     error("Argument 'input' has wrong format. See ?px.")
+  }
+
+  if (is_rds_file(input)) {
+    if (! "data.frame" %in% class(readRDS(input))) {
+      error(paste0("Argument 'input' has wrong format. The .rds file does not ",
+                   "contain a data frame. See ?px."
+                   )
+            )
+    }
   }
 
   if (! any(is.null(data), is.data.frame(data), is_rds_file(data))) {

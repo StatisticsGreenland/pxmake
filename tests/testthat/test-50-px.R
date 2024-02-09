@@ -30,20 +30,14 @@ test_that("px runs without errors (px file)", {
   expect_runs_without_errors("PRXPRISH")
 })
 
-
 test_that("px runs without errors (data frame)", {
   expect_runs_without_errors <- function(name) {
-    p <- px(input = get_px_file_path(name))
-
-    px(input = p$data)
+    px(input = readRDS(get_data_path(name)))
 
     expect_true(TRUE)
   }
 
-  expect_runs_without_errors("BEXSTA_windows_1252")
-  expect_runs_without_errors("SOXATI4")
-  expect_runs_without_errors("TUX01")
-  expect_runs_without_errors("CONTVARIABLE")
-  expect_runs_without_errors("CONTVARIABLE_multiple_languages")
-  expect_runs_without_errors("PRXPRISH")
+  expect_runs_without_errors("BEXLTALL")
+  expect_runs_without_errors("BEXSTA_WITHOUT_TOTALS")
+  expect_runs_without_errors("BEXSTA")
 })

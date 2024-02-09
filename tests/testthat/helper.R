@@ -2,7 +2,7 @@ get_data_path <- function(table_name) {
   tables_with_data_in_excel <-
     c("FOTEST", "no_timeval_or_codes", "zero_heading", "zero_stub")
 
-  if (table_name %in% tables_with_data_in_excel) {
+  if (tolower(table_name) %in% tolower(tables_with_data_in_excel)) {
     NULL
   } else {
     test_path('fixtures', 'data', paste0(table_name, '.rds'))
@@ -33,15 +33,6 @@ expect_equal_lines <- function(path1, path2) {
   lines2 <- readLines(path2)
 
   expect_equal(lines1, lines2)
-}
-
-#' Compare rds but don't require same sort order for data
-expect_equal_rds <- function(rds1, rds2) {
-  expect_equal(rds1$metadata, rds2$metadata)
-
-  expect_equal(dplyr::arrange_all(rds1$data),
-               dplyr::arrange_all(rds2$data)
-  )
 }
 
 #' Metamake is the inverse of pxamke
@@ -111,15 +102,14 @@ pxjob_clean <- function(input, output, env = parent.frame()) {
   })
 }
 
-#' Run pxmake for a specific table. Return path to file.
+#' Run px() and pxsave() for a specific table. Return path to file.
 create_px_file <- function(table_name) {
   px_path <- temp_px_file()
 
-  pxmake_clean(get_metadata_path(table_name),
-               px_path,
-               get_data_path(table_name),
-               env = parent.frame(n=1)
-               )
+  px(input = get_metadata_path(table_name),
+     data =  get_data_path(table_name)
+     ) %>%
+    pxsave(path = px_path)
 
   return(px_path)
 }

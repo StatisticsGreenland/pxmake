@@ -2,17 +2,15 @@
 % Please edit documentation in R/metamake.R
 \name{metamake}
 \alias{metamake}
-\title{Create an Excel metadata workbook from a px-file}
+\title{Create a pxobject from a px file}
 \usage{
 metamake(input, out_path = NULL, data_path = NULL, create_data = TRUE)
 }
 \arguments{
-\item{input}{Input can be provided in one of four ways:
+\item{input}{Input can be provided in one of three ways:
 \enumerate{
 \item A path to a \code{.px} file.
 \item A path to a \code{.rds} file created by \link{pxmake}.
-\item A named list with two data frames "metadata" and "data" (same as option 2).
-\item A data frame with data. A minimal metadata template will be created.
 }}
 
 \item{out_path}{Path to save metadata at. Use \code{.xlsx} extension to save
@@ -29,7 +27,7 @@ be used to only generate metadata.}
 Returns rds object invisibly.
 }
 \description{
-Create an Excel metadata workbook from a px-file
+This function will be deprecated in the future. Use \code{px} and \code{pxsave} instead.
 }
 \seealso{
 \link{pxmake}

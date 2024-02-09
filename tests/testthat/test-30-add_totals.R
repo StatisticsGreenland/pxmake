@@ -32,11 +32,11 @@ test_that("Totals are added to two variables", {
   bexsta_without_totals <- read_data("BEXSTA_WITHOUT_TOTALS")
 
   output <-
-    add_totals(df = bexsta_without_totals,
-               vars = c("place of birth", "gender"),
-               level_name = "T",
-               sum_var = "persons"
-               ) %>%
+    add_totals_to_df(df = bexsta_without_totals,
+                     variables = c("place of birth", "gender"),
+                     level_name = "T",
+                     sum_var = "persons"
+                     ) %>%
     dplyr::arrange_all()
 
   expect_equal(dplyr::arrange_all(output), dplyr::arrange_all(bexsta))
@@ -47,32 +47,28 @@ test_that("Totals are added to two variables", {
     dplyr::mutate(gender = ifelse(gender == "T", "Total", gender))
 
   output2 <-
-    add_totals(df = bexsta_without_totals,
-               vars = c("place of birth", "gender"),
-               level_names = c("T", "Total"),
-               sum_var = "persons"
-               ) %>%
+    add_totals_to_df(df = bexsta_without_totals,
+                     variables = c("place of birth", "gender"),
+                     level_names = c("T", "Total"),
+                     sum_var = "persons"
+                     ) %>%
     dplyr::arrange_all()
 
   expect_equal(dplyr::arrange_all(output2), dplyr::arrange_all(bexsta2))
 })
 
 
-test_that("pxmake adds total levels to data without them", {
+test_that("adds total levels to data without them", {
   metadata_path <- get_metadata_path("BEXSTA")
   px1           <- temp_px_file()
   px2           <- temp_px_file()
 
-  pxmake_clean(metadata_path,
-               px1,
-               get_data_path("BEXSTA")
-               )
+  px(input = metadata_path, data = get_data_path("BEXSTA")) %>%
+    pxsave(path = px1)
 
-  pxmake_clean(metadata_path,
-               px2,
-               get_data_path("BEXSTA_WITHOUT_TOTALS"),
-               add_totals = c("place of birth", "gender")
-               )
+  px(input = metadata_path, data = get_data_path("BEXSTA_WITHOUT_TOTALS")) %>%
+    add_totals(c("place of birth", "gender")) %>%
+    pxsave(path = px2)
 
   expect_equal_lines(px1, px2)
 })

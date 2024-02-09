@@ -4,19 +4,16 @@
 \alias{micromake}
 \title{Create microdata}
 \usage{
-micromake(data_df, metadata_path, out_dir = NULL)
+micromake(x, out_dir = NULL)
 }
 \arguments{
-\item{data_df}{A data frame.}
+\item{x}{A px object.}
 
-\item{metadata_path}{An Excel workbook created by metamake.}
-
-\item{out_dir}{Directory to save px-files in.}
+\item{out_dir}{Directory to save px files in.}
 }
 \value{
 Nothing
 }
 \description{
-Turn a dataset and its metadata into a series of px-files, one for each
-variable in the original dataset, except time vars.
+Turn a px object into many px files, one for each variable except time vars.
 }

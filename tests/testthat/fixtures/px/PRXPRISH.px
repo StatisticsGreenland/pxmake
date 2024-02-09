@@ -1,0 +1,186 @@
+CHARSET="ANSI";
+AXIS-VERSION="2010";
+CODEPAGE="Windows-1252";
+LANGUAGE="en";
+LANGUAGES="en","da","kl";
+CREATION-DATE="20130327 09:00";
+DECIMALS=1;
+SHOWDECIMALS=1;
+MATRIX="PRXPRISH";
+COPYRIGHT=YES;
+SUBJECT-CODE="PR";
+SUBJECT-AREA="Prices";
+DESCRIPTION="Rate of change last 12 months, Consumer price index (1972H1-2023H2) <em>[PREPRISH]</em>";
+TITLE="Consumer price index by time and type";
+CONTENTS="Consumer price index";
+STUB="time";
+HEADING="type";
+VARIABLECODE("time")="time";
+VALUES("time")="1971 January","1971 July","1972 January","1972 July","1973 January","1973 July","1974 January","1974 July","1975 January","1975 July","1976 January","1976 July","1977 January","1977 July","1978 January","1978 July","1979 January","1979 July",
+"1980 January","1980 July","1981 January","1981 July","1982 January","1982 July","1983 January","1983 July","1984 January","1984 July","1985 January","1985 July","1986 January","1986 July","1987 January","1987 July","1988 January","1988 July",
+"1989 January","1989 July","1990 January","1990 July","1991 January","1991 July","1992 January","1992 July","1993 January","1993 July","1994 January","1994 July","1995 January","1995 July","1996 January","1996 July","1997 January","1997 July",
+"1998 January","1998 July","1999 January","1999 July","2000 January","2000 July","2001 January","2001 July","2002 January","2002 July","2003 January","2003 July","2004 January","2004 July","2005 January","2005 July","2006 January","2006 July",
+"2007 January","2007 July","2008 January","2008 July","2009 January","2009 July","2010 January","2010 July","2011 January","2011 July","2012 January","2012 July","2013 January","2013 July","2014 January","2014 July","2015 January","2015 July",
+"2016 January","2016 July","2017 January","2017 July","2018 January","2018 July","2019 January","2019 July","2020 January","2020 July","2021 January","2021 July","2022 January","2022 July","2023 January","2023 July";
+VARIABLECODE("type")="type";
+VALUES("type")="Rate of change from the same period the previous year";
+TIMEVAL("time")=TLIST(H1),"19711","19712","19721","19722","19731","19732","19741","19742","19751","19752","19761","19762","19771","19772","19781","19782","19791","19792","19801","19802","19811","19812","19821","19822","19831","19832","19841","19842","19851","19852","19861","19862","19871","19872","19881","19882","19891","19892","19901","19902","19911","19912","19921","19922","19931","19932","19941","19942","19951","19952","19961","19962","19971","19972","19981","19982","19991","19992","20001","20002","20011","20012","20021","20022","20031","20032","20041","20042","20051","20052","20061","20062","20071","20072","20081","20082","20091","20092","20101","20102","20111","20112","20121","20122","20131","20132","20141","20142","20151","20152","20161","20162","20171","20172","20181","20182","20191","20192","20201","20202","20211","20212","20221","20222","20231","20232";
+LAST-UPDATED="20230930 16:00";
+UNITS="index";
+CONTACT="Simon Westmann, siwe@stat.gl";
+SOURCE="Statistics Greenland";
+NOTE="Index 1971=100, until January 2010 the rate of change is based on one decimal, from January 2010 index 2008=100#List of symbols:#... No information available#";
+NEXT-UPDATE="20240330 16:00";
+UPDATE-FREQUENCY="Half year, halvårligt, ukiup affakkuutaarlugu";
+SUBJECT-AREA[da]="Priser";
+DESCRIPTION[da]="ændring i procent pr. løbende 12 måneder, Forbrugerpristal (1972H1-2023H2) <em>[PRDPRISH]</em>";
+TITLE[da]="Forbrugerpristal efter tid og type";
+CONTENTS[da]="Forbrugerpristal";
+STUB[da]="tid";
+HEADING[da]="type";
+VARIABLECODE[da]("tid")="time";
+VALUES[da]("tid")="1971 januar","1971 juli","1972 januar","1972 juli","1973 januar","1973 juli","1974 januar","1974 juli","1975 januar","1975 juli","1976 januar","1976 juli","1977 januar","1977 juli","1978 januar","1978 juli","1979 januar","1979 juli","1980 januar",
+"1980 juli","1981 januar","1981 juli","1982 januar","1982 juli","1983 januar","1983 juli","1984 januar","1984 juli","1985 januar","1985 juli","1986 januar","1986 juli","1987 januar","1987 juli","1988 januar","1988 juli","1989 januar","1989 juli",
+"1990 januar","1990 juli","1991 januar","1991 juli","1992 januar","1992 juli","1993 januar","1993 juli","1994 januar","1994 juli","1995 januar","1995 juli","1996 januar","1996 juli","1997 januar","1997 juli","1998 januar","1998 juli","1999 januar",
+"1999 juli","2000 januar","2000 juli","2001 januar","2001 juli","2002 januar","2002 juli","2003 januar","2003 juli","2004 januar","2004 juli","2005 januar","2005 juli","2006 januar","2006 juli","2007 januar","2007 juli","2008 januar","2008 juli",
+"2009 januar","2009 juli","2010 januar","2010 juli","2011 januar","2011 juli","2012 januar","2012 juli","2013 januar","2013 juli","2014 januar","2014 juli","2015 januar","2015 juli","2016 januar","2016 juli","2017 januar","2017 juli","2018 januar",
+"2018 juli","2019 januar","2019 juli","2020 januar","2020 juli","2021 januar","2021 juli","2022 januar","2022 juli","2023 januar","2023 juli";
+VARIABLECODE[da]("type")="type";
+VALUES[da]("type")="Ændring i procent pr. løbende 12 måneder";
+TIMEVAL[da]("tid")=TLIST(H1),"19711","19712","19721","19722","19731","19732","19741","19742","19751","19752","19761","19762","19771","19772","19781","19782","19791","19792","19801","19802","19811","19812","19821","19822","19831","19832","19841","19842","19851","19852","19861","19862","19871","19872","19881","19882","19891","19892","19901","19902","19911","19912","19921","19922","19931","19932","19941","19942","19951","19952","19961","19962","19971","19972","19981","19982","19991","19992","20001","20002","20011","20012","20021","20022","20031","20032","20041","20042","20051","20052","20061","20062","20071","20072","20081","20082","20091","20092","20101","20102","20111","20112","20121","20122","20131","20132","20141","20142","20151","20152","20161","20162","20171","20172","20181","20182","20191","20192","20201","20202","20211","20212","20221","20222","20231","20232";
+LAST-UPDATED[da]="20230930 16:00";
+UNITS[da]="indeks";
+CONTACT[da]="Simon Westmann, siwe@stat.gl";
+SOURCE[da]="Grønlands Statistik";
+NOTE[da]="Indeks 1971=100, prisændringer er indtil januar 2010 beregnet på et decimal, fra januar 2010 er indeks 2008=100.#Signaturforklaring:#... Oplysninger foreligger ikke#";
+SUBJECT-AREA[kl]="Akit";
+DESCRIPTION[kl]="Qaammatini 12-ni ingerlaavartumik procentip allanngortarnera, Atuisunut aki (1972H1-2023H2) <em>[PRNPRISH]</em>";
+TITLE[kl]="Atuisunut aki kingorna piffissaq aamma type";
+CONTENTS[kl]="Atuisunut aki";
+STUB[kl]="piffissaq";
+HEADING[kl]="type";
+VARIABLECODE[kl]("piffissaq")="time";
+VALUES[kl]("piffissaq")="1971 januaarimi","1971 juulimi","1972 januaarimi","1972 juulimi","1973 januaarimi","1973 juulimi","1974 januaarimi","1974 juulimi","1975 januaarimi","1975 juulimi","1976 januaarimi","1976 juulimi","1977 januaarimi","1977 juulimi","1978 januaarimi",
+"1978 juulimi","1979 januaarimi","1979 juulimi","1980 januaarimi","1980 juulimi","1981 januaarimi","1981 juulimi","1982 januaarimi","1982 juulimi","1983 januaarimi","1983 juulimi","1984 januaarimi","1984 juulimi","1985 januaarimi","1985 juulimi",
+"1986 januaarimi","1986 juulimi","1987 januaarimi","1987 juulimi","1988 januaarimi","1988 juulimi","1989 januaarimi","1989 juulimi","1990 januaarimi","1990 juulimi","1991 januaarimi","1991 juulimi","1992 januaarimi","1992 juulimi","1993 januaarimi",
+"1993 juulimi","1994 januaarimi","1994 juulimi","1995 januaarimi","1995 juulimi","1996 januaarimi","1996 juulimi","1997 januaarimi","1997 juulimi","1998 januaarimi","1998 juulimi","1999 januaarimi","1999 juulimi","2000 januaarimi","2000 juulimi",
+"2001 januaarimi","2001 juulimi","2002 januaarimi","2002 juulimi","2003 januaarimi","2003 juulimi","2004 januaarimi","2004 juulimi","2005 januaarimi","2005 juulimi","2006 januaarimi","2006 juulimi","2007 januaarimi","2007 juulimi","2008 januaarimi",
+"2008 juulimi","2009 januaarimi","2009 juulimi","2010 januaarimi","2010 juulimi","2011 januaarimi","2011 juulimi","2012 januaarimi","2012 juulimi","2013 januaarimi","2013 juulimi","2014 januaarimi","2014 juulimi","2015 januaarimi","2015 juulimi",
+"2016 januaarimi","2016 juulimi","2017 januaarimi","2017 juulimi","2018 januaarimi","2018 juulimi","2019 januaarimi","2019 juulimi","2020 januaarimi","2020 juulimi","2021 januaarimi","2021 juulimi","2022 januaarimi","2022 juulimi","2023 januaarimi",
+"2023 juulimi";
+VARIABLECODE[kl]("type")="type";
+VALUES[kl]("type")="Qaammatini 12-ni ingerlaavartumik procentip allanngortarnera";
+TIMEVAL[kl]("piffissaq")=TLIST(H1),"19711","19712","19721","19722","19731","19732","19741","19742","19751","19752","19761","19762","19771","19772","19781","19782","19791","19792","19801","19802","19811","19812","19821","19822","19831","19832","19841","19842","19851","19852","19861","19862","19871","19872","19881","19882","19891","19892","19901","19902","19911","19912","19921","19922","19931","19932","19941","19942","19951","19952","19961","19962","19971","19972","19981","19982","19991","19992","20001","20002","20011","20012","20021","20022","20031","20032","20041","20042","20051","20052","20061","20062","20071","20072","20081","20082","20091","20092","20101","20102","20111","20112","20121","20122","20131","20132","20141","20142","20151","20152","20161","20162","20171","20172","20181","20182","20191","20192","20201","20202","20211","20212","20221","20222","20231","20232";
+LAST-UPDATED[kl]="20230930 16:00";
+UNITS[kl]="naleqqersuut";
+CONTACT[kl]="Simon Westmann, siwe@stat.gl";
+SOURCE[kl]="Naatsorsueqqissaartarfik";
+NOTE[kl]="Naleqqersuut 1971=100, akini allannguutit januar 2010 tilkillugu decimalimik ataatsimik naatsorsugaapput, januar 2010-miit naleqqersuut unaavoq 2008=100.#Nalunaaqutsersuutip nassuiaataa:#... Paasissutissalerneqanngilaq#";
+DATA=
+"..." 
+"..." 
+5.7 
+6.3 
+7.7 
+11.8 
+15.6 
+16.6 
+16.4 
+14.5 
+13.2 
+10.0 
+7.0 
+8.1 
+9.3 
+8.9 
+7.5 
+9.8 
+12.5 
+11.0 
+13.3 
+16.3 
+14.7 
+12.2 
+12.1 
+10.0 
+8.1 
+9.6 
+9.4 
+5.7 
+5.4 
+5.3 
+2.9 
+3.0 
+7.6 
+7.7 
+4.4 
+5.9 
+5.8 
+4.1 
+4.5 
+3.9 
+1.6 
+1.7 
+1.1 
+1.2 
+1.0 
+-0.1 
+1.1 
+2.0 
+1.6 
+1.1 
+0.5 
+0.6 
+0.9 
+1.1 
+0.9 
+0.7 
+1.7 
+1.8 
+2.9 
+3.2 
+4.0 
+3.7 
+1.4 
+1.9 
+3.2 
+2.3 
+1.1 
+1.4 
+2.3 
+2.9 
+2.3 
+1.6 
+5.4 
+9.4 
+4.5 
+0.6 
+1.4 
+2.3 
+1.8 
+2.2 
+4.8 
+4.3 
+1.7 
+0.9 
+1.3 
+1.4 
+1.5 
+1.4 
+1.2 
+0.9 
+0.3 
+1.3 
+0.5 
+-0.5 
+0.6 
+1.3 
+2.4 
+1.7 
+0.3 
+-0.2 
+0.2 
+2.2 
+2.7 
+2.5 
+;

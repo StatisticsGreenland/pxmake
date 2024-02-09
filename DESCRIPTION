@@ -1,6 +1,6 @@
 Package: pxmake
 Title: Create px files
-Version: 0.9.1.9000
+Version: 0.9.1.9001
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",
@@ -11,7 +11,7 @@ Authors@R: c(
                     role = c("cre", "aut")
                    )
             )
-Description: Create px files by using a data set and metadata from and excel sheet.
+Description: Create and modify px files in R.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

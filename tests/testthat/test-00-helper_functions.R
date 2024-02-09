@@ -102,6 +102,18 @@ test_that("Time values are classified", {
   test_equal(c("", NA, NULL, "2001Q1")         , "Q")
 })
 
+test_that("Can get time values from string", {
+  timeval1 <- as.character(2020:2024)
+  timeval2 <- c("2021Q1", "2021Q2", "2021Q3", "2021Q4", "2022Q1")
+
+  expect_values_are_preserved <- function(str) {
+    expect_equal(str, get_values_from_time_format(format_time_values(str)))
+  }
+
+  expect_values_are_preserved(timeval1)
+  expect_values_are_preserved(timeval2)
+})
+
 test_that("Vectors are zipped", {
   expect_equal(zip_vectors(c(1, 3, 5), c(2, 4, 6)),
                c(1, 2, 3, 4, 5, 6)
@@ -179,10 +191,87 @@ test_that("file encoding is correct", {
 
   # no encoding listed; latin1 is default
   px_file <- temp_px_file()
-  pxmake_clean(get_metadata_path("BEXSTA"),
-               px_file,
-               get_data_path("BEXSTA")
-               )
+
+  px(input = get_metadata_path("BEXSTA"), data = get_data_path("BEXSTA")) %>%
+    pxsave(path = px_file)
 
   expect_equal(get_encoding_from_px_file(px_file),  'latin1')
+})
+
+test_that("Data frames are aligned", {
+  a <- data.frame(a = as.character(),
+                  b = as.numeric(),
+                  d = as.character()
+                  )
+
+  b <- data.frame(a = as.numeric(),
+                  b = as.character(),
+                  c = as.character()
+                  )
+
+  expect_equal(align_data_frames(a, b),
+               data.frame(a = as.numeric(),
+                          b = as.character(),
+                          c = as.character(),
+                          d = as.character()
+                          )
+               )
+
+  c <- data.frame(a = c("1", "2"),
+                  b = c(3, 4),
+                  d = c("5", "6")
+                  )
+
+  d <- data.frame(a = c(7),
+                  b = c("8"),
+                  c = c("9")
+                  )
+
+  expect_equal(align_data_frames(c, d),
+               data.frame(a = c(1, 2),
+                          b = c("3", "4"),
+                          c = NA_character_,
+                          d = c("5", "6")
+                          )
+               )
+})
+
+test_that("Value is added/modified", {
+  # test modify_or_add_row
+  df1 <- data.frame(a = c(1, 2, 1),
+                    b = c(4, 5, 6)
+                    )
+
+  df2 <- data.frame(a = c(1, 2, 1),
+                    b = c(4, 7, 6)
+                    )
+
+  expect_equal(modify_or_add_row(df1,
+                                 lookup_column = "a", lookup_column_values = 2,
+                                 modify_column = "b", new_value = 7
+                                 ),
+               df2
+               )
+
+  df3 <- data.frame(a = c(1, 2, 1),
+                    b = c(8, 5, 8)
+                    )
+
+  expect_equal(modify_or_add_row(df1,
+                                 lookup_column = "a", lookup_column_values = 1,
+                                 modify_column = "b", new_value = 8
+                                 ),
+               df3
+               )
+
+  df4 <- data.frame(a = c(1, 2, 1),
+                    b = c(8, 8, 8)
+                    )
+
+  expect_equal(modify_or_add_row(df1,
+                                 lookup_column = "a", lookup_column_values = 1:2,
+                                 modify_column = "b", new_value = 8
+                                 ),
+               df4
+               )
 })

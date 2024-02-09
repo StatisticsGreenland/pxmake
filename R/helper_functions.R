@@ -152,7 +152,31 @@ format_time_values <- function(values) {
          )
 }
 
+#' Get time values from formatted string
+#'
+#' @param str String with time values
+#'
+#' @returns A character vector
+get_values_from_time_format <- function(str) {
+  tmp <-
+    str %>%
+    stringr::str_split(',') %>%
+    unlist()
 
+  tlist <- tmp %>% head(1)
+  type  <- stringr::str_sub(tlist, 7, 7)
+
+ values <-
+    tmp %>%
+    tail(-1) %>%
+    stringr::str_replace_all('"', '')
+
+ if (type == "A") {
+   return(values)
+ } else {
+   return(paste0(stringr::str_sub(values, 1, 4), type, stringr::str_sub(values, 5)))
+ }
+}
 
 #' Zips list
 #'
@@ -168,7 +192,7 @@ zip_vectors <- function(v1, v2) {
     stop("v1 and v2 must have same length.")
   }
 
-  matrix(c(v1, v2), ncol = 2) %>% t() %>% as.list() %>% unlist()
+  base::matrix(c(v1, v2), ncol = 2) %>% t() %>% as.list() %>% unlist()
 }
 
 #' Split long strings at commas
@@ -237,7 +261,7 @@ read_px_file <- function(px_path) {
   return(lines)
 }
 
-#' Default encoding to read and save px-file in
+#' Default encoding to read and save px file in
 #'
 #' @returns Character
 get_default_encoding <- function() {
@@ -265,19 +289,6 @@ get_encoding_from_px_file <- function(px_path) {
   return(encoding)
 }
 
-#' Write lines to file
-#'
-#' Save file with specific encoding
-#'
-#' @param lines Character vector
-#' @param path Path to save file at
-#' @param encoding File encoding
-write_lines_to_file <- function(lines, path, encoding) {
-  file_connection <- file(path, encoding = encoding)
-  writeLines(lines, file_connection)
-  close(file_connection)
-}
-
 #' Check if a path has a specific extension (function factory)
 #'
 #' @param extension String, file name extension
@@ -297,27 +308,6 @@ is_rds_file  <- is_path_extension("rds")
 is_xlsx_file <- is_path_extension("xlsx")
 is_px_file   <- is_path_extension("px")
 
-#' Check if rds object is properly formatted
-#'
-#' @param lst List to check
-#'
-#' @returns Logic
-is_rds_list <- function(lst) {
-  if (!is.list(lst)) {
-    return(FALSE)
-  }
-
-  if (!identical(sort(names(lst)), c("data", "metadata"))) {
-    return(FALSE)
-  }
-
-  if (!is.data.frame(lst$metadata) | !is.data.frame(lst$data)) {
-    return(FALSE)
-  }
-
-  return(TRUE)
-}
-
 #' Change all variables to character
 #'
 #' @param df Data frame
@@ -327,6 +317,13 @@ mutate_all_vars_to_character <- function(df) {
   dplyr::mutate(df, dplyr::across(everything(), as.character))
 }
 
+#' Create temporary file
+#'
+#' Get a temporary file path with a specific extension (function factory)
+#'
+#' @param extension String, file name extension
+#'
+#' @returns Path to temporary file
 temp_file_with_extension <- function(extension) {
   function() {
     return(tempfile(fileext = extension))
@@ -336,3 +333,65 @@ temp_file_with_extension <- function(extension) {
 temp_px_file   <- temp_file_with_extension(".px")
 temp_rds_file  <- temp_file_with_extension(".rds")
 temp_xlsx_file <- temp_file_with_extension(".xlsx")
+
+#' Align data frames
+#'
+#' Align df_a to have the same columns and column types as df_b.
+#'
+#' @param df_a Data frame to align
+#' @param df_b Data frame to align to
+#'
+#' @returns A data frame
+align_data_frames <- function(df_a, df_b) {
+  names_a <- names(df_a)
+  names_b <- names(df_b)
+
+  # Add columns from b not in a to a
+  for (names in setdiff(names_b, names_a)) {
+    if (nrow(df_a) == 0) {
+      df_a[[names]] <- as.character()
+    } else {
+      df_a[[names]] <- NA
+    }
+  }
+
+  # Reorder
+  df_a <- dplyr::relocate(df_a, all_of(names_b))
+
+  # Align types
+  for (name in names_b) {
+    df_a[[name]] <- as(df_a[[name]], class(df_b[[name]]))
+  }
+
+  return(df_a)
+}
+
+#' Add or modify value
+#'
+#' Modify a value in a row of a data frame based on its value in another column.
+#' If the value is not found, a new row is added.
+#'
+#' @param df Data frame
+#' @param lookup_column Column to look up
+#' @param lookup_column_values Values to look up
+#' @param modify_column Column to modify
+#' @param new_value New value to modify/add to modify_column
+#'
+#' @returns A data frame
+modify_or_add_row <- function(df,
+                                lookup_column,
+                                lookup_column_values,
+                                modify_column,
+                                new_value) {
+  if (any(df[[lookup_column]] %in% lookup_column_values)) {
+    df[df[[lookup_column]] %in% lookup_column_values, modify_column] <- new_value
+  } else {
+    df <- dplyr::bind_rows(df,
+                           dplyr::tibble(!!lookup_column := lookup_column_values,
+                                         !!modify_column := new_value
+                                         )
+                           )
+  }
+
+  return(df)
+}

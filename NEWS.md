@@ -1,5 +1,28 @@
 # pxmake (development version)
 
+## New features
+- The function `px()` creates a *px object*. This is a major change to the way
+package works. `pxmake` and `metamake` are soft deprecated. Use `px()` and `pxsave()` instead. (#197)
+- To modify the px object, a number of *modifying functions* have been added:
+ `charset()`, `creation_date()`, `decimals()`, `matrix()`, `stub()`, `heading()`, 
+`timeval()`, `add_totals()` and `figures()`. Many more need to be added in the
+future, to cover all px keywords.
+
+## Breaking changes
+- The 'rds' version of the px file is completly gone. Neither `pxmake()` nor 
+`metamake()` can create them. pxmake() and metamake() can convert between Excel
+and px files, and they return a px object invisibly. `pxmake()` and `metamake()`
+will be deprecated in the future.
+- `make_template()` will be deprecated in the future - `px()` automatically
+creates a metadata template if none is provided.
+- `micromake()` now takes a px object as input.
+- `add_totals()` now takes a px object as input.
+
+## Bug fixes and minor improvements
+- `README.md` has been rewritten, and includes a list of all keywords with
+modifying functions. All vignettes have been removed.
+- `README.md` is now created from `README.Rmd` using `knitr::knit()`.
+
 # pxmake 0.9.1
 
 ## New features

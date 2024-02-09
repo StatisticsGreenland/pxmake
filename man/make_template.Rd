@@ -30,6 +30,8 @@ A data frame
 }
 \description{
 Create a minimal metadata template for a data frame.
+}
+\details{
 \code{make_template} will be deprecated in the future when a px object has been
 implemented (#179).
 }

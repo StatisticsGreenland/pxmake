@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{get_default_encoding}
 \alias{get_default_encoding}
-\title{Default encoding to read and save px-file in}
+\title{Default encoding to read and save px file in}
 \usage{
 get_default_encoding()
 }
@@ -10,5 +10,5 @@ get_default_encoding()
 Character
 }
 \description{
-Default encoding to read and save px-file in
+Default encoding to read and save px file in
 }

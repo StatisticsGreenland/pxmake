@@ -43,7 +43,7 @@ error_if_not_exactly_one_figures_variable <- function(figures_var) {
 error_if_not_exactly_one_data_line <- function(data_line_index) {
   if(length(data_line_index) != 1) {
     error(stringr::str_glue("There are {length(data_line_index)} lines in the ",
-                            "px-file like this: 'DATA='. There needs to be ",
+                            "px file like this: 'DATA='. There needs to be ",
                             "exactly 1."
                             )
          )
@@ -88,7 +88,7 @@ get_legal_values <- function() {
                  )
 }
 
-error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
+error_if_variable_has_illegal_values <- function(excel_path, sheet) {
   legal_values <-
     get_legal_values() %>%
     dplyr::filter(sheet == sheet) %>%
@@ -96,7 +96,7 @@ error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
     tidyr::unnest(value)
 
   data_values <-
-    get_excel_sheet(sheet)(excel_metadata_path) %>%
+    get_excel_sheet(sheet)(excel_path) %>%
     dplyr::select(dplyr::pull(legal_values, variable)) %>%
     tidyr::pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
     dplyr::mutate(value = toupper(value)) %>%
@@ -126,10 +126,9 @@ error_if_variable_has_illegal_values <- function(excel_metadata_path, sheet) {
   }
 }
 
-
-error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
+error_if_sheet_is_missing_variable <- function(excel_path, sheet) {
   data_variable_names <-
-    get_excel_sheet(sheet)(excel_metadata_path) %>%
+    get_excel_sheet(sheet)(excel_path) %>%
     names() %>%
     stringr::str_split_fixed("_", n = 2) %>%
     as.data.frame() %>%
@@ -150,19 +149,19 @@ error_if_sheet_is_missing_variable <- function(excel_metadata_path, sheet) {
 
 #' Validate Excel metadata workbook
 #'
-#' @inheritParams get_metadata_df_from_excel
+#' @param excel_path Path to the Excel metadata workbook
 #'
 #' @returns Nothing
-validate_xlsx_metadata <- function(excel_metadata_path) {
+validate_xlsx_metadata <- function(excel_path) {
   sheets <- c("Table", "Table2", "Variables", "Codelists")
 
   invisible(lapply(sheets,
                    error_if_sheet_is_missing_variable,
-                   excel_metadata_path = excel_metadata_path
+                   excel_path = excel_path
                    )
             )
   error_if_variable_has_illegal_values(sheet = "Variables",
-                                       excel_metadata_path
+                                       excel_path
                                        )
 }
 
@@ -174,8 +173,8 @@ validate_xlsx_metadata <- function(excel_metadata_path) {
 #'
 #' @returns Nothing
 validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
-  if (!is_rds_file(out_path) & !is_px_file(out_path) & !is.null(out_path)) {
-    error("Argument 'out_path' should be a path to an .rds or .px file or NULL.")
+  if (!is_xlsx_file(out_path) & !is_px_file(out_path) & !is.null(out_path)) {
+    error("Argument 'out_path' should be a path to an .xlsx, .px file or NULL.")
   }
 
   if (!is.null(add_totals)) {
@@ -190,8 +189,7 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
 
   if (!is_xlsx_file(input) &
       !is_rds_file(input) &
-      !is.data.frame(input) &
-      !is_rds_list(input)
+      !is.data.frame(input)
       ) {
     error("Argument 'input' has wrong format. See ?pxmake.")
   }
@@ -221,8 +219,7 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
 #'
 #' @returns Nothing
 validate_metamake_arguments <- function(input, out_path, data_path, create_data) {
-  if (!is_px_file(input) & !is_rds_file(input) &
-      !is_rds_list(input) & !is.data.frame(input)
+  if (!is_px_file(input) & !is_rds_file(input) & !is.data.frame(input)
       ) {
     error("Argument 'input' has wrong format. See ?metamake.")
   }
@@ -245,3 +242,63 @@ validate_metamake_arguments <- function(input, out_path, data_path, create_data)
     error("Argument 'create_data' should be TRUE or FALSE.")
   }
 }
+
+#' Check all arguments to px()
+#'
+#' @inheritParams px
+#'
+#' @return Nothing
+validate_px_arguments <- function(input, data) {
+  if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input),
+            is_rds_file(input))) {
+    error("Argument 'input' has wrong format. See ?px.")
+  }
+
+  if (is_rds_file(input)) {
+    if (! "data.frame" %in% class(readRDS(input))) {
+      error(paste0("Argument 'input' has wrong format. The .rds file does not ",
+                   "contain a data frame. See ?px."
+                   )
+            )
+    }
+  }
+
+  if (! any(is.null(data), is.data.frame(data), is_rds_file(data))) {
+    error("Argument 'data' has wrong format. See ?px.")
+  }
+
+  if (is.null(data) & is_xlsx_file(input)) {
+      error_if_excel_sheet_does_not_exist("Data", input)
+  }
+
+  if (! is.null(data) & ! is_xlsx_file(input)) {
+      error("Argument 'data' can only be used if 'input' is an .xlsx file.")
+  }
+}
+
+#' Check all arguments to pxsave()
+#'
+#' @inheritParams pxsave
+#'
+#' @return Nothing
+validate_pxsave_arguments <- function(x, path) {
+  validate_px(x)
+
+  if (! any(is_px_file(path), is_xlsx_file(path))) {
+    error("Argument 'path' must be a path to a .r .xlsx file.")
+  }
+}
+
+#' Check all arguments to micromake()
+#'
+#' @inheritParams micromake
+#'
+#' @return Nothing
+validate_micromake_arguments <- function(x, out_dir) {
+  validate_px(x)
+
+  if (! any(is.character(out_dir), dir.exists(out_dir), is.null(out_dir))) {
+    error("Argument 'out_dir' must be a character string to an existing directory.")
+  }
+}
+

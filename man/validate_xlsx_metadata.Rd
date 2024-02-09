@@ -4,10 +4,10 @@
 \alias{validate_xlsx_metadata}
 \title{Validate Excel metadata workbook}
 \usage{
-validate_xlsx_metadata(excel_metadata_path)
+validate_xlsx_metadata(excel_path)
 }
 \arguments{
-\item{excel_metadata_path}{Path to xlsx workbook with metadata.}
+\item{excel_path}{Path to the Excel metadata workbook}
 }
 \value{
 Nothing

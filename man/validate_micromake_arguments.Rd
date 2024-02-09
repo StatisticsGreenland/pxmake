@@ -4,10 +4,10 @@
 \alias{validate_micromake_arguments}
 \title{Check all arguments to micromake()}
 \usage{
-validate_micromake_arguments(px, out_dir)
+validate_micromake_arguments(x, out_dir)
 }
 \arguments{
-\item{px}{A px object.}
+\item{x}{A px object.}
 
 \item{out_dir}{Directory to save px files in.}
 }

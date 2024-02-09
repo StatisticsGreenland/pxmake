@@ -4,10 +4,10 @@
 \alias{save_px_as_px_file}
 \title{Save px object to px-file}
 \usage{
-save_px_as_px_file(px, path)
+save_px_as_px_file(x, path)
 }
 \arguments{
-\item{px}{A px object}
+\item{x}{A px object}
 
 \item{path}{Path to save px-file at}
 }

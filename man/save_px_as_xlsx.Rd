@@ -4,10 +4,10 @@
 \alias{save_px_as_xlsx}
 \title{Save px object as an Excel workbook}
 \usage{
-save_px_as_xlsx(px, path)
+save_px_as_xlsx(x, path)
 }
 \arguments{
-\item{px}{A px object}
+\item{x}{A px object}
 
 \item{path}{Path to save Excel workbook}
 }

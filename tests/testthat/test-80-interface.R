@@ -15,5 +15,5 @@ test_that("Source data variable names are preserved",{
 
   expect_equal(get_data_sheet_variable_names(meta1),
                get_data_sheet_variable_names(meta2)
-  )
+               )
 })

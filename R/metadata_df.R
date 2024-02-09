@@ -193,10 +193,10 @@ sort_metadata_df <- function(metadata_df) {
 
 #' Get metadata df from px object
 #'
-#' @param px A px object
+#' @param x A px object
 #'
 #' @return A data frame
-get_metadata_df_from_px <- function(px) {
+get_metadata_df_from_px <- function(x) {
   metadata_template <- dplyr::tibble(keyword  = character(),
                                      language = character(),
                                      variable = character(),
@@ -205,22 +205,22 @@ get_metadata_df_from_px <- function(px) {
                                      )
 
   languages <-
-    px$languages %>%
+    x$languages %>%
     dplyr::summarise(value = list(paste0(language, sep = ""))) %>%
     dplyr::mutate(keyword = "LANGUAGES") %>%
     dplyr::filter(value != "")
 
   table <-
-    px$table1 %>%
+    x$table1 %>%
     wrap_varaible_in_list(value)
 
   table_language_dependent <-
-    px$table2 %>%
+    x$table2 %>%
     dplyr::rename(variable = code) %>%
     wrap_varaible_in_list(value)
 
   variablecode <-
-    px$variables2 %>%
+    x$variables2 %>%
     dplyr::distinct(keyword = "VARIABLECODE",
                     language,
                     variable = `variable-label`,
@@ -229,7 +229,7 @@ get_metadata_df_from_px <- function(px) {
     wrap_varaible_in_list(value)
 
   note_etc <-
-    px$variables2 %>%
+    x$variables2 %>%
     tidyr::pivot_longer(cols = c(-`variable-code`, -language, -`variable-label`),
                         names_to = "keyword",
                         values_to = "value"
@@ -240,10 +240,10 @@ get_metadata_df_from_px <- function(px) {
     wrap_varaible_in_list(value)
 
   name_relation <-
-    dplyr::select(px$variables2, `variable-code`, language, `variable-label`)
+    dplyr::select(x$variables2, `variable-code`, language, `variable-label`)
 
   variables1 <-
-    px$variables1 %>%
+    x$variables1 %>%
     dplyr::left_join(name_relation, by = "variable-code")
 
   head_stub_variable_names <-
@@ -277,7 +277,7 @@ get_metadata_df_from_px <- function(px) {
     error_if_more_than_one_time_variable(time_variable)
 
     time_values <-
-      px$data %>%
+      x$data %>%
       dplyr::distinct(across(all_of(time_variable))) %>%
       dplyr::pull(1)
 
@@ -291,7 +291,7 @@ get_metadata_df_from_px <- function(px) {
   }
 
   codes_not_in_codelist <-
-    px$data %>%
+    x$data %>%
     dplyr::select(dplyr::all_of(intersect(head_stub_variable_names, names(.)))) %>%
     tidyr::pivot_longer(cols = everything(),
                         names_to = "variable-code",
@@ -300,15 +300,15 @@ get_metadata_df_from_px <- function(px) {
     dplyr::distinct_all() %>%
     align_data_frames(get_base_codelists2()) %>%
     dplyr::select(`variable-code`, code) %>%
-    dplyr::anti_join(px$codelists2, by = c("variable-code", "code")) %>%
+    dplyr::anti_join(x$codelists2, by = c("variable-code", "code")) %>%
     dplyr::mutate(value = code) %>%
-    tidyr::crossing(language = px$languages$language)
+    tidyr::crossing(language = x$languages$language)
 
 
   codelists <-
-    px$codelists2 %>%
+    x$codelists2 %>%
     dplyr::bind_rows(codes_not_in_codelist) %>%
-    dplyr::left_join(px$codelists1, by = c("variable-code", "code")) %>%
+    dplyr::left_join(x$codelists1, by = c("variable-code", "code")) %>%
     dplyr::left_join(name_relation, by = c("variable-code", "language"))
 
   code_value <-

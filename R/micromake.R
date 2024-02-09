@@ -2,31 +2,31 @@
 #'
 #' Turn a px object into many px files, one for each variable except time vars.
 #'
-#' @param px A px object.
+#' @param x A px object.
 #' @param out_dir Directory to save px files in.
 #'
 #' @returns Nothing
 #' @export
-micromake <- function(px, out_dir = NULL) {
-  validate_micromake_arguments(px, out_dir)
+micromake <- function(x, out_dir = NULL) {
+  validate_micromake_arguments(x, out_dir)
 
   print_out_dir <- is.null(out_dir)
 
   if (is.null(out_dir)) out_dir <- temp_dir()
 
-  time_var <- time_variable(px)
+  time_var <- time_variable(x)
 
-  micro_vars <- setdiff(names(px$data), c(time_var, figures_variable(px)))
+  micro_vars <- setdiff(names(x$data), c(time_var, figures_variable(x)))
 
   new_px <-
-    px %>%
+    x %>%
     figures("n") %>%
     stub(micro_vars) %>%
     { if (identical(time_var, character(0))) . else heading(., time_var)}
 
   for (micro_var in micro_vars) {
     new_data <-
-      px$data %>%
+      x$data %>%
       dplyr::select(all_of(c(time_var, micro_var))) %>%
       dplyr::count(across(everything())) %>%
       dplyr::arrange_all() %>%

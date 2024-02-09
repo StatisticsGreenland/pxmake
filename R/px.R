@@ -34,20 +34,20 @@ px <- function(input, data = NULL) {
 
 #' Save px object to file
 #'
-#' @param px A px object.
+#' @param x A px object.
 #' @param path Path to file. The file extension determines the format. Can be:
 #' - `.px` to save as a px file
 #' - `.xlsx` to save as an Excel metadata workbook
 #'
 #' @return Nothing
 #' @export
-pxsave <- function(px, path) {
-  validate_pxsave_arguments(px, path)
+pxsave <- function(x, path) {
+  validate_pxsave_arguments(x, path)
 
   if (is_px_file(path)) {
-    save_px_as_px_file(px, path)
+    save_px_as_px_file(x, path)
   } else if (is_xlsx_file(path)) {
-    save_px_as_xlsx(px, path)
+    save_px_as_xlsx(x, path)
   } else {
     unexpected_error()
   }
@@ -69,7 +69,7 @@ pxsave <- function(px, path) {
 #' @return A px object
 new_px <- function(languages, table1, table2, variables1, variables2,
                    codelists1, codelists2, data) {
-  p <- list(languages = languages,
+  x <- list(languages = languages,
             table1 = table1,
             table2 = table2,
             variables1 = variables1,
@@ -79,7 +79,7 @@ new_px <- function(languages, table1, table2, variables1, variables2,
             data = data
             )
 
-  structure(p, class = "px")
+  structure(x, class = "px")
 }
 
 #' Validate px object
@@ -145,5 +145,5 @@ validate_px <- function(x) {
          )
   }
 
-  x
+  return(x)
 }

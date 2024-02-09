@@ -4,10 +4,10 @@
 \alias{pxsave}
 \title{Save px object to file}
 \usage{
-pxsave(px, path)
+pxsave(x, path)
 }
 \arguments{
-\item{px}{A px object.}
+\item{x}{A px object.}
 
 \item{path}{Path to file. The file extension determines the format. Can be:
 \itemize{

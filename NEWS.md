@@ -11,7 +11,8 @@ future, to cover all px keywords.
 ## Breaking changes
 - The 'rds' version of the px file is completly gone. Neither `pxmake()` nor 
 `metamake()` can create them. pxmake() and metamake() can convert between Excel
-and px files, but will be deprecated in the future.
+and px files, and they return a px object invisibly. `pxmake()` and `metamake()`
+will be deprecated in the future.
 - `make_template()` will be deprecated in the future - `px()` automatically
 creates a metadata template if none is provided.
 - `micromake()` now takes a px object as input.

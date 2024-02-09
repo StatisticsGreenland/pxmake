@@ -139,29 +139,29 @@ px_from_excel <- function(excel_path, data = NULL) {
 
 #' Save px object as an Excel workbook
 #'
-#' @param px A px object
+#' @param x A px object
 #' @param path Path to save Excel workbook
 #'
 #' @return Nothing
-save_px_as_xlsx <- function(px, path) {
+save_px_as_xlsx <- function(x, path) {
   excel_table <-
     data.frame(keyword ="LANGUAGES",
-               value = paste0(px$languages$language, collapse = ",")
+               value = paste0(x$languages$language, collapse = ",")
                ) %>%
     tidyr::drop_na(value) %>%
-    dplyr::bind_rows(px$table1) %>%
+    dplyr::bind_rows(x$table1) %>%
     dplyr::arrange(keyword)
 
 
   excel_table2 <-
-    px$table2 %>%
+    x$table2 %>%
     tidyr::pivot_wider(names_from = "language",
                        values_from = "value",
                        names_glue = "{language}_value"
                        )
 
   excel_variables <-
-    px$variables2 %>%
+    x$variables2 %>%
     tidyr::pivot_longer(cols = -c(`variable-code`, `language`),
                         names_to = "keyword",
                         values_to = "value"
@@ -176,11 +176,11 @@ save_px_as_xlsx <- function(px, path) {
                     ends_with("elimination"),
                     ends_with("note")
                     ) %>%
-    dplyr::full_join(px$variables1, by = "variable-code") %>%
-    dplyr::relocate(names(px$variables1))
+    dplyr::full_join(x$variables1, by = "variable-code") %>%
+    dplyr::relocate(names(x$variables1))
 
   excel_codelists <-
-    px$codelists2 %>%
+    x$codelists2 %>%
     dplyr::rename(`code-label` = value) %>%
     tidyr::pivot_longer(cols = -c(`variable-code`, code, language),
                         names_to = "keyword",
@@ -195,8 +195,8 @@ save_px_as_xlsx <- function(px, path) {
                     ends_with("code-label"),
                     ends_with("valuenote")
                     ) %>%
-    dplyr::full_join(px$codelists1, by = c("variable-code", "code")) %>%
-    dplyr::relocate(names(px$codelists1)) %>%
+    dplyr::full_join(x$codelists1, by = c("variable-code", "code")) %>%
+    dplyr::relocate(names(x$codelists1)) %>%
     dplyr::rename(sortorder = order)
 
 
@@ -215,8 +215,8 @@ save_px_as_xlsx <- function(px, path) {
   add_sheet(excel_variables, "Variables")
   add_sheet(excel_codelists, "Codelists")
 
-  error_if_too_many_rows_for_excel(px$data)
-  add_sheet(px$data, "Data")
+  error_if_too_many_rows_for_excel(x$data)
+  add_sheet(x$data, "Data")
 
   openxlsx::saveWorkbook(wb, path, overwrite = TRUE)
 }

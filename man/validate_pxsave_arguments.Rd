@@ -4,10 +4,10 @@
 \alias{validate_pxsave_arguments}
 \title{Check all arguments to pxsave()}
 \usage{
-validate_pxsave_arguments(px, path)
+validate_pxsave_arguments(x, path)
 }
 \arguments{
-\item{px}{A px object.}
+\item{x}{A px object.}
 
 \item{path}{Path to file. The file extension determines the format. Can be:
 \itemize{

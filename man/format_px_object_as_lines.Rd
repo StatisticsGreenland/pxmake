@@ -4,10 +4,10 @@
 \alias{format_px_object_as_lines}
 \title{Get lines for px-file from px object}
 \usage{
-format_px_object_as_lines(px)
+format_px_object_as_lines(x)
 }
 \arguments{
-\item{px}{A px object}
+\item{x}{A px object}
 }
 \value{
 A character vector

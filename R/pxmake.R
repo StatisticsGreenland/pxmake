@@ -27,15 +27,15 @@ pxmake <- function(input,
 
   validate_pxmake_arguments(input, out_path, data, add_totals)
 
-  p <- px(input, data)
+  x <- px(input, data)
 
   if (! is.null(add_totals)) {
-    p <- add_totals(p, vars = add_totals)
+    x <- add_totals(x, vars = add_totals)
   }
 
   if (! is.null(out_path)) {
-    pxsave(p, out_path)
+    pxsave(x, out_path)
   }
 
-  invisible(p)
+  invisible(x)
 }

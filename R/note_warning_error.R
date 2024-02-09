@@ -271,8 +271,8 @@ validate_px_arguments <- function(input, data) {
 #' @inheritParams pxsave
 #'
 #' @return Nothing
-validate_pxsave_arguments <- function(px, path) {
-  validate_px(px)
+validate_pxsave_arguments <- function(x, path) {
+  validate_px(x)
 
   if (! any(is_px_file(path), is_xlsx_file(path))) {
     error("Argument 'path' must be a path to a .r .xlsx file.")
@@ -284,8 +284,8 @@ validate_pxsave_arguments <- function(px, path) {
 #' @inheritParams micromake
 #'
 #' @return Nothing
-validate_micromake_arguments <- function(px, out_dir) {
-  validate_px(px)
+validate_micromake_arguments <- function(x, out_dir) {
+  validate_px(x)
 
   if (! any(is.character(out_dir), dir.exists(out_dir), is.null(out_dir))) {
     error("Argument 'out_dir' must be a character string to an existing directory.")

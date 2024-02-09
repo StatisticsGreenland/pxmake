@@ -4,10 +4,10 @@
 \alias{micromake}
 \title{Create microdata}
 \usage{
-micromake(px, out_dir = NULL)
+micromake(x, out_dir = NULL)
 }
 \arguments{
-\item{px}{A px object.}
+\item{x}{A px object.}
 
 \item{out_dir}{Directory to save px files in.}
 }

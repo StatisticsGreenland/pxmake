@@ -114,11 +114,11 @@ get_data_cube <- function(metadata_df, data_df) {
 
 #' Get lines for px-file from px object
 #'
-#' @param px A px object
+#' @param x A px object
 #'
 #' @return A character vector
-format_px_object_as_lines <- function(px) {
-  metadata_df <- get_metadata_df_from_px(px)
+format_px_object_as_lines <- function(x) {
+  metadata_df <- get_metadata_df_from_px(x)
 
   time_variables <-
     metadata_df %>%
@@ -166,7 +166,7 @@ format_px_object_as_lines <- function(px) {
     dplyr::pull(line)
 
   data_lines <-
-    get_data_cube(metadata_df, px$data) %>%
+    get_data_cube(metadata_df, x$data) %>%
     mutate_all_vars_to_character() %>%
     dplyr::mutate(dplyr::across(everything(), ~tidyr::replace_na(.x, '"-"'))) %>%
     tidyr::unite(tmp, sep = " ") %>%
@@ -177,15 +177,15 @@ format_px_object_as_lines <- function(px) {
 
 #' Save px object to px-file
 #'
-#' @param px A px object
+#' @param x A px object
 #' @param path Path to save px-file at
 #'
 #' @return Nothing
-save_px_as_px_file <- function(px, path) {
-  px_lines <- format_px_object_as_lines(px)
+save_px_as_px_file <- function(x, path) {
+  px_lines <- format_px_object_as_lines(x)
 
   encoding_str <-
-    px$table1 %>%
+    x$table1 %>%
     dplyr::filter(keyword == "CODEPAGE") %>%
     dplyr::pull(value)
 

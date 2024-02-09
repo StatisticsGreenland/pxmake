@@ -4,10 +4,10 @@
 \alias{get_metadata_df_from_px}
 \title{Get metadata df from px object}
 \usage{
-get_metadata_df_from_px(px)
+get_metadata_df_from_px(x)
 }
 \arguments{
-\item{px}{A px object}
+\item{x}{A px object}
 }
 \value{
 A data frame

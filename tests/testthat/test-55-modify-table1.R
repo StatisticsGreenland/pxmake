@@ -1,5 +1,5 @@
 test_that('Table1 is modified', {
-  p <-
+  x <-
     'BEXSTA' %>%
     get_data_path() %>%
     readRDS() %>%
@@ -32,7 +32,7 @@ test_that('Table1 is modified', {
     ) %>%
     tidyr::drop_na(value)
 
-  expect_equal(dplyr::arrange(dplyr::filter(p$table1, keyword %in% target$keyword),
+  expect_equal(dplyr::arrange(dplyr::filter(x$table1, keyword %in% target$keyword),
                               keyword
                               ),
                dplyr::arrange(target, keyword)

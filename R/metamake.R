@@ -13,7 +13,7 @@
 #' @param create_data Logic. If FALSE the data table is not generated. This can
 #' be used to only generate metadata.
 #'
-#' @returns Returns rds object invisibly.
+#' @return Returns rds object invisibly.
 #'
 #' @seealso \link{pxmake}
 #'

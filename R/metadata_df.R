@@ -1,6 +1,6 @@
 #' Regular expression to parse header in px file
 #'
-#' @returns A character vector
+#' @return A character vector
 get_px_metadata_regex <- function() {
   paste0("(?<keyword>[[:upper:]-]+)",    # Leading keyword
          "(?:\\[)?",                     # Maybe opening language bracket [
@@ -22,7 +22,7 @@ get_px_metadata_regex <- function() {
 #'
 #' @param metadata_lines A character vector with the header of a px file.
 #'
-#' @returns A data frame
+#' @return A data frame
 get_metadata_df_from_px_lines <- function(metadata_lines) {
   keywords_indexed_by_contvariable <-
     get_px_keywords() %>%
@@ -88,7 +88,7 @@ get_encoding_from_metadata <- function(metadata_df) {
 #'
 #' @inheritParams sort_metadata_df
 #'
-#' @returns A data frame
+#' @return A data frame
 get_variable_label <- function(metadata_df) {
   metadata_df <- add_main_language(metadata_df)
 
@@ -131,7 +131,7 @@ get_variable_label <- function(metadata_df) {
 #'
 #' @inheritParams sort_metadata_df
 #'
-#' @returns A data frame
+#' @return A data frame
 add_main_language <- function(metadata_df) {
   metadata_df %>%
     replace_na_language_with_main_language() %>%
@@ -142,7 +142,7 @@ add_main_language <- function(metadata_df) {
 #'
 #' @inheritParams sort_metadata_df
 #'
-#' @returns Character
+#' @return Character
 get_main_language <- function(metadata_df) {
   metadata_df %>%
     dplyr::filter(keyword %in% c("LANGUAGE", "LANGUAGES")) %>%
@@ -158,7 +158,7 @@ get_main_language <- function(metadata_df) {
 #'
 #' @inheritParams sort_metadata_df
 #'
-#' @returns A data frame
+#' @return A data frame
 replace_na_language_with_main_language <- function(metadata_df) {
   metadata_df %>%
     dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.)))
@@ -171,7 +171,7 @@ replace_na_language_with_main_language <- function(metadata_df) {
 #'
 #' @param metadata_df Data frame with metadata.
 #'
-#' @returns A data frame
+#' @return A data frame
 sort_metadata_df <- function(metadata_df) {
   languages <-
     metadata_df %>%

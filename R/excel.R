@@ -2,7 +2,7 @@
 #'
 #' @param sheet String. Sheet to read.
 #'
-#' @returns A data frame.
+#' @return A data frame.
 get_excel_sheet <- function(sheet) {
   function(excel_path) {
     error_if_excel_sheet_does_not_exist(sheet, excel_path)

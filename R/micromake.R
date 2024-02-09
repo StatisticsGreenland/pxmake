@@ -5,7 +5,7 @@
 #' @param x A px object.
 #' @param out_dir Directory to save px files in.
 #'
-#' @returns Nothing
+#' @return Nothing
 #' @export
 micromake <- function(x, out_dir = NULL) {
   validate_micromake_arguments(x, out_dir)

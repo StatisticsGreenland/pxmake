@@ -4,7 +4,7 @@
 #'
 #' @param msg String, error message
 #'
-#' @returns Nothing
+#' @return Nothing
 error <- function(msg) {
   stop(msg, call. = FALSE)
 }
@@ -151,7 +151,7 @@ error_if_sheet_is_missing_variable <- function(excel_path, sheet) {
 #'
 #' @param excel_path Path to the Excel metadata workbook
 #'
-#' @returns Nothing
+#' @return Nothing
 validate_xlsx_metadata <- function(excel_path) {
   sheets <- c("Table", "Table2", "Variables", "Codelists")
 
@@ -171,7 +171,7 @@ validate_xlsx_metadata <- function(excel_path) {
 #'
 #' @inheritParams pxmake
 #'
-#' @returns Nothing
+#' @return Nothing
 validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
   if (!is_xlsx_file(out_path) & !is_px_file(out_path) & !is.null(out_path)) {
     error("Argument 'out_path' should be a path to an .xlsx, .px file or NULL.")
@@ -217,7 +217,7 @@ validate_pxmake_arguments <- function(input, out_path, data, add_totals) {
 #'
 #' @inheritParams metamake
 #'
-#' @returns Nothing
+#' @return Nothing
 validate_metamake_arguments <- function(input, out_path, data_path, create_data) {
   if (!is_px_file(input) & !is_rds_file(input) & !is.data.frame(input)
       ) {

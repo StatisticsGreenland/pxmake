@@ -3,7 +3,7 @@
 #' @inheritParams sort_metadata_df
 #' @inheritParams format_data_df
 #'
-#' @returns A data frame
+#' @return A data frame
 get_data_cube <- function(metadata_df, data_df) {
   metadata_df <- add_main_language(metadata_df)
 

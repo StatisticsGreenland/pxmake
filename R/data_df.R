@@ -6,7 +6,7 @@
 #' @param data_df A data frame with data.
 #' @param figures_variable Character. The name of the figures variable.
 #'
-#' @returns A data frame
+#' @return A data frame
 format_data_df <- function(data_df, figures_variable) {
   data_df %>%
     dplyr::ungroup() %>%

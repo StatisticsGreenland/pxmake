@@ -94,7 +94,7 @@ make_template <- function(data_df,
 #' @param heading_variables A character vector with heading variables.
 #' @param figures_variable Name of figure variable,
 #'
-#' @returns A data frame
+#' @return A data frame
 get_metadata_template_from_data <- function(data_df,
                                             stub_variables = NULL,
                                             heading_variables = NULL,

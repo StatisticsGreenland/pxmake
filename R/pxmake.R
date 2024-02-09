@@ -15,7 +15,7 @@
 #' level is found in 'Codelists'. The total is a sum of the values in the
 #' variables with `pivot = FIGURES` in 'Variables'. NAs are ignored when summing.
 #'
-#' @returns Returns px object invisibly.
+#' @return Returns px object invisibly.
 #'
 #' @seealso \link{metamake}
 #'

@@ -95,8 +95,8 @@ px_from_data_df <- function(df) {
                         names_to = "variable-code",
                         values_to = "code"
                         ) %>%
-    dplyr::arrange(`variable-code`) %>%
     dplyr::distinct() %>%
+    dplyr::arrange(`variable-code`, code) %>%
     dplyr::group_by(`variable-code`) %>%
     dplyr::mutate(order = dplyr::row_number()) %>%
     dplyr::ungroup() %>%

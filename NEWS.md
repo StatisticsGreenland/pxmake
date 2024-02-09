@@ -3,6 +3,7 @@
 ## Bug fixes and minor improvements
 - Validate px after using modifying functions.
 - Check that arguments to micromake are valid.
+- Sort data before creating codelist from data frame. (#197)
 
 # pxmake 0.10.0
 

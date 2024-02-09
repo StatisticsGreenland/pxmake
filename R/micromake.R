@@ -14,20 +14,20 @@ micromake <- function(x, out_dir = NULL) {
 
   if (is.null(out_dir)) out_dir <- temp_dir()
 
-  time_var <- time_variable(x)
+  time_variable <- timeval(x)
 
-  micro_vars <- setdiff(names(x$data), c(time_var, figures_variable(x)))
+  micro_vars <- setdiff(names(x$data), c(time_variable, figures(x)))
 
   new_px <-
     x %>%
     figures("n") %>%
     stub(micro_vars) %>%
-    { if (identical(time_var, character(0))) . else heading(., time_var)}
+    { if (identical(time_variable, character(0))) . else heading(., time_variable)}
 
   for (micro_var in micro_vars) {
     new_data <-
       x$data %>%
-      dplyr::select(all_of(c(time_var, micro_var))) %>%
+      dplyr::select(all_of(c(time_variable, micro_var))) %>%
       dplyr::count(across(everything())) %>%
       dplyr::arrange_all() %>%
       format_data_df(figures_variable = "n")

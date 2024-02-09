@@ -3,7 +3,7 @@
 \name{charset}
 \alias{charset}
 \alias{charset.px}
-\title{Set CHARSET}
+\title{CHARSET}
 \usage{
 charset(x, value)
 
@@ -12,8 +12,9 @@ charset(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{A character string}
+\item{value}{Optional. A character string. If missing, the current CHARSET is
+returned. If NULL, CHARSET is removed.}
 }
 \description{
-Set CHARSET
+Inspect or change CHARSET.
 }

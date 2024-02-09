@@ -1,31 +1,35 @@
 test_that("error - invalid px object", {
   expect_error(validate_px(1),
                regexp = "px object must be a list"
-  )
+               )
 
-  expect_error(validate_px(list()),
+  base_px <- get_base_px()
+  base_px$codelists1 <- NULL
+
+  expect_error(validate_px(base_px),
                regexp = "px object is missing these names:"
                )
 
-  expect_error(validate_px(c(get_base_px(), "extra"=NA)),
+  base_px2 <- get_base_px()
+  base_px2$fisk <- data.frame()
+
+  expect_error(validate_px(base_px2),
                regexp = "px object contains invalid names:"
                )
 
-  px1 <- get_base_px()
-  px1$languages <- c("en")
+  base_px3 <- get_base_px()
+  base_px3$languages <- c("en")
 
-  expect_error(validate_px(px1),
+  expect_error(validate_px(base_px3),
                regexp = "px object element 'languages' must be a data frame"
                )
 
-  px2 <- get_base_px()
-  px2$table1 <- data.frame(Keyword = as.character())
+  base_px4 <- get_base_px()
+  base_px4$table1 <- data.frame(Keyword = as.character())
 
-  expect_error(validate_px(px2),
+  expect_error(validate_px(base_px4),
                regexp = "px object is missing these names in element 'table1':"
                )
-
-
 })
 
 test_that("valid px object", {
@@ -33,14 +37,5 @@ test_that("valid px object", {
     expect_equal(x, validate_px(x))
   }
 
-  expect_valid_px(list(languages = get_base_languages(),
-                       table1 = get_base_table1(),
-                       table2 = get_base_table2(),
-                       variables1 = get_base_variables1(),
-                       variables2 = get_base_variables2(),
-                       codelists1 = get_base_codelists1(),
-                       codelists2 = get_base_codelists2(),
-                       data = get_base_data()
-                       )
-                  )
+  expect_valid_px(get_base_px())
 })

@@ -3,7 +3,7 @@
 \name{figures}
 \alias{figures}
 \alias{figures.px}
-\title{Set FIGURES}
+\title{FIGURES}
 \usage{
 figures(x, variable)
 
@@ -12,12 +12,16 @@ figures(x, variable)
 \arguments{
 \item{x}{A px object}
 
-\item{variable}{A character vector of variable codes to change to FIGURES.}
+\item{variable}{Optional. Name of variable to use as FIGRUES. If missing, the
+current FIGURES variable is returned.}
 }
 \value{
-A px object
+A px object or a character string
 }
 \description{
-Set which variable is used as figures. The previous figures variable is
-changed to STUB
+Inspect or change which variable is used as figures. The previous figures
+variable is changed to STUB.
+}
+\seealso{
+\code{\link{stub}} \code{\link{heading}}
 }

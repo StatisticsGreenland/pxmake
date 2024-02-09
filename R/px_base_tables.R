@@ -57,13 +57,15 @@ get_base_data <- function() {
 }
 
 get_base_px <- function() {
-  list(languages = get_base_languages(),
-       table1 = get_base_table1(),
-       table2 = get_base_table2(),
-       variables1 = get_base_variables1(),
-       variables2 = get_base_variables2(),
-       codelists1 = get_base_codelists1(),
-       codelists2 = get_base_codelists2(),
-       data = get_base_data()
-       )
+  structure(list(languages = get_base_languages(),
+                 table1 = get_base_table1(),
+                 table2 = get_base_table2(),
+                 variables1 = get_base_variables1(),
+                 variables2 = get_base_variables2(),
+                 codelists1 = get_base_codelists1(),
+                 codelists2 = get_base_codelists2(),
+                 data = get_base_data()
+                 ),
+            class = "px"
+            )
 }

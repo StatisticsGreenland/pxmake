@@ -3,7 +3,7 @@
 \name{matrix}
 \alias{matrix}
 \alias{matrix.px}
-\title{Set MATRIX}
+\title{MATRIX}
 \usage{
 matrix(x, value)
 
@@ -12,8 +12,9 @@ matrix(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{A character string}
+\item{value}{Optional. A character string. If missing, the current MATRIX is
+returned. If NULL, MATRIX is removed.}
 }
 \description{
-Set MATRIX
+Inspect or change MATRIX.
 }

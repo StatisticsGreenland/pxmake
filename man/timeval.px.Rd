@@ -3,7 +3,7 @@
 \name{timeval}
 \alias{timeval}
 \alias{timeval.px}
-\title{Set TIMEVAL}
+\title{TIMEVAL}
 \usage{
 timeval(x, variable)
 
@@ -12,11 +12,13 @@ timeval(x, variable)
 \arguments{
 \item{x}{A px object}
 
-\item{variable}{Character, variable code to change to TIMEVAL.}
+\item{variable}{Optional. Name of variable to use as TIME. If missing, the
+current TIME variable is returned.}
 }
 \value{
-A px object
+A px object or a character string
 }
 \description{
-Set which variable is used as time. There can only be one time variable.
+Inspect or change which variable is used as timeval. There can only be one
+time variable.
 }

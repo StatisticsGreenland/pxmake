@@ -3,7 +3,7 @@
 \name{decimals}
 \alias{decimals}
 \alias{decimals.px}
-\title{Set DECIMALS}
+\title{DECIMALS}
 \usage{
 decimals(x, value)
 
@@ -12,8 +12,9 @@ decimals(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{A character string}
+\item{value}{Optional. A character string. If missing, the current DECIMALS
+is returned. If NULL, DECIMALS is removed.}
 }
 \description{
-Set DECIMALS
+Inspect or change DECIMALS.
 }

@@ -379,10 +379,10 @@ align_data_frames <- function(df_a, df_b) {
 #'
 #' @return A data frame
 modify_or_add_row <- function(df,
-                                lookup_column,
-                                lookup_column_values,
-                                modify_column,
-                                new_value) {
+                              lookup_column,
+                              lookup_column_values,
+                              modify_column,
+                              new_value) {
   if (any(df[[lookup_column]] %in% lookup_column_values)) {
     df[df[[lookup_column]] %in% lookup_column_values, modify_column] <- new_value
   } else {

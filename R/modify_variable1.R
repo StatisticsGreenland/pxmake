@@ -32,24 +32,44 @@ change_pivot_variables <- function(x, pivot, variables) {
   return(x)
 }
 
+#' Get names of pivot variables
+#'
+#' @param x A px object
+#' @param pivot A string, either "STUB", "HEADING" or "FIGURES"
+#'
+#' @return A character vector of variable codes
+pivot_variables <- function(x, pivot) {
+  x$variables1 %>%
+    dplyr::arrange(order, `variable-code`) %>%
+    dplyr::filter(toupper(pivot) == !!pivot) %>%
+    dplyr::pull(`variable-code`)
+}
+
 #' @rdname stub.px
 #' @export
 stub <- function(x, variables) {
   UseMethod("stub")
 }
 
-#' Set STUB
+#' STUB
 #'
-#' Set which variables are used as stubs. The order is also changed to the order
-#' of the input variables.
+#' Inspect or change which variables are used as stubs. The stub order is also
+#' changed to the order of the input variables.
 #'
 #' @param x A px object
-#' @param variables A character vector of variable codes to change to STUB.
+#' @param variables Optional. A character vector of variable names to change to
+#' STUB. If missing, the current STUB variables are returned.
 #'
-#' @return A px object
+#' @return A px object or a character vector
+#'
+#' @seealso \code{\link{heading}} \code{\link{figures}}
 #'
 #' @export
 stub.px <- function(x, variables) {
+  if (missing(variables)) {
+    return(pivot_variables(x, "STUB"))
+  }
+
   validate_px(change_pivot_variables(x, "STUB", variables))
 }
 
@@ -59,18 +79,25 @@ heading <- function(x, variables) {
   UseMethod("heading")
 }
 
-#' Set HEADING
+#' HEADING
 #'
-#' Set which variables are used as headings. The order is also changed to the
-#' order of the input variables.
+#' Inspect or change which variables are used as headings. The heading order is
+#' also changed to the order of the input variables.
 #'
 #' @param x A px object
-#' @param variables A character vector of variable codes to change to HEADING.
+#' @param variables Optional. A character vector of variable names to change to
+#' HEADING. If missing, the current HEADING variables are returned.
 #'
-#' @return A px object
+#' @return A px object or a character vector
+#'
+#' @seealso \code{\link{stub}} \code{\link{figures}}
 #'
 #' @export
 heading.px <- function(x, variables) {
+  if (missing(variables)) {
+    return(pivot_variables(x, "HEADING"))
+  }
+
   validate_px(change_pivot_variables(x, "HEADING", variables))
 }
 
@@ -80,25 +107,32 @@ figures <- function(x, variable) {
   UseMethod("figures")
 }
 
-#' Set FIGURES
+#' FIGURES
 #'
-#' Set which variable is used as figures. The previous figures variable is
-#' changed to STUB
+#' Inspect or change which variable is used as figures. The previous figures
+#' variable is changed to STUB.
 #'
 #' @param x A px object
-#' @param variable A character vector of variable codes to change to FIGURES.
+#' @param variable Optional. Name of variable to use as FIGRUES. If missing, the
+#' current FIGURES variable is returned.
 #'
-#' @return A px object
+#' @return A px object or a character string
+#'
+#' @seealso \code{\link{stub}} \code{\link{heading}}
 #'
 #' @export
 figures.px <- function(x, variable) {
+  if (missing(variable)) {
+    return(pivot_variables(x, "FIGURES"))
+  }
+
   error_if_not_exactly_one_figures_variable(variable)
 
-  current_figures_variable <- figures_variable(x)
+  old_figures_variable <- figures(x)
 
   x <- change_pivot_variables(x, "FIGURES", variable)
 
-  x <- change_pivot_variables(x, "STUB", current_figures_variable)
+  x <- change_pivot_variables(x, "STUB", old_figures_variable)
 
   validate_px(x)
 }
@@ -109,17 +143,26 @@ timeval <- function(x, variable) {
   UseMethod("timeval")
 }
 
-#' Set TIMEVAL
+#' TIMEVAL
 #'
-#' Set which variable is used as time. There can only be one time variable.
+#' Inspect or change which variable is used as timeval. There can only be one
+#' time variable.
 #'
 #' @param x A px object
-#' @param variable Character, variable code to change to TIMEVAL.
+#' @param variable Optional. Name of variable to use as TIME. If missing, the
+#' current TIME variable is returned.
 #'
-#' @return A px object
+#' @return A px object or a character string
 #'
 #' @export
 timeval.px <- function(x, variable) {
+  if (missing(variable)) {
+    return(x$variables1 %>%
+             dplyr::filter(toupper(type) == "TIME") %>%
+             dplyr::pull(`variable-code`)
+           )
+  }
+
   x$variables1$type <- NA
 
   x$variables1 <- modify_or_add_row(df = x$variables1,

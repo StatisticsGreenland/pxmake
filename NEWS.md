@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## New features
+- Change all modifying functions to also be getters, so e.g. `stub(x)` returns
+current STUB variables.
+
 ## Bug fixes and minor improvements
 - Validate px after using modifying functions.
 - Check that arguments to micromake are valid.

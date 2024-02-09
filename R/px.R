@@ -95,6 +95,10 @@ validate_px <- function(x) {
     stop("px object must be a list", call. = FALSE)
   }
 
+  if (! inherits(x, "px")) {
+    stop("px object must have class 'px'", call. = FALSE)
+  }
+
   px_target <- get_base_px()
 
   input_names  <- names(x)
@@ -134,14 +138,9 @@ validate_px <- function(x) {
     }
   }
 
-  time_variables <-
-    x$variables1 %>%
-    dplyr::filter(toupper(type) == "TIME") %>%
-    dplyr::pull(`variable-code`)
-
-  if (length(time_variables) > 1) {
+  if (length(timeval(x)) > 1) {
     stop("px object has more than one time variable: ",
-         paste0(time_variables, collapse = ", "),
+         paste0(timeval(x), collapse = ", "),
          call. = FALSE
          )
   }

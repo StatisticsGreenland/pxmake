@@ -3,17 +3,18 @@
 \name{creation_date}
 \alias{creation_date}
 \alias{creation_date.px}
-\title{Set CREATION-DATE}
+\title{CREATION-DATE}
 \usage{
 creation_date(x, value)
 
-\method{creation_date}{px}(x, value = format(Sys.time(), "\%Y\%m\%d \%H:\%M"))
+\method{creation_date}{px}(x, value)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{value}{A character string}
+\item{value}{Optional. A character string. If missing, the current
+CREATION-DATE is returned. If NULL, CREATION-DATE is removed.}
 }
 \description{
-Set CREATION-DATE
+Inspect or change CREATION-DATE.
 }

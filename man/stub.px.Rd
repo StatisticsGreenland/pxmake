@@ -3,7 +3,7 @@
 \name{stub}
 \alias{stub}
 \alias{stub.px}
-\title{Set STUB}
+\title{STUB}
 \usage{
 stub(x, variables)
 
@@ -12,12 +12,16 @@ stub(x, variables)
 \arguments{
 \item{x}{A px object}
 
-\item{variables}{A character vector of variable codes to change to STUB.}
+\item{variables}{Optional. A character vector of variable names to change to
+STUB. If missing, the current STUB variables are returned.}
 }
 \value{
-A px object
+A px object or a character vector
 }
 \description{
-Set which variables are used as stubs. The order is also changed to the order
-of the input variables.
+Inspect or change which variables are used as stubs. The stub order is also
+changed to the order of the input variables.
+}
+\seealso{
+\code{\link{heading}} \code{\link{figures}}
 }

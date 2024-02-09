@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Validate px after using modifying functions.
+
 # pxmake 0.10.0
 
 ## New features

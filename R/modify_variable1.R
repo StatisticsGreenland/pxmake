@@ -50,7 +50,7 @@ stub <- function(x, variables) {
 #'
 #' @export
 stub.px <- function(x, variables) {
-  change_pivot_variables(x, "STUB", variables)
+  validate_px(change_pivot_variables(x, "STUB", variables))
 }
 
 #' @rdname heading.px
@@ -71,7 +71,7 @@ heading <- function(x, variables) {
 #'
 #' @export
 heading.px <- function(x, variables) {
-  change_pivot_variables(x, "HEADING", variables)
+  validate_px(change_pivot_variables(x, "HEADING", variables))
 }
 
 #' @rdname figures.px
@@ -100,7 +100,7 @@ figures.px <- function(x, variable) {
 
   x <- change_pivot_variables(x, "STUB", current_figures_variable)
 
-  return(x)
+  validate_px(x)
 }
 
 #' @rdname timeval.px
@@ -128,5 +128,5 @@ timeval.px <- function(x, variable) {
                                     modify_column = "type",
                                     new_value = "TIME"
                                     )
-  return(x)
+  validate_px(x)
 }

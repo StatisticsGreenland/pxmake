@@ -16,7 +16,7 @@ charset <- function(x, value) {
 #'
 #' @export
 charset.px <- function(x, value) {
-  modify_table1(x, "CHARSET", value)
+  validate_px(modify_table1(x, "CHARSET", value))
 }
 
 
@@ -33,7 +33,7 @@ creation_date <- function(x, value) {
 #'
 #' @export
 creation_date.px <- function(x, value = format(Sys.time(), "%Y%m%d %H:%M")) {
-  modify_table1(x, "CREATION-DATE", value)
+  validate_px(modify_table1(x, "CREATION-DATE", value))
 }
 
 
@@ -50,7 +50,7 @@ matrix <- function(x, value) {
 #'
 #' @export
 matrix.px <- function(x, value) {
-  modify_table1(x, "MATRIX", value)
+  validate_px(modify_table1(x, "MATRIX", value))
 }
 
 
@@ -67,5 +67,5 @@ decimals <- function(x, value) {
 #'
 #' @export
 decimals.px <- function(x, value) {
-  modify_table1(x, "DECIMALS", value)
+  validate_px(modify_table1(x, "DECIMALS", value))
 }

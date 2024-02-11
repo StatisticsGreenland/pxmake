@@ -30,7 +30,7 @@ pxmake <- function(input,
   x <- px(input, data)
 
   if (! is.null(add_totals)) {
-    x <- add_totals(x, vars = add_totals)
+    x <- add_totals(x, variables = add_totals)
   }
 
   if (! is.null(out_path)) {

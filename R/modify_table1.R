@@ -117,3 +117,53 @@ decimals.px <- function(x, value) {
 
   validate_px(modify_table1(x, "DECIMALS", value))
 }
+
+#' @rdname next_update.px
+#' @export
+next_update <- function(x, value) {
+  UseMethod("next_update")
+}
+
+#' NEXT-UPDATE
+#'
+#' Inspect or change NEXT-UPDATE.
+#'
+#' @param x A px object
+#' @param value Optional. A character string. If missing, the current
+#' NEXT-UPDATE is returned. If NULL, NEXT-UPDATE is removed.
+#'
+#' @export
+next_update.px <- function(x, value) {
+  if (missing(value)) {
+    return(get_table1_value(x, "NEXT-UPDATE"))
+  } else if (is.null(value)) {
+    return(remove_keyword_table1(x, "NEXT-UPDATE"))
+  }
+
+  validate_px(modify_table1(x, "NEXT-UPDATE", value))
+}
+
+#' @rdname last_updated.px
+#' @export
+last_updated <- function(x, value) {
+  UseMethod("last_updated")
+}
+
+#' LAST-UPDATED
+#'
+#' Inspect or change LAST-UPDATED.
+#'
+#' @param x A px object
+#' @param value Optional. A character string. If missing, the current
+#' LAST-UPDATED is returned. If NULL, LAST-UPDATED is removed.
+#'
+#' @export
+last_updated.px <- function(x, value) {
+  if (missing(value)) {
+    return(get_table1_value(x, "LAST-UPDATED"))
+  } else if (is.null(value)) {
+    return(remove_keyword_table1(x, "LAST-UPDATED"))
+  }
+
+  validate_px(modify_table1(x, "LAST-UPDATED", value))
+}

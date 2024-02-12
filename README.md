@@ -83,11 +83,13 @@ Currently the following keywords have a modifying function in pxmake:
     #>        Keyword Function name
     #>        CHARSET       charset
     #>  CREATION-DATE creation_date
+    #>    NEXT-UPDATE   next_update
     #>       DECIMALS      decimals
     #>         MATRIX        matrix
     #>           STUB          stub
     #>        HEADING       heading
     #>        TIMEVAL       timeval
+    #>   LAST-UPDATED  last_updated
 
 In addition to the above, the following modifying functions are
 available:
@@ -111,7 +113,6 @@ them can be implemented.
     #>             CODEPAGE            codepage
     #>             LANGUAGE            language
     #>            LANGUAGES           languages
-    #>          NEXT-UPDATE         next_update
     #>            PX-SERVER           px_server
     #>       DIRECTORY-PATH      directory_path
     #>     UPDATE-FREQUENCY    update_frequency
@@ -147,7 +148,6 @@ them can be implemented.
     #>          PARTITIONED         partitioned
     #>          ELIMINATION         elimination
     #>            PRECISION           precision
-    #>         LAST-UPDATED        last_updated
     #>              STOCKFA             stockfa
     #>             CFPRICES            cfprices
     #>               DAYADJ              dayadj

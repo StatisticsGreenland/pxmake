@@ -78,20 +78,20 @@ x %>%
 
 ### Modifying functions
 
-Currently the following keywords have a modifying function in pxmake:
+Currently the following 9 keywords have a modifying function in pxmake:
 
     #>        Keyword Function name
     #>        CHARSET       charset
     #>  CREATION-DATE creation_date
-    #>    NEXT-UPDATE   next_update
     #>       DECIMALS      decimals
-    #>         MATRIX        matrix
-    #>           STUB          stub
     #>        HEADING       heading
-    #>        TIMEVAL       timeval
     #>   LAST-UPDATED  last_updated
+    #>         MATRIX        matrix
+    #>    NEXT-UPDATE   next_update
+    #>           STUB          stub
+    #>        TIMEVAL       timeval
 
-In addition to the above, the following modifying functions are
+In addition to the above, the following 2 modifying functions are
 available:
 
     #>  Function name
@@ -105,87 +105,87 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These keywords currently doesn’t have a modifying function, but most of
-them can be implemented.
+These 77 keywords currently doesn’t have a modifying function, but most
+of them can be implemented.
 
     #>              Keyword       Function name
-    #>         AXIS-VERSION        axis_version
-    #>             CODEPAGE            codepage
-    #>             LANGUAGE            language
-    #>            LANGUAGES           languages
-    #>            PX-SERVER           px_server
-    #>       DIRECTORY-PATH      directory_path
-    #>     UPDATE-FREQUENCY    update_frequency
-    #>              TABLEID             tableid
-    #>             SYNONYMS            synonyms
-    #>        DEFAULT-GRAPH       default_graph
-    #>         SHOWDECIMALS        showdecimals
-    #>             ROUNDING            rounding
     #>        AGGREGALLOWED       aggregallowed
+    #>         ATTRIBUTE-ID        attribute_id
+    #>       ATTRIBUTE-TEXT      attribute_text
+    #>           ATTRIBUTES          attributes
     #>              AUTOPEN             autopen
-    #>         SUBJECT-CODE        subject_code
-    #>         SUBJECT-AREA        subject_area
-    #>         CONFIDENTIAL        confidential
-    #>            COPYRIGHT           copyright
-    #>          DESCRIPTION         description
-    #>                TITLE               title
-    #>   DESCRIPTIONDEFAULT  descriptiondefault
-    #>             CONTENTS            contents
-    #>                UNITS               units
-    #>         CONTVARIABLE        contvariable
-    #>               VALUES              values
-    #>                CODES               codes
-    #>         DOUBLECOLUMN        doublecolumn
-    #>             PRESTEXT            prestext
-    #>               DOMAIN              domain
-    #>        VARIABLE-TYPE       variable_type
-    #>         VARIABLECODE        variablecode
-    #>          HIERARCHIES         hierarchies
-    #>      HIERARCHYLEVELS     hierarchylevels
-    #>  HIERARCHYLEVELSOPEN hierarchylevelsopen
-    #>       HIERARCHYNAMES      hierarchynames
-    #>                  MAP                 map
-    #>          PARTITIONED         partitioned
-    #>          ELIMINATION         elimination
-    #>            PRECISION           precision
-    #>              STOCKFA             stockfa
-    #>             CFPRICES            cfprices
-    #>               DAYADJ              dayadj
-    #>              SEASADJ             seasadj
-    #>              CONTACT             contact
-    #>            REFPERIOD           refperiod
+    #>         AXIS-VERSION        axis_version
     #>           BASEPERIOD          baseperiod
-    #>             DATABASE            database
-    #>               SOURCE              source
-    #>               SURVEY              survey
-    #>                 LINK                link
-    #>             INFOFILE            infofile
-    #>      FIRST-PUBLISHED     first_published
-    #>              META-ID             meta_id
-    #>  OFFICIAL-STATISTICS official_statistics
-    #>                 INFO                info
-    #>                NOTEX               notex
-    #>                 NOTE                note
-    #>           VALUENOTEX          valuenotex
-    #>            VALUENOTE           valuenote
-    #>            CELLNOTEX           cellnotex
     #>             CELLNOTE            cellnote
+    #>            CELLNOTEX           cellnotex
+    #>             CFPRICES            cfprices
+    #>             CODEPAGE            codepage
+    #>                CODES               codes
+    #>         CONFIDENTIAL        confidential
+    #>              CONTACT             contact
+    #>             CONTENTS            contents
+    #>         CONTVARIABLE        contvariable
+    #>            COPYRIGHT           copyright
+    #>                 DATA                data
+    #>             DATABASE            database
+    #>             DATANOTE            datanote
+    #>         DATANOTECELL        datanotecell
+    #>          DATANOTESUM         datanotesum
     #>          DATASYMBOL1         datasymbol1
     #>          DATASYMBOL2         datasymbol2
     #>          DATASYMBOL3         datasymbol3
     #>          DATASYMBOL4         datasymbol4
     #>          DATASYMBOL5         datasymbol5
     #>          DATASYMBOL6         datasymbol6
-    #>        DATASYMBOLSUM       datasymbolsum
     #>        DATASYMBOLNIL       datasymbolnil
-    #>         DATANOTECELL        datanotecell
-    #>          DATANOTESUM         datanotesum
-    #>             DATANOTE            datanote
+    #>        DATASYMBOLSUM       datasymbolsum
+    #>               DAYADJ              dayadj
+    #>        DEFAULT-GRAPH       default_graph
+    #>          DESCRIPTION         description
+    #>   DESCRIPTIONDEFAULT  descriptiondefault
+    #>       DIRECTORY-PATH      directory_path
+    #>               DOMAIN              domain
+    #>         DOUBLECOLUMN        doublecolumn
+    #>          ELIMINATION         elimination
+    #>      FIRST-PUBLISHED     first_published
+    #>          HIERARCHIES         hierarchies
+    #>      HIERARCHYLEVELS     hierarchylevels
+    #>  HIERARCHYLEVELSOPEN hierarchylevelsopen
+    #>       HIERARCHYNAMES      hierarchynames
+    #>                 INFO                info
+    #>             INFOFILE            infofile
     #>                 KEYS                keys
-    #>         ATTRIBUTE-ID        attribute_id
-    #>       ATTRIBUTE-TEXT      attribute_text
-    #>           ATTRIBUTES          attributes
-    #>                 DATA                data
+    #>             LANGUAGE            language
+    #>            LANGUAGES           languages
+    #>                 LINK                link
+    #>                  MAP                 map
+    #>              META-ID             meta_id
+    #>                 NOTE                note
+    #>                NOTEX               notex
+    #>  OFFICIAL-STATISTICS official_statistics
+    #>          PARTITIONED         partitioned
+    #>            PRECISION           precision
+    #>             PRESTEXT            prestext
+    #>            PX-SERVER           px_server
+    #>            REFPERIOD           refperiod
+    #>             ROUNDING            rounding
+    #>              SEASADJ             seasadj
+    #>         SHOWDECIMALS        showdecimals
+    #>               SOURCE              source
+    #>              STOCKFA             stockfa
+    #>         SUBJECT-AREA        subject_area
+    #>         SUBJECT-CODE        subject_code
+    #>               SURVEY              survey
+    #>             SYNONYMS            synonyms
+    #>              TABLEID             tableid
+    #>                TITLE               title
+    #>                UNITS               units
+    #>     UPDATE-FREQUENCY    update_frequency
+    #>            VALUENOTE           valuenote
+    #>           VALUENOTEX          valuenotex
+    #>               VALUES              values
+    #>        VARIABLE-TYPE       variable_type
+    #>         VARIABLECODE        variablecode
 
 </details>
 

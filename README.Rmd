@@ -90,7 +90,6 @@ unlink("example.px")
 
 
 ### Modifying functions
-Currently the following keywords have a modifying function in pxmake:
 
 ```{r, include = FALSE}
 modifying_functions <-
@@ -109,20 +108,28 @@ status <-
   dplyr::select(Keyword) %>% 
   dplyr::mutate(`Function name` = gsub("-", "_", tolower(Keyword)),
                 implemented = `Function name` %in% modifying_functions
-                )
+                ) %>% 
+  dplyr::arrange(dplyr::across(everything()))
+
+implemented <- dplyr::filter(status, implemented)
+not_implemented <- dplyr::filter(status, !implemented)
+
+non_keyword_modifying_functions <- 
+  dplyr::tibble(`Function name` = setdiff(modifying_functions, status[, "Function name"])) %>% 
+  as.data.frame() 
 ```
 
+Currently the following `r nrow(implemented)` keywords have a modifying function in pxmake:
+
 ```{r, echo = FALSE}
-status %>% 
-  dplyr::filter(implemented) %>%
+implemented %>%
   dplyr::select(-implemented) %>% 
   print(row.names = FALSE)
 ```
-In addition to the above, the following modifying functions are available:
+In addition to the above, the following `r nrow(non_keyword_modifying_functions)` modifying functions are available:
 
 ```{r, echo = FALSE}
-dplyr::tibble(`Function name` = setdiff(modifying_functions, status[, "Function name"])) %>% 
-  as.data.frame() %>% 
+non_keyword_modifying_functions %>% 
   print(row.names = FALSE)
 ```
 
@@ -130,10 +137,9 @@ See the help page for each modifying function for more information.
 
 <details>
 <summary>Keywords without modifying functions</summary>
-These keywords currently doesn't have a modifying function, but most of them can be implemented.
+These `r nrow(not_implemented)` keywords currently doesn't have a modifying function, but most of them can be implemented.
 ```{r, echo = FALSE}
-status %>% 
-  dplyr::filter(!implemented) %>%
+not_implemented %>%
   dplyr::select(-implemented) %>% 
   print(row.names = FALSE)
 ```

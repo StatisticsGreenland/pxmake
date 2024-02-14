@@ -9,6 +9,7 @@ current STUB variables.
 - Validate px after using modifying functions.
 - Check that arguments to micromake are valid.
 - Sort data before creating codelist from data frame. (#197)
+- Add priority and complexity to list of unimplemented keywords.
 
 # pxmake 0.10.0
 

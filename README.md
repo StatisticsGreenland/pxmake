@@ -105,87 +105,92 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 77 keywords currently doesn’t have a modifying function, but most
-of them can be implemented.
+These 75 keywords currently doesn’t have a modifying function, but can
+be implemented.
 
-    #>              Keyword       Function name
-    #>        AGGREGALLOWED       aggregallowed
-    #>         ATTRIBUTE-ID        attribute_id
-    #>       ATTRIBUTE-TEXT      attribute_text
-    #>           ATTRIBUTES          attributes
-    #>              AUTOPEN             autopen
-    #>         AXIS-VERSION        axis_version
-    #>           BASEPERIOD          baseperiod
-    #>             CELLNOTE            cellnote
-    #>            CELLNOTEX           cellnotex
-    #>             CFPRICES            cfprices
-    #>             CODEPAGE            codepage
-    #>                CODES               codes
-    #>         CONFIDENTIAL        confidential
-    #>              CONTACT             contact
-    #>             CONTENTS            contents
-    #>         CONTVARIABLE        contvariable
-    #>            COPYRIGHT           copyright
-    #>                 DATA                data
-    #>             DATABASE            database
-    #>             DATANOTE            datanote
-    #>         DATANOTECELL        datanotecell
-    #>          DATANOTESUM         datanotesum
-    #>          DATASYMBOL1         datasymbol1
-    #>          DATASYMBOL2         datasymbol2
-    #>          DATASYMBOL3         datasymbol3
-    #>          DATASYMBOL4         datasymbol4
-    #>          DATASYMBOL5         datasymbol5
-    #>          DATASYMBOL6         datasymbol6
-    #>        DATASYMBOLNIL       datasymbolnil
-    #>        DATASYMBOLSUM       datasymbolsum
-    #>               DAYADJ              dayadj
-    #>        DEFAULT-GRAPH       default_graph
-    #>          DESCRIPTION         description
-    #>   DESCRIPTIONDEFAULT  descriptiondefault
-    #>       DIRECTORY-PATH      directory_path
-    #>               DOMAIN              domain
-    #>         DOUBLECOLUMN        doublecolumn
-    #>          ELIMINATION         elimination
-    #>      FIRST-PUBLISHED     first_published
-    #>          HIERARCHIES         hierarchies
-    #>      HIERARCHYLEVELS     hierarchylevels
-    #>  HIERARCHYLEVELSOPEN hierarchylevelsopen
-    #>       HIERARCHYNAMES      hierarchynames
-    #>                 INFO                info
-    #>             INFOFILE            infofile
-    #>                 KEYS                keys
-    #>             LANGUAGE            language
-    #>            LANGUAGES           languages
-    #>                 LINK                link
-    #>                  MAP                 map
-    #>              META-ID             meta_id
-    #>                 NOTE                note
-    #>                NOTEX               notex
-    #>  OFFICIAL-STATISTICS official_statistics
-    #>          PARTITIONED         partitioned
-    #>            PRECISION           precision
-    #>             PRESTEXT            prestext
-    #>            PX-SERVER           px_server
-    #>            REFPERIOD           refperiod
-    #>             ROUNDING            rounding
-    #>              SEASADJ             seasadj
-    #>         SHOWDECIMALS        showdecimals
-    #>               SOURCE              source
-    #>              STOCKFA             stockfa
-    #>         SUBJECT-AREA        subject_area
-    #>         SUBJECT-CODE        subject_code
-    #>               SURVEY              survey
-    #>             SYNONYMS            synonyms
-    #>              TABLEID             tableid
-    #>                TITLE               title
-    #>                UNITS               units
-    #>     UPDATE-FREQUENCY    update_frequency
-    #>            VALUENOTE           valuenote
-    #>           VALUENOTEX          valuenotex
-    #>               VALUES              values
-    #>        VARIABLE-TYPE       variable_type
-    #>         VARIABLECODE        variablecode
+    #>              Keyword       Function name Priority Complexity
+    #>        AGGREGALLOWED       aggregallowed                Easy
+    #>         ATTRIBUTE-ID        attribute_id                    
+    #>       ATTRIBUTE-TEXT      attribute_text                    
+    #>           ATTRIBUTES          attributes                    
+    #>              AUTOPEN             autopen                Easy
+    #>         AXIS-VERSION        axis_version       **       Easy
+    #>           BASEPERIOD          baseperiod        *       Hard
+    #>             CELLNOTE            cellnote        *       Hard
+    #>            CELLNOTEX           cellnotex        *       Hard
+    #>             CFPRICES            cfprices        *       Easy
+    #>             CODEPAGE            codepage       **       Easy
+    #>         CONFIDENTIAL        confidential        *       Easy
+    #>              CONTACT             contact       **     Medium
+    #>             CONTENTS            contents       **     Medium
+    #>         CONTVARIABLE        contvariable       **       Hard
+    #>            COPYRIGHT           copyright       **       Easy
+    #>                 DATA                data       **       Easy
+    #>             DATABASE            database                    
+    #>             DATANOTE            datanote                    
+    #>         DATANOTECELL        datanotecell                    
+    #>          DATANOTESUM         datanotesum                    
+    #>          DATASYMBOL1         datasymbol1                    
+    #>          DATASYMBOL2         datasymbol2                    
+    #>          DATASYMBOL3         datasymbol3                    
+    #>          DATASYMBOL4         datasymbol4                    
+    #>          DATASYMBOL5         datasymbol5                    
+    #>          DATASYMBOL6         datasymbol6                    
+    #>        DATASYMBOLNIL       datasymbolnil                    
+    #>        DATASYMBOLSUM       datasymbolsum                    
+    #>               DAYADJ              dayadj                    
+    #>        DEFAULT-GRAPH       default_graph                    
+    #>          DESCRIPTION         description       **     Medium
+    #>   DESCRIPTIONDEFAULT  descriptiondefault                    
+    #>       DIRECTORY-PATH      directory_path                    
+    #>               DOMAIN              domain       **     Medium
+    #>         DOUBLECOLUMN        doublecolumn                    
+    #>          ELIMINATION         elimination       **     Medium
+    #>      FIRST-PUBLISHED     first_published                    
+    #>          HIERARCHIES         hierarchies                    
+    #>      HIERARCHYLEVELS     hierarchylevels                    
+    #>  HIERARCHYLEVELSOPEN hierarchylevelsopen                    
+    #>       HIERARCHYNAMES      hierarchynames                    
+    #>                 INFO                info                    
+    #>             INFOFILE            infofile                    
+    #>                 KEYS                keys                    
+    #>             LANGUAGE            language       **       Hard
+    #>            LANGUAGES           languages       **       Hard
+    #>                 LINK                link              Medium
+    #>                  MAP                 map       **       Easy
+    #>              META-ID             meta_id                    
+    #>                 NOTE                note       **       Hard
+    #>                NOTEX               notex       **       Hard
+    #>  OFFICIAL-STATISTICS official_statistics                    
+    #>          PARTITIONED         partitioned                    
+    #>            PRECISION           precision       **     Medium
+    #>             PRESTEXT            prestext                    
+    #>            PX-SERVER           px_server                    
+    #>            REFPERIOD           refperiod                    
+    #>             ROUNDING            rounding                    
+    #>              SEASADJ             seasadj                    
+    #>         SHOWDECIMALS        showdecimals       **       Easy
+    #>               SOURCE              source       **     Medium
+    #>              STOCKFA             stockfa       **       Easy
+    #>         SUBJECT-AREA        subject_area       **     Medium
+    #>         SUBJECT-CODE        subject_code       **       Easy
+    #>               SURVEY              survey                    
+    #>             SYNONYMS            synonyms                    
+    #>              TABLEID             tableid       **       Easy
+    #>                TITLE               title              Medium
+    #>                UNITS               units       **     Medium
+    #>     UPDATE-FREQUENCY    update_frequency       **       Easy
+    #>            VALUENOTE           valuenote       **     Medium
+    #>           VALUENOTEX          valuenotex       **     Medium
+    #>               VALUES              values       **       Hard
+    #>        VARIABLE-TYPE       variable_type       **       Hard
+
+Finally these 2 keywords will not have a modifying function, because
+they are automatically determined by the data.
+
+    #>       Keyword
+    #>         CODES
+    #>  VARIABLECODE
 
 </details>
 

@@ -4,6 +4,7 @@
 - Change all modifying functions to also be getters, so e.g. `stub(x)` returns
 current STUB variables.
 - Add new modifying functions: `last_updated()` and `next_update()`.
+- Add new modifying functions: `language()` and `languages()`.
 
 ## Bug fixes and minor improvements
 - Validate px after using modifying functions.

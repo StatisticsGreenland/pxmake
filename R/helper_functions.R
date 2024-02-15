@@ -365,33 +365,3 @@ align_data_frames <- function(df_a, df_b) {
 
   return(df_a)
 }
-
-#' Add or modify value
-#'
-#' Modify a value in a row of a data frame based on its value in another column.
-#' If the value is not found, a new row is added.
-#'
-#' @param df Data frame
-#' @param lookup_column Column to look up
-#' @param lookup_column_values Values to look up
-#' @param modify_column Column to modify
-#' @param new_value New value to modify/add to modify_column
-#'
-#' @return A data frame
-modify_or_add_row <- function(df,
-                              lookup_column,
-                              lookup_column_values,
-                              modify_column,
-                              new_value) {
-  if (any(df[[lookup_column]] %in% lookup_column_values)) {
-    df[df[[lookup_column]] %in% lookup_column_values, modify_column] <- new_value
-  } else {
-    df <- dplyr::bind_rows(df,
-                           dplyr::tibble(!!lookup_column := lookup_column_values,
-                                         !!modify_column := new_value
-                                         )
-                           )
-  }
-
-  return(df)
-}

@@ -30,6 +30,21 @@ test_that("error - invalid px object", {
   expect_error(validate_px(base_px4),
                regexp = "px object is missing these names in element 'table1':"
                )
+
+  base_px5 <- get_base_px()
+
+  base_px5$languages <-
+    data.frame(language = "en") %>%
+    align_data_frames(get_base_languages())
+
+  base_px5$table2 <-
+    dplyr::bind_rows(base_px5$table2,
+                     data.frame(keyword = "TITLE", language = "dk")
+                     )
+
+  expect_error(validate_px(base_px5),
+               regexp = "languages that are not defined"
+               )
 })
 
 test_that("valid px object", {

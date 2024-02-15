@@ -12,6 +12,8 @@ current STUB variables.
 - Check that arguments to micromake are valid.
 - Sort data before creating codelist from data frame. (#197)
 - Add priority and complexity to list of unimplemented keywords.
+- Add check if keywords are in correct table.
+- Bugfix: `last_updated()` modified wrong table.
 
 # pxmake 0.10.0
 

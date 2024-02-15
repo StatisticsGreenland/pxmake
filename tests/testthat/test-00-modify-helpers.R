@@ -66,3 +66,63 @@ test_that("Value is added/modified", {
                )
 
 })
+
+test_that("Data frame modifier works", {
+  arrange_and_expect_equal <- function(df1, df2) {
+    expect_identical(dplyr::arrange(df1, dplyr::across(everything())),
+                     dplyr::arrange(df2, dplyr::across(everything()))
+                     )
+  }
+
+  df1 <- data.frame(a = c(1, 1, 2),
+                    b = c(3, 4, 3),
+                    c = c(7, 8, 9)
+                    )
+
+  df2 <- data.frame(a = c(1, 1),
+                    b = c(3, 4),
+                    c = c(1, 2)
+                    )
+
+  df3 <- data.frame(a = c(1, 1, 2),
+                    b = c(3, 4, 3),
+                    c = c(1, 2, 9)
+                    )
+
+  arrange_and_expect_equal(modify_with_df(df1, df2, "c"), df3)
+
+  df4 <- data.frame(a = c(3),
+                    b = c(1),
+                    c = c(5)
+                    )
+
+  df5 <- data.frame(a = c(1, 1, 2, 3),
+                    b = c(3, 4, 3, 1),
+                    c = c(7, 8, 9, 5)
+                    )
+
+  arrange_and_expect_equal(modify_with_df(df1, df4, "c"), df5)
+
+  df6 <- data.frame(a = c(1, 1, 3),
+                    b = c(3, 5, 3),
+                    c = c(6, 7, 9)
+                    )
+
+  df7 <- data.frame(a = c(1, 1, 2, 3, 1),
+                    b = c(3, 4, 3, 3, 5),
+                    c = c(6, 8, 9, 9, 7)
+                    )
+
+  arrange_and_expect_equal(modify_with_df(df1, df6, "c"), df7)
+
+  df8 <- data.frame(a = c(1, 2, 3),
+                    c = c(5, 6, 7)
+                    )
+
+  df9 <- data.frame(a = c(1, 1, 2, 3),
+                    b = c(3, 4, 3, NA),
+                    c = c(5, 5, 6, 7)
+                    )
+
+  arrange_and_expect_equal(modify_with_df(df1, df8, "c"), df9)
+})

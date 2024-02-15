@@ -28,7 +28,6 @@ modify_or_add_row <- function(df,
   return(df)
 }
 
-
 modify_or_add_in_column <- function(df,
                                     lookup_column,
                                     lookup_column_values,
@@ -43,6 +42,31 @@ modify_or_add_in_column <- function(df,
   }
 
   return(df)
+}
+
+modify_with_df <- function(df1, df2, modify_column) {
+  merge_variables <- setdiff(names(df2), modify_column)
+
+  replace_values <-
+    dplyr::inner_join(dplyr::select(df1, -all_of(modify_column)),
+                      df2, by = merge_variables
+                      )
+
+  keep_values <- dplyr::anti_join(df1, df2, by = merge_variables)
+
+  add_values <- dplyr::anti_join(df2, df1, by = merge_variables)
+
+  return(dplyr::bind_rows(replace_values, keep_values, add_values))
+}
+
+modify_table2 <- function(x, keyword, value) {
+  if (is.data.frame(value)) {
+    value$keyword <- keyword
+    x$table2 <- modify_with_df(x$table2, value, "value")
+  } else if (is.character(value)) {
+    x$table2 <- modify_or_add_row(x$table2, "keyword", keyword, "value", value)
+  }
+   return(x)
 }
 
 modify_table1 <- function(x, keyword, value) {

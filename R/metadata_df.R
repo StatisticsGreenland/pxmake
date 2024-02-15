@@ -133,9 +133,16 @@ get_variable_label <- function(metadata_df) {
 #'
 #' @return A data frame
 add_main_language <- function(metadata_df) {
-  metadata_df %>%
-    replace_na_language_with_main_language() %>%
-    dplyr::mutate(main_language = language == get_main_language(.))
+  m_language <- get_main_language(metadata_df)
+
+  if (is.na(m_language)) {
+    metadata_df %>%
+      dplyr::mutate(main_language = is.na(m_language))
+  } else {
+    metadata_df %>%
+      replace_na_language_with_main_language() %>%
+      dplyr::mutate(main_language = language == m_language)
+  }
 }
 
 #' Get the main language from metadata
@@ -144,12 +151,19 @@ add_main_language <- function(metadata_df) {
 #'
 #' @return Character
 get_main_language <- function(metadata_df) {
-  metadata_df %>%
+  main_language <-
+    metadata_df %>%
     dplyr::filter(keyword %in% c("LANGUAGE", "LANGUAGES")) %>%
     dplyr::arrange(keyword) %>%
     tidyr::unnest(value) %>%
     dplyr::slice(1) %>%
     dplyr::pull(value)
+
+  if (length(main_language) == 0) {
+    main_language <- NA
+  }
+
+  return(main_language)
 }
 
 #' Impute missing language
@@ -260,7 +274,7 @@ get_metadata_df_from_px <- function(x) {
     dplyr::group_by(keyword, language) %>%
     dplyr::summarise(value = list(paste(`variable-label`, sep = ", ")),
                      .groups = "keep"
-    )
+                     )
 
   time_metadata <-
     variables1 %>%

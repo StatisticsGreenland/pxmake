@@ -167,7 +167,7 @@ See the help page for each modifying function for more information.
 <summary>Keywords without modifying functions</summary>
 These `r nrow(not_implemented)` keywords currently doesn't have a modifying function, but can be implemented.
 ```{r, echo = FALSE}
-not_implemented %>%
+not_implemented %>% 
   dplyr::select(-implemented) %>% 
   print(row.names = FALSE)
 ```

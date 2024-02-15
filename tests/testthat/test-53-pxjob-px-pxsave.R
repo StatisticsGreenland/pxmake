@@ -1,12 +1,12 @@
 test_that("pxjob exists without errors (exit code 0)", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
-  expect_that_pxjob_runs_without_erros <- function(px) {
+  expect_that_pxjob_runs_without_erros <- function(x) {
     px_path <- temp_px_file()
 
-    pxsave(px, path = px_path)
+    pxsave(x, path = px_path)
 
-    output <- get_pxjob_file_path(rlang::hash(px))
+    output <- get_pxjob_file_path(rlang::hash(x))
 
     pxjob_exit_code <- pxjob64Win::pxjob(px_path, output)
     expect_equal(0, pxjob_exit_code)

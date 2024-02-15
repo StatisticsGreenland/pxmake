@@ -62,11 +62,13 @@ x <- px(data.frame(year = as.character(rep(2021:2023, each = 3)),
         ) 
 
 head(x$data, 4)
-#>   year group     value
-#> 1 2021     a 0.2655087
-#> 2 2021     b 0.3721239
-#> 3 2021     c 0.5728534
-#> 4 2022     a 0.9082078
+#> # A tibble: 4 × 3
+#>   year  group value
+#>   <chr> <chr> <dbl>
+#> 1 2021  a     0.266
+#> 2 2021  b     0.372
+#> 3 2021  c     0.573
+#> 4 2022  a     0.908
 
 x %>% 
   timeval("year") %>%  # Set year as TIMEVAL
@@ -78,13 +80,15 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 9 keywords have a modifying function in pxmake:
+Currently the following 11 keywords have a modifying function in pxmake:
 
     #>        Keyword Function name
     #>        CHARSET       charset
     #>  CREATION-DATE creation_date
     #>       DECIMALS      decimals
     #>        HEADING       heading
+    #>       LANGUAGE      language
+    #>      LANGUAGES     languages
     #>   LAST-UPDATED  last_updated
     #>         MATRIX        matrix
     #>    NEXT-UPDATE   next_update
@@ -105,7 +109,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 75 keywords currently doesn’t have a modifying function, but can
+These 73 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
@@ -154,8 +158,6 @@ be implemented.
     #>                 INFO                info                    
     #>             INFOFILE            infofile                    
     #>                 KEYS                keys                    
-    #>             LANGUAGE            language       **       Hard
-    #>            LANGUAGES           languages       **       Hard
     #>                 LINK                link              Medium
     #>                  MAP                 map       **       Easy
     #>              META-ID             meta_id                    

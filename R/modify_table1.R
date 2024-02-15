@@ -1,21 +1,3 @@
-modify_table1 <- function(x, keyword, value) {
-  x$table1 <- modify_or_add_row(x$table1, "keyword", keyword, "value", value)
-  return(x)
-}
-
-remove_keyword_table1 <- function(x, keyword) {
-  x$table1 <- x$table1 %>%
-    dplyr::filter(keyword != !!keyword)
-
-  return(x)
-}
-
-get_table1_value <- function(x, keyword) {
-  x$table1 %>%
-    dplyr::filter(keyword == !!keyword) %>%
-    dplyr::pull(value)
-}
-
 #' @rdname charset.px
 #' @export
 charset <- function(x, value) {

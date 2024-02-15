@@ -1,0 +1,139 @@
+#' Change language in table
+#'
+#' @param df A data frame to change languages in
+#' @param new_languages A character vector
+#' @param keep_vars A character vector
+#' @param align_df A data frame to align with
+#'
+#' @returns A data frame
+modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
+  add_languages <- setdiff(new_languages, df$language)
+
+  keep <- dplyr::filter(df, language %in% new_languages)
+
+  new  <-
+    df %>%
+    dplyr::select(all_of(keep_vars)) %>%
+    tidyr::expand_grid(language = add_languages) %>%
+    align_data_frames(align_df)
+
+  dplyr::bind_rows(keep, new)
+}
+
+#' Change language in px object
+#'
+#' Changes languages in 3 of the px tables
+#'
+#' @param x A px object
+#' @param new_languages A character vector
+#'
+#' @returns A px object
+modify_languages_in_px <- function(x, new_languages) {
+  x$table2 <-
+    modify_languages_in_table(df = x$table2,
+                              new_languages = new_languages,
+                              keep_vars = c("keyword"),
+                              align_df = get_base_table2()
+                              )
+
+  x$variables2 <-
+    modify_languages_in_table(df = x$variables2,
+                              new_languages = new_languages,
+                              keep_vars = c("variable-code", "variable-label"),
+                              align_df = get_base_variables2()
+                              )
+
+  x$codelists2 <-
+    modify_languages_in_table(df = x$codelists2,
+                              new_languages = new_languages,
+                              keep_vars = c("variable-code", "code"),
+                              align_df = get_base_codelists2()
+                              )
+  return(x)
+}
+
+#' @rdname language.px
+#' @export
+language <- function(x, value) {
+  UseMethod("language")
+}
+
+#' LANGUAGE
+#'
+#' Inspect or change LANGUAGE.
+#'
+#' If LANGUAGES is defined, changing LANGUAGE will also add is to LANGUAGES.
+#'
+#' @param x A px object
+#' @param value Optional. A character string. If missing, the current LANGUAGE
+#' is returned. If NULL, LANGUAGE is removed.
+#'
+#' @seealso \code{\link{languages}}
+#'
+#' @export
+language.px <- function(x, value) {
+  if (missing(value)) {
+    language <- get_table1_value(x, "LANGUAGE")
+
+    if (identical(language, character(0))) {
+      return(NULL)
+    } else {
+      return(language)
+    }
+  } else if (is.null(value)) {
+    return(remove_keyword_table1(x, "LANGUAGE"))
+  }
+
+  if (!is.null(languages(x)) & !value %in% languages(x)) {
+    x$languages <- modify_or_add_in_column(x$languages, "language", language(x), value)
+  }
+
+  x <- modify_table1(x, "LANGUAGE", value)
+
+  x <- modify_languages_in_px(x, new_languages = value)
+
+  validate_px(x)
+}
+
+
+#' @rdname languages.px
+#' @export
+languages <- function(x, value) {
+  UseMethod("languages")
+}
+
+#' LANGUAGES
+#'
+#' Inspect or change LANGUAGES.
+#'
+#' If LANGUAGE is defined it should be one of the values in LANGUAGES.
+#'
+#' @param x A px object
+#' @param value Optional. A character vector. If missing, the current LANGUAGES
+#' are returned. If NULL, LANGUAGES are removed.
+#'
+#' @seealso \code{\link{language}}
+#'
+#' @export
+languages.px <- function(x, value) {
+  if (missing(value)) {
+    languages <- x$languages$language
+
+    if (identical(languages, character(0))) {
+      return(NULL)
+    } else {
+      return(languages)
+    }
+  } else if (is.null(value)) {
+    x$languages <- get_base_languages()
+    return(x)
+  }
+
+  x$languages <-
+    dplyr::tibble(language = value) %>%
+    align_data_frames(get_base_languages())
+
+  x <- modify_languages_in_px(x, new_languages = value)
+
+  validate_px(x)
+}

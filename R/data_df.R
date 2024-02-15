@@ -26,7 +26,7 @@ format_data_df <- function(data_df, figures_variable) {
 #'
 #' @return A px object
 px_from_data_df <- function(df) {
-  default_language <- "en"
+  default_language <- NA
 
   mandatory_table_keywords <-
     get_px_keywords() %>%
@@ -37,7 +37,6 @@ px_from_data_df <- function(df) {
     dplyr::filter(!language_dependent) %>%
     dplyr::select(keyword, value = default_value) %>%
     dplyr::bind_rows(dplyr::tribble(~keyword, ~value,
-                                    "LANGUAGE", default_language,
                                     "CHARSET", "ANSI"
                                    )
                      ) %>%
@@ -110,7 +109,7 @@ px_from_data_df <- function(df) {
                   ) %>%
     align_data_frames(get_base_codelists2())
 
-  new_px(languages = dplyr::tibble(language = default_language),
+  new_px(languages = get_base_languages(),
          table1 = table1,
          table2 = table2,
          variables1 = variables1,
@@ -118,5 +117,5 @@ px_from_data_df <- function(df) {
          codelists1 = codelists1,
          codelists2 = codelists2,
          data = data_df
-  )
+         )
 }

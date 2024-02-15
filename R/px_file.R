@@ -45,8 +45,6 @@ get_data_cube <- function(metadata_df, data_df) {
 
   figures_var <- setdiff(names(data_df),  head_stub_variable_names)
 
-  error_if_not_exactly_one_figures_variable(figures_var)
-
   codelist <-
     metadata_df %>%
     dplyr::filter(keyword == "CODES", main_language) %>%
@@ -317,7 +315,6 @@ px_from_px_file <- function(path) {
                                    )
                      )
 
-
   # variables2
   variables2 <-
     metadata %>%
@@ -469,7 +466,8 @@ px_from_px_file <- function(path) {
 
   data_df <-
     do.call(tidyr::expand_grid, stub_and_heading_values) %>%
-    dplyr::bind_cols(figures)
+    dplyr::bind_cols(figures) %>%
+    dplyr::as_tibble()
 
   new_px(languages = languages,
          table1 = table1,

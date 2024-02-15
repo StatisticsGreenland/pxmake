@@ -70,14 +70,14 @@ pxsave <- function(x, path) {
 #' @return A px object
 new_px <- function(languages, table1, table2, variables1, variables2,
                    codelists1, codelists2, data) {
-  x <- list(languages = languages,
-            table1 = table1,
-            table2 = table2,
-            variables1 = variables1,
-            variables2 = variables2,
-            codelists1 = codelists1,
-            codelists2 = codelists2,
-            data = data
+  x <- list(languages  = dplyr::as_tibble(languages),
+            table1     = dplyr::as_tibble(table1),
+            table2     = dplyr::as_tibble(table2),
+            variables1 = dplyr::as_tibble(variables1),
+            variables2 = dplyr::as_tibble(variables2),
+            codelists1 = dplyr::as_tibble(codelists1),
+            codelists2 = dplyr::as_tibble(codelists2),
+            data       = dplyr::as_tibble(data)
             )
 
   structure(x, class = "px")
@@ -143,6 +143,35 @@ validate_px <- function(x) {
          paste0(timeval(x), collapse = ", "),
          call. = FALSE
          )
+  }
+
+  languages_in_tables <-
+    unique(c(x$table2$language,
+             x$variables2$language,
+             x$codelists2$language)
+           ) %>% na.omit() %>% as.character()
+
+  defined_languages <- unique(c(language(x), languages(x)))
+
+  undefined_languages <- setdiff(languages_in_tables, defined_languages)
+
+  if (length(undefined_languages) > 0) {
+    stop("px object contains languages that are not defined in 'x$languages' ",
+         "or as keyword 'LANGUAGES' in x$table1: ",
+         paste0(undefined_languages, collapse = ", "),
+         call. = FALSE
+         )
+  }
+
+  if (length(languages(x)) > 0) {
+    if (! any(is.null(language(x)), language(x) %in% languages(x))) {
+      stop("px object: LANGUAGE is not in x$languages. ", call. = FALSE)
+    }
+  }
+
+  if (any(is.na(x$variables2$`variable-label`))) {
+    stop("px object: in x$variables2 variable-label cannot be NA.",
+         call. = FALSE)
   }
 
   return(x)

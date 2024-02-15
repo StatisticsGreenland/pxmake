@@ -145,6 +145,39 @@ validate_px <- function(x) {
          )
   }
 
+  if (any(is.na(x$variables2$`variable-label`))) {
+    stop("px object: in x$variables2 variable-label cannot be NA.",
+         call. = FALSE)
+  }
+
+  misplaced_keywords_in_table1 <-
+    intersect(x$table1$keyword,
+              get_px_keywords() %>%
+                dplyr::filter(!(in_table_sheet & !language_dependent)) %>%
+                dplyr::pull(keyword)
+              )
+
+  misplaced_keywords_in_table2 <-
+    intersect(x$table2$keyword,
+              get_px_keywords() %>%
+                dplyr::filter(!(in_table_sheet & language_dependent)) %>%
+                dplyr::pull(keyword)
+              )
+
+  if (length(misplaced_keywords_in_table1) > 0) {
+    stop("'table1' contains misplaced keywords: ",
+         paste0(misplaced_keywords_in_table1, collapse = ", "),
+         call. = FALSE
+         )
+  }
+
+  if (length(misplaced_keywords_in_table2) > 0) {
+    stop("'table2' contains misplaced keywords: ",
+         paste0(misplaced_keywords_in_table2, collapse = ", "),
+         call. = FALSE
+         )
+  }
+
   languages_in_tables <-
     unique(c(x$table2$language,
              x$variables2$language,
@@ -167,11 +200,6 @@ validate_px <- function(x) {
     if (! any(is.null(language(x)), language(x) %in% languages(x))) {
       stop("px object: LANGUAGE is not in x$languages. ", call. = FALSE)
     }
-  }
-
-  if (any(is.na(x$variables2$`variable-label`))) {
-    stop("px object: in x$variables2 variable-label cannot be NA.",
-         call. = FALSE)
   }
 
   return(x)

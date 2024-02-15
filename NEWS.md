@@ -8,6 +8,7 @@ current STUB variables.
 
 ## Bug fixes and minor improvements
 - Validate px after using modifying functions.
+- validate_px checks that keywords in table1 and table2 are in the right table.
 - Check that arguments to micromake are valid.
 - Sort data before creating codelist from data frame. (#197)
 - Add priority and complexity to list of unimplemented keywords.

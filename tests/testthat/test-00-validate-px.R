@@ -33,16 +33,37 @@ test_that("error - invalid px object", {
 
   base_px5 <- get_base_px()
 
-  base_px5$languages <-
+  base_px5$table1 <- data.frame(keyword = "LAST-UPDATED",
+                                value   = "2020-01-01 10:00"
+                                )
+
+  expect_error(validate_px(base_px5),
+               regexp = "'table1' contains misplaced keywords"
+               )
+
+  base_px6 <- get_base_px()
+  base_px6$table2 <-
+    data.frame(keyword = "NEXT-UPDATE",
+               value   = "2020-01-01 10:00"
+               ) %>%
+    align_data_frames(get_base_table2())
+
+  expect_error(validate_px(base_px6),
+               regexp = "'table2' contains misplaced keywords"
+               )
+
+  base_px7 <- get_base_px()
+
+  base_px7$languages <-
     data.frame(language = "en") %>%
     align_data_frames(get_base_languages())
 
-  base_px5$table2 <-
-    dplyr::bind_rows(base_px5$table2,
+  base_px7$table2 <-
+    dplyr::bind_rows(base_px7$table2,
                      data.frame(keyword = "TITLE", language = "dk")
                      )
 
-  expect_error(validate_px(base_px5),
+  expect_error(validate_px(base_px7),
                regexp = "languages that are not defined"
                )
 })

@@ -5,6 +5,7 @@
 current STUB variables.
 - Add new modifying functions: `last_updated()` and `next_update()`.
 - Add new modifying functions: `language()` and `languages()`.
+- Add new modifying functions: `valuenote()`  and `valuenotex()`.
 - `pxsave()` automatically adds values if they aren't defined in codelists2.
 
 ## Bug fixes and minor improvements

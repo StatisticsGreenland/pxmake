@@ -76,10 +76,18 @@ modify_table1 <- function(x, keyword, value) {
   return(x)
 }
 
-remove_keyword_table1 <- function(x, keyword) {
-  x$table1 <- x$table1 %>%
-    dplyr::filter(keyword != !!keyword)
+modify_table2 <- function(x, keyword, value) {
+  if (is.data.frame(value)) {
+    value$keyword <- keyword
+    x$table2 <- modify_with_df(x$table2, value, "value")
+  } else if (is.character(value)) {
+    x$table2 <- modify_or_add_row(x$table2, "keyword", keyword, "value", value)
+  }
+   return(x)
+}
 
+modify_codelists2 <- function(x, column, value) {
+  x$codelists2 <- modify_with_df(x$codelists2, value, column)
   return(x)
 }
 
@@ -87,4 +95,16 @@ get_table1_value <- function(x, keyword) {
   x$table1 %>%
     dplyr::filter(keyword == !!keyword) %>%
     dplyr::pull(value)
+}
+
+get_table2_value <- function(x, keyword) {
+  x$table2 %>%
+    dplyr::filter(keyword == !!keyword) %>%
+    dplyr::select(language, value)
+}
+
+get_codelists2_value <- function(x, column) {
+  x$codelists2 %>%
+    dplyr::select(`variable-code`, code, language, !!column) %>%
+    tidyr::drop_na(!!column)
 }

@@ -48,7 +48,8 @@ get_base_codelists2 <- function() {
                 code            = as.character(), #key
                 language        = as.character(),
                 value           = as.character(),
-                `valuenote`     = as.character()
+                valuenote       = as.character(),
+                valuenotex      = as.character()
                 )
 }
 

@@ -326,11 +326,11 @@ get_metadata_df_from_px <- function(x) {
     x$codelists2 %>%
     dplyr::bind_rows(codes_not_in_codelist) %>%
     dplyr::left_join(x$codelists1, by = c("variable-code", "code")) %>%
-    dplyr::left_join(name_relation, by = c("variable-code", "language"))
+    dplyr::left_join(name_relation, by = c("variable-code", "language")) %>%
+    dplyr::mutate(value = ifelse(is.na(value), code, value))
 
   code_value <-
     codelists %>%
-    dplyr::mutate(value = ifelse(is.na(value), code, value)) %>%
     tidyr::pivot_longer(cols = c("code", "value"), names_to = "type") %>%
     # Update when implementing #140
     dplyr::mutate(keyword = toupper(paste0(type, "s"))) %>%
@@ -340,16 +340,20 @@ get_metadata_df_from_px <- function(x) {
     dplyr::summarise(value = list(paste(value, sep = ", ")), .groups = "keep") %>%
     dplyr::ungroup()
 
-  valuenote <-
+  valuenotes <-
     codelists %>%
-    dplyr::mutate(keyword = "VALUENOTE") %>%
-    tidyr::drop_na(valuenote) %>%
-    wrap_varaible_in_list(valuenote) %>%
+    tidyr::pivot_longer(cols = starts_with("valuenote"),
+                        names_to = "keyword",
+                        values_to = "keyword_value"
+                        ) %>%
+    dplyr::mutate(keyword = toupper(keyword)) %>%
+    tidyr::drop_na(keyword_value) %>%
+    wrap_varaible_in_list(keyword_value) %>%
     dplyr::select(keyword,
                   language,
                   variable = `variable-label`,
                   cell = value,
-                  value = valuenote
+                  value = keyword_value
                   )
 
   precision <-
@@ -374,7 +378,7 @@ get_metadata_df_from_px <- function(x) {
                      head_stub,
                      timeval,
                      code_value,
-                     valuenote,
+                     valuenotes,
                      precision
                      ) %>%
     replace_na_language_with_main_language() %>%

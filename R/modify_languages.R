@@ -1,3 +1,18 @@
+#' Get languages used in px object
+#'
+#' @param x A px object
+#'
+#' @returns A character vector
+used_languages <- function(x) {
+  if (! is.null(languages(x))) {
+    return(languages(x))
+  } else if (! is.null(language(x))) {
+    return(language(x))
+  } else {
+    return(NA_character_)
+  }
+}
+
 #' Change language in table
 #'
 #' @param df A data frame to change languages in

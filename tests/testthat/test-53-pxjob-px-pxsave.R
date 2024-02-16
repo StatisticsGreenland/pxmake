@@ -1,7 +1,7 @@
 test_that("pxjob exists without errors (exit code 0)", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
-  expect_that_pxjob_runs_without_erros <- function(x) {
+  expect_that_pxjob_runs_without_errors <- function(x) {
     px_path <- temp_px_file()
 
     pxsave(x, path = px_path)
@@ -16,7 +16,16 @@ test_that("pxjob exists without errors (exit code 0)", {
     file.remove(output)
   }
 
-  expect_that_pxjob_runs_without_erros(px(input = get_metadata_path("FOTEST")))
-  expect_that_pxjob_runs_without_erros(px(input = get_px_file_path("TUX01")))
-  expect_that_pxjob_runs_without_erros(px(input = readRDS(get_data_path("BEXSTA"))))
+  expect_that_pxjob_runs_without_errors(px(input = get_metadata_path("FOTEST")))
+  expect_that_pxjob_runs_without_errors(px(input = get_px_file_path("TUX01")))
+  expect_that_pxjob_runs_without_errors(px(input = get_data_path("BEXSTA")))
+
+  x1 <- px(input = women)
+  x1$codelists2 <- get_base_codelists2()
+
+  expect_that_pxjob_runs_without_errors(x1)
+
+  expect_that_pxjob_runs_without_errors(
+    px(input = women) %>% languages(c("en", "sv"))
+  )
 })

@@ -320,8 +320,7 @@ get_metadata_df_from_px <- function(x) {
     dplyr::select(`variable-code`, code) %>%
     dplyr::anti_join(x$codelists2, by = c("variable-code", "code")) %>%
     dplyr::mutate(value = code) %>%
-    tidyr::crossing(language = x$languages$language)
-
+    tidyr::crossing(language = used_languages(x))
 
   codelists <-
     x$codelists2 %>%
@@ -331,6 +330,7 @@ get_metadata_df_from_px <- function(x) {
 
   code_value <-
     codelists %>%
+    dplyr::mutate(value = ifelse(is.na(value), code, value)) %>%
     tidyr::pivot_longer(cols = c("code", "value"), names_to = "type") %>%
     # Update when implementing #140
     dplyr::mutate(keyword = toupper(paste0(type, "s"))) %>%

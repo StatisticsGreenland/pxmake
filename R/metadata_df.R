@@ -332,7 +332,6 @@ get_metadata_df_from_px <- function(x) {
   code_value <-
     codelists %>%
     tidyr::pivot_longer(cols = c("code", "value"), names_to = "type") %>%
-    # Update when implementing #140
     dplyr::mutate(keyword = toupper(paste0(type, "s"))) %>%
     dplyr::arrange(keyword, order) %>%
     dplyr::rename(variable = `variable-label`) %>%

@@ -59,15 +59,17 @@ modify_with_df <- function(df1, df2, modify_column) {
   return(dplyr::bind_rows(replace_values, keep_values, add_values))
 }
 
-modify_table2 <- function(x, keyword, value) {
-  if (is.data.frame(value)) {
-    value$keyword <- keyword
-    x$table2 <- modify_with_df(x$table2, value, "value")
-  } else if (is.character(value)) {
-    x$table2 <- modify_or_add_row(x$table2, "keyword", keyword, "value", value)
+remove_keyword_from_table <- function(table_name) {
+  function(x, keyword) {
+    x[[table_name]] <- x[[table_name]] %>%
+      dplyr::filter(keyword != !!keyword)
+
+    return(x)
   }
-   return(x)
 }
+
+remove_keyword_table1 <- remove_keyword_from_table("table1")
+remove_keyword_table2 <- remove_keyword_from_table("table2")
 
 modify_table1 <- function(x, keyword, value) {
   x$table1 <- modify_or_add_row(x$table1, "keyword", keyword, "value", value)

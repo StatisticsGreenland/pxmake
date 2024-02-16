@@ -1,9 +1,3 @@
-get_table2_value <- function(x, keyword) {
-  x$table2 %>%
-    dplyr::filter(keyword == !!keyword) %>%
-    dplyr::select(language, value)
-}
-
 #' @rdname last_updated.px
 #' @export
 last_updated <- function(x, value) {

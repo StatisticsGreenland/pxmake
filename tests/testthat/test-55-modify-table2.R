@@ -26,6 +26,9 @@ test_that('Table2 is modified', {
   x5 <- last_updated(x3, datetime_df)
   expect_identical(last_updated(x5), datetime_df)
 
+  x6 <- last_updated(x5, NULL)
+  expect_identical(last_updated(x6), NULL)
+
   expect_error(last_updated(x3, data.frame(language = c('sv', 'kl'),
                                            value = datetime)),
                regex = 'LANGUAGE'

@@ -80,7 +80,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 11 keywords have a modifying function in pxmake:
+Currently the following 13 keywords have a modifying function in pxmake:
 
     #>        Keyword Function name
     #>        CHARSET       charset
@@ -94,6 +94,8 @@ Currently the following 11 keywords have a modifying function in pxmake:
     #>    NEXT-UPDATE   next_update
     #>           STUB          stub
     #>        TIMEVAL       timeval
+    #>      VALUENOTE     valuenote
+    #>     VALUENOTEX    valuenotex
 
 In addition to the above, the following 2 modifying functions are
 available:
@@ -109,7 +111,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 73 keywords currently doesn’t have a modifying function, but can
+These 71 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
@@ -182,8 +184,6 @@ be implemented.
     #>                TITLE               title              Medium
     #>                UNITS               units       **     Medium
     #>     UPDATE-FREQUENCY    update_frequency       **       Easy
-    #>            VALUENOTE           valuenote       **     Medium
-    #>           VALUENOTEX          valuenotex       **     Medium
     #>               VALUES              values       **       Hard
     #>        VARIABLE-TYPE       variable_type       **       Hard
 

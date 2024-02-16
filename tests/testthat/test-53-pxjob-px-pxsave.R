@@ -28,4 +28,29 @@ test_that("pxjob exists without errors (exit code 0)", {
   expect_that_pxjob_runs_without_errors(
     px(input = women) %>% languages(c("en", "sv"))
   )
+
+  get_data_path('BEXSTA') %>%
+    px() %>%
+    language("en") %>%
+    charset('ANSI') %>%
+    creation_date('2020-01-01 10:00') %>%
+    decimals("1") %>%
+    heading("gender") %>%
+    stub("place of birth") %>%
+    last_updated("2020-01-01 10:00") %>%
+    next_update("2020-01-01 10:00") %>%
+    matrix("bexsta") %>%
+    timeval("time") %>%
+    valuenote(dplyr::tibble(`variable-code` = "gender",
+                            code = "K",
+                            valuenote = "Great value"
+                            )
+              ) %>%
+    valuenotex(dplyr::tibble(`variable-code` = "time",
+                             code = "2020",
+                             valuenotex = "What a great year"
+                             )
+               ) %>%
+    languages(c("en", "sv")) %>% pxsave('test.px')
+    expect_that_pxjob_runs_without_errors()
 })

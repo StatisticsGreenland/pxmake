@@ -14,6 +14,7 @@ current STUB variables.
 - Add priority and complexity to list of unimplemented keywords.
 - Add check if keywords are in correct table.
 - Bugfix: `last_updated()` modified wrong table.
+- Bugfix: Remove NA values when creating px file (#205).
 
 # pxmake 0.10.0
 

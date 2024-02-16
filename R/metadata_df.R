@@ -226,11 +226,13 @@ get_metadata_df_from_px <- function(x) {
 
   table <-
     x$table1 %>%
+    tidyr::drop_na(value) %>%
     wrap_varaible_in_list(value)
 
   table_language_dependent <-
     x$table2 %>%
     dplyr::rename(variable = code) %>%
+    tidyr::drop_na(value) %>%
     wrap_varaible_in_list(value)
 
   variablecode <-
@@ -239,7 +241,8 @@ get_metadata_df_from_px <- function(x) {
                     language,
                     variable = `variable-label`,
                     value = `variable-code`
-    ) %>%
+                    ) %>%
+    tidyr::drop_na(value) %>%
     wrap_varaible_in_list(value)
 
   note_etc <-
@@ -247,10 +250,11 @@ get_metadata_df_from_px <- function(x) {
     tidyr::pivot_longer(cols = c(-`variable-code`, -language, -`variable-label`),
                         names_to = "keyword",
                         values_to = "value"
-    ) %>%
+                        ) %>%
     dplyr::mutate(keyword = toupper(keyword)) %>%
     dplyr::select(keyword, variable = `variable-label`, language, value) %>%
     dplyr::arrange_all() %>%
+    tidyr::drop_na(value) %>%
     wrap_varaible_in_list(value)
 
   name_relation <-

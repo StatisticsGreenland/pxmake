@@ -30,9 +30,10 @@ test_that("px runs without errors (px file)", {
   expect_runs_without_errors("PRXPRISH")
 })
 
-test_that("px runs without errors (data frame)", {
+test_that("px runs without errors (data frame and rds path)", {
   expect_runs_without_errors <- function(name) {
     px(input = readRDS(get_data_path(name)))
+    px(input = get_data_path(name))
 
     expect_true(TRUE)
   }

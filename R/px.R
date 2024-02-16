@@ -16,6 +16,10 @@
 px <- function(input, data = NULL) {
   validate_px_arguments(input, data)
 
+  if (is_rds_file(input)) {
+    input <- readRDS(input)
+  }
+
   if (is_rds_file(data)) {
     data <- readRDS(data)
   }
@@ -201,6 +205,8 @@ validate_px <- function(x) {
       stop("px object: LANGUAGE is not in x$languages. ", call. = FALSE)
     }
   }
+
+
 
   return(x)
 }

@@ -13,8 +13,9 @@ decimals(x, value)
 \item{x}{A px object}
 
 \item{value}{Optional. A character string. If missing, the current DECIMALS
-is returned. If NULL, DECIMALS is removed.}
+is returned. If NULL, DECIMALS is set to its default value.}
 }
 \description{
-Inspect or change DECIMALS.
+Inspect or change DECIMALS. DECIMALS cannot be removed because it is a
+mandatory keyword.
 }

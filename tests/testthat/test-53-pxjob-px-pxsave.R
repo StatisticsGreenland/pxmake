@@ -51,6 +51,6 @@ test_that("pxjob exists without errors (exit code 0)", {
                              valuenotex = "What a great year"
                              )
                ) %>%
-    languages(c("en", "sv")) %>% pxsave('test.px')
+    languages(c("en", "sv")) %>%
     expect_that_pxjob_runs_without_errors()
 })

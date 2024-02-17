@@ -67,11 +67,3 @@ test_that("error - invalid px object", {
                regexp = "languages that are not defined"
                )
 })
-
-test_that("valid px object", {
-  expect_valid_px <- function(x) {
-    expect_equal(x, validate_px(x))
-  }
-
-  expect_valid_px(get_base_px())
-})

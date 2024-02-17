@@ -1,3 +1,17 @@
+handle_table1_keyword <- function(x, value, keyword) {
+  if (missing(value)) {
+    return(get_table1_value(x, keyword))
+  } else if (is.null(value)) {
+    error_if_mandatory_keyword(x, keyword)
+
+    x <- remove_keyword_table1(x, keyword)
+  } else {
+    x <- modify_table1(x, keyword, value)
+  }
+
+  validate_px(x)
+}
+
 #' @rdname charset.px
 #' @export
 charset <- function(x, value) {
@@ -14,13 +28,7 @@ charset <- function(x, value) {
 #'
 #' @export
 charset.px <- function(x, value) {
-  if (missing(value)) {
-    return(get_table1_value(x, "CHARSET"))
-  } else if (is.null(value)) {
-    return(remove_keyword_table1(x, "CHARSET"))
-  }
-
-  validate_px(modify_table1(x, "CHARSET", value))
+  handle_table1_keyword(x, value, "CHARSET")
 }
 
 #' @rdname creation_date.px
@@ -39,13 +47,7 @@ creation_date <- function(x, value) {
 #'
 #' @export
 creation_date.px <- function(x, value) {
-  if (missing(value)) {
-    return(get_table1_value(x, "CREATION-DATE"))
-  } else if (is.null(value)) {
-    return(remove_keyword_table1(x, "CREATION-DATE"))
-  }
-
-  validate_px(modify_table1(x, "CREATION-DATE", value))
+  handle_table1_keyword(x, value, "CREATION-DATE")
 }
 
 
@@ -65,13 +67,7 @@ matrix <- function(x, value) {
 #'
 #' @export
 matrix.px <- function(x, value) {
-  if (missing(value)) {
-    return(get_table1_value(x, "MATRIX"))
-  } else if (is.null(value)) {
-    return(remove_keyword_table1(x, "MATRIX"))
-  }
-
-  validate_px(modify_table1(x, "MATRIX", value))
+  handle_table1_keyword(x, value, "MATRIX")
 }
 
 
@@ -83,21 +79,16 @@ decimals <- function(x, value) {
 
 #' DECIMALS
 #'
-#' Inspect or change DECIMALS.
+#' Inspect or change DECIMALS. DECIMALS cannot be removed because it is a
+#' mandatory keyword.
 #'
 #' @param x A px object
 #' @param value Optional. A character string. If missing, the current DECIMALS
-#' is returned. If NULL, DECIMALS is removed.
+#' is returned. If NULL, DECIMALS is set to its default value.
 #'
 #' @export
 decimals.px <- function(x, value) {
-  if (missing(value)) {
-    return(get_table1_value(x, "DECIMALS"))
-  } else if (is.null(value)) {
-    return(remove_keyword_table1(x, "DECIMALS"))
-  }
-
-  validate_px(modify_table1(x, "DECIMALS", value))
+  handle_table1_keyword(x, value, "DECIMALS")
 }
 
 #' @rdname next_update.px
@@ -116,11 +107,24 @@ next_update <- function(x, value) {
 #'
 #' @export
 next_update.px <- function(x, value) {
-  if (missing(value)) {
-    return(get_table1_value(x, "NEXT-UPDATE"))
-  } else if (is.null(value)) {
-    return(remove_keyword_table1(x, "NEXT-UPDATE"))
-  }
+  handle_table1_keyword(x, value, "NEXT-UPDATE")
+}
 
-  validate_px(modify_table1(x, "NEXT-UPDATE", value))
+#' @rdname subject_code.px
+#' @export
+subject_code <- function(x, value) {
+  UseMethod("subject_code")
+}
+
+#' SUBJECT-CODE
+#'
+#' Inspect or change SUBJECT-CODE.
+#'
+#' @param x A px object
+#' @param value Optional. A character string. If missing, the current
+#' SUBJECT-CODE is returned. If NULL, SUBJECT-CODE is removed.
+#'
+#' @export
+subject_code.px <- function(x, value) {
+  handle_table1_keyword(x, value, "SUBJECT-CODE")
 }

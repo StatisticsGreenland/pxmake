@@ -6,7 +6,10 @@ current STUB variables.
 - Add new modifying functions: `last_updated()` and `next_update()`.
 - Add new modifying functions: `language()` and `languages()`.
 - Add new modifying functions: `valuenote()`  and `valuenotex()`.
+- Add new modifying functions: `contents()`, `description()`, `subject_area()`,
+`subject_code()`, `title()` and `units()`.
 - `pxsave()` automatically adds values if they aren't defined in codelists2.
+- Throw error if trying to remove mandatory keyword. (#208)
 
 ## Bug fixes and minor improvements
 - Validate px after using modifying functions.

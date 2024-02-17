@@ -80,12 +80,14 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 13 keywords have a modifying function in pxmake:
+Currently the following 19 keywords have a modifying function in pxmake:
 
     #>        Keyword Function name
     #>        CHARSET       charset
+    #>       CONTENTS      contents
     #>  CREATION-DATE creation_date
     #>       DECIMALS      decimals
+    #>    DESCRIPTION   description
     #>        HEADING       heading
     #>       LANGUAGE      language
     #>      LANGUAGES     languages
@@ -93,7 +95,11 @@ Currently the following 13 keywords have a modifying function in pxmake:
     #>         MATRIX        matrix
     #>    NEXT-UPDATE   next_update
     #>           STUB          stub
+    #>   SUBJECT-AREA  subject_area
+    #>   SUBJECT-CODE  subject_code
     #>        TIMEVAL       timeval
+    #>          TITLE         title
+    #>          UNITS         units
     #>      VALUENOTE     valuenote
     #>     VALUENOTEX    valuenotex
 
@@ -111,7 +117,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 71 keywords currently doesn’t have a modifying function, but can
+These 65 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
@@ -128,7 +134,6 @@ be implemented.
     #>             CODEPAGE            codepage       **       Easy
     #>         CONFIDENTIAL        confidential        *       Easy
     #>              CONTACT             contact       **     Medium
-    #>             CONTENTS            contents       **     Medium
     #>         CONTVARIABLE        contvariable       **       Hard
     #>            COPYRIGHT           copyright       **       Easy
     #>                 DATA                data       **       Easy
@@ -146,7 +151,6 @@ be implemented.
     #>        DATASYMBOLSUM       datasymbolsum                    
     #>               DAYADJ              dayadj                    
     #>        DEFAULT-GRAPH       default_graph                    
-    #>          DESCRIPTION         description       **     Medium
     #>   DESCRIPTIONDEFAULT  descriptiondefault                    
     #>       DIRECTORY-PATH      directory_path                    
     #>               DOMAIN              domain       **     Medium
@@ -176,13 +180,9 @@ be implemented.
     #>         SHOWDECIMALS        showdecimals       **       Easy
     #>               SOURCE              source       **     Medium
     #>              STOCKFA             stockfa       **       Easy
-    #>         SUBJECT-AREA        subject_area       **     Medium
-    #>         SUBJECT-CODE        subject_code       **       Easy
     #>               SURVEY              survey                    
     #>             SYNONYMS            synonyms                    
     #>              TABLEID             tableid       **       Easy
-    #>                TITLE               title              Medium
-    #>                UNITS               units       **     Medium
     #>     UPDATE-FREQUENCY    update_frequency       **       Easy
     #>               VALUES              values       **       Hard
     #>        VARIABLE-TYPE       variable_type       **       Hard

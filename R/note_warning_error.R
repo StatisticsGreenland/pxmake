@@ -147,6 +147,20 @@ error_if_sheet_is_missing_variable <- function(excel_path, sheet) {
   }
 }
 
+error_if_mandatory_keyword <- function(x, keyword) {
+  if (keyword %in% mandatory_keywords()) {
+    error(stringr::str_glue("Keyword '{keyword}' is mandatory and cannot be removed."))
+  } else if (keyword %in% "TITLE") {
+    if (is.null(description(x))) {
+      error("Keyword TITLE cannot be removed unless DESCRIPTION is defined.")
+    }
+  } else if (keyword %in% "DESCRIPTION") {
+    if (is.null(title(x))) {
+      error("Keyword DESCRIPTION cannot be removed unless TITLE is defined.")
+    }
+  }
+}
+
 #' Validate Excel metadata workbook
 #'
 #' @param excel_path Path to the Excel metadata workbook

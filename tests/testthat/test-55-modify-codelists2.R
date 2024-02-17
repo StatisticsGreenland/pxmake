@@ -50,7 +50,7 @@ test_that('VALUENOTE(X) is modified', {
 
   valuenotex_df1 <- dplyr::rename(valuenote_df1, valuenotex = valuenote)
 
-  # x6 <- valuenotex(x, valuenotex_df1)
-  #
-  # expect_identical(valuenotex(x6), valuenotex_df1)
+  x6 <- valuenotex(x_lang, valuenotex_df1)
+
+  expect_identical(valuenotex(x6), valuenotex_df1)
 })

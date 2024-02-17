@@ -79,11 +79,14 @@ modify_table1 <- function(x, keyword, value) {
 modify_table2 <- function(x, keyword, value) {
   if (is.data.frame(value)) {
     value$keyword <- keyword
-    x$table2 <- modify_with_df(x$table2, value, "value")
   } else if (is.character(value)) {
-    x$table2 <- modify_or_add_row(x$table2, "keyword", keyword, "value", value)
+    value <-
+      data.frame(keyword = keyword, value = value, language = used_languages(x))
   }
-   return(x)
+
+  x$table2 <- modify_with_df(x$table2, value, "value")
+
+  return(x)
 }
 
 modify_codelists2 <- function(x, column, value) {
@@ -92,15 +95,31 @@ modify_codelists2 <- function(x, column, value) {
 }
 
 get_table1_value <- function(x, keyword) {
-  x$table1 %>%
+  value <-
+    x$table1 %>%
     dplyr::filter(keyword == !!keyword) %>%
     dplyr::pull(value)
+
+  if (identical(value, character(0))) {
+    return(NULL)
+  } else {
+    return(value)
+  }
 }
 
 get_table2_value <- function(x, keyword) {
-  x$table2 %>%
+  value <-
+    x$table2 %>%
     dplyr::filter(keyword == !!keyword) %>%
     dplyr::select(language, value)
+
+  if (nrow(value) == 0) {
+    return(NULL)
+  } else if (nrow(value) == 1) {
+    return(value$value)
+  } else {
+    return(value)
+  }
 }
 
 get_codelists2_value <- function(x, column) {

@@ -29,13 +29,13 @@ get_px_keywords <- function() {
          "SUBJECT-AREA",       TRUE,            TRUE,                TRUE,                    FALSE,         TRUE,             "",
          "CONFIDENTIAL",      FALSE,            TRUE,               FALSE,                    FALSE,        FALSE,             NA,
             "COPYRIGHT",      FALSE,            TRUE,               FALSE,                    FALSE,         TRUE,             NA,
-          "DESCRIPTION",       TRUE,            TRUE,                TRUE,                    FALSE,         TRUE,             "",
-                "TITLE",       TRUE,            TRUE,                TRUE,                    FALSE,         TRUE,             "",
+          "DESCRIPTION",         NA,            TRUE,                TRUE,                    FALSE,         TRUE,             "",
+                "TITLE",         NA,            TRUE,                TRUE,                    FALSE,         TRUE,             "",
    "DESCRIPTIONDEFAULT",      FALSE,           FALSE,               FALSE,                    FALSE,        FALSE,             NA,
              "CONTENTS",       TRUE,            TRUE,                TRUE,                    FALSE,         TRUE,             "",
                 "UNITS",       TRUE,            TRUE,                TRUE,                     TRUE,         TRUE,             "",
-                 "STUB",       TRUE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
-              "HEADING",       TRUE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
+                 "STUB",         NA,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
+              "HEADING",         NA,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
          "CONTVARIABLE",      FALSE,            TRUE,                TRUE,                    FALSE,         TRUE,             NA,
                "VALUES",       TRUE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
               "TIMEVAL",      FALSE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
@@ -91,7 +91,11 @@ get_px_keywords <- function() {
          "ATTRIBUTE-ID",      FALSE,           FALSE,               FALSE,                    FALSE,         TRUE,             NA,
        "ATTRIBUTE-TEXT",      FALSE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
            "ATTRIBUTES",      FALSE,           FALSE,               FALSE,                    FALSE,         TRUE,             NA,
-                 "DATA",       TRUE,           FALSE,               FALSE,                    FALSE,         TRUE,             NA
+                 "DATA",         NA,           FALSE,               FALSE,                    FALSE,         TRUE,             NA
   ) %>%
   dplyr::mutate(order = dplyr::row_number())
+}
+
+mandatory_keywords <- function() {
+  get_px_keywords() %>% dplyr::filter(mandatory) %>% dplyr::pull(keyword)
 }

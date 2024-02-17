@@ -36,10 +36,6 @@ px_from_data_df <- function(df) {
     mandatory_table_keywords %>%
     dplyr::filter(!language_dependent) %>%
     dplyr::select(keyword, value = default_value) %>%
-    dplyr::bind_rows(dplyr::tribble(~keyword, ~value,
-                                    "CHARSET", "ANSI"
-                                   )
-                     ) %>%
     align_data_frames(get_base_table1())
 
   table2 <-
@@ -117,5 +113,7 @@ px_from_data_df <- function(df) {
          codelists1 = codelists1,
          codelists2 = codelists2,
          data = data_df
-         )
+         ) %>%
+    title("") %>%
+    charset('ANSI')
 }

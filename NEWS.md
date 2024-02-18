@@ -21,6 +21,8 @@ current STUB variables.
 - Bugfix: `last_updated()` modified wrong table.
 - Bugfix: Remove NA values when creating px file (#205).
 - Bugfix: `px(input)` can be a path to an `.rds` file.
+- Use documentation functions for table1 and table2 functions, so they are
+and very easy to change.
 
 # pxmake 0.10.0
 

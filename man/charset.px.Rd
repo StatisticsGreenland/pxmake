@@ -12,8 +12,10 @@ charset(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A character string. If missing, the current CHARSET is
-returned. If NULL, CHARSET is removed.}
+\item{value}{Optional. A character string. If missing, the current CHARSET is returned. If NULL, CHARSET is removed.}
+}
+\value{
+A px object or a character string
 }
 \description{
 Inspect or change CHARSET.

@@ -12,8 +12,10 @@ creation_date(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A character string. If missing, the current
-CREATION-DATE is returned. If NULL, CREATION-DATE is removed.}
+\item{value}{Optional. A character string. If missing, the current CREATION-DATE is returned. If NULL, CREATION-DATE is removed.}
+}
+\value{
+A px object or a character string
 }
 \description{
 Inspect or change CREATION-DATE.

@@ -12,9 +12,11 @@ subject_code(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A character string. If missing, the current
-SUBJECT-CODE is returned. If NULL, SUBJECT-CODE is removed.}
+\item{value}{Optional. A character string. If missing, the current SUBJECT-CODE is returned. If NULL, an error is thrown because SUBJECT-CODE cannot be removed.}
+}
+\value{
+A px object or a character string
 }
 \description{
-Inspect or change SUBJECT-CODE.
+Inspect or change SUBJECT-CODE. SUBJECT-CODE cannot be removed because it is a mandatory keyword.
 }

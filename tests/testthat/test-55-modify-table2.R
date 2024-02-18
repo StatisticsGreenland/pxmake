@@ -61,14 +61,13 @@ test_that('Other keywords are modified and removed', {
 
   x3 <-
     x2 %>%
-    description(NULL) %>%
-    subject_area(NULL)
+    description(NULL)
 
   expect_identical(description(x3), NULL)
-  expect_identical(subject_area(x3), NULL)
 
   expect_error(contents(x3, NULL), regex = 'mandatory')
   expect_error(units(x3, NULL),    regex = 'mandatory')
+  expect_error(subject_area(x3, NULL), regex = 'mandatory')
 })
 
 test_that('Either TITLE or DESCRIPTION should be defined', {

@@ -8,6 +8,9 @@ current STUB variables.
 - Add new modifying functions: `valuenote()`  and `valuenotex()`.
 - Add new modifying functions: `contents()`, `description()`, `subject_area()`,
 `subject_code()`, `title()` and `units()`.
+- Add remaining modifying functions for all language independent table keywords:
+`aggregallowed()`, `autopen()`, `axis_version()`, `codepage()`, `confidential()`,
+`copyright()`, `showdecimals()`, `tableid()`, `update-frequency()`.
 - `pxsave()` automatically adds values if they aren't defined in codelists2.
 - Throw error if trying to remove mandatory keyword. (#208)
 

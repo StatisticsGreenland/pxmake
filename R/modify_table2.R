@@ -22,7 +22,7 @@ contents <- function(x, value) {
 #'
 #' @description `r table_description("CONTENTS")`
 #'
-#' @param A px object
+#' @param x A px object
 #' @param value `r table2_param_value("CONTENTS")`
 #'
 #' @return A px object, a character string, or a data frame.

@@ -10,9 +10,9 @@ contents(x, value)
 \method{contents}{px}(x, value)
 }
 \arguments{
-\item{value}{Optional. A character string to set the value for all languages or a data frame with columns 'language' and 'value' to set it for specific languages. If 'value' is missing, the current CONTENTS is returned. If NULL, an error is thrown because CONTENTS cannot be removed.}
+\item{x}{A px object}
 
-\item{A}{px object}
+\item{value}{Optional. A character string to set the value for all languages or a data frame with columns 'language' and 'value' to set it for specific languages. If 'value' is missing, the current CONTENTS is returned. If NULL, an error is thrown because CONTENTS cannot be removed.}
 }
 \value{
 A px object, a character string, or a data frame.

@@ -80,28 +80,37 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 19 keywords have a modifying function in pxmake:
+Currently the following 28 keywords have a modifying function in pxmake:
 
-    #>        Keyword Function name
-    #>        CHARSET       charset
-    #>       CONTENTS      contents
-    #>  CREATION-DATE creation_date
-    #>       DECIMALS      decimals
-    #>    DESCRIPTION   description
-    #>        HEADING       heading
-    #>       LANGUAGE      language
-    #>      LANGUAGES     languages
-    #>   LAST-UPDATED  last_updated
-    #>         MATRIX        matrix
-    #>    NEXT-UPDATE   next_update
-    #>           STUB          stub
-    #>   SUBJECT-AREA  subject_area
-    #>   SUBJECT-CODE  subject_code
-    #>        TIMEVAL       timeval
-    #>          TITLE         title
-    #>          UNITS         units
-    #>      VALUENOTE     valuenote
-    #>     VALUENOTEX    valuenotex
+    #>           Keyword    Function name
+    #>     AGGREGALLOWED    aggregallowed
+    #>           AUTOPEN          autopen
+    #>      AXIS-VERSION     axis_version
+    #>           CHARSET          charset
+    #>          CODEPAGE         codepage
+    #>      CONFIDENTIAL     confidential
+    #>          CONTENTS         contents
+    #>         COPYRIGHT        copyright
+    #>     CREATION-DATE    creation_date
+    #>          DECIMALS         decimals
+    #>       DESCRIPTION      description
+    #>           HEADING          heading
+    #>          LANGUAGE         language
+    #>         LANGUAGES        languages
+    #>      LAST-UPDATED     last_updated
+    #>            MATRIX           matrix
+    #>       NEXT-UPDATE      next_update
+    #>      SHOWDECIMALS     showdecimals
+    #>              STUB             stub
+    #>      SUBJECT-AREA     subject_area
+    #>      SUBJECT-CODE     subject_code
+    #>           TABLEID          tableid
+    #>           TIMEVAL          timeval
+    #>             TITLE            title
+    #>             UNITS            units
+    #>  UPDATE-FREQUENCY update_frequency
+    #>         VALUENOTE        valuenote
+    #>        VALUENOTEX       valuenotex
 
 In addition to the above, the following 2 modifying functions are
 available:
@@ -117,25 +126,19 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 65 keywords currently doesn’t have a modifying function, but can
+These 56 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
-    #>        AGGREGALLOWED       aggregallowed                Easy
     #>         ATTRIBUTE-ID        attribute_id                    
     #>       ATTRIBUTE-TEXT      attribute_text                    
     #>           ATTRIBUTES          attributes                    
-    #>              AUTOPEN             autopen                Easy
-    #>         AXIS-VERSION        axis_version       **       Easy
     #>           BASEPERIOD          baseperiod        *       Hard
     #>             CELLNOTE            cellnote        *       Hard
     #>            CELLNOTEX           cellnotex        *       Hard
     #>             CFPRICES            cfprices        *       Easy
-    #>             CODEPAGE            codepage       **       Easy
-    #>         CONFIDENTIAL        confidential        *       Easy
     #>              CONTACT             contact       **     Medium
     #>         CONTVARIABLE        contvariable       **       Hard
-    #>            COPYRIGHT           copyright       **       Easy
     #>                 DATA                data       **       Easy
     #>             DATABASE            database                    
     #>             DATANOTE            datanote                    
@@ -177,13 +180,10 @@ be implemented.
     #>            REFPERIOD           refperiod                    
     #>             ROUNDING            rounding                    
     #>              SEASADJ             seasadj                    
-    #>         SHOWDECIMALS        showdecimals       **       Easy
     #>               SOURCE              source       **     Medium
     #>              STOCKFA             stockfa       **       Easy
     #>               SURVEY              survey                    
     #>             SYNONYMS            synonyms                    
-    #>              TABLEID             tableid       **       Easy
-    #>     UPDATE-FREQUENCY    update_frequency       **       Easy
     #>               VALUES              values       **       Hard
     #>        VARIABLE-TYPE       variable_type       **       Hard
 

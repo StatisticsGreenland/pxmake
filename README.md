@@ -80,7 +80,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 28 keywords have a modifying function in pxmake:
+Currently the following 30 keywords have a modifying function in pxmake:
 
     #>           Keyword    Function name
     #>     AGGREGALLOWED    aggregallowed
@@ -89,6 +89,7 @@ Currently the following 28 keywords have a modifying function in pxmake:
     #>           CHARSET          charset
     #>          CODEPAGE         codepage
     #>      CONFIDENTIAL     confidential
+    #>           CONTACT          contact
     #>          CONTENTS         contents
     #>         COPYRIGHT        copyright
     #>     CREATION-DATE    creation_date
@@ -98,6 +99,7 @@ Currently the following 28 keywords have a modifying function in pxmake:
     #>          LANGUAGE         language
     #>         LANGUAGES        languages
     #>      LAST-UPDATED     last_updated
+    #>              LINK             link
     #>            MATRIX           matrix
     #>       NEXT-UPDATE      next_update
     #>      SHOWDECIMALS     showdecimals
@@ -126,7 +128,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 56 keywords currently doesn’t have a modifying function, but can
+These 54 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
@@ -137,7 +139,6 @@ be implemented.
     #>             CELLNOTE            cellnote        *       Hard
     #>            CELLNOTEX           cellnotex        *       Hard
     #>             CFPRICES            cfprices        *       Easy
-    #>              CONTACT             contact       **     Medium
     #>         CONTVARIABLE        contvariable       **       Hard
     #>                 DATA                data       **       Easy
     #>             DATABASE            database                    
@@ -167,7 +168,6 @@ be implemented.
     #>                 INFO                info                    
     #>             INFOFILE            infofile                    
     #>                 KEYS                keys                    
-    #>                 LINK                link              Medium
     #>                  MAP                 map       **       Easy
     #>              META-ID             meta_id                    
     #>                 NOTE                note       **       Hard

@@ -11,6 +11,7 @@ current STUB variables.
 - Add remaining modifying functions for all language independent table keywords:
 `aggregallowed()`, `autopen()`, `axis_version()`, `codepage()`, `confidential()`,
 `copyright()`, `showdecimals()`, `tableid()`, `update-frequency()`.
+- Add new modifying functions:  `contact()`, `link()`.
 - `pxsave()` automatically adds values if they aren't defined in codelists2.
 - Throw error if trying to remove mandatory keyword. (#208)
 

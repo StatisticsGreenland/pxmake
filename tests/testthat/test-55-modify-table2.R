@@ -51,19 +51,28 @@ test_that('Other keywords are modified and removed', {
     description('description') %>%
     subject_area('subject area') %>%
     title('title') %>%
-    units('units')
+    units('units') %>%
+    contact('Johan Ejstrud') %>%
+    link('The Legend of Zelda')
 
   expect_identical(contents(x2), 'content')
   expect_identical(description(x2), 'description')
   expect_identical(subject_area(x2), 'subject area')
   expect_identical(title(x2), 'title')
   expect_identical(units(x2), 'units')
+  expect_identical(contact(x2), 'Johan Ejstrud')
+  expect_identical(link(x2), 'The Legend of Zelda')
+
 
   x3 <-
     x2 %>%
-    description(NULL)
+    description(NULL) %>%
+    contact(NULL) %>%
+    link(NULL)
 
   expect_identical(description(x3), NULL)
+  expect_identical(contact(x3), NULL)
+  expect_identical(link(x3), NULL)
 
   expect_error(contents(x3, NULL), regex = 'mandatory')
   expect_error(units(x3, NULL),    regex = 'mandatory')

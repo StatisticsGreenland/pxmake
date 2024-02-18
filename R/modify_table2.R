@@ -33,6 +33,22 @@ contents.px <- function(x, value) {
 }
 
 
+#' @rdname contact.px
+#' @export
+contact <- function(x, value) {
+  UseMethod("contact")
+}
+
+#' @inherit contents.px
+#' @title CONTACT
+#' @description `r table_description("CONTACT")`
+#' @param value `r table2_param_value("CONTACT")`
+#' @export
+contact.px <- function(x, value) {
+  handle_table2_keyword(x, value, "CONTACT")
+}
+
+
 #' @rdname description.px
 #' @export
 description <- function(x, value) {
@@ -62,6 +78,22 @@ last_updated <- function(x, value) {
 #' @export
 last_updated.px <- function(x, value) {
   handle_table2_keyword(x, value, "LAST_UPDATED")
+}
+
+
+#' @rdname link.px
+#' @export
+link <- function(x, value) {
+  UseMethod("link")
+}
+
+#' @inherit contents.px
+#' @title LINK
+#' @description `r table_description("LINK")`
+#' @param value `r table2_param_value("LINK")`
+#' @export
+link.px <- function(x, value) {
+  handle_table2_keyword(x, value, "LINK")
 }
 
 
@@ -95,6 +127,7 @@ title <- function(x, value) {
 title.px <- function(x, value) {
   handle_table2_keyword(x, value, "TITLE")
 }
+
 
 #' @rdname units.px
 #' @export

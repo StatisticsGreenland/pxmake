@@ -12,9 +12,11 @@ matrix(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A character string. If missing, the current MATRIX is
-returned. If NULL, MATRIX is removed.}
+\item{value}{Optional. A character string. If missing, the current MATRIX is returned. If NULL, an error is thrown because MATRIX cannot be removed.}
+}
+\value{
+A px object or a character string
 }
 \description{
-Inspect or change MATRIX.
+Inspect or change MATRIX. MATRIX cannot be removed because it is a mandatory keyword.
 }

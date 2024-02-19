@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 ![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)
+[![Codecov test
+coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StatisticsGreenland/pxmake?branch=main)
 <!-- badges: end -->
 
 pxmake is an R package for creating and modifying px files.

@@ -4,3 +4,5 @@
 ^helpers.R$
 
 ^README\.Rmd$
+^\.github$
+^codecov\.yml$

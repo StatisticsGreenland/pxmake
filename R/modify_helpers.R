@@ -45,6 +45,22 @@ modify_or_add_in_column <- function(df,
 }
 
 modify_with_df <- function(df1, df2, modify_column) {
+  valid_names <-
+    names(df1) %>%
+    paste(collapse = ", ")
+
+  invalid_columns <-
+    setdiff(names(df2), names(df1)) %>%
+    paste(collapse = ", ")
+
+  if (invalid_columns != "") {
+    error(stringr::str_glue(
+      "Data frame contains invalid columns: ",
+      "{invalid_columns}, it can only ",
+      "contain the columns: {valid_names}"
+    ))
+  }
+
   merge_variables <- setdiff(names(df2), modify_column)
 
   replace_values <-
@@ -94,6 +110,12 @@ modify_codelists2 <- function(x, column, value) {
   return(x)
 }
 
+modify_variables2 <- function(x, column, value) {
+  x$variables2 <- modify_with_df(x$variables2, value, column)
+  return(x)
+}
+
+
 get_table1_value <- function(x, keyword) {
   value <-
     x$table1 %>%
@@ -115,8 +137,8 @@ get_table2_value <- function(x, keyword) {
 
   if (nrow(value) == 0) {
     return(NULL)
-  } else if (nrow(value) == 1) {
-    return(value$value)
+  } else if (all(length(used_languages(x)) == 1, nrow(value) == 1)) {
+    return(unique(value$value))
   } else {
     return(value)
   }
@@ -126,4 +148,19 @@ get_codelists2_value <- function(x, column) {
   x$codelists2 %>%
     dplyr::select(`variable-code`, code, language, !!column) %>%
     tidyr::drop_na(!!column)
+}
+
+get_variables2_value <- function(x, column) {
+  value <-
+    x$variables2 %>%
+    dplyr::select(`variable-code`, language, !!column) %>%
+    tidyr::drop_na(!!column)
+
+  if (nrow(value) == 0) {
+    return(NULL)
+  } else if (all(length(used_languages(x)) == 1, nrow(value) == 1)) {
+    return(dplyr::select(value, -language))
+  } else {
+    return(value)
+  }
 }

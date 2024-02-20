@@ -1,7 +1,11 @@
 # Functions to create roxygen2 documention
 
+description_start <- function(keyword) {
+  stringr::str_glue("Inspect or change {keyword}.")
+}
+
 table_description <- function(keyword) {
-  str <- stringr::str_glue("Inspect or change {keyword}.")
+  str <- description_start(keyword)
 
   if (keyword %in% mandatory_keywords()) {
     str <-
@@ -38,3 +42,31 @@ table2_param_value <- function(keyword) {
 
   stringr::str_glue("{start} {table_param_value_ending(keyword)}")
 }
+
+note_description <- function(keyword) {
+  stringr::str_glue("{description_start(keyword)}. {keyword} can be set for the ",
+                    "entire table or for a specific variable."
+                    )
+}
+
+note_param_value <- function(keyword) {
+  colname <- tolower(keyword)
+  stringr::str_glue(
+    "
+    Optional. A character string, a data frame, or a list.
+     \\itemize{{
+       \\item Use character, to set {keyword} for the entire table across all languages.
+       \\item Use a data frame with columns 'language' and 'value' to set
+       {keyword} for the entire table in a specific language.
+       \\item Use a data frame with the columns 'variable-code' and '{colname}',
+       to set {keyword} for a specific variable across all languages. Add the
+       column 'language' to set {keyword} for specific language.
+       \\item Use a list of the above elements to set {keyword} in muliple ways.
+       This is the same as calling {keyword} multiple times with different values.
+       \\item If missing, the current {keyword} is returned.
+       \\item If NULL, {keyword} is removed for the table and all variables.
+    }}
+    "
+  )
+}
+

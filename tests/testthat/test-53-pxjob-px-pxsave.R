@@ -52,5 +52,11 @@ test_that("pxjob exists without errors (exit code 0)", {
                              )
                ) %>%
     languages(c("en", "sv")) %>%
+    note(dplyr::tibble(`variable-code` = "time",
+                       language = c("en", "sv"),
+                       note = c("English time note", "Svensk tidsnote")
+                       )
+         ) %>%
+    notex("Mandatory note for entire table") %>%
     expect_that_pxjob_runs_without_errors()
 })

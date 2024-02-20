@@ -125,4 +125,11 @@ test_that("Data frame modifier works", {
                     )
 
   arrange_and_expect_equal(modify_with_df(df1, df8, "c"), df9)
+
+  df10 <- data.frame(d = c(1, 1, 2, 3),
+                     e = c(3, 4, 3, 3),
+                     c = c(7, 8, 9, 9)
+                     )
+
+  expect_error(modify_with_df(df1, df10, "c"), regexp = "invalid columns: d, e")
 })

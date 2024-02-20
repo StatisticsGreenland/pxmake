@@ -27,11 +27,12 @@ get_base_variables1 <- function() {
 
 get_base_variables2 <- function() {
   dplyr::tibble(`variable-code`  = as.character(), #key
-                language         = as.character(),
+                language         = as.character(), #key
                 `variable-label` = as.character(),
                 domain           = as.character(),
                 elimination      = as.character(),
-                note             = as.character()
+                note             = as.character(),
+                notex            = as.character()
                 )
 }
 
@@ -46,7 +47,7 @@ get_base_codelists1 <- function() {
 get_base_codelists2 <- function() {
   dplyr::tibble(`variable-code` = as.character(), #key
                 code            = as.character(), #key
-                language        = as.character(),
+                language        = as.character(), #key
                 value           = as.character(),
                 valuenote       = as.character(),
                 valuenotex      = as.character()

@@ -12,6 +12,7 @@ current STUB variables.
 `aggregallowed()`, `autopen()`, `axis_version()`, `codepage()`, `confidential()`,
 `copyright()`, `showdecimals()`, `tableid()`, `update-frequency()`.
 - Add new modifying functions:  `contact()`, `link()`.
+- Add new modifying functions: `note()` and `notex()`.
 - `pxsave()` automatically adds values if they aren't defined in codelists2.
 - Throw error if trying to remove mandatory keyword. (#208)
 

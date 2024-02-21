@@ -1,6 +1,11 @@
-#' Create microdata
+#' Create micro px files
 #'
-#' Turn a px object into many px files, one for each variable except time vars.
+#' Split one px object into many small px files (micro files), with count of
+#' the variables in it.
+#'
+#' The HEADING variables are use in all the micro files, and a file is created
+#' for each non-HEADING variable. The new px files are saved in a directory
+#' specified by `out_dir`.
 #'
 #' @param x A px object.
 #' @param out_dir Directory to save px files in.
@@ -14,23 +19,24 @@ micromake <- function(x, out_dir = NULL) {
 
   if (is.null(out_dir)) out_dir <- temp_dir()
 
-  time_variable <- timeval(x)
+  heading_variables <- heading(x)
 
-  micro_vars <- setdiff(names(x$data), c(time_variable, figures(x)))
+  micro_vars <- setdiff(names(x$data), heading_variables)
+
+  figures_var <- "n"
 
   new_px <-
     x %>%
-    figures("n") %>%
-    stub(micro_vars) %>%
-    { if (identical(time_variable, character(0))) . else heading(., time_variable)}
+    figures(figures_var) %>%
+    stub(micro_vars)
 
   for (micro_var in micro_vars) {
     new_data <-
       x$data %>%
-      dplyr::select(all_of(c(time_variable, micro_var))) %>%
-      dplyr::count(across(everything())) %>%
+      dplyr::select(all_of(c(heading_variables, micro_var))) %>%
+      dplyr::count(across(everything()), name = figures_var) %>%
       dplyr::arrange_all() %>%
-      format_data_df(figures_variable = "n")
+      format_data_df(figures_variable = figures_var)
 
     data_names <- names(new_data)
 

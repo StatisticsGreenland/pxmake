@@ -2,7 +2,7 @@
 % Please edit documentation in R/micromake.R
 \name{micromake}
 \alias{micromake}
-\title{Create microdata}
+\title{Create micro px files}
 \usage{
 micromake(x, out_dir = NULL)
 }
@@ -15,5 +15,11 @@ micromake(x, out_dir = NULL)
 Nothing
 }
 \description{
-Turn a px object into many px files, one for each variable except time vars.
+Split one px object into many small px files (micro files), with count of
+the variables in it.
+}
+\details{
+The HEADING variables are use in all the micro files, and a file is created
+for each non-HEADING variable. The new px files are saved in a directory
+specified by \code{out_dir}.
 }

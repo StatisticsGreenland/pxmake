@@ -182,6 +182,22 @@ validate_px <- function(x) {
          )
   }
 
+  error_if_variable_code_not_in_data <- function(x, table_name) {
+    variables_not_in_data <- setdiff(x[[table_name]]$`variable-code`, names(x$data))
+
+    if (length(variables_not_in_data) > 0) {
+      error(paste0("px object: x$", table_name, "contains variables not in x$data: ",
+                   paste0(variables_not_in_data, collapse = ", ")
+                   )
+            )
+    }
+  }
+
+  error_if_variable_code_not_in_data(x, "variables1")
+  error_if_variable_code_not_in_data(x, "variables2")
+  error_if_variable_code_not_in_data(x, "codelists1")
+  error_if_variable_code_not_in_data(x, "codelists2")
+
   languages_in_tables <-
     unique(c(x$table2$language,
              x$variables2$language,

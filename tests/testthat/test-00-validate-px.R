@@ -7,28 +7,28 @@ test_that("error - invalid px object", {
   base_px$codelists1 <- NULL
 
   expect_error(validate_px(base_px),
-               regexp = "px object is missing these names:"
+               regexp = "missing these names:"
                )
 
   base_px2 <- get_base_px()
   base_px2$fisk <- data.frame()
 
   expect_error(validate_px(base_px2),
-               regexp = "px object contains invalid names:"
+               regexp = "invalid names:"
                )
 
   base_px3 <- get_base_px()
   base_px3$languages <- c("en")
 
   expect_error(validate_px(base_px3),
-               regexp = "px object element 'languages' must be a data frame"
+               regexp = "list of data frames"
                )
 
   base_px4 <- get_base_px()
   base_px4$table1 <- data.frame(Keyword = as.character())
 
   expect_error(validate_px(base_px4),
-               regexp = "px object is missing these names in element 'table1':"
+               regexp = "px object: 'table1' is missing these columns: keyword"
                )
 
   base_px5 <- get_base_px()

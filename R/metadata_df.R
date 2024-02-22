@@ -320,7 +320,7 @@ get_metadata_df_from_px <- function(x) {
     dplyr::select(`variable-code`, code) %>%
     dplyr::anti_join(x$codelists2, by = c("variable-code", "code")) %>%
     dplyr::mutate(value = code) %>%
-    tidyr::crossing(language = used_languages(x))
+    tidyr::crossing(language = defined_languages(x))
 
   codelists <-
     x$codelists2 %>%

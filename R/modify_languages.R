@@ -3,7 +3,7 @@
 #' @param x A px object
 #'
 #' @returns A character vector
-used_languages <- function(x) {
+defined_languages <- function(x) {
   if (! is.null(languages(x))) {
     return(languages(x))
   } else if (! is.null(language(x))) {

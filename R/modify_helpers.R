@@ -97,7 +97,7 @@ modify_table2 <- function(x, keyword, value) {
     value$keyword <- keyword
   } else if (is.character(value)) {
     value <-
-      data.frame(keyword = keyword, value = value, language = used_languages(x))
+      data.frame(keyword = keyword, value = value, language = defined_languages(x))
   }
 
   x$table2 <- modify_with_df(x$table2, value, "value")
@@ -137,7 +137,7 @@ get_table2_value <- function(x, keyword) {
 
   if (nrow(value) == 0) {
     return(NULL)
-  } else if (all(length(used_languages(x)) == 1, nrow(value) == 1)) {
+  } else if (all(length(defined_languages(x)) == 1, nrow(value) == 1)) {
     return(unique(value$value))
   } else {
     return(value)
@@ -158,7 +158,7 @@ get_variables2_value <- function(x, column) {
 
   if (nrow(value) == 0) {
     return(NULL)
-  } else if (all(length(used_languages(x)) == 1, nrow(value) == 1)) {
+  } else if (all(length(defined_languages(x)) == 1, nrow(value) == 1)) {
     return(dplyr::select(value, -language))
   } else {
     return(value)

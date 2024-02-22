@@ -29,6 +29,7 @@ current STUB variables.
 - Use documentation functions for table1 and table2 functions, so they are
 and very easy to change.
 - Add test coverage badge to README.md.
+- Check that all defined variable-codes are in data.
 
 # pxmake 0.10.0
 

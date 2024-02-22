@@ -87,6 +87,32 @@ new_px <- function(languages, table1, table2, variables1, variables2,
   structure(x, class = "px")
 }
 
+#' Fix some common issues in px objects
+#'
+#' @param x A px object.
+#'
+#' @return A px object
+fix_px <- function(x) {
+  undefined_variables <- setdiff(colnames(x$data), x$variables2$`variable-code`)
+
+  if (length(undefined_variables) > 0) {
+    x$variables2 <-
+      dplyr::bind_rows(x$variables2,
+                       dplyr::tibble(`variable-code` = undefined_variables)
+                       )
+  }
+
+  # Add missing variable-labels to variables2
+  x$variables2 <-
+    x$variables2 %>%
+    dplyr::mutate(`variable-label` = ifelse(is.na(`variable-label`),
+                                            `variable-code`,
+                                            `variable-label`)
+                  )
+
+  x
+}
+
 #' Validate px object
 #'
 #' Throws an error if the px object is not valid.

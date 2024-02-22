@@ -27,7 +27,6 @@ micromake <- function(x, out_dir = NULL) {
 
   new_px <-
     x %>%
-    figures(figures_var) %>%
     stub(micro_vars)
 
   for (micro_var in micro_vars) {
@@ -49,6 +48,8 @@ micromake <- function(x, out_dir = NULL) {
            codelists2 = dplyr::filter(new_px$codelists2, `variable-code` %in% data_names),
            data       = new_data
            ) %>%
+      fix_px() %>%
+      figures(figures_var) %>%
       pxsave(path = file.path(out_dir, paste0('micro_', micro_var, '.px')))
   }
 

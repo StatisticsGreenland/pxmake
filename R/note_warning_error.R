@@ -161,6 +161,143 @@ error_if_mandatory_keyword <- function(x, keyword) {
   }
 }
 
+## validate_px checks
+error_if_not_list <- function(x) {
+  if (! is.list(x)) {
+    error("px object must be a list")
+  }
+}
+
+error_if_not_class_px <- function(x) {
+  if (! inherits(x, "px")) {
+    error("px object must have class 'px'")
+  }
+}
+
+error_if_not_list_of_data_frames <- function(x) {
+  if (! all(sapply(x, is.data.frame))) {
+    error("px object must be a list of data frames")
+  }
+}
+
+error_if_list_names_are_wrong <- function(x) {
+  px_target <- get_base_px()
+
+  input_names  <- names(x)
+  target_names <- names(px_target)
+
+  missing_names <- setdiff(target_names, input_names)
+  invalid_names <- setdiff(input_names, target_names)
+
+  if (length(missing_names) > 0) {
+    error(paste0("px object is missing these names: ",
+                 paste0(missing_names, collapse = ", ")
+                 )
+          )
+  }
+
+  if (length(invalid_names) > 0) {
+    error(paste0("px object contains these invalid names: ",
+                 paste0(invalid_names, collapse = ", ")
+                 )
+          )
+  }
+}
+
+error_if_data_frame_is_missing_column <- function(x) {
+  px_target <- get_base_px()
+
+  for (name in names(px_target)) {
+    target_columns <- colnames(px_target[[name]])
+    input_columns  <- colnames(x[[name]])
+
+    missing_columns <- setdiff(target_columns, input_columns)
+
+    if (length(missing_columns) > 0) {
+      error(paste0("px object: '", name, "' is missing these columns: ",
+                   paste0(missing_columns, collapse = ", ")
+                   )
+            )
+    }
+  }
+}
+
+error_if_multiple_time_variables <- function(x) {
+  if (length(timeval(x)) > 1) {
+    error(paste0("px object has more than one time variable: ",
+                 paste0(timeval(x), collapse = ", ")))
+  }
+}
+
+error_if_variable_label_is_na <- function(x) {
+  if (any(is.na(x$variables2$`variable-label`))) {
+    error("px object: in x$variables2 'variable-label' has NA values.")
+  }
+}
+
+error_if_misplaced_keywords_in_table <- function(x, table_name) {
+  if (table_name == "table1") {
+    other_keywords <-
+      get_px_keywords() %>%
+      dplyr::filter(! (in_table_sheet & !language_dependent)) %>%
+      dplyr::pull(keyword)
+  } else if (table_name == "table2") {
+    other_keywords <-
+      get_px_keywords() %>%
+      dplyr::filter(! (in_table_sheet & language_dependent)) %>%
+      dplyr::pull(keyword)
+  } else {
+    unexpected_error()
+  }
+
+  misplaced_keywords <- intersect(x[[table_name]]$keyword, other_keywords)
+
+  if (length(misplaced_keywords) > 0) {
+    error(paste0("px object: '", table_name, "' contains misplaced keywords: ",
+                 paste0(misplaced_keywords, collapse = ", ")
+                 )
+          )
+  }
+}
+
+error_if_variable_code_not_in_data <- function(x, table_name) {
+  variables_not_in_data <- setdiff(x[[table_name]]$`variable-code`, names(x$data))
+
+  if (length(variables_not_in_data) > 0) {
+    error(paste0("px object: x$", table_name, "contains variable-codes not in x$data: ",
+                 paste0(variables_not_in_data, collapse = ", ")
+                 )
+          )
+  }
+}
+
+error_if_used_languages_are_not_defined <- function(x) {
+  languages_in_tables <-
+    unique(c(x$table2$language,
+             x$variables2$language,
+             x$codelists2$language)
+           ) %>%
+    na.omit() %>%
+    as.character()
+
+  undefined_languages <- setdiff(languages_in_tables, defined_languages(x))
+
+  if (length(undefined_languages) > 0) {
+    error(paste0("px object contains languages that are not defined in 'x$languages' ",
+                 "or as keyword 'LANGUAGES' in x$table1: ",
+                 paste0(undefined_languages, collapse = ", "))
+          )
+  }
+}
+
+error_if_language_not_in_languages <- function(x) {
+  if (length(languages(x)) > 0) {
+    if (! any(is.null(language(x)), language(x) %in% languages(x))) {
+      error("px object: LANGUAGE is not in x$languages.")
+    }
+  }
+}
+
 #' Validate Excel metadata workbook
 #'
 #' @param excel_path Path to the Excel metadata workbook
@@ -325,4 +462,3 @@ validate_micromake_arguments <- function(x, out_dir) {
     }
   }
 }
-

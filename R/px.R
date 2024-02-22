@@ -95,132 +95,21 @@ new_px <- function(languages, table1, table2, variables1, variables2,
 #'
 #' @return A valid px object.
 validate_px <- function(x) {
-  if (! is.list(x)) {
-    stop("px object must be a list", call. = FALSE)
-  }
-
-  if (! inherits(x, "px")) {
-    stop("px object must have class 'px'", call. = FALSE)
-  }
-
-  px_target <- get_base_px()
-
-  input_names  <- names(x)
-  target_names <- names(px_target)
-
-  missing_names <- setdiff(target_names, input_names)
-  invalid_names <- setdiff(input_names, target_names)
-
-  if (length(missing_names) > 0) {
-    stop("px object is missing these names: ",
-         paste0(missing_names, collapse = ", "),
-         call. = FALSE
-         )
-  }
-
-  if (length(invalid_names) > 0) {
-    stop("px object contains invalid names: ",
-         paste0(invalid_names, collapse = ", "),
-         call. = FALSE
-         )
-  }
-
-  for (name in input_names) {
-    if (! is.data.frame(x[[name]])) {
-      stop("px object element '", name, "' must be a data frame", call. = FALSE)
-    }
-  }
-
-  for (name in input_names) {
-    missing_names <- setdiff(names(px_target[[name]]), names(x[[name]]))
-
-    if (length(missing_names) > 0) {
-      stop("px object is missing these names in element '", name, "': ",
-           paste0(missing_names, collapse = ", "),
-           call. = FALSE
-           )
-    }
-  }
-
-  if (length(timeval(x)) > 1) {
-    stop("px object has more than one time variable: ",
-         paste0(timeval(x), collapse = ", "),
-         call. = FALSE
-         )
-  }
-
-  if (any(is.na(x$variables2$`variable-label`))) {
-    stop("px object: in x$variables2 variable-label cannot be NA.",
-         call. = FALSE)
-  }
-
-  misplaced_keywords_in_table1 <-
-    intersect(x$table1$keyword,
-              get_px_keywords() %>%
-                dplyr::filter(!(in_table_sheet & !language_dependent)) %>%
-                dplyr::pull(keyword)
-              )
-
-  misplaced_keywords_in_table2 <-
-    intersect(x$table2$keyword,
-              get_px_keywords() %>%
-                dplyr::filter(!(in_table_sheet & language_dependent)) %>%
-                dplyr::pull(keyword)
-              )
-
-  if (length(misplaced_keywords_in_table1) > 0) {
-    stop("'table1' contains misplaced keywords: ",
-         paste0(misplaced_keywords_in_table1, collapse = ", "),
-         call. = FALSE
-         )
-  }
-
-  if (length(misplaced_keywords_in_table2) > 0) {
-    stop("'table2' contains misplaced keywords: ",
-         paste0(misplaced_keywords_in_table2, collapse = ", "),
-         call. = FALSE
-         )
-  }
-
-  error_if_variable_code_not_in_data <- function(x, table_name) {
-    variables_not_in_data <- setdiff(x[[table_name]]$`variable-code`, names(x$data))
-
-    if (length(variables_not_in_data) > 0) {
-      error(paste0("px object: x$", table_name, "contains variables not in x$data: ",
-                   paste0(variables_not_in_data, collapse = ", ")
-                   )
-            )
-    }
-  }
-
+  error_if_not_list(x)
+  error_if_not_class_px(x)
+  error_if_not_list_of_data_frames(x)
+  error_if_list_names_are_wrong(x)
+  error_if_data_frame_is_missing_column(x)
+  error_if_multiple_time_variables(x)
+  error_if_variable_label_is_na(x)
+  error_if_misplaced_keywords_in_table(x, table_name = "table1")
+  error_if_misplaced_keywords_in_table(x, table_name = "table2")
   error_if_variable_code_not_in_data(x, "variables1")
   error_if_variable_code_not_in_data(x, "variables2")
   error_if_variable_code_not_in_data(x, "codelists1")
   error_if_variable_code_not_in_data(x, "codelists2")
-
-  languages_in_tables <-
-    unique(c(x$table2$language,
-             x$variables2$language,
-             x$codelists2$language)
-           ) %>% na.omit() %>% as.character()
-
-  defined_languages <- unique(c(language(x), languages(x)))
-
-  undefined_languages <- setdiff(languages_in_tables, defined_languages)
-
-  if (length(undefined_languages) > 0) {
-    stop("px object contains languages that are not defined in 'x$languages' ",
-         "or as keyword 'LANGUAGES' in x$table1: ",
-         paste0(undefined_languages, collapse = ", "),
-         call. = FALSE
-         )
-  }
-
-  if (length(languages(x)) > 0) {
-    if (! any(is.null(language(x)), language(x) %in% languages(x))) {
-      stop("px object: LANGUAGE is not in x$languages. ", call. = FALSE)
-    }
-  }
+  error_if_used_languages_are_not_defined(x)
+  error_if_language_not_in_languages(x)
 
   return(x)
 }

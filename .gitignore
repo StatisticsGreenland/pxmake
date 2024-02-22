@@ -3,5 +3,5 @@
 .RData
 .Ruserdata
 helpers.R
-
+logo/
 inst/doc

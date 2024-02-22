@@ -273,7 +273,15 @@ px_from_px_file <- function(path) {
 
   if (identical(figures_variable, character(0))) {
     figures_variable <- "figures_"
-  }
+
+    name_relation <-
+      name_relation %>%
+      dplyr::bind_rows(tidyr::crossing(`variable-code` = figures_variable,
+                                       `variable-label` = figures_variable,
+                                       language = unique(name_relation$language)
+                                       )
+                       )
+    }
 
   empty_type_df <- tidyr::tibble(`variable-code` = character(0),
                                  type = character(0)

@@ -108,6 +108,8 @@ validate_px <- function(x) {
   error_if_variable_code_not_in_data(x, "variables2")
   error_if_variable_code_not_in_data(x, "codelists1")
   error_if_variable_code_not_in_data(x, "codelists2")
+  error_if_data_column_is_not_defined(x, "variables1")
+  error_if_data_column_is_not_defined(x, "variables2")
   error_if_used_languages_are_not_defined(x)
   error_if_language_not_in_languages(x)
 

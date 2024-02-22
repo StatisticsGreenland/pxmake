@@ -101,4 +101,24 @@ test_that("error - invalid px object", {
                                          )
 
   expect_error(validate_px(bexsta4), regexp = "codelists2.*not in x\\$data:\\s*ice")
+
+  bexsta5 <- bexsta
+  bexsta5$data$new_variable <- 1
+
+  expect_error(validate_px(bexsta5), regexp = "not defined in x\\$variables1:\\s*new_variable")
+
+  bexsta5$variables1 <- dplyr::bind_rows(bexsta5$variables1,
+                                         dplyr::tibble(`variable-code` = "new_variable",
+                                                       pivot = "STUB")
+                                         )
+
+  expect_error(validate_px(bexsta5), regexp = "not defined in x\\$variables2:\\s*new_variable")
+
+  bexsta5$variables2 <- dplyr::bind_rows(bexsta5$variables2,
+                                         dplyr::tibble(`variable-code` = "new_variable",
+                                                       `variable-label` = "New variable"
+                                                       )
+                                         )
+
+  expect_identical(validate_px(bexsta5), bexsta5)
 })

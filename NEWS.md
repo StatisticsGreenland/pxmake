@@ -30,6 +30,7 @@ current STUB variables.
 and very easy to change.
 - Add test coverage badge to README.md.
 - Check that all defined variable-codes are in data.
+- Add check that data columns are defined.
 
 # pxmake 0.10.0
 

@@ -298,6 +298,17 @@ error_if_language_not_in_languages <- function(x) {
   }
 }
 
+error_if_data_column_is_not_defined <- function(x, table_name) {
+  undefined_variables <- setdiff(colnames(x$data), x[[table_name]]$`variable-code`)
+
+  if (length(undefined_variables) > 0) {
+    error(paste0("px object: x$data contains columns that are not defined in x$",
+                 table_name, ": ", paste0(undefined_variables, collapse = ", ")
+                 )
+          )
+  }
+}
+
 #' Validate Excel metadata workbook
 #'
 #' @param excel_path Path to the Excel metadata workbook

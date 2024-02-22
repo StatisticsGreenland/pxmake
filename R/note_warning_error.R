@@ -264,7 +264,7 @@ error_if_variable_code_not_in_data <- function(x, table_name) {
   variables_not_in_data <- setdiff(x[[table_name]]$`variable-code`, names(x$data))
 
   if (length(variables_not_in_data) > 0) {
-    error(paste0("px object: x$", table_name, "contains variable-codes not in x$data: ",
+    error(paste0("px object: x$", table_name, " contains variable-codes not in x$data: ",
                  paste0(variables_not_in_data, collapse = ", ")
                  )
           )

@@ -4,7 +4,7 @@
 \alias{validate_pxsave_arguments}
 \title{Check all arguments to pxsave()}
 \usage{
-validate_pxsave_arguments(x, path)
+validate_pxsave_arguments(x, path, save_data, data_path)
 }
 \arguments{
 \item{x}{A px object.}
@@ -14,6 +14,14 @@ validate_pxsave_arguments(x, path)
 \item \code{.px} to save as a px file
 \item \code{.xlsx} to save as an Excel metadata workbook
 }}
+
+\item{save_data}{If FALSE, no 'Data' sheet is created in the Excel workbook.
+Can only be used if \code{path} is an \code{.xlsx} file.}
+
+\item{data_path}{Path to an \code{.rds} file to save data table at. This is usefull
+when saving an Excel workbook where the data has more rows than Excel can
+handle. Can only be used if 'path' is an \code{.xlsx} file, and 'save_data' is
+TRUE.}
 }
 \value{
 Nothing

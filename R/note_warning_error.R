@@ -50,9 +50,13 @@ error_if_not_exactly_one_data_line <- function(data_line_index) {
   }
 }
 
+excel_max_lines <- function() {
+  1048576
+}
+
 error_if_too_many_rows_for_excel <- function(df) {
   data_lines <- nrow(df)
-  excel_max_lines <- 1048576
+  excel_max_lines <- excel_max_lines()
 
   if(data_lines > excel_max_lines) {
    error(stringr::str_glue("The data cube contains {data_lines} data lines ",
@@ -443,11 +447,41 @@ validate_px_arguments <- function(input, data) {
 #' @inheritParams pxsave
 #'
 #' @return Nothing
-validate_pxsave_arguments <- function(x, path) {
+validate_pxsave_arguments <- function(x, path, save_data, data_path) {
   validate_px(x)
 
   if (! any(is_px_file(path), is_xlsx_file(path))) {
-    error("Argument 'path' must be a path to a .r .xlsx file.")
+    error("Argument 'path' must be a path to an .rds or .xlsx file.")
+  }
+
+  if (! is.logical(save_data)) {
+    error("Argument 'save_data' must be TRUE or FALSE.")
+  }
+
+  if (! any(is.null(data_path), is_rds_file(data_path))) {
+    error("Argument 'data_path' must be a path to an .rds file.")
+  }
+
+  if (all(!is.null(data_path), !is_xlsx_file(path))) {
+    error("Argument 'data_path' can only be used if 'path' is an .xlsx file.")
+  }
+
+  if (all(!is.null(data_path), isFALSE(save_data))) {
+    error("Argument 'data_path' can only be used if 'save_data' is TRUE.")
+  }
+
+  if (all(isFALSE(save_data), !is_xlsx_file(path))) {
+    error("Argument 'save_data' can only be FALSE if 'path' is an .xlsx file.")
+  }
+
+  if (all(is_xlsx_file(path),
+          save_data,
+          is.null(data_path),
+          nrow(x$data) > excel_max_lines())
+      ) {
+    error(paste0("x$data has too many rows to be saved as an .xlsx file. Use ",
+                 "'save_data = FALSE' or 'data_path' instead.")
+          )
   }
 }
 

@@ -141,9 +141,10 @@ px_from_excel <- function(excel_path, data = NULL) {
 #'
 #' @param x A px object
 #' @param path Path to save Excel workbook
+#' @inheritParams pxsave
 #'
 #' @return Nothing
-save_px_as_xlsx <- function(x, path) {
+save_px_as_xlsx <- function(x, path, save_data, data_path) {
   excel_table <-
     data.frame(keyword ="LANGUAGES",
                value = paste0(x$languages$language, collapse = ",")
@@ -215,8 +216,16 @@ save_px_as_xlsx <- function(x, path) {
   add_sheet(excel_variables, "Variables")
   add_sheet(excel_codelists, "Codelists")
 
-  error_if_too_many_rows_for_excel(x$data)
-  add_sheet(x$data, "Data")
+  if (save_data) {
+    if (is.null(data_path)) {
+      error_if_too_many_rows_for_excel(x$data)
+      add_sheet(x$data, "Data")
+    } else if (is_rds_file(data_path)) {
+      saveRDS(x$data, data_path)
+    } else {
+      unexpected_error()
+    }
+  }
 
   openxlsx::saveWorkbook(wb, path, overwrite = TRUE)
 }

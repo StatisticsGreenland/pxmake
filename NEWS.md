@@ -15,6 +15,9 @@ current STUB variables.
 - Add new modifying functions: `note()` and `notex()`.
 - `pxsave()` automatically adds values if they aren't defined in codelists2.
 - Throw error if trying to remove mandatory keyword. (#208)
+- Add argument `save_data` to `pxsave()` to supress saving of 'Data' sheet in 
+Excel. (#204)
+- Add arugment `data_path` to `pxsave()` to save data table as an .rds file. (#204)
 
 ## Bug fixes and minor improvements
 - Validate px after using modifying functions.

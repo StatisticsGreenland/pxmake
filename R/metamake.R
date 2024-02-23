@@ -30,7 +30,7 @@ metamake <- function(input, out_path = NULL, data_path = NULL, create_data = TRU
   }
 
   if (is_xlsx_file(out_path)) {
-    pxsave(p, out_path)
+    pxsave(p, out_path, save_data = create_data, data_path = data_path)
   }
 
   invisible(p)

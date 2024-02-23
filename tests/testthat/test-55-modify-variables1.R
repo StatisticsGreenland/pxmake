@@ -8,29 +8,38 @@ test_that('Variables is modified', {
   expect_equal(stub(x), c("place of birth", "gender"))
 
   # Change time to stub variable
-  p2 <- stub(x, variables = "time")
-  expect_equal(stub(p2), c("time", "place of birth", "gender"))
+  x2 <- stub(x, variables = "time")
+  expect_equal(stub(x2), c("time", "place of birth", "gender"))
+  expect_equal(names(x2$variables1), names(get_base_variables1()))
 
   # Change order
   new_order <- c("gender", "time", "place of birth")
-  p3 <- stub(x, variables = new_order)
-  expect_equal(stub(p3), new_order)
+  x3 <- stub(x, variables = new_order)
+  expect_equal(stub(x3), new_order)
 
-  p4 <- heading(x, variables = new_order)
-  expect_equal(heading(p4), new_order)
-  expect_equal(stub(p4), as.character())
+  x4 <- heading(x, variables = new_order)
+  expect_equal(heading(x4), new_order)
+  expect_equal(stub(x4), as.character())
 
-  p5 <- figures(x, variable = "time")
+  x5 <- figures(x, variable = "time")
 
-  expect_equal(figures(p5), "time")
-  expect_equal(heading(p5), as.character())
-  expect_equal(stub(p5), c("persons", "gender", "place of birth"))
+  expect_equal(figures(x5), "time")
+  expect_equal(heading(x5), as.character())
+  expect_equal(stub(x5), c("persons", "place of birth", "gender"))
 
   expect_equal(timeval(x), character(0))
 
-  p6 <- timeval(x, variable = "time")
-  expect_equal(timeval(p6), "time")
+  x6 <- heading(x5, c("gender"))
 
-  p7 <- timeval(p6, variable = "gender")
-  expect_equal(timeval(p7), "gender")
+  x6_stub_vars <- stub(x6)
+
+  expect_identical(dplyr::filter(x5$variables1, `variable-code` %in% x6_stub_vars),
+                   dplyr::filter(x6$variables1, `variable-code` %in% x6_stub_vars)
+                   )
+
+  x7 <- timeval(x, variable = "time")
+  expect_equal(timeval(x7), "time")
+
+  x8 <- timeval(x7, variable = "gender")
+  expect_equal(timeval(x8), "gender")
 })

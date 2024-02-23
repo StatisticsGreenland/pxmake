@@ -36,6 +36,8 @@ and very easy to change.
 - Add check that data columns are defined.
 - In `micromake()` used preserve HEADING variables, and produces px files for
 all other variables.
+- Bugfix: `heading()`, `stub()` and `figures()` no longer modify order of 
+other variables. (#225)
 
 # pxmake 0.10.0
 

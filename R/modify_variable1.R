@@ -23,11 +23,12 @@ change_pivot_variables <- function(x, pivot, variables) {
                       lookup_column_values = variables,
                       modify_column = "pivot",
                       new_value = pivot
-    ) %>%
+                      ) %>%
     dplyr::left_join(order_df, by = "variable-code") %>%
-    dplyr::mutate(order = ifelse(toupper(pivot) == pivot, order.y, order.x)) %>%
+    dplyr::mutate(order = ifelse(toupper(pivot) == !!pivot, order.y, order.x)) %>%
     dplyr::select(-order.y, -order.x) %>%
-    dplyr::arrange(desc(pivot), order)
+    dplyr::arrange(desc(pivot), order) %>%
+    align_data_frames(get_base_variables1())
 
   return(x)
 }
@@ -40,8 +41,8 @@ change_pivot_variables <- function(x, pivot, variables) {
 #' @return A character vector of variable codes
 pivot_variables <- function(x, pivot) {
   x$variables1 %>%
-    dplyr::arrange(order, `variable-code`) %>%
     dplyr::filter(toupper(pivot) == !!pivot) %>%
+    dplyr::arrange(order, `variable-code`) %>%
     dplyr::pull(`variable-code`)
 }
 

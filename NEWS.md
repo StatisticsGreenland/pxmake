@@ -39,6 +39,7 @@ all other variables.
 - Bugfix: `heading()`, `stub()` and `figures()` no longer modify order of 
 other variables. (#225)
 - Remove duplication in documentaiton of pivot modifying functions.
+- Bugfix: `last_updated()` created wrong keyword (#233)
 
 # pxmake 0.10.0
 

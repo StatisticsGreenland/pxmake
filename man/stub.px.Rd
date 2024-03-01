@@ -13,14 +13,14 @@ stub(x, variables)
 \item{x}{A px object}
 
 \item{variables}{Optional. A character vector of variable names to change to
-STUB. If missing, the current STUB variables are returned.}
+STUB. This also changes the STUB order. With names in \code{variables}
+becoming 1, 2, ... If missing, the current STUB variables are returned.}
 }
 \value{
 A px object or a character vector
 }
 \description{
-Inspect or change which variables are used as stubs. The stub order is also
-changed to the order of the input variables.
+Inspect or change STUB.
 }
 \seealso{
 \code{\link{heading}} \code{\link{figures}}

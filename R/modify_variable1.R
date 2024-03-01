@@ -1,15 +1,13 @@
-#' Change stub/heading variables
+#' Change pivot variables
 #'
 #' @param x A px object
-#' @param pivot Pivot type (STUB or HEADING)
+#' @param pivot Pivot type (STUB, HEADING, FIGURES)
 #' @param variables A character vector of variable codes to change to the pivot
 #' type
 #'
 #' @return A px object
-change_pivot_variables <- function(x, pivot, variables) {
-  pivot <- toupper(pivot)
-
-  old_pivot_variables <- pivot_variables(x, pivot)
+change_pivot_variables <- function(x, variables, pivot) {
+  old_pivot_variables <- get_pivot_variables(x, pivot)
 
   new_pivot_variables <- unique(c(variables, old_pivot_variables))
 
@@ -39,7 +37,7 @@ change_pivot_variables <- function(x, pivot, variables) {
 #' @param pivot A string, either "STUB", "HEADING" or "FIGURES"
 #'
 #' @return A character vector of variable codes
-pivot_variables <- function(x, pivot) {
+get_pivot_variables <- function(x, pivot) {
   x$variables1 %>%
     dplyr::filter(toupper(pivot) == !!pivot) %>%
     dplyr::arrange(order, `variable-code`) %>%
@@ -52,15 +50,12 @@ stub <- function(x, variables) {
   UseMethod("stub")
 }
 
-#' STUB
+#' @title STUB
 #'
-#' Inspect or change which variables are used as stubs. The stub order is also
-#' changed to the order of the input variables.
+#' @description `r description_start("STUB")`
 #'
 #' @param x A px object
-#' @param variables Optional. A character vector of variable names to change to
-#' STUB. If missing, the current STUB variables are returned.
-#'
+#' @param variables `r pivot_param_variables("STUB")`
 #' @return A px object or a character vector
 #'
 #' @seealso \code{\link{heading}} \code{\link{figures}}
@@ -68,10 +63,10 @@ stub <- function(x, variables) {
 #' @export
 stub.px <- function(x, variables) {
   if (missing(variables)) {
-    return(pivot_variables(x, "STUB"))
+    return(get_pivot_variables(x, "STUB"))
   }
 
-  validate_px(change_pivot_variables(x, "STUB", variables))
+  validate_px(change_pivot_variables(x, variables, "STUB"))
 }
 
 #' @rdname heading.px
@@ -80,26 +75,18 @@ heading <- function(x, variables) {
   UseMethod("heading")
 }
 
-#' HEADING
-#'
-#' Inspect or change which variables are used as headings. The heading order is
-#' also changed to the order of the input variables.
-#'
-#' @param x A px object
-#' @param variables Optional. A character vector of variable names to change to
-#' HEADING. If missing, the current HEADING variables are returned.
-#'
-#' @return A px object or a character vector
-#'
+#' @inherit stub.px
+#' @title HEADING
+#' @description `r description_start("HEADING")`
+#' @param variables `r pivot_param_variables("HEADING")`
 #' @seealso \code{\link{stub}} \code{\link{figures}}
-#'
 #' @export
 heading.px <- function(x, variables) {
   if (missing(variables)) {
-    return(pivot_variables(x, "HEADING"))
+    return(get_pivot_variables(x, "HEADING"))
   }
 
-  validate_px(change_pivot_variables(x, "HEADING", variables))
+  validate_px(change_pivot_variables(x, variables, "HEADING"))
 }
 
 #' @rdname figures.px
@@ -108,8 +95,8 @@ figures <- function(x, variable) {
   UseMethod("figures")
 }
 
-#' FIGURES
-#'
+#' @title FIGURES
+#' @description
 #' Inspect or change which variable is used as figures. The previous figures
 #' variable is changed to STUB.
 #'
@@ -124,16 +111,16 @@ figures <- function(x, variable) {
 #' @export
 figures.px <- function(x, variable) {
   if (missing(variable)) {
-    return(pivot_variables(x, "FIGURES"))
+    return(get_pivot_variables(x, "FIGURES"))
   }
 
   error_if_not_exactly_one_figures_variable(variable)
 
   old_figures_variable <- figures(x)
 
-  x <- change_pivot_variables(x, "FIGURES", variable)
+  x <- change_pivot_variables(x, variable, "FIGURES")
 
-  x <- change_pivot_variables(x, "STUB", old_figures_variable)
+  x <- change_pivot_variables(x, old_figures_variable, "STUB")
 
   validate_px(x)
 }

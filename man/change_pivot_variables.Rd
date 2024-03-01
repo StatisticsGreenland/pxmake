@@ -2,21 +2,21 @@
 % Please edit documentation in R/modify_variable1.R
 \name{change_pivot_variables}
 \alias{change_pivot_variables}
-\title{Change stub/heading variables}
+\title{Change pivot variables}
 \usage{
-change_pivot_variables(x, pivot, variables)
+change_pivot_variables(x, variables, pivot)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{pivot}{Pivot type (STUB or HEADING)}
-
 \item{variables}{A character vector of variable codes to change to the pivot
 type}
+
+\item{pivot}{Pivot type (STUB, HEADING, FIGURES)}
 }
 \value{
 A px object
 }
 \description{
-Change stub/heading variables
+Change pivot variables
 }

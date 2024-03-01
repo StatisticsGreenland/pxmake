@@ -70,3 +70,13 @@ note_param_value <- function(keyword) {
   )
 }
 
+pivot_param_variables <- function(keyword) {
+  stringr::str_glue(
+    "
+    Optional. A character vector of variable names to change to
+    STUB. This also changes the {keyword} order. With names in `variables`
+    becoming 1, 2, ... If missing, the current {keyword} variables are returned.
+    "
+  )
+}
+

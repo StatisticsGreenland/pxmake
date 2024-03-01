@@ -13,14 +13,14 @@ heading(x, variables)
 \item{x}{A px object}
 
 \item{variables}{Optional. A character vector of variable names to change to
-HEADING. If missing, the current HEADING variables are returned.}
+STUB. This also changes the HEADING order. With names in \code{variables}
+becoming 1, 2, ... If missing, the current HEADING variables are returned.}
 }
 \value{
 A px object or a character vector
 }
 \description{
-Inspect or change which variables are used as headings. The heading order is
-also changed to the order of the input variables.
+Inspect or change HEADING.
 }
 \seealso{
 \code{\link{stub}} \code{\link{figures}}

@@ -77,7 +77,7 @@ last_updated <- function(x, value) {
 #' @param value `r table2_param_value("LAST-UPDATED")`
 #' @export
 last_updated.px <- function(x, value) {
-  handle_table2_keyword(x, value, "LAST_UPDATED")
+  handle_table2_keyword(x, value, "LAST-UPDATED")
 }
 
 

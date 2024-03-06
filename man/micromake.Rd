@@ -4,12 +4,16 @@
 \alias{micromake}
 \title{Create micro px files}
 \usage{
-micromake(x, out_dir = NULL)
+micromake(x, out_dir = NULL, table_keywords = NULL)
 }
 \arguments{
 \item{x}{A px object.}
 
 \item{out_dir}{Directory to save px files in.}
+
+\item{table_keywords}{Optional. A data frame with columns 'variable' and
+'description'. The description is added to the table
+for each non-HEADING variable. Currently doesn't support multiple languages.}
 }
 \value{
 Nothing

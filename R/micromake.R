@@ -76,7 +76,7 @@ micromake <- function(x, out_dir = NULL, table_keywords = NULL) {
     }
 
     pxsave(x = x_micro,
-           path = file.path(out_dir, paste0('micro_', micro_var, '.px'))
+           path = file.path(out_dir, paste0(micro_var, '.px'))
            )
   }
 

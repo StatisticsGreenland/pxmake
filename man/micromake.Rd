@@ -4,12 +4,18 @@
 \alias{micromake}
 \title{Create micro px files}
 \usage{
-micromake(x, out_dir = NULL)
+micromake(x, out_dir = NULL, keyword_values = NULL)
 }
 \arguments{
 \item{x}{A px object.}
 
 \item{out_dir}{Directory to save px files in.}
+
+\item{keyword_values}{Optional. A data frame with column 'variable' and one
+or more of: 'contents', 'title', 'description', and 'matrix'. The columns
+with be added as keywords to the table for each non-HEADING varabe that
+match the 'variable' column. It probably work for other keywords as well.
+Currently doesn't support multiple languages.}
 }
 \value{
 Nothing

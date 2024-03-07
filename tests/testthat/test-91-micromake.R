@@ -80,3 +80,44 @@ test_that("micromake creates valid px files", {
     timeval("taar") %>%
     expect_that_pxjob_runs_without_errors()
 })
+
+test_that("micromake can control data for individual tables", {
+  set.seed(1)
+
+  df <-
+    get_data_path("micro") %>%
+    readRDS() %>%
+    dplyr::as_tibble() %>%
+    dplyr::select(taar, civst) %>%
+    dplyr::mutate(study = sample(c("A", "B"), size = nrow(.), replace = TRUE))
+
+  table_level <-
+    dplyr::tribble(~variable, ~description,
+                   "taar", "Year",
+                   "civst", "Civil status"
+                   ) %>%
+    dplyr::mutate(matrix = variable)
+
+  out_dir <- temp_dir()
+
+  px(df) %>%
+    stub(names(df)) %>%
+    heading("study") %>%
+    micromake(out_dir = out_dir,
+              keyword_values = table_level
+              )
+
+  px_paths <- list.files(out_dir, full.names = TRUE)
+
+  for (px_path in px_paths) {
+    x_micro <- px(px_path)
+    micro_var <- stub(x_micro)
+
+    micro_table_level <-
+      table_level %>%
+      dplyr::filter(variable == micro_var)
+
+    expect_equal(description(x_micro), micro_table_level$description)
+    expect_equal(matrix(x_micro), micro_table_level$matrix)
+  }
+})

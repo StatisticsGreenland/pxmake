@@ -18,6 +18,7 @@ current STUB variables.
 - Add argument `save_data` to `pxsave()` to supress saving of 'Data' sheet in 
 Excel. (#204)
 - Add arugment `data_path` to `pxsave()` to save data table as an .rds file. (#204)
+- Add micromake arguments to control keywords for invidual tables. (#239)
 
 ## Bug fixes and minor improvements
 - Validate px after using modifying functions.
@@ -40,6 +41,7 @@ all other variables.
 other variables. (#225)
 - Remove duplication in documentaiton of pivot modifying functions.
 - Bugfix: `last_updated()` created wrong keyword (#233)
+- Remve 'micro' prefix from filenames created by micromake(). 
 
 # pxmake 0.10.0
 

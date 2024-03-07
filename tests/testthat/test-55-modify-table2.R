@@ -53,7 +53,8 @@ test_that('Other keywords are modified and removed', {
     title('title') %>%
     units('units') %>%
     contact('Johan Ejstrud') %>%
-    link('The Legend of Zelda')
+    link('The Legend of Zelda') %>%
+    infofile("infofile")
 
   expect_identical(contents(x2), 'content')
   expect_identical(description(x2), 'description')
@@ -62,17 +63,20 @@ test_that('Other keywords are modified and removed', {
   expect_identical(units(x2), 'units')
   expect_identical(contact(x2), 'Johan Ejstrud')
   expect_identical(link(x2), 'The Legend of Zelda')
+  expect_identical(infofile(x2), "infofile")
 
 
   x3 <-
     x2 %>%
     description(NULL) %>%
     contact(NULL) %>%
-    link(NULL)
+    link(NULL) %>%
+    infofile(NULL)
 
   expect_identical(description(x3), NULL)
   expect_identical(contact(x3), NULL)
   expect_identical(link(x3), NULL)
+  expect_identical(infofile(x3), NULL)
 
   expect_error(contents(x3, NULL), regex = 'mandatory')
   expect_error(units(x3, NULL),    regex = 'mandatory')

@@ -13,6 +13,7 @@ current STUB variables.
 `copyright()`, `showdecimals()`, `tableid()`, `update-frequency()`.
 - Add new modifying functions:  `contact()`, `link()`.
 - Add new modifying functions: `note()` and `notex()`.
+- Add new modifying function: `infofile()`.
 - `pxsave()` automatically adds values if they aren't defined in codelists2.
 - Throw error if trying to remove mandatory keyword. (#208)
 - Add argument `save_data` to `pxsave()` to supress saving of 'Data' sheet in 

@@ -65,7 +65,7 @@ get_px_keywords <- function() {
                "SOURCE",      FALSE,            TRUE,                TRUE,                    FALSE,         TRUE,             NA,
                "SURVEY",      FALSE,           FALSE,               FALSE,                    FALSE,         TRUE,             NA,
                  "LINK",      FALSE,            TRUE,                TRUE,                    FALSE,         TRUE,             NA,
-             "INFOFILE",      FALSE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
+             "INFOFILE",      FALSE,            TRUE,                TRUE,                    FALSE,         TRUE,             NA,
       "FIRST-PUBLISHED",      FALSE,           FALSE,               FALSE,                    FALSE,         TRUE,             NA,
               "META-ID",      FALSE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
   "OFFICIAL-STATISTICS",      FALSE,           FALSE,               FALSE,                    FALSE,        FALSE,             NA,

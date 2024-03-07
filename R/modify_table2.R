@@ -65,6 +65,22 @@ description.px <- function(x, value) {
 }
 
 
+#' @rdname infofile.px
+#' @export
+infofile <- function(x, value) {
+  UseMethod("infofile")
+}
+
+#' @inherit contents.px
+#' @title INFOFILE
+#' @description `r table_description("INFOFILE")`
+#' @param value `r table2_param_value("INFOFILE")`
+#' @export
+infofile.px <- function(x, value) {
+  handle_table2_keyword(x, value, "INFOFILE")
+}
+
+
 #' @rdname last_updated.px
 #' @export
 last_updated <- function(x, value) {

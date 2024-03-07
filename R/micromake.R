@@ -9,13 +9,15 @@
 #'
 #' @param x A px object.
 #' @param out_dir Directory to save px files in.
-#' @param table_keywords Optional. A data frame with columns 'variable' and
-#' 'description'. The description is added to the table
-#' for each non-HEADING variable. Currently doesn't support multiple languages.
+#' @param keyword_values Optional. A data frame with column 'variable' and one
+#' or more of: 'contents', 'title', 'description', and 'matrix'. The columns
+#' with be added as keywords to the table for each non-HEADING varabe that
+#' match the 'variable' column. It probably work for other keywords as well.
+#' Currently doesn't support multiple languages.
 #'
 #' @return Nothing
 #' @export
-micromake <- function(x, out_dir = NULL, table_keywords = NULL) {
+micromake <- function(x, out_dir = NULL, keyword_values = NULL) {
   validate_micromake_arguments(x, out_dir)
 
   print_out_dir <- is.null(out_dir)
@@ -32,9 +34,9 @@ micromake <- function(x, out_dir = NULL, table_keywords = NULL) {
     x %>%
     stub(micro_vars)
 
-  if (! is.null(table_keywords)) {
-    table_keywords_long <-
-      table_keywords %>%
+  if (! is.null(keyword_values)) {
+    keyword_values_long <-
+      keyword_values %>%
       tidyr::pivot_longer(cols = setdiff(names(.), c("variable", "language")),
                           names_to = "keyword_function"
                           )
@@ -63,9 +65,9 @@ micromake <- function(x, out_dir = NULL, table_keywords = NULL) {
       fix_px() %>%
       figures(figures_var)
 
-    if(!is.null(table_keywords)) {
+    if(!is.null(keyword_values)) {
       extra_keywords <-
-        table_keywords_long %>%
+        keyword_values_long %>%
         dplyr::filter(variable %in% micro_var)
 
       for (i in 1:nrow(extra_keywords)) {

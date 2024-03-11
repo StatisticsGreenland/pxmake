@@ -11,8 +11,12 @@
 #' @param out_dir Directory to save px files in.
 #' @param keyword_values Optional. A data frame with column 'variable' and one
 #' or more of: 'contents', 'title', 'description', and 'matrix'. The columns
-#' with be added as keywords to the table for each non-HEADING varabe that
+#' will be added as keywords to the table for each non-HEADING variable that
 #' match the 'variable' column. It probably work for other keywords as well.
+#'
+#' Use the column 'filename' to control the filename of each micro file. The
+#' filename path is relative to 'out_dir'.
+#'
 #' Currently doesn't support multiple languages.
 #'
 #' @return Nothing
@@ -35,11 +39,23 @@ micromake <- function(x, out_dir = NULL, keyword_values = NULL) {
     stub(micro_vars)
 
   if (! is.null(keyword_values)) {
+    if ("filename" %in% colnames(keyword_values)) {
+      filenames <-
+        dplyr::select(keyword_values, variable, filename) %>%
+        tibble::deframe()
+    } else {
+      filenames <- NULL
+    }
+
     keyword_values_long <-
       keyword_values %>%
       tidyr::pivot_longer(cols = setdiff(names(.), c("variable", "language")),
                           names_to = "keyword_function"
-                          )
+                          ) %>%
+      dplyr::filter(keyword_function != "filename")
+  } else {
+    keyword_values_long <- NULL
+    filenames <- NULL
   }
 
   for (micro_var in micro_vars) {
@@ -65,7 +81,7 @@ micromake <- function(x, out_dir = NULL, keyword_values = NULL) {
       fix_px() %>%
       figures(figures_var)
 
-    if(!is.null(keyword_values)) {
+    if (all(! is.null(keyword_values), nrow(keyword_values_long) > 0)) {
       extra_keywords <-
         keyword_values_long %>%
         dplyr::filter(variable %in% micro_var)
@@ -77,8 +93,14 @@ micromake <- function(x, out_dir = NULL, keyword_values = NULL) {
       }
     }
 
+    if (any(is.null(filenames[micro_var]), is.na(filenames[micro_var]))) {
+      filename <- paste0(micro_var, ".px")
+    } else {
+      filename <- filenames[micro_var]
+    }
+
     pxsave(x = x_micro,
-           path = file.path(out_dir, paste0(micro_var, '.px'))
+           path = file.path(out_dir, filename)
            )
   }
 

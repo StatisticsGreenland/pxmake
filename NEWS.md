@@ -20,6 +20,7 @@ current STUB variables.
 Excel. (#204)
 - Add arugment `data_path` to `pxsave()` to save data table as an .rds file. (#204)
 - Add micromake arguments to control keywords for invidual tables. (#239)
+- Add possibility for micromake to control output filenames. (#242)
 
 ## Bug fixes and minor improvements
 - Validate px after using modifying functions.

@@ -121,3 +121,28 @@ test_that("micromake can control data for individual tables", {
     expect_equal(matrix(x_micro), micro_table_level$matrix)
   }
 })
+
+test_that("micromake can control filenames", {
+  df <-
+    get_data_path("micro") %>%
+    readRDS() %>%
+    dplyr::as_tibble() %>%
+    dplyr::select(1:4)
+
+  out_dir <- temp_dir()
+
+  filename_df <-
+    dplyr::tibble(variable = names(df),
+                  filename = paste0("micro_", variable, ".px")
+                  ) %>%
+    dplyr::arrange(variable) %>%
+    head(2)
+
+  px(df) %>%
+    stub(names(df)) %>%
+    micromake(out_dir = out_dir, keyword_values = filename_df)
+
+  expect_equal(list.files(out_dir),
+               c(filename_df$filename, "pnrmor.px", "taar.px")
+               )
+})

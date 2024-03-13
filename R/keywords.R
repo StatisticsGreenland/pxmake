@@ -49,7 +49,7 @@ get_px_keywords <- function() {
       "HIERARCHYLEVELS",      FALSE,           FALSE,                TRUE,                    FALSE,        FALSE,             NA,
   "HIERARCHYLEVELSOPEN",      FALSE,           FALSE,                TRUE,                    FALSE,        FALSE,             NA,
        "HIERARCHYNAMES",      FALSE,           FALSE,               FALSE,                    FALSE,         TRUE,             NA,
-                  "MAP",      FALSE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
+                  "MAP",      FALSE,            TRUE,                TRUE,                    FALSE,         TRUE,             NA,
           "PARTITIONED",      FALSE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
           "ELIMINATION",      FALSE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
             "PRECISION",      FALSE,           FALSE,                TRUE,                    FALSE,        FALSE,             NA,

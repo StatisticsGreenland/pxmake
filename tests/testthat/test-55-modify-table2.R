@@ -54,7 +54,8 @@ test_that('Other keywords are modified and removed', {
     units('units') %>%
     contact('Johan Ejstrud') %>%
     link('The Legend of Zelda') %>%
-    infofile("infofile")
+    infofile("infofile") %>%
+    map('X marks the spot')
 
   expect_identical(contents(x2), 'content')
   expect_identical(description(x2), 'description')
@@ -64,6 +65,7 @@ test_that('Other keywords are modified and removed', {
   expect_identical(contact(x2), 'Johan Ejstrud')
   expect_identical(link(x2), 'The Legend of Zelda')
   expect_identical(infofile(x2), "infofile")
+  expect_identical(map(x2), 'X marks the spot')
 
 
   x3 <-
@@ -71,12 +73,14 @@ test_that('Other keywords are modified and removed', {
     description(NULL) %>%
     contact(NULL) %>%
     link(NULL) %>%
-    infofile(NULL)
+    infofile(NULL) %>%
+    map(NULL)
 
   expect_identical(description(x3), NULL)
   expect_identical(contact(x3), NULL)
   expect_identical(link(x3), NULL)
   expect_identical(infofile(x3), NULL)
+  expect_identical(map(x3), NULL)
 
   expect_error(contents(x3, NULL), regex = 'mandatory')
   expect_error(units(x3, NULL),    regex = 'mandatory')

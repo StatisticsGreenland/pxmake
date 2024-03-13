@@ -113,6 +113,22 @@ link.px <- function(x, value) {
 }
 
 
+#' @rdname map.px
+#' @export
+map <- function(x, value) {
+  UseMethod("map")
+}
+
+#' @inherit contents.px
+#' @title MAP
+#' @description `r table_description("MAP")`
+#' @param value `r table2_param_value("MAP")`
+#' @export
+map.px <- function(x, value) {
+  handle_table2_keyword(x, value, "MAP")
+}
+
+
 #' @rdname subject_area.px
 #' @export
 subject_area <- function(x, value) {

@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## New features
+- Add modifying function: `map()`.
+
 # pxmake 0.10.1
 
 ## New features

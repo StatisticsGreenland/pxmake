@@ -87,6 +87,11 @@ remove_keyword_from_table <- function(table_name) {
 remove_keyword_table1 <- remove_keyword_from_table("table1")
 remove_keyword_table2 <- remove_keyword_from_table("table2")
 
+remove_keyword_variables2 <- function(x, keyword) {
+  x$variables2[[tolower(keyword)]] <- NA
+  return(x)
+}
+
 modify_table1 <- function(x, keyword, value) {
   x$table1 <- modify_or_add_row(x$table1, "keyword", keyword, "value", value)
   return(x)
@@ -111,7 +116,12 @@ modify_codelists2 <- function(x, column, value) {
 }
 
 modify_variables2 <- function(x, column, value) {
+  if (is.character(value)) {
+    value <- dplyr::tibble("{column}" := value)
+  }
+
   x$variables2 <- modify_with_df(x$variables2, value, column)
+
   return(x)
 }
 
@@ -158,9 +168,13 @@ get_variables2_value <- function(x, column) {
 
   if (nrow(value) == 0) {
     return(NULL)
-  } else if (all(length(defined_languages(x)) == 1, nrow(value) == 1)) {
-    return(dplyr::select(value, -language))
+  } else if (length(unique(x$variables2[[column]])) == 1) {
+    return(unique(x$variables2[[column]]))
   } else {
-    return(value)
+    if (length(defined_languages(x)) == 1) {
+      return(dplyr::select(value, -language))
+    } else {
+      return(value)
+    }
   }
 }

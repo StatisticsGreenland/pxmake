@@ -1,7 +1,7 @@
 # pxmake (development version)
 
 ## New features
-- Add modifying functions: `map()`, `baseperiod()`.
+- Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`.
 
 ## Bug fixes and minor improvements
 - Fix mistake in documentation for all table2 modifying functions.

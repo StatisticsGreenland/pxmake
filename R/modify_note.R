@@ -17,7 +17,7 @@ handle_notes <- function(x, value, keyword) {
 
   if (is.null(value)) {
     x <- remove_keyword_table2(x, keyword)
-    x$table2[[colname]] <- NULL
+    x <- remove_keyword_variables2(x, keyword)
   } else if (is.character(value)) {
     x <- modify_table2(x, keyword, value)
   } else if (is.data.frame(value)) {

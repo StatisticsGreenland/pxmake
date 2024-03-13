@@ -82,7 +82,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 35 keywords have a modifying function in pxmake:
+Currently the following 37 keywords have a modifying function in pxmake:
 
     #>           Keyword    Function name
     #>     AGGREGALLOWED    aggregallowed
@@ -98,6 +98,8 @@ Currently the following 35 keywords have a modifying function in pxmake:
     #>     CREATION-DATE    creation_date
     #>          DECIMALS         decimals
     #>       DESCRIPTION      description
+    #>            DOMAIN           domain
+    #>       ELIMINATION      elimination
     #>           HEADING          heading
     #>          INFOFILE         infofile
     #>          LANGUAGE         language
@@ -135,7 +137,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 49 keywords currently doesn’t have a modifying function, but can
+These 47 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
@@ -163,9 +165,7 @@ be implemented.
     #>        DEFAULT-GRAPH       default_graph                    
     #>   DESCRIPTIONDEFAULT  descriptiondefault                    
     #>       DIRECTORY-PATH      directory_path                    
-    #>               DOMAIN              domain       **     Medium
     #>         DOUBLECOLUMN        doublecolumn                    
-    #>          ELIMINATION         elimination       **     Medium
     #>      FIRST-PUBLISHED     first_published                    
     #>          HIERARCHIES         hierarchies                    
     #>      HIERARCHYLEVELS     hierarchylevels                    

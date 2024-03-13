@@ -43,6 +43,22 @@ table2_param_value <- function(keyword) {
   stringr::str_glue("{start} {table_param_value_ending(keyword)}")
 }
 
+variables2_param_value <- function(keyword) {
+  colname <- tolower(keyword)
+
+  stringr::str_glue(
+    "Optional. A character string or data frame.
+    \\itemize{{
+      \\item Use character to set {keyword} for all languages and variables.
+      \\item Use data frame with columns 'variable-code', 'language' and
+      '{colname}' to set {keyword} for specific variables.
+      \\item If missing, the current {keyword} is returned.
+      \\item If NULL, {keyword} is removed for all variables.
+    }}
+    "
+  )
+}
+
 note_description <- function(keyword) {
   stringr::str_glue("{description_start(keyword)}. {keyword} can be set for the ",
                     "entire table or for a specific variable."

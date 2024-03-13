@@ -44,6 +44,7 @@ other variables. (#225)
 - Remove duplication in documentaiton of pivot modifying functions.
 - Bugfix: `last_updated()` created wrong keyword (#233)
 - Remve 'micro' prefix from filenames created by micromake(). 
+- Bugfix: wrong error message (#243)
 
 # pxmake 0.10.0
 

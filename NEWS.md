@@ -1,37 +1,30 @@
-# pxmake (development version)
+# pxmake 0.10.1
 
 ## New features
 - Change all modifying functions to also be getters, so e.g. `stub(x)` returns
 current STUB variables.
-- Add new modifying functions: `last_updated()` and `next_update()`.
-- Add new modifying functions: `language()` and `languages()`.
-- Add new modifying functions: `valuenote()`  and `valuenotex()`.
-- Add new modifying functions: `contents()`, `description()`, `subject_area()`,
-`subject_code()`, `title()` and `units()`.
-- Add remaining modifying functions for all language independent table keywords:
-`aggregallowed()`, `autopen()`, `axis_version()`, `codepage()`, `confidential()`,
-`copyright()`, `showdecimals()`, `tableid()`, `update-frequency()`.
-- Add new modifying functions:  `contact()`, `link()`.
-- Add new modifying functions: `note()` and `notex()`.
-- Add new modifying function: `infofile()`.
 - `pxsave()` automatically adds values if they aren't defined in codelists2.
-- Throw error if trying to remove mandatory keyword. (#208)
 - Add argument `save_data` to `pxsave()` to supress saving of 'Data' sheet in 
 Excel. (#204)
 - Add arugment `data_path` to `pxsave()` to save data table as an .rds file. (#204)
 - Add micromake arguments to control keywords for invidual tables. (#239)
 - Add possibility for micromake to control output filenames. (#242)
+- Add new modifying functions: `last_updated()`, `next_update()`, `language()`,
+`languages()`, `valuenote()`, `valuenotex()`, `contents()`, `description()`,
+`subject_area()`, `subject_code()`, `title()`, `units()`, `aggregallowed()`, 
+`autopen()`, `axis_version()`, `codepage()`, `confidential()`, `copyright()`,
+`showdecimals()`, `tableid()`, `update-frequency()`, `contact()`, `link()`,
+`note()`, `notex()`, `infofile()`.
 
 ## Bug fixes and minor improvements
+- Throw error if trying to remove mandatory keyword. (#208)
 - Validate px after using modifying functions.
 - validate_px checks that keywords in table1 and table2 are in the right table.
 - Check that arguments to micromake are valid.
 - Sort data before creating codelist from data frame. (#197)
 - Add priority and complexity to list of unimplemented keywords.
 - Add check if keywords are in correct table.
-- Bugfix: `last_updated()` modified wrong table.
-- Bugfix: Remove NA values when creating px file (#205).
-- Bugfix: `px(input)` can be a path to an `.rds` file.
+- Remove 'micro' prefix from filenames created by micromake(). 
 - Use documentation functions for table1 and table2 functions, so they are
 and very easy to change.
 - Add test coverage badge to README.md.
@@ -43,8 +36,11 @@ all other variables.
 other variables. (#225)
 - Remove duplication in documentaiton of pivot modifying functions.
 - Bugfix: `last_updated()` created wrong keyword (#233)
-- Remve 'micro' prefix from filenames created by micromake(). 
+- Remove 'micro' prefix from filenames created by micromake(). 
 - Bugfix: wrong error message (#243)
+- Bugfix: `last_updated()` modified wrong table.
+- Bugfix: Remove NA values when creating px file (#205).
+- Bugfix: `px(input)` can be a path to an `.rds` file.
 
 # pxmake 0.10.0
 

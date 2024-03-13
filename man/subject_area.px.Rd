@@ -12,7 +12,7 @@ subject_area(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A character string to set the value for all languages or a data frame with columns 'language' and 'value' to set it for specific languages. If 'value' is missing, the current CONTENTS is returned. If NULL, an error is thrown because SUBJECT-AREA cannot be removed.}
+\item{value}{Optional. A character string to set the value for all languages or a data frame with columns 'language' and 'value' to set it for specific languages. If 'value' is missing, the current SUBJECT-AREA is returned. If NULL, an error is thrown because SUBJECT-AREA cannot be removed.}
 }
 \value{
 A px object, a character string, or a data frame.

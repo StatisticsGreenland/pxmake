@@ -3,6 +3,9 @@
 ## New features
 - Add modifying functions: `map()`, `baseperiod()`.
 
+## Bug fixes and minor improvements
+- Fix mistake in documentation for all table2 modifying functions.
+
 # pxmake 0.10.1
 
 ## New features

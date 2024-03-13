@@ -33,6 +33,22 @@ contents.px <- function(x, value) {
 }
 
 
+#' @rdname baseperiod.px
+#' @export
+baseperiod <- function(x, value) {
+  UseMethod("baseperiod")
+}
+
+#' @inherit contents.px
+#' @title BASEPERIOD
+#' @description `r table_description("BASEPERIOD")`
+#' @param value `r table2_param_value("BASEPERIOD")`
+#' @export
+baseperiod.px <- function(x, value) {
+  handle_table2_keyword(x, value, "BASEPERIOD")
+}
+
+
 #' @rdname contact.px
 #' @export
 contact <- function(x, value) {

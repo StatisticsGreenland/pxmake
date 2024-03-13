@@ -1,7 +1,7 @@
 # pxmake (development version)
 
 ## New features
-- Add modifying function: `map()`.
+- Add modifying functions: `map()`, `baseperiod()`.
 
 # pxmake 0.10.1
 

@@ -1,6 +1,6 @@
 Package: pxmake
 Title: Create px files
-Version: 0.10.1.9001
+Version: 0.10.1.9002
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",

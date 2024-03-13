@@ -82,12 +82,13 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 34 keywords have a modifying function in pxmake:
+Currently the following 35 keywords have a modifying function in pxmake:
 
     #>           Keyword    Function name
     #>     AGGREGALLOWED    aggregallowed
     #>           AUTOPEN          autopen
     #>      AXIS-VERSION     axis_version
+    #>        BASEPERIOD       baseperiod
     #>           CHARSET          charset
     #>          CODEPAGE         codepage
     #>      CONFIDENTIAL     confidential
@@ -134,14 +135,13 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 50 keywords currently doesn’t have a modifying function, but can
+These 49 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
     #>         ATTRIBUTE-ID        attribute_id                    
     #>       ATTRIBUTE-TEXT      attribute_text                    
     #>           ATTRIBUTES          attributes                    
-    #>           BASEPERIOD          baseperiod        *       Hard
     #>             CELLNOTE            cellnote        *       Hard
     #>            CELLNOTEX           cellnotex        *       Hard
     #>             CFPRICES            cfprices        *       Easy

@@ -60,7 +60,7 @@ get_px_keywords <- function() {
               "SEASADJ",      FALSE,           FALSE,                TRUE,                     TRUE,        FALSE,             NA,
               "CONTACT",      FALSE,            TRUE,                TRUE,                     TRUE,         TRUE,             NA,
             "REFPERIOD",      FALSE,           FALSE,                TRUE,                     TRUE,         TRUE,             NA,
-           "BASEPERIOD",      FALSE,           FALSE,                TRUE,                     TRUE,         TRUE,             NA,
+           "BASEPERIOD",      FALSE,            TRUE,                TRUE,                     TRUE,         TRUE,             NA,
              "DATABASE",      FALSE,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,
                "SOURCE",      FALSE,            TRUE,                TRUE,                    FALSE,         TRUE,             NA,
                "SURVEY",      FALSE,           FALSE,               FALSE,                    FALSE,         TRUE,             NA,

@@ -55,7 +55,8 @@ test_that('Other keywords are modified and removed', {
     contact('Johan Ejstrud') %>%
     link('The Legend of Zelda') %>%
     infofile("infofile") %>%
-    map('X marks the spot')
+    map('X marks the spot') %>%
+    baseperiod("baseperiod")
 
   expect_identical(contents(x2), 'content')
   expect_identical(description(x2), 'description')
@@ -66,7 +67,7 @@ test_that('Other keywords are modified and removed', {
   expect_identical(link(x2), 'The Legend of Zelda')
   expect_identical(infofile(x2), "infofile")
   expect_identical(map(x2), 'X marks the spot')
-
+  expect_identical(baseperiod(x2), "baseperiod")
 
   x3 <-
     x2 %>%
@@ -74,13 +75,15 @@ test_that('Other keywords are modified and removed', {
     contact(NULL) %>%
     link(NULL) %>%
     infofile(NULL) %>%
-    map(NULL)
+    map(NULL) %>%
+    baseperiod(NULL)
 
   expect_identical(description(x3), NULL)
   expect_identical(contact(x3), NULL)
   expect_identical(link(x3), NULL)
   expect_identical(infofile(x3), NULL)
   expect_identical(map(x3), NULL)
+  expect_identical(baseperiod(x3), NULL)
 
   expect_error(contents(x3, NULL), regex = 'mandatory')
   expect_error(units(x3, NULL),    regex = 'mandatory')

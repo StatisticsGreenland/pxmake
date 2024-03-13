@@ -451,7 +451,7 @@ validate_pxsave_arguments <- function(x, path, save_data, data_path) {
   validate_px(x)
 
   if (! any(is_px_file(path), is_xlsx_file(path))) {
-    error("Argument 'path' must be a path to an .rds or .xlsx file.")
+    error("Argument 'path' must be a path to an .px or .xlsx file.")
   }
 
   if (! is.logical(save_data)) {

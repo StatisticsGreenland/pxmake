@@ -2,6 +2,7 @@
 
 ## New features
 - Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`.
+- `micromake()` use furrr package to run in parallel. (#248)
 
 ## Bug fixes and minor improvements
 - Fix mistake in documentation for all table2 modifying functions.

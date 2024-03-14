@@ -57,6 +57,9 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 #' for each non-HEADING variable. The new px files are saved in a directory
 #' specified by `out_dir`.
 #'
+#' The main loop uses the furrr package for parallelisation. Use future::plan()
+#' to choose how to parallelise.
+#'
 #' @param x A px object.
 #' @param out_dir Directory to save px files in.
 #' @param keyword_values Optional. A data frame with column 'variable' and one
@@ -100,16 +103,13 @@ micromake <- function(x, out_dir = NULL, keyword_values = NULL) {
     filenames <- NULL
   }
 
-  # for (micro_var in micro_vars) {
-  #   create_micro_file(x, micro_var, filenames, keyword_values_long, out_dir)
-  # }
-
   furrr::future_walk(micro_vars,
                      create_micro_file,
                      x = x,
                      filenames = filenames,
                      keyword_values_long = keyword_values_long,
-                     out_dir = out_dir)
+                     out_dir = out_dir
+                     )
 
   if (print_out_dir) print(paste("Created px files in:", out_dir))
 }

@@ -32,4 +32,7 @@ the variables in it.
 The HEADING variables are use in all the micro files, and a file is created
 for each non-HEADING variable. The new px files are saved in a directory
 specified by \code{out_dir}.
+
+The main loop uses the furrr package for parallelisation. Use future::plan()
+to choose how to parallelise.
 }

@@ -8,6 +8,8 @@ handle_variables2_keyword <- function(x, value, keyword) {
   } else {
     x <- modify_variables2(x, colname, value)
   }
+
+  validate_px(x)
 }
 
 #' @rdname domain.px

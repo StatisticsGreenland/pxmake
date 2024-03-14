@@ -1,3 +1,53 @@
+create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_dir) {
+  figures_var <- "n"
+
+  new_data <-
+    x$data %>%
+    dplyr::select(all_of(c(heading(x), micro_var))) %>%
+    dplyr::count(across(everything()), name = figures_var) %>%
+    dplyr::arrange_all() %>%
+    format_data_df(figures_variable = figures_var)
+
+  data_names <- names(new_data)
+
+  x_new <-
+    x %>%
+    stub(micro_var)
+
+  x_micro <-
+    new_px(languages  = x_new$languages,
+           table1     = x_new$table1,
+           table2     = x_new$table2,
+           variables1 = dplyr::filter(x_new$variables1, `variable-code` %in% data_names),
+           variables2 = dplyr::filter(x_new$variables2, `variable-code` %in% data_names),
+           codelists1 = dplyr::filter(x_new$codelists1, `variable-code` %in% data_names),
+           codelists2 = dplyr::filter(x_new$codelists2, `variable-code` %in% data_names),
+           data       = new_data
+           ) %>%
+    fix_px() %>%
+    figures(figures_var)
+
+  if (all(! is.null(keyword_values_long), nrow(keyword_values_long) > 0)) {
+    extra_keywords <-
+      keyword_values_long %>%
+      dplyr::filter(variable %in% micro_var)
+
+    for (i in 1:nrow(extra_keywords)) {
+      modifying_function <- get(extra_keywords$keyword_function[i])
+
+      x_micro <- modifying_function(x = x_micro, value = extra_keywords$value[i])
+    }
+  }
+
+  if (any(is.null(filenames[micro_var]), is.na(filenames[micro_var]))) {
+    filename <- paste0(micro_var, ".px")
+  } else {
+    filename <- filenames[micro_var]
+  }
+
+  pxsave(x = x_micro, path = file.path(out_dir, filename))
+}
+
 #' Create micro px files
 #'
 #' Split one px object into many small px files (micro files), with count of
@@ -28,15 +78,7 @@ micromake <- function(x, out_dir = NULL, keyword_values = NULL) {
 
   if (is.null(out_dir)) out_dir <- temp_dir()
 
-  heading_variables <- heading(x)
-
-  micro_vars <- setdiff(names(x$data), heading_variables)
-
-  figures_var <- "n"
-
-  new_px <-
-    x %>%
-    stub(micro_vars)
+  micro_vars <- setdiff(names(x$data), heading(x))
 
   if (! is.null(keyword_values)) {
     if ("filename" %in% colnames(keyword_values)) {
@@ -58,51 +100,16 @@ micromake <- function(x, out_dir = NULL, keyword_values = NULL) {
     filenames <- NULL
   }
 
-  for (micro_var in micro_vars) {
-    new_data <-
-      x$data %>%
-      dplyr::select(all_of(c(heading_variables, micro_var))) %>%
-      dplyr::count(across(everything()), name = figures_var) %>%
-      dplyr::arrange_all() %>%
-      format_data_df(figures_variable = figures_var)
+  # for (micro_var in micro_vars) {
+  #   create_micro_file(x, micro_var, filenames, keyword_values_long, out_dir)
+  # }
 
-    data_names <- names(new_data)
-
-    x_micro <-
-      new_px(languages  = new_px$languages,
-           table1     = new_px$table1,
-           table2     = new_px$table2,
-           variables1 = dplyr::filter(new_px$variables1, `variable-code` %in% data_names),
-           variables2 = dplyr::filter(new_px$variables2, `variable-code` %in% data_names),
-           codelists1 = dplyr::filter(new_px$codelists1, `variable-code` %in% data_names),
-           codelists2 = dplyr::filter(new_px$codelists2, `variable-code` %in% data_names),
-           data       = new_data
-           ) %>%
-      fix_px() %>%
-      figures(figures_var)
-
-    if (all(! is.null(keyword_values), nrow(keyword_values_long) > 0)) {
-      extra_keywords <-
-        keyword_values_long %>%
-        dplyr::filter(variable %in% micro_var)
-
-      for (i in 1:nrow(extra_keywords)) {
-        modifying_function <- get(extra_keywords$keyword_function[i])
-
-        x_micro <- modifying_function(x = x_micro, value = extra_keywords$value[i])
-      }
-    }
-
-    if (any(is.null(filenames[micro_var]), is.na(filenames[micro_var]))) {
-      filename <- paste0(micro_var, ".px")
-    } else {
-      filename <- filenames[micro_var]
-    }
-
-    pxsave(x = x_micro,
-           path = file.path(out_dir, filename)
-           )
-  }
+  furrr::future_walk(micro_vars,
+                     create_micro_file,
+                     x = x,
+                     filenames = filenames,
+                     keyword_values_long = keyword_values_long,
+                     out_dir = out_dir)
 
   if (print_out_dir) print(paste("Created px files in:", out_dir))
 }

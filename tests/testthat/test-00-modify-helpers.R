@@ -132,4 +132,18 @@ test_that("Data frame modifier works", {
                      )
 
   expect_error(modify_with_df(df1, df10, "c"), regexp = "invalid columns: d, e")
+
+  df11 <- data.frame(a = c(1, 1, 2),
+                     b = c(3, 4, 3),
+                     c = NA
+                     )
+
+  df12 <- data.frame(c = 1)
+
+  df13 <- data.frame(a = c(1, 1, 2),
+                     b = c(3, 4, 3),
+                     c = c(1, 1, 1)
+                     )
+
+  arrange_and_expect_equal(modify_with_df(df11, df12, "c"), df13)
 })

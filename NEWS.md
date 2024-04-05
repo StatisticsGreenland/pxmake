@@ -6,6 +6,7 @@
 
 ## Bug fixes and minor improvements
 - Fix mistake in documentation for all table2 modifying functions.
+- Avoid warning caused by helper function.
 
 # pxmake 0.10.1
 

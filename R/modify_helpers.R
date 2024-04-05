@@ -63,14 +63,19 @@ modify_with_df <- function(df1, df2, modify_column) {
 
   merge_variables <- setdiff(names(df2), modify_column)
 
-  replace_values <-
-    dplyr::inner_join(dplyr::select(df1, -all_of(modify_column)),
-                      df2, by = merge_variables
-                      )
+  df1_without_modify_column <- dplyr::select(df1, -all_of(modify_column))
 
-  keep_values <- dplyr::anti_join(df1, df2, by = merge_variables)
-
-  add_values <- dplyr::anti_join(df2, df1, by = merge_variables)
+  if (length(merge_variables) == 0) {
+    replace_values <- dplyr::cross_join(df1_without_modify_column, df2)
+    keep_values    <- dplyr::filter(df1, FALSE)
+    add_values     <- dplyr::filter(df2, FALSE)
+  } else {
+    replace_values <- dplyr::inner_join(df1_without_modify_column, df2,
+                                        by = merge_variables
+                                        )
+    keep_values <- dplyr::anti_join(df1, df2, by = merge_variables)
+    add_values <- dplyr::anti_join(df2, df1, by = merge_variables)
+  }
 
   return(dplyr::bind_rows(replace_values, keep_values, add_values))
 }

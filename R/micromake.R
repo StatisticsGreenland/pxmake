@@ -8,7 +8,44 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
     dplyr::arrange_all() %>%
     format_data_df(figures_variable = figures_var)
 
+  headings_with_non_na_values <-
+    new_data %>%
+    dplyr::filter(!!rlang::sym(micro_var) != "-") %>%
+    dplyr::select(all_of(heading(x))) %>%
+    dplyr::distinct_all()
+
+  headings_with_only_na_values <-
+    new_data %>%
+    dplyr::select(all_of(heading(x))) %>%
+    {if (length(heading(x)) > 0)
+      dplyr::anti_join(., headings_with_non_na_values, by = heading(x))
+     else dplyr::filter(headings_with_non_na_values, FALSE)
+    }
+
+  if (nrow(headings_with_non_na_values) == 0) {
+    # Edge case: If all headings only contain NA values, all are kept
+    headings_with_only_na_values <- headings_with_non_na_values
+  }
+
+  if (length(heading(x)) > 0) {
+    # Remove headings where the figures variable only has NA values
+    new_data <-
+      new_data %>%
+      dplyr::anti_join(headings_with_only_na_values, by = heading(x))
+  }
+
   data_names <- names(new_data)
+
+  headings_with_only_na_values_long <-
+    headings_with_only_na_values %>%
+    {if (nrow(.) > 0)
+      tidyr::pivot_longer(.,
+                          cols = heading(x),
+                          names_to = "variable-code",
+                          values_to = "code"
+                          )
+    else dplyr::tibble(`variable-code` = character(), code = character())
+    }
 
   x_new <-
     x %>%
@@ -20,8 +57,14 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
            table2     = x_new$table2,
            variables1 = dplyr::filter(x_new$variables1, `variable-code` %in% data_names),
            variables2 = dplyr::filter(x_new$variables2, `variable-code` %in% data_names),
-           codelists1 = dplyr::filter(x_new$codelists1, `variable-code` %in% data_names),
-           codelists2 = dplyr::filter(x_new$codelists2, `variable-code` %in% data_names),
+           codelists1 = dplyr::filter(x_new$codelists1, `variable-code` %in% data_names) %>%
+                          dplyr::anti_join(headings_with_only_na_values_long,
+                                           by = c("variable-code", "code")
+                                           ),
+           codelists2 = dplyr::filter(x_new$codelists2, `variable-code` %in% data_names) %>%
+                          dplyr::anti_join(headings_with_only_na_values_long,
+                                           by = c("variable-code", "code")
+                                           ),
            data       = new_data
            ) %>%
     fix_px() %>%

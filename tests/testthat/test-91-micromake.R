@@ -146,3 +146,31 @@ test_that("micromake can control filenames", {
                c(filename_df$filename, "pnrmor.px", "taar.px")
                )
 })
+
+test_that("micromake removes headings where all values are NA", {
+  df <-
+    get_data_path("micro") %>%
+    readRDS() %>%
+    dplyr::as_tibble() %>%
+    dplyr::select(1:2) %>%
+    dplyr::mutate(pnr = ifelse(taar == 1994, NA, pnr))
+
+  out_dir <- temp_dir()
+
+  px(df) %>%
+    stub("pnr") %>%
+    heading("taar") %>%
+    micromake(out_dir = out_dir)
+
+  micro_df <-
+    px(list.files(out_dir, full.names = TRUE))$data
+
+  target <-
+    df %>%
+    dplyr::count(taar, pnr) %>%
+    tidyr::drop_na(pnr) %>%
+    dplyr::select(pnr, taar, n) %>%
+    dplyr::mutate(n = as.double(n))
+
+  expect_identical(micro_df, target)
+})

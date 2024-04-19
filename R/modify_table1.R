@@ -161,6 +161,22 @@ decimals.px <- function(x, value) {
 }
 
 
+#' @rdname descriptiondefault.px
+#' @export
+descriptiondefault <- function(x, value) {
+  UseMethod("descriptiondefault")
+}
+
+#' @inherit charset.px
+#' @title DESCRIPTIONDEFAULT
+#' @description `r table_description("DESCRIPTIONDEFAULT")`
+#' @param value `r table1_param_value("DESCRIPTIONDEFAULT")`
+#' @export
+descriptiondefault.px <- function(x, value) {
+  handle_table1_keyword(x, value, "DESCRIPTIONDEFAULT")
+}
+
+
 #' @rdname matrix.px
 #' @export
 matrix <- function(x, value) {

@@ -19,7 +19,8 @@ test_that('Table1 keywords are modified and removed', {
     tableid("BEXSTAid") %>%
     update_frequency("yearly") %>%
     aggregallowed("YES") %>%
-    autopen("NO")
+    autopen("NO") %>%
+    descriptiondefault("NO")
 
   expect_identical(charset(x), "ANSI")
   expect_identical(creation_date(x), "2019-01-01 10:00")
@@ -37,6 +38,7 @@ test_that('Table1 keywords are modified and removed', {
   expect_identical(update_frequency(x), "yearly")
   expect_identical(aggregallowed(x), "YES")
   expect_identical(autopen(x), "NO")
+  expect_identical(descriptiondefault(x), "NO")
 
   x2 <-
     x %>%
@@ -52,7 +54,8 @@ test_that('Table1 keywords are modified and removed', {
     tableid(NULL) %>%
     update_frequency(NULL) %>%
     aggregallowed(NULL) %>%
-    autopen(NULL)
+    autopen(NULL) %>%
+    descriptiondefault(NULL)
 
   expect_identical(charset(x2), NULL)
   expect_identical(creation_date(x2), NULL)
@@ -67,6 +70,7 @@ test_that('Table1 keywords are modified and removed', {
   expect_identical(update_frequency(x2), NULL)
   expect_identical(aggregallowed(x2), NULL)
   expect_identical(autopen(x2), NULL)
+  expect_identical(descriptiondefault(x2), NULL)
 
   expect_error(matrix(x, NULL), regexp = "mandatory")
   expect_error(decimals(x, NULL), regexp = "mandatory")

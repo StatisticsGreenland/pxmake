@@ -82,46 +82,47 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 37 keywords have a modifying function in pxmake:
+Currently the following 38 keywords have a modifying function in pxmake:
 
-    #>           Keyword    Function name
-    #>     AGGREGALLOWED    aggregallowed
-    #>           AUTOPEN          autopen
-    #>      AXIS-VERSION     axis_version
-    #>        BASEPERIOD       baseperiod
-    #>           CHARSET          charset
-    #>          CODEPAGE         codepage
-    #>      CONFIDENTIAL     confidential
-    #>           CONTACT          contact
-    #>          CONTENTS         contents
-    #>         COPYRIGHT        copyright
-    #>     CREATION-DATE    creation_date
-    #>          DECIMALS         decimals
-    #>       DESCRIPTION      description
-    #>            DOMAIN           domain
-    #>       ELIMINATION      elimination
-    #>           HEADING          heading
-    #>          INFOFILE         infofile
-    #>          LANGUAGE         language
-    #>         LANGUAGES        languages
-    #>      LAST-UPDATED     last_updated
-    #>              LINK             link
-    #>               MAP              map
-    #>            MATRIX           matrix
-    #>       NEXT-UPDATE      next_update
-    #>              NOTE             note
-    #>             NOTEX            notex
-    #>      SHOWDECIMALS     showdecimals
-    #>              STUB             stub
-    #>      SUBJECT-AREA     subject_area
-    #>      SUBJECT-CODE     subject_code
-    #>           TABLEID          tableid
-    #>           TIMEVAL          timeval
-    #>             TITLE            title
-    #>             UNITS            units
-    #>  UPDATE-FREQUENCY update_frequency
-    #>         VALUENOTE        valuenote
-    #>        VALUENOTEX       valuenotex
+    #>             Keyword      Function name
+    #>       AGGREGALLOWED      aggregallowed
+    #>             AUTOPEN            autopen
+    #>        AXIS-VERSION       axis_version
+    #>          BASEPERIOD         baseperiod
+    #>             CHARSET            charset
+    #>            CODEPAGE           codepage
+    #>        CONFIDENTIAL       confidential
+    #>             CONTACT            contact
+    #>            CONTENTS           contents
+    #>           COPYRIGHT          copyright
+    #>       CREATION-DATE      creation_date
+    #>            DECIMALS           decimals
+    #>         DESCRIPTION        description
+    #>  DESCRIPTIONDEFAULT descriptiondefault
+    #>              DOMAIN             domain
+    #>         ELIMINATION        elimination
+    #>             HEADING            heading
+    #>            INFOFILE           infofile
+    #>            LANGUAGE           language
+    #>           LANGUAGES          languages
+    #>        LAST-UPDATED       last_updated
+    #>                LINK               link
+    #>                 MAP                map
+    #>              MATRIX             matrix
+    #>         NEXT-UPDATE        next_update
+    #>                NOTE               note
+    #>               NOTEX              notex
+    #>        SHOWDECIMALS       showdecimals
+    #>                STUB               stub
+    #>        SUBJECT-AREA       subject_area
+    #>        SUBJECT-CODE       subject_code
+    #>             TABLEID            tableid
+    #>             TIMEVAL            timeval
+    #>               TITLE              title
+    #>               UNITS              units
+    #>    UPDATE-FREQUENCY   update_frequency
+    #>           VALUENOTE          valuenote
+    #>          VALUENOTEX         valuenotex
 
 In addition to the above, the following 2 modifying functions are
 available:
@@ -137,7 +138,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 47 keywords currently doesn’t have a modifying function, but can
+These 46 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
@@ -163,7 +164,6 @@ be implemented.
     #>        DATASYMBOLSUM       datasymbolsum                    
     #>               DAYADJ              dayadj                    
     #>        DEFAULT-GRAPH       default_graph                    
-    #>   DESCRIPTIONDEFAULT  descriptiondefault                    
     #>       DIRECTORY-PATH      directory_path                    
     #>         DOUBLECOLUMN        doublecolumn                    
     #>      FIRST-PUBLISHED     first_published                    

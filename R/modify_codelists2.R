@@ -1,24 +1,3 @@
-#' Handle VALUENOTE and VALUENOTEX
-#'
-#' @rdname valuenote.px
-#' @param type A character string, VALUENOTE or VALUENOTEX
-handle_valuenotes <- function(x, value, type) {
-  if (missing(value)) {
-    result <- get_codelists2_value(x, type)
-
-    if (nrow(result) == 0) {
-      return(NULL)
-    } else {
-      return(result)
-    }
-  } else if (is.null(value)) {
-    x$codelists2[[type]] <- NA
-    return(x)
-  }
-
-  validate_px(modify_codelists2(x, type, value))
-}
-
 #' @rdname valuenote.px
 #' @export
 valuenote <- function(x, value) {
@@ -37,8 +16,9 @@ valuenote <- function(x, value) {
 #'
 #' @export
 valuenote.px <- function(x, value) {
-  handle_valuenotes(x, value, "valuenote")
+  handle_codelists(x, value, "2", "valuenote")
 }
+
 
 #' @rdname valuenotex.px
 #' @export
@@ -58,5 +38,5 @@ valuenotex <- function(x, value) {
 #'
 #' @export
 valuenotex.px <- function(x, value) {
-  handle_valuenotes(x, value, "valuenotex")
+  handle_codelists(x, value, "2", "valuenotex")
 }

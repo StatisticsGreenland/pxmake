@@ -1,10 +1,11 @@
-#' Handle precision and precisionX
+#' Handle codelists changes
 #'
 #' @rdname precision.px
-#' @param type A character string, precision or precisionX
-handle_codelists1 <- function(x, value, column) {
+#' @param number The number of the codelist (1 or 2)
+#' @param column The name of the codelists column
+handle_codelists <- function(x, value, number, column) {
   if (missing(value)) {
-    result <- get_codelists1_value(x, column)
+    result <- get_codelists_value(x, number, column)
 
     if (nrow(result) == 0) {
       return(NULL)
@@ -12,11 +13,11 @@ handle_codelists1 <- function(x, value, column) {
       return(result)
     }
   } else if (is.null(value)) {
-    x$codelists1[[column]] <- NA
+    x[[get_codelists_name(number)]][[column]] <- NA
     return(x)
   }
 
-  validate_px(modify_codelists1(x, column, value))
+  validate_px(modify_codelists(x, number, column, value))
 }
 
 #' @rdname precision.px
@@ -36,7 +37,7 @@ precision <- function(x, value) {
 #'
 #' @export
 precision.px <- function(x, value) {
-  handle_codelists1(x, value, "precision")
+  handle_codelists(x, value, "1", "precision")
 }
 
 
@@ -57,5 +58,5 @@ order <- function(x, value) {
 #'
 #' @export
 order.px <- function(x, value) {
-  handle_codelists1(x, value, "order")
+  handle_codelists(x, value, "1", "order")
 }

@@ -115,13 +115,14 @@ modify_table2 <- function(x, keyword, value) {
   return(x)
 }
 
-modify_codelists1 <- function(x, column, value) {
-  x$codelists1 <- modify_with_df(x$codelists1, value, column)
-  return(x)
+get_codelists_name <- function(number) {
+  paste0("codelists", number)
 }
 
-modify_codelists2 <- function(x, column, value) {
-  x$codelists2 <- modify_with_df(x$codelists2, value, column)
+modify_codelists <- function(x, number, column, value) {
+  x[[get_codelists_name(number)]] <-
+    modify_with_df(x[[get_codelists_name(number)]], value, column)
+
   return(x)
 }
 
@@ -164,15 +165,17 @@ get_table2_value <- function(x, keyword) {
   }
 }
 
-get_codelists1_value <- function(x, column) {
-  x$codelists1 %>%
-    dplyr::select(`variable-code`, code, !!column) %>%
-    tidyr::drop_na(!!column)
-}
+get_codelists_value <- function(x, number, column) {
+  if (number == "1") {
+    language_col <- NULL
+  } else if (number == "2") {
+    language_col <- "language"
+  } else {
+    unexpected_error()
+  }
 
-get_codelists2_value <- function(x, column) {
-  x$codelists2 %>%
-    dplyr::select(`variable-code`, code, language, !!column) %>%
+  x[[get_codelists_name(number)]] %>%
+    dplyr::select(all_of(c("variable-code", "code", language_col, !!column))) %>%
     tidyr::drop_na(!!column)
 }
 

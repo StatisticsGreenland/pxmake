@@ -43,6 +43,24 @@ table2_param_value <- function(keyword) {
   stringr::str_glue("{start} {table_param_value_ending(keyword)}")
 }
 
+codelists_param_value <- function(keyword, number) {
+  colname <- tolower(keyword)
+
+  if (number == "1") {
+    optional_columns <- "'variable-code', and 'code'"
+  } else if (number == "2") {
+    optional_columns <- "'variable-code', 'code', and 'language'"
+  } else {
+    unexpected_error()
+  }
+
+  stringr::str_glue(
+    "Optional. A data frame with the columns '{colname}' and one or more of the ",
+    "columns: {optional_columns}. If 'value' is missing, the current {keyword} ",
+    "is returned. If NULL, {keyword} is removed."
+  )
+}
+
 variables2_param_value <- function(keyword) {
   colname <- tolower(keyword)
 

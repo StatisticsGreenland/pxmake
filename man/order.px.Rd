@@ -12,9 +12,10 @@ order(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame with the column 'order' and one or
-more of the columns: 'variable-code' and 'code'. If value is missing, all
-current orders are returned. If NULL, all orders are removed.}
+\item{value}{Optional. A data frame with the columns 'order' and one or more of the columns: 'variable-code', and 'code'. If 'value' is missing, the current ORDER is returned. If NULL, ORDER is removed.}
+}
+\value{
+A px object or a data frame
 }
 \description{
 Inspect or change ORDER.

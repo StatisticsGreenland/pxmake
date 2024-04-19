@@ -12,10 +12,10 @@ valuenote(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame with the column 'valuenote' and one or
-more of the columns: 'variable-code', 'code', and 'language'. If value is
-missing, all current VALUENOTEs are returned. If NULL, all VALUENOTEs are
-removed.}
+\item{value}{Optional. A data frame with the columns 'valuenote' and one or more of the columns: 'variable-code', 'code', and 'language'. If 'value' is missing, the current VALUENOTE is returned. If NULL, VALUENOTE is removed.}
+}
+\value{
+A px object or a data frame
 }
 \description{
 Inspect or change VALUENOTE.

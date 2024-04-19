@@ -31,7 +31,7 @@ get_px_keywords <- function() {
             "COPYRIGHT",      FALSE,            TRUE,               FALSE,                    FALSE,         TRUE,             NA,
           "DESCRIPTION",         NA,            TRUE,                TRUE,                    FALSE,         TRUE,             "",
                 "TITLE",         NA,            TRUE,                TRUE,                    FALSE,         TRUE,             "",
-   "DESCRIPTIONDEFAULT",      FALSE,           FALSE,               FALSE,                    FALSE,        FALSE,             NA,
+   "DESCRIPTIONDEFAULT",      FALSE,            TRUE,               FALSE,                    FALSE,        FALSE,             NA,
              "CONTENTS",       TRUE,            TRUE,                TRUE,                    FALSE,         TRUE,             "",
                 "UNITS",       TRUE,            TRUE,                TRUE,                     TRUE,         TRUE,             "",
                  "STUB",         NA,           FALSE,                TRUE,                    FALSE,         TRUE,             NA,

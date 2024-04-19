@@ -115,6 +115,11 @@ modify_table2 <- function(x, keyword, value) {
   return(x)
 }
 
+modify_codelists1 <- function(x, column, value) {
+  x$codelists1 <- modify_with_df(x$codelists1, value, column)
+  return(x)
+}
+
 modify_codelists2 <- function(x, column, value) {
   x$codelists2 <- modify_with_df(x$codelists2, value, column)
   return(x)
@@ -157,6 +162,12 @@ get_table2_value <- function(x, keyword) {
   } else {
     return(value)
   }
+}
+
+get_codelists1_value <- function(x, column) {
+  x$codelists1 %>%
+    dplyr::select(`variable-code`, code, !!column) %>%
+    tidyr::drop_na(!!column)
 }
 
 get_codelists2_value <- function(x, column) {

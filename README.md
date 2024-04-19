@@ -82,7 +82,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 38 keywords have a modifying function in pxmake:
+Currently the following 39 keywords have a modifying function in pxmake:
 
     #>             Keyword      Function name
     #>       AGGREGALLOWED      aggregallowed
@@ -112,6 +112,7 @@ Currently the following 38 keywords have a modifying function in pxmake:
     #>         NEXT-UPDATE        next_update
     #>                NOTE               note
     #>               NOTEX              notex
+    #>           PRECISION          precision
     #>        SHOWDECIMALS       showdecimals
     #>                STUB               stub
     #>        SUBJECT-AREA       subject_area
@@ -124,12 +125,13 @@ Currently the following 38 keywords have a modifying function in pxmake:
     #>           VALUENOTE          valuenote
     #>          VALUENOTEX         valuenotex
 
-In addition to the above, the following 2 modifying functions are
+In addition to the above, the following 3 modifying functions are
 available:
 
     #>  Function name
     #>     add_totals
     #>        figures
+    #>          order
 
 See the help page for each modifying function for more information.
 
@@ -138,7 +140,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 46 keywords currently doesn’t have a modifying function, but can
+These 45 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
@@ -176,7 +178,6 @@ be implemented.
     #>              META-ID             meta_id                    
     #>  OFFICIAL-STATISTICS official_statistics                    
     #>          PARTITIONED         partitioned                    
-    #>            PRECISION           precision       **     Medium
     #>             PRESTEXT            prestext                    
     #>            PX-SERVER           px_server                    
     #>            REFPERIOD           refperiod                    

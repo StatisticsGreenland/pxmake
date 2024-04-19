@@ -12,10 +12,10 @@ valuenotex(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame with the column 'valuenotex' and one or
-more of the columns: 'variable-code', 'code', and 'language'. If value is
-missing, all current VALUENOTEXs are returned. If NULL, all VALUENOTEXs are
-removed.}
+\item{value}{Optional. A data frame with the columns 'valuenotex' and one or more of the columns: 'variable-code', 'code', and 'language'. If 'value' is missing, the current VALUENOTEX is returned. If NULL, VALUENOTEX is removed.}
+}
+\value{
+A px object or a data frame
 }
 \description{
 Inspect or change VALUENOTEX.

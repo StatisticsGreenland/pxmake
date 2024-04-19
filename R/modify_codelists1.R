@@ -1,8 +1,3 @@
-#' Handle codelists changes
-#'
-#' @rdname precision.px
-#' @param number The number of the codelist (1 or 2)
-#' @param column The name of the codelists column
 handle_codelists <- function(x, value, number, column) {
   if (missing(value)) {
     result <- get_codelists_value(x, number, column)
@@ -26,14 +21,14 @@ precision <- function(x, value) {
   UseMethod("precision")
 }
 
-#' PRECISION
+#' @title PRECISION
 #'
-#' Inspect or change PRECISION.
+#' @description `r table_description("PRECISION")`
 #'
 #' @param x A px object
-#' @param value Optional. A data frame with the column 'precision' and one or
-#' more of the columns: 'variable-code' and 'code'. If value is missing, all
-#' current precisions are returned. If NULL, all precisions are removed.
+#' @param value `r codelists_param_value("PRECISION", "1")`
+#'
+#' @return A px object or a data frame
 #'
 #' @export
 precision.px <- function(x, value) {
@@ -47,15 +42,10 @@ order <- function(x, value) {
   UseMethod("order")
 }
 
-#' ORDER
-#'
-#' Inspect or change ORDER.
-#'
-#' @param x A px object
-#' @param value Optional. A data frame with the column 'order' and one or
-#' more of the columns: 'variable-code' and 'code'. If value is missing, all
-#' current orders are returned. If NULL, all orders are removed.
-#'
+#' @inherit precision.px
+#' @title ORDER
+#' @description `r table_description("ORDER")`
+#' @param value `r codelists_param_value("ORDER", "1")`
 #' @export
 order.px <- function(x, value) {
   handle_codelists(x, value, "1", "order")

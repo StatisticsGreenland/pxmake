@@ -149,7 +149,8 @@ modify_acrosscell <- function(x, value, keyword) {
     dplyr::mutate(across(everything(), ~ifelse(is.na(.), "*", .)))
 
   x$acrosscell <-
-    modify_with_df(x$acrosscell, value_completed, tolower(keyword))
+    modify_with_df(x$acrosscell, value_completed, tolower(keyword)) %>%
+    align_data_frames(get_base_acrosscell(c(stub(x), heading(x))))
 
   validate_px(x)
 }

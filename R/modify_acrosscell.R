@@ -6,6 +6,8 @@ handle_acrossnote_keyword <- function(x, value, keyword) {
   } else {
     x <- modify_acrosscell(x, value, keyword)
   }
+
+  return(validate_px(x))
 }
 
 #' @rdname cellnote.px

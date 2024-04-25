@@ -28,6 +28,16 @@ change_pivot_variables <- function(x, variables, pivot) {
     dplyr::arrange(desc(pivot), order) %>%
     align_data_frames(get_base_variables1())
 
+
+  stub_heading_variables <- c(stub(x), heading(x))
+
+  new_acrosscell_base <- get_base_acrosscell(stub_heading_variables)
+
+  x$acrosscell <-
+    new_acrosscell_base %>%
+    align_data_frames(x$acrosscell) %>%
+    dplyr::select(all_of(names(new_acrosscell_base)))
+
   return(x)
 }
 

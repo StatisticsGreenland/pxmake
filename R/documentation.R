@@ -77,6 +77,19 @@ variables2_param_value <- function(keyword) {
   )
 }
 
+acrosscell_param_value <- function(keyword) {
+  colname <- tolower(keyword)
+
+  stringr::str_glue(
+    "Optional. A data frame with columns '{colname}' and one or more columns ",
+    "with the names of the STUB and HEADING variables. The '{colname}' column is ",
+    "the {colname} text, and the STUB/HEADING columns control which cells the ",
+    "note applies to. Use '*' if the note applies to all cells for a variable.",
+    "If 'value' is missing, the current {keyword} is returned. If NULL, {keyword} ",
+    "is removed."
+  )
+}
+
 note_description <- function(keyword) {
   stringr::str_glue("{description_start(keyword)}. {keyword} can be set for the ",
                     "entire table or for a specific variable."

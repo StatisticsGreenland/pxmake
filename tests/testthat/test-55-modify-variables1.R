@@ -43,3 +43,31 @@ test_that('Variables is modified', {
   x8 <- timeval(x7, variable = "gender")
   expect_equal(timeval(x8), "gender")
 })
+
+test_that('stub and heading modifies acrosscell', {
+  x <-
+    'BEXSTA' %>%
+    get_data_path() %>%
+    readRDS() %>%
+    px()
+
+  x1 <-
+    x %>%
+    stub('time')
+
+  expect1 <-
+    x$acrosscell %>%
+    dplyr::relocate(time)
+
+  expect_identical(expect1, x1$acrosscell)
+
+  x2 <-
+    x1 %>%
+    heading(c('gender', 'place of birth'))
+
+  expect2 <-
+    x$acrosscell %>%
+    dplyr::relocate(time, gender, `place of birth`)
+
+  expect_identical(expect2, x2$acrosscell)
+})

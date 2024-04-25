@@ -1,20 +1,31 @@
 #' Get specific sheet from Excel workbook
 #'
 #' @param sheet String. Sheet to read.
+#' @param add_automatically Logical. If TRUE, return an empty data frame if the
+#' sheet does not exist.
 #'
 #' @return A data frame.
-get_excel_sheet <- function(sheet) {
+get_excel_sheet <- function(sheet, add_automatically = FALSE) {
   function(excel_path) {
-    error_if_excel_sheet_does_not_exist(sheet, excel_path)
-    readxl::read_xlsx(excel_path, sheet = sheet)
+    if (add_automatically) {
+      if (! sheet %in% readxl::excel_sheets(excel_path)) {
+        return(data.frame())
+      }
+    } else {
+      error_if_excel_sheet_does_not_exist(sheet, excel_path)
+    }
+
+    readxl::read_xlsx(excel_path, sheet = sheet) %>%
+      drop_blank_rows()
   }
 }
 
-get_table_sheet     <- get_excel_sheet("Table")
-get_table2_sheet    <- get_excel_sheet("Table2")
-get_variables_sheet <- get_excel_sheet("Variables")
-get_codelists_sheet <- get_excel_sheet("Codelists")
-get_data_sheet      <- get_excel_sheet("Data")
+get_table_sheet      <- get_excel_sheet("Table")
+get_table2_sheet     <- get_excel_sheet("Table2")
+get_variables_sheet  <- get_excel_sheet("Variables")
+get_codelists_sheet  <- get_excel_sheet("Codelists")
+get_acrosscell_sheet <- get_excel_sheet("Acrosscell", add_automatically = TRUE)
+get_data_sheet       <- get_excel_sheet("Data")
 
 #' Get figures variable from Excel workbook
 #'
@@ -100,7 +111,7 @@ px_from_excel <- function(excel_path, data = NULL) {
                                             )
                   )
 
-  # codelists1, codelists2
+  # codelists1, codelists2, data_df
   data_df <-
     data %>%
     {if (is.null(.)) get_data_sheet(excel_path) else . } %>%
@@ -126,6 +137,27 @@ px_from_excel <- function(excel_path, data = NULL) {
     dplyr::rename(value = `code-label`) %>%
     align_data_frames(get_base_codelists2())
 
+  # acrosscell
+  stub_heading_variables <-
+    dplyr::filter(variables1, toupper(pivot) %in% c("STUB", "HEADING")) %>%
+    dplyr::arrange(desc(pivot), order) %>%
+    dplyr::pull(`variable-code`)
+
+  acrosscell <-
+    excel_path %>%
+    get_acrosscell_sheet() %>%
+    { if (ncol(.) != 0) {
+      tidyr::pivot_longer(.,
+                          cols = ends_with(c("cellnote", "cellnotex")),
+                          names_to = c("language", "keyword"),
+                          names_pattern = "^([[:alpha:]]+)_(.*)$"
+      ) %>%
+        tidyr::pivot_wider(names_from = "keyword")
+    } else {
+      .
+    }} %>%
+    align_data_frames(get_base_acrosscell(stub_heading_variables))
+
   new_px(languages = languages,
          table1 = table1,
          table2 = table2,
@@ -133,9 +165,25 @@ px_from_excel <- function(excel_path, data = NULL) {
          variables2 = variables2,
          codelists1 = codelists1,
          codelists2 = codelists2,
+         acrosscell = acrosscell,
          data = data_df
          )
 }
+
+#' Add a data frame as a sheet to an Excel workbook
+#'
+#' @param wb An Excel workbook
+#' @param df A data frame
+#' @param sheet_name Name of the sheet
+#'
+#' @return Nothing
+add_excel_sheet <- function(wb, df, sheet_name) {
+  openxlsx::addWorksheet(wb, sheet_name, gridLines = FALSE)
+  options("openxlsx.maxWidth" = 40)
+  openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = 'auto')
+  openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
+}
+
 
 #' Save px object as an Excel workbook
 #'
@@ -201,25 +249,44 @@ save_px_as_xlsx <- function(x, path, save_data, data_path) {
     dplyr::rename(sortorder = order)
 
 
+  empty_acrosscell <-
+    dplyr::bind_cols(dplyr::tibble(language = defined_languages(x)),
+                     lapply(x$acrosscell, function(x) NA) %>%
+                       dplyr::as_tibble() %>%
+                       dplyr::select(-language)
+                     )
+
+  excel_acrosscell <-
+    x$acrosscell %>%
+    dplyr::bind_rows(empty_acrosscell) %>%
+    tidyr::pivot_longer(cols = setdiff(names(get_base_acrosscell()), "language"),
+                        names_to = "keyword",
+                        values_to = "value"
+                        ) %>%
+      tidyr::pivot_wider(names_from = c("language", "keyword"),
+                         values_from = "value",
+                         names_glue = "{language}_{keyword}"
+                         ) %>%
+      dplyr::relocate(ends_with("cellnote"),
+                      ends_with("cellnotex"),
+                      .after = last_col()
+                      ) %>%
+      drop_blank_rows()
+
+
   ### Make sheets in workbook
   wb <- openxlsx::createWorkbook()
 
-  add_sheet <- function(df, sheet_name) {
-    openxlsx::addWorksheet(wb,sheet_name, gridLines = FALSE)
-    options("openxlsx.maxWidth" = 40)
-    openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = 'auto')
-    openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
-  }
-
-  add_sheet(excel_table,     "Table")
-  add_sheet(excel_table2,    "Table2")
-  add_sheet(excel_variables, "Variables")
-  add_sheet(excel_codelists, "Codelists")
+  add_excel_sheet(wb, excel_table,     "Table")
+  add_excel_sheet(wb, excel_table2,    "Table2")
+  add_excel_sheet(wb, excel_variables, "Variables")
+  add_excel_sheet(wb, excel_codelists, "Codelists")
+  add_excel_sheet(wb, excel_acrosscell, "Acrosscell")
 
   if (save_data) {
     if (is.null(data_path)) {
       error_if_too_many_rows_for_excel(x$data)
-      add_sheet(x$data, "Data")
+      add_excel_sheet(wb, x$data, "Data")
     } else if (is_rds_file(data_path)) {
       saveRDS(x$data, data_path)
     } else {

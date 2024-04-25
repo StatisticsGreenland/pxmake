@@ -136,6 +136,24 @@ modify_variables2 <- function(x, column, value) {
   return(x)
 }
 
+modify_acrosscell <- function(x, value, keyword) {
+  missing_columns <- setdiff(c(stub(x), heading(x)), names(value))
+
+  value_completed <-
+    value %>%
+    { if (length(missing_columns) > 0) {
+      dplyr::bind_cols(., na_tibble(columns = missing_columns))
+    } else {
+      .
+    }} %>%
+    dplyr::mutate(across(everything(), ~ifelse(is.na(.), "*", .)))
+
+  x$acrosscell <-
+    modify_with_df(x$acrosscell, value_completed, tolower(keyword))
+
+  validate_px(x)
+}
+
 
 get_table1_value <- function(x, keyword) {
   value <-
@@ -195,5 +213,26 @@ get_variables2_value <- function(x, column) {
     } else {
       return(value)
     }
+  }
+}
+
+get_acrosscell_value <- function(x, keyword) {
+  column_name <- tolower(keyword)
+
+  value <-
+    x$acrosscell %>%
+    dplyr::select(all_of(c(intersect(names(x$acrosscell), names(x$data)),
+                           "language",
+                           column_name
+                           )
+                         )
+                  )
+
+  if (nrow(value) == 0) {
+    return(NULL)
+  } else if (length(defined_languages(x)) == 1) {
+    return(dplyr::select(value, -language))
+  } else {
+    return(value)
   }
 }

@@ -54,6 +54,21 @@ get_base_codelists2 <- function() {
                 )
 }
 
+get_base_acrosscell <- function(stub_heading_variables = NULL) {
+  data_columns <- character0_tibble(stub_heading_variables)
+
+  dplyr::bind_cols(data_columns,
+                   dplyr::tibble(language  = as.character(),
+                                 cellnote  = as.character(),
+                                 cellnotex = as.character()
+                                 )
+                   )
+}
+
+get_acrosscell_variables <- function() {
+  setdiff(names(get_base_acrosscell()), "language")
+}
+
 get_base_data <- function() {
   dplyr::tibble()
 }
@@ -66,6 +81,7 @@ get_base_px <- function() {
                  variables2 = get_base_variables2(),
                  codelists1 = get_base_codelists1(),
                  codelists2 = get_base_codelists2(),
+                 acrosscell = get_base_acrosscell(),
                  data = get_base_data()
                  ),
             class = "px"

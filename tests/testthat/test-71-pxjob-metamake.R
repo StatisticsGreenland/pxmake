@@ -46,7 +46,5 @@ test_that("px file and pxmake(metamake(px file)) are equivalent", {
   run_metamake_pxmake_pxjob_and_compare("no_timeval_or_codes2")
   run_metamake_pxmake_pxjob_and_compare("CONTVARIABLE")
   run_metamake_pxmake_pxjob_and_compare("CONTVARIABLE_multiple_languages")
-
-  # Turn on when support for CELLNOTEX is added (issue #101)
-  # run_metamake_pxmake_pxjob_and_compare("TUX01")
+  run_metamake_pxmake_pxjob_and_compare("TUX01")
 })

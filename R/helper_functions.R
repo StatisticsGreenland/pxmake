@@ -365,3 +365,25 @@ align_data_frames <- function(df_a, df_b) {
 
   return(df_a)
 }
+
+#' Drop rows with only NA values
+#'
+#' @param df Data frame
+#'
+#' @return A data frame
+drop_blank_rows <- function(df) {
+  dplyr::filter(df, if_any(everything(), ~! is.na(.)))
+}
+
+#' Create a tibble with dummy values
+#'
+#' @param dummy_value Value to set in all columns
+create_dummy_tibbles <- function(dummy_value) {
+  function(columns) {
+    tibble::tibble(!!!setNames(rep(list(dummy_value), length(columns)), columns)
+    )
+  }
+}
+
+na_tibble <- create_dummy_tibbles(NA)
+character0_tibble <- create_dummy_tibbles(character(0))

@@ -12,6 +12,7 @@ new_px(
   variables2,
   codelists1,
   codelists2,
+  acrosscell,
   data
 )
 }
@@ -29,6 +30,8 @@ new_px(
 \item{codelists1}{A data frame with language independent codelist metadata.}
 
 \item{codelists2}{A data frame with language dependent codelist metadata.}
+
+\item{acrosscell}{A data frame with metadata that spans multiple cells.}
 
 \item{data}{A data frame with data.}
 }

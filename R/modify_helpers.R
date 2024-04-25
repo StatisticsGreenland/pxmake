@@ -145,8 +145,7 @@ modify_acrosscell <- function(x, value, keyword) {
       dplyr::bind_cols(., na_tibble(columns = missing_columns))
     } else {
       .
-    }} %>%
-    dplyr::mutate(across(everything(), ~ifelse(is.na(.), "*", .)))
+    }}
 
   x$acrosscell <-
     modify_with_df(x$acrosscell, value_completed, tolower(keyword)) %>%

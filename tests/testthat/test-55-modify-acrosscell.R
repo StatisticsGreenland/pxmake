@@ -38,27 +38,12 @@ test_that('cellnote is modified and removed', {
 
   expect_error(cellnote(x, cellnote_error1), regexp = "invalid column")
 
-  # Missing columns are set to '*'
-  cellnote_df2 <- dplyr::tibble(gender = "K",
-                                time = "2018",
-                                cellnote = "This is a cellnote"
-                                )
-
-  x3 <- cellnote(x, cellnote_df2)
-  expect_identical(cellnote(x3), cellnote_df1)
-
-
   # cellnotex
   expect_identical(cellnotex(x), NULL)
 
-  cellnotex_df1 <- dplyr::tibble(cellnotex = "This is a cellnotex")
+  cellnotex_df1 <- cellnote_df1 %>% dplyr::rename(cellnotex = cellnote)
 
   x4 <- cellnotex(x, cellnotex_df1)
 
-  expect_identical(cellnotex(x4), dplyr::tibble(`place of birth` = "*",
-                                                gender = "*",
-                                                time = "*",
-                                                cellnotex = "This is a cellnotex"
-                                                )
-                   )
+  expect_identical(cellnotex(x4), cellnotex_df1)
 })

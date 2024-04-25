@@ -45,11 +45,18 @@ test_that('Variables is modified', {
 })
 
 test_that('stub and heading modifies acrosscell', {
+  cellnote_df1 <- dplyr::tibble(`place of birth` = "*",
+                                gender = "K",
+                                time = "2018",
+                                cellnote = "This is a cellnote"
+                                )
+
   x <-
     'BEXSTA' %>%
     get_data_path() %>%
     readRDS() %>%
-    px()
+    px() %>%
+    cellnote(cellnote_df1)
 
   x1 <-
     x %>%

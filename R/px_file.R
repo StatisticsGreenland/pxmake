@@ -410,6 +410,35 @@ px_from_px_file <- function(path) {
     dplyr::select(`variable-code`, code, language, value,`valuenote`) %>%
     align_data_frames(get_base_codelists2())
 
+  # acrosscell
+  stub_heading_variables <-
+    variable_label %>%
+    dplyr::filter(main_language, keyword %in% c("HEADING", "STUB")) %>%
+    dplyr::arrange(desc(keyword), index) %>%
+    dplyr::pull(`variable-code`)
+
+  acrosscell_variables <- intersect(unique(metadata$keyword),
+                                    c("CELLNOTE", "CELLNOTEX")
+                                    )
+
+  acrosscell <-
+    metadata %>%
+    dplyr::filter(keyword %in% acrosscell_variables) %>%
+    dplyr::mutate(keyword = tolower(keyword)) %>%
+    tidyr::pivot_wider(names_from = keyword, values_from = value) %>%
+    dplyr::mutate(`variable-label` = stringr::str_remove_all(`variable-label`, '"')) %>%
+    tidyr::separate_wider_delim(cols = `variable-label`,
+                                delim = ',',
+                                names = stub_heading_variables
+                                ) %>%
+    dplyr::select(all_of(c(stub_heading_variables,
+                           "language",
+                           tolower(acrosscell_variables)
+                           )
+                         )
+                  ) %>%
+    align_data_frames(get_base_acrosscell(stub_heading_variables))
+
   # data
   # Order: stub1, stub2, ..., heading1, heading2, ...
   expand_order <-
@@ -423,16 +452,6 @@ px_from_px_file <- function(path) {
     dplyr::arrange(dplyr::across(c(keyword_order, index))) %>%
     dplyr::mutate(expand_order = dplyr::row_number()) %>%
     dplyr::select(`variable-code`, expand_order)
-
-  heading_vars <-
-    variable_label %>%
-    dplyr::filter(main_language, keyword == "HEADING") %>%
-    dplyr::pull(`variable-code`)
-
-  stub_vars <-
-    variable_label %>%
-    dplyr::filter(main_language, keyword == "STUB") %>%
-    dplyr::pull(`variable-code`)
 
   if (identical(time_var, character(0))) {
     time_values_df <- tidyr::tibble()
@@ -450,7 +469,7 @@ px_from_px_file <- function(path) {
   stub_and_heading_values <-
     codes_and_values %>%
     dplyr::filter(main_language,
-                  `variable-code` %in% c(heading_vars, stub_vars),
+                  `variable-code` %in% stub_heading_variables,
                   # Exclude time variable as it is already in time_values_df
                   ! `variable-code` %in% time_var
                   ) %>%
@@ -484,6 +503,7 @@ px_from_px_file <- function(path) {
          variables2 = variables2,
          codelists1 = codelists1,
          codelists2 = codelists2,
+         acrosscell = acrosscell,
          data = data_df
          )
 }

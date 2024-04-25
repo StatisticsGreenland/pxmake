@@ -112,6 +112,7 @@ px_from_data_df <- function(df) {
          variables2 = variables2,
          codelists1 = codelists1,
          codelists2 = codelists2,
+         acrosscell = get_base_acrosscell(c(stub_variables, heading_variables)),
          data = data_df
          ) %>%
     title("") %>%

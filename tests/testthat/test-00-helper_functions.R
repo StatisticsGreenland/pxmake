@@ -235,3 +235,35 @@ test_that("Data frames are aligned", {
                           )
                )
 })
+
+test_that("Dummy tibbles are create", {
+  colnames1 <- c("A")
+
+  expect_equal(na_tibble(columns = colnames1),
+               dplyr::tibble("A" = NA)
+               )
+
+  colnames2 <- c("A", "B")
+
+  expect_equal(na_tibble(columns = colnames2),
+               dplyr::tibble("A" = NA,
+                             "B" = NA
+                             )
+               )
+
+  expect_equal(character0_tibble(columns = colnames1),
+               dplyr::tibble("A" = character(0))
+               )
+
+  colnames2 <- c("A", "B")
+
+  expect_equal(character0_tibble(columns = colnames2),
+               dplyr::tibble("A" = character(0),
+                             "B" = character(0)
+                             )
+               )
+
+  expect_equal(na_tibble(columns = c()),
+               dplyr::tibble()
+               )
+})

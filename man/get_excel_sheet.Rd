@@ -4,10 +4,13 @@
 \alias{get_excel_sheet}
 \title{Get specific sheet from Excel workbook}
 \usage{
-get_excel_sheet(sheet)
+get_excel_sheet(sheet, add_automatically = FALSE)
 }
 \arguments{
 \item{sheet}{String. Sheet to read.}
+
+\item{add_automatically}{Logical. If TRUE, return an empty data frame if the
+sheet does not exist.}
 }
 \value{
 A data frame.

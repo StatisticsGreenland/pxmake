@@ -8,6 +8,7 @@
 ## Bug fixes and minor improvements
 - Fix mistake in documentation for all table2 modifying functions.
 - Avoid warning caused by helper function.
+- Bugfix: `cellnote()` can handle an empty data frame.
 
 # pxmake 0.10.1
 

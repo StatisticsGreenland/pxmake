@@ -43,7 +43,11 @@ test_that('cellnote is modified and removed', {
 
   cellnotex_df1 <- cellnote_df1 %>% dplyr::rename(cellnotex = cellnote)
 
-  x4 <- cellnotex(x, cellnotex_df1)
+  x4 <- cellnote(x, dplyr::filter(cellnote_df1, FALSE))
 
-  expect_identical(cellnotex(x4), cellnotex_df1)
+  expect_identical(cellnote(x4), cellnote(x)) # cellnote which no rows should not modify
+
+  x5 <- cellnotex(x, cellnotex_df1)
+
+  expect_identical(cellnotex(x5), cellnotex_df1)
 })

@@ -3,6 +3,8 @@ handle_acrossnote_keyword <- function(x, value, keyword) {
     return(get_acrosscell_value(x, keyword))
   } else if (is.null(value)) {
     x$acrosscell <- dplyr::filter(x$acrosscell, FALSE)
+  } else if (nrow(value) ==0) {
+    return(x)
   } else {
     x <- modify_acrosscell(x, value, keyword)
   }

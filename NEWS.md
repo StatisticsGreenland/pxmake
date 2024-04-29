@@ -1,7 +1,9 @@
 # pxmake (development version)
 
 ## New features
-- Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`, `descriptiondefault()`, `order()`, `precision()`, `cellnote()`, `cellnotex()`.
+- Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`,
+`descriptiondefault()`, `order()`, `precision()`, `cellnote()`, `cellnotex()`,
+`cfprices()`, `stockfa()`.
 - `micromake()` use furrr package to run in parallel. (#248)
 - `micromake()` removes headings if all figures are NA. (#250)
 

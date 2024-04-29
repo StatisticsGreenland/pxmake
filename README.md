@@ -82,7 +82,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 41 keywords have a modifying function in pxmake:
+Currently the following 43 keywords have a modifying function in pxmake:
 
     #>             Keyword      Function name
     #>       AGGREGALLOWED      aggregallowed
@@ -91,6 +91,7 @@ Currently the following 41 keywords have a modifying function in pxmake:
     #>          BASEPERIOD         baseperiod
     #>            CELLNOTE           cellnote
     #>           CELLNOTEX          cellnotex
+    #>            CFPRICES           cfprices
     #>             CHARSET            charset
     #>            CODEPAGE           codepage
     #>        CONFIDENTIAL       confidential
@@ -116,6 +117,7 @@ Currently the following 41 keywords have a modifying function in pxmake:
     #>               NOTEX              notex
     #>           PRECISION          precision
     #>        SHOWDECIMALS       showdecimals
+    #>             STOCKFA            stockfa
     #>                STUB               stub
     #>        SUBJECT-AREA       subject_area
     #>        SUBJECT-CODE       subject_code
@@ -142,14 +144,13 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 43 keywords currently doesn’t have a modifying function, but can
+These 41 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
     #>         ATTRIBUTE-ID        attribute_id                    
     #>       ATTRIBUTE-TEXT      attribute_text                    
     #>           ATTRIBUTES          attributes                    
-    #>             CFPRICES            cfprices        *       Easy
     #>         CONTVARIABLE        contvariable       **       Hard
     #>                 DATA                data       **       Easy
     #>             DATABASE            database                    
@@ -184,7 +185,6 @@ be implemented.
     #>             ROUNDING            rounding                    
     #>              SEASADJ             seasadj                    
     #>               SOURCE              source       **     Medium
-    #>              STOCKFA             stockfa       **       Easy
     #>               SURVEY              survey                    
     #>             SYNONYMS            synonyms                    
     #>               VALUES              values       **       Hard

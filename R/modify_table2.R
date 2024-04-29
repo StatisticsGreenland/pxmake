@@ -49,6 +49,22 @@ baseperiod.px <- function(x, value) {
 }
 
 
+#' @rdname cfprices.px
+#' @export
+cfprices <- function(x, value) {
+  UseMethod("cfprices")
+}
+
+#' @inherit contents.px
+#' @title CFPRICES
+#' @description `r table_description("CFPRICES")`
+#' @param value `r table2_param_value("CFPRICES")`
+#' @export
+cfprices.px <- function(x, value) {
+  handle_table2_keyword(x, value, "CFPRICES")
+}
+
+
 #' @rdname contact.px
 #' @export
 contact <- function(x, value) {
@@ -142,6 +158,22 @@ map <- function(x, value) {
 #' @export
 map.px <- function(x, value) {
   handle_table2_keyword(x, value, "MAP")
+}
+
+
+#' @rdname stockfa.px
+#' @export
+stockfa <- function(x, value) {
+  UseMethod("stockfa")
+}
+
+#' @inherit contents.px
+#' @title STOCKFA
+#' @description `r table_description("STOCKFA")`
+#' @param value `r table2_param_value("STOCKFA")`
+#' @export
+stockfa.px <- function(x, value) {
+  handle_table2_keyword(x, value, "STOCKFA")
 }
 
 

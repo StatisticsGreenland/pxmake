@@ -24,8 +24,13 @@ test_that("px file and pxmake(metamake(px file)) are equivalent", {
         readLines() %>%
         # Improve when implementing #163
         stringr::str_subset("^VARIABLECODE.+", negate = TRUE) %>%
-        stringr::str_subset("^VARIABLE-TYPE.+", negate = TRUE) %>%
-        stringr::str_subset("^META-ID.+", negate = TRUE)
+        stringr::str_subset("^META-ID.+", negate = TRUE) %>%
+        {if (table_name == "CONTVARIABLE_multiple_languages") {
+          .
+          stringr::str_subset(., '^VARIABLE-TYPE.+Time"', negate = TRUE)
+        } else {
+          .
+        }}
 
       if (table_name %in% c("no_timeval_or_codes2")) {
         lines <- stringr::str_subset(lines, "^CODES.+", negate = TRUE)

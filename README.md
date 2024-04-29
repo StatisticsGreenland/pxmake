@@ -82,7 +82,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 43 keywords have a modifying function in pxmake:
+Currently the following 44 keywords have a modifying function in pxmake:
 
     #>             Keyword      Function name
     #>       AGGREGALLOWED      aggregallowed
@@ -128,6 +128,7 @@ Currently the following 43 keywords have a modifying function in pxmake:
     #>    UPDATE-FREQUENCY   update_frequency
     #>           VALUENOTE          valuenote
     #>          VALUENOTEX         valuenotex
+    #>       VARIABLE-TYPE      variable_type
 
 In addition to the above, the following 3 modifying functions are
 available:
@@ -144,7 +145,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 41 keywords currently doesn’t have a modifying function, but can
+These 40 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
@@ -188,7 +189,6 @@ be implemented.
     #>               SURVEY              survey                    
     #>             SYNONYMS            synonyms                    
     #>               VALUES              values       **       Hard
-    #>        VARIABLE-TYPE       variable_type       **       Hard
 
 Finally these 2 keywords will not have a modifying function, because
 they are automatically determined by the data.

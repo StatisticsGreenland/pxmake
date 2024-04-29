@@ -44,6 +44,34 @@ test_that('Variables is modified', {
   expect_equal(timeval(x8), "gender")
 })
 
+test_that("VARIABLE-TYPE is changed", {
+  x <-
+    'BEXSTA' %>%
+    get_data_path() %>%
+    readRDS() %>%
+    px()
+
+  expect_equal(variable_type(x), NULL)
+
+  variable_type_df1 <- dplyr::tibble(`variable-code` = "time",
+                                     type = "Time"
+                                     )
+
+  x1 <- variable_type(x, variable_type_df1)
+
+  expect_equal(variable_type(x1), variable_type_df1)
+
+  x2 <- variable_type(x, NULL)
+
+  expect_equal(variable_type(x2), NULL)
+
+  variable_type_df2_empty <- dplyr::filter(variable_type_df1, FALSE)
+
+  x3 <- variable_type(x1, variable_type_df2_empty)
+
+  expect_equal(variable_type(x3), variable_type_df1)
+})
+
 test_that('stub and heading modifies acrosscell', {
   cellnote_df1 <- dplyr::tibble(`place of birth` = "*",
                                 gender = "K",

@@ -87,8 +87,7 @@ get_mandatory_variables <- function() {
 
 get_legal_values <- function() {
   dplyr::tribble(~sheet, ~variable, ~value,
-                 "Variables", "pivot", c("FIGURES", "STUB", "HEADING"),
-                 "Variables", "type",  c("TIME", "CONTVARIABLE", NA)
+                 "Variables", "pivot", c("FIGURES", "STUB", "HEADING")
                  )
 }
 

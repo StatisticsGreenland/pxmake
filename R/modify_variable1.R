@@ -168,3 +168,34 @@ timeval.px <- function(x, variable) {
                                     )
   validate_px(x)
 }
+
+
+#' @rdname variable_type.px
+#' @export
+variable_type <- function(x, value) {
+  UseMethod("variable_type")
+}
+
+#' @title VARIABLE-TYPE
+#'
+#' @description `description_table1("VARIABLE-TYPE")`
+#'
+#' @param x A px object
+#' @param value A data frame with columns 'variable-code' and 'type'. If value
+#' is missing, the current VARIABLE-TYPE is returned. If NULL, all
+#' VARIABLE-TYPE is removed.
+#'
+#' @return A px object or a data frame.
+#'
+#' @export
+variable_type.px <- function(x, value) {
+  if (missing(value)) {
+    return(get_variable1_value(x, "type"))
+  } else if (is.null(value)) {
+    x$variables1$type <- NA
+  } else {
+    x <- modify_variables1(x, "type", value)
+  }
+
+  validate_px(x)
+}

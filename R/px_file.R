@@ -311,7 +311,17 @@ px_from_px_file <- function(path) {
       dplyr::tibble(`variable-code` = contvariable, type = "CONTVARIABLE")
   }
 
-  type_df <- dplyr::bind_rows(time_variable_df, contvariable_df)
+  variable_type <-
+    metadata %>%
+    dplyr::filter(main_language, keyword %in% c("VARIABLE-TYPE")) %>%
+    tidyr::unnest(value) %>%
+    dplyr::filter(! toupper(value) %in% c("TIME", "CONTVARIABLE")) %>%
+    dplyr::select(`variable-code`, type = value)
+
+  type_df <- dplyr::bind_rows(time_variable_df,
+                              contvariable_df,
+                              variable_type
+                              )
 
   variables1 <-
     variable_label %>%

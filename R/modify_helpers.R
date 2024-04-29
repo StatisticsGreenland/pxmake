@@ -126,6 +126,11 @@ modify_codelists <- function(x, number, column, value) {
   return(x)
 }
 
+modify_variables1 <- function(x, column, value) {
+  x$variables1 <- modify_with_df(x$variables1, value, column)
+  return(x)
+}
+
 modify_variables2 <- function(x, column, value) {
   if (is.character(value)) {
     value <- dplyr::tibble("{column}" := value)
@@ -195,6 +200,19 @@ get_codelists_value <- function(x, number, column) {
   x[[get_codelists_name(number)]] %>%
     dplyr::select(all_of(c("variable-code", "code", language_col, !!column))) %>%
     tidyr::drop_na(!!column)
+}
+
+get_variable1_value <- function(x, column) {
+  value <-
+    x$variables1 %>%
+    dplyr::select(`variable-code`, !!column) %>%
+    tidyr::drop_na(!!column)
+
+  if (nrow(value) == 0) {
+    return(NULL)
+  } else {
+    return(value)
+  }
 }
 
 get_variables2_value <- function(x, column) {

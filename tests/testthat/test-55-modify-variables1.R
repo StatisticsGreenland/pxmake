@@ -53,7 +53,7 @@ test_that("VARIABLE-TYPE is changed", {
 
   expect_equal(variable_type(x), NULL)
 
-  variable_type_df1 <- dplyr::tibble(`variable-code` = "time",
+  variable_type_df1 <- dplyr::tibble(`variable-code` = "gender",
                                      type = "Time"
                                      )
 
@@ -70,6 +70,45 @@ test_that("VARIABLE-TYPE is changed", {
   x3 <- variable_type(x1, variable_type_df2_empty)
 
   expect_equal(variable_type(x3), variable_type_df1)
+})
+
+test_that("CONTVARIABLE is changed", {
+  x <-
+    'BEXSTA' %>%
+    get_data_path() %>%
+    readRDS() %>%
+    px()
+
+  x_lang <- languages(x, c("kl", "da"))
+
+  expect_equal(contvariable(x), NULL)
+
+  x1 <- contvariable(x, "gender")
+
+  expect_equal(contvariable(x1), "gender")
+
+  # Contvariable indexes some variables in table2
+  expect_equal(units(x1), dplyr::tibble(code = c("K", "M", "T"),
+                                        language = NA_character_,
+                                        value = ""
+                                        )
+               )
+
+  x1_lang <- contvariable(x_lang, "gender")
+
+  expect_equal(units(x1_lang), dplyr::tibble(`code` = rep(c("K", "M", "T"), 2),
+                                             language = c(rep("da", 3), rep("kl", 3)),
+                                             value = NA_character_
+                                             )
+               )
+
+
+  x2 <- contvariable(x1, NULL)
+
+  expect_equal(contvariable(x2), NULL)
+
+  # Setting CONTVARIABLE to NULL removes indexing in table2
+  expect_equal(units(x2), "")
 })
 
 test_that('stub and heading modifies acrosscell', {

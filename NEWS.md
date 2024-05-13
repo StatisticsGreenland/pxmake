@@ -3,7 +3,8 @@
 ## New features
 - Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`,
 `descriptiondefault()`, `order()`, `precision()`, `cellnote()`, `cellnotex()`,
-`cfprices()`, `stockfa()`, `variable_type()`. (#246) (#125)
+`cfprices()`, `stockfa()`, `variable_type()`, `contvariable()`. (#246) (#125)
+(#223)
 - `micromake()` use furrr package to run in parallel. (#248)
 - `micromake()` removes headings if all figures are NA. (#250)
 

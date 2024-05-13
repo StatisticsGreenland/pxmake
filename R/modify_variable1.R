@@ -169,6 +169,71 @@ timeval.px <- function(x, variable) {
   validate_px(x)
 }
 
+#' @rdname contvariable.px
+#' @export
+contvariable <- function(x, value) {
+  UseMethod("contvariable")
+}
+
+#' @title CONTVARIABLE
+#'
+#' @description `r table_description("CONTVARIABLE")`. Setting CONTVARIABLE
+#' indexes several variables in table2. Removing CONTVARIABLE removes the
+#' indexing from table2.
+#'
+#' @param x A px object
+#' @param value Optional. A character string with the name of the variable to
+#' use as CONTVARIABLE. If missing, the current CONTVARIABLE is returned. If
+#' NULL, CONTVARIABLE is removed.
+#'
+#' @return A px object or a character string.
+#'
+#' @export
+contvariable.px <- function(x, value) {
+  if (missing(value)) {
+    return(get_variable1_logic_value(x, "contvariable"))
+  } else if (is.null(value)) {
+    x$variables1$contvariable <- FALSE
+
+    previously_indexed_by_contvariable <-
+     x$table2 %>%
+     dplyr::filter(keyword %in% keywords_indexed_by_contvariable()) %>%
+     dplyr::group_by(keyword, language) %>%
+     dplyr::slice(1)
+
+    x$table2 <-
+      x$table2 %>%
+      dplyr::filter(! keyword %in% keywords_indexed_by_contvariable()) %>%
+      dplyr::bind_rows(previously_indexed_by_contvariable) %>%
+      dplyr::mutate(code = NA_character_)
+  } else {
+
+    x$variables1$contvariable <- FALSE
+
+    x <- modify_variables1(x, "contvariable",
+                           dplyr::tibble(`variable-code` = value,
+                                         contvariable = TRUE
+                                         )
+                           )
+
+
+    contvariable_codes <- unique(x$data[[value]])
+
+    indexed_by_contvariable <-
+      x$table2 %>%
+      dplyr::filter(keyword %in% keywords_indexed_by_contvariable()) %>%
+      dplyr::select(-code) %>%
+      tidyr::crossing(code = contvariable_codes)
+
+    x$table2 <-
+      x$table2 %>%
+      dplyr::filter(! keyword %in% keywords_indexed_by_contvariable()) %>%
+      dplyr::bind_rows(indexed_by_contvariable)
+  }
+
+  validate_px(x)
+}
+
 
 #' @rdname variable_type.px
 #' @export

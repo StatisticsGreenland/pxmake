@@ -71,7 +71,9 @@ px_from_data_df <- function(df) {
                    ) %>%
     tidyr::unnest(`variable-code`) %>%
     dplyr::group_by(pivot) %>%
-    dplyr::mutate(order = ifelse(pivot == "FIGURES", NA, dplyr::row_number())) %>%
+    dplyr::mutate(order = ifelse(pivot == "FIGURES", NA, dplyr::row_number()),
+                  contvariable = FALSE
+                  ) %>%
     dplyr::ungroup() %>%
     align_data_frames(get_base_variables1())
 

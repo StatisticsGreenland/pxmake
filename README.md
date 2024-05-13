@@ -82,7 +82,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 44 keywords have a modifying function in pxmake:
+Currently the following 45 keywords have a modifying function in pxmake:
 
     #>             Keyword      Function name
     #>       AGGREGALLOWED      aggregallowed
@@ -97,6 +97,7 @@ Currently the following 44 keywords have a modifying function in pxmake:
     #>        CONFIDENTIAL       confidential
     #>             CONTACT            contact
     #>            CONTENTS           contents
+    #>        CONTVARIABLE       contvariable
     #>           COPYRIGHT          copyright
     #>       CREATION-DATE      creation_date
     #>            DECIMALS           decimals
@@ -145,14 +146,13 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 40 keywords currently doesn’t have a modifying function, but can
+These 39 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>              Keyword       Function name Priority Complexity
     #>         ATTRIBUTE-ID        attribute_id                    
     #>       ATTRIBUTE-TEXT      attribute_text                    
     #>           ATTRIBUTES          attributes                    
-    #>         CONTVARIABLE        contvariable       **       Hard
     #>                 DATA                data       **       Easy
     #>             DATABASE            database                    
     #>             DATANOTE            datanote                    

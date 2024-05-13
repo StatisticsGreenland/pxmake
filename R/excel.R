@@ -94,11 +94,15 @@ px_from_excel <- function(excel_path, data = NULL) {
   variables1 <-
     variables_sheet %>%
     align_data_frames(get_base_variables1()) %>%
-    dplyr::select(`variable-code`, pivot, order, type)
+    dplyr::select(`variable-code`, pivot, order, type, contvariable)
 
   variables2 <-
     variables_sheet %>%
-    dplyr::select(-pivot, -order, -type) %>%
+    dplyr::select(-all_of(intersect(c("pivot", "order", "type", "contvariable"),
+                                    names(.)
+                                    )
+                          )
+                  ) %>%
     tidyr::pivot_longer(cols = -c(`variable-code`),
                         names_to = c("language", "keyword"),
                         names_pattern = "^([[:alpha:]]+)_(.*)$"
@@ -211,7 +215,13 @@ save_px_as_xlsx <- function(x, path, save_data, data_path) {
 
   excel_variables <-
     x$variables2 %>%
-    tidyr::pivot_longer(cols = -c(`variable-code`, `language`),
+    tidyr::pivot_longer(cols = -all_of(intersect(c("variable-code",
+                                                   "language",
+                                                   "contvariable"
+                                                   ),
+                                                 names(.)
+                                                 )
+                                       ),
                         names_to = "keyword",
                         values_to = "value"
                         ) %>%

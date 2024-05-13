@@ -177,7 +177,12 @@ get_table2_value <- function(x, keyword) {
   value <-
     x$table2 %>%
     dplyr::filter(keyword == !!keyword) %>%
-    dplyr::select(language, value)
+    dplyr::select(code, language, value) %>%
+    { if (length(unique(.$code)) == 1) {
+      dplyr::select(., -code)
+    } else {
+      .
+    }}
 
   if (nrow(value) == 0) {
     return(NULL)
@@ -209,6 +214,19 @@ get_variable1_value <- function(x, column) {
     tidyr::drop_na(!!column)
 
   if (nrow(value) == 0) {
+    return(NULL)
+  } else {
+    return(value)
+  }
+}
+
+get_variable1_logic_value <- function(x, column) {
+  value <-
+    x$variables1 %>%
+    dplyr::filter(get(column) == TRUE) %>%
+    dplyr::pull(`variable-code`)
+
+  if (length(value) == 0) {
     return(NULL)
   } else {
     return(value)

@@ -220,7 +220,7 @@ px_from_px_file <- function(path) {
 
   name_relation <-
     variable_label %>%
-    dplyr::distinct(`variable-code`, language, `variable-label`)
+    dplyr::distinct(`variable-code`, language, `variable-label`, main_language)
 
   metadata <-
     metadata_df %>%
@@ -232,7 +232,9 @@ px_from_px_file <- function(path) {
                                             )
                   ) %>%
     dplyr::ungroup() %>%
-    dplyr::left_join(name_relation, by = c("language", "variable-label")) %>%
+    dplyr::left_join(dplyr::select(name_relation, -main_language),
+                     by = c("language", "variable-label")
+                     ) %>%
     dplyr::left_join(get_px_keywords(), by = "keyword")
 
   # languages
@@ -304,12 +306,15 @@ px_from_px_file <- function(path) {
     tidyr::unnest(value) %>%
     dplyr::pull(`variable-code`)
 
-  if (identical(contvariable, character(0))) {
-    contvariable_df <- empty_type_df
-  } else {
-    contvariable_df <-
-      dplyr::tibble(`variable-code` = contvariable, type = "CONTVARIABLE")
-  }
+  contvariable_df <-
+    name_relation %>%
+    dplyr::filter(main_language) %>%
+    dplyr::select(`variable-code`) %>%
+    dplyr::mutate(contvariable = ifelse(`variable-code` %in% contvariable,
+                                        TRUE,
+                                        FALSE
+                                        )
+                  )
 
   variable_type <-
     metadata %>%
@@ -319,7 +324,6 @@ px_from_px_file <- function(path) {
     dplyr::select(`variable-code`, type = value)
 
   type_df <- dplyr::bind_rows(time_variable_df,
-                              contvariable_df,
                               variable_type
                               )
 
@@ -327,6 +331,7 @@ px_from_px_file <- function(path) {
     variable_label %>%
     dplyr::distinct(`variable-code`, pivot = keyword, order = index) %>%
     dplyr::left_join(type_df, by = "variable-code") %>%
+    dplyr::left_join(contvariable_df, by = "variable-code") %>%
     dplyr::filter(! `variable-code` %in% figures_variable) %>%
     dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,
                                    pivot = "FIGURES"
@@ -346,7 +351,8 @@ px_from_px_file <- function(path) {
                        values_from = value
                        ) %>%
     # Add variables without NOTE, ELIMINATION, DOMAIN to get all variable-labels
-    dplyr::bind_rows(dplyr::anti_join(name_relation, .,
+    dplyr::bind_rows(dplyr::anti_join(dplyr::select(name_relation, -main_language),
+                                      .,
                                       by=c("variable-code",
                                            "language",
                                            "variable-label"

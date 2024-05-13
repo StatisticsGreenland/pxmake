@@ -21,7 +21,8 @@ get_base_variables1 <- function() {
   dplyr::tibble(`variable-code` = as.character(), #key
                 pivot           = as.character(),
                 order           = as.numeric(),
-                type            = as.character()
+                type            = as.character(),
+                contvariable    = as.logical()
                 )
 }
 

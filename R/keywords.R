@@ -99,3 +99,7 @@ get_px_keywords <- function() {
 mandatory_keywords <- function() {
   get_px_keywords() %>% dplyr::filter(mandatory) %>% dplyr::pull(keyword)
 }
+
+keywords_indexed_by_contvariable <- function() {
+  get_px_keywords() %>% dplyr::filter(indexed_by_contvariable) %>% dplyr::pull(keyword)
+}

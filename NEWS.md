@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## Breaking changes
+- Rename 'codelists' to 'cells' in px-object and Excel workbooks. (#256)
+
 ## New features
 - Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`,
 `descriptiondefault()`, `order()`, `precision()`, `cellnote()`, `cellnotex()`,

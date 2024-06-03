@@ -332,7 +332,7 @@ get_metadata_df_from_px <- function(x) {
       wrap_varaible_in_list(value)
   }
 
-  codes_not_in_codelist <-
+  codes_not_in_cells <-
     x$data %>%
     dplyr::select(dplyr::all_of(intersect(stub_heading_variables, names(.)))) %>%
     tidyr::pivot_longer(cols = everything(),
@@ -340,21 +340,21 @@ get_metadata_df_from_px <- function(x) {
                         values_to = "code"
                         ) %>%
     dplyr::distinct_all() %>%
-    align_data_frames(get_base_codelists2()) %>%
+    align_data_frames(get_base_cells2()) %>%
     dplyr::select(`variable-code`, code) %>%
-    dplyr::anti_join(x$codelists2, by = c("variable-code", "code")) %>%
+    dplyr::anti_join(x$cells2, by = c("variable-code", "code")) %>%
     dplyr::mutate(value = code) %>%
     tidyr::crossing(language = defined_languages(x))
 
-  codelists <-
-    x$codelists2 %>%
-    dplyr::bind_rows(codes_not_in_codelist) %>%
-    dplyr::left_join(x$codelists1, by = c("variable-code", "code")) %>%
+  cells <-
+    x$cells2 %>%
+    dplyr::bind_rows(codes_not_in_cells) %>%
+    dplyr::left_join(x$cells1, by = c("variable-code", "code")) %>%
     dplyr::left_join(name_relation, by = c("variable-code", "language")) %>%
     dplyr::mutate(value = ifelse(is.na(value), code, value))
 
   code_value <-
-    codelists %>%
+    cells %>%
     tidyr::pivot_longer(cols = c("code", "value"), names_to = "type") %>%
     dplyr::mutate(keyword = toupper(paste0(type, "s"))) %>%
     dplyr::arrange(keyword, order) %>%
@@ -364,7 +364,7 @@ get_metadata_df_from_px <- function(x) {
     dplyr::ungroup()
 
   valuenotes <-
-    codelists %>%
+    cells %>%
     tidyr::pivot_longer(cols = starts_with("valuenote"),
                         names_to = "keyword",
                         values_to = "keyword_value"
@@ -380,7 +380,7 @@ get_metadata_df_from_px <- function(x) {
                   )
 
   precision <-
-    codelists %>%
+    cells %>%
     dplyr::mutate(keyword = "PRECISION") %>%
     tidyr::drop_na(precision) %>%
     wrap_varaible_in_list(precision) %>%

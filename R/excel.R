@@ -23,7 +23,7 @@ get_excel_sheet <- function(sheet, add_automatically = FALSE) {
 get_table_sheet      <- get_excel_sheet("Table")
 get_table2_sheet     <- get_excel_sheet("Table2")
 get_variables_sheet  <- get_excel_sheet("Variables")
-get_codelists_sheet  <- get_excel_sheet("Codelists")
+get_cells_sheet  <- get_excel_sheet("Cells")
 get_acrosscell_sheet <- get_excel_sheet("Acrosscell", add_automatically = TRUE)
 get_data_sheet       <- get_excel_sheet("Data")
 
@@ -115,23 +115,23 @@ px_from_excel <- function(excel_path, data = NULL) {
                                             )
                   )
 
-  # codelists1, codelists2, data_df
+  # cells1, cells2, data_df
   data_df <-
     data %>%
     {if (is.null(.)) get_data_sheet(excel_path) else . } %>%
     format_data_df(figures_variable = get_figures_variable_from_excel(excel_path))
 
-  codelists_sheet <-
+  cells_sheet <-
     excel_path %>%
-    get_codelists_sheet()
+    get_cells_sheet()
 
-  codelists1 <-
-    codelists_sheet %>%
-    align_data_frames(get_base_codelists1()) %>%
+  cells1 <-
+    cells_sheet %>%
+    align_data_frames(get_base_cells1()) %>%
     dplyr::select(`variable-code`, code, order = sortorder, precision)
 
-  codelists2 <-
-    codelists_sheet %>%
+  cells2 <-
+    cells_sheet %>%
     dplyr::select(-sortorder, -precision) %>%
     tidyr::pivot_longer(cols = ends_with(c("_code-label", "_valuenote")),
                         names_to = c("language", "keyword"),
@@ -139,7 +139,7 @@ px_from_excel <- function(excel_path, data = NULL) {
                         ) %>%
     tidyr::pivot_wider(names_from = "keyword") %>%
     dplyr::rename(value = `code-label`) %>%
-    align_data_frames(get_base_codelists2())
+    align_data_frames(get_base_cells2())
 
   # acrosscell
   stub_heading_variables <-
@@ -167,8 +167,8 @@ px_from_excel <- function(excel_path, data = NULL) {
          table2 = table2,
          variables1 = variables1,
          variables2 = variables2,
-         codelists1 = codelists1,
-         codelists2 = codelists2,
+         cells1 = cells1,
+         cells2 = cells2,
          acrosscell = acrosscell,
          data = data_df
          )
@@ -238,8 +238,8 @@ save_px_as_xlsx <- function(x, path, save_data, data_path) {
     dplyr::full_join(x$variables1, by = "variable-code") %>%
     dplyr::relocate(names(x$variables1))
 
-  excel_codelists <-
-    x$codelists2 %>%
+  excel_cells <-
+    x$cells2 %>%
     dplyr::rename(`code-label` = value) %>%
     tidyr::pivot_longer(cols = -c(`variable-code`, code, language),
                         names_to = "keyword",
@@ -254,8 +254,8 @@ save_px_as_xlsx <- function(x, path, save_data, data_path) {
                     ends_with("code-label"),
                     ends_with("valuenote")
                     ) %>%
-    dplyr::full_join(x$codelists1, by = c("variable-code", "code")) %>%
-    dplyr::relocate(names(x$codelists1)) %>%
+    dplyr::full_join(x$cells1, by = c("variable-code", "code")) %>%
+    dplyr::relocate(names(x$cells1)) %>%
     dplyr::rename(sortorder = order)
 
 
@@ -287,10 +287,10 @@ save_px_as_xlsx <- function(x, path, save_data, data_path) {
   ### Make sheets in workbook
   wb <- openxlsx::createWorkbook()
 
-  add_excel_sheet(wb, excel_table,     "Table")
-  add_excel_sheet(wb, excel_table2,    "Table2")
-  add_excel_sheet(wb, excel_variables, "Variables")
-  add_excel_sheet(wb, excel_codelists, "Codelists")
+  add_excel_sheet(wb, excel_table,      "Table")
+  add_excel_sheet(wb, excel_table2,     "Table2")
+  add_excel_sheet(wb, excel_variables,  "Variables")
+  add_excel_sheet(wb, excel_cells,      "Cells")
   add_excel_sheet(wb, excel_acrosscell, "Acrosscell")
 
   if (save_data) {

@@ -21,7 +21,7 @@ test_that("pxjob exists without errors (exit code 0)", {
   expect_that_pxjob_runs_without_errors(px(input = get_data_path("BEXSTA")))
 
   x1 <- px(input = women)
-  x1$codelists2 <- get_base_codelists2()
+  x1$cells2 <- get_base_cells2()
 
   expect_that_pxjob_runs_without_errors(x1)
 

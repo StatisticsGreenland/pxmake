@@ -20,5 +20,7 @@ NULL, CONTVARIABLE is removed.}
 A px object or a character string.
 }
 \description{
-Inspect or change CONTVARIABLE.
+Inspect or change CONTVARIABLE.. Setting CONTVARIABLE
+indexes several variables in table2. Removing CONTVARIABLE removes the
+indexing from table2.
 }

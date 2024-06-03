@@ -72,7 +72,7 @@ add_totals <- function(x, variables) {
 add_totals.px <- function(x, variables) {
   params <-
     x$variables2 %>%
-    dplyr::left_join(dplyr::select(x$codelists2, `variable-code`, code, value),
+    dplyr::left_join(dplyr::select(x$cells2, `variable-code`, code, value),
                      by = c("variable-code", "elimination" = "value"),
                      multiple = "all"
                      ) %>%

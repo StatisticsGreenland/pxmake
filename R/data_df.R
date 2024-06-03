@@ -85,7 +85,7 @@ px_from_data_df <- function(df) {
                   ) %>%
     align_data_frames(get_base_variables2())
 
-  codelists1 <-
+  cells1 <-
     data_df %>%
     dplyr::select(setdiff(names(.), figures_variable)) %>%
     tidyr::pivot_longer(cols = everything(),
@@ -97,23 +97,23 @@ px_from_data_df <- function(df) {
     dplyr::group_by(`variable-code`) %>%
     dplyr::mutate(order = dplyr::row_number()) %>%
     dplyr::ungroup() %>%
-    align_data_frames(get_base_codelists1())
+    align_data_frames(get_base_cells1())
 
-  codelists2 <-
-    codelists1 %>%
+  cells2 <-
+    cells1 %>%
     dplyr::select(`variable-code`, code) %>%
     dplyr::mutate(language = default_language,
                   value = code
                   ) %>%
-    align_data_frames(get_base_codelists2())
+    align_data_frames(get_base_cells2())
 
   new_px(languages = get_base_languages(),
          table1 = table1,
          table2 = table2,
          variables1 = variables1,
          variables2 = variables2,
-         codelists1 = codelists1,
-         codelists2 = codelists2,
+         cells1 = cells1,
+         cells2 = cells2,
          acrosscell = get_base_acrosscell(c(stub_variables, heading_variables)),
          data = data_df
          ) %>%

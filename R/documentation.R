@@ -43,7 +43,7 @@ table2_param_value <- function(keyword) {
   stringr::str_glue("{start} {table_param_value_ending(keyword)}")
 }
 
-codelists_param_value <- function(keyword, number) {
+cells_param_value <- function(keyword, number) {
   colname <- tolower(keyword)
 
   if (number == "1") {

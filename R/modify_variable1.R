@@ -28,7 +28,7 @@ change_pivot_variables <- function(x, variables, pivot) {
     dplyr::arrange(desc(pivot), order) %>%
     align_data_frames(get_base_variables1())
 
-  new_acrosscell_base <- get_base_acrosscell(c(stub(x), heading(x)))
+  new_acrosscell_base <- get_base_acrosscell(c(px_stub(x), px_heading(x)))
 
   x$acrosscell <-
     x$acrosscell %>%
@@ -51,10 +51,10 @@ get_pivot_variables <- function(x, pivot) {
     dplyr::pull(`variable-code`)
 }
 
-#' @rdname stub.px
+#' @rdname px_stub.px
 #' @export
-stub <- function(x, variables) {
-  UseMethod("stub")
+px_stub <- function(x, variables) {
+  UseMethod("px_stub")
 }
 
 #' @title STUB
@@ -65,10 +65,10 @@ stub <- function(x, variables) {
 #' @param variables `r pivot_param_variables("STUB")`
 #' @return A px object or a character vector
 #'
-#' @seealso \code{\link{heading}} \code{\link{figures}}
+#' @seealso \code{\link{px_heading}} \code{\link{figures}}
 #'
 #' @export
-stub.px <- function(x, variables) {
+px_stub.px <- function(x, variables) {
   if (missing(variables)) {
     return(get_pivot_variables(x, "STUB"))
   }
@@ -76,19 +76,19 @@ stub.px <- function(x, variables) {
   validate_px(change_pivot_variables(x, variables, "STUB"))
 }
 
-#' @rdname heading.px
+#' @rdname px_heading.px
 #' @export
-heading <- function(x, variables) {
-  UseMethod("heading")
+px_heading <- function(x, variables) {
+  UseMethod("px_heading")
 }
 
-#' @inherit stub.px
+#' @inherit px_stub.px
 #' @title HEADING
 #' @description `r description_start("HEADING")`
 #' @param variables `r pivot_param_variables("HEADING")`
-#' @seealso \code{\link{stub}} \code{\link{figures}}
+#' @seealso \code{\link{px_stub}} \code{\link{figures}}
 #' @export
-heading.px <- function(x, variables) {
+px_heading.px <- function(x, variables) {
   if (missing(variables)) {
     return(get_pivot_variables(x, "HEADING"))
   }
@@ -113,7 +113,7 @@ figures <- function(x, variable) {
 #'
 #' @return A px object or a character string
 #'
-#' @seealso \code{\link{stub}} \code{\link{heading}}
+#' @seealso \code{\link{px_stub}} \code{\link{px_heading}}
 #'
 #' @export
 figures.px <- function(x, variable) {
@@ -132,15 +132,15 @@ figures.px <- function(x, variable) {
   validate_px(x)
 }
 
-#' @rdname timeval.px
+#' @rdname px_timeval.px
 #' @export
-timeval <- function(x, variable) {
-  UseMethod("timeval")
+px_timeval <- function(x, variable) {
+  UseMethod("px_timeval")
 }
 
 #' TIMEVAL
 #'
-#' Inspect or change which variable is used as timeval. There can only be one
+#' Inspect or change which variable is used as px_timeval. There can only be one
 #' time variable.
 #'
 #' @param x A px object
@@ -150,7 +150,7 @@ timeval <- function(x, variable) {
 #' @return A px object or a character string
 #'
 #' @export
-timeval.px <- function(x, variable) {
+px_timeval.px <- function(x, variable) {
   if (missing(variable)) {
     return(x$variables1 %>%
              dplyr::filter(toupper(type) == "TIME") %>%
@@ -169,10 +169,10 @@ timeval.px <- function(x, variable) {
   validate_px(x)
 }
 
-#' @rdname contvariable.px
+#' @rdname px_contvariable.px
 #' @export
-contvariable <- function(x, value) {
-  UseMethod("contvariable")
+px_contvariable <- function(x, value) {
+  UseMethod("px_contvariable")
 }
 
 #' @title CONTVARIABLE
@@ -189,7 +189,7 @@ contvariable <- function(x, value) {
 #' @return A px object or a character string.
 #'
 #' @export
-contvariable.px <- function(x, value) {
+px_contvariable.px <- function(x, value) {
   if (missing(value)) {
     return(get_variable1_logic_value(x, "contvariable"))
   } else if (is.null(value)) {
@@ -235,15 +235,15 @@ contvariable.px <- function(x, value) {
 }
 
 
-#' @rdname variable_type.px
+#' @rdname px_variable_type.px
 #' @export
-variable_type <- function(x, value) {
-  UseMethod("variable_type")
+px_variable_type <- function(x, value) {
+  UseMethod("px_variable_type")
 }
 
 #' @title VARIABLE-TYPE
 #'
-#' @description `description_table1("VARIABLE-TYPE")`
+#' @description `px_description_table1("VARIABLE-TYPE")`
 #'
 #' @param x A px object
 #' @param value A data frame with columns 'variable-code' and 'type'. If value
@@ -253,7 +253,7 @@ variable_type <- function(x, value) {
 #' @return A px object or a data frame.
 #'
 #' @export
-variable_type.px <- function(x, value) {
+px_variable_type.px <- function(x, value) {
   if (missing(value)) {
     return(get_variable1_value(x, "type"))
   } else if (is.null(value)) {

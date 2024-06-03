@@ -12,10 +12,10 @@ handle_acrossnote_keyword <- function(x, value, keyword) {
   return(validate_px(x))
 }
 
-#' @rdname cellnote.px
+#' @rdname px_cellnote.px
 #' @export
-cellnote <- function(x, value) {
-  UseMethod("cellnote")
+px_cellnote <- function(x, value) {
+  UseMethod("px_cellnote")
 }
 
 #' @title CELLNOTE
@@ -28,21 +28,21 @@ cellnote <- function(x, value) {
 #' @return A px object, or a data frame.
 #'
 #' @export
-cellnote.px <- function(x, value) {
+px_cellnote.px <- function(x, value) {
   handle_acrossnote_keyword(x, value, "CELLNOTE")
 }
 
-#' @rdname cellnotex.px
+#' @rdname px_cellnotex.px
 #' @export
-cellnotex <- function(x, value) {
-  UseMethod("cellnotex")
+px_cellnotex <- function(x, value) {
+  UseMethod("px_cellnotex")
 }
 
-#' @inherit cellnote.px
+#' @inherit px_cellnote.px
 #' @title CELLNOTEX
 #' @description `r table_description("CELLNOTEX")`
 #' @param value `r acrosscell_param_value("CELLNOTEX")`
 #' @export
-cellnotex.px <- function(x, value) {
+px_cellnotex.px <- function(x, value) {
   handle_acrossnote_keyword(x, value, "CELLNOTEX")
 }

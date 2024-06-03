@@ -393,7 +393,7 @@ get_metadata_df_from_px <- function(x) {
 
   acrosscell <-
     x$acrosscell %>%
-    dplyr::mutate(across(c(stub(x), heading(x)), ~ifelse(is.na(.), "*", .))) %>%
+    dplyr::mutate(across(c(px_stub(x), px_heading(x)), ~ifelse(is.na(.), "*", .))) %>%
     tidyr::pivot_longer(cols = setdiff(get_base_acrosscell() %>% names(), "language"),
                         names_to = "keyword",
                         values_to = "value"

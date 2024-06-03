@@ -12,9 +12,9 @@ micromake(x, out_dir = NULL, keyword_values = NULL)
 \item{out_dir}{Directory to save px files in.}
 
 \item{keyword_values}{Optional. A data frame with column 'variable' and one
-or more of: 'contents', 'title', 'description', and 'matrix'. The columns
-will be added as keywords to the table for each non-HEADING variable that
-match the 'variable' column. It probably work for other keywords as well.
+or more of: 'px_contents', 'px_title', 'px_description', and 'px_matrix'. The
+columns will be added as keywords to the table for each non-HEADING variable
+that match the 'variable' column. It probably work for other keywords as well.
 
 Use the column 'filename' to control the filename of each micro file. The
 filename path is relative to 'out_dir'.

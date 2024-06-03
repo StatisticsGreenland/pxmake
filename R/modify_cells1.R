@@ -15,10 +15,10 @@ handle_cells <- function(x, value, number, column) {
   validate_px(modify_cells(x, number, column, value))
 }
 
-#' @rdname precision.px
+#' @rdname px_precision.px
 #' @export
-precision <- function(x, value) {
-  UseMethod("precision")
+px_precision <- function(x, value) {
+  UseMethod("px_precision")
 }
 
 #' @title PRECISION
@@ -31,7 +31,7 @@ precision <- function(x, value) {
 #' @return A px object or a data frame
 #'
 #' @export
-precision.px <- function(x, value) {
+px_precision.px <- function(x, value) {
   handle_cells(x, value, "1", "precision")
 }
 
@@ -42,7 +42,7 @@ order <- function(x, value) {
   UseMethod("order")
 }
 
-#' @inherit precision.px
+#' @inherit px_precision.px
 #' @title ORDER
 #' @description `r table_description("ORDER")`
 #' @param value `r cells_param_value("ORDER", "1")`

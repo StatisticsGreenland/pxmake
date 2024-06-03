@@ -30,7 +30,7 @@ handle_notes <- function(x, value, keyword) {
     }
   } else if (is.list(value)) {
     for (i in seq_along(value)) {
-      x <- get(paste0(colname, ".px"))(x, value[[i]])
+      x <- get(paste0("px_", colname, ".px"))(x, value[[i]])
     }
   } else {
     error(error_msg)
@@ -40,10 +40,10 @@ handle_notes <- function(x, value, keyword) {
 }
 
 
-#' @rdname note.px
+#' @rdname px_note.px
 #' @export
-note <- function(x, value) {
-  UseMethod("note")
+px_note <- function(x, value) {
+  UseMethod("px_note")
 }
 
 #' @title NOTE
@@ -57,22 +57,22 @@ note <- function(x, value) {
 #' strings and/or data frames.
 #'
 #' @export
-note.px <- function(x, value) {
+px_note.px <- function(x, value) {
   handle_notes(x, value, "NOTE")
 }
 
 
-#' @rdname notex.px
+#' @rdname px_notex.px
 #' @export
-notex <- function(x, value) {
-  UseMethod("notex")
+px_notex <- function(x, value) {
+  UseMethod("px_notex")
 }
 
-#' @inherit note.px
+#' @inherit px_note.px
 #' @title NOTEX
 #' @description `r note_description("NOTEX")`
 #' @param value `r note_param_value("NOTEX")`
 #' @export
-notex.px <- function(x, value) {
+px_notex.px <- function(x, value) {
   handle_notes(x, value, "NOTEX")
 }

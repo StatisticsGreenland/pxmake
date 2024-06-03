@@ -12,10 +12,10 @@ handle_variables2_keyword <- function(x, value, keyword) {
   validate_px(x)
 }
 
-#' @rdname domain.px
+#' @rdname px_domain.px
 #' @export
-domain <- function(x, value) {
-  UseMethod("domain")
+px_domain <- function(x, value) {
+  UseMethod("px_domain")
 }
 
 #' @title DOMAIN
@@ -28,21 +28,21 @@ domain <- function(x, value) {
 #' @return A px object, a character string, or a data frame.
 #'
 #' @export
-domain.px <- function(x, value) {
+px_domain.px <- function(x, value) {
   handle_variables2_keyword(x, value, "DOMAIN")
 }
 
-#' @rdname elimination.px
+#' @rdname px_elimination.px
 #' @export
-elimination <- function(x, value) {
-  UseMethod("elimination")
+px_elimination <- function(x, value) {
+  UseMethod("px_elimination")
 }
 
-#' @inherit domain.px
+#' @inherit px_domain.px
 #' @title ELIMINATION
 #' @description `r table_description("ELIMINATION")`
 #' @param value `r variables2_param_value("ELIMINATION")`
 #' @export
-elimination.px <- function(x, value) {
+px_elimination.px <- function(x, value) {
   handle_variables2_keyword(x, value, "ELIMINATION")
 }

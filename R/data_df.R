@@ -117,6 +117,6 @@ px_from_data_df <- function(df) {
          acrosscell = get_base_acrosscell(c(stub_variables, heading_variables)),
          data = data_df
          ) %>%
-    title("") %>%
-    charset('ANSI')
+    px_title("") %>%
+    px_charset('ANSI')
 }

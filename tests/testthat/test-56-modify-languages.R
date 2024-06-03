@@ -5,37 +5,37 @@ test_that('LANGUAGE modified', {
     readRDS() %>%
     px()
 
-  expect_true(is.null(language(x)))
-  expect_identical(languages(x), NULL)
+  expect_true(is.null(px_language(x)))
+  expect_identical(px_languages(x), NULL)
 
-  x2 <- language(x, "sv")
-  expect_identical(language(x2), "sv")
-  expect_identical(languages(x2), NULL)
+  x2 <- px_language(x, "sv")
+  expect_identical(px_language(x2), "sv")
+  expect_identical(px_languages(x2), NULL)
 
-  x3 <- languages(x2, "sv")
-  expect_identical(language(x3), "sv")
-  expect_identical(languages(x3), c("sv"))
+  x3 <- px_languages(x2, "sv")
+  expect_identical(px_language(x3), "sv")
+  expect_identical(px_languages(x3), c("sv"))
 
-  expect_error(languages(x3, "en"), regexp = "LANGUAGE is not in")
+  expect_error(px_languages(x3, "en"), regexp = "LANGUAGE is not in")
 
   x4 <-
     x3 %>%
-    language(NULL) %>%
-    languages("en")
+    px_language(NULL) %>%
+    px_languages("en")
 
-  expect_identical(language(x4), NULL)
-  expect_identical(languages(x4), c("en"))
+  expect_identical(px_language(x4), NULL)
+  expect_identical(px_languages(x4), c("en"))
 
-  x5 <- languages(x4, NULL)
+  x5 <- px_languages(x4, NULL)
 
-  expect_identical(languages(x5), NULL)
+  expect_identical(px_languages(x5), NULL)
 
   # Runs without errors
   x %>%
-    languages(c("en", "kl")) %>%
-    language("en")
+    px_languages(c("en", "kl")) %>%
+    px_language("en")
 
   x %>%
-    languages(c("en", "kl")) %>%
-    language("dk")
+    px_languages(c("en", "kl")) %>%
+    px_language("dk")
 })

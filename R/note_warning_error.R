@@ -154,11 +154,11 @@ error_if_mandatory_keyword <- function(x, keyword) {
   if (keyword %in% mandatory_keywords()) {
     error(stringr::str_glue("Keyword '{keyword}' is mandatory and cannot be removed."))
   } else if (keyword %in% "TITLE") {
-    if (is.null(description(x))) {
+    if (is.null(px_description(x))) {
       error("Keyword TITLE cannot be removed unless DESCRIPTION is defined.")
     }
   } else if (keyword %in% "DESCRIPTION") {
-    if (is.null(title(x))) {
+    if (is.null(px_title(x))) {
       error("Keyword DESCRIPTION cannot be removed unless TITLE is defined.")
     }
   }
@@ -226,9 +226,9 @@ error_if_data_frame_is_missing_column <- function(x) {
 }
 
 error_if_multiple_time_variables <- function(x) {
-  if (length(timeval(x)) > 1) {
+  if (length(px_timeval(x)) > 1) {
     error(paste0("px object has more than one time variable: ",
-                 paste0(timeval(x), collapse = ", ")))
+                 paste0(px_timeval(x), collapse = ", ")))
   }
 }
 
@@ -294,8 +294,8 @@ error_if_used_languages_are_not_defined <- function(x) {
 }
 
 error_if_language_not_in_languages <- function(x) {
-  if (length(languages(x)) > 0) {
-    if (! any(is.null(language(x)), language(x) %in% languages(x))) {
+  if (length(px_languages(x)) > 0) {
+    if (! any(is.null(px_language(x)), px_language(x) %in% px_languages(x))) {
       error("px object: LANGUAGE is not in x$languages.")
     }
   }

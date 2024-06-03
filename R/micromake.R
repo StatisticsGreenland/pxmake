@@ -3,7 +3,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 
   new_data <-
     x$data %>%
-    dplyr::select(all_of(c(heading(x), micro_var))) %>%
+    dplyr::select(all_of(c(px_heading(x), micro_var))) %>%
     dplyr::count(across(everything()), name = figures_var) %>%
     dplyr::arrange_all() %>%
     format_data_df(figures_variable = figures_var)
@@ -11,14 +11,14 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
   headings_with_non_na_values <-
     new_data %>%
     dplyr::filter(!!rlang::sym(micro_var) != "-") %>%
-    dplyr::select(all_of(heading(x))) %>%
+    dplyr::select(all_of(px_heading(x))) %>%
     dplyr::distinct_all()
 
   headings_with_only_na_values <-
     new_data %>%
-    dplyr::select(all_of(heading(x))) %>%
-    {if (length(heading(x)) > 0)
-      dplyr::anti_join(., headings_with_non_na_values, by = heading(x))
+    dplyr::select(all_of(px_heading(x))) %>%
+    {if (length(px_heading(x)) > 0)
+      dplyr::anti_join(., headings_with_non_na_values, by = px_heading(x))
      else dplyr::filter(headings_with_non_na_values, FALSE)
     }
 
@@ -27,11 +27,11 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
     headings_with_only_na_values <- headings_with_non_na_values
   }
 
-  if (length(heading(x)) > 0) {
+  if (length(px_heading(x)) > 0) {
     # Remove headings where the figures variable only has NA values
     new_data <-
       new_data %>%
-      dplyr::anti_join(headings_with_only_na_values, by = heading(x))
+      dplyr::anti_join(headings_with_only_na_values, by = px_heading(x))
   }
 
   data_names <- names(new_data)
@@ -40,7 +40,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
     headings_with_only_na_values %>%
     {if (nrow(.) > 0)
       tidyr::pivot_longer(.,
-                          cols = heading(x),
+                          cols = px_heading(x),
                           names_to = "variable-code",
                           values_to = "code"
                           )
@@ -49,7 +49,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 
   x_new <-
     x %>%
-    stub(micro_var)
+    px_stub(micro_var)
 
   x_micro <-
     new_px(languages  = x_new$languages,
@@ -113,9 +113,9 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 #' @param x A px object.
 #' @param out_dir Directory to save px files in.
 #' @param keyword_values Optional. A data frame with column 'variable' and one
-#' or more of: 'contents', 'title', 'description', and 'matrix'. The columns
-#' will be added as keywords to the table for each non-HEADING variable that
-#' match the 'variable' column. It probably work for other keywords as well.
+#' or more of: 'px_contents', 'px_title', 'px_description', and 'px_matrix'. The
+#' columns will be added as keywords to the table for each non-HEADING variable
+#' that match the 'variable' column. It probably work for other keywords as well.
 #'
 #' Use the column 'filename' to control the filename of each micro file. The
 #' filename path is relative to 'out_dir'.
@@ -131,7 +131,7 @@ micromake <- function(x, out_dir = NULL, keyword_values = NULL) {
 
   if (is.null(out_dir)) out_dir <- temp_dir()
 
-  micro_vars <- setdiff(names(x$data), heading(x))
+  micro_vars <- setdiff(names(x$data), px_heading(x))
 
   if (! is.null(keyword_values)) {
     if ("filename" %in% colnames(keyword_values)) {

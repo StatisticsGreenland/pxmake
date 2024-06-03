@@ -142,7 +142,7 @@ modify_variables2 <- function(x, column, value) {
 }
 
 modify_acrosscell <- function(x, value, keyword) {
-  missing_columns <- setdiff(c(stub(x), heading(x)), names(value))
+  missing_columns <- setdiff(c(px_stub(x), px_heading(x)), names(value))
 
   value_completed <-
     value %>%
@@ -154,7 +154,7 @@ modify_acrosscell <- function(x, value, keyword) {
 
   x$acrosscell <-
     modify_with_df(x$acrosscell, value_completed, tolower(keyword)) %>%
-    align_data_frames(get_base_acrosscell(c(stub(x), heading(x))))
+    align_data_frames(get_base_acrosscell(c(px_stub(x), px_heading(x))))
 
   validate_px(x)
 }

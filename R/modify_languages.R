@@ -4,10 +4,10 @@
 #'
 #' @returns A character vector
 defined_languages <- function(x) {
-  if (! is.null(languages(x))) {
-    return(languages(x))
-  } else if (! is.null(language(x))) {
-    return(language(x))
+  if (! is.null(px_languages(x))) {
+    return(px_languages(x))
+  } else if (! is.null(px_language(x))) {
+    return(px_language(x))
   } else {
     return(NA_character_)
   }
@@ -67,10 +67,10 @@ modify_languages_in_px <- function(x, new_languages) {
   return(x)
 }
 
-#' @rdname language.px
+#' @rdname px_language.px
 #' @export
-language <- function(x, value) {
-  UseMethod("language")
+px_language <- function(x, value) {
+  UseMethod("px_language")
 }
 
 #' LANGUAGE
@@ -86,7 +86,7 @@ language <- function(x, value) {
 #' @seealso \code{\link{languages}}
 #'
 #' @export
-language.px <- function(x, value) {
+px_language.px <- function(x, value) {
   if (missing(value)) {
     language <- get_table1_value(x, "LANGUAGE")
 
@@ -99,8 +99,8 @@ language.px <- function(x, value) {
     return(remove_keyword_table1(x, "LANGUAGE"))
   }
 
-  if (!is.null(languages(x)) & !value %in% languages(x)) {
-    x$languages <- modify_or_add_in_column(x$languages, "language", language(x), value)
+  if (!is.null(px_languages(x)) & !value %in% px_languages(x)) {
+    x$languages <- modify_or_add_in_column(x$languages, "language", px_language(x), value)
   }
 
   x <- modify_table1(x, "LANGUAGE", value)
@@ -111,10 +111,10 @@ language.px <- function(x, value) {
 }
 
 
-#' @rdname languages.px
+#' @rdname px_languages.px
 #' @export
-languages <- function(x, value) {
-  UseMethod("languages")
+px_languages <- function(x, value) {
+  UseMethod("px_languages")
 }
 
 #' LANGUAGES
@@ -130,7 +130,7 @@ languages <- function(x, value) {
 #' @seealso \code{\link{language}}
 #'
 #' @export
-languages.px <- function(x, value) {
+px_languages.px <- function(x, value) {
   if (missing(value)) {
     languages <- x$languages$language
 

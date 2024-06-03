@@ -80,10 +80,10 @@ x <- px(data.frame(year = as.character(rep(2021:2023, each = 3)),
 head(x$data, 4)
 
 x %>% 
-  timeval("year") %>%  # Set year as TIMEVAL
-  heading("year") %>%  # Set year as HEADING
-  stub("group") %>%    # Set group as STUB
-  decimals("2") %>%    # Set DECIMALS to 2
+  px_timeval("year") %>%  # Set year as TIMEVAL
+  px_heading("year") %>%  # Set year as HEADING
+  px_stub("group") %>%    # Set group as STUB
+  px_decimals("2") %>%    # Set DECIMALS to 2
   pxsave("example.px") # Save as px file
 ```
 
@@ -121,7 +121,7 @@ status <-
   as.data.frame() %>% 
   tidyr::drop_na() %>% 
   dplyr::select(Keyword) %>% 
-  dplyr::mutate(`Function name` = gsub("-", "_", tolower(Keyword)),
+  dplyr::mutate(`Function name` = paste0("px_", gsub("-", "_", tolower(Keyword))),
                 implemented = `Function name` %in% modifying_functions
                 ) %>% 
   dplyr::mutate(Priority = 

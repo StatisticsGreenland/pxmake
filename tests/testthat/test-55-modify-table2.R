@@ -5,18 +5,18 @@ test_that('Table2 keyword is modified', {
     readRDS() %>%
     px()
 
-  expect_identical(last_updated(x), NULL)
+  expect_identical(px_last_updated(x), NULL)
 
   datetime <- '2020-01-01 10:00'
 
-  x2 <- last_updated(x, datetime)
-  expect_identical(last_updated(x2), datetime)
+  x2 <- px_last_updated(x, datetime)
+  expect_identical(px_last_updated(x2), datetime)
 
-  x3 <- languages(x, c('en', 'dk'))
-  expect_identical(last_updated(x3), NULL)
+  x3 <- px_languages(x, c('en', 'dk'))
+  expect_identical(px_last_updated(x3), NULL)
 
-  x4 <- last_updated(x3, datetime)
-  expect_identical(last_updated(x4),
+  x4 <- px_last_updated(x3, datetime)
+  expect_identical(px_last_updated(x4),
                    dplyr::tibble(language = c("en", "dk"),
                                  value = '2020-01-01 10:00'
                                  )
@@ -26,13 +26,13 @@ test_that('Table2 keyword is modified', {
                                value = c('2020-01-01 10:00',
                                          '2022-01-01 10:00'))
 
-  x5 <- last_updated(x3, datetime_df)
-  expect_identical(last_updated(x5), datetime_df)
+  x5 <- px_last_updated(x3, datetime_df)
+  expect_identical(px_last_updated(x5), datetime_df)
 
-  x6 <- last_updated(x5, NULL)
-  expect_identical(last_updated(x6), NULL)
+  x6 <- px_last_updated(x5, NULL)
+  expect_identical(px_last_updated(x6), NULL)
 
-  expect_error(last_updated(x3, data.frame(language = c('sv', 'kl'),
+  expect_error(px_last_updated(x3, data.frame(language = c('sv', 'kl'),
                                            value = datetime)),
                regex = 'LANGUAGE'
                )
@@ -47,55 +47,55 @@ test_that('Other keywords are modified and removed', {
 
   x2 <-
     x %>%
-    contents('content') %>%
-    description('description') %>%
-    subject_area('subject area') %>%
-    title('title') %>%
-    units('units') %>%
-    contact('Johan Ejstrud') %>%
-    link('The Legend of Zelda') %>%
-    infofile("infofile") %>%
-    map('X marks the spot') %>%
-    baseperiod("baseperiod") %>%
-    stockfa("S") %>%
-    cfprices("C")
+    px_contents('content') %>%
+    px_description('description') %>%
+    px_subject_area('subject area') %>%
+    px_title('title') %>%
+    px_units('units') %>%
+    px_contact('Johan Ejstrud') %>%
+    px_link('The Legend of Zelda') %>%
+    px_infofile("infofile") %>%
+    px_map('X marks the spot') %>%
+    px_baseperiod("baseperiod") %>%
+    px_stockfa("S") %>%
+    px_cfprices("C")
 
-  expect_identical(contents(x2), 'content')
-  expect_identical(description(x2), 'description')
-  expect_identical(subject_area(x2), 'subject area')
-  expect_identical(title(x2), 'title')
-  expect_identical(units(x2), 'units')
-  expect_identical(contact(x2), 'Johan Ejstrud')
-  expect_identical(link(x2), 'The Legend of Zelda')
-  expect_identical(infofile(x2), "infofile")
-  expect_identical(map(x2), 'X marks the spot')
-  expect_identical(baseperiod(x2), "baseperiod")
-  expect_identical(stockfa(x2), "S")
-  expect_identical(cfprices(x2), "C")
+  expect_identical(px_contents(x2), 'content')
+  expect_identical(px_description(x2), 'description')
+  expect_identical(px_subject_area(x2), 'subject area')
+  expect_identical(px_title(x2), 'title')
+  expect_identical(px_units(x2), 'units')
+  expect_identical(px_contact(x2), 'Johan Ejstrud')
+  expect_identical(px_link(x2), 'The Legend of Zelda')
+  expect_identical(px_infofile(x2), "infofile")
+  expect_identical(px_map(x2), 'X marks the spot')
+  expect_identical(px_baseperiod(x2), "baseperiod")
+  expect_identical(px_stockfa(x2), "S")
+  expect_identical(px_cfprices(x2), "C")
 
   x3 <-
     x2 %>%
-    description(NULL) %>%
-    contact(NULL) %>%
-    link(NULL) %>%
-    infofile(NULL) %>%
-    map(NULL) %>%
-    baseperiod(NULL) %>%
-    stockfa(NULL) %>%
-    cfprices(NULL)
+    px_description(NULL) %>%
+    px_contact(NULL) %>%
+    px_link(NULL) %>%
+    px_infofile(NULL) %>%
+    px_map(NULL) %>%
+    px_baseperiod(NULL) %>%
+    px_stockfa(NULL) %>%
+    px_cfprices(NULL)
 
-  expect_identical(description(x3), NULL)
-  expect_identical(contact(x3), NULL)
-  expect_identical(link(x3), NULL)
-  expect_identical(infofile(x3), NULL)
-  expect_identical(map(x3), NULL)
-  expect_identical(baseperiod(x3), NULL)
-  expect_identical(stockfa(x3), NULL)
-  expect_identical(cfprices(x3), NULL)
+  expect_identical(px_description(x3), NULL)
+  expect_identical(px_contact(x3), NULL)
+  expect_identical(px_link(x3), NULL)
+  expect_identical(px_infofile(x3), NULL)
+  expect_identical(px_map(x3), NULL)
+  expect_identical(px_baseperiod(x3), NULL)
+  expect_identical(px_stockfa(x3), NULL)
+  expect_identical(px_cfprices(x3), NULL)
 
-  expect_error(contents(x3, NULL), regex = 'mandatory')
-  expect_error(units(x3, NULL),    regex = 'mandatory')
-  expect_error(subject_area(x3, NULL), regex = 'mandatory')
+  expect_error(px_contents(x3, NULL), regex = 'mandatory')
+  expect_error(px_units(x3, NULL),    regex = 'mandatory')
+  expect_error(px_subject_area(x3, NULL), regex = 'mandatory')
 })
 
 test_that('Either TITLE or DESCRIPTION should be defined', {
@@ -105,16 +105,16 @@ test_that('Either TITLE or DESCRIPTION should be defined', {
     readRDS() %>%
     px()
 
-  expect_identical(title(x), "")
+  expect_identical(px_title(x), "")
 
-  expect_error(title(x, NULL), regex = 'cannot be removed unless')
+  expect_error(px_title(x, NULL), regex = 'cannot be removed unless')
 
   x2 <-
-    description(x, "description") %>%
-    title(NULL)
+    px_description(x, "description") %>%
+    px_title(NULL)
 
-  expect_identical(description(x2), "description")
+  expect_identical(px_description(x2), "description")
 
-  expect_error(description(x2, NULL), regex = 'cannot be removed unless')
+  expect_error(px_description(x2, NULL), regex = 'cannot be removed unless')
 })
 

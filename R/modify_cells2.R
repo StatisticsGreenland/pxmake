@@ -1,30 +1,30 @@
-#' @rdname valuenote.px
+#' @rdname px_valuenote.px
 #' @export
-valuenote <- function(x, value) {
-  UseMethod("valuenote")
+px_valuenote <- function(x, value) {
+  UseMethod("px_valuenote")
 }
 
-#' @inherit precision.px
+#' @inherit px_precision.px
 #' @title VALUENOTE
 #' @description `r table_description("VALUENOTE")`
 #' @param value `r cells_param_value("VALUENOTE", "2")`
 #' @export
-valuenote.px <- function(x, value) {
+px_valuenote.px <- function(x, value) {
   handle_cells(x, value, "2", "valuenote")
 }
 
 
-#' @rdname valuenotex.px
+#' @rdname px_valuenotex.px
 #' @export
-valuenotex <- function(x, value) {
-  UseMethod("valuenotex")
+px_valuenotex <- function(x, value) {
+  UseMethod("px_valuenotex")
 }
 
-#' @inherit precision.px
+#' @inherit px_precision.px
 #' @title VALUENOTEX
 #' @description `r table_description("VALUENOTEX")`
 #' @param value `r cells_param_value("VALUENOTEX", "2")`
 #' @export
-valuenotex.px <- function(x, value) {
+px_valuenotex.px <- function(x, value) {
   handle_cells(x, value, "2", "valuenotex")
 }

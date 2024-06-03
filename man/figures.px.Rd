@@ -23,5 +23,5 @@ Inspect or change which variable is used as figures. The previous figures
 variable is changed to STUB.
 }
 \seealso{
-\code{\link{stub}} \code{\link{heading}}
+\code{\link{px_stub}} \code{\link{px_heading}}
 }

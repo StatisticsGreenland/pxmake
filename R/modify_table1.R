@@ -12,10 +12,10 @@ handle_table1_keyword <- function(x, value, keyword) {
   validate_px(x)
 }
 
-#' @rdname charset.px
+#' @rdname px_charset.px
 #' @export
-charset <- function(x, value) {
-  UseMethod("charset")
+px_charset <- function(x, value) {
+  UseMethod("px_charset")
 }
 
 #' @title CHARSET
@@ -28,246 +28,246 @@ charset <- function(x, value) {
 #' @return A px object or a character string
 #'
 #' @export
-charset.px <- function(x, value) {
+px_charset.px <- function(x, value) {
   handle_table1_keyword(x, value, "CHARSET")
 }
 
 
-#' @rdname aggregallowed.px
+#' @rdname px_aggregallowed.px
 #' @export
-aggregallowed <- function(x, value) {
-  UseMethod("aggregallowed")
+px_aggregallowed <- function(x, value) {
+  UseMethod("px_aggregallowed")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title AGGREGALLOWED
 #' @description `r table_description("AGGREGALLOWED")`
 #' @param value `r table1_param_value("AGGREGALLOWED")`
 #' @export
-aggregallowed.px <- function(x, value) {
+px_aggregallowed.px <- function(x, value) {
   handle_table1_keyword(x, value, "AGGREGALLOWED")
 }
 
 
-#' @rdname autopen.px
+#' @rdname px_autopen.px
 #' @export
-autopen <- function(x, value) {
-  UseMethod("autopen")
+px_autopen <- function(x, value) {
+  UseMethod("px_autopen")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title AUTOPEN
 #' @description `r table_description("AUTOPEN")`
 #' @param value `r table1_param_value("AUTOPEN")`
 #' @export
-autopen.px <- function(x, value) {
+px_autopen.px <- function(x, value) {
   handle_table1_keyword(x, value, "AUTOPEN")
 }
 
 
-#' @rdname axis_version.px
+#' @rdname px_axis_version.px
 #' @export
-axis_version <- function(x, value) {
-  UseMethod("axis_version")
+px_axis_version <- function(x, value) {
+  UseMethod("px_axis_version")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title AXIS-VERSION
 #' @description `r table_description("AXIS-VERSION")`
 #' @param value `r table1_param_value("AXIS-VERSION")`
 #' @export
-axis_version.px <- function(x, value) {
+px_axis_version.px <- function(x, value) {
   handle_table1_keyword(x, value, "AXIS-VERSION")
 }
 
 
-#' @rdname codepage.px
+#' @rdname px_codepage.px
 #' @export
-codepage <- function(x, value) {
-  UseMethod("codepage")
+px_codepage <- function(x, value) {
+  UseMethod("px_codepage")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title CODEPAGE
 #' @description `r table_description("CODEPAGE")`
 #' @param value `r table1_param_value("CODEPAGE")`
 #' @export
-codepage.px <- function(x, value) {
+px_codepage.px <- function(x, value) {
   handle_table1_keyword(x, value, "CODEPAGE")
 }
 
 
-#' @rdname confidential.px
+#' @rdname px_confidential.px
 #' @export
-confidential <- function(x, value) {
-  UseMethod("confidential")
+px_confidential <- function(x, value) {
+  UseMethod("px_confidential")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title CONFIDENTIAL
 #' @description `r table_description("CONFIDENTIAL")`
 #' @param value `r table1_param_value("CONFIDENTIAL")`
 #' @export
-confidential.px <- function(x, value) {
+px_confidential.px <- function(x, value) {
   handle_table1_keyword(x, value, "CONFIDENTIAL")
 }
 
 
-#' @rdname copyright.px
+#' @rdname px_copyright.px
 #' @export
-copyright <- function(x, value) {
-  UseMethod("copyright")
+px_copyright <- function(x, value) {
+  UseMethod("px_copyright")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title COPYRIGHT
 #' @description `r table_description("COPYRIGHT")`
 #' @param value `r table1_param_value("COPYRIGHT")`
 #' @export
-copyright.px <- function(x, value) {
+px_copyright.px <- function(x, value) {
   handle_table1_keyword(x, value, "COPYRIGHT")
 }
 
 
-#' @rdname creation_date.px
+#' @rdname px_creation_date.px
 #' @export
-creation_date <- function(x, value) {
-  UseMethod("creation_date")
+px_creation_date <- function(x, value) {
+  UseMethod("px_creation_date")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title CREATION-DATE
 #' @description `r table_description("CREATION-DATE")`
 #' @param value `r table1_param_value("CREATION-DATE")`
 #' @export
-creation_date.px <- function(x, value) {
+px_creation_date.px <- function(x, value) {
   handle_table1_keyword(x, value, "CREATION-DATE")
 }
 
 
-#' @rdname decimals.px
+#' @rdname px_decimals.px
 #' @export
-decimals <- function(x, value) {
-  UseMethod("decimals")
+px_decimals <- function(x, value) {
+  UseMethod("px_decimals")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title DECIMALS
 #' @description `r table_description("DECIMALS")`
 #' @param value `r table1_param_value("DECIMALS")`
 #' @export
-decimals.px <- function(x, value) {
+px_decimals.px <- function(x, value) {
   handle_table1_keyword(x, value, "DECIMALS")
 }
 
 
-#' @rdname descriptiondefault.px
+#' @rdname px_descriptiondefault.px
 #' @export
-descriptiondefault <- function(x, value) {
-  UseMethod("descriptiondefault")
+px_descriptiondefault <- function(x, value) {
+  UseMethod("px_descriptiondefault")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title DESCRIPTIONDEFAULT
 #' @description `r table_description("DESCRIPTIONDEFAULT")`
 #' @param value `r table1_param_value("DESCRIPTIONDEFAULT")`
 #' @export
-descriptiondefault.px <- function(x, value) {
+px_descriptiondefault.px <- function(x, value) {
   handle_table1_keyword(x, value, "DESCRIPTIONDEFAULT")
 }
 
 
-#' @rdname matrix.px
+#' @rdname px_matrix.px
 #' @export
-matrix <- function(x, value) {
-  UseMethod("matrix")
+px_matrix <- function(x, value) {
+  UseMethod("px_matrix")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title MATRIX
 #' @description `r table_description("MATRIX")`
 #' @param value `r table1_param_value("MATRIX")`
 #' @export
-matrix.px <- function(x, value) {
+px_matrix.px <- function(x, value) {
   handle_table1_keyword(x, value, "MATRIX")
 }
 
 
-#' @rdname next_update.px
+#' @rdname px_next_update.px
 #' @export
-next_update <- function(x, value) {
-  UseMethod("next_update")
+px_next_update <- function(x, value) {
+  UseMethod("px_next_update")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title NEXT-UPDATE
 #' @description `r table_description("NEXT-UPDATE")`
 #' @param value `r table1_param_value("NEXT-UPDATE")`
 #' @export
-next_update.px <- function(x, value) {
+px_next_update.px <- function(x, value) {
   handle_table1_keyword(x, value, "NEXT-UPDATE")
 }
 
 
-#' @rdname showdecimals.px
+#' @rdname px_showdecimals.px
 #' @export
-showdecimals <- function(x, value) {
-  UseMethod("showdecimals")
+px_showdecimals <- function(x, value) {
+  UseMethod("px_showdecimals")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title SHOWDECIMALS
 #' @description `r table_description("SHOWDECIMALS")`
 #' @param value `r table1_param_value("SHOWDECIMALS")`
 #' @export
-showdecimals.px <- function(x, value) {
+px_showdecimals.px <- function(x, value) {
   handle_table1_keyword(x, value, "SHOWDECIMALS")
 }
 
 
-#' @rdname subject_code.px
+#' @rdname px_subject_code.px
 #' @export
-subject_code <- function(x, value) {
-  UseMethod("subject_code")
+px_subject_code <- function(x, value) {
+  UseMethod("px_subject_code")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title SUBJECT-CODE
 #' @description `r table_description("SUBJECT-CODE")`
 #' @param value `r table1_param_value("SUBJECT-CODE")`
 #' @export
-subject_code.px <- function(x, value) {
+px_subject_code.px <- function(x, value) {
   handle_table1_keyword(x, value, "SUBJECT-CODE")
 }
 
 
-#' @rdname tableid.px
+#' @rdname px_tableid.px
 #' @export
-tableid <- function(x, value) {
-  UseMethod("tableid")
+px_tableid <- function(x, value) {
+  UseMethod("px_tableid")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title TABLEID
 #' @description `r table_description("TABLEID")`
 #' @param value `r table1_param_value("TABLEID")`
 #' @export
-tableid.px <- function(x, value) {
+px_tableid.px <- function(x, value) {
   handle_table1_keyword(x, value, "TABLEID")
 }
 
 
-#' @rdname update_frequency.px
+#' @rdname px_update_frequency.px
 #' @export
-update_frequency <- function(x, value) {
-  UseMethod("update_frequency")
+px_update_frequency <- function(x, value) {
+  UseMethod("px_update_frequency")
 }
 
-#' @inherit charset.px
+#' @inherit px_charset.px
 #' @title UPDATE-FREQUENCY
 #' @description `r table_description("UPDATE-FREQUENCY")`
 #' @param value `r table1_param_value("UPDATE-FREQUENCY")`
 #' @export
-update_frequency.px <- function(x, value) {
+px_update_frequency.px <- function(x, value) {
   handle_table1_keyword(x, value, "UPDATE-FREQUENCY")
 }

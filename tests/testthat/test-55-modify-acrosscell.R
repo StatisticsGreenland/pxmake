@@ -5,7 +5,7 @@ test_that('cellnote is modified and removed', {
     readRDS() %>%
     px()
 
-  expect_identical(cellnote(x), NULL)
+  expect_identical(px_cellnote(x), NULL)
 
   cellnote_df1 <- dplyr::tibble(`place of birth` = "*",
                                 gender = "K",
@@ -13,21 +13,21 @@ test_that('cellnote is modified and removed', {
                                 cellnote = "This is a cellnote"
                                 )
 
-  x1 <- cellnote(x, cellnote_df1)
-  expect_identical(cellnote(x1), cellnote_df1)
+  x1 <- px_cellnote(x, cellnote_df1)
+  expect_identical(px_cellnote(x1), cellnote_df1)
 
   language_list <- c("en", "da", "kl")
-  x_lang <- languages(x, language_list)
+  x_lang <- px_languages(x, language_list)
 
-  expect_identical(cellnote(x_lang), NULL)
+  expect_identical(px_cellnote(x_lang), NULL)
 
   cellnote_df2_lang <-
     tidyr::crossing(cellnote_df1, language = c("en", "da")) %>%
     dplyr::relocate(language, .before = "cellnote")
 
-  x2_lang <- cellnote(x_lang, cellnote_df2_lang)
+  x2_lang <- px_cellnote(x_lang, cellnote_df2_lang)
 
-  expect_identical(cellnote(x2_lang), cellnote_df2_lang)
+  expect_identical(px_cellnote(x2_lang), cellnote_df2_lang)
 
   cellnote_error1 <- dplyr::tibble(not_a_column = "fisk",
                                    `place of birth` = "*",
@@ -36,18 +36,18 @@ test_that('cellnote is modified and removed', {
                                    cellnote = "This is a cellnote"
                                    )
 
-  expect_error(cellnote(x, cellnote_error1), regexp = "invalid column")
+  expect_error(px_cellnote(x, cellnote_error1), regexp = "invalid column")
 
-  # cellnotex
-  expect_identical(cellnotex(x), NULL)
+  # px_cellnotex
+  expect_identical(px_cellnotex(x), NULL)
 
   cellnotex_df1 <- cellnote_df1 %>% dplyr::rename(cellnotex = cellnote)
 
-  x4 <- cellnote(x, dplyr::filter(cellnote_df1, FALSE))
+  x4 <- px_cellnote(x, dplyr::filter(cellnote_df1, FALSE))
 
-  expect_identical(cellnote(x4), cellnote(x)) # cellnote which no rows should not modify
+  expect_identical(px_cellnote(x4), px_cellnote(x)) # cellnote which no rows should not modify
 
-  x5 <- cellnotex(x, cellnotex_df1)
+  x5 <- px_cellnotex(x, cellnotex_df1)
 
-  expect_identical(cellnotex(x5), cellnotex_df1)
+  expect_identical(px_cellnotex(x5), cellnotex_df1)
 })

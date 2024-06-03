@@ -12,10 +12,10 @@ handle_table2_keyword <- function(x, value, keyword) {
   validate_px(x)
 }
 
-#' @rdname contents.px
+#' @rdname px_contents.px
 #' @export
-contents <- function(x, value) {
-  UseMethod("contents")
+px_contents <- function(x, value) {
+  UseMethod("px_contents")
 }
 
 #' @title CONTENTS
@@ -28,198 +28,198 @@ contents <- function(x, value) {
 #' @return A px object, a character string, or a data frame.
 #'
 #' @export
-contents.px <- function(x, value) {
+px_contents.px <- function(x, value) {
   handle_table2_keyword(x, value, "CONTENTS")
 }
 
 
-#' @rdname baseperiod.px
+#' @rdname px_baseperiod.px
 #' @export
-baseperiod <- function(x, value) {
-  UseMethod("baseperiod")
+px_baseperiod <- function(x, value) {
+  UseMethod("px_baseperiod")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title BASEPERIOD
 #' @description `r table_description("BASEPERIOD")`
 #' @param value `r table2_param_value("BASEPERIOD")`
 #' @export
-baseperiod.px <- function(x, value) {
+px_baseperiod.px <- function(x, value) {
   handle_table2_keyword(x, value, "BASEPERIOD")
 }
 
 
-#' @rdname cfprices.px
+#' @rdname px_cfprices.px
 #' @export
-cfprices <- function(x, value) {
-  UseMethod("cfprices")
+px_cfprices <- function(x, value) {
+  UseMethod("px_cfprices")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title CFPRICES
 #' @description `r table_description("CFPRICES")`
 #' @param value `r table2_param_value("CFPRICES")`
 #' @export
-cfprices.px <- function(x, value) {
+px_cfprices.px <- function(x, value) {
   handle_table2_keyword(x, value, "CFPRICES")
 }
 
 
-#' @rdname contact.px
+#' @rdname px_contact.px
 #' @export
-contact <- function(x, value) {
-  UseMethod("contact")
+px_contact <- function(x, value) {
+  UseMethod("px_contact")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title CONTACT
 #' @description `r table_description("CONTACT")`
 #' @param value `r table2_param_value("CONTACT")`
 #' @export
-contact.px <- function(x, value) {
+px_contact.px <- function(x, value) {
   handle_table2_keyword(x, value, "CONTACT")
 }
 
 
-#' @rdname description.px
+#' @rdname px_description.px
 #' @export
-description <- function(x, value) {
-  UseMethod("description")
+px_description <- function(x, value) {
+  UseMethod("px_description")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title DESCRIPTION
 #' @description `r table_description("DESCRIPTION")`
 #' @param value `r table2_param_value("DESCRIPTION")`
 #' @export
-description.px <- function(x, value) {
+px_description.px <- function(x, value) {
   handle_table2_keyword(x, value, "DESCRIPTION")
 }
 
 
-#' @rdname infofile.px
+#' @rdname px_infofile.px
 #' @export
-infofile <- function(x, value) {
-  UseMethod("infofile")
+px_infofile <- function(x, value) {
+  UseMethod("px_infofile")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title INFOFILE
 #' @description `r table_description("INFOFILE")`
 #' @param value `r table2_param_value("INFOFILE")`
 #' @export
-infofile.px <- function(x, value) {
+px_infofile.px <- function(x, value) {
   handle_table2_keyword(x, value, "INFOFILE")
 }
 
 
-#' @rdname last_updated.px
+#' @rdname px_last_updated.px
 #' @export
-last_updated <- function(x, value) {
-  UseMethod("last_updated")
+px_last_updated <- function(x, value) {
+  UseMethod("px_last_updated")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title LAST-UPDATED
 #' @description `r table_description("LAST-UPDATED")`
 #' @param value `r table2_param_value("LAST-UPDATED")`
 #' @export
-last_updated.px <- function(x, value) {
+px_last_updated.px <- function(x, value) {
   handle_table2_keyword(x, value, "LAST-UPDATED")
 }
 
 
-#' @rdname link.px
+#' @rdname px_link.px
 #' @export
-link <- function(x, value) {
-  UseMethod("link")
+px_link <- function(x, value) {
+  UseMethod("px_link")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title LINK
 #' @description `r table_description("LINK")`
 #' @param value `r table2_param_value("LINK")`
 #' @export
-link.px <- function(x, value) {
+px_link.px <- function(x, value) {
   handle_table2_keyword(x, value, "LINK")
 }
 
 
-#' @rdname map.px
+#' @rdname px_map.px
 #' @export
-map <- function(x, value) {
-  UseMethod("map")
+px_map <- function(x, value) {
+  UseMethod("px_map")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title MAP
 #' @description `r table_description("MAP")`
 #' @param value `r table2_param_value("MAP")`
 #' @export
-map.px <- function(x, value) {
+px_map.px <- function(x, value) {
   handle_table2_keyword(x, value, "MAP")
 }
 
 
-#' @rdname stockfa.px
+#' @rdname px_stockfa.px
 #' @export
-stockfa <- function(x, value) {
-  UseMethod("stockfa")
+px_stockfa <- function(x, value) {
+  UseMethod("px_stockfa")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title STOCKFA
 #' @description `r table_description("STOCKFA")`
 #' @param value `r table2_param_value("STOCKFA")`
 #' @export
-stockfa.px <- function(x, value) {
+px_stockfa.px <- function(x, value) {
   handle_table2_keyword(x, value, "STOCKFA")
 }
 
 
-#' @rdname subject_area.px
+#' @rdname px_subject_area.px
 #' @export
-subject_area <- function(x, value) {
-  UseMethod("subject_area")
+px_subject_area <- function(x, value) {
+  UseMethod("px_subject_area")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title SUBJECT-AREA
 #' @description `r table_description("SUBJECT-AREA")`
 #' @param value `r table2_param_value("SUBJECT-AREA")`
 #' @export
-subject_area.px <- function(x, value) {
+px_subject_area.px <- function(x, value) {
   handle_table2_keyword(x, value, "SUBJECT-AREA")
 }
 
 
-#' @rdname title.px
+#' @rdname px_title.px
 #' @export
-title <- function(x, value) {
-  UseMethod("title")
+px_title <- function(x, value) {
+  UseMethod("px_title")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title TITLE
 #' @description `r table_description("TITLE")`
 #' @param value `r table2_param_value("TITLE")`
 #' @export
-title.px <- function(x, value) {
+px_title.px <- function(x, value) {
   handle_table2_keyword(x, value, "TITLE")
 }
 
 
-#' @rdname units.px
+#' @rdname px_units.px
 #' @export
-units <- function(x, value) {
-  UseMethod("units")
+px_units <- function(x, value) {
+  UseMethod("px_units")
 }
 
-#' @inherit contents.px
+#' @inherit px_contents.px
 #' @title UNITS
 #' @description `r table_description("UNITS")`
 #' @param value `r table2_param_value("UNITS")`
 #' @export
-units.px <- function(x, value) {
+px_units.px <- function(x, value) {
   handle_table2_keyword(x, value, "UNITS")
 }

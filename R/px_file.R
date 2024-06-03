@@ -45,7 +45,7 @@ get_data_cube <- function(metadata_df, data_df) {
 
   figures_var <- setdiff(names(data_df),  head_stub_variable_names)
 
-  codelist <-
+  cells <-
     metadata_df %>%
     dplyr::filter(keyword == "CODES", main_language) %>%
     dplyr::select(keyword, variable, value) %>%
@@ -59,18 +59,18 @@ get_data_cube <- function(metadata_df, data_df) {
     dplyr::select(variable, sortorder, code = value)
 
   # Complete data by adding all combinations of variable values in data and
-  # codelist
+  # cells
   data_values <-
     data_df %>%
     mutate_all_vars_to_character() %>%
     dplyr::select(dplyr::all_of(head_stub_variable_names)) %>%
     lst_distinct_and_arrange()
 
-  codelist_values <-
-    split(codelist$code, codelist$variable) %>%
+  cells_values <-
+    split(cells$code, cells$variable) %>%
     lst_distinct_and_arrange()
 
-  data_and_codelist_values <- merge_named_lists(data_values, codelist_values)
+  data_and_cells_values <- merge_named_lists(data_values, cells_values)
 
   heading_code_vars      <- paste0("code_",      heading_vars, recycle0 = TRUE)
   heading_sortorder_vars <- paste0("sortorder_", heading_vars, recycle0 = TRUE)
@@ -80,13 +80,13 @@ get_data_cube <- function(metadata_df, data_df) {
   data_cube <-
     data_df %>%
     mutate_all_vars_to_character() %>%
-    tidyr::complete(!!!data_and_codelist_values) %>%
+    tidyr::complete(!!!data_and_cells_values) %>%
     dplyr::mutate(id_ = dplyr::row_number()) %>% # used to unpivot data later
     tidyr::pivot_longer(cols = all_of(head_stub_variable_names),
                         names_to = "variable",
                         values_to = "code"
                         ) %>%
-    dplyr::left_join(codelist, by = c("variable", "code")) %>%
+    dplyr::left_join(cells, by = c("variable", "code")) %>%
     tidyr::pivot_wider(names_from = variable,
                        values_from = c("code", "sortorder")
                        ) %>%
@@ -361,11 +361,11 @@ px_from_px_file <- function(path) {
                      ) %>%
     align_data_frames(get_base_variables2())
 
-  # codelist1, codelist2
+  # cells1, cells2
   codes <-
     metadata %>%
     dplyr::filter(main_language, keyword %in% c("CODES"),
-                  !`variable-code` %in% time_var # Time vars should not be in codelist
+                  !`variable-code` %in% time_var # Time vars should not be in cells
                   ) %>%
     tidyr::unnest(value) %>%
     dplyr::rename(code = value) %>%
@@ -410,21 +410,21 @@ px_from_px_file <- function(path) {
     dplyr::full_join(valuenote, by = c("variable-code", "value", "language")) %>%
     dplyr::mutate(code = ifelse(is.na(code), value, code))
 
-  codelists <-
+  cells <-
     codes_and_values %>%
     dplyr::select(-main_language) %>%
     dplyr::filter(!`variable-code` %in% time_var) %>%
     dplyr::left_join(precision, by = c("variable-code", "value"))
 
-  codelists1 <-
-    codelists %>%
+  cells1 <-
+    cells %>%
     dplyr::distinct(`variable-code`, code, order, precision) %>%
-    align_data_frames(get_base_codelists1())
+    align_data_frames(get_base_cells1())
 
-  codelists2 <-
-    codelists %>%
+  cells2 <-
+    cells %>%
     dplyr::select(`variable-code`, code, language, value,`valuenote`) %>%
-    align_data_frames(get_base_codelists2())
+    align_data_frames(get_base_cells2())
 
   # acrosscell
   stub_heading_variables <-
@@ -517,8 +517,8 @@ px_from_px_file <- function(path) {
          table2 = table2,
          variables1 = variables1,
          variables2 = variables2,
-         codelists1 = codelists1,
-         codelists2 = codelists2,
+         cells1 = cells1,
+         cells2 = cells2,
          acrosscell = acrosscell,
          data = data_df
          )

@@ -81,7 +81,7 @@ get_mandatory_variables <- function() {
   list("Table"     = c("keyword", "value"),
        "Table2"    = c("keyword", "code"),
        "Variables" = c("pivot", "order", "variable-code", "variable-label", "type"),
-       "Codelists" = c("variable-code", "sortorder", "code", "code-label", "precision")
+       "Cells"     = c("variable-code", "sortorder", "code", "code-label", "precision")
   )
 }
 
@@ -278,7 +278,7 @@ error_if_used_languages_are_not_defined <- function(x) {
   languages_in_tables <-
     unique(c(x$table2$language,
              x$variables2$language,
-             x$codelists2$language)
+             x$cells2$language)
            ) %>%
     na.omit() %>%
     as.character()
@@ -318,7 +318,7 @@ error_if_data_column_is_not_defined <- function(x, table_name) {
 #'
 #' @return Nothing
 validate_xlsx_metadata <- function(excel_path) {
-  sheets <- c("Table", "Table2", "Variables", "Codelists")
+  sheets <- c("Table", "Table2", "Variables", "Cells")
 
   invisible(lapply(sheets,
                    error_if_sheet_is_missing_variable,

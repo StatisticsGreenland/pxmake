@@ -58,11 +58,11 @@ modify_languages_in_px <- function(x, new_languages) {
                               align_df = get_base_variables2()
                               )
 
-  x$codelists2 <-
-    modify_languages_in_table(df = x$codelists2,
+  x$cells2 <-
+    modify_languages_in_table(df = x$cells2,
                               new_languages = new_languages,
                               keep_vars = c("variable-code", "code"),
-                              align_df = get_base_codelists2()
+                              align_df = get_base_cells2()
                               )
   return(x)
 }

@@ -4,7 +4,7 @@ test_that("error - invalid px object", {
                )
 
   base_px <- get_base_px()
-  base_px$codelists1 <- NULL
+  base_px$cells1 <- NULL
 
   expect_error(validate_px(base_px),
                regexp = "missing these names:"
@@ -85,22 +85,22 @@ test_that("error - invalid px object", {
   expect_error(validate_px(bexsta2), regexp = c("variables2.*not in x\\$data:\\s*ost"))
 
   bexsta3 <- bexsta
-  bexsta3$codelists1 <- dplyr::bind_rows(bexsta3$codelists1,
+  bexsta3$cells1 <- dplyr::bind_rows(bexsta3$cells1,
                                          dplyr::tibble(`variable-code` = "sovs",
                                                        code = "1"
                                                        )
                                          )
 
-  expect_error(validate_px(bexsta3), regexp = "codelists1.*not in x\\$data:\\s*sovs")
+  expect_error(validate_px(bexsta3), regexp = "cells1.*not in x\\$data:\\s*sovs")
 
   bexsta4 <- bexsta
-  bexsta4$codelists2 <- dplyr::bind_rows(bexsta4$codelists2,
+  bexsta4$cells2 <- dplyr::bind_rows(bexsta4$cells2,
                                          dplyr::tibble(`variable-code` = "ice",
                                                        code = "1"
                                                        )
                                          )
 
-  expect_error(validate_px(bexsta4), regexp = "codelists2.*not in x\\$data:\\s*ice")
+  expect_error(validate_px(bexsta4), regexp = "cells2.*not in x\\$data:\\s*ice")
 
   bexsta5 <- bexsta
   bexsta5$data$new_variable <- 1

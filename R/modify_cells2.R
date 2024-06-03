@@ -7,10 +7,10 @@ valuenote <- function(x, value) {
 #' @inherit precision.px
 #' @title VALUENOTE
 #' @description `r table_description("VALUENOTE")`
-#' @param value `r codelists_param_value("VALUENOTE", "2")`
+#' @param value `r cells_param_value("VALUENOTE", "2")`
 #' @export
 valuenote.px <- function(x, value) {
-  handle_codelists(x, value, "2", "valuenote")
+  handle_cells(x, value, "2", "valuenote")
 }
 
 
@@ -23,8 +23,8 @@ valuenotex <- function(x, value) {
 #' @inherit precision.px
 #' @title VALUENOTEX
 #' @description `r table_description("VALUENOTEX")`
-#' @param value `r codelists_param_value("VALUENOTEX", "2")`
+#' @param value `r cells_param_value("VALUENOTEX", "2")`
 #' @export
 valuenotex.px <- function(x, value) {
-  handle_codelists(x, value, "2", "valuenotex")
+  handle_cells(x, value, "2", "valuenotex")
 }

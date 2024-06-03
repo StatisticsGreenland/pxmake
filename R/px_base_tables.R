@@ -37,7 +37,7 @@ get_base_variables2 <- function() {
                 )
 }
 
-get_base_codelists1 <- function() {
+get_base_cells1 <- function() {
   dplyr::tibble(`variable-code` = as.character(), #key
                 code            = as.character(), #key
                 order           = as.numeric(),
@@ -45,7 +45,7 @@ get_base_codelists1 <- function() {
                 )
 }
 
-get_base_codelists2 <- function() {
+get_base_cells2 <- function() {
   dplyr::tibble(`variable-code` = as.character(), #key
                 code            = as.character(), #key
                 language        = as.character(), #key
@@ -80,8 +80,8 @@ get_base_px <- function() {
                  table2 = get_base_table2(),
                  variables1 = get_base_variables1(),
                  variables2 = get_base_variables2(),
-                 codelists1 = get_base_codelists1(),
-                 codelists2 = get_base_codelists2(),
+                 cells1 = get_base_cells1(),
+                 cells2 = get_base_cells2(),
                  acrosscell = get_base_acrosscell(),
                  data = get_base_data()
                  ),

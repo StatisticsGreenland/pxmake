@@ -12,7 +12,7 @@
 #' @param add_totals A list of variables to add a 'total' level to. The option
 #' is only available if `input` is an `.xlsx` file (option 1). The value of the
 #' total level is looked up in 'Variables' xx_elimination. The code for the
-#' level is found in 'Codelists'. The total is a sum of the values in the
+#' level is found in 'cells'. The total is a sum of the values in the
 #' variables with `pivot = FIGURES` in 'Variables'. NAs are ignored when summing.
 #'
 #' @return Returns px object invisibly.

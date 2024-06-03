@@ -73,21 +73,21 @@ pxsave <- function(x, path, save_data = TRUE, data_path = NULL) {
 #' @param table2 A data frame with language dependent table metadata.
 #' @param variables1 A data frame with language independent variable metadata.
 #' @param variables2 A data frame with language dependent variable metadata.
-#' @param codelists1 A data frame with language independent codelist metadata.
-#' @param codelists2 A data frame with language dependent codelist metadata.
+#' @param cells1 A data frame with language independent cells metadata.
+#' @param cells2 A data frame with language dependent cells metadata.
 #' @param acrosscell A data frame with metadata that spans multiple cells.
 #' @param data A data frame with data.
 #'
 #' @return A px object
 new_px <- function(languages, table1, table2, variables1, variables2,
-                   codelists1, codelists2, acrosscell, data) {
+                   cells1, cells2, acrosscell, data) {
   x <- list(languages  = dplyr::as_tibble(languages),
             table1     = dplyr::as_tibble(table1),
             table2     = dplyr::as_tibble(table2),
             variables1 = dplyr::as_tibble(variables1),
             variables2 = dplyr::as_tibble(variables2),
-            codelists1 = dplyr::as_tibble(codelists1),
-            codelists2 = dplyr::as_tibble(codelists2),
+            cells1 = dplyr::as_tibble(cells1),
+            cells2 = dplyr::as_tibble(cells2),
             acrosscell = dplyr::as_tibble(acrosscell),
             data       = dplyr::as_tibble(data)
             )
@@ -140,8 +140,8 @@ validate_px <- function(x) {
   error_if_misplaced_keywords_in_table(x, table_name = "table2")
   error_if_variable_code_not_in_data(x, "variables1")
   error_if_variable_code_not_in_data(x, "variables2")
-  error_if_variable_code_not_in_data(x, "codelists1")
-  error_if_variable_code_not_in_data(x, "codelists2")
+  error_if_variable_code_not_in_data(x, "cells1")
+  error_if_variable_code_not_in_data(x, "cells2")
   error_if_data_column_is_not_defined(x, "variables1")
   error_if_data_column_is_not_defined(x, "variables2")
   error_if_used_languages_are_not_defined(x)

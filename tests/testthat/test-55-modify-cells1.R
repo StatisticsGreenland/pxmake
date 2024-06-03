@@ -1,4 +1,4 @@
-test_that('codelists1 is modified', {
+test_that('cells1 is modified', {
   x <-
     'BEXSTA' %>%
     get_data_path() %>%

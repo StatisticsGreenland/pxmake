@@ -1,6 +1,6 @@
-handle_codelists <- function(x, value, number, column) {
+handle_cells <- function(x, value, number, column) {
   if (missing(value)) {
-    result <- get_codelists_value(x, number, column)
+    result <- get_cells_value(x, number, column)
 
     if (nrow(result) == 0) {
       return(NULL)
@@ -8,11 +8,11 @@ handle_codelists <- function(x, value, number, column) {
       return(result)
     }
   } else if (is.null(value)) {
-    x[[get_codelists_name(number)]][[column]] <- NA
+    x[[get_cells_name(number)]][[column]] <- NA
     return(x)
   }
 
-  validate_px(modify_codelists(x, number, column, value))
+  validate_px(modify_cells(x, number, column, value))
 }
 
 #' @rdname precision.px
@@ -26,13 +26,13 @@ precision <- function(x, value) {
 #' @description `r table_description("PRECISION")`
 #'
 #' @param x A px object
-#' @param value `r codelists_param_value("PRECISION", "1")`
+#' @param value `r cells_param_value("PRECISION", "1")`
 #'
 #' @return A px object or a data frame
 #'
 #' @export
 precision.px <- function(x, value) {
-  handle_codelists(x, value, "1", "precision")
+  handle_cells(x, value, "1", "precision")
 }
 
 
@@ -45,8 +45,8 @@ order <- function(x, value) {
 #' @inherit precision.px
 #' @title ORDER
 #' @description `r table_description("ORDER")`
-#' @param value `r codelists_param_value("ORDER", "1")`
+#' @param value `r cells_param_value("ORDER", "1")`
 #' @export
 order.px <- function(x, value) {
-  handle_codelists(x, value, "1", "order")
+  handle_cells(x, value, "1", "order")
 }

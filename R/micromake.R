@@ -57,11 +57,11 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
            table2     = x_new$table2,
            variables1 = dplyr::filter(x_new$variables1, `variable-code` %in% data_names),
            variables2 = dplyr::filter(x_new$variables2, `variable-code` %in% data_names),
-           codelists1 = dplyr::filter(x_new$codelists1, `variable-code` %in% data_names) %>%
+           cells1 = dplyr::filter(x_new$cells1, `variable-code` %in% data_names) %>%
                           dplyr::anti_join(headings_with_only_na_values_long,
                                            by = c("variable-code", "code")
                                            ),
-           codelists2 = dplyr::filter(x_new$codelists2, `variable-code` %in% data_names) %>%
+           cells2 = dplyr::filter(x_new$cells2, `variable-code` %in% data_names) %>%
                           dplyr::anti_join(headings_with_only_na_values_long,
                                            by = c("variable-code", "code")
                                            ),

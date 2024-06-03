@@ -1,11 +1,11 @@
 test_that("Source data variable names are preserved",{
   table_name <- "FOTEST"
-  px1   <- temp_px_file()
-  meta1 <- get_metadata_path(table_name)
-  meta2 <- temp_xlsx_file()
+  excel1 <- get_metadata_path(table_name)
+  excel2 <- temp_xlsx_file()
 
-  pxmake_clean(meta1, px1)
-  metamake_clean(px1, meta2)
+  excel1 %>%
+    px() %>%
+    pxsave(path = excel2)
 
   get_data_sheet_variable_names <- function(path) {
     path %>%
@@ -13,7 +13,7 @@ test_that("Source data variable names are preserved",{
       names()
   }
 
-  expect_equal(get_data_sheet_variable_names(meta1),
-               get_data_sheet_variable_names(meta2)
+  expect_equal(get_data_sheet_variable_names(excel1),
+               get_data_sheet_variable_names(excel2)
                )
 })

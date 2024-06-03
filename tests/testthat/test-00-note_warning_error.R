@@ -38,15 +38,6 @@ test_that("Error if multiple time vars in variable", {
                )
 })
 
-test_that("Error if add_totals is specified without xlsx metadata", {
-  expect_error(pxmake_clean(temp_rds_file(),
-                            temp_px_file(),
-                            add_totals = c("place of birth", "gender")
-                            ),
-               regexp = "add_totals"
-               )
-})
-
 test_that("Error wrong input", {
   expect_input_error <- function(input, data = NULL) {
     expect_error(px(input = input, data = data),

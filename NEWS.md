@@ -2,6 +2,7 @@
 
 ## Breaking changes
 - Rename 'codelists' to 'cells' in px-object and Excel workbooks. (#256)
+- Deprecate 'metamake', 'pxmake' and 'make_template'. (#198)
 
 ## New features
 - Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`,

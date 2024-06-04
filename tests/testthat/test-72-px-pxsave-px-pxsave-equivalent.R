@@ -1,4 +1,4 @@
-test_that("px ", {
+test_that("that px file doesn't change second time through px -> pxsave", {
   expect_px_save_does_not_change_on_second_pass <- function(table_name) {
     px_in  <- get_px_file_path(table_name)
     px_out1 <- temp_px_file()

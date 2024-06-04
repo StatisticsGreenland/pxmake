@@ -94,11 +94,11 @@ px_from_excel <- function(excel_path, data = NULL) {
   variables1 <-
     variables_sheet %>%
     align_data_frames(get_base_variables1()) %>%
-    dplyr::select(`variable-code`, pivot, order, type, contvariable)
+    dplyr::select(`variable-code`, pivot, order, `variable-type`, contvariable)
 
   variables2 <-
     variables_sheet %>%
-    dplyr::select(-all_of(intersect(c("pivot", "order", "type", "contvariable"),
+    dplyr::select(-all_of(intersect(c("pivot", "order", "variable-type", "contvariable"),
                                     names(.)
                                     )
                           )

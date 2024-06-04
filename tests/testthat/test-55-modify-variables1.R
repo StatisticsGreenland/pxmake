@@ -54,7 +54,7 @@ test_that("VARIABLE-TYPE is changed", {
   expect_equal(px_variable_type(x), NULL)
 
   variable_type_df1 <- dplyr::tibble(`variable-code` = "gender",
-                                     type = "Time"
+                                     `variable-type` = "Time"
                                      )
 
   x1 <- px_variable_type(x, variable_type_df1)

@@ -294,7 +294,7 @@ get_metadata_df_from_px <- function(x) {
   variable_type <-
     variables1 %>%
     tidyr::drop_na(`variable-type`) %>%
-    dplyr::filter(! toupper(`variable-type`) %in% c("TIME", "CONTVARIABLE")) %>%
+    dplyr::filter(! toupper(`variable-type`) %in% c("CONTVARIABLE")) %>%
     tidyr::pivot_longer(`variable-type`,
                         names_to = "keyword",
                         values_to = "value"
@@ -305,7 +305,7 @@ get_metadata_df_from_px <- function(x) {
 
   time_metadata <-
     variables1 %>%
-    dplyr::filter(toupper(`variable-type`) == "TIME")
+    dplyr::filter(timeval)
 
   time_variable <-
     time_metadata %>%

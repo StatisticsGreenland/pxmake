@@ -6,6 +6,8 @@
 - Change name of all modifying functions by adding the prefix 'px_'. (#254)
 - Rename 'acrosscell' to 'acrosscells'. (#271)
 - Rename `type` to `variable-type` in variables1. (#261)
+- Move TIMEVAL to its own column in variables1, instead of having it as part of
+`variable-type`. (#265)
 
 ## New features
 - Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`,

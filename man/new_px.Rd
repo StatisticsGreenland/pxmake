@@ -12,7 +12,7 @@ new_px(
   variables2,
   cells1,
   cells2,
-  acrosscell,
+  acrosscells,
   data
 )
 }
@@ -31,7 +31,7 @@ new_px(
 
 \item{cells2}{A data frame with language dependent cells metadata.}
 
-\item{acrosscell}{A data frame with metadata that spans multiple cells.}
+\item{acrosscells}{A data frame with metadata that spans multiple cells.}
 
 \item{data}{A data frame with data.}
 }

@@ -294,13 +294,21 @@ px_from_px_file <- function(path) {
     dplyr::filter(keyword == "TIMEVAL", main_language) %>%
     dplyr::pull(`variable-code`)
 
-  if (identical(time_var, character(0))) {
-    time_variable_df <- empty_type_df
-  } else {
-    time_variable_df <- dplyr::tibble(`variable-code` = time_var,
-                                      `variable-type` = "TIME"
-                                      )
-  }
+  timeval <-
+    metadata %>%
+    dplyr::filter(keyword == "TIMEVAL", main_language) %>%
+    tidyr::unnest(value) %>%
+    dplyr::pull(`variable-code`)
+
+  timeval_df <-
+    name_relation %>%
+    dplyr::filter(main_language) %>%
+    dplyr::select(`variable-code`) %>%
+    dplyr::mutate(timeval = ifelse(`variable-code` %in% timeval,
+                                   TRUE,
+                                   FALSE
+                                   )
+                  )
 
   contvariable <-
     metadata %>%
@@ -318,22 +326,19 @@ px_from_px_file <- function(path) {
                                         )
                   )
 
-  variable_type <-
+  variable_type_df <-
     metadata %>%
     dplyr::filter(main_language, keyword %in% c("VARIABLE-TYPE")) %>%
     tidyr::unnest(value) %>%
-    dplyr::filter(! toupper(value) %in% c("TIME", "CONTVARIABLE")) %>%
+    dplyr::filter(! toupper(value) %in% c("TIMEVAL", "CONTVARIABLE")) %>%
     dplyr::select(`variable-code`, `variable-type` = value)
-
-  variable_type_df <- dplyr::bind_rows(time_variable_df,
-                                       variable_type
-                                       )
 
   variables1 <-
     variable_label %>%
     dplyr::distinct(`variable-code`, pivot = keyword, order = index) %>%
     dplyr::left_join(variable_type_df, by = "variable-code") %>%
     dplyr::left_join(contvariable_df, by = "variable-code") %>%
+    dplyr::left_join(timeval_df, by = "variable-code") %>%
     dplyr::filter(! `variable-code` %in% figures_variable) %>%
     dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,
                                    pivot = "FIGURES"

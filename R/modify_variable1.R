@@ -144,28 +144,27 @@ px_timeval <- function(x, variable) {
 #' time variable.
 #'
 #' @param x A px object
-#' @param variable Optional. Name of variable to use as TIME. If missing, the
-#' current TIME variable is returned.
+#' @param variable Optional. Name of variable to use as TIMEVAL. If missing, the
+#' current TIMEVAL variable is returned.
 #'
 #' @return A px object or a character string
 #'
 #' @export
 px_timeval.px <- function(x, variable) {
   if (missing(variable)) {
-    return(x$variables1 %>%
-             dplyr::filter(toupper(`variable-type`) == "TIME") %>%
-             dplyr::pull(`variable-code`)
-           )
+    return(get_variable1_logic_value(x, "timeval"))
+  } else if (is.null(variable)) {
+    x$variables1$timeval <- FALSE
+  } else {
+    x$variables1$timeval <- FALSE
+
+    x <- modify_variables1(x, "timeval",
+                           dplyr::tibble(`variable-code` = variable,
+                                         timeval = TRUE
+                                         )
+                           )
   }
 
-  x$variables1$`variable-type` <- NA
-
-  x$variables1 <- modify_or_add_row(df = x$variables1,
-                                    lookup_column = "variable-code",
-                                    lookup_column_values = variable,
-                                    modify_column = "variable-type",
-                                    new_value = "TIME"
-                                    )
   validate_px(x)
 }
 

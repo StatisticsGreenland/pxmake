@@ -5,6 +5,7 @@
 - Deprecate 'metamake', 'pxmake' and 'make_template'. (#198)
 - Change name of all modifying functions by adding the prefix 'px_'. (#254)
 - Rename 'acrosscell' to 'acrosscells'. (#271)
+- Rename `type` to `variables-type` in variables1. (#261)
 
 ## New features
 - Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`,

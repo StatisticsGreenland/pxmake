@@ -153,17 +153,17 @@ px_timeval <- function(x, variable) {
 px_timeval.px <- function(x, variable) {
   if (missing(variable)) {
     return(x$variables1 %>%
-             dplyr::filter(toupper(type) == "TIME") %>%
+             dplyr::filter(toupper(`variable-type`) == "TIME") %>%
              dplyr::pull(`variable-code`)
            )
   }
 
-  x$variables1$type <- NA
+  x$variables1$`variable-type` <- NA
 
   x$variables1 <- modify_or_add_row(df = x$variables1,
                                     lookup_column = "variable-code",
                                     lookup_column_values = variable,
-                                    modify_column = "type",
+                                    modify_column = "variable-type",
                                     new_value = "TIME"
                                     )
   validate_px(x)
@@ -255,11 +255,11 @@ px_variable_type <- function(x, value) {
 #' @export
 px_variable_type.px <- function(x, value) {
   if (missing(value)) {
-    return(get_variable1_value(x, "type"))
+    return(get_variable1_value(x, "variable-type"))
   } else if (is.null(value)) {
-    x$variables1$type <- NA
+    x$variables1$`variable-type` <- NA
   } else {
-    x <- modify_variables1(x, "type", value)
+    x <- modify_variables1(x, "variable-type", value)
   }
 
   validate_px(x)

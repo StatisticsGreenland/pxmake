@@ -80,7 +80,7 @@ unexpected_error <- function() {
 get_mandatory_variables <- function() {
   list("Table"     = c("keyword", "value"),
        "Table2"    = c("keyword", "code"),
-       "Variables" = c("pivot", "order", "variable-code", "variable-label", "type"),
+       "Variables" = c("pivot", "order", "variable-code", "variable-label", "variable-type"),
        "Cells"     = c("variable-code", "sortorder", "code", "code-label", "precision")
   )
 }

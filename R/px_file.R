@@ -286,7 +286,7 @@ px_from_px_file <- function(path) {
     }
 
   empty_type_df <- tidyr::tibble(`variable-code` = character(0),
-                                 type = character(0)
+                                 `variable-type` = character(0)
                                  )
 
   time_var <-
@@ -297,7 +297,9 @@ px_from_px_file <- function(path) {
   if (identical(time_var, character(0))) {
     time_variable_df <- empty_type_df
   } else {
-    time_variable_df <- dplyr::tibble(`variable-code` = time_var, type = "TIME")
+    time_variable_df <- dplyr::tibble(`variable-code` = time_var,
+                                      `variable-type` = "TIME"
+                                      )
   }
 
   contvariable <-
@@ -321,16 +323,16 @@ px_from_px_file <- function(path) {
     dplyr::filter(main_language, keyword %in% c("VARIABLE-TYPE")) %>%
     tidyr::unnest(value) %>%
     dplyr::filter(! toupper(value) %in% c("TIME", "CONTVARIABLE")) %>%
-    dplyr::select(`variable-code`, type = value)
+    dplyr::select(`variable-code`, `variable-type` = value)
 
-  type_df <- dplyr::bind_rows(time_variable_df,
-                              variable_type
-                              )
+  variable_type_df <- dplyr::bind_rows(time_variable_df,
+                                       variable_type
+                                       )
 
   variables1 <-
     variable_label %>%
     dplyr::distinct(`variable-code`, pivot = keyword, order = index) %>%
-    dplyr::left_join(type_df, by = "variable-code") %>%
+    dplyr::left_join(variable_type_df, by = "variable-code") %>%
     dplyr::left_join(contvariable_df, by = "variable-code") %>%
     dplyr::filter(! `variable-code` %in% figures_variable) %>%
     dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,

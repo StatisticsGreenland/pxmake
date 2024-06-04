@@ -65,9 +65,9 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
                           dplyr::anti_join(headings_with_only_na_values_long,
                                            by = c("variable-code", "code")
                                            ),
-           acrosscell = dplyr::select(x_new$acrosscell,
+           acrosscells = dplyr::select(x_new$acrosscells,
                                       all_of(c(setdiff(data_names, figures_var),
-                                               names(get_base_acrosscell())
+                                               names(get_base_acrosscells())
                                                )
                                              )
                                       ) %>%

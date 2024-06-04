@@ -111,7 +111,7 @@ test_that("CONTVARIABLE is changed", {
   expect_equal(px_units(x2), "")
 })
 
-test_that('stub and heading modifies acrosscell', {
+test_that('stub and heading modifies acrosscells', {
   cellnote_df1 <- dplyr::tibble(`place of birth` = "*",
                                 gender = "K",
                                 time = "2018",
@@ -130,18 +130,18 @@ test_that('stub and heading modifies acrosscell', {
     px_stub('time')
 
   expect1 <-
-    x$acrosscell %>%
+    x$acrosscells %>%
     dplyr::relocate(time)
 
-  expect_identical(expect1, x1$acrosscell)
+  expect_identical(expect1, x1$acrosscells)
 
   x2 <-
     x1 %>%
     px_heading(c('gender', 'place of birth'))
 
   expect2 <-
-    x$acrosscell %>%
+    x$acrosscells %>%
     dplyr::relocate(time, gender, `place of birth`)
 
-  expect_identical(expect2, x2$acrosscell)
+  expect_identical(expect2, x2$acrosscells)
 })

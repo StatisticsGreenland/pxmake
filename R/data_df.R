@@ -114,7 +114,7 @@ px_from_data_df <- function(df) {
          variables2 = variables2,
          cells1 = cells1,
          cells2 = cells2,
-         acrosscell = get_base_acrosscell(c(stub_variables, heading_variables)),
+         acrosscells = get_base_acrosscells(c(stub_variables, heading_variables)),
          data = data_df
          ) %>%
     px_title("") %>%

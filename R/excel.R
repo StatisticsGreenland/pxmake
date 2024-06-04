@@ -24,7 +24,7 @@ get_table_sheet      <- get_excel_sheet("Table")
 get_table2_sheet     <- get_excel_sheet("Table2")
 get_variables_sheet  <- get_excel_sheet("Variables")
 get_cells_sheet  <- get_excel_sheet("Cells")
-get_acrosscell_sheet <- get_excel_sheet("Acrosscell", add_automatically = TRUE)
+get_acrosscells_sheet <- get_excel_sheet("Acrosscells", add_automatically = TRUE)
 get_data_sheet       <- get_excel_sheet("Data")
 
 #' Get figures variable from Excel workbook
@@ -141,15 +141,15 @@ px_from_excel <- function(excel_path, data = NULL) {
     dplyr::rename(value = `code-label`) %>%
     align_data_frames(get_base_cells2())
 
-  # acrosscell
+  # acrosscells
   stub_heading_variables <-
     dplyr::filter(variables1, toupper(pivot) %in% c("STUB", "HEADING")) %>%
     dplyr::arrange(desc(pivot), order) %>%
     dplyr::pull(`variable-code`)
 
-  acrosscell <-
+  acrosscells <-
     excel_path %>%
-    get_acrosscell_sheet() %>%
+    get_acrosscells_sheet() %>%
     { if (ncol(.) != 0) {
       tidyr::pivot_longer(.,
                           cols = ends_with(c("cellnote", "cellnotex")),
@@ -160,7 +160,7 @@ px_from_excel <- function(excel_path, data = NULL) {
     } else {
       .
     }} %>%
-    align_data_frames(get_base_acrosscell(stub_heading_variables))
+    align_data_frames(get_base_acrosscells(stub_heading_variables))
 
   new_px(languages = languages,
          table1 = table1,
@@ -169,7 +169,7 @@ px_from_excel <- function(excel_path, data = NULL) {
          variables2 = variables2,
          cells1 = cells1,
          cells2 = cells2,
-         acrosscell = acrosscell,
+         acrosscells = acrosscells,
          data = data_df
          )
 }
@@ -259,17 +259,17 @@ save_px_as_xlsx <- function(x, path, save_data, data_path) {
     dplyr::rename(sortorder = order)
 
 
-  empty_acrosscell <-
+  empty_acrosscells <-
     dplyr::bind_cols(dplyr::tibble(language = defined_languages(x)),
-                     lapply(x$acrosscell, function(x) NA) %>%
+                     lapply(x$acrosscells, function(x) NA) %>%
                        dplyr::as_tibble() %>%
                        dplyr::select(-language)
                      )
 
-  excel_acrosscell <-
-    x$acrosscell %>%
-    dplyr::bind_rows(empty_acrosscell) %>%
-    tidyr::pivot_longer(cols = setdiff(names(get_base_acrosscell()), "language"),
+  excel_acrosscells <-
+    x$acrosscells %>%
+    dplyr::bind_rows(empty_acrosscells) %>%
+    tidyr::pivot_longer(cols = setdiff(names(get_base_acrosscells()), "language"),
                         names_to = "keyword",
                         values_to = "value"
                         ) %>%
@@ -291,7 +291,7 @@ save_px_as_xlsx <- function(x, path, save_data, data_path) {
   add_excel_sheet(wb, excel_table2,     "Table2")
   add_excel_sheet(wb, excel_variables,  "Variables")
   add_excel_sheet(wb, excel_cells,      "Cells")
-  add_excel_sheet(wb, excel_acrosscell, "Acrosscell")
+  add_excel_sheet(wb, excel_acrosscells, "Acrosscells")
 
   if (save_data) {
     if (is.null(data_path)) {

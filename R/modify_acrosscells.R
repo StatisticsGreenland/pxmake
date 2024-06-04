@@ -1,12 +1,12 @@
 handle_acrossnote_keyword <- function(x, value, keyword) {
   if (missing(value)) {
-    return(get_acrosscell_value(x, keyword))
+    return(get_acrosscells_value(x, keyword))
   } else if (is.null(value)) {
-    x$acrosscell <- dplyr::filter(x$acrosscell, FALSE)
+    x$acrosscells <- dplyr::filter(x$acrosscells, FALSE)
   } else if (nrow(value) ==0) {
     return(x)
   } else {
-    x <- modify_acrosscell(x, value, keyword)
+    x <- modify_acrosscells(x, value, keyword)
   }
 
   return(validate_px(x))
@@ -23,7 +23,7 @@ px_cellnote <- function(x, value) {
 #' @description `r table_description("CELLNOTE")`
 #'
 #' @param x A px object
-#' @param value `r acrosscell_param_value("CELLNOTE")`
+#' @param value `r acrosscells_param_value("CELLNOTE")`
 #'
 #' @return A px object, or a data frame.
 #'
@@ -41,7 +41,7 @@ px_cellnotex <- function(x, value) {
 #' @inherit px_cellnote.px
 #' @title CELLNOTEX
 #' @description `r table_description("CELLNOTEX")`
-#' @param value `r acrosscell_param_value("CELLNOTEX")`
+#' @param value `r acrosscells_param_value("CELLNOTEX")`
 #' @export
 px_cellnotex.px <- function(x, value) {
   handle_acrossnote_keyword(x, value, "CELLNOTEX")

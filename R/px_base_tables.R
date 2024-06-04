@@ -55,7 +55,7 @@ get_base_cells2 <- function() {
                 )
 }
 
-get_base_acrosscell <- function(stub_heading_variables = NULL) {
+get_base_acrosscells <- function(stub_heading_variables = NULL) {
   data_columns <- character0_tibble(stub_heading_variables)
 
   dplyr::bind_cols(data_columns,
@@ -66,8 +66,8 @@ get_base_acrosscell <- function(stub_heading_variables = NULL) {
                    )
 }
 
-get_acrosscell_variables <- function() {
-  setdiff(names(get_base_acrosscell()), "language")
+get_acrosscells_variables <- function() {
+  setdiff(names(get_base_acrosscells()), "language")
 }
 
 get_base_data <- function() {
@@ -82,7 +82,7 @@ get_base_px <- function() {
                  variables2 = get_base_variables2(),
                  cells1 = get_base_cells1(),
                  cells2 = get_base_cells2(),
-                 acrosscell = get_base_acrosscell(),
+                 acrosscells = get_base_acrosscells(),
                  data = get_base_data()
                  ),
             class = "px"

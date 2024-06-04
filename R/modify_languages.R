@@ -83,7 +83,7 @@ px_language <- function(x, value) {
 #' @param value Optional. A character string. If missing, the current LANGUAGE
 #' is returned. If NULL, LANGUAGE is removed.
 #'
-#' @seealso \code{\link{languages}}
+#' @seealso \code{\link{px_languages}}
 #'
 #' @export
 px_language.px <- function(x, value) {
@@ -127,7 +127,7 @@ px_languages <- function(x, value) {
 #' @param value Optional. A character vector. If missing, the current LANGUAGES
 #' are returned. If NULL, LANGUAGES are removed.
 #'
-#' @seealso \code{\link{language}}
+#' @seealso \code{\link{px_language}}
 #'
 #' @export
 px_languages.px <- function(x, value) {

@@ -22,5 +22,5 @@ Inspect or change LANGUAGE.
 If LANGUAGES is defined, changing LANGUAGE will also add is to LANGUAGES.
 }
 \seealso{
-\code{\link{languages}}
+\code{\link{px_languages}}
 }

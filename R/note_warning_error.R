@@ -18,8 +18,8 @@ error_if_excel_sheet_does_not_exist <- function(sheet_name, excel_path) {
 error_if_more_than_one_time_variable <- function(time_variable) {
   if (length(time_variable) > 1) {
     error(stringr::str_glue("The metadata has more than one variable where ",
-                            "`type=time`. Change the type of the variables ",
-                            "{time_variable}, so only one has `type=time`."
+                            "`timeval=TRUE`. Change the type of the variables ",
+                            "{time_variable}, so only one has `timeval=TRUE`."
                             )
           )
   }

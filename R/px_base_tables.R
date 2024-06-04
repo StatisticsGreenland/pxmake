@@ -22,7 +22,8 @@ get_base_variables1 <- function() {
                 pivot           = as.character(),
                 order           = as.numeric(),
                 `variable-type` = as.character(),
-                contvariable    = as.logical()
+                contvariable    = as.logical(),
+                timeval         = as.logical()
                 )
 }
 

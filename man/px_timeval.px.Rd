@@ -12,8 +12,8 @@ px_timeval(x, variable)
 \arguments{
 \item{x}{A px object}
 
-\item{variable}{Optional. Name of variable to use as TIME. If missing, the
-current TIME variable is returned.}
+\item{variable}{Optional. Name of variable to use as TIMEVAL. If missing, the
+current TIMEVAL variable is returned.}
 }
 \value{
 A px object or a character string

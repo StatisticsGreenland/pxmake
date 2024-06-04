@@ -27,7 +27,7 @@ test_that('Variables is modified', {
   expect_equal(px_heading(x5), as.character())
   expect_equal(px_stub(x5), c("persons", "place of birth", "gender"))
 
-  expect_equal(px_timeval(x), character(0))
+  expect_equal(px_timeval(x), NULL)
 
   x6 <- px_heading(x5, c("gender"))
 

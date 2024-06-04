@@ -426,20 +426,20 @@ px_from_px_file <- function(path) {
     dplyr::select(`variable-code`, code, language, value,`valuenote`) %>%
     align_data_frames(get_base_cells2())
 
-  # acrosscell
+  # acrosscells
   stub_heading_variables <-
     variable_label %>%
     dplyr::filter(main_language, keyword %in% c("HEADING", "STUB")) %>%
     dplyr::arrange(desc(keyword), index) %>%
     dplyr::pull(`variable-code`)
 
-  acrosscell_variables <- intersect(unique(metadata$keyword),
+  acrosscells_variables <- intersect(unique(metadata$keyword),
                                     c("CELLNOTE", "CELLNOTEX")
                                     )
 
-  acrosscell <-
+  acrosscells <-
     metadata %>%
-    dplyr::filter(keyword %in% acrosscell_variables) %>%
+    dplyr::filter(keyword %in% acrosscells_variables) %>%
     dplyr::mutate(keyword = tolower(keyword)) %>%
     tidyr::pivot_wider(names_from = keyword, values_from = value) %>%
     dplyr::mutate(`variable-label` = stringr::str_remove_all(`variable-label`, '"')) %>%
@@ -449,11 +449,11 @@ px_from_px_file <- function(path) {
                                 ) %>%
     dplyr::select(all_of(c(stub_heading_variables,
                            "language",
-                           tolower(acrosscell_variables)
+                           tolower(acrosscells_variables)
                            )
                          )
                   ) %>%
-    align_data_frames(get_base_acrosscell(stub_heading_variables))
+    align_data_frames(get_base_acrosscells(stub_heading_variables))
 
   # data
   # Order: stub1, stub2, ..., heading1, heading2, ...
@@ -519,7 +519,7 @@ px_from_px_file <- function(path) {
          variables2 = variables2,
          cells1 = cells1,
          cells2 = cells2,
-         acrosscell = acrosscell,
+         acrosscells = acrosscells,
          data = data_df
          )
 }

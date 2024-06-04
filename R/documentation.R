@@ -77,7 +77,7 @@ variables2_param_value <- function(keyword) {
   )
 }
 
-acrosscell_param_value <- function(keyword) {
+acrosscells_param_value <- function(keyword) {
   colname <- tolower(keyword)
 
   stringr::str_glue(

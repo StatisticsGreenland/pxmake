@@ -75,12 +75,12 @@ pxsave <- function(x, path, save_data = TRUE, data_path = NULL) {
 #' @param variables2 A data frame with language dependent variable metadata.
 #' @param cells1 A data frame with language independent cells metadata.
 #' @param cells2 A data frame with language dependent cells metadata.
-#' @param acrosscell A data frame with metadata that spans multiple cells.
+#' @param acrosscells A data frame with metadata that spans multiple cells.
 #' @param data A data frame with data.
 #'
 #' @return A px object
 new_px <- function(languages, table1, table2, variables1, variables2,
-                   cells1, cells2, acrosscell, data) {
+                   cells1, cells2, acrosscells, data) {
   x <- list(languages  = dplyr::as_tibble(languages),
             table1     = dplyr::as_tibble(table1),
             table2     = dplyr::as_tibble(table2),
@@ -88,7 +88,7 @@ new_px <- function(languages, table1, table2, variables1, variables2,
             variables2 = dplyr::as_tibble(variables2),
             cells1 = dplyr::as_tibble(cells1),
             cells2 = dplyr::as_tibble(cells2),
-            acrosscell = dplyr::as_tibble(acrosscell),
+            acrosscells = dplyr::as_tibble(acrosscells),
             data       = dplyr::as_tibble(data)
             )
 

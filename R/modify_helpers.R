@@ -141,7 +141,7 @@ modify_variables2 <- function(x, column, value) {
   return(x)
 }
 
-modify_acrosscell <- function(x, value, keyword) {
+modify_acrosscells <- function(x, value, keyword) {
   missing_columns <- setdiff(c(px_stub(x), px_heading(x)), names(value))
 
   value_completed <-
@@ -152,9 +152,9 @@ modify_acrosscell <- function(x, value, keyword) {
       .
     }}
 
-  x$acrosscell <-
-    modify_with_df(x$acrosscell, value_completed, tolower(keyword)) %>%
-    align_data_frames(get_base_acrosscell(c(px_stub(x), px_heading(x))))
+  x$acrosscells <-
+    modify_with_df(x$acrosscells, value_completed, tolower(keyword)) %>%
+    align_data_frames(get_base_acrosscells(c(px_stub(x), px_heading(x))))
 
   validate_px(x)
 }
@@ -252,12 +252,12 @@ get_variables2_value <- function(x, column) {
   }
 }
 
-get_acrosscell_value <- function(x, keyword) {
+get_acrosscells_value <- function(x, keyword) {
   column_name <- tolower(keyword)
 
   value <-
-    x$acrosscell %>%
-    dplyr::select(all_of(c(intersect(names(x$acrosscell), names(x$data)),
+    x$acrosscells %>%
+    dplyr::select(all_of(c(intersect(names(x$acrosscells), names(x$data)),
                            "language",
                            column_name
                            )

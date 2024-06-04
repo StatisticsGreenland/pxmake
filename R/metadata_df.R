@@ -29,7 +29,7 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
     dplyr::filter(indexed_by_contvariable) %>%
     dplyr::pull(keyword)
 
-  acrosscell_keywords <- c("CELLNOTE", "CELLNOTEX")
+  acrosscells_keywords <- c("CELLNOTE", "CELLNOTEX")
 
   metadata_lines %>%
     # Remove newlines in file. Use semi-colon as line separator
@@ -55,11 +55,11 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
                                     variable
                                     )
                   ) %>%
-    dplyr::mutate(variable = dplyr::if_else(keyword %in% acrosscell_keywords,
+    dplyr::mutate(variable = dplyr::if_else(keyword %in% acrosscells_keywords,
                                             stringr::str_glue('"{variable}","{cell}"'),
                                             variable
                                             ),
-                  cell = ifelse(keyword %in% acrosscell_keywords,
+                  cell = ifelse(keyword %in% acrosscells_keywords,
                                 NA,
                                 cell
                                 )
@@ -391,10 +391,10 @@ get_metadata_df_from_px <- function(x) {
                   value = precision
                   )
 
-  acrosscell <-
-    x$acrosscell %>%
+  acrosscells <-
+    x$acrosscells %>%
     dplyr::mutate(across(c(px_stub(x), px_heading(x)), ~ifelse(is.na(.), "*", .))) %>%
-    tidyr::pivot_longer(cols = setdiff(get_base_acrosscell() %>% names(), "language"),
+    tidyr::pivot_longer(cols = setdiff(get_base_acrosscells() %>% names(), "language"),
                         names_to = "keyword",
                         values_to = "value"
                         ) %>%
@@ -417,7 +417,7 @@ get_metadata_df_from_px <- function(x) {
                      code_value,
                      valuenotes,
                      precision,
-                     acrosscell
+                     acrosscells
                      ) %>%
     replace_na_language_with_main_language() %>%
     sort_metadata_df()

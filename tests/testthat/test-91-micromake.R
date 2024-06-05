@@ -20,7 +20,7 @@ test_that("micromake creates px files correctly", {
 
       expect_identical(px_heading(x), px_heading(x_micro))
 
-      expect_identical(figures(x_micro), "n")
+      expect_identical(px_figures(x_micro), "n")
 
       expect_identical(px_note(x_micro),
                        list("Table note",

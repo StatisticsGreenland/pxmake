@@ -21,9 +21,9 @@ test_that('Variables is modified', {
   expect_equal(px_heading(x4), new_order)
   expect_equal(px_stub(x4), as.character())
 
-  x5 <- figures(x, variable = "time")
+  x5 <- px_figures(x, variable = "time")
 
-  expect_equal(figures(x5), "time")
+  expect_equal(px_figures(x5), "time")
   expect_equal(px_heading(x5), as.character())
   expect_equal(px_stub(x5), c("persons", "place of birth", "gender"))
 

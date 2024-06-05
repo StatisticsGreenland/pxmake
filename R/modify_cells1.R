@@ -36,17 +36,17 @@ px_precision.px <- function(x, value) {
 }
 
 
-#' @rdname order.px
+#' @rdname px_order.px
 #' @export
-order <- function(x, value) {
-  UseMethod("order")
+px_order <- function(x, value) {
+  UseMethod("px_order")
 }
 
 #' @inherit px_precision.px
 #' @title ORDER
-#' @description `r table_description("ORDER")`
-#' @param value `r cells_param_value("ORDER", "1")`
+#' @description `r table_description("PX_ORDER")`
+#' @param value `r cells_param_value("PX_ORDER", "1")`
 #' @export
-order.px <- function(x, value) {
+px_order.px <- function(x, value) {
   handle_cells(x, value, "1", "order")
 }

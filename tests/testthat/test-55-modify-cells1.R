@@ -38,10 +38,10 @@ test_that('cells1 is modified', {
     dplyr::mutate(order = rev(dplyr::row_number())) %>%
     dplyr::select(-precision)
 
-  x5 <- order(x, reverse_order)
+  x5 <- px_order(x, reverse_order)
 
-  expect_identical(order(x5), reverse_order)
+  expect_identical(px_order(x5), reverse_order)
 
-  x6 <- order(x, NULL)
-  expect_identical(order(x6), NULL)
+  x6 <- px_order(x, NULL)
+  expect_identical(px_order(x6), NULL)
 })

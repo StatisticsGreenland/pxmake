@@ -67,7 +67,7 @@ test_that("adds total levels to data without them", {
     px_save(path = px1)
 
   px(input = metadata_path, data = get_data_path("BEXSTA_WITHOUT_TOTALS")) %>%
-    add_totals(c("place of birth", "gender")) %>%
+    px_add_totals(c("place of birth", "gender")) %>%
     px_save(path = px2)
 
   expect_equal_lines(px1, px2)

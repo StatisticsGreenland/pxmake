@@ -23,5 +23,5 @@ A px object or a character vector
 Inspect or change STUB.
 }
 \seealso{
-\code{\link{px_heading}} \code{\link{figures}}
+\code{\link{px_heading}} \code{\link{px_figures}}
 }

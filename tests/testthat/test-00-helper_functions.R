@@ -193,7 +193,7 @@ test_that("file encoding is correct", {
   px_file <- temp_px_file()
 
   px(input = get_metadata_path("BEXSTA"), data = get_data_path("BEXSTA")) %>%
-    pxsave(path = px_file)
+    px_save(path = px_file)
 
   expect_equal(get_encoding_from_px_file(px_file),  'latin1')
 })

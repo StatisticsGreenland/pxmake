@@ -193,7 +193,7 @@ add_excel_sheet <- function(wb, df, sheet_name) {
 #'
 #' @param x A px object
 #' @param path Path to save Excel workbook
-#' @inheritParams pxsave
+#' @inheritParams px_save
 #'
 #' @return Nothing
 save_px_as_xlsx <- function(x, path, save_data, data_path) {

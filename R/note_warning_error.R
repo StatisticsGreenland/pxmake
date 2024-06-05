@@ -363,12 +363,12 @@ validate_px_arguments <- function(input, data) {
   }
 }
 
-#' Check all arguments to pxsave()
+#' Check all arguments to px_save()
 #'
-#' @inheritParams pxsave
+#' @inheritParams px_save
 #'
 #' @return Nothing
-validate_pxsave_arguments <- function(x, path, save_data, data_path) {
+validate_px_save_arguments <- function(x, path, save_data, data_path) {
   validate_px(x)
 
   if (! any(is_px_file(path), is_xlsx_file(path))) {

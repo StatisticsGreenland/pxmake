@@ -1,4 +1,4 @@
-test_that("that px file doesn't change second time through px -> pxsave", {
+test_that("that px file doesn't change second time through px -> px_save", {
   expect_px_save_does_not_change_on_second_pass <- function(table_name) {
     px_in  <- get_px_file_path(table_name)
     px_out1 <- temp_px_file()
@@ -6,11 +6,11 @@ test_that("that px file doesn't change second time through px -> pxsave", {
 
     px_in %>%
       px() %>%
-      pxsave(path = px_out1)
+      px_save(path = px_out1)
 
     px_out1 %>%
       px() %>%
-      pxsave(path = px_out2)
+      px_save(path = px_out2)
 
     px_file_as_lines <- function(path) {
       lines <-

@@ -35,18 +35,18 @@ expect_equal_lines <- function(path1, path2) {
   expect_equal(lines1, lines2)
 }
 
-expect_px_pxsave_preserves_everything <- function(table_name) {
+expect_px_px_save_preserves_everything <- function(table_name) {
   px1   <- temp_px_file()
   px2   <- temp_px_file()
 
   px(input = get_metadata_path(table_name),
      data = get_data_path(table_name)
      ) %>%
-    pxsave(path = px1)
+    px_save(path = px1)
 
   px1 %>%
     px() %>%
-    pxsave(path = px2)
+    px_save(path = px2)
 
   expect_equal_lines(px1, px2)
 }
@@ -60,14 +60,14 @@ pxjob_clean <- function(input, output, env = parent.frame()) {
   })
 }
 
-#' Run px() and pxsave() for a specific table. Return path to file.
+#' Run px() and px_save() for a specific table. Return path to file.
 create_px_file <- function(table_name) {
   px_path <- temp_px_file()
 
   px(input = get_metadata_path(table_name),
      data =  get_data_path(table_name)
      ) %>%
-    pxsave(path = px_path)
+    px_save(path = px_path)
 
   return(px_path)
 }

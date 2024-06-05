@@ -32,7 +32,7 @@ pxmake is not available on CRAN.
 
 ## How to use
 
-Use `px()` and `pxsave()` to read/write a px file to a px object.
+Use `px()` and `px_save()` to read/write a px file to a px object.
 
 ``` r
 library(pxmake)
@@ -44,7 +44,7 @@ class(x)
 #> [1] "px"
 
 # Save px object as a new px file
-pxsave(x, path = "example2.px")
+px_save(x, path = "example2.px")
 ```
 
 To modify a px object, use pxmake’s *modifying functions*.
@@ -77,7 +77,7 @@ x %>%
   px_heading("year") %>%  # Set year as HEADING
   px_stub("group") %>%    # Set group as STUB
   px_decimals("2") %>%    # Set DECIMALS to 2
-  pxsave("example.px") # Save as px file
+  px_save("example.px") # Save as px file
 ```
 
 ### Modifying functions

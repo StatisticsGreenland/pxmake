@@ -75,7 +75,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
            data       = new_data
            ) %>%
     fix_px() %>%
-    figures(figures_var)
+    px_figures(figures_var)
 
   if (all(! is.null(keyword_values_long), nrow(keyword_values_long) > 0)) {
     extra_keywords <-

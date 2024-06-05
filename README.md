@@ -135,9 +135,9 @@ In addition to the above, the following 3 modifying functions are
 available:
 
     #>  Function name
-    #>     add_totals
-    #>        figures
-    #>          order
+    #>  px_add_totals
+    #>     px_figures
+    #>       px_order
 
 See the help page for each modifying function for more information.
 

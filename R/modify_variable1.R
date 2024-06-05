@@ -65,7 +65,7 @@ px_stub <- function(x, variables) {
 #' @param variables `r pivot_param_variables("STUB")`
 #' @return A px object or a character vector
 #'
-#' @seealso \code{\link{px_heading}} \code{\link{figures}}
+#' @seealso \code{\link{px_heading}} \code{\link{px_figures}}
 #'
 #' @export
 px_stub.px <- function(x, variables) {
@@ -86,7 +86,7 @@ px_heading <- function(x, variables) {
 #' @title HEADING
 #' @description `r description_start("HEADING")`
 #' @param variables `r pivot_param_variables("HEADING")`
-#' @seealso \code{\link{px_stub}} \code{\link{figures}}
+#' @seealso \code{\link{px_stub}} \code{\link{px_figures}}
 #' @export
 px_heading.px <- function(x, variables) {
   if (missing(variables)) {
@@ -96,10 +96,10 @@ px_heading.px <- function(x, variables) {
   validate_px(change_pivot_variables(x, variables, "HEADING"))
 }
 
-#' @rdname figures.px
+#' @rdname px_figures.px
 #' @export
-figures <- function(x, variable) {
-  UseMethod("figures")
+px_figures <- function(x, variable) {
+  UseMethod("px_figures")
 }
 
 #' @title FIGURES
@@ -109,21 +109,21 @@ figures <- function(x, variable) {
 #'
 #' @param x A px object
 #' @param variable Optional. Name of variable to use as FIGRUES. If missing, the
-#' current FIGURES variable is returned.
+#' current PX_FIGURES variable is returned.
 #'
 #' @return A px object or a character string
 #'
 #' @seealso \code{\link{px_stub}} \code{\link{px_heading}}
 #'
 #' @export
-figures.px <- function(x, variable) {
+px_figures.px <- function(x, variable) {
   if (missing(variable)) {
     return(get_pivot_variables(x, "FIGURES"))
   }
 
   error_if_not_exactly_one_figures_variable(variable)
 
-  old_figures_variable <- figures(x)
+  old_figures_variable <- px_figures(x)
 
   x <- change_pivot_variables(x, variable, "FIGURES")
 

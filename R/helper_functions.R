@@ -86,7 +86,7 @@ lst_distinct_and_arrange <- function(lst) {
   }
 
   tmp <- lapply(lapply(lst, unique), sort)
-  tmp[base::order(names(tmp))]
+  tmp[order(names(tmp))]
 }
 
 #' Put two named lists together, remove duplicates and sort

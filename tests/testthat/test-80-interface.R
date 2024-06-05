@@ -5,7 +5,7 @@ test_that("Source data variable names are preserved",{
 
   excel1 %>%
     px() %>%
-    pxsave(path = excel2)
+    px_save(path = excel2)
 
   get_data_sheet_variable_names <- function(path) {
     path %>%

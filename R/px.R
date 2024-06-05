@@ -52,8 +52,8 @@ px <- function(input, data = NULL) {
 #'
 #' @return Nothing
 #' @export
-pxsave <- function(x, path, save_data = TRUE, data_path = NULL) {
-  validate_pxsave_arguments(x, path, save_data, data_path)
+px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
+  validate_px_save_arguments(x, path, save_data, data_path)
 
   if (is_px_file(path)) {
     save_px_as_px_file(x, path)

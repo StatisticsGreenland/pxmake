@@ -8,6 +8,7 @@
 - Rename `type` to `variable-type` in variables1. (#261)
 - Move TIMEVAL to its own column in variables1, instead of having it as part of
 `variable-type`. (#265)
+- Rename 'pxsave' to 'px_save'. (#273)
 
 ## New features
 - Add modifying functions: `map()`, `baseperiod()`, `domain()`, `elimination()`,

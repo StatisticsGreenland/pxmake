@@ -4,7 +4,7 @@ test_that("pxjob exists without errors (exit code 0)", {
   expect_that_pxjob_runs_without_errors <- function(x) {
     px_path <- temp_px_file()
 
-    pxsave(x, path = px_path)
+    px_save(x, path = px_path)
 
     output <- get_pxjob_file_path(rlang::hash(x))
 

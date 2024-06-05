@@ -1,10 +1,10 @@
-test_that("px(px file) and px(pxsave(px(px file), path = excel)) are equivalent", {
+test_that("px(px file) and px(px_save(px(px file), path = excel)) are equivalent", {
   # Some files don't give an exact match in the px-file because there can be
   # subtle differences in formatting. PxJob is run on these file to test
   # that they are equivalent.
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
-  run_px_pxsave_excel_pxjob_and_compare <- function(table_name) {
+  run_px_px_save_excel_pxjob_and_compare <- function(table_name) {
     px1    <- get_px_file_path(table_name)
     excel1 <- temp_xlsx_file()
     px2    <- temp_px_file()
@@ -13,11 +13,11 @@ test_that("px(px file) and px(pxsave(px(px file), path = excel)) are equivalent"
 
     px1 %>%
       px() %>%
-      pxsave(path = excel1)
+      px_save(path = excel1)
 
     excel1 %>%
       px() %>%
-      pxsave(path = px2)
+      px_save(path = px2)
 
     pxjob_clean(input = px1, output = pxjob1)
     pxjob_clean(input = px2, output = pxjob2)
@@ -51,10 +51,10 @@ test_that("px(px file) and px(pxsave(px(px file), path = excel)) are equivalent"
     expect_equal(read_pxjobfile(pxjob1), read_pxjobfile(pxjob2))
   }
 
-  run_px_pxsave_excel_pxjob_and_compare("SOXATI4")
-  run_px_pxsave_excel_pxjob_and_compare("BEXSTA_windows_1252")
-  run_px_pxsave_excel_pxjob_and_compare("no_timeval_or_codes2")
-  run_px_pxsave_excel_pxjob_and_compare("CONTVARIABLE")
-  run_px_pxsave_excel_pxjob_and_compare("CONTVARIABLE_multiple_languages")
-  run_px_pxsave_excel_pxjob_and_compare("TUX01")
+  run_px_px_save_excel_pxjob_and_compare("SOXATI4")
+  run_px_px_save_excel_pxjob_and_compare("BEXSTA_windows_1252")
+  run_px_px_save_excel_pxjob_and_compare("no_timeval_or_codes2")
+  run_px_px_save_excel_pxjob_and_compare("CONTVARIABLE")
+  run_px_px_save_excel_pxjob_and_compare("CONTVARIABLE_multiple_languages")
+  run_px_px_save_excel_pxjob_and_compare("TUX01")
 })

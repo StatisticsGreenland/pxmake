@@ -95,7 +95,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
     filename <- filenames[micro_var]
   }
 
-  pxsave(x = x_micro, path = file.path(out_dir, filename))
+  px_save(x = x_micro, path = file.path(out_dir, filename))
 }
 
 #' Create micro px files

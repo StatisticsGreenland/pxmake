@@ -1,4 +1,32 @@
-# pxmake (development version)
+# pxmake 0.11.0
+
+This release contains *a lot* of breaking changes. This was done because a few
+functions had name clashes with popular packages. The prefix 'px_' was added to
+almost all functions to avoid this.
+
+Because of this massive breaking change, a few other breaking changes were made
+as well, to create more intuitive naming and make the package more consistent.
+
+## How to update code from before version 0.11.0
+- Rename functions
+  - Change all modifying functions by adding the prefix `px_`. E.g. change 
+`stub()` to `px_stub()`, `heading()` to `px_heading()`, etc.
+  - Change `pxsave()` to `px_save()`.
+  - Change `micromake()` to `px_micro()`.
+- Remove functions
+  - These functions have been deprecated and can no longer be used: 
+  `metamake()`, `pxmake()`, `make_template()`.
+- px-object changes
+  - Change `x$codelists1` and `x$codelists2` to `x$cells1` and `x$cells2`.
+  - Change `x$acrosscell` to `x$acrosscells`.
+  - Change `x$variables1$type` to `x$variables1$variable-type`.
+- Excel changes
+  - Change sheet 'Codelists1' and 'Codelists2' to 'Cells1' and 'Cells2'.
+  - Change sheet 'Acrosscell' to 'Acrosscells'.
+  - In 'Variables1' sheet change column 'type' to 'variable-type' .
+  - To set a variable as TIMEVAL add a new column 'timeval' in 'Variables1' and 
+  set it to 'TRUE'. TIMEVAL can no longer be set with `type="TIME"` in 
+  Variables1.
 
 ## Breaking changes
 - Rename 'codelists' to 'cells' in px-object and Excel workbooks. (#256)

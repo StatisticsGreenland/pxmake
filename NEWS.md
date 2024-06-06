@@ -1,3 +1,8 @@
+# pxmake (development version)
+
+## Bug fixes and minor improvements
+- Update `px_micro()` documentation.
+
 # pxmake 0.11.0
 
 This release contains *a lot* of breaking changes. This was done because a few

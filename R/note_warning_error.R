@@ -406,12 +406,12 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
   }
 }
 
-#' Check all arguments to micromake()
+#' Check all arguments to px_micro()
 #'
-#' @inheritParams micromake
+#' @inheritParams px_micro
 #'
 #' @return Nothing
-validate_micromake_arguments <- function(x, out_dir) {
+validate_px_micro_arguments <- function(x, out_dir) {
   if (class(x) != "px") {
     error("Argument 'x' must be a px object.")
   }

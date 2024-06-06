@@ -1,4 +1,4 @@
-test_that("micromake creates px files correctly", {
+test_that("px_micro creates px files correctly", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   expect_that_micro_files_are_correct <- function(x) {
@@ -6,7 +6,7 @@ test_that("micromake creates px files correctly", {
 
     out_dir <- temp_dir()
 
-    micromake(x, out_dir = out_dir)
+    px_micro(x, out_dir = out_dir)
 
     px_paths <- list.files(out_dir, full.names = TRUE)
 
@@ -51,13 +51,13 @@ test_that("micromake creates px files correctly", {
     expect_that_micro_files_are_correct()
 })
 
-test_that("micromake creates valid px files", {
+test_that("px_micro creates valid px files", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   expect_that_pxjob_runs_without_errors <- function(px) {
     out_dir <- temp_dir()
 
-    micromake(px, out_dir = out_dir)
+    px_micro(px, out_dir = out_dir)
 
     px_paths <- list.files(out_dir, full.names = TRUE)
 
@@ -81,7 +81,7 @@ test_that("micromake creates valid px files", {
     expect_that_pxjob_runs_without_errors()
 })
 
-test_that("micromake can control data for individual tables", {
+test_that("px_micro can control data for individual tables", {
   set.seed(1)
 
   df <-
@@ -103,7 +103,7 @@ test_that("micromake can control data for individual tables", {
   px(df) %>%
     px_stub(names(df)) %>%
     px_heading("study") %>%
-    micromake(out_dir = out_dir,
+    px_micro(out_dir = out_dir,
               keyword_values = table_level
               )
 
@@ -122,7 +122,7 @@ test_that("micromake can control data for individual tables", {
   }
 })
 
-test_that("micromake can control filenames", {
+test_that("px_micro can control filenames", {
   df <-
     get_data_path("micro") %>%
     readRDS() %>%
@@ -140,14 +140,14 @@ test_that("micromake can control filenames", {
 
   px(df) %>%
     px_stub(names(df)) %>%
-    micromake(out_dir = out_dir, keyword_values = filename_df)
+    px_micro(out_dir = out_dir, keyword_values = filename_df)
 
   expect_equal(list.files(out_dir),
                c(filename_df$filename, "pnrmor.px", "taar.px")
                )
 })
 
-test_that("micromake removes headings where all values are NA", {
+test_that("px_micro removes headings where all values are NA", {
   df <-
     get_data_path("micro") %>%
     readRDS() %>%
@@ -160,7 +160,7 @@ test_that("micromake removes headings where all values are NA", {
   px(df) %>%
     px_stub("pnr") %>%
     px_heading("taar") %>%
-    micromake(out_dir = out_dir)
+    px_micro(out_dir = out_dir)
 
   micro_df <-
     px(list.files(out_dir, full.names = TRUE))$data

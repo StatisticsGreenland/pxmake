@@ -72,3 +72,17 @@ test_that("adds total levels to data without them", {
 
   expect_equal_lines(px1, px2)
 })
+
+test_that("metadata without elimination values use default value", {
+  levels <-
+    px(input = get_metadata_path("BEXSTA"),
+       data = get_data_path("BEXSTA_WITHOUT_TOTALS")
+       ) %>%
+    px_elimination(NULL) %>%
+    px_add_totals(variables = "gender") %>%
+    magrittr::extract2("data") %>%
+    dplyr::pull(gender) %>%
+    unique()
+
+  expect_equal(levels, c("Total", "K", "M"))
+})

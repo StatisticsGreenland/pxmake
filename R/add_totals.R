@@ -35,7 +35,7 @@ add_total_level_to_var <- function(df,
 #' @param sum_var String, name of variable to sum over.
 add_totals_to_df <- function(df,
                              variables,
-                             level_names = "Total",
+                             level_names,
                              sum_var = "value") {
 
   params <- data.frame(variables = variables, level_names = level_names)
@@ -80,20 +80,16 @@ px_add_totals.px <- function(x, variables) {
     dplyr::mutate(code = ifelse(is.na(code),
                                 elimination,
                                 code
-                                )
+                                ),
+                  code = ifelse(is.na(code), "Total", code)
                   ) %>%
     dplyr::distinct(`variable-code`, code)
-
-  figures_variable <-
-    x$variables1 %>%
-    dplyr::filter(pivot == "FIGURES") %>%
-    dplyr::pull(`variable-code`)
 
   x$data <-
     add_totals_to_df(x$data,
                      variables = params$`variable-code`,
                      level_names = params$code,
-                     sum_var = figures_variable
+                     sum_var = px_figures(x)
                      )
 
   return(x)

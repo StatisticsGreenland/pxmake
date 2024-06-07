@@ -4,7 +4,7 @@
 \alias{add_totals_to_df}
 \title{Add 'total' levels to multiple variables}
 \usage{
-add_totals_to_df(df, variables, level_names = "Total", sum_var = "value")
+add_totals_to_df(df, variables, level_names, sum_var = "value")
 }
 \arguments{
 \item{df}{Data frame to add total levels to.}

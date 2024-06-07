@@ -86,3 +86,19 @@ test_that("metadata without elimination values use default value", {
 
   expect_equal(levels, c("Total", "K", "M"))
 })
+
+test_that("do not ignore NA when summing", {
+  df <- tibble::tribble(~category, ~n,
+                        "a",  10,
+                        "b",  20,
+                        "c",  NA
+  )
+
+  result <-
+    px(df) %>%
+    px_add_totals("category", na.rm = FALSE) %>%
+    magrittr::extract2("data") %>%
+    dplyr::pull(n)
+
+  expect_identical(result, c(NA, 10, 20, NA))
+})

@@ -5,14 +5,16 @@
 \alias{px_add_totals.px}
 \title{Add 'total' level to variables}
 \usage{
-px_add_totals(x, variables)
+px_add_totals(x, variables, na.rm = TRUE)
 
-\method{px_add_totals}{px}(x, variables)
+\method{px_add_totals}{px}(x, variables, na.rm = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{variables}{List of variables to add total levels to.}
+
+\item{na.rm}{Optional. Logical. If TRUE, NAs are removed before summing.}
 }
 \value{
 A px object
@@ -20,5 +22,5 @@ A px object
 \description{
 Add 'total' level to multiple variables. The name of the total level is set
 as 'elimination' in px$variables2, otherwise 'Total' is used. The value of
-is the sum of the figures variable. NAs are ignored when summing.
+is the sum of the figures variable.
 }

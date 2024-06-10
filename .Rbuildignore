@@ -8,3 +8,6 @@
 ^codecov\.yml$
 ^logo$
 ^data-raw$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

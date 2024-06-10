@@ -2,6 +2,7 @@
 
 ## New features
 - Add modifying function: `px_values()`.
+- Add pkgdown version of documentation on: https://statisticsgreenland.github.io/pxmake/
 
 
 ## Bug fixes and minor improvements

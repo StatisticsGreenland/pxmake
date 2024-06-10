@@ -1,6 +1,6 @@
 Package: pxmake
 Title: Create px files
-Version: 0.11.0.9003
+Version: 0.11.0.9004
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",
@@ -39,3 +39,4 @@ VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
 LazyData: true
+URL: https://statisticsgreenland.github.io/pxmake/

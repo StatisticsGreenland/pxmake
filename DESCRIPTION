@@ -1,6 +1,6 @@
 Package: pxmake
 Title: Create px files
-Version: 0.11.0.9003
+Version: 0.11.0.9004
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",
@@ -36,3 +36,4 @@ Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/testthat/start-first: 60-metamake-bexltall
 VignetteBuilder: knitr
+URL: https://statisticsgreenland.github.io/pxmake/

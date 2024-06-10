@@ -9,6 +9,13 @@
 \description{
 Create and modify px files in R.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://statisticsgreenland.github.io/pxmake/}
+}
+
+}
 \author{
 \strong{Maintainer}: Lars Pedersen \email{larp@stat.gl}
 

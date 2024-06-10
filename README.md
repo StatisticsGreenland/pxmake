@@ -84,60 +84,60 @@ x %>%
 
 Currently the following 45 keywords have a modifying function in pxmake:
 
-    #>             Keyword         Function name
-    #>       AGGREGALLOWED      px_aggregallowed
-    #>             AUTOPEN            px_autopen
-    #>        AXIS-VERSION       px_axis_version
-    #>          BASEPERIOD         px_baseperiod
-    #>            CELLNOTE           px_cellnote
-    #>           CELLNOTEX          px_cellnotex
-    #>            CFPRICES           px_cfprices
-    #>             CHARSET            px_charset
-    #>            CODEPAGE           px_codepage
-    #>        CONFIDENTIAL       px_confidential
-    #>             CONTACT            px_contact
-    #>            CONTENTS           px_contents
-    #>        CONTVARIABLE       px_contvariable
-    #>           COPYRIGHT          px_copyright
-    #>       CREATION-DATE      px_creation_date
-    #>            DECIMALS           px_decimals
-    #>         DESCRIPTION        px_description
+    #>  Keyword            Function name        
+    #>  AGGREGALLOWED      px_aggregallowed     
+    #>  AUTOPEN            px_autopen           
+    #>  AXIS-VERSION       px_axis_version      
+    #>  BASEPERIOD         px_baseperiod        
+    #>  CELLNOTE           px_cellnote          
+    #>  CELLNOTEX          px_cellnotex         
+    #>  CFPRICES           px_cfprices          
+    #>  CHARSET            px_charset           
+    #>  CODEPAGE           px_codepage          
+    #>  CONFIDENTIAL       px_confidential      
+    #>  CONTACT            px_contact           
+    #>  CONTENTS           px_contents          
+    #>  CONTVARIABLE       px_contvariable      
+    #>  COPYRIGHT          px_copyright         
+    #>  CREATION-DATE      px_creation_date     
+    #>  DECIMALS           px_decimals          
+    #>  DESCRIPTION        px_description       
     #>  DESCRIPTIONDEFAULT px_descriptiondefault
-    #>              DOMAIN             px_domain
-    #>         ELIMINATION        px_elimination
-    #>             HEADING            px_heading
-    #>            INFOFILE           px_infofile
-    #>            LANGUAGE           px_language
-    #>           LANGUAGES          px_languages
-    #>        LAST-UPDATED       px_last_updated
-    #>                LINK               px_link
-    #>                 MAP                px_map
-    #>              MATRIX             px_matrix
-    #>         NEXT-UPDATE        px_next_update
-    #>                NOTE               px_note
-    #>               NOTEX              px_notex
-    #>           PRECISION          px_precision
-    #>        SHOWDECIMALS       px_showdecimals
-    #>             STOCKFA            px_stockfa
-    #>                STUB               px_stub
-    #>        SUBJECT-AREA       px_subject_area
-    #>        SUBJECT-CODE       px_subject_code
-    #>             TABLEID            px_tableid
-    #>             TIMEVAL            px_timeval
-    #>               TITLE              px_title
-    #>               UNITS              px_units
-    #>    UPDATE-FREQUENCY   px_update_frequency
-    #>           VALUENOTE          px_valuenote
-    #>          VALUENOTEX         px_valuenotex
-    #>       VARIABLE-TYPE      px_variable_type
+    #>  DOMAIN             px_domain            
+    #>  ELIMINATION        px_elimination       
+    #>  HEADING            px_heading           
+    #>  INFOFILE           px_infofile          
+    #>  LANGUAGE           px_language          
+    #>  LANGUAGES          px_languages         
+    #>  LAST-UPDATED       px_last_updated      
+    #>  LINK               px_link              
+    #>  MAP                px_map               
+    #>  MATRIX             px_matrix            
+    #>  NEXT-UPDATE        px_next_update       
+    #>  NOTE               px_note              
+    #>  NOTEX              px_notex             
+    #>  PRECISION          px_precision         
+    #>  SHOWDECIMALS       px_showdecimals      
+    #>  STOCKFA            px_stockfa           
+    #>  STUB               px_stub              
+    #>  SUBJECT-AREA       px_subject_area      
+    #>  SUBJECT-CODE       px_subject_code      
+    #>  TABLEID            px_tableid           
+    #>  TIMEVAL            px_timeval           
+    #>  TITLE              px_title             
+    #>  UNITS              px_units             
+    #>  UPDATE-FREQUENCY   px_update_frequency  
+    #>  VALUENOTE          px_valuenote         
+    #>  VALUENOTEX         px_valuenotex        
+    #>  VARIABLE-TYPE      px_variable_type
 
 In addition to the above, the following 3 modifying functions are
 available:
 
     #>  Function name
     #>  px_add_totals
-    #>     px_figures
-    #>       px_order
+    #>  px_figures   
+    #>  px_order
 
 See the help page for each modifying function for more information.
 
@@ -149,52 +149,52 @@ Keywords without modifying functions
 These 39 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
-    #>              Keyword          Function name Priority Complexity
-    #>         ATTRIBUTE-ID        px_attribute_id                    
-    #>       ATTRIBUTE-TEXT      px_attribute_text                    
-    #>           ATTRIBUTES          px_attributes                    
-    #>                 DATA                px_data       **       Easy
-    #>             DATABASE            px_database                    
-    #>             DATANOTE            px_datanote                    
-    #>         DATANOTECELL        px_datanotecell                    
-    #>          DATANOTESUM         px_datanotesum                    
-    #>          DATASYMBOL1         px_datasymbol1                    
-    #>          DATASYMBOL2         px_datasymbol2                    
-    #>          DATASYMBOL3         px_datasymbol3                    
-    #>          DATASYMBOL4         px_datasymbol4                    
-    #>          DATASYMBOL5         px_datasymbol5                    
-    #>          DATASYMBOL6         px_datasymbol6                    
-    #>        DATASYMBOLNIL       px_datasymbolnil                    
-    #>        DATASYMBOLSUM       px_datasymbolsum                    
-    #>               DAYADJ              px_dayadj                    
-    #>        DEFAULT-GRAPH       px_default_graph                    
-    #>       DIRECTORY-PATH      px_directory_path                    
-    #>         DOUBLECOLUMN        px_doublecolumn                    
-    #>      FIRST-PUBLISHED     px_first_published                    
-    #>          HIERARCHIES         px_hierarchies                    
-    #>      HIERARCHYLEVELS     px_hierarchylevels                    
+    #>  Keyword             Function name          Priority Complexity
+    #>  ATTRIBUTE-ID        px_attribute_id                           
+    #>  ATTRIBUTE-TEXT      px_attribute_text                         
+    #>  ATTRIBUTES          px_attributes                             
+    #>  DATA                px_data                **       Easy      
+    #>  DATABASE            px_database                               
+    #>  DATANOTE            px_datanote                               
+    #>  DATANOTECELL        px_datanotecell                           
+    #>  DATANOTESUM         px_datanotesum                            
+    #>  DATASYMBOL1         px_datasymbol1                            
+    #>  DATASYMBOL2         px_datasymbol2                            
+    #>  DATASYMBOL3         px_datasymbol3                            
+    #>  DATASYMBOL4         px_datasymbol4                            
+    #>  DATASYMBOL5         px_datasymbol5                            
+    #>  DATASYMBOL6         px_datasymbol6                            
+    #>  DATASYMBOLNIL       px_datasymbolnil                          
+    #>  DATASYMBOLSUM       px_datasymbolsum                          
+    #>  DAYADJ              px_dayadj                                 
+    #>  DEFAULT-GRAPH       px_default_graph                          
+    #>  DIRECTORY-PATH      px_directory_path                         
+    #>  DOUBLECOLUMN        px_doublecolumn                           
+    #>  FIRST-PUBLISHED     px_first_published                        
+    #>  HIERARCHIES         px_hierarchies                            
+    #>  HIERARCHYLEVELS     px_hierarchylevels                        
     #>  HIERARCHYLEVELSOPEN px_hierarchylevelsopen                    
-    #>       HIERARCHYNAMES      px_hierarchynames                    
-    #>                 INFO                px_info                    
-    #>                 KEYS                px_keys                    
-    #>              META-ID             px_meta_id                    
+    #>  HIERARCHYNAMES      px_hierarchynames                         
+    #>  INFO                px_info                                   
+    #>  KEYS                px_keys                                   
+    #>  META-ID             px_meta_id                                
     #>  OFFICIAL-STATISTICS px_official_statistics                    
-    #>          PARTITIONED         px_partitioned                    
-    #>             PRESTEXT            px_prestext                    
-    #>            PX-SERVER           px_px_server                    
-    #>            REFPERIOD           px_refperiod                    
-    #>             ROUNDING            px_rounding                    
-    #>              SEASADJ             px_seasadj                    
-    #>               SOURCE              px_source       **     Medium
-    #>               SURVEY              px_survey                    
-    #>             SYNONYMS            px_synonyms                    
-    #>               VALUES              px_values       **       Hard
+    #>  PARTITIONED         px_partitioned                            
+    #>  PRESTEXT            px_prestext                               
+    #>  PX-SERVER           px_px_server                              
+    #>  REFPERIOD           px_refperiod                              
+    #>  ROUNDING            px_rounding                               
+    #>  SEASADJ             px_seasadj                                
+    #>  SOURCE              px_source              **       Medium    
+    #>  SURVEY              px_survey                                 
+    #>  SYNONYMS            px_synonyms                               
+    #>  VALUES              px_values              **       Hard
 
 Finally these 2 keywords will not have a modifying function, because
 they are automatically determined by the data.
 
-    #>       Keyword
-    #>         CODES
+    #>  Keyword     
+    #>  CODES       
     #>  VARIABLECODE
 
 </details>

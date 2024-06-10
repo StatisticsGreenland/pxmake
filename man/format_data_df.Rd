@@ -18,3 +18,4 @@ A data frame
 Turn all variables, except figures variable, into character and replace NA
 with dash.
 }
+\keyword{internal}

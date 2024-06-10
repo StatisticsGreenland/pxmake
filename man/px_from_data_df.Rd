@@ -15,3 +15,4 @@ A px object
 \description{
 Create a minimal px object from a data frame
 }
+\keyword{internal}

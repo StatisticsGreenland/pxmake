@@ -3,6 +3,7 @@
 #' The row order reflects the recommended sort order in the px file specification.
 #'
 #' @return data frame with all PX keywords
+#' @keywords internal
 get_px_keywords <- function() {
   tibble::tribble(
                ~keyword, ~mandatory, ~in_table_sheet, ~language_dependent, ~indexed_by_contvariable, ~quote_value, ~default_value,

@@ -15,3 +15,4 @@ Character
 \description{
 Encoding is listed in CODEPAGE.
 }
+\keyword{internal}

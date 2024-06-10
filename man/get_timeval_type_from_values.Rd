@@ -15,3 +15,4 @@ A character vector
 \description{
 Get time scale code from values (see TIMEVAL in px-specification)
 }
+\keyword{internal}

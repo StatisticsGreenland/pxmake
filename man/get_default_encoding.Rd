@@ -12,3 +12,4 @@ Character
 \description{
 Default encoding to read and save px file in
 }
+\keyword{internal}

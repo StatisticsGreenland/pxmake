@@ -15,3 +15,4 @@ Logic
 \description{
 Check if a path has a specific extension (function factory)
 }
+\keyword{internal}

@@ -16,3 +16,4 @@ A data frame
 The data frame is first sorted by the keyword order defined in the
 px-specification and then by the language order.
 }
+\keyword{internal}

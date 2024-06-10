@@ -15,3 +15,4 @@ Character, name of figures variable.
 \description{
 Get figures variable from Excel workbook
 }
+\keyword{internal}

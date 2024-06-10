@@ -15,3 +15,4 @@ A data frame
 \description{
 Get metadata df from px lines
 }
+\keyword{internal}

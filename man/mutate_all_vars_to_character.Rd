@@ -15,3 +15,4 @@ A data frame
 \description{
 Change all variables to character
 }
+\keyword{internal}

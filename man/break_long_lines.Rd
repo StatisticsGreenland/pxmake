@@ -18,3 +18,4 @@ A character vector
 Long strings are split so they are no longer than 256 characters and end at
 a comma.
 }
+\keyword{internal}

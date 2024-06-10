@@ -17,3 +17,4 @@ String
 \description{
 Add cell name to keywords that support it (see px-specification)
 }
+\keyword{internal}

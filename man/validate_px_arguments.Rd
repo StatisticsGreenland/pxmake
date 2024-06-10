@@ -21,3 +21,4 @@ Nothing
 \description{
 Check all arguments to px()
 }
+\keyword{internal}

@@ -17,3 +17,4 @@ Nothing
 \description{
 Check all arguments to px_micro()
 }
+\keyword{internal}

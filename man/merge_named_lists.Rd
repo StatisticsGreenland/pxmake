@@ -17,3 +17,4 @@ List
 \description{
 Put two named lists together, remove duplicates and sort
 }
+\keyword{internal}

@@ -12,3 +12,4 @@ data frame with all PX keywords
 \description{
 The row order reflects the recommended sort order in the px file specification.
 }
+\keyword{internal}

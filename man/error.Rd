@@ -15,3 +15,4 @@ Nothing
 \description{
 Throw error
 }
+\keyword{internal}

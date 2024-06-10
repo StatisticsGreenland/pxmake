@@ -15,3 +15,4 @@ List
 \description{
 Get a sorted list of distinct values in list
 }
+\keyword{internal}

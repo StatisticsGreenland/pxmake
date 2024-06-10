@@ -7,6 +7,7 @@
 #' @param level_name Total level name.
 #'
 #' @return A data frame
+#' @keywords internal
 add_total_level_to_var <- function(df,
                                    variable,
                                    level_name = "Total",
@@ -36,6 +37,7 @@ add_total_level_to_var <- function(df,
 #' @param level_names Names of total levels. Should have length 1 or same length
 #' as `variables`.
 #' @param sum_var String, name of variable to sum over.
+#' @keywords internal
 add_totals_to_df <- function(df,
                              variables,
                              level_names,

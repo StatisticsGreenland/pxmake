@@ -15,3 +15,4 @@ A data frame
 \description{
 Drop rows with only NA values
 }
+\keyword{internal}

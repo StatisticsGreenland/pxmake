@@ -15,3 +15,4 @@ A px object
 \description{
 Create a px object form a px-file
 }
+\keyword{internal}

@@ -19,3 +19,4 @@ Nothing
 \description{
 Add a data frame as a sheet to an Excel workbook
 }
+\keyword{internal}

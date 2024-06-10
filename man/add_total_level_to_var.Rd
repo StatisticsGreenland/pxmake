@@ -29,3 +29,4 @@ A data frame
 \description{
 Add a new level to a variables which is the sum of all other levels.
 }
+\keyword{internal}

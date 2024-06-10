@@ -5,6 +5,7 @@
 #' @param msg String, error message
 #'
 #' @return Nothing
+#' @keywords internal
 error <- function(msg) {
   stop(msg, call. = FALSE)
 }
@@ -77,6 +78,7 @@ unexpected_error <- function() {
 }
 
 #' A list of which variables should be in each sheet
+#' @keywords internal
 get_mandatory_variables <- function() {
   list("Table"     = c("keyword", "value"),
        "Table2"    = c("keyword", "code"),
@@ -317,6 +319,7 @@ error_if_data_column_is_not_defined <- function(x, table_name) {
 #' @param excel_path Path to the Excel metadata workbook
 #'
 #' @return Nothing
+#' @keywords internal
 validate_xlsx_metadata <- function(excel_path) {
   sheets <- c("Table", "Table2", "Variables", "Cells")
 
@@ -335,6 +338,7 @@ validate_xlsx_metadata <- function(excel_path) {
 #' @inheritParams px
 #'
 #' @return Nothing
+#' @keywords internal
 validate_px_arguments <- function(input, data) {
   if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input),
             is_rds_file(input))) {
@@ -368,6 +372,7 @@ validate_px_arguments <- function(input, data) {
 #' @inheritParams px_save
 #'
 #' @return Nothing
+#' @keywords internal
 validate_px_save_arguments <- function(x, path, save_data, data_path) {
   validate_px(x)
 
@@ -411,6 +416,7 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
 #' @inheritParams px_micro
 #'
 #' @return Nothing
+#' @keywords internal
 validate_px_micro_arguments <- function(x, out_dir) {
   if (class(x) != "px") {
     error("Argument 'x' must be a px object.")

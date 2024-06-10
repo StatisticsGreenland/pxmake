@@ -15,3 +15,4 @@ Nothing
 \description{
 Validate Excel metadata workbook
 }
+\keyword{internal}

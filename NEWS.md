@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## New features
+- Add modifying function: `px_values()`.
+
+
 ## Bug fixes and minor improvements
 - Update `px_micro()` documentation.
 - Bugfix: `px_add_totals()` now uses default value 'Total' if 

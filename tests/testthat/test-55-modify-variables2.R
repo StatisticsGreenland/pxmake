@@ -39,4 +39,16 @@ test_that('variables 2 is modified', {
 
   x7 <- px_domain(x5, NULL)
   expect_identical(px_domain(x7), NULL)
+
+
+  variable_label_df <- dplyr::tribble(~`variable-code`,  ~`variable-label`,
+                                      "place of birth",       "birthplace",
+                                      "gender",                      "sex",
+                                      "time",                       "year",
+                                      "persons",                   "count"
+                                      )
+
+  x8 <- px_variable_label(x, variable_label_df)
+
+  expect_identical(px_variable_label(x8), variable_label_df)
 })

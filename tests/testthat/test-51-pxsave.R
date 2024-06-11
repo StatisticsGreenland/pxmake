@@ -18,7 +18,7 @@ test_that("px_save save_data and data_path arguments works", {
 
   temp_xlsx <- temp_xlsx_file()
   px_save(x = x, path = temp_xlsx, save_data = FALSE)
-  expect_true(! 'Data' %in% readxl::excel_sheets(temp_xlsx))
+  expect_true(! excel_sheet_exists('Data', temp_xlsx))
 
   expect_error(px_save(x = x, path = temp_px_file(), save_data = FALSE),
                regexp = "'save_data' can only be"
@@ -42,6 +42,6 @@ test_that("px_save save_data and data_path arguments works", {
   temp_rds <- temp_rds_file()
   px_save(x = x, path = temp_xlsx_file(), data_path = temp_rds)
 
-  expect_true(! 'Data' %in% readxl::excel_sheets(temp_xlsx))
+  expect_true(! excel_sheet_exists('Data', temp_xlsx))
   expect_identical(x$data, readRDS(temp_rds))
 })

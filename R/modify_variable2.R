@@ -46,3 +46,23 @@ px_elimination <- function(x, value) {
 px_elimination.px <- function(x, value) {
   handle_variables2_keyword(x, value, "ELIMINATION")
 }
+
+
+#' @rdname px_variable_label.px
+#' @export
+px_variable_label <- function(x, value) {
+  UseMethod("px_variable_label")
+}
+
+#' @inherit px_domain.px
+#' @title Change variable label
+#' @description
+#' `r table_description("variable label")`
+#'
+#' The variable label is the name that is shown in the px file.
+#'
+#' @param value `r variables2_param_value("variable-label")`
+#' @export
+px_variable_label.px <- function(x, value) {
+  handle_variables2_keyword(x, value, "variable-label")
+}

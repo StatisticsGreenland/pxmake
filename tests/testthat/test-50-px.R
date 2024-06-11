@@ -42,3 +42,9 @@ test_that("px runs without errors (data frame and rds path)", {
   expect_runs_without_errors("BEXSTA_WITHOUT_TOTALS")
   expect_runs_without_errors("BEXSTA")
 })
+
+test_that("px can run on an Excel workbook without a 'Data' sheet", {
+  px(input = get_metadata_path("BEXSTA"))
+
+  expect_true(TRUE)
+})

@@ -1,3 +1,7 @@
+excel_sheet_exists <- function(sheet, excel_path) {
+  sheet %in% readxl::excel_sheets(excel_path)
+}
+
 #' Get specific sheet from Excel workbook
 #'
 #' @param sheet String. Sheet to read.
@@ -9,24 +13,24 @@
 get_excel_sheet <- function(sheet, add_automatically = FALSE) {
   function(excel_path) {
     if (add_automatically) {
-      if (! sheet %in% readxl::excel_sheets(excel_path)) {
+      if (! excel_sheet_exists(sheet, excel_path)) {
         return(data.frame())
       }
     } else {
       error_if_excel_sheet_does_not_exist(sheet, excel_path)
     }
 
-    readxl::read_xlsx(excel_path, sheet = sheet) %>%
+    readxl::read_xlsx(excel_path, sheet) %>%
       drop_blank_rows()
   }
 }
 
-get_table_sheet      <- get_excel_sheet("Table")
-get_table2_sheet     <- get_excel_sheet("Table2")
-get_variables_sheet  <- get_excel_sheet("Variables")
-get_cells_sheet  <- get_excel_sheet("Cells")
+get_table_sheet       <- get_excel_sheet("Table")
+get_table2_sheet      <- get_excel_sheet("Table2")
+get_variables_sheet   <- get_excel_sheet("Variables")
+get_cells_sheet       <- get_excel_sheet("Cells")
 get_acrosscells_sheet <- get_excel_sheet("Acrosscells", add_automatically = TRUE)
-get_data_sheet       <- get_excel_sheet("Data")
+get_data_sheet        <- get_excel_sheet("Data", add_automatically = FALSE)
 
 #' Get figures variable from Excel workbook
 #'
@@ -119,10 +123,22 @@ px_from_excel <- function(excel_path, data = NULL) {
                   )
 
   # cells1, cells2, data_df
-  data_df <-
-    data %>%
-    {if (is.null(.)) get_data_sheet(excel_path) else . } %>%
-    format_data_df(figures_variable = get_figures_variable_from_excel(excel_path))
+  if (is.null(data)) {
+    if (excel_sheet_exists("Data", excel_path)) {
+      data <- get_data_sheet(excel_path)
+    } else {
+      # Empty dummy data set
+      data <-
+        variables_sheet %>%
+        dplyr::pull(`variable-code`) %>%
+        rlang::rep_named(list(as.character())) %>%
+        dplyr::as_tibble()
+    }
+  }
+
+  data_df <- format_data_df(data,
+                            figures_variable = get_figures_variable_from_excel(excel_path)
+                            )
 
   cells_sheet <-
     excel_path %>%

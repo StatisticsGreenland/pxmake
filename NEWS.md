@@ -1,7 +1,7 @@
 # pxmake (development version)
 
 ## New features
-- Add modifying function: `px_values()`.
+- Add modifying functions: `px_values()`, `px_variable_label()`.
 - Add pkgdown version of documentation on: https://statisticsgreenland.github.io/pxmake/
 
 ## Bug fixes and minor improvements
@@ -10,6 +10,8 @@
 `x$variables2$elimination` is `NA`. (#284)
 - Add `na.rm` argument to `px_add_totalts()`.
 - Improve pkdown site.
+- `px()` can now take an Excel workbook without a 'Data' sheet, without 
+requiring that argument 'data' is supplied.
 
 # pxmake 0.11.0
 

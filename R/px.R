@@ -7,8 +7,7 @@
 #' frame or path to an .rds file with a data frame. If input is a data frame, a
 #' px object with minimal metadata is created.
 #' @param data Either a data frame or a path to an `.rds` file with a data frame.
-#' This can only be used if `input` is an Excel metadata workbook. If NULL, the
-#' data should be provided in the 'Data' sheet of the Excel workbook.
+#' This can only be used if `input` is an Excel metadata workbook.
 #'
 #' @return A px object
 #'

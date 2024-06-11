@@ -10,6 +10,8 @@
 `x$variables2$elimination` is `NA`. (#284)
 - Add `na.rm` argument to `px_add_totalts()`.
 - Improve pkdown site.
+- `px()` can now take an Excel workbook without a 'Data' sheet, without 
+requiring that argument 'data' is supplied.
 
 # pxmake 0.11.0
 

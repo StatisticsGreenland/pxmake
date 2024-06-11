@@ -11,7 +11,7 @@ error <- function(msg) {
 }
 
 error_if_excel_sheet_does_not_exist <- function(sheet_name, excel_path) {
-  if (! sheet_name %in% readxl::excel_sheets(excel_path)) {
+  if (! excel_sheet_exists(sheet_name, excel_path)) {
     error(stringr::str_glue("The sheet '{sheet_name}' is missing in: {excel_path}."))
   }
 }
@@ -358,9 +358,9 @@ validate_px_arguments <- function(input, data) {
     error("Argument 'data' has wrong format. See ?px.")
   }
 
-  if (is.null(data) & is_xlsx_file(input)) {
-      error_if_excel_sheet_does_not_exist("Data", input)
-  }
+  # if (is.null(data) & is_xlsx_file(input)) {
+  #     error_if_excel_sheet_does_not_exist("Data", input)
+  # }
 
   if (! is.null(data) & ! is_xlsx_file(input)) {
       error("Argument 'data' can only be used if 'input' is an .xlsx file.")

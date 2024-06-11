@@ -14,12 +14,6 @@ test_that("Error data is specified when input is not .xlsx", {
   )
 })
 
-test_that("Error if 'Data' sheet is missing", {
-  expect_error(px(input = get_metadata_path("BEXSTA"), data = NULL),
-               regexp = "The sheet 'Data' is missing"
-  )
-})
-
 test_that("Error if data is not NULL, a data frame, or .rds file", {
   expect_data_error <- function(data) {
     expect_error(px(input = get_metadata_path("FOTEST"), data = data),

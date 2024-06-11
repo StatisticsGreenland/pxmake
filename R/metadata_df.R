@@ -76,24 +76,6 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
     dplyr::filter(keyword != "DATA")
 }
 
-#' Get encoding name from metadata
-#'
-#' @inherit get_main_language
-#' @keywords internal
-get_encoding_from_metadata <- function(metadata_df) {
-  encoding_str <-
-    metadata_df %>%
-    dplyr::filter(keyword == "CODEPAGE") %>%
-    tidyr::unnest(value) %>%
-    dplyr::pull(value)
-
-  if (length(encoding_str) == 0) {
-    encoding_str <- get_default_encoding()
-  }
-
-  return(encoding_str)
-}
-
 #' Get variable code and label
 #'
 #' Get a data frame with variable codes and label in all languages.

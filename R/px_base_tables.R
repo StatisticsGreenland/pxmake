@@ -67,10 +67,6 @@ get_base_acrosscells <- function(stub_heading_variables = NULL) {
                    )
 }
 
-get_acrosscells_variables <- function() {
-  setdiff(names(get_base_acrosscells()), "language")
-}
-
 get_base_data <- function() {
   dplyr::tibble()
 }

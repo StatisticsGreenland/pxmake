@@ -42,6 +42,9 @@ test_that('Variables is modified', {
 
   x8 <- px_timeval(x7, variable = "gender")
   expect_equal(px_timeval(x8), "gender")
+
+  x9 <- px_timeval(x8, NULL)
+  expect_equal(px_timeval(x9), NULL)
 })
 
 test_that("VARIABLE-TYPE is changed", {

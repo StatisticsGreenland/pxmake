@@ -7,7 +7,10 @@ reference:
 - title: Main functions
 - contents:
   - px
+- title: Functions for creating files
+- contents:
   - px_save
+  - px_micro
 - title: Modifying functions
 - subtitle: Keywords
   desc: Modifying functions named after keywords in px file
@@ -40,7 +43,6 @@ reference:
    - px_link
    - px_map
    - px_matrix
-   - px_micro
    - px_next_update
    - px_note
    - px_notex

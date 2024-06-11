@@ -3,7 +3,7 @@
 \name{px_order}
 \alias{px_order}
 \alias{px_order.px}
-\title{ORDER}
+\title{Change value order}
 \usage{
 px_order(x, value)
 
@@ -12,11 +12,11 @@ px_order(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame with the columns 'px_order' and one or more of the columns: 'variable-code', and 'code'. If 'value' is missing, the current PX_ORDER is returned. If NULL, PX_ORDER is removed.}
+\item{value}{Optional. A data frame with the columns 'order' and one or more of the columns: 'variable-code', and 'code'. If 'value' is missing, the current ORDER is returned. If NULL, ORDER is removed.}
 }
 \value{
 A px object or a data frame
 }
 \description{
-Inspect or change PX_ORDER.
+Inspect or change ORDER.
 }

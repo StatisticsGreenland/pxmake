@@ -4,16 +4,25 @@ template:
   bootstrap: 5
 
 reference:
-- title: Main functions
+- title: Main function
 - contents:
   - px
-- title: Functions for creating files
+- title: Create files
 - contents:
   - px_save
   - px_micro
-- title: Modifying functions
-- subtitle: Keywords
-  desc: Modifying functions named after keywords in px file
+- title: Modify px object
+  desc: >
+    Once a px object has been created, with `px()`, it can be modified with
+    the functions below
+- subtitle: Special modifying functions
+  desc: Modifying functions that does not have a specific px keyword.
+  contents:
+   - px_add_totals
+   - px_figures
+   - px_order
+- subtitle: px Keywords
+  desc: Modifying functions that match a specific px keyword.
   contents:
    - px_aggregallowed
    - px_autopen
@@ -61,9 +70,4 @@ reference:
    - px_valuenotex
    - px_values
    - px_variable_type
-- subtitle: Other modifying functions
-  desc: Modifying functions with no Keyword
-  contents:
-   - px_add_totals
-   - px_figures
-   - px_order
+

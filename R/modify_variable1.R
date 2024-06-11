@@ -104,7 +104,7 @@ px_figures <- function(x, variable) {
   UseMethod("px_figures")
 }
 
-#' @title FIGURES
+#' @title Change figures variable
 #' @description
 #' Inspect or change which variable is used as figures. The previous figures
 #' variable is changed to STUB.

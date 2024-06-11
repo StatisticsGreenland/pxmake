@@ -5,15 +5,13 @@ template:
 
 reference:
 - title: Main functions
-
-  contents:
-   - px
-   - px_save
-
+- contents:
+  - px
+  - px_save
 - title: Modifying functions
-
+- subtitle: Keywords
+  desc: Modifying functions named after keywords in px file
   contents:
-   - px_add_totals
    - px_aggregallowed
    - px_autopen
    - px_axis_version
@@ -34,7 +32,6 @@ reference:
    - px_descriptiondefault
    - px_domain
    - px_elimination
-   - px_figures
    - px_heading
    - px_infofile
    - px_language
@@ -47,7 +44,6 @@ reference:
    - px_next_update
    - px_note
    - px_notex
-   - px_order
    - px_precision
    - px_showdecimals
    - px_stockfa
@@ -63,3 +59,9 @@ reference:
    - px_valuenotex
    - px_values
    - px_variable_type
+- subtitle: Other modifying functions
+  desc: Modifying functions with no Keyword
+  contents:
+   - px_add_totals
+   - px_figures
+   - px_order

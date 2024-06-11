@@ -1,7 +1,7 @@
 # pxmake (development version)
 
 ## New features
-- Add modifying function: `px_values()`.
+- Add modifying functions: `px_values()`, `px_variable_label()`.
 - Add pkgdown version of documentation on: https://statisticsgreenland.github.io/pxmake/
 
 ## Bug fixes and minor improvements

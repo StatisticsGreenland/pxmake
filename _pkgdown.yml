@@ -21,6 +21,7 @@ reference:
    - px_add_totals
    - px_figures
    - px_order
+   - px_variable_label
 - subtitle: px Keywords
   desc: Modifying functions that match a specific px keyword.
   contents:

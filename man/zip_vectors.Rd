@@ -18,3 +18,4 @@ List
 Combine two list, by zipping them together in the order \code{v1[1]},
 \code{v2[1]}, \code{v1[2]}, \code{v2[2]}, \code{v1[3]}, ...
 }
+\keyword{internal}

@@ -15,3 +15,4 @@ A character vector
 \description{
 Read file with correct encoding.
 }
+\keyword{internal}

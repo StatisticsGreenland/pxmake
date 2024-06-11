@@ -21,3 +21,4 @@ A data frame
 \description{
 Change language in table
 }
+\keyword{internal}

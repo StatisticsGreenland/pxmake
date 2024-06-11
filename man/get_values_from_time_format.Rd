@@ -15,3 +15,4 @@ A character vector
 \description{
 Get time values from formatted string
 }
+\keyword{internal}

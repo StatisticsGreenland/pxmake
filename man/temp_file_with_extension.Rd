@@ -15,3 +15,4 @@ Path to temporary file
 \description{
 Get a temporary file path with a specific extension (function factory)
 }
+\keyword{internal}

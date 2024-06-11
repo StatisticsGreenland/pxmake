@@ -6,6 +6,7 @@
 #' type
 #'
 #' @return A px object
+#' @keywords internal
 change_pivot_variables <- function(x, variables, pivot) {
   old_pivot_variables <- get_pivot_variables(x, pivot)
 
@@ -44,6 +45,7 @@ change_pivot_variables <- function(x, variables, pivot) {
 #' @param pivot A string, either "STUB", "HEADING" or "FIGURES"
 #'
 #' @return A character vector of variable codes
+#' @keywords internal
 get_pivot_variables <- function(x, pivot) {
   x$variables1 %>%
     dplyr::filter(toupper(pivot) == !!pivot) %>%
@@ -102,7 +104,7 @@ px_figures <- function(x, variable) {
   UseMethod("px_figures")
 }
 
-#' @title FIGURES
+#' @title Change figures variable
 #' @description
 #' Inspect or change which variable is used as figures. The previous figures
 #' variable is changed to STUB.

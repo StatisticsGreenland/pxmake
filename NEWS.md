@@ -4,12 +4,12 @@
 - Add modifying function: `px_values()`.
 - Add pkgdown version of documentation on: https://statisticsgreenland.github.io/pxmake/
 
-
 ## Bug fixes and minor improvements
 - Update `px_micro()` documentation.
 - Bugfix: `px_add_totals()` now uses default value 'Total' if 
 `x$variables2$elimination` is `NA`. (#284)
 - Add `na.rm` argument to `px_add_totalts()`.
+- Improve pkdown site.
 
 # pxmake 0.11.0
 

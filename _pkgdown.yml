@@ -1,4 +1,73 @@
 url: https://statisticsgreenland.github.io/pxmake/
+
 template:
   bootstrap: 5
+
+reference:
+- title: Main function
+- contents:
+  - px
+- title: Create files
+- contents:
+  - px_save
+  - px_micro
+- title: Modify px object
+  desc: >
+    Once a px object has been created, with `px()`, it can be modified with
+    the functions below
+- subtitle: Special modifying functions
+  desc: Modifying functions that does not have a specific px keyword.
+  contents:
+   - px_add_totals
+   - px_figures
+   - px_order
+- subtitle: px Keywords
+  desc: Modifying functions that match a specific px keyword.
+  contents:
+   - px_aggregallowed
+   - px_autopen
+   - px_axis_version
+   - px_baseperiod
+   - px_cellnote
+   - px_cellnotex
+   - px_cfprices
+   - px_charset
+   - px_codepage
+   - px_confidential
+   - px_contact
+   - px_contents
+   - px_contvariable
+   - px_copyright
+   - px_creation_date
+   - px_decimals
+   - px_description
+   - px_descriptiondefault
+   - px_domain
+   - px_elimination
+   - px_heading
+   - px_infofile
+   - px_language
+   - px_languages
+   - px_last_updated
+   - px_link
+   - px_map
+   - px_matrix
+   - px_next_update
+   - px_note
+   - px_notex
+   - px_precision
+   - px_showdecimals
+   - px_stockfa
+   - px_stub
+   - px_subject_area
+   - px_subject_code
+   - px_tableid
+   - px_timeval
+   - px_title
+   - px_units
+   - px_update_frequency
+   - px_valuenote
+   - px_valuenotex
+   - px_values
+   - px_variable_type
 

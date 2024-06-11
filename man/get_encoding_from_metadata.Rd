@@ -15,3 +15,4 @@ Character
 \description{
 Get encoding name from metadata
 }
+\keyword{internal}

@@ -22,3 +22,4 @@ as \code{variables}.}
 Wrapper around \link{add_total_level_to_var} to add levels to total level to
 multiple variables.
 }
+\keyword{internal}

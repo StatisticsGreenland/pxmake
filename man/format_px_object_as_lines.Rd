@@ -15,3 +15,4 @@ A character vector
 \description{
 Get lines for px-file from px object
 }
+\keyword{internal}

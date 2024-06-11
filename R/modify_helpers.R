@@ -10,6 +10,7 @@
 #' @param new_value New value to modify/add to modify_column
 #'
 #' @return A data frame
+#' @keywords internal
 modify_or_add_row <- function(df,
                               lookup_column,
                               lookup_column_values,

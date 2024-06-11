@@ -3,7 +3,7 @@
 \name{px_figures}
 \alias{px_figures}
 \alias{px_figures.px}
-\title{FIGURES}
+\title{Change figures variable}
 \usage{
 px_figures(x, variable)
 

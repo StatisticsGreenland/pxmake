@@ -17,3 +17,4 @@ A px object.
 \description{
 Create a px object from an Excel workbook
 }
+\keyword{internal}

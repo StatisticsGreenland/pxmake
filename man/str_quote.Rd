@@ -15,3 +15,4 @@ String
 \description{
 Add quotes around string
 }
+\keyword{internal}

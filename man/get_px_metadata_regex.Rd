@@ -12,3 +12,4 @@ A character vector
 \description{
 Regular expression to parse header in px file
 }
+\keyword{internal}

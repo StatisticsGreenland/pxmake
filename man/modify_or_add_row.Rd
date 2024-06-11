@@ -30,3 +30,4 @@ A data frame
 Modify a value in a row of a data frame based on its value in another column.
 If the value is not found, a new row is added.
 }
+\keyword{internal}

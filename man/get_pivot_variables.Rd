@@ -17,3 +17,4 @@ A character vector of variable codes
 \description{
 Get names of pivot variables
 }
+\keyword{internal}

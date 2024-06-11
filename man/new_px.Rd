@@ -41,3 +41,4 @@ A px object
 \description{
 px constructor for internal functions
 }
+\keyword{internal}

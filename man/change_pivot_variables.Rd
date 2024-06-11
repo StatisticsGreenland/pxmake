@@ -20,3 +20,4 @@ A px object
 \description{
 Change pivot variables
 }
+\keyword{internal}

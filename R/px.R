@@ -90,6 +90,7 @@ px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
 #' @param data A data frame with data.
 #'
 #' @return A px object
+#' @keywords internal
 new_px <- function(languages, table1, table2, variables1, variables2,
                    cells1, cells2, acrosscells, data) {
   x <- list(languages  = dplyr::as_tibble(languages),
@@ -111,6 +112,7 @@ new_px <- function(languages, table1, table2, variables1, variables2,
 #' @param x A px object.
 #'
 #' @return A px object
+#' @keywords internal
 fix_px <- function(x) {
   undefined_variables <- setdiff(colnames(x$data), x$variables2$`variable-code`)
 
@@ -139,6 +141,7 @@ fix_px <- function(x) {
 #' @param x A supposed px object.
 #'
 #' @return A valid px object.
+#' @keywords internal
 validate_px <- function(x) {
   error_if_not_list(x)
   error_if_not_class_px(x)

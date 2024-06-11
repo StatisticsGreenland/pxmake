@@ -1,6 +1,7 @@
 #' Regular expression to parse header in px file
 #'
 #' @return A character vector
+#' @keywords internal
 get_px_metadata_regex <- function() {
   paste0("(?<keyword>[[:upper:]-]+)",    # Leading keyword
          "(?:\\[)?",                     # Maybe opening language bracket [
@@ -23,6 +24,7 @@ get_px_metadata_regex <- function() {
 #' @param metadata_lines A character vector with the header of a px file.
 #'
 #' @return A data frame
+#' @keywords internal
 get_metadata_df_from_px_lines <- function(metadata_lines) {
   keywords_indexed_by_contvariable <-
     get_px_keywords() %>%
@@ -77,6 +79,7 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
 #' Get encoding name from metadata
 #'
 #' @inherit get_main_language
+#' @keywords internal
 get_encoding_from_metadata <- function(metadata_df) {
   encoding_str <-
     metadata_df %>%
@@ -100,6 +103,7 @@ get_encoding_from_metadata <- function(metadata_df) {
 #' @inheritParams sort_metadata_df
 #'
 #' @return A data frame
+#' @keywords internal
 get_variable_label <- function(metadata_df) {
   metadata_df <- add_main_language(metadata_df)
 
@@ -143,6 +147,7 @@ get_variable_label <- function(metadata_df) {
 #' @inheritParams sort_metadata_df
 #'
 #' @return A data frame
+#' @keywords internal
 add_main_language <- function(metadata_df) {
   m_language <- get_main_language(metadata_df)
 
@@ -161,6 +166,7 @@ add_main_language <- function(metadata_df) {
 #' @inheritParams sort_metadata_df
 #'
 #' @return Character
+#' @keywords internal
 get_main_language <- function(metadata_df) {
   main_language <-
     metadata_df %>%
@@ -184,6 +190,7 @@ get_main_language <- function(metadata_df) {
 #' @inheritParams sort_metadata_df
 #'
 #' @return A data frame
+#' @keywords internal
 replace_na_language_with_main_language <- function(metadata_df) {
   metadata_df %>%
     dplyr::mutate(language = tidyr::replace_na(language, get_main_language(.)))
@@ -197,6 +204,7 @@ replace_na_language_with_main_language <- function(metadata_df) {
 #' @param metadata_df Data frame with metadata.
 #'
 #' @return A data frame
+#' @keywords internal
 sort_metadata_df <- function(metadata_df) {
   languages <-
     metadata_df %>%
@@ -221,6 +229,7 @@ sort_metadata_df <- function(metadata_df) {
 #' @param x A px object
 #'
 #' @return A data frame
+#' @keywords internal
 get_metadata_df_from_px <- function(x) {
   metadata_template <- dplyr::tibble(keyword  = character(),
                                      language = character(),

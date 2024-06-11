@@ -5,6 +5,7 @@
 #' sheet does not exist.
 #'
 #' @return A data frame.
+#' @keywords internal
 get_excel_sheet <- function(sheet, add_automatically = FALSE) {
   function(excel_path) {
     if (add_automatically) {
@@ -32,6 +33,7 @@ get_data_sheet       <- get_excel_sheet("Data")
 #' @inheritParams px_from_excel
 #'
 #' @return Character, name of figures variable.
+#' @keywords internal
 get_figures_variable_from_excel <- function(excel_path) {
   figures_variable <-
     excel_path %>%
@@ -51,6 +53,7 @@ get_figures_variable_from_excel <- function(excel_path) {
 #' @param data A data frame if data isen't stored in the Excel workbook.
 #'
 #' @return A px object.
+#' @keywords internal
 px_from_excel <- function(excel_path, data = NULL) {
   # languages, table1
   table_sheet <-
@@ -181,6 +184,7 @@ px_from_excel <- function(excel_path, data = NULL) {
 #' @param sheet_name Name of the sheet
 #'
 #' @return Nothing
+#' @keywords internal
 add_excel_sheet <- function(wb, df, sheet_name) {
   openxlsx::addWorksheet(wb, sheet_name, gridLines = FALSE)
   options("openxlsx.maxWidth" = 40)
@@ -196,6 +200,7 @@ add_excel_sheet <- function(wb, df, sheet_name) {
 #' @inheritParams px_save
 #'
 #' @return Nothing
+#' @keywords internal
 save_px_as_xlsx <- function(x, path, save_data, data_path) {
   excel_table <-
     data.frame(keyword ="LANGUAGES",

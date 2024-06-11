@@ -15,3 +15,4 @@ String
 \description{
 Add quotes around unless in some very specific cases required by the px format
 }
+\keyword{internal}

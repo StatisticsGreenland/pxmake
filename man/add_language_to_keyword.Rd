@@ -19,3 +19,4 @@ String
 \description{
 Add language, other than the main langue, to keyword
 }
+\keyword{internal}

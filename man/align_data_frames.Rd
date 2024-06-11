@@ -17,3 +17,4 @@ A data frame
 \description{
 Align df_a to have the same columns and column types as df_b.
 }
+\keyword{internal}

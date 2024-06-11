@@ -15,3 +15,4 @@ A valid px object.
 \description{
 Throws an error if the px object is not valid.
 }
+\keyword{internal}

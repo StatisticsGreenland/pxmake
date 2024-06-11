@@ -15,3 +15,4 @@ Character
 \description{
 Get the main language from metadata
 }
+\keyword{internal}

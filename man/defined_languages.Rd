@@ -15,3 +15,4 @@ A character vector
 \description{
 Get languages used in px object
 }
+\keyword{internal}

@@ -17,3 +17,4 @@ String
 \description{
 Add a sub key word (see px-specification for details on sub keys)
 }
+\keyword{internal}

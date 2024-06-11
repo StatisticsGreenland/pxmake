@@ -3,6 +3,7 @@
 #' @param x A px object
 #'
 #' @returns A character vector
+#' @keywords internal
 defined_languages <- function(x) {
   if (! is.null(px_languages(x))) {
     return(px_languages(x))
@@ -21,6 +22,7 @@ defined_languages <- function(x) {
 #' @param align_df A data frame to align with
 #'
 #' @returns A data frame
+#' @keywords internal
 modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
   add_languages <- setdiff(new_languages, df$language)
 
@@ -43,6 +45,7 @@ modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
 #' @param new_languages A character vector
 #'
 #' @returns A px object
+#' @keywords internal
 modify_languages_in_px <- function(x, new_languages) {
   x$table2 <-
     modify_languages_in_table(df = x$table2,

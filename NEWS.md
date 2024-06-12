@@ -3,6 +3,7 @@
 ## New features
 - Add modifying functions: `px_values()`, `px_variable_label()`.
 - Add pkgdown version of documentation on: https://statisticsgreenland.github.io/pxmake/
+- Add example data sets `population_gl` and `greenlanders`. (#282)
 
 ## Bug fixes and minor improvements
 - Update `px_micro()` documentation.
@@ -13,6 +14,8 @@
 - `px()` can now take an Excel workbook without a 'Data' sheet, without 
 requiring that argument 'data' is supplied.
 - Remove unused functions.
+- Add examples in documentation for `px()` and `px_add_totals()`.
+- Add two vigenttes. (#277, #278)
 
 # pxmake 0.11.0
 

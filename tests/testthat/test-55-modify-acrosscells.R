@@ -50,4 +50,8 @@ test_that('cellnote is modified and removed', {
   x5 <- px_cellnotex(x, cellnotex_df1)
 
   expect_identical(px_cellnotex(x5), cellnotex_df1)
+
+  x6 <- px_cellnotex(x, NULL)
+
+  expect_identical(px_cellnotex(x6), NULL)
 })

@@ -12,6 +12,7 @@
 - Improve pkdown site.
 - `px()` can now take an Excel workbook without a 'Data' sheet, without 
 requiring that argument 'data' is supplied.
+- Remove unused functions.
 
 # pxmake 0.11.0
 

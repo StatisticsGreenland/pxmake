@@ -21,3 +21,15 @@ A px object
 Create a px object from a px file, an Excel metadata workbook, or a data
 frame.
 }
+\examples{
+# Create px object from dataset
+x1 <- px(population_gl)
+
+# Create px object from px file
+px_path <- tempfile(fileext = ".px")
+url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
+download.file(url, px_path)
+
+x2 <- px(px_path)
+
+}

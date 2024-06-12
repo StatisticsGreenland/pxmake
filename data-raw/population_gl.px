@@ -1,0 +1,47 @@
+CHARSET="ANSI";
+AXIS-VERSION="2010";
+CODEPAGE="Windows-1252";
+LANGUAGE="en";
+CREATION-DATE="20190124 09:00";
+DECIMALS=0;
+SHOWDECIMALS=0;
+MATRIX="BEXSTA";
+COPYRIGHT=YES;
+SUBJECT-CODE="BE";
+SUBJECT-AREA="Population";
+DESCRIPTION="Population January 1st 1977-2024 <em>[BEESTA]</em>";
+TITLE="Population January 1st by gender, age and time";
+CONTENTS="Population January 1st";
+STUB="gender","age";
+HEADING="time";
+VARIABLECODE("gender")="gender";
+VALUES("gender")="Men","Women";
+VARIABLECODE("age")="age";
+VALUES("age")="0-6","7-16","17-24","25-64","65+";
+VARIABLECODE("time")="time";
+VALUES("time")="2004","2014","2024";
+CODES("gender")="M","K";
+CODES("age")="0-6","7-16","17-24","25-64","65+";
+CODES("time")="2004","2014","2024";
+ELIMINATION("age")=YES;
+LAST-UPDATED="20240209 09:00";
+UNITS="persons";
+CONTACT="Lars Pedersen, LARP@stat.gl";
+SOURCE="Statistics Greenland";
+NOTE="The Population Register contains information on all persons who have resided in Greenland after 1 January 1977. ##The purpose of the register is to be the basis for population statistics, and to supplement other personal information #with basic informati"
+"on about each person, like address and family relations.The Population register is updated with information from CPR (Administrative Population Register) where the following information is retrieved: #name, gender, age, place of birth, citizenship, marit"
+"al status, reference to mother, father and spouse, address of residence and more.#According to §13 of the Act on Greenland Statistics, no person-related information is disclosed from the register, except for personal numbers, randomly drawn for surveys";
+LINK="www.stat.gl/bee202401/m1";
+NEXT-UPDATE="20250212 09:00";
+DATA=
+3237 2950 2769 
+5085 4040 3865 
+3191 3614 2940 
+17328 16888 17231 
+1481 2238 3116 
+3109 2644 2668 
+5018 3979 3534 
+3003 3528 2862 
+13744 14397 15098 
+1630 2004 2616 
+;

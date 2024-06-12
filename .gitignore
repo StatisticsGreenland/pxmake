@@ -6,3 +6,5 @@ helpers.R
 logo/
 inst/doc
 docs
+/doc/
+/Meta/

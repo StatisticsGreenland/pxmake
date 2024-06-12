@@ -1,4 +1,4 @@
-#' Add 'total' level to variable
+#' Add total level to variable
 #'
 #' Add a new level to a variables which is the sum of all other levels.
 #'
@@ -26,7 +26,7 @@ add_total_level_to_var <- function(df,
     dplyr::relocate(all_of(column_order))
 }
 
-#' Add 'total' levels to multiple variables
+#' Add total levels to multiple variables
 #'
 #' Wrapper around \link{add_total_level_to_var} to add levels to total level to
 #' multiple variables.
@@ -44,7 +44,6 @@ add_totals_to_df <- function(df,
                              sum_var = "value",
                              na.rm = TRUE
                              ) {
-
   params <- data.frame(variables = variables, level_names = level_names)
 
   for (i in 1:nrow(params)) {
@@ -65,17 +64,41 @@ px_add_totals <- function(x, variables, na.rm = TRUE) {
   UseMethod("px_add_totals")
 }
 
-#' Add 'total' level to variables
+#' @title Add total levels to variables
 #'
-#' Add 'total' level to multiple variables. The name of the total level is set
-#' as 'elimination' in px$variables2, otherwise 'Total' is used. The value of
-#' is the sum of the figures variable.
+#' @description
+#' Adds a total level, which is the sum of the figures for all other levels of
+#' the variable. NA values are ignored in the summation.
+#'
+#' The name of the total level can be changed with \link{px_elimination}. If
+#' elimination is NA, the name "Total" is used.
 #'
 #' @param x A px object
-#' @param variables List of variables to add total levels to.
+#' @param variables A character vector of variables to add total levels to.
 #' @param na.rm Optional. Logical. If TRUE, NAs are removed before summing.
 #'
 #' @return A px object
+#'
+#' @examples
+#' # Create small px object example
+#' x0 <- px(subset(population_gl, age == "65+"))
+#' x0$data
+#'
+#' # Add total level to one variable
+#' x1 <- px_add_totals(x0, "gender")
+#' x1$data
+#'
+#' # Add total level to multiple variables
+#' x2 <- px_add_totals(x0, c("gender", "age"))
+#' x2$data
+#'
+#' # The name of the total level is set with `px_elimination`
+#' x3 <-
+#'   x0 |>
+#'   px_elimination("T") |>
+#'   px_add_totals("gender")
+#'
+#' x3$data
 #'
 #' @export
 px_add_totals.px <- function(x, variables, na.rm = TRUE) {

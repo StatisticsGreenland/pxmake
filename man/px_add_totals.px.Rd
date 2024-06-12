@@ -3,7 +3,7 @@
 \name{px_add_totals}
 \alias{px_add_totals}
 \alias{px_add_totals.px}
-\title{Add 'total' level to variables}
+\title{Add total levels to variables}
 \usage{
 px_add_totals(x, variables, na.rm = TRUE)
 
@@ -12,7 +12,7 @@ px_add_totals(x, variables, na.rm = TRUE)
 \arguments{
 \item{x}{A px object}
 
-\item{variables}{List of variables to add total levels to.}
+\item{variables}{A character vector of variables to add total levels to.}
 
 \item{na.rm}{Optional. Logical. If TRUE, NAs are removed before summing.}
 }
@@ -20,7 +20,31 @@ px_add_totals(x, variables, na.rm = TRUE)
 A px object
 }
 \description{
-Add 'total' level to multiple variables. The name of the total level is set
-as 'elimination' in px$variables2, otherwise 'Total' is used. The value of
-is the sum of the figures variable.
+Adds a total level, which is the sum of the figures for all other levels of
+the variable. NA values are ignored in the summation.
+
+The name of the total level can be changed with \link{px_elimination}. If
+elimination is NA, the name "Total" is used.
+}
+\examples{
+# Create small px object example
+x0 <- px(subset(population_gl, age == "65+"))
+x0$data
+
+# Add total level to one variable
+x1 <- px_add_totals(x0, "gender")
+x1$data
+
+# Add total level to multiple variables
+x2 <- px_add_totals(x0, c("gender", "age"))
+x2$data
+
+# The name of the total level is set with `px_elimination`
+x3 <-
+  x0 |>
+  px_elimination("T") |>
+  px_add_totals("gender")
+
+x3$data
+
 }

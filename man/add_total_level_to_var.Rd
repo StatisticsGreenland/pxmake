@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_totals.R
 \name{add_total_level_to_var}
 \alias{add_total_level_to_var}
-\title{Add 'total' level to variable}
+\title{Add total level to variable}
 \usage{
 add_total_level_to_var(
   df,

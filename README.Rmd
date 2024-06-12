@@ -154,14 +154,14 @@ Currently the following `r nrow(implemented)` keywords have a modifying function
 ```{r, echo = FALSE}
 implemented %>%
   dplyr::select(Keyword, `Function name`) %>% 
-  print(row.names = FALSE)
+  print(row.names = FALSE, right = FALSE)
 ```
 
 In addition to the above, the following `r nrow(non_keyword_modifying_functions)` modifying functions are available:
 
 ```{r, echo = FALSE}
 non_keyword_modifying_functions %>% 
-  print(row.names = FALSE)
+  print(row.names = FALSE, right = FALSE)
 ```
 
 See the help page for each modifying function for more information.
@@ -172,7 +172,7 @@ These `r nrow(not_implemented)` keywords currently doesn't have a modifying func
 ```{r, echo = FALSE}
 not_implemented %>% 
   dplyr::select(-implemented) %>% 
-  print(row.names = FALSE)
+  print(row.names = FALSE, right = FALSE)
 ```
 
 Finally these `r nrow(wont_implement)` keywords will not have a modifying function, because they are automatically determined by the data.
@@ -180,7 +180,7 @@ Finally these `r nrow(wont_implement)` keywords will not have a modifying functi
 ```{r, echo = FALSE}
 wont_implement %>%
   dplyr::select(Keyword) %>% 
-  print(row.names = FALSE)
+  print(row.names = FALSE, right = FALSE)
 ```
 </details>
 

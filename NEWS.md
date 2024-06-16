@@ -15,7 +15,8 @@
 requiring that argument 'data' is supplied.
 - Remove unused functions.
 - Add examples in documentation for `px()` and `px_add_totals()`.
-- Add two vigenttes. (#277, #278)
+- Add three vigenttes. (#277, #278, #280)
+- Increase test coverage.
 
 # pxmake 0.11.0
 

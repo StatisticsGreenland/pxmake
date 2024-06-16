@@ -1,0 +1,157 @@
+---
+title: "Micro files"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Micro files}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Apart from `px_save()`, `px_micro()` is the only other function in the pxmake package that can save px objects as px files.
+
+`px_micro()` turns a px object into many smaller px files, each containing a few of the variables in the original px object.
+
+## Use case
+
+Some statistical offices use small px files like this, to showcase a lager data set which cannot be made publicly available. See an example on [Statistic Greenland's microdata for Research and Analysis](https://bank.stat.gl/pxweb/en/GSmicro/).
+
+## Input data
+
+The basis of micro files are usually a data set which doesn't have a count variable (like most px files). `px_micro()` will instead create a count of each individual variable.
+
+In this example we will use the built-in data  data set `greenlanders`.
+
+```{r, include = FALSE}
+set.seed(0)
+micro_dir <- file.path("micro_files")
+unlink(micro_dir, recursive = TRUE)
+```
+
+```{r}
+library(pxmake)
+
+greenlanders |> dplyr::sample_n(10) |> dplyr::arrange_all()
+```
+
+## How to create micro files
+
+Create a px object with `px()`, and pass it to `px_micro()`.
+
+```{r}
+# Create px object
+x <- px(greenlanders)
+
+# Create folder for micro files
+micro_dir <- file.path("micro_files")
+dir.create(micro_dir)
+
+# Write micro files to folder
+px_micro(x, out_dir = micro_dir)
+```
+The folder now contains three px files, one for each variable except 'age'.
+```{r}
+list.files(micro_dir)
+```
+
+The reason 'age' didn't get a px file is because it is the HEADING variable in `x`, and `px_micro()` creates a file for each non-HEADING variable. Instead the HEADNING variable is used in all the created px files.
+
+```{r}
+# Print HEADING variables
+px_heading(x)
+
+# Print non-HEADING variables
+c(px_stub(x), px_figures(x))
+```
+
+In this case, we want 'cohort' to be heading, and to create a px file for 'gender', 'age' and 'municipality'.
+
+```{r}
+x2 <-
+  x |>
+  px_stub('age') |>    # Change age to STUB
+  px_heading('cohort') # Change cohort to HEADING
+```
+
+```{r}
+# Clear folder
+unlink(file.path(micro_dir, "*.px"))
+
+px_micro(x2, out_dir = micro_dir)
+```
+
+The folder now contains the files we wanted.
+
+```{r}
+list.files(micro_dir)
+```
+
+Each file contains one of the three variables as STUB, 'cohort' as HEADING, and a variable 'n' which is the count of each combination of the variables.
+
+```{r}
+px(file.path(micro_dir, 'age.px'))$data
+
+px(file.path(micro_dir, 'gender.px'))$data
+
+px(file.path(micro_dir, 'municipality.px'))$data
+```
+
+## Keyword values
+
+In general the keyword values in the mother px object are carried over to the micro files. This is the case for keywords like 'MATRIX', 'SUBJECT-CODE', 'CONTACT', 'LANGUAGE', 'CODEPAGE', etc.
+
+To change keywords across all the micro files it is easiest to simply change them in the mother px object before calling `px_micro()`.
+
+```{r, eval = FALSE}
+# Change contact in all micro files
+x2 |>
+  px_contact("Johan Ejstrud") |>
+  px_micro(out_dir = micro_dir)
+```
+
+However, some keywords might need to be customized for each micro file. To do so, create a data frame with the column 'variable' and then a column for each keyword that should be customized.
+
+```{r}
+individual_keywords <- tibble::tribble(~variable     ,      ~px_description,
+                                       "age"         ,    "Age count 18-99",
+                                       "gender"      ,       "Gender count",
+                                       "municipality",  "Municipality 2024"
+                                       )
+```
+
+```{r}
+px_micro(x2, out_dir = micro_dir, keyword_values = individual_keywords)
+```
+
+```{r}
+px(file.path(micro_dir, 'age.px')) %>% px_description()
+ 
+px(file.path(micro_dir, 'gender.px')) %>% px_description()
+
+px(file.path(micro_dir, 'municipality.px')) %>% px_description()
+```
+
+### Filenames
+
+The filenames of the micro files are by default the name of the variable, however these can also be changed by passing a 'filename' column to 'keyword_values'
+
+```{r}
+individual_keywords2 <- 
+  individual_keywords |>
+  dplyr::mutate(filename = paste0(variable, "_2024", ".px"))
+
+# Clear folder
+unlink(file.path(micro_dir, "*.px"))
+
+px_micro(x2, out_dir = micro_dir, keyword_values = individual_keywords2)
+
+list.files(micro_dir)
+```

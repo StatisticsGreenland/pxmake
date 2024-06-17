@@ -82,7 +82,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 46 keywords have a modifying function in pxmake:
+Currently the following 47 keywords have a modifying function in pxmake:
 
     #>  Keyword            Function name        
     #>  AGGREGALLOWED      px_aggregallowed     
@@ -100,6 +100,7 @@ Currently the following 46 keywords have a modifying function in pxmake:
     #>  CONTVARIABLE       px_contvariable      
     #>  COPYRIGHT          px_copyright         
     #>  CREATION-DATE      px_creation_date     
+    #>  DATA               px_data              
     #>  DECIMALS           px_decimals          
     #>  DESCRIPTION        px_description       
     #>  DESCRIPTIONDEFAULT px_descriptiondefault
@@ -132,13 +133,14 @@ Currently the following 46 keywords have a modifying function in pxmake:
     #>  VALUES             px_values            
     #>  VARIABLE-TYPE      px_variable_type
 
-In addition to the above, the following 3 modifying functions are
+In addition to the above, the following 4 modifying functions are
 available:
 
-    #>  Function name
-    #>  px_add_totals
-    #>  px_figures   
-    #>  px_order
+    #>  Function name    
+    #>  px_add_totals    
+    #>  px_figures       
+    #>  px_order         
+    #>  px_variable_label
 
 See the help page for each modifying function for more information.
 
@@ -147,14 +149,13 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 38 keywords currently doesn’t have a modifying function, but can
+These 37 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>  Keyword             Function name          Priority Complexity
     #>  ATTRIBUTE-ID        px_attribute_id                           
     #>  ATTRIBUTE-TEXT      px_attribute_text                         
     #>  ATTRIBUTES          px_attributes                             
-    #>  DATA                px_data                **       Easy      
     #>  DATABASE            px_database                               
     #>  DATANOTE            px_datanote                               
     #>  DATANOTECELL        px_datanotecell                           

@@ -1,7 +1,8 @@
 # pxmake (development version)
 
 ## New features
-- Add modifying functions: `px_values()`, `px_variable_label()`.
+- Add modifying functions: `px_values()`, `px_variable_label()`, `px_data()`. 
+(#291)
 - Add pkgdown version of documentation on: https://statisticsgreenland.github.io/pxmake/
 - Add example data sets `population_gl` and `greenlanders`. (#282)
 

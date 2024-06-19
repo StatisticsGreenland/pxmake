@@ -18,11 +18,11 @@ knitr::opts_chunk$set(
 
 Apart from `px_save()`, `px_micro()` is the only other function in the pxmake package that can save px objects as px files.
 
-`px_micro()` turns a px object into many smaller px files, each containing a few of the variables in the original px object.
+`px_micro()` turns a px object into many smaller px files, each containing one variable in the original px object.
 
 ## Use case
 
-Some statistical offices use small px files like this, to showcase a lager data set which cannot be made publicly available. See an example on [Statistic Greenland's microdata for Research and Analysis](https://bank.stat.gl/pxweb/en/GSmicro/).
+Statistics Greenland use small px files, to showcase and present metadata on a variable from a lager data set which cannot be made publicly available. See an example on [Statistic Greenland's microdata for Research and Analysis](https://bank.stat.gl/pxweb/en/GSmicro/).
 
 ## Input data
 

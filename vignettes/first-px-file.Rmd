@@ -96,34 +96,7 @@ The resulting px file can be seen below.
 readLines('population_gl_modified.px') |> cat(sep = '\n')
 ```
 
-## Multilingual px file
-
-To create multilingual px files, first use the `px_language()` function to set the default language, and next the `px_languages()` function to set the languages of the metadata.
-
-Next use the build-in px_ functions to set metadata for different languages by passing a data.frame.
-
-See examples on needed using ?px_subject_area
-
-```{r}
-x |>
-  px_language("en") |>
-  px_languages(c("en", "da", "kl")) |>
-  px_codepage("UTF-8") |> # Change file encoding  
-  px_matrix("pop") |>
-  px_contact("Johan Ejstrud") |>
-  px_subject_code("GL") |>
-  px_subject_area(data.frame(language = c("en","da","kl"),
-                             value = c("Population","Befolkning","Inuit"))) |>
-  px_timeval("year") |>
-  px_contents(data.frame(language = c("en","da","kl"),
-                         value = c("Population","Befolkning","Inuit"))) |>
-  px_units(data.frame(language = c("en","da","kl"),
-                      value = c("Persons","Personer","Inuit"))) |>
-  px_last_updated(format(Sys.time(), "%Y%m%d %H:%M")) |>
-  px_save("multi_population_gl_modified.px")
-
-```
-
-
-
-
+## Advanced use
+See the other vignettes for more advanced use cases:
+- `vignette("languages")`
+- `vignette("micro-files")`

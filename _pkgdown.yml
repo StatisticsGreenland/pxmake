@@ -10,7 +10,6 @@ reference:
 - title: Create files
 - contents:
   - px_save
-  - px_micro
 - title: Modify px object
   desc: >
     Once a px object has been created, with `px()`, it can be modified with
@@ -71,6 +70,9 @@ reference:
    - px_valuenotex
    - px_values
    - px_variable_type
+- title: Special functions
+  contents:
+   - px_micro
 - title: Built in datasets
   contents:
    - population_gl

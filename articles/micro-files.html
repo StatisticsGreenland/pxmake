@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0.9011</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0.9012</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,18 +75,23 @@
 
     
     
-<p>Apart from <code><a href="../reference/px_save.html">px_save()</a></code>, <code><a href="../reference/px_micro.html">px_micro()</a></code> is the
-only other function in the pxmake package that can save px objects as px
-files.</p>
-<p><code><a href="../reference/px_micro.html">px_micro()</a></code> turns a px object into many smaller px files,
-each containing a few of the variables in the original px object.</p>
 <div class="section level2">
 <h2 id="use-case">Use case<a class="anchor" aria-label="anchor" href="#use-case"></a>
 </h2>
-<p>Some statistical offices use small px files like this, to showcase a
-lager data set which cannot be made publicly available. See an example
-on <a href="https://bank.stat.gl/pxweb/en/GSmicro/" class="external-link">Statistic
+<p><code><a href="../reference/px_micro.html">px_micro()</a></code> exists to support a specific use case for <a href="https://stat.gl/default.asp?lang=en" class="external-link">Statistics Greenland</a>.</p>
+<p>They use it to create small px files to showcase and present metadata
+from a lager data set which cannot be made publicly available. See an
+example on <a href="https://bank.stat.gl/pxweb/en/GSmicro/" class="external-link">Statistic
 Greenland’s microdata for Research and Analysis</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="px_micro">
+<code>px_micro()</code><a class="anchor" aria-label="anchor" href="#px_micro"></a>
+</h2>
+<p>Apart from <code><a href="../reference/px_save.html">px_save()</a></code>, <code><a href="../reference/px_micro.html">px_micro()</a></code> is the
+only other function that can save px objects as px files.</p>
+<p><code><a href="../reference/px_micro.html">px_micro()</a></code> turns a px object into many smaller px files,
+each containing a subset of the variables in the original px object.</p>
 </div>
 <div class="section level2">
 <h2 id="input-data">Input data<a class="anchor" aria-label="anchor" href="#input-data"></a>

@@ -1,5 +1,18 @@
 # Functions to create roxygen2 documention
 
+add_documentation_table1 <- function(keyword) {
+  c(paste0("@title ", keyword),
+    "",
+    paste0("@description ", table_description(keyword)),
+    "",
+    "@param x A px object",
+    paste0("@param value ", table1_param_value(keyword)),
+    "@return A px object or a character string",
+    "",
+    "@export"
+  )
+}
+
 description_start <- function(keyword) {
   stringr::str_glue("Inspect or change {keyword}.")
 }

@@ -10,7 +10,8 @@ px_data <- function(x, value) {
 #'
 #' @param x A px object
 #'
-#' @param value A data frame
+#' @param value Optional. A data frame. If missing, the current DATA is returned.
+#' If NULL, all data rows are removed.
 #'
 #' @return A px object or a data frame
 #'
@@ -18,6 +19,8 @@ px_data <- function(x, value) {
 px_data.px <- function(x, value) {
   if (missing(value)) {
     return(x$data)
+  } else if (is.null(value)) {
+    x$data <- dplyr::filter(x$data, FALSE)
   } else {
     x$data <- value
   }

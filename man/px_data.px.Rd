@@ -12,7 +12,8 @@ px_data(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{A data frame}
+\item{value}{Optional. A data frame. If missing, the current DATA is returned.
+If NULL, all data rows are removed.}
 }
 \value{
 A px object or a data frame

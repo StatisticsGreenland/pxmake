@@ -37,20 +37,20 @@ x1 <-
   px_variable_label(tribble(~`variable-code`, ~`variable-label`,
                             'gender',         'Gender',
                             'age',            'Age'))
-px_variable_label(x2)
+px_variable_label(x1)
 
 # Set VARIABLE-LABEL for individual languages
-x3 <-
-  x2 \%>\%
+x2 <-
+  x1 \%>\%
   px_languages(c('en', 'kl')) |>
   px_variable_label(tribble(~`variable-code`, ~language, ~`variable-label`,
                             'gender',         'en',      'Gender',
                             'gender',         'kl',      'Suiaassuseq',
                             'age',            'en',      'Age',
                             'age',            'kl',      'Ukiut'))
-px_variable_label(x3)
+px_variable_label(x2)
 
 # Remove VARIABLE-LABEL
-x4 <- variable_label(x3, NULL)
-variable_label(x4)
+x3 <- variable_label(x2, NULL)
+variable_label(x3)
 }

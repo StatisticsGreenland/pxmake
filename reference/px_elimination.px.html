@@ -81,6 +81,47 @@
 <p>A px object, a character string, or a data frame.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set ELIMINATION for all languages</span></span></span>
+<span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="px.html">px</a></span><span class="op">(</span><span class="va">population_gl</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">px_elimination</span><span class="op">(</span><span class="st">'YES'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Print ELIMINATION</span></span></span>
+<span class="r-in"><span><span class="fu">px_elimination</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "YES"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Set ELIMINATION for individual variables</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">x1</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">px_elimination</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">`variable-code`</span>, <span class="op">~</span><span class="va">ELIMINATION</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'gender'</span>, <span class="st">'All'</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'age'</span>,    <span class="st">'Total'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Data frame contains invalid columns: ELIMINATION, it can only contain the columns: variable-code, language, variable-label, domain, note, notex, elimination</span>
+<span class="r-in"><span><span class="fu">px_elimination</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x2' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Set ELIMINATION for individual languages</span></span></span>
+<span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="px_languages.px.html">px_languages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'en'</span>, <span class="st">'kl'</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">px_elimination</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">`variable-code`</span>, <span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">ELIMINATION</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'gender'</span>,    <span class="st">'en'</span>,      <span class="st">'All_en'</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'gender'</span>,    <span class="st">'kl'</span>,      <span class="st">'All_kl'</span>,</span></span>
+<span class="r-in"><span>                    <span class="st">'age'</span>,       <span class="st">'en'</span>,      <span class="st">'Total_en'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x2' not found</span>
+<span class="r-in"><span><span class="fu">px_elimination</span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x3' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove ELIMINATION</span></span></span>
+<span class="r-in"><span><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu">px_elimination</span><span class="op">(</span><span class="va">x3</span>, <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x3' not found</span>
+<span class="r-in"><span><span class="fu">px_elimination</span><span class="op">(</span><span class="va">x4</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x4' not found</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

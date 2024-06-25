@@ -17,8 +17,8 @@ is missing, the current VARIABLE-TYPE is returned. If NULL, all
 VARIABLE-TYPE is removed.}
 }
 \value{
-A px object or a data frame.
+A px object or data frame.
 }
 \description{
-\code{px_description_table1("VARIABLE-TYPE")}
+Inspect or change VARIABLE-TYPE.
 }

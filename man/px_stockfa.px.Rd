@@ -20,3 +20,26 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change STOCKFA.
 }
+\examples{
+# Set STOCKFA for all languages
+x1 <-
+  px(population_gl) |>
+  px_stockfa('S')
+
+# Print STOCKFA
+px_stockfa(x1)
+
+# Set STOCKFA for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_stockfa(tribble(~language, ~value,
+                      'en', 'S',
+                      'kl', 'F'))
+px_stockfa(x2)
+
+# Remove STOCKFA
+x3 <- px_stockfa(x2, NULL)
+px_stockfa(x3)
+}

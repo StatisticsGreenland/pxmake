@@ -12,38 +12,13 @@ handle_table2_keyword <- function(x, value, keyword) {
   validate_px(x)
 }
 
-#' @rdname px_contents.px
-#' @export
-px_contents <- function(x, value) {
-  UseMethod("px_contents")
-}
-
-#' @title CONTENTS
-#'
-#' @description `r table_description("CONTENTS")`
-#'
-#' @param x A px object
-#' @param value `r table2_param_value("CONTENTS")`
-#'
-#' @return A px object, a character string, or a data frame.
-#'
-#' @export
-px_contents.px <- function(x, value) {
-  handle_table2_keyword(x, value, "CONTENTS")
-}
-
-
 #' @rdname px_baseperiod.px
 #' @export
 px_baseperiod <- function(x, value) {
   UseMethod("px_baseperiod")
 }
 
-#' @inherit px_contents.px
-#' @title BASEPERIOD
-#' @description `r table_description("BASEPERIOD")`
-#' @param value `r table2_param_value("BASEPERIOD")`
-#' @export
+#' @eval add_documentation_table2("BASEPERIOD", "year", "ukioq")
 px_baseperiod.px <- function(x, value) {
   handle_table2_keyword(x, value, "BASEPERIOD")
 }
@@ -55,11 +30,7 @@ px_cfprices <- function(x, value) {
   UseMethod("px_cfprices")
 }
 
-#' @inherit px_contents.px
-#' @title CFPRICES
-#' @description `r table_description("CFPRICES")`
-#' @param value `r table2_param_value("CFPRICES")`
-#' @export
+#' @eval add_documentation_table2("CFPRICES", "C", "F")
 px_cfprices.px <- function(x, value) {
   handle_table2_keyword(x, value, "CFPRICES")
 }
@@ -71,13 +42,21 @@ px_contact <- function(x, value) {
   UseMethod("px_contact")
 }
 
-#' @inherit px_contents.px
-#' @title CONTACT
-#' @description `r table_description("CONTACT")`
-#' @param value `r table2_param_value("CONTACT")`
-#' @export
+#' @eval add_documentation_table2("CONTACT", "Johan Ejstrud", "Lars Pedersen")
 px_contact.px <- function(x, value) {
   handle_table2_keyword(x, value, "CONTACT")
+}
+
+
+#' @rdname px_contents.px
+#' @export
+px_contents <- function(x, value) {
+  UseMethod("px_contents")
+}
+
+#' @eval add_documentation_table2("CONTENTS", "Population", "Innuttaasut")
+px_contents.px <- function(x, value) {
+  handle_table2_keyword(x, value, "CONTENTS")
 }
 
 
@@ -87,11 +66,8 @@ px_description <- function(x, value) {
   UseMethod("px_description")
 }
 
-#' @inherit px_contents.px
-#' @title DESCRIPTION
-#' @description `r table_description("DESCRIPTION")`
-#' @param value `r table2_param_value("DESCRIPTION")`
-#' @export
+#' @eval add_documentation_table2("DESCRIPTION", "Population", "Innuttaasut")
+#' @seealso [px_title()]
 px_description.px <- function(x, value) {
   handle_table2_keyword(x, value, "DESCRIPTION")
 }
@@ -103,11 +79,7 @@ px_infofile <- function(x, value) {
   UseMethod("px_infofile")
 }
 
-#' @inherit px_contents.px
-#' @title INFOFILE
-#' @description `r table_description("INFOFILE")`
-#' @param value `r table2_param_value("INFOFILE")`
-#' @export
+#' @eval add_documentation_table2("INFOFILE", "infofile_en", "infofile_kl")
 px_infofile.px <- function(x, value) {
   handle_table2_keyword(x, value, "INFOFILE")
 }
@@ -119,11 +91,7 @@ px_last_updated <- function(x, value) {
   UseMethod("px_last_updated")
 }
 
-#' @inherit px_contents.px
-#' @title LAST-UPDATED
-#' @description `r table_description("LAST-UPDATED")`
-#' @param value `r table2_param_value("LAST-UPDATED")`
-#' @export
+#' @eval add_documentation_table2("LAST-UPDATED",  "17070501 15:55", "20080621 15:55")
 px_last_updated.px <- function(x, value) {
   handle_table2_keyword(x, value, "LAST-UPDATED")
 }
@@ -135,11 +103,7 @@ px_link <- function(x, value) {
   UseMethod("px_link")
 }
 
-#' @inherit px_contents.px
-#' @title LINK
-#' @description `r table_description("LINK")`
-#' @param value `r table2_param_value("LINK")`
-#' @export
+#' @eval add_documentation_table2("LINK", "https://stat.gl/?lang=en", "https://stat.gl/")
 px_link.px <- function(x, value) {
   handle_table2_keyword(x, value, "LINK")
 }
@@ -151,11 +115,7 @@ px_map <- function(x, value) {
   UseMethod("px_map")
 }
 
-#' @inherit px_contents.px
-#' @title MAP
-#' @description `r table_description("MAP")`
-#' @param value `r table2_param_value("MAP")`
-#' @export
+#' @eval add_documentation_table2("MAP", "Great Britain", "Kalaallit Nunaat")
 px_map.px <- function(x, value) {
   handle_table2_keyword(x, value, "MAP")
 }
@@ -167,11 +127,7 @@ px_stockfa <- function(x, value) {
   UseMethod("px_stockfa")
 }
 
-#' @inherit px_contents.px
-#' @title STOCKFA
-#' @description `r table_description("STOCKFA")`
-#' @param value `r table2_param_value("STOCKFA")`
-#' @export
+#' @eval add_documentation_table2("STOCKFA", "S", "F")
 px_stockfa.px <- function(x, value) {
   handle_table2_keyword(x, value, "STOCKFA")
 }
@@ -183,11 +139,7 @@ px_subject_area <- function(x, value) {
   UseMethod("px_subject_area")
 }
 
-#' @inherit px_contents.px
-#' @title SUBJECT-AREA
-#' @description `r table_description("SUBJECT-AREA")`
-#' @param value `r table2_param_value("SUBJECT-AREA")`
-#' @export
+#' @eval add_documentation_table2("SUBJECT-AREA", "Population", "Innuttaasut")
 px_subject_area.px <- function(x, value) {
   handle_table2_keyword(x, value, "SUBJECT-AREA")
 }
@@ -199,11 +151,9 @@ px_title <- function(x, value) {
   UseMethod("px_title")
 }
 
-#' @inherit px_contents.px
-#' @title TITLE
-#' @description `r table_description("TITLE")`
-#' @param value `r table2_param_value("TITLE")`
-#' @export
+#' @eval add_documentation_table2("TITLE", "Population GR", "Innuttaasut KL")
+#' @description TITLE can only be removed if DESCRIPTION is set.
+#' @seealso [px_description()]
 px_title.px <- function(x, value) {
   handle_table2_keyword(x, value, "TITLE")
 }
@@ -215,11 +165,7 @@ px_units <- function(x, value) {
   UseMethod("px_units")
 }
 
-#' @inherit px_contents.px
-#' @title UNITS
-#' @description `r table_description("UNITS")`
-#' @param value `r table2_param_value("UNITS")`
-#' @export
+#' @eval add_documentation_table2("UNITS", "persons", "inuit amerlassusaat")
 px_units.px <- function(x, value) {
   handle_table2_keyword(x, value, "UNITS")
 }

@@ -1,5 +1,81 @@
 # Functions to create roxygen2 documention
 
+keyword_to_function <- function(keyword) {
+  paste0("px_", gsub("-", "_", tolower(keyword)))
+}
+
+split_multiline_str_into_vector <- function(str) {
+  str %>%
+    stringr::str_split(pattern = "\n") %>%
+    magrittr::extract2(1)
+}
+
+add_documentation_function <- function(fnc) {
+  function(...) {
+    fnc(...) %>%
+      split_multiline_str_into_vector()
+  }
+}
+
+add_doc_keyword_function_intro <-
+  add_documentation_function(doc_keyword_function_intro)
+
+add_documentation_table1 <- function(keyword, example_value) {
+  stringr::str_glue(
+    "{doc_keyword_function_intro(keyword)}",
+    "@param value {table1_param_value(keyword)}",
+    "{return_px_or_char_str()}",
+    "{table1_example(keyword, example_value)}",
+    "@export",
+    .sep = "\n"
+    ) %>%
+    split_multiline_str_into_vector()
+}
+
+add_documentation_table2 <- function(keyword, example_value1, example_value2) {
+  stringr::str_glue(
+    "{doc_keyword_function_intro(keyword)}",
+    "@param value {table2_param_value(keyword)}",
+    "{return_px_or_char_vector_or_df()}",
+    "{table2_example(keyword, example_value1, example_value2)}",
+    "@export",
+    .sep = "\n"
+    ) %>%
+    split_multiline_str_into_vector()
+}
+
+add_documentation_head_stub <- function(keyword) {
+  stringr::str_glue(
+    "{doc_keyword_function_intro(keyword)}",
+    "@param value {pivot_param_value(keyword)}",
+    "{return_px_or_char_vector()}",
+    "@export",
+    .sep = "\n"
+    ) %>%
+    split_multiline_str_into_vector()
+}
+
+add_documentation_variables2 <- function(keyword, example_value1, example_value2, example_value3) {
+  stringr::str_glue(
+    "{doc_keyword_function_intro(keyword)}",
+    "@param value {variables2_param_value(keyword)}",
+    "{return_px_or_char_vector_or_df()}",
+    "{variables2_example(keyword, example_value1, example_value2, example_value3)}",
+    "@export",
+    .sep = "\n"
+  ) %>%
+    split_multiline_str_into_vector()
+}
+
+doc_keyword_function_intro <- function(keyword) {
+  stringr::str_glue(
+    "@title {keyword}",
+    "@description Inspect or change {keyword}.",
+    "@param x A px object",
+    .sep = "\n"
+    )
+}
+
 description_start <- function(keyword) {
   stringr::str_glue("Inspect or change {keyword}.")
 }
@@ -9,13 +85,199 @@ table_description <- function(keyword) {
 
   if (keyword %in% mandatory_keywords()) {
     str <-
-      stringr::str_glue(
-        "{str} {keyword} cannot be removed because it is a mandatory keyword."
-      )
+      stringr::str_glue("{str}",
+                        "{keyword} cannot be removed because it is a mandatory keyword.",
+                        .sep = "\n"
+                        )
   }
 
   str
 }
+
+table1_example <- function(keyword, example_value) {
+  px_function <- keyword_to_function(keyword)
+
+  str <-
+    stringr::str_glue(
+      "@examples",
+      "# Set {keyword}",
+      "x1 <-",
+      "   px(population_gl) |>",
+      "   {px_function}('{example_value}')",
+      "",
+      "# Print {keyword}",
+      "{px_function}(x1)",
+      .sep = "\n"
+    )
+
+  if (!keyword %in% mandatory_keywords()) {
+    str <-
+      stringr::str_glue(
+        "{str}",
+        "",
+        "# Remove {keyword}",
+        "x2 <- {px_function}(x1, NULL)",
+        "{px_function}(x2)",
+        .sep = "\n"
+      )
+  }
+
+  return(str)
+}
+
+add_table1_example <- add_documentation_function(table1_example)
+
+table2_example <- function(keyword, example_value1, example_value2) {
+  px_function <- keyword_to_function(keyword)
+
+  str <-
+    stringr::str_glue(
+    "@examples",
+    "# Set {keyword} for all languages",
+    "x1 <-",
+    "  px(population_gl) |>",
+    "  {px_function}('{example_value1}')",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x1)",
+    "",
+    "# Set {keyword} for individual languages",
+    "library(tibble)",
+    "x2 <-",
+    "  x1 |>",
+    "  px_languages(c('en', 'kl')) |>",
+    "  {px_function}(tribble(~language, ~value,",
+    "                      'en', '{example_value1}',",
+    "                      'kl', '{example_value2}'))",
+    "{px_function}(x2)",
+    .sep = "\n"
+    )
+
+  if (!keyword %in% c(mandatory_keywords(), "TITLE")) {
+    str <-
+      stringr::str_glue(
+        "{str}",
+        "",
+        "# Remove {keyword}",
+        "x3 <- {px_function}(x2, NULL)",
+        "{px_function}(x3)",
+        .sep = "\n"
+        )
+  }
+
+  return(str)
+}
+
+variables2_example <- function(keyword, example_value1, example_value2, example_value3) {
+  if (is.na(example_value1)) {
+    return("")
+  }
+
+  px_function <- keyword_to_function(keyword)
+
+  stringr::str_glue(
+    "@examples",
+    "# Set {keyword} for all languages",
+    "x1 <-",
+    "  px(population_gl) |>",
+    "  {px_function}('{example_value1}')",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x1)",
+    "",
+    "# Set {keyword} for individual variables",
+    "library(tibble)",
+    "x2 <-",
+    "  x1 |>",
+    "  {px_function}(tribble(~`variable-code`, ~{keyword},",
+    "                    'gender', '{example_value2}',",
+    "                    'age',    '{example_value3}'))",
+    "{px_function}(x2)",
+    "",
+    "# Set {keyword} for individual languages",
+    "x3 <-",
+    "  x2 %>%",
+    "  px_languages(c('en', 'kl')) |>",
+    "  {px_function}(tribble(~`variable-code`, ~language, ~{keyword},",
+    "                    'gender',    'en',      '{example_value2}_en',",
+    "                    'gender',    'kl',      '{example_value2}_kl',",
+    "                    'age',       'en',      '{example_value3}_en'))",
+    "{px_function}(x3)",
+    "",
+    "# Remove {keyword}",
+    "x4 <- {px_function}(x3, NULL)",
+    "{px_function}(x4)",
+    .sep = "\n"
+  )
+}
+
+cells1_example <- function(keyword, example_value1, example_value2) {
+  px_function <- keyword_to_function(keyword)
+
+  stringr::str_glue(
+    "@examples",
+    "# Set {keyword} for a variable",
+    "library(tibble)",
+    "x1 <-",
+    "  population_gl |>",
+    "  px() |>",
+    "  {px_function}(tribble(~`variable-code`, ~{tolower(keyword)},",
+    "                       'gender', {example_value1}))",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x1)",
+    "",
+    "# Set {keyword} for a value",
+    "x2 <-",
+    "  x1 |>",
+    "  {px_function}(tribble(~`variable-code`, ~code, ~{tolower(keyword)},",
+    "                       'age', '2004', {example_value2}))",
+    "{px_function}(x2)",
+    "",
+    "# Remove {keyword}",
+    "x3 <- {px_function}(x2, NULL)",
+    "{px_function}(x3)",
+    .sep = "\n"
+  )
+}
+
+add_cells1_example <- add_documentation_function(cells1_example)
+
+cells2_example <- function(keyword, example_value1, example_value2, example_value3) {
+  px_function <- keyword_to_function(keyword)
+
+  stringr::str_glue(
+    "@examples",
+    "# Set {keyword} for a value",
+    "library(tibble)",
+    "x1 <-",
+    "  population_gl |>",
+    "  px() |>",
+    "  {px_function}(",
+    "    tribble(~`variable-code`, ~code,  ~{tolower(keyword)},",
+    "            'year', '2004', '{example_value1}'))",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x1)",
+    "",
+    "# Set {keyword} for a value in specific language",
+    "x2 <-",
+    "  x1 |>",
+    "  px_languages(c('en', 'kl')) |>",
+    "  {px_function}(",
+    "    tribble(~`variable-code`, ~code,  ~language, ~{tolower(keyword)},",
+    "            'age', '0-6', 'en', '{example_value2}',",
+    "            'age', '0-6', 'kl', '{example_value3}'))",
+    "{px_function}(x2)",
+    "",
+    "# Remove {keyword}",
+    "x3 <- {px_function}(x2, NULL)",
+    "{px_function}(x3)",
+    .sep = "\n"
+  )
+}
+
+add_cells2_example <- add_documentation_function(cells2_example)
 
 table_param_value_ending <- function(keyword) {
   if (keyword %in% mandatory_keywords()) {
@@ -117,7 +379,7 @@ note_param_value <- function(keyword) {
   )
 }
 
-pivot_param_variables <- function(keyword) {
+pivot_param_value <- function(keyword) {
   stringr::str_glue(
     "
     Optional. A character vector of variable names to change to
@@ -126,4 +388,24 @@ pivot_param_variables <- function(keyword) {
     "
   )
 }
+
+return_px_or_df <- function(keyword=NULL) {
+  "@return A px object or data frame."
+}
+
+add_return_px_or_df <- add_documentation_function(return_px_or_df)
+
+return_px_or_char_str <- function(keyword=NULL) {
+  "@return A px object or a character string."
+}
+
+add_return_px_or_char_str <- add_documentation_function(return_px_or_char_str)
+
+return_px_or_char_vector <- function() {
+  "@return A px object or a character vector."
+}
+return_px_or_char_vector_or_df <- function() {
+  "@return A px object, a character string, or a data frame."
+}
+
 

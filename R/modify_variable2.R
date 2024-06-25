@@ -18,16 +18,7 @@ px_domain <- function(x, value) {
   UseMethod("px_domain")
 }
 
-#' @title DOMAIN
-#'
-#' @description `r table_description("DOMAIN")`
-#'
-#' @param x A px object
-#' @param value `r variables2_param_value("DOMAIN")`
-#'
-#' @return A px object, a character string, or a data frame.
-#'
-#' @export
+#' @eval add_documentation_variables2("DOMAIN", "aggregation1", "aggregation2", "aggregation3")
 px_domain.px <- function(x, value) {
   handle_variables2_keyword(x, value, "DOMAIN")
 }
@@ -38,11 +29,7 @@ px_elimination <- function(x, value) {
   UseMethod("px_elimination")
 }
 
-#' @inherit px_domain.px
-#' @title ELIMINATION
-#' @description `r table_description("ELIMINATION")`
-#' @param value `r variables2_param_value("ELIMINATION")`
-#' @export
+#' @eval add_documentation_variables2("ELIMINATION", "YES", "All", "Total")
 px_elimination.px <- function(x, value) {
   handle_variables2_keyword(x, value, "ELIMINATION")
 }
@@ -54,15 +41,34 @@ px_variable_label <- function(x, value) {
   UseMethod("px_variable_label")
 }
 
-#' @inherit px_domain.px
-#' @title Change variable label
+#' @title Change VARIABLE-LABEL
+#' @eval add_documentation_variables2("VARIABLE-LABEL", NA, NA, NA)
 #' @description
-#' `r table_description("variable label")`
-#'
 #' The variable label is the name that is shown in the px file.
+#' @examples
+#' # Set VARIABLE-LABEL for individual variables
+#' library(tibble)
+#' x1 <-
+#'   px(population_gl) |>
+#'   px_variable_label(tribble(~`variable-code`, ~`variable-label`,
+#'                             'gender',         'Gender',
+#'                             'age',            'Age'))
+#' variable_label(x2)
 #'
-#' @param value `r variables2_param_value("variable-label")`
-#' @export
+#' # Set VARIABLE-LABEL for individual languages
+#' x3 <-
+#'   x2 %>%
+#'   px_languages(c('en', 'kl')) |>
+#'   px_variable_label(tribble(~`variable-code`, ~language, ~`variable-label`,
+#'                             'gender',         'en',      'Gender',
+#'                             'gender',         'kl',      'Suiaassuseq',
+#'                             'age',            'en',      'Age',
+#'                             'age',            'kl',      'Ukiut'))
+#' variable_label(x3)
+#'
+#' # Remove VARIABLE-LABEL
+#' x4 <- variable_label(x3, NULL)
+#' variable_label(x4)
 px_variable_label.px <- function(x, value) {
   handle_variables2_keyword(x, value, "variable-label")
 }

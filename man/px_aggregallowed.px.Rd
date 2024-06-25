@@ -15,8 +15,21 @@ px_aggregallowed(x, value)
 \item{value}{Optional. A character string. If missing, the current AGGREGALLOWED is returned. If NULL, AGGREGALLOWED is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change AGGREGALLOWED.
+}
+\examples{
+# Set AGGREGALLOWED
+x1 <-
+   px(population_gl) |>
+   px_aggregallowed('NO')
+
+# Print AGGREGALLOWED
+px_aggregallowed(x1)
+
+# Remove AGGREGALLOWED
+x2 <- px_aggregallowed(x1, NULL)
+px_aggregallowed(x2)
 }

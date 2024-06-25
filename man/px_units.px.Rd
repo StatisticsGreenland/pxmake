@@ -18,5 +18,24 @@ px_units(x, value)
 A px object, a character string, or a data frame.
 }
 \description{
-Inspect or change UNITS. UNITS cannot be removed because it is a mandatory keyword.
+Inspect or change UNITS.
+}
+\examples{
+# Set UNITS for all languages
+x1 <-
+  px(population_gl) |>
+  px_units('persons')
+
+# Print UNITS
+px_units(x1)
+
+# Set UNITS for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_units(tribble(~language, ~value,
+                      'en', 'persons',
+                      'kl', 'inuit amerlassusaat'))
+px_units(x2)
 }

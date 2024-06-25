@@ -15,8 +15,21 @@ px_descriptiondefault(x, value)
 \item{value}{Optional. A character string. If missing, the current DESCRIPTIONDEFAULT is returned. If NULL, DESCRIPTIONDEFAULT is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change DESCRIPTIONDEFAULT.
+}
+\examples{
+# Set DESCRIPTIONDEFAULT
+x1 <-
+   px(population_gl) |>
+   px_descriptiondefault('YES')
+
+# Print DESCRIPTIONDEFAULT
+px_descriptiondefault(x1)
+
+# Remove DESCRIPTIONDEFAULT
+x2 <- px_descriptiondefault(x1, NULL)
+px_descriptiondefault(x2)
 }

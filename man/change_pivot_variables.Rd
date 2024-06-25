@@ -4,15 +4,15 @@
 \alias{change_pivot_variables}
 \title{Change pivot variables}
 \usage{
-change_pivot_variables(x, variables, pivot)
+change_pivot_variables(x, value, pivot)
 }
 \arguments{
 \item{x}{A px object}
 
+\item{pivot}{Pivot type (STUB, HEADING, FIGURES)}
+
 \item{variables}{A character vector of variable codes to change to the pivot
 type}
-
-\item{pivot}{Pivot type (STUB, HEADING, FIGURES)}
 }
 \value{
 A px object

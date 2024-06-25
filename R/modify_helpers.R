@@ -121,6 +121,10 @@ get_cells_name <- function(number) {
 }
 
 modify_cells <- function(x, number, column, value) {
+  if ('values' %in% names(value)) {
+    value <- dplyr::rename(value, value = values)
+  }
+
   x[[get_cells_name(number)]] <-
     modify_with_df(x[[get_cells_name(number)]], value, column)
 

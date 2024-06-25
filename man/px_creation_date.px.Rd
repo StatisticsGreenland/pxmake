@@ -15,8 +15,21 @@ px_creation_date(x, value)
 \item{value}{Optional. A character string. If missing, the current CREATION-DATE is returned. If NULL, CREATION-DATE is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change CREATION-DATE.
+}
+\examples{
+# Set CREATION-DATE
+x1 <-
+   px(population_gl) |>
+   px_creation_date('19960612 14:20')
+
+# Print CREATION-DATE
+px_creation_date(x1)
+
+# Remove CREATION-DATE
+x2 <- px_creation_date(x1, NULL)
+px_creation_date(x2)
 }

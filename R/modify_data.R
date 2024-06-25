@@ -4,17 +4,10 @@ px_data <- function(x, value) {
   UseMethod("px_data")
 }
 
-#' @title DATA
-#'
-#' @description `r table_description("DATA")`
-#'
-#' @param x A px object
-#'
+#' @eval add_doc_keyword_function_intro("DATA")
 #' @param value Optional. A data frame. If missing, the current DATA is returned.
 #' If NULL, all data rows are removed.
-#'
-#' @return A px object or a data frame
-#'
+#' @eval add_return_px_or_df()
 #' @export
 px_data.px <- function(x, value) {
   if (missing(value)) {

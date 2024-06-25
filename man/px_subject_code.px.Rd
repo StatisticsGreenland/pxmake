@@ -15,8 +15,17 @@ px_subject_code(x, value)
 \item{value}{Optional. A character string. If missing, the current SUBJECT-CODE is returned. If NULL, an error is thrown because SUBJECT-CODE cannot be removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
-Inspect or change SUBJECT-CODE. SUBJECT-CODE cannot be removed because it is a mandatory keyword.
+Inspect or change SUBJECT-CODE.
+}
+\examples{
+# Set SUBJECT-CODE
+x1 <-
+   px(population_gl) |>
+   px_subject_code('POP')
+
+# Print SUBJECT-CODE
+px_subject_code(x1)
 }

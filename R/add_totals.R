@@ -60,7 +60,7 @@ add_totals_to_df <- function(df,
 
 #' @rdname px_add_totals.px
 #' @export
-px_add_totals <- function(x, variables, na.rm = TRUE) {
+px_add_totals <- function(x, value, na.rm = TRUE) {
   UseMethod("px_add_totals")
 }
 
@@ -74,7 +74,7 @@ px_add_totals <- function(x, variables, na.rm = TRUE) {
 #' elimination is NA, the name "Total" is used.
 #'
 #' @param x A px object
-#' @param variables A character vector of variables to add total levels to.
+#' @param value A character vector of variables to add total levels to.
 #' @param na.rm Optional. Logical. If TRUE, NAs are removed before summing.
 #'
 #' @return A px object
@@ -101,14 +101,14 @@ px_add_totals <- function(x, variables, na.rm = TRUE) {
 #' x3$data
 #'
 #' @export
-px_add_totals.px <- function(x, variables, na.rm = TRUE) {
+px_add_totals.px <- function(x, value, na.rm = TRUE) {
   params <-
     x$variables2 %>%
     dplyr::left_join(dplyr::select(x$cells2, `variable-code`, code, value),
                      by = c("variable-code", "elimination" = "value"),
                      multiple = "all"
                      ) %>%
-    dplyr::filter(`variable-code` %in% variables) %>%
+    dplyr::filter(`variable-code` %in% value) %>%
     dplyr::mutate(code = ifelse(is.na(code),
                                 elimination,
                                 code

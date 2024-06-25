@@ -8,20 +8,20 @@ test_that('Variables is modified', {
   expect_equal(px_stub(x), c("place of birth", "gender"))
 
   # Change time to stub variable
-  x2 <- px_stub(x, variables = "time")
+  x2 <- px_stub(x, value = "time")
   expect_equal(px_stub(x2), c("time", "place of birth", "gender"))
   expect_equal(names(x2$variables1), names(get_base_variables1()))
 
   # Change order
   new_order <- c("gender", "time", "place of birth")
-  x3 <- px_stub(x, variables = new_order)
+  x3 <- px_stub(x, value = new_order)
   expect_equal(px_stub(x3), new_order)
 
-  x4 <- px_heading(x, variables = new_order)
+  x4 <- px_heading(x, value = new_order)
   expect_equal(px_heading(x4), new_order)
   expect_equal(px_stub(x4), as.character())
 
-  x5 <- px_figures(x, variable = "time")
+  x5 <- px_figures(x, value = "time")
 
   expect_equal(px_figures(x5), "time")
   expect_equal(px_heading(x5), as.character())
@@ -37,10 +37,10 @@ test_that('Variables is modified', {
                    dplyr::filter(x6$variables1, `variable-code` %in% x6_stub_vars)
                    )
 
-  x7 <- px_timeval(x, variable = "time")
+  x7 <- px_timeval(x, value = "time")
   expect_equal(px_timeval(x7), "time")
 
-  x8 <- px_timeval(x7, variable = "gender")
+  x8 <- px_timeval(x7, value = "gender")
   expect_equal(px_timeval(x8), "gender")
 
   x9 <- px_timeval(x8, NULL)

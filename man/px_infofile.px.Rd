@@ -20,3 +20,26 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change INFOFILE.
 }
+\examples{
+# Set INFOFILE for all languages
+x1 <-
+  px(population_gl) |>
+  px_infofile('infofile_en')
+
+# Print INFOFILE
+px_infofile(x1)
+
+# Set INFOFILE for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_infofile(tribble(~language, ~value,
+                      'en', 'infofile_en',
+                      'kl', 'infofile_kl'))
+px_infofile(x2)
+
+# Remove INFOFILE
+x3 <- px_infofile(x2, NULL)
+px_infofile(x3)
+}

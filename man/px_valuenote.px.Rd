@@ -15,8 +15,35 @@ px_valuenote(x, value)
 \item{value}{Optional. A data frame with the columns 'valuenote' and one or more of the columns: 'variable-code', 'code', and 'language'. If 'value' is missing, the current VALUENOTE is returned. If NULL, VALUENOTE is removed.}
 }
 \value{
-A px object or a data frame
+A px object or data frame.
 }
 \description{
 Inspect or change VALUENOTE.
+}
+\examples{
+# Set VALUENOTE for a value
+library(tibble)
+x1 <-
+  population_gl |>
+  px() |>
+  px_valuenote(
+    tribble(~`variable-code`, ~code,  ~valuenote,
+            'year', '2004', 'Counts are approximated'))
+
+# Print VALUENOTE
+px_valuenote(x1)
+
+# Set VALUENOTE for a value in specific language
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_valuenote(
+    tribble(~`variable-code`, ~code,  ~language, ~valuenote,
+            'age', '0-6', 'en', 'Some of the figures are from 2003',
+            'age', '0-6', 'kl', 'Kisitsisit ilaat 2003-imeersuupput'))
+px_valuenote(x2)
+
+# Remove VALUENOTE
+x3 <- px_valuenote(x2, NULL)
+px_valuenote(x3)
 }

@@ -18,5 +18,24 @@ px_subject_area(x, value)
 A px object, a character string, or a data frame.
 }
 \description{
-Inspect or change SUBJECT-AREA. SUBJECT-AREA cannot be removed because it is a mandatory keyword.
+Inspect or change SUBJECT-AREA.
+}
+\examples{
+# Set SUBJECT-AREA for all languages
+x1 <-
+  px(population_gl) |>
+  px_subject_area('Population')
+
+# Print SUBJECT-AREA
+px_subject_area(x1)
+
+# Set SUBJECT-AREA for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_subject_area(tribble(~language, ~value,
+                      'en', 'Population',
+                      'kl', 'Innuttaasut'))
+px_subject_area(x2)
 }

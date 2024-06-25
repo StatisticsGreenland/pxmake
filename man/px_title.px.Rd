@@ -19,4 +19,28 @@ A px object, a character string, or a data frame.
 }
 \description{
 Inspect or change TITLE.
+
+TITLE can only be removed if DESCRIPTION is set.
+}
+\examples{
+# Set TITLE for all languages
+x1 <-
+  px(population_gl) |>
+  px_title('Population GR')
+
+# Print TITLE
+px_title(x1)
+
+# Set TITLE for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_title(tribble(~language, ~value,
+                      'en', 'Population GR',
+                      'kl', 'Innuttaasut KL'))
+px_title(x2)
+}
+\seealso{
+\code{\link[=px_description]{px_description()}}
 }

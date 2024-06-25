@@ -20,3 +20,26 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change BASEPERIOD.
 }
+\examples{
+# Set BASEPERIOD for all languages
+x1 <-
+  px(population_gl) |>
+  px_baseperiod('year')
+
+# Print BASEPERIOD
+px_baseperiod(x1)
+
+# Set BASEPERIOD for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_baseperiod(tribble(~language, ~value,
+                      'en', 'year',
+                      'kl', 'ukioq'))
+px_baseperiod(x2)
+
+# Remove BASEPERIOD
+x3 <- px_baseperiod(x2, NULL)
+px_baseperiod(x3)
+}

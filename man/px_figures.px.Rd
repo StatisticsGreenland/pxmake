@@ -5,14 +5,14 @@
 \alias{px_figures.px}
 \title{Change figures variable}
 \usage{
-px_figures(x, variable)
+px_figures(x, value)
 
-\method{px_figures}{px}(x, variable)
+\method{px_figures}{px}(x, value)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{variable}{Optional. Name of variable to use as FIGRUES. If missing, the
+\item{value}{Optional. Name of variable to use as FIGRUES. If missing, the
 current PX_FIGURES variable is returned.}
 }
 \value{
@@ -20,7 +20,18 @@ A px object or a character string
 }
 \description{
 Inspect or change which variable is used as figures. The previous figures
-variable is changed to STUB.
+variable is changed to STUB. There can only be one figures variable.
+}
+\examples{
+x1 <- px(population_gl)
+
+# Print FIGURES
+px_figures(x1)
+
+# Change 'age' to FIGURES variable, 'n' i changed to STUB
+x2 <- px_figures(x1, 'age')
+px_figures(x2)
+px_stub(x2)
 }
 \seealso{
 \code{\link{px_stub}} \code{\link{px_heading}}

@@ -5,22 +5,34 @@
 \alias{px_stub.px}
 \title{STUB}
 \usage{
-px_stub(x, variables)
+px_stub(x, value)
 
-\method{px_stub}{px}(x, variables)
+\method{px_stub}{px}(x, value)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{variables}{Optional. A character vector of variable names to change to
+\item{value}{Optional. A character vector of variable names to change to
 STUB. This also changes the STUB order. With names in \code{variables}
 becoming 1, 2, ... If missing, the current STUB variables are returned.}
 }
 \value{
-A px object or a character vector
+A px object or a character vector.
 }
 \description{
 Inspect or change STUB.
+}
+\examples{
+x1 <- px(population_gl)
+# Print STUB
+px_stub(x1)
+# Add 'year' to STUB
+x2 <- px_stub(x1, 'year')
+px_stub(x2)
+
+# Change order of STUB
+x3 <- px_stub(x2, c('age', 'gender'))
+px_stub(x3)
 }
 \seealso{
 \code{\link{px_heading}} \code{\link{px_figures}}

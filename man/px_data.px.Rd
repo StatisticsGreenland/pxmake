@@ -16,7 +16,7 @@ px_data(x, value)
 If NULL, all data rows are removed.}
 }
 \value{
-A px object or a data frame
+A px object or data frame.
 }
 \description{
 Inspect or change DATA.

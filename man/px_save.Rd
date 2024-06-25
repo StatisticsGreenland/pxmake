@@ -29,3 +29,9 @@ Nothing
 \description{
 Save px object to file
 }
+\details{
+Use \code{px_codepage()} to change file encoding.
+}
+\seealso{
+\code{\link[=px_codepage]{px_codepage()}}
+}

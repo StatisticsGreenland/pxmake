@@ -93,27 +93,42 @@ The variable label is the name that is shown in the px file."><!-- mathjax --><s
 <span class="r-in"><span>  <span class="fu">px_variable_label</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">`variable-code`</span>, <span class="op">~</span><span class="va">`variable-label`</span>,</span></span>
 <span class="r-in"><span>                            <span class="st">'gender'</span>,         <span class="st">'Gender'</span>,</span></span>
 <span class="r-in"><span>                            <span class="st">'age'</span>,            <span class="st">'Age'</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">px_variable_label</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x2' not found</span>
+<span class="r-in"><span><span class="fu">px_variable_label</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `variable-code` `variable-label`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> gender          Gender          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> age             Age             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> year            year            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> n               n               </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set VARIABLE-LABEL for individual languages</span></span></span>
-<span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="va">x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">x1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="px_languages.px.html">px_languages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'en'</span>, <span class="st">'kl'</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">px_variable_label</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">`variable-code`</span>, <span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">`variable-label`</span>,</span></span>
 <span class="r-in"><span>                            <span class="st">'gender'</span>,         <span class="st">'en'</span>,      <span class="st">'Gender'</span>,</span></span>
 <span class="r-in"><span>                            <span class="st">'gender'</span>,         <span class="st">'kl'</span>,      <span class="st">'Suiaassuseq'</span>,</span></span>
 <span class="r-in"><span>                            <span class="st">'age'</span>,            <span class="st">'en'</span>,      <span class="st">'Age'</span>,</span></span>
 <span class="r-in"><span>                            <span class="st">'age'</span>,            <span class="st">'kl'</span>,      <span class="st">'Ukiut'</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x2' not found</span>
-<span class="r-in"><span><span class="fu">px_variable_label</span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x3' not found</span>
+<span class="r-in"><span><span class="fu">px_variable_label</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `variable-code` language `variable-label`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> gender          en       Gender          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> gender          kl       Suiaassuseq     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> age             en       Age             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> age             kl       Ukiut           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> year            en       year            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> year            kl       year            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> n               en       n               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> n               kl       n               </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Remove VARIABLE-LABEL</span></span></span>
-<span class="r-in"><span><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu">variable_label</span><span class="op">(</span><span class="va">x3</span>, <span class="cn">NULL</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in variable_label(x3, NULL):</span> could not find function "variable_label"</span>
-<span class="r-in"><span><span class="fu">variable_label</span><span class="op">(</span><span class="va">x4</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in variable_label(x4):</span> could not find function "variable_label"</span>
+<span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu">variable_label</span><span class="op">(</span><span class="va">x2</span>, <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in variable_label(x2, NULL):</span> could not find function "variable_label"</span>
+<span class="r-in"><span><span class="fu">variable_label</span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in variable_label(x3):</span> could not find function "variable_label"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

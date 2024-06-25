@@ -16,5 +16,5 @@ test_that("Documentation returns strings", {
   expect_string(variables2_param_value("CONTENTS"))
   expect_string(acrosscells_param_value("CONTENTS"))
   expect_string(note_param_value("CONTENTS"))
-  expect_string(pivot_param_variables("CONTENTS"))
+  expect_string(pivot_param_value("CONTENTS"))
 })

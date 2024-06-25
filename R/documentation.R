@@ -47,7 +47,7 @@ add_documentation_table2 <- function(keyword, example_value1, example_value2) {
 add_documentation_head_stub <- function(keyword) {
   stringr::str_glue(
     "{doc_keyword_function_intro(keyword)}",
-    "@param value {pivot_param_variables(keyword)}",
+    "@param value {pivot_param_value(keyword)}",
     "{return_px_or_char_vector()}",
     "@export",
     .sep = "\n"
@@ -256,7 +256,7 @@ note_param_value <- function(keyword) {
   )
 }
 
-pivot_param_variables <- function(keyword) {
+pivot_param_value <- function(keyword) {
   stringr::str_glue(
     "
     Optional. A character vector of variable names to change to

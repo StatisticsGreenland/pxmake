@@ -55,6 +55,18 @@ add_documentation_head_stub <- function(keyword) {
     split_multiline_str_into_vector()
 }
 
+add_documentation_variables2 <- function(keyword, example_value1, example_value2, example_value3) {
+  stringr::str_glue(
+    "{doc_keyword_function_intro(keyword)}",
+    "@param value {variables2_param_value(keyword)}",
+    "{return_px_or_char_vector_or_df()}",
+    "{variables2_example(keyword, example_value1, example_value2, example_value3)}",
+    "@export",
+    .sep = "\n"
+  ) %>%
+    split_multiline_str_into_vector()
+}
+
 doc_keyword_function_intro <- function(keyword) {
   stringr::str_glue(
     "@title {keyword}",
@@ -154,6 +166,49 @@ table2_example <- function(keyword, example_value1, example_value2) {
   }
 
   return(str)
+}
+
+variables2_example <- function(keyword, example_value1, example_value2, example_value3) {
+  if (is.na(example_value1)) {
+    return("")
+  }
+
+  px_function <- keyword_to_function(keyword)
+
+  stringr::str_glue(
+    "@examples",
+    "# Set {keyword} for all languages",
+    "x1 <-",
+    "  px(population_gl) |>",
+    "  {px_function}('{example_value1}')",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x1)",
+    "",
+    "# Set {keyword} for individual variables",
+    "library(tibble)",
+    "x2 <-",
+    "  x1 |>",
+    "  {px_function}(tribble(~`variable-code`, ~{keyword},",
+    "                    'gender', '{example_value2}',",
+    "                    'age',    '{example_value3}'))",
+    "{px_function}(x2)",
+    "",
+    "# Set {keyword} for individual languages",
+    "x3 <-",
+    "  x2 %>%",
+    "  px_languages(c('en', 'kl')) |>",
+    "  {px_function}(tribble(~`variable-code`, ~language, ~{keyword},",
+    "                    'gender',    'en',      '{example_value2}_en',",
+    "                    'gender',    'kl',      '{example_value2}_kl',",
+    "                    'age',       'en',      '{example_value3}_en'))",
+    "{px_function}(x3)",
+    "",
+    "# Remove {keyword}",
+    "x4 <- {px_function}(x3, NULL)",
+    "{px_function}(x4)",
+    .sep = "\n"
+  )
 }
 
 table_param_value_ending <- function(keyword) {

@@ -27,3 +27,35 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change ELIMINATION.
 }
+\examples{
+# Set ELIMINATION for all languages
+x1 <-
+  px(population_gl) |>
+  px_elimination('YES')
+
+# Print ELIMINATION
+px_elimination(x1)
+
+# Set ELIMINATION for individual variables
+library(tibble)
+x2 <-
+  x1 |>
+  px_elimination(tribble(~`variable-code`, ~ELIMINATION,
+                    'gender', 'All',
+                    'age',    'Total'))
+px_elimination(x2)
+
+# Set ELIMINATION for individual languages
+x3 <-
+  x2 \%>\%
+  px_languages(c('en', 'kl')) |>
+  px_elimination(tribble(~`variable-code`, ~language, ~ELIMINATION,
+                    'gender',    'en',      'All_en',
+                    'gender',    'kl',      'All_kl',
+                    'age',       'en',      'Total_en'))
+px_elimination(x3)
+
+# Remove ELIMINATION
+x4 <- px_elimination(x3, NULL)
+px_elimination(x4)
+}

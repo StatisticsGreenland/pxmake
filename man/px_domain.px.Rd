@@ -27,3 +27,35 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change DOMAIN.
 }
+\examples{
+# Set DOMAIN for all languages
+x1 <-
+  px(population_gl) |>
+  px_domain('aggregation1')
+
+# Print DOMAIN
+px_domain(x1)
+
+# Set DOMAIN for individual variables
+library(tibble)
+x2 <-
+  x1 |>
+  px_domain(tribble(~`variable-code`, ~DOMAIN,
+                    'gender', 'aggregation2',
+                    'age',    'aggregation3'))
+px_domain(x2)
+
+# Set DOMAIN for individual languages
+x3 <-
+  x2 \%>\%
+  px_languages(c('en', 'kl')) |>
+  px_domain(tribble(~`variable-code`, ~language, ~DOMAIN,
+                    'gender',    'en',      'aggregation2_en',
+                    'gender',    'kl',      'aggregation2_kl',
+                    'age',       'en',      'aggregation3_en'))
+px_domain(x3)
+
+# Remove DOMAIN
+x4 <- px_domain(x3, NULL)
+px_domain(x4)
+}

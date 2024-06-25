@@ -3,7 +3,7 @@
 \name{px_variable_label}
 \alias{px_variable_label}
 \alias{px_variable_label.px}
-\title{Change variable label}
+\title{Change VARIABLE-LABEL}
 \usage{
 px_variable_label(x, value)
 
@@ -14,18 +14,43 @@ px_variable_label(x, value)
 
 \item{value}{Optional. A character string or data frame.
 \itemize{
-\item Use character to set variable-label for all languages and variables.
+\item Use character to set VARIABLE-LABEL for all languages and variables.
 \item Use data frame with columns 'variable-code', 'language' and
-'variable-label' to set variable-label for specific variables.
-\item If missing, the current variable-label is returned.
-\item If NULL, variable-label is removed for all variables.
+'variable-label' to set VARIABLE-LABEL for specific variables.
+\item If missing, the current VARIABLE-LABEL is returned.
+\item If NULL, VARIABLE-LABEL is removed for all variables.
 }}
 }
 \value{
 A px object, a character string, or a data frame.
 }
 \description{
-Inspect or change variable label.
+Inspect or change VARIABLE-LABEL.
 
 The variable label is the name that is shown in the px file.
+}
+\examples{
+# Set VARIABLE-LABEL for individual variables
+library(tibble)
+x1 <-
+  px(population_gl) |>
+  px_variable_label(tribble(~`variable-code`, ~`variable-label`,
+                            'gender',         'Gender',
+                            'age',            'Age'))
+variable_label(x2)
+
+# Set VARIABLE-LABEL for individual languages
+x3 <-
+  x2 \%>\%
+  px_languages(c('en', 'kl')) |>
+  px_variable_label(tribble(~`variable-code`, ~language, ~`variable-label`,
+                            'gender',         'en',      'Gender',
+                            'gender',         'kl',      'Suiaassuseq',
+                            'age',            'en',      'Age',
+                            'age',            'kl',      'Ukiut'))
+variable_label(x3)
+
+# Remove VARIABLE-LABEL
+x4 <- variable_label(x3, NULL)
+variable_label(x4)
 }

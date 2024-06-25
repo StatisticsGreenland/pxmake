@@ -40,7 +40,7 @@ px_elimination(x1)
 library(tibble)
 x2 <-
   x1 |>
-  px_elimination(tribble(~`variable-code`, ~ELIMINATION,
+  px_elimination(tribble(~`variable-code`, ~elimination,
                     'gender', 'All',
                     'age',    'Total'))
 px_elimination(x2)
@@ -49,7 +49,7 @@ px_elimination(x2)
 x3 <-
   x2 \%>\%
   px_languages(c('en', 'kl')) |>
-  px_elimination(tribble(~`variable-code`, ~language, ~ELIMINATION,
+  px_elimination(tribble(~`variable-code`, ~language, ~elimination,
                     'gender',    'en',      'All_en',
                     'gender',    'kl',      'All_kl',
                     'age',       'en',      'Total_en'))

@@ -40,7 +40,7 @@ px_domain(x1)
 library(tibble)
 x2 <-
   x1 |>
-  px_domain(tribble(~`variable-code`, ~DOMAIN,
+  px_domain(tribble(~`variable-code`, ~domain,
                     'gender', 'aggregation2',
                     'age',    'aggregation3'))
 px_domain(x2)
@@ -49,7 +49,7 @@ px_domain(x2)
 x3 <-
   x2 \%>\%
   px_languages(c('en', 'kl')) |>
-  px_domain(tribble(~`variable-code`, ~language, ~DOMAIN,
+  px_domain(tribble(~`variable-code`, ~language, ~domain,
                     'gender',    'en',      'aggregation2_en',
                     'gender',    'kl',      'aggregation2_kl',
                     'age',       'en',      'aggregation3_en'))

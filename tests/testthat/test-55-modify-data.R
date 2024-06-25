@@ -2,7 +2,7 @@ test_that('data is modified', {
   x <-
     'BEXSTA' %>%
     get_data_path() %>%
-    readRDS() %>%d
+    readRDS() %>%
     px()
 
   expect_identical(x$data, px_data(x))

@@ -79,7 +79,7 @@ test_that("metadata without elimination values use default value", {
        data = get_data_path("BEXSTA_WITHOUT_TOTALS")
        ) %>%
     px_elimination(NULL) %>%
-    px_add_totals(variables = "gender") %>%
+    px_add_totals(value = "gender") %>%
     magrittr::extract2("data") %>%
     dplyr::pull(gender) %>%
     unique()

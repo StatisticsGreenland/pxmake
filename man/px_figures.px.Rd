@@ -5,14 +5,14 @@
 \alias{px_figures.px}
 \title{Change figures variable}
 \usage{
-px_figures(x, variable)
+px_figures(x, value)
 
-\method{px_figures}{px}(x, variable)
+\method{px_figures}{px}(x, value)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{variable}{Optional. Name of variable to use as FIGRUES. If missing, the
+\item{value}{Optional. Name of variable to use as FIGRUES. If missing, the
 current PX_FIGURES variable is returned.}
 }
 \value{

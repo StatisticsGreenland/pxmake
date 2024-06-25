@@ -43,3 +43,6 @@ px_description(x2)
 x3 <- px_description(x2, NULL)
 px_description(x3)
 }
+\seealso{
+\code{\link[=px_title]{px_title()}}
+}

@@ -5,14 +5,14 @@
 \alias{px_stub.px}
 \title{STUB}
 \usage{
-px_stub(x, variables)
+px_stub(x, value)
 
-\method{px_stub}{px}(x, variables)
+\method{px_stub}{px}(x, value)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{variables}{Optional. A character vector of variable names to change to
+\item{value}{Optional. A character vector of variable names to change to
 STUB. This also changes the STUB order. With names in \code{variables}
 becoming 1, 2, ... If missing, the current STUB variables are returned.}
 }

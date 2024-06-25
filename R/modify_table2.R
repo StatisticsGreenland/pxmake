@@ -67,6 +67,7 @@ px_description <- function(x, value) {
 }
 
 #' @eval add_documentation_table2("DESCRIPTION", "Population", "Innuttaasut")
+#' @seealso [px_title()]
 px_description.px <- function(x, value) {
   handle_table2_keyword(x, value, "DESCRIPTION")
 }
@@ -151,6 +152,8 @@ px_title <- function(x, value) {
 }
 
 #' @eval add_documentation_table2("TITLE", "Population GR", "Innuttaasut KL")
+#' @description TITLE can only be removed if DESCRIPTION is set.
+#' @seealso [px_description()]
 px_title.px <- function(x, value) {
   handle_table2_keyword(x, value, "TITLE")
 }

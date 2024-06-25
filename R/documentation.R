@@ -47,7 +47,7 @@ add_documentation_table2 <- function(keyword, example_value1, example_value2) {
 add_documentation_head_stub <- function(keyword) {
   stringr::str_glue(
     "{doc_keyword_function_intro(keyword)}",
-    "@param variables {pivot_param_variables(keyword)}",
+    "@param value {pivot_param_variables(keyword)}",
     "{return_px_or_char_vector()}",
     "@export",
     .sep = "\n"
@@ -141,7 +141,7 @@ table2_example <- function(keyword, example_value1, example_value2) {
     .sep = "\n"
     )
 
-  if (!keyword %in% mandatory_keywords()) {
+  if (!keyword %in% c(mandatory_keywords(), "TITLE")) {
     str <-
       stringr::str_glue(
         "{str}",

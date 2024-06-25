@@ -19,6 +19,8 @@ A px object, a character string, or a data frame.
 }
 \description{
 Inspect or change TITLE.
+
+TITLE can only be removed if DESCRIPTION is set.
 }
 \examples{
 # Set TITLE for all languages
@@ -38,8 +40,7 @@ x2 <-
                       'en', 'Population GR',
                       'kl', 'Innuttaasut KL'))
 px_title(x2)
-
-# Remove TITLE
-x3 <- px_title(x2, NULL)
-px_title(x3)
+}
+\seealso{
+\code{\link[=px_description]{px_description()}}
 }

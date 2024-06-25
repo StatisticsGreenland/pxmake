@@ -1,5 +1,10 @@
 # pxmake (development version)
 
+## Breaking changes
+- Change argument 'variable' and 'variables' to 'value' in `px_stub()`,
+`px_heading()`, `px_figures()`, `px_timeval()`, `px_add_totals()`, to align 
+with all other modifying functions. (#296)
+
 ## New features
 - Add modifying functions: `px_values()`, `px_variable_label()`, `px_data()`. 
 (#291)

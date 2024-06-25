@@ -5,9 +5,9 @@
 \alias{px_timeval.px}
 \title{TIMEVAL}
 \usage{
-px_timeval(x, variable)
+px_timeval(x, value)
 
-\method{px_timeval}{px}(x, variable)
+\method{px_timeval}{px}(x, value)
 }
 \arguments{
 \item{x}{A px object}

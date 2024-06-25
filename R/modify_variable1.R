@@ -7,10 +7,10 @@
 #'
 #' @return A px object
 #' @keywords internal
-change_pivot_variables <- function(x, variables, pivot) {
+change_pivot_variables <- function(x, value, pivot) {
   old_pivot_variables <- get_pivot_variables(x, pivot)
 
-  new_pivot_variables <- unique(c(variables, old_pivot_variables))
+  new_pivot_variables <- unique(c(value, old_pivot_variables))
 
   order_df <- dplyr::tibble(`variable-code` = new_pivot_variables,
                             order = 1:length(new_pivot_variables)
@@ -19,7 +19,7 @@ change_pivot_variables <- function(x, variables, pivot) {
   x$variables1 <-
     modify_or_add_row(df = x$variables1,
                       lookup_column = "variable-code",
-                      lookup_column_values = variables,
+                      lookup_column_values = value,
                       modify_column = "pivot",
                       new_value = pivot
                       ) %>%
@@ -55,7 +55,7 @@ get_pivot_variables <- function(x, pivot) {
 
 #' @rdname px_stub.px
 #' @export
-px_stub <- function(x, variables) {
+px_stub <- function(x, value) {
   UseMethod("px_stub")
 }
 
@@ -72,17 +72,17 @@ px_stub <- function(x, variables) {
 #' # Change order of STUB
 #' x3 <- px_stub(x2, c('age', 'gender'))
 #' px_stub(x3)
-px_stub.px <- function(x, variables) {
-  if (missing(variables)) {
+px_stub.px <- function(x, value) {
+  if (missing(value)) {
     return(get_pivot_variables(x, "STUB"))
   }
 
-  validate_px(change_pivot_variables(x, variables, "STUB"))
+  validate_px(change_pivot_variables(x, value, "STUB"))
 }
 
 #' @rdname px_heading.px
 #' @export
-px_heading <- function(x, variables) {
+px_heading <- function(x, value) {
   UseMethod("px_heading")
 }
 
@@ -101,17 +101,17 @@ px_heading <- function(x, variables) {
 #' # Change order of HEADING
 #' x3 <- px_heading(x2, 'year')
 #' px_heading(x3)
-px_heading.px <- function(x, variables) {
-  if (missing(variables)) {
+px_heading.px <- function(x, value) {
+  if (missing(value)) {
     return(get_pivot_variables(x, "HEADING"))
   }
 
-  validate_px(change_pivot_variables(x, variables, "HEADING"))
+  validate_px(change_pivot_variables(x, value, "HEADING"))
 }
 
 #' @rdname px_figures.px
 #' @export
-px_figures <- function(x, variable) {
+px_figures <- function(x, value) {
   UseMethod("px_figures")
 }
 
@@ -121,7 +121,7 @@ px_figures <- function(x, variable) {
 #' variable is changed to STUB. There can only be one figures variable.
 #'
 #' @param x A px object
-#' @param variable Optional. Name of variable to use as FIGRUES. If missing, the
+#' @param value Optional. Name of variable to use as FIGRUES. If missing, the
 #' current PX_FIGURES variable is returned.
 #'
 #' @return A px object or a character string
@@ -139,16 +139,16 @@ px_figures <- function(x, variable) {
 #' px_figures(x2)
 #' px_stub(x2)
 #' @export
-px_figures.px <- function(x, variable) {
-  if (missing(variable)) {
+px_figures.px <- function(x, value) {
+  if (missing(value)) {
     return(get_pivot_variables(x, "FIGURES"))
   }
 
-  error_if_not_exactly_one_figures_variable(variable)
+  error_if_not_exactly_one_figures_variable(value)
 
   old_figures_variable <- px_figures(x)
 
-  x <- change_pivot_variables(x, variable, "FIGURES")
+  x <- change_pivot_variables(x, value, "FIGURES")
 
   x <- change_pivot_variables(x, old_figures_variable, "STUB")
 
@@ -157,22 +157,22 @@ px_figures.px <- function(x, variable) {
 
 #' @rdname px_timeval.px
 #' @export
-px_timeval <- function(x, variable) {
+px_timeval <- function(x, value) {
   UseMethod("px_timeval")
 }
 
 #' @eval add_documentation_table1("TIMEVAL", "year")
 #' @description There can only be one time variable.
-px_timeval.px <- function(x, variable) {
-  if (missing(variable)) {
+px_timeval.px <- function(x, value) {
+  if (missing(value)) {
     return(get_variable1_logic_value(x, "timeval"))
-  } else if (is.null(variable)) {
+  } else if (is.null(value)) {
     x$variables1$timeval <- FALSE
   } else {
     x$variables1$timeval <- FALSE
 
     x <- modify_variables1(x, "timeval",
-                           dplyr::tibble(`variable-code` = variable,
+                           dplyr::tibble(`variable-code` = value,
                                          timeval = TRUE
                                          )
                            )

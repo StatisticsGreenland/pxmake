@@ -5,14 +5,14 @@
 \alias{px_heading.px}
 \title{HEADING}
 \usage{
-px_heading(x, variables)
+px_heading(x, value)
 
-\method{px_heading}{px}(x, variables)
+\method{px_heading}{px}(x, value)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{variables}{Optional. A character vector of variable names to change to
+\item{value}{Optional. A character vector of variable names to change to
 STUB. This also changes the HEADING order. With names in \code{variables}
 becoming 1, 2, ... If missing, the current HEADING variables are returned.}
 }

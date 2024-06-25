@@ -15,8 +15,31 @@ px_order(x, value)
 \item{value}{Optional. A data frame with the columns 'order' and one or more of the columns: 'variable-code', and 'code'. If 'value' is missing, the current ORDER is returned. If NULL, ORDER is removed.}
 }
 \value{
-A px object or a data frame
+A px object or data frame.
 }
 \description{
 Inspect or change ORDER.
+}
+\examples{
+# Set ORDER for a variable
+library(tibble)
+x1 <-
+  population_gl |>
+  px() |>
+  px_order(tribble(~`variable-code`, ~order,
+                       'gender', 8))
+
+# Print ORDER
+px_order(x1)
+
+# Set ORDER for a value
+x2 <-
+  x1 |>
+  px_order(tribble(~`variable-code`, ~code, ~order,
+                       'age', '2004', 9))
+px_order(x2)
+
+# Remove ORDER
+x3 <- px_order(x2, NULL)
+px_order(x3)
 }

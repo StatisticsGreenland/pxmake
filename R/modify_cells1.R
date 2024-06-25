@@ -21,15 +21,10 @@ px_precision <- function(x, value) {
   UseMethod("px_precision")
 }
 
-#' @title PRECISION
-#'
-#' @description `r table_description("PRECISION")`
-#'
-#' @param x A px object
+#' @eval add_doc_keyword_function_intro("PRECISION")
 #' @param value `r cells_param_value("PRECISION", "1")`
-#'
-#' @return A px object or a data frame
-#'
+#' @eval add_return_px_or_df()
+#' @eval add_cells1_example("PRECISION", 2, 3)
 #' @export
 px_precision.px <- function(x, value) {
   handle_cells(x, value, "1", "precision")
@@ -42,10 +37,11 @@ px_order <- function(x, value) {
   UseMethod("px_order")
 }
 
-#' @inherit px_precision.px
 #' @title Change value order
-#' @description `r table_description("ORDER")`
+#' @eval add_doc_keyword_function_intro("ORDER")
 #' @param value `r cells_param_value("ORDER", "1")`
+#' @eval add_return_px_or_df()
+#' @eval add_cells1_example("ORDER", 8, 9)
 #' @export
 px_order.px <- function(x, value) {
   handle_cells(x, value, "1", "order")

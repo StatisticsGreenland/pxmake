@@ -15,8 +15,35 @@ px_valuenotex(x, value)
 \item{value}{Optional. A data frame with the columns 'valuenotex' and one or more of the columns: 'variable-code', 'code', and 'language'. If 'value' is missing, the current VALUENOTEX is returned. If NULL, VALUENOTEX is removed.}
 }
 \value{
-A px object or a data frame
+A px object or data frame.
 }
 \description{
 Inspect or change VALUENOTEX.
+}
+\examples{
+# Set VALUENOTEX for a value
+library(tibble)
+x1 <-
+  population_gl |>
+  px() |>
+  px_valuenotex(
+    tribble(~`variable-code`, ~code,  ~valuenotex,
+            'year', '2004', 'Counts are approximated'))
+
+# Print VALUENOTEX
+px_valuenotex(x1)
+
+# Set VALUENOTEX for a value in specific language
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_valuenotex(
+    tribble(~`variable-code`, ~code,  ~language, ~valuenotex,
+            'age', '0-6', 'en', 'Some of the figures are from 2003',
+            'age', '0-6', 'kl', 'Kisitsisit ilaat 2003-imeersuupput'))
+px_valuenotex(x2)
+
+# Remove VALUENOTEX
+x3 <- px_valuenotex(x2, NULL)
+px_valuenotex(x3)
 }

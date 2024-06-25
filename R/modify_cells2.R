@@ -4,10 +4,10 @@ px_valuenote <- function(x, value) {
   UseMethod("px_valuenote")
 }
 
-#' @inherit px_precision.px
-#' @title VALUENOTE
-#' @description `r table_description("VALUENOTE")`
+#' @eval add_doc_keyword_function_intro("VALUENOTE")
 #' @param value `r cells_param_value("VALUENOTE", "2")`
+#' @eval add_return_px_or_df()
+#' @eval add_cells2_example("VALUENOTE", 'Counts are approximated', 'Some of the figures are from 2003', 'Kisitsisit ilaat 2003-imeersuupput')
 #' @export
 px_valuenote.px <- function(x, value) {
   handle_cells(x, value, "2", "valuenote")
@@ -20,10 +20,10 @@ px_valuenotex <- function(x, value) {
   UseMethod("px_valuenotex")
 }
 
-#' @inherit px_precision.px
-#' @title VALUENOTEX
-#' @description `r table_description("VALUENOTEX")`
+#' @eval add_doc_keyword_function_intro("VALUENOTEX")
 #' @param value `r cells_param_value("VALUENOTEX", "2")`
+#' @eval add_return_px_or_df()
+#' @eval add_cells2_example("VALUENOTEX", 'Counts are approximated', 'Some of the figures are from 2003', 'Kisitsisit ilaat 2003-imeersuupput')
 #' @export
 px_valuenotex.px <- function(x, value) {
   handle_cells(x, value, "2", "valuenotex")
@@ -36,10 +36,10 @@ px_values <- function(x, value) {
   UseMethod("px_values")
 }
 
-#' @inherit px_precision.px
-#' @title VALUES
-#' @description `r table_description("VALUES")`
+#' @eval add_doc_keyword_function_intro("VALUES")
 #' @param value `r cells_param_value("VALUES", "2")`
+#' @eval add_return_px_or_df()
+#' @eval add_cells2_example("VALUES", 'Year 2024', 'toddler', 'meeraaqqap')
 #' @export
 px_values.px <- function(x, value) {
   handle_cells(x, value, "2", "value")

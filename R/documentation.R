@@ -211,6 +211,74 @@ variables2_example <- function(keyword, example_value1, example_value2, example_
   )
 }
 
+cells1_example <- function(keyword, example_value1, example_value2) {
+  px_function <- keyword_to_function(keyword)
+
+  stringr::str_glue(
+    "@examples",
+    "# Set {keyword} for a variable",
+    "library(tibble)",
+    "x1 <-",
+    "  population_gl |>",
+    "  px() |>",
+    "  {px_function}(tribble(~`variable-code`, ~{tolower(keyword)},",
+    "                       'gender', {example_value1}))",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x1)",
+    "",
+    "# Set {keyword} for a value",
+    "x2 <-",
+    "  x1 |>",
+    "  {px_function}(tribble(~`variable-code`, ~code, ~{tolower(keyword)},",
+    "                       'age', '2004', {example_value2}))",
+    "{px_function}(x2)",
+    "",
+    "# Remove {keyword}",
+    "x3 <- {px_function}(x2, NULL)",
+    "{px_function}(x3)",
+    .sep = "\n"
+  )
+}
+
+add_cells1_example <- add_documentation_function(cells1_example)
+
+cells2_example <- function(keyword, example_value1, example_value2, example_value3) {
+  px_function <- keyword_to_function(keyword)
+
+  stringr::str_glue(
+    "@examples",
+    "# Set {keyword} for a value",
+    "library(tibble)",
+    "x1 <-",
+    "  population_gl |>",
+    "  px() |>",
+    "  {px_function}(",
+    "    tribble(~`variable-code`, ~code,  ~{tolower(keyword)},",
+    "            'year', '2004', '{example_value1}'))",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x1)",
+    "",
+    "# Set {keyword} for a value in specific language",
+    "x2 <-",
+    "  x1 |>",
+    "  px_languages(c('en', 'kl')) |>",
+    "  {px_function}(",
+    "    tribble(~`variable-code`, ~code,  ~language, ~{tolower(keyword)},",
+    "            'age', '0-6', 'en', '{example_value2}',",
+    "            'age', '0-6', 'kl', '{example_value3}'))",
+    "{px_function}(x2)",
+    "",
+    "# Remove {keyword}",
+    "x3 <- {px_function}(x2, NULL)",
+    "{px_function}(x3)",
+    .sep = "\n"
+  )
+}
+
+add_cells2_example <- add_documentation_function(cells2_example)
+
 table_param_value_ending <- function(keyword) {
   if (keyword %in% mandatory_keywords()) {
     stringr::str_glue(

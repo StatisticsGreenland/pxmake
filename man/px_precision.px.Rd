@@ -15,8 +15,31 @@ px_precision(x, value)
 \item{value}{Optional. A data frame with the columns 'precision' and one or more of the columns: 'variable-code', and 'code'. If 'value' is missing, the current PRECISION is returned. If NULL, PRECISION is removed.}
 }
 \value{
-A px object or a data frame
+A px object or data frame.
 }
 \description{
 Inspect or change PRECISION.
+}
+\examples{
+# Set PRECISION for a variable
+library(tibble)
+x1 <-
+  population_gl |>
+  px() |>
+  px_precision(tribble(~`variable-code`, ~precision,
+                       'gender', 2))
+
+# Print PRECISION
+px_precision(x1)
+
+# Set PRECISION for a value
+x2 <-
+  x1 |>
+  px_precision(tribble(~`variable-code`, ~code, ~precision,
+                       'age', '2004', 3))
+px_precision(x2)
+
+# Remove PRECISION
+x3 <- px_precision(x2, NULL)
+px_precision(x3)
 }

@@ -15,9 +15,35 @@ px_values(x, value)
 \item{value}{Optional. A data frame with the columns 'values' and one or more of the columns: 'variable-code', 'code', and 'language'. If 'value' is missing, the current VALUES is returned. If NULL, VALUES is removed.}
 }
 \value{
-A px object or a data frame
+A px object or data frame.
 }
 \description{
 Inspect or change VALUES.
-VALUES cannot be removed because it is a mandatory keyword.
+}
+\examples{
+# Set VALUES for a value
+library(tibble)
+x1 <-
+  population_gl |>
+  px() |>
+  px_values(
+    tribble(~`variable-code`, ~code,  ~values,
+            'year', '2004', 'Year 2024'))
+
+# Print VALUES
+px_values(x1)
+
+# Set VALUES for a value in specific language
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_values(
+    tribble(~`variable-code`, ~code,  ~language, ~values,
+            'age', '0-6', 'en', 'toddler',
+            'age', '0-6', 'kl', 'meeraaqqap'))
+px_values(x2)
+
+# Remove VALUES
+x3 <- px_values(x2, NULL)
+px_values(x3)
 }

@@ -17,10 +17,24 @@ STUB. This also changes the HEADING order. With names in \code{variables}
 becoming 1, 2, ... If missing, the current HEADING variables are returned.}
 }
 \value{
-A px object or a character vector
+A px object or a character vector.
 }
 \description{
 Inspect or change HEADING.
+}
+\examples{
+x1 <- px(population_gl)
+
+# Print HEADING
+px_heading(x1)
+
+# Add 'gender' to HEADING
+x2 <- px_heading(x1, 'gender')
+px_heading(x2)
+
+# Change order of HEADING
+x3 <- px_heading(x2, 'year')
+px_heading(x3)
 }
 \seealso{
 \code{\link{px_stub}} \code{\link{px_figures}}

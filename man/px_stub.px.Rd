@@ -17,10 +17,22 @@ STUB. This also changes the STUB order. With names in \code{variables}
 becoming 1, 2, ... If missing, the current STUB variables are returned.}
 }
 \value{
-A px object or a character vector
+A px object or a character vector.
 }
 \description{
 Inspect or change STUB.
+}
+\examples{
+x1 <- px(population_gl)
+# Print STUB
+px_stub(x1)
+# Add 'year' to STUB
+x2 <- px_stub(x1, 'year')
+px_stub(x2)
+
+# Change order of STUB
+x3 <- px_stub(x2, c('age', 'gender'))
+px_stub(x3)
 }
 \seealso{
 \code{\link{px_heading}} \code{\link{px_figures}}

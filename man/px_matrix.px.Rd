@@ -15,8 +15,17 @@ px_matrix(x, value)
 \item{value}{Optional. A character string. If missing, the current MATRIX is returned. If NULL, an error is thrown because MATRIX cannot be removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
-Inspect or change MATRIX. MATRIX cannot be removed because it is a mandatory keyword.
+Inspect or change MATRIX.
+}
+\examples{
+# Set MATRIX
+x1 <-
+   px(population_gl) |>
+   px_matrix('POPULATION')
+
+# Print MATRIX
+px_matrix(x1)
 }

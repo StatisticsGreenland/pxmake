@@ -15,8 +15,17 @@ px_decimals(x, value)
 \item{value}{Optional. A character string. If missing, the current DECIMALS is returned. If NULL, an error is thrown because DECIMALS cannot be removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
-Inspect or change DECIMALS. DECIMALS cannot be removed because it is a mandatory keyword.
+Inspect or change DECIMALS.
+}
+\examples{
+# Set DECIMALS
+x1 <-
+   px(population_gl) |>
+   px_decimals('3')
+
+# Print DECIMALS
+px_decimals(x1)
 }

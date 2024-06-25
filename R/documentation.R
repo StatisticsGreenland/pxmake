@@ -1,16 +1,67 @@
 # Functions to create roxygen2 documention
 
-add_documentation_table1 <- function(keyword) {
-  c(paste0("@title ", keyword),
-    "",
-    paste0("@description ", table_description(keyword)),
-    "",
+keyword_to_function <- function(keyword) {
+  paste0("px_", gsub("-", "_", tolower(keyword)))
+}
+
+split_multiline_str_into_vector <- function(str) {
+  str %>%
+    stringr::str_split(pattern = "\n") %>%
+    magrittr::extract2(1)
+}
+
+add_documentation_function <- function(fnc) {
+  function(...) {
+    fnc(...) %>%
+      split_multiline_str_into_vector()
+  }
+}
+
+add_doc_keyword_function_intro <-
+  add_documentation_function(doc_keyword_function_intro)
+
+add_documentation_table1 <- function(keyword, example_value) {
+  stringr::str_glue(
+    "{doc_keyword_function_intro(keyword)}",
+    "@param value {table1_param_value(keyword)}",
+    "{return_px_or_char_str()}",
+    "{table1_example(keyword, example_value)}",
+    "@export",
+    .sep = "\n"
+    ) %>%
+    split_multiline_str_into_vector()
+}
+
+add_documentation_table2 <- function(keyword, example_value1, example_value2) {
+  stringr::str_glue(
+    "{doc_keyword_function_intro(keyword)}",
+    "@param value {table2_param_value(keyword)}",
+    "{return_px_or_char_vector_or_df()}",
+    "{table2_example(keyword, example_value1, example_value2)}",
+    "@export",
+    .sep = "\n"
+    ) %>%
+    split_multiline_str_into_vector()
+}
+
+add_documentation_head_stub <- function(keyword) {
+  stringr::str_glue(
+    "{doc_keyword_function_intro(keyword)}",
+    "@param variables {pivot_param_variables(keyword)}",
+    "{return_px_or_char_vector()}",
+    "@export",
+    .sep = "\n"
+    ) %>%
+    split_multiline_str_into_vector()
+}
+
+doc_keyword_function_intro <- function(keyword) {
+  stringr::str_glue(
+    "@title {keyword}",
+    "@description Inspect or change {keyword}.",
     "@param x A px object",
-    paste0("@param value ", table1_param_value(keyword)),
-    "@return A px object or a character string",
-    "",
-    "@export"
-  )
+    .sep = "\n"
+    )
 }
 
 description_start <- function(keyword) {
@@ -22,12 +73,87 @@ table_description <- function(keyword) {
 
   if (keyword %in% mandatory_keywords()) {
     str <-
-      stringr::str_glue(
-        "{str} {keyword} cannot be removed because it is a mandatory keyword."
-      )
+      stringr::str_glue("{str}",
+                        "{keyword} cannot be removed because it is a mandatory keyword.",
+                        .sep = "\n"
+                        )
   }
 
   str
+}
+
+table1_example <- function(keyword, example_value) {
+  px_function <- keyword_to_function(keyword)
+
+  str <-
+    stringr::str_glue(
+      "@examples",
+      "# Set {keyword}",
+      "x1 <-",
+      "   px(population_gl) |>",
+      "   {px_function}('{example_value}')",
+      "",
+      "# Print {keyword}",
+      "{px_function}(x1)",
+      .sep = "\n"
+    )
+
+  if (!keyword %in% mandatory_keywords()) {
+    str <-
+      stringr::str_glue(
+        "{str}",
+        "",
+        "# Remove {keyword}",
+        "x2 <- {px_function}(x1, NULL)",
+        "{px_function}(x2)",
+        .sep = "\n"
+      )
+  }
+
+  return(str)
+}
+
+add_table1_example <- add_documentation_function(table1_example)
+
+table2_example <- function(keyword, example_value1, example_value2) {
+  px_function <- keyword_to_function(keyword)
+
+  str <-
+    stringr::str_glue(
+    "@examples",
+    "# Set {keyword} for all languages",
+    "x1 <-",
+    "  px(population_gl) |>",
+    "  {px_function}('{example_value1}')",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x1)",
+    "",
+    "# Set {keyword} for individual languages",
+    "library(tibble)",
+    "x2 <-",
+    "  x1 |>",
+    "  px_languages(c('en', 'kl')) |>",
+    "  {px_function}(tribble(~language, ~value,",
+    "                      'en', '{example_value1}',",
+    "                      'kl', '{example_value2}'))",
+    "{px_function}(x2)",
+    .sep = "\n"
+    )
+
+  if (!keyword %in% mandatory_keywords()) {
+    str <-
+      stringr::str_glue(
+        "{str}",
+        "",
+        "# Remove {keyword}",
+        "x3 <- {px_function}(x2, NULL)",
+        "{px_function}(x3)",
+        .sep = "\n"
+        )
+  }
+
+  return(str)
 }
 
 table_param_value_ending <- function(keyword) {
@@ -139,4 +265,24 @@ pivot_param_variables <- function(keyword) {
     "
   )
 }
+
+return_px_or_df <- function(keyword=NULL) {
+  "@return A px object or data frame."
+}
+
+add_return_px_or_df <- add_documentation_function(return_px_or_df)
+
+return_px_or_char_str <- function(keyword=NULL) {
+  "@return A px object or a character string."
+}
+
+add_return_px_or_char_str <- add_documentation_function(return_px_or_char_str)
+
+return_px_or_char_vector <- function() {
+  "@return A px object or a character vector."
+}
+return_px_or_char_vector_or_df <- function() {
+  "@return A px object, a character string, or a data frame."
+}
+
 

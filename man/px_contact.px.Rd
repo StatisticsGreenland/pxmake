@@ -20,3 +20,26 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change CONTACT.
 }
+\examples{
+# Set CONTACT for all languages
+x1 <-
+  px(population_gl) |>
+  px_contact('Johan Ejstrud')
+
+# Print CONTACT
+px_contact(x1)
+
+# Set CONTACT for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_contact(tribble(~language, ~value,
+                      'en', 'Johan Ejstrud',
+                      'kl', 'Lars Pedersen'))
+px_contact(x2)
+
+# Remove CONTACT
+x3 <- px_contact(x2, NULL)
+px_contact(x3)
+}

@@ -15,8 +15,21 @@ px_tableid(x, value)
 \item{value}{Optional. A character string. If missing, the current TABLEID is returned. If NULL, TABLEID is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change TABLEID.
+}
+\examples{
+# Set TABLEID
+x1 <-
+   px(population_gl) |>
+   px_tableid('POPGL')
+
+# Print TABLEID
+px_tableid(x1)
+
+# Remove TABLEID
+x2 <- px_tableid(x1, NULL)
+px_tableid(x2)
 }

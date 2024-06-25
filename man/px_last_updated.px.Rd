@@ -20,3 +20,26 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change LAST-UPDATED.
 }
+\examples{
+# Set LAST-UPDATED for all languages
+x1 <-
+  px(population_gl) |>
+  px_last_updated('17070501 15:55')
+
+# Print LAST-UPDATED
+px_last_updated(x1)
+
+# Set LAST-UPDATED for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_last_updated(tribble(~language, ~value,
+                      'en', '17070501 15:55',
+                      'kl', '20080621 15:55'))
+px_last_updated(x2)
+
+# Remove LAST-UPDATED
+x3 <- px_last_updated(x2, NULL)
+px_last_updated(x3)
+}

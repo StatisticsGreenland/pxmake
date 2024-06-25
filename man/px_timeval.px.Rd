@@ -12,13 +12,26 @@ px_timeval(x, variable)
 \arguments{
 \item{x}{A px object}
 
-\item{variable}{Optional. Name of variable to use as TIMEVAL. If missing, the
-current TIMEVAL variable is returned.}
+\item{value}{Optional. A character string. If missing, the current TIMEVAL is returned. If NULL, TIMEVAL is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
-Inspect or change which variable is used as px_timeval. There can only be one
-time variable.
+Inspect or change TIMEVAL.
+
+There can only be one time variable.
+}
+\examples{
+# Set TIMEVAL
+x1 <-
+   px(population_gl) |>
+   px_timeval('year')
+
+# Print TIMEVAL
+px_timeval(x1)
+
+# Remove TIMEVAL
+x2 <- px_timeval(x1, NULL)
+px_timeval(x2)
 }

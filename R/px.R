@@ -59,7 +59,10 @@ px <- function(input, data = NULL) {
 #' when saving an Excel workbook where the data has more rows than Excel can
 #' handle. Can only be used if 'path' is an `.xlsx` file, and 'save_data' is
 #' TRUE.
+#' @details
+#' Use `px_codepage()` to change file encoding.
 #'
+#' @seealso [px_codepage()]
 #' @return Nothing
 #' @export
 px_save <- function(x, path, save_data = TRUE, data_path = NULL) {

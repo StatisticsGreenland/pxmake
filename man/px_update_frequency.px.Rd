@@ -15,8 +15,21 @@ px_update_frequency(x, value)
 \item{value}{Optional. A character string. If missing, the current UPDATE-FREQUENCY is returned. If NULL, UPDATE-FREQUENCY is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change UPDATE-FREQUENCY.
+}
+\examples{
+# Set UPDATE-FREQUENCY
+x1 <-
+   px(population_gl) |>
+   px_update_frequency('Yearly')
+
+# Print UPDATE-FREQUENCY
+px_update_frequency(x1)
+
+# Remove UPDATE-FREQUENCY
+x2 <- px_update_frequency(x1, NULL)
+px_update_frequency(x2)
 }

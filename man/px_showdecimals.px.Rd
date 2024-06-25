@@ -15,8 +15,21 @@ px_showdecimals(x, value)
 \item{value}{Optional. A character string. If missing, the current SHOWDECIMALS is returned. If NULL, SHOWDECIMALS is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change SHOWDECIMALS.
+}
+\examples{
+# Set SHOWDECIMALS
+x1 <-
+   px(population_gl) |>
+   px_showdecimals('2')
+
+# Print SHOWDECIMALS
+px_showdecimals(x1)
+
+# Remove SHOWDECIMALS
+x2 <- px_showdecimals(x1, NULL)
+px_showdecimals(x2)
 }

@@ -15,8 +15,21 @@ px_copyright(x, value)
 \item{value}{Optional. A character string. If missing, the current COPYRIGHT is returned. If NULL, COPYRIGHT is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change COPYRIGHT.
+}
+\examples{
+# Set COPYRIGHT
+x1 <-
+   px(population_gl) |>
+   px_copyright('YES')
+
+# Print COPYRIGHT
+px_copyright(x1)
+
+# Remove COPYRIGHT
+x2 <- px_copyright(x1, NULL)
+px_copyright(x2)
 }

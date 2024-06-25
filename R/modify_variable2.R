@@ -18,11 +18,7 @@ px_domain <- function(x, value) {
   UseMethod("px_domain")
 }
 
-#' @title DOMAIN
-#'
-#' @description `r table_description("DOMAIN")`
-#'
-#' @param x A px object
+#' @eval add_doc_keyword_function_intro("DOMAIN")
 #' @param value `r variables2_param_value("DOMAIN")`
 #'
 #' @return A px object, a character string, or a data frame.

@@ -59,17 +59,19 @@ px_stub <- function(x, variables) {
   UseMethod("px_stub")
 }
 
-#' @title STUB
-#'
-#' @description `r description_start("STUB")`
-#'
-#' @param x A px object
-#' @param variables `r pivot_param_variables("STUB")`
-#' @return A px object or a character vector
-#'
+#' @eval add_documentation_head_stub("STUB")
 #' @seealso \code{\link{px_heading}} \code{\link{px_figures}}
+#' @examples
+#' x1 <- px(population_gl)
+#' # Print STUB
+#' px_stub(x1)
+#' # Add 'year' to STUB
+#' x2 <- px_stub(x1, 'year')
+#' px_stub(x2)
 #'
-#' @export
+#' # Change order of STUB
+#' x3 <- px_stub(x2, c('age', 'gender'))
+#' px_stub(x3)
 px_stub.px <- function(x, variables) {
   if (missing(variables)) {
     return(get_pivot_variables(x, "STUB"))
@@ -84,12 +86,21 @@ px_heading <- function(x, variables) {
   UseMethod("px_heading")
 }
 
-#' @inherit px_stub.px
-#' @title HEADING
-#' @description `r description_start("HEADING")`
-#' @param variables `r pivot_param_variables("HEADING")`
+#' @eval add_documentation_head_stub("HEADING")
 #' @seealso \code{\link{px_stub}} \code{\link{px_figures}}
-#' @export
+#' @examples
+#' x1 <- px(population_gl)
+#'
+#' # Print HEADING
+#' px_heading(x1)
+#'
+#' # Add 'gender' to HEADING
+#' x2 <- px_heading(x1, 'gender')
+#' px_heading(x2)
+#'
+#' # Change order of HEADING
+#' x3 <- px_heading(x2, 'year')
+#' px_heading(x3)
 px_heading.px <- function(x, variables) {
   if (missing(variables)) {
     return(get_pivot_variables(x, "HEADING"))
@@ -107,7 +118,7 @@ px_figures <- function(x, variable) {
 #' @title Change figures variable
 #' @description
 #' Inspect or change which variable is used as figures. The previous figures
-#' variable is changed to STUB.
+#' variable is changed to STUB. There can only be one figures variable.
 #'
 #' @param x A px object
 #' @param variable Optional. Name of variable to use as FIGRUES. If missing, the
@@ -117,6 +128,16 @@ px_figures <- function(x, variable) {
 #'
 #' @seealso \code{\link{px_stub}} \code{\link{px_heading}}
 #'
+#' @examples
+#' x1 <- px(population_gl)
+#'
+#' # Print FIGURES
+#' px_figures(x1)
+#'
+#' # Change 'age' to FIGURES variable, 'n' i changed to STUB
+#' x2 <- px_figures(x1, 'age')
+#' px_figures(x2)
+#' px_stub(x2)
 #' @export
 px_figures.px <- function(x, variable) {
   if (missing(variable)) {
@@ -140,18 +161,8 @@ px_timeval <- function(x, variable) {
   UseMethod("px_timeval")
 }
 
-#' TIMEVAL
-#'
-#' Inspect or change which variable is used as px_timeval. There can only be one
-#' time variable.
-#'
-#' @param x A px object
-#' @param variable Optional. Name of variable to use as TIMEVAL. If missing, the
-#' current TIMEVAL variable is returned.
-#'
-#' @return A px object or a character string
-#'
-#' @export
+#' @eval add_documentation_table1("TIMEVAL", "year")
+#' @description There can only be one time variable.
 px_timeval.px <- function(x, variable) {
   if (missing(variable)) {
     return(get_variable1_logic_value(x, "timeval"))
@@ -176,19 +187,26 @@ px_contvariable <- function(x, value) {
   UseMethod("px_contvariable")
 }
 
-#' @title CONTVARIABLE
+#' @eval add_doc_keyword_function_intro("CONTVARIABLE")
+#' @description Setting CONTVARIABLE indexes several variables in table2.
+#' Removing CONTVARIABLE removes the indexing from table2.
+#' @param value `r table1_param_value("CONTVARIABLE")`
+#' @eval add_return_px_or_char_str()
+#' @examples
+#' # Set CONTVARIABLE
+#' x1 <-
+#'   px(population_gl) |>
+#'   px_contvariable('gender')
 #'
-#' @description `r table_description("CONTVARIABLE")`. Setting CONTVARIABLE
-#' indexes several variables in table2. Removing CONTVARIABLE removes the
-#' indexing from table2.
+#' # After setting CONTVARIABLE some variables are index by it, e.g. UNITS
+#' px_units(x1)
 #'
-#' @param x A px object
-#' @param value Optional. A character string with the name of the variable to
-#' use as CONTVARIABLE. If missing, the current CONTVARIABLE is returned. If
-#' NULL, CONTVARIABLE is removed.
+#' # Remove CONTVARIABLE
+#' x2 <- px_contvariable(x1, NULL)
+#' px_contvariable(x2)
 #'
-#' @return A px object or a character string.
-#'
+#' # Removing CONTVARIABLE also removes the index from UNITS
+#' px_units(x2)
 #' @export
 px_contvariable.px <- function(x, value) {
   if (missing(value)) {
@@ -242,17 +260,11 @@ px_variable_type <- function(x, value) {
   UseMethod("px_variable_type")
 }
 
-#' @title VARIABLE-TYPE
-#'
-#' @description `px_description_table1("VARIABLE-TYPE")`
-#'
-#' @param x A px object
+#' @eval add_doc_keyword_function_intro("VARIABLE-TYPE")
 #' @param value A data frame with columns 'variable-code' and 'type'. If value
 #' is missing, the current VARIABLE-TYPE is returned. If NULL, all
 #' VARIABLE-TYPE is removed.
-#'
-#' @return A px object or a data frame.
-#'
+#' @eval add_return_px_or_df()
 #' @export
 px_variable_type.px <- function(x, value) {
   if (missing(value)) {

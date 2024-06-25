@@ -15,8 +15,21 @@ px_next_update(x, value)
 \item{value}{Optional. A character string. If missing, the current NEXT-UPDATE is returned. If NULL, NEXT-UPDATE is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change NEXT-UPDATE.
+}
+\examples{
+# Set NEXT-UPDATE
+x1 <-
+   px(population_gl) |>
+   px_next_update('20240621 15:55')
+
+# Print NEXT-UPDATE
+px_next_update(x1)
+
+# Remove NEXT-UPDATE
+x2 <- px_next_update(x1, NULL)
+px_next_update(x2)
 }

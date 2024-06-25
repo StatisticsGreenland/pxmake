@@ -20,3 +20,26 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change MAP.
 }
+\examples{
+# Set MAP for all languages
+x1 <-
+  px(population_gl) |>
+  px_map('Great Britain')
+
+# Print MAP
+px_map(x1)
+
+# Set MAP for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_map(tribble(~language, ~value,
+                      'en', 'Great Britain',
+                      'kl', 'Kalaallit Nunaat'))
+px_map(x2)
+
+# Remove MAP
+x3 <- px_map(x2, NULL)
+px_map(x3)
+}

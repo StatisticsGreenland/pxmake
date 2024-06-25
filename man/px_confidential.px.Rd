@@ -15,8 +15,21 @@ px_confidential(x, value)
 \item{value}{Optional. A character string. If missing, the current CONFIDENTIAL is returned. If NULL, CONFIDENTIAL is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change CONFIDENTIAL.
+}
+\examples{
+# Set CONFIDENTIAL
+x1 <-
+   px(population_gl) |>
+   px_confidential('1')
+
+# Print CONFIDENTIAL
+px_confidential(x1)
+
+# Remove CONFIDENTIAL
+x2 <- px_confidential(x1, NULL)
+px_confidential(x2)
 }

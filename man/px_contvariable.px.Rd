@@ -12,15 +12,30 @@ px_contvariable(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A character string with the name of the variable to
-use as CONTVARIABLE. If missing, the current CONTVARIABLE is returned. If
-NULL, CONTVARIABLE is removed.}
+\item{value}{Optional. A character string. If missing, the current CONTVARIABLE is returned. If NULL, CONTVARIABLE is removed.}
 }
 \value{
 A px object or a character string.
 }
 \description{
-Inspect or change CONTVARIABLE.. Setting CONTVARIABLE
-indexes several variables in table2. Removing CONTVARIABLE removes the
-indexing from table2.
+Inspect or change CONTVARIABLE.
+
+Setting CONTVARIABLE indexes several variables in table2.
+Removing CONTVARIABLE removes the indexing from table2.
+}
+\examples{
+# Set CONTVARIABLE
+x1 <-
+  px(population_gl) |>
+  px_contvariable('gender')
+
+# After setting CONTVARIABLE some variables are index by it, e.g. UNITS
+px_units(x1)
+
+# Remove CONTVARIABLE
+x2 <- px_contvariable(x1, NULL)
+px_contvariable(x2)
+
+# Removing CONTVARIABLE also removes the index from UNITS
+px_units(x2)
 }

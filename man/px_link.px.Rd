@@ -20,3 +20,26 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change LINK.
 }
+\examples{
+# Set LINK for all languages
+x1 <-
+  px(population_gl) |>
+  px_link('https://stat.gl/?lang=en')
+
+# Print LINK
+px_link(x1)
+
+# Set LINK for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_link(tribble(~language, ~value,
+                      'en', 'https://stat.gl/?lang=en',
+                      'kl', 'https://stat.gl/'))
+px_link(x2)
+
+# Remove LINK
+x3 <- px_link(x2, NULL)
+px_link(x3)
+}

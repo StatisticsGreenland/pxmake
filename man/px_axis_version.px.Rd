@@ -15,8 +15,21 @@ px_axis_version(x, value)
 \item{value}{Optional. A character string. If missing, the current AXIS-VERSION is returned. If NULL, AXIS-VERSION is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change AXIS-VERSION.
+}
+\examples{
+# Set AXIS-VERSION
+x1 <-
+   px(population_gl) |>
+   px_axis_version('2010')
+
+# Print AXIS-VERSION
+px_axis_version(x1)
+
+# Remove AXIS-VERSION
+x2 <- px_axis_version(x1, NULL)
+px_axis_version(x2)
 }

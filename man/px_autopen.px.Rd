@@ -15,8 +15,21 @@ px_autopen(x, value)
 \item{value}{Optional. A character string. If missing, the current AUTOPEN is returned. If NULL, AUTOPEN is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change AUTOPEN.
+}
+\examples{
+# Set AUTOPEN
+x1 <-
+   px(population_gl) |>
+   px_autopen('YES')
+
+# Print AUTOPEN
+px_autopen(x1)
+
+# Remove AUTOPEN
+x2 <- px_autopen(x1, NULL)
+px_autopen(x2)
 }

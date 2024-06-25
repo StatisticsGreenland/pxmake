@@ -20,3 +20,26 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change DESCRIPTION.
 }
+\examples{
+# Set DESCRIPTION for all languages
+x1 <-
+  px(population_gl) |>
+  px_description('Population')
+
+# Print DESCRIPTION
+px_description(x1)
+
+# Set DESCRIPTION for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_description(tribble(~language, ~value,
+                      'en', 'Population',
+                      'kl', 'Innuttaasut'))
+px_description(x2)
+
+# Remove DESCRIPTION
+x3 <- px_description(x2, NULL)
+px_description(x3)
+}

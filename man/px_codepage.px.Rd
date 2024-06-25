@@ -15,8 +15,28 @@ px_codepage(x, value)
 \item{value}{Optional. A character string. If missing, the current CODEPAGE is returned. If NULL, CODEPAGE is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change CODEPAGE.
+}
+\details{
+CODEPAGE controls which encoding px files are read and stored in.
+Use \code{iconvlist()} to see available encodings on your system.
+}
+\examples{
+# Set CODEPAGE
+x1 <-
+   px(population_gl) |>
+   px_codepage('utf-8')
+
+# Print CODEPAGE
+px_codepage(x1)
+
+# Remove CODEPAGE
+x2 <- px_codepage(x1, NULL)
+px_codepage(x2)
+}
+\seealso{
+\code{\link[=px_save]{px_save()}}
 }

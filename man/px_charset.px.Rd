@@ -15,8 +15,21 @@ px_charset(x, value)
 \item{value}{Optional. A character string. If missing, the current CHARSET is returned. If NULL, CHARSET is removed.}
 }
 \value{
-A px object or a character string
+A px object or a character string.
 }
 \description{
 Inspect or change CHARSET.
+}
+\examples{
+# Set CHARSET
+x1 <-
+   px(population_gl) |>
+   px_charset('ANSI')
+
+# Print CHARSET
+px_charset(x1)
+
+# Remove CHARSET
+x2 <- px_charset(x1, NULL)
+px_charset(x2)
 }

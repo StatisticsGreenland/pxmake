@@ -18,5 +18,24 @@ px_contents(x, value)
 A px object, a character string, or a data frame.
 }
 \description{
-Inspect or change CONTENTS. CONTENTS cannot be removed because it is a mandatory keyword.
+Inspect or change CONTENTS.
+}
+\examples{
+# Set CONTENTS for all languages
+x1 <-
+  px(population_gl) |>
+  px_contents('Population')
+
+# Print CONTENTS
+px_contents(x1)
+
+# Set CONTENTS for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_contents(tribble(~language, ~value,
+                      'en', 'Population',
+                      'kl', 'Innuttaasut'))
+px_contents(x2)
 }

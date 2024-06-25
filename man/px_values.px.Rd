@@ -18,5 +18,6 @@ px_values(x, value)
 A px object or a data frame
 }
 \description{
-Inspect or change VALUES. VALUES cannot be removed because it is a mandatory keyword.
+Inspect or change VALUES.
+VALUES cannot be removed because it is a mandatory keyword.
 }

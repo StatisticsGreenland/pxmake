@@ -96,30 +96,38 @@
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="va">x1</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">px_domain</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">`variable-code`</span>, <span class="op">~</span><span class="va">DOMAIN</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">px_domain</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">`variable-code`</span>, <span class="op">~</span><span class="va">domain</span>,</span></span>
 <span class="r-in"><span>                    <span class="st">'gender'</span>, <span class="st">'aggregation2'</span>,</span></span>
 <span class="r-in"><span>                    <span class="st">'age'</span>,    <span class="st">'aggregation3'</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Data frame contains invalid columns: DOMAIN, it can only contain the columns: variable-code, language, variable-label, elimination, note, notex, domain</span>
 <span class="r-in"><span><span class="fu">px_domain</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x2' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `variable-code` domain      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> gender          aggregation2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> age             aggregation3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> year            aggregation1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> n               aggregation1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set DOMAIN for individual languages</span></span></span>
 <span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="va">x2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="px_languages.px.html">px_languages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'en'</span>, <span class="st">'kl'</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">px_domain</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">`variable-code`</span>, <span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">DOMAIN</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">px_domain</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">`variable-code`</span>, <span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">domain</span>,</span></span>
 <span class="r-in"><span>                    <span class="st">'gender'</span>,    <span class="st">'en'</span>,      <span class="st">'aggregation2_en'</span>,</span></span>
 <span class="r-in"><span>                    <span class="st">'gender'</span>,    <span class="st">'kl'</span>,      <span class="st">'aggregation2_kl'</span>,</span></span>
 <span class="r-in"><span>                    <span class="st">'age'</span>,       <span class="st">'en'</span>,      <span class="st">'aggregation3_en'</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x2' not found</span>
 <span class="r-in"><span><span class="fu">px_domain</span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x3' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `variable-code` language domain         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> gender          en       aggregation2_en</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> gender          kl       aggregation2_kl</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> age             en       aggregation3_en</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Remove DOMAIN</span></span></span>
 <span class="r-in"><span><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu">px_domain</span><span class="op">(</span><span class="va">x3</span>, <span class="cn">NULL</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x3' not found</span>
 <span class="r-in"><span><span class="fu">px_domain</span><span class="op">(</span><span class="va">x4</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'x4' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

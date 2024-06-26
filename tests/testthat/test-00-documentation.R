@@ -7,11 +7,15 @@ test_that("Documentation returns strings", {
 
   expect_identical(keyword_to_function('AXIS-VERSION'), 'px_axis_version')
   expect_identical(split_multiline_str_into_vector("a\nb"), c('a', 'b'))
-
   expect_string(add_documentation_table1("MATRIX", "B"))
+  expect_string(add_documentation_table1("DECIMALS", "B"))
   expect_string(add_documentation_table2("A", "B", "C"))
   expect_string(add_documentation_head_stub("A"))
   expect_string(add_documentation_variables2("A", "B", "C", "D"))
+  expect_string(cells1_example("A", "B", "C"))
+  expect_string(cells2_example("A", "B", "C", "D"))
+  expect_string(note_description("A"))
+  expect_string(return_px_or_df())
   expect_string(doc_keyword_function_intro("ORDER"))
   expect_string(description_start("CONTENTS"))
   expect_string(table_param_value_ending("CONTENTS"))

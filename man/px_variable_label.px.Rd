@@ -52,5 +52,5 @@ px_variable_label(x2)
 
 # Remove VARIABLE-LABEL
 x3 <- variable_label(x2, NULL)
-variable_label(x3)
+px_variable_label(x3)
 }

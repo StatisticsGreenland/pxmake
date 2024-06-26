@@ -68,7 +68,7 @@ px_variable_label <- function(x, value) {
 #'
 #' # Remove VARIABLE-LABEL
 #' x3 <- variable_label(x2, NULL)
-#' variable_label(x3)
+#' px_variable_label(x3)
 px_variable_label.px <- function(x, value) {
   handle_variables2_keyword(x, value, "variable-label")
 }

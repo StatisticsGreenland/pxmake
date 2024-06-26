@@ -87,71 +87,6 @@ get_mandatory_variables <- function() {
   )
 }
 
-get_legal_values <- function() {
-  dplyr::tribble(~sheet, ~variable, ~value,
-                 "Variables", "pivot", c("FIGURES", "STUB", "HEADING")
-                 )
-}
-
-error_if_variable_has_illegal_values <- function(excel_path, sheet) {
-  legal_values <-
-    get_legal_values() %>%
-    dplyr::filter(sheet == sheet) %>%
-    dplyr::select(-sheet) %>%
-    tidyr::unnest(value)
-
-  data_values <-
-    get_excel_sheet(sheet)(excel_path) %>%
-    dplyr::select(dplyr::pull(legal_values, variable)) %>%
-    tidyr::pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
-    dplyr::mutate(value = toupper(value)) %>%
-    dplyr::distinct_all()
-
-  illegal_values <- dplyr::anti_join(data_values, legal_values,
-                                     by = c("variable", "value")
-                                     )
-
-  if (nrow(illegal_values) > 0) {
-    illegal_value <-
-      illegal_values %>%
-      head(1) %>%
-      as.list()
-
-    legal_values_list <-
-      legal_values %>%
-      dplyr::filter(variable == illegal_value$variable) %>%
-      dplyr::pull(value) %>%
-      paste(collapse="', '")
-
-    error(stringr::str_glue(
-      "The value '{illegal_value$value}' is not allowed in the variable ",
-      "'{illegal_value$variable}' in the sheet '{sheet}'.\n",
-      "Change it to one of the legal values: '{legal_values_list}'"
-      ))
-  }
-}
-
-error_if_sheet_is_missing_variable <- function(excel_path, sheet) {
-  data_variable_names <-
-    get_excel_sheet(sheet)(excel_path) %>%
-    names() %>%
-    stringr::str_split_fixed("_", n = 2) %>%
-    as.data.frame() %>%
-    dplyr::mutate(variable_name_without_language_code = ifelse(V2=="", V1, V2)) %>%
-    dplyr::pull(variable_name_without_language_code)
-
-  missing_variables <- setdiff(get_mandatory_variables()[sheet] %>% unlist(),
-                               data_variable_names
-                               )
-
-  if (length(missing_variables) > 0) {
-    error(stringr::str_glue("The sheet '{sheet}' is missing the mandatory variable ",
-                            "'{missing_variables[1]}'. Please add it to the sheet."
-                            )
-         )
-  }
-}
-
 error_if_mandatory_keyword <- function(x, keyword) {
   if (keyword %in% mandatory_keywords()) {
     error(stringr::str_glue("Keyword '{keyword}' is mandatory and cannot be removed."))
@@ -312,25 +247,6 @@ error_if_data_column_is_not_defined <- function(x, table_name) {
                  )
           )
   }
-}
-
-#' Validate Excel metadata workbook
-#'
-#' @param excel_path Path to the Excel metadata workbook
-#'
-#' @return Nothing
-#' @keywords internal
-validate_xlsx_metadata <- function(excel_path) {
-  sheets <- c("Table", "Table2", "Variables", "Cells")
-
-  invisible(lapply(sheets,
-                   error_if_sheet_is_missing_variable,
-                   excel_path = excel_path
-                   )
-            )
-  error_if_variable_has_illegal_values(sheet = "Variables",
-                                       excel_path
-                                       )
 }
 
 #' Check all arguments to px()

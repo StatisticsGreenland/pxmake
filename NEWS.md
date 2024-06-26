@@ -23,6 +23,7 @@ requiring that argument 'data' is supplied.
 - Add examples in documentation for `px()` and `px_add_totals()`.
 - Add three vigenttes. (#277, #278, #280)
 - Increase test coverage.
+- Move px keywords to internal data set.
 
 # pxmake 0.11.0
 
@@ -53,6 +54,7 @@ as well, to create more intuitive naming and make the package more consistent.
   - To set a variable as TIMEVAL add a new column 'timeval' in 'Variables1' and 
   set it to 'TRUE'. TIMEVAL can no longer be set with `type="TIME"` in 
   Variables1.
+
 
 ## Breaking changes
 - Rename 'codelists' to 'cells' in px-object and Excel workbooks. (#256)

@@ -243,13 +243,13 @@ error_if_variable_label_is_na <- function(x) {
 error_if_misplaced_keywords_in_table <- function(x, table_name) {
   if (table_name == "table1") {
     other_keywords <-
-      get_px_keywords() %>%
-      dplyr::filter(! (in_table_sheet & !language_dependent)) %>%
+      px_keywords %>%
+      dplyr::filter(! (table_meta & !language_dependent)) %>%
       dplyr::pull(keyword)
   } else if (table_name == "table2") {
     other_keywords <-
-      get_px_keywords() %>%
-      dplyr::filter(! (in_table_sheet & language_dependent)) %>%
+      px_keywords %>%
+      dplyr::filter(! (table_meta & language_dependent)) %>%
       dplyr::pull(keyword)
   } else {
     unexpected_error()

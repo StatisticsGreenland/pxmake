@@ -68,6 +68,8 @@ add_documentation_variables2 <- function(keyword, example_value1, example_value2
 }
 
 doc_keyword_function_intro <- function(keyword) {
+
+
   stringr::str_glue(
     "@title {keyword}",
     "@description Inspect or change {keyword}.",

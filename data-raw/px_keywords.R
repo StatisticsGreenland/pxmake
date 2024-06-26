@@ -3,7 +3,7 @@ library(readr)
 px_keywords <-
   readr::read_tsv(file.path('data-raw', 'keywords.tsv'),
                   na = "NA",
-                  col_types = "clllllc"
+                  col_types = "clllllcc"
                   ) %>%
     dplyr::mutate(order = dplyr::row_number())
 

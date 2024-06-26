@@ -68,14 +68,27 @@ add_documentation_variables2 <- function(keyword, example_value1, example_value2
 }
 
 doc_keyword_function_intro <- function(keyword) {
-
-
-  stringr::str_glue(
+  str <-
+    stringr::str_glue(
     "@title {keyword}",
     "@description Inspect or change {keyword}.",
     "@param x A px object",
     .sep = "\n"
     )
+
+  url <-
+    px_keywords %>%
+    dplyr::filter(keyword == !!keyword) %>%
+    dplyr::pull(documentation)
+
+  if (length(url) == 1) {
+    str <-
+      stringr::str_glue("{str}",
+                      "@seealso [Statistics Sweden's documentation]({url})",
+                      .sep = "\n"
+                      )
+  }
+  return(str)
 }
 
 description_start <- function(keyword) {

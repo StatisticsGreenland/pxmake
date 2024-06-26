@@ -39,3 +39,6 @@ px_contvariable(x2)
 # Removing CONTVARIABLE also removes the index from UNITS
 px_units(x2)
 }
+\seealso{
+\href{https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf#\%5B\%7B\%22num\%22\%3A42\%2C\%22gen\%22\%3A0\%7D\%2C\%7B\%22name\%22\%3A\%22XYZ\%22\%7D\%2C184\%2C484\%2C0\%5D}{Statistics Sweden's documentation}
+}

@@ -25,6 +25,7 @@
 #'   \item{indexed_by_contvariable}{Is indexed if CONTVARIABLE is set}
 #'   \item{quote_value}{Value should be quoted in px file}
 #'   \item{default_value}{Default value for mandatory keywords}
+#'   \item{documentation}{URL to Statistic Sweden's documentation}
 #'   \item{order}{Recommended order}
 #' }
 #'

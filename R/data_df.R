@@ -31,8 +31,8 @@ px_from_data_df <- function(df) {
   default_language <- NA
 
   mandatory_table_keywords <-
-    get_px_keywords() %>%
-    dplyr::filter(mandatory, in_table_sheet)
+    px_keywords %>%
+    dplyr::filter(mandatory, table_meta)
 
   table1 <-
     mandatory_table_keywords %>%

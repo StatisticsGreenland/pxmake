@@ -6,7 +6,7 @@ test_that("px file is valid", {
   no_timeval_or_codes <- create_px_file("no_timeval_or_codes")
 
   test_that("px lines matches regexp", {
-    keywords <- get_px_keywords() %>% dplyr::pull(keyword)
+    keywords <- px_keywords %>% dplyr::pull(keyword)
 
     valid_lines <-
       c(paste0("^", keywords, "[=\\[\\(]"), # keyword followed by [ ( or =

@@ -26,11 +26,6 @@ get_px_metadata_regex <- function() {
 #' @return A data frame
 #' @keywords internal
 get_metadata_df_from_px_lines <- function(metadata_lines) {
-  keywords_indexed_by_contvariable <-
-    get_px_keywords() %>%
-    dplyr::filter(indexed_by_contvariable) %>%
-    dplyr::pull(keyword)
-
   acrosscells_keywords <- c("CELLNOTE", "CELLNOTEX")
 
   metadata_lines %>%
@@ -48,11 +43,11 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
                                  )
                   ) %>%
     # Variables indexed by CONTVARIABLE are cell values not variable
-    dplyr::mutate(cell = ifelse(keyword %in% keywords_indexed_by_contvariable,
+    dplyr::mutate(cell = ifelse(keyword %in% keywords_indexed_by_contvariable(),
                                 variable,
                                 cell
                                 ),
-                  variable = ifelse(keyword %in% keywords_indexed_by_contvariable,
+                  variable = ifelse(keyword %in% keywords_indexed_by_contvariable(),
                                     NA,
                                     variable
                                     )
@@ -196,7 +191,7 @@ sort_metadata_df <- function(metadata_df) {
     dplyr::select(language = value, language_order)
 
   metadata_df %>%
-    dplyr::left_join(get_px_keywords() %>% dplyr::select('keyword', 'order'),
+    dplyr::left_join(px_keywords %>% dplyr::select('keyword', 'order'),
                      by = "keyword"
     ) %>%
     dplyr::left_join(languages, by = "language") %>%

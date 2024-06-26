@@ -5,8 +5,15 @@ test_that("Documentation returns strings", {
     expect_true(is.character(x))
   }
 
+  expect_identical(keyword_to_function('AXIS-VERSION'), 'px_axis_version')
+  expect_identical(split_multiline_str_into_vector("a\nb"), c('a', 'b'))
+
+  expect_string(add_documentation_table1("MATRIX", "B"))
+  expect_string(add_documentation_table2("A", "B", "C"))
+  expect_string(add_documentation_head_stub("A"))
+  expect_string(add_documentation_variables2("A", "B", "C", "D"))
+  expect_string(doc_keyword_function_intro("ORDER"))
   expect_string(description_start("CONTENTS"))
-  expect_string(table_description("CONTENTS"))
   expect_string(table_param_value_ending("CONTENTS"))
   expect_string(table_param_value_ending("DESCRIPTION"))
   expect_string(table1_param_value("CONTENTS"))

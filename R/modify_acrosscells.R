@@ -20,7 +20,7 @@ px_cellnote <- function(x, value) {
 
 #' @title CELLNOTE
 #'
-#' @description `r table_description("CELLNOTE")`
+#' @description `r description_start("CELLNOTE")`
 #'
 #' @param x A px object
 #' @param value `r acrosscells_param_value("CELLNOTE")`
@@ -40,7 +40,7 @@ px_cellnotex <- function(x, value) {
 
 #' @inherit px_cellnote.px
 #' @title CELLNOTEX
-#' @description `r table_description("CELLNOTEX")`
+#' @description `r description_start("CELLNOTEX")`
 #' @param value `r acrosscells_param_value("CELLNOTEX")`
 #' @export
 px_cellnotex.px <- function(x, value) {

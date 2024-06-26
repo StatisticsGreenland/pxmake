@@ -95,20 +95,6 @@ description_start <- function(keyword) {
   stringr::str_glue("Inspect or change {keyword}.")
 }
 
-table_description <- function(keyword) {
-  str <- description_start(keyword)
-
-  if (keyword %in% mandatory_keywords()) {
-    str <-
-      stringr::str_glue("{str}",
-                        "{keyword} cannot be removed because it is a mandatory keyword.",
-                        .sep = "\n"
-                        )
-  }
-
-  str
-}
-
 table1_example <- function(keyword, example_value) {
   px_function <- keyword_to_function(keyword)
 

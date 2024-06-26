@@ -24,6 +24,7 @@ requiring that argument 'data' is supplied.
 - Add three vigenttes. (#277, #278, #280)
 - Increase test coverage.
 - Move px keywords to internal data set.
+- Add link to Statstics Sweden's documentation in help page for all px keywords.
 
 # pxmake 0.11.0
 

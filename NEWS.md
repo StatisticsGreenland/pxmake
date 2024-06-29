@@ -26,6 +26,7 @@ requiring that argument 'data' is supplied.
 - Increase test coverage.
 - Move px keywords to internal data set.
 - Add link to Statstics Sweden's documentation in help page for all px keywords.
+- Add Statistics Greenland vignette.
 
 # pxmake 0.11.0
 

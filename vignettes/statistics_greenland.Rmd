@@ -22,8 +22,9 @@ knitr::opts_chunk$set(
 Below is a minimal template used by Statistics Greenland for thier px files. Others can use it as inspiration.
 
 ```{r, warning = FALSE, message = FALSE}
-library(tidyverse)
 library(pxmake)
+library(dplyr)
+library(stringr)
 ```
 
 ```{r}

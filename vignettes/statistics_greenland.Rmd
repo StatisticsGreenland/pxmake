@@ -1,0 +1,75 @@
+---
+title: "Statistics Greenland"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Statistics Greenland}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Minimal px template
+
+Below is a minimal template used by Statistics Greenland for thier px files. Others can use it as inspiration.
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(pxmake)
+```
+
+```{r}
+creation_data <- "20240301 09:00"
+next_update   <- "20250301 09:00"
+year <- "2024"
+
+subject <-
+  tribble(~language, ~value,
+          "en", "Population", 
+          "da", "Befolkning", 
+          "kl", "Innuttaasut")
+
+description <- 
+  subject %>% 
+  mutate(value = str_glue("{value} 1999-{year} <em>[BEEP24MORT]</em>"))
+
+x <-
+  population_gl %>%
+  pxmake::px() %>%
+  px_codepage("utf-8") %>%
+  px_language("en") %>%
+  px_languages(c("en", "da", "kl")) %>%
+  px_decimals("15") %>%
+  px_showdecimals("0") %>%
+  px_matrix("POP") %>%
+  px_subject_code("BE") %>%
+  px_subject_area(subject) %>%
+  px_contents(subject) %>%
+  px_stub(c("gender", "age")) %>%
+  px_heading("year") %>%
+  px_timeval("year") %>%
+  px_description(description) %>%
+  px_title(subject) %>%
+  px_units(tribble(~language, ~value,
+                   "en", "Persons", 
+                   "da", "Personer", 
+                   "kl", "Inuit")) %>%
+  px_domain(tribble(~`variable-code`, ~language,    ~domain,
+                              "age" ,      "en",    "VPAge",
+                              "age" ,      "da",  "VPAlder",
+                              "age" ,      "kl",  "VPUkiut")) %>%
+  px_update_frequency("Annually") %>%
+  px_creation_date(creation_data) %>%
+  px_last_updated(creation_data) %>%
+  px_next_update(next_update) %>%
+  px_link("www.stat.gl/bee202401/m1") %>%
+  px_contact("Lars Pedersen")
+```

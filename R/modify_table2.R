@@ -121,6 +121,18 @@ px_map.px <- function(x, value) {
 }
 
 
+#' @rdname px_source.px
+#' @export
+px_source <- function(x, value) {
+  UseMethod("px_source")
+}
+
+#' @eval add_documentation_table2("SOURCE", "Statistics Greenland", "Naatsorsueqqissaartarfik")
+px_source.px <- function(x, value) {
+  handle_table2_keyword(x, value, "SOURCE")
+}
+
+
 #' @rdname px_stockfa.px
 #' @export
 px_stockfa <- function(x, value) {

@@ -58,7 +58,8 @@ test_that('Other keywords are modified and removed', {
     px_map('X marks the spot') %>%
     px_baseperiod("baseperiod") %>%
     px_stockfa("S") %>%
-    px_cfprices("C")
+    px_cfprices("C") %>%
+    px_source("Statistic Greenland")
 
   expect_identical(px_contents(x2), 'content')
   expect_identical(px_description(x2), 'description')
@@ -72,6 +73,7 @@ test_that('Other keywords are modified and removed', {
   expect_identical(px_baseperiod(x2), "baseperiod")
   expect_identical(px_stockfa(x2), "S")
   expect_identical(px_cfprices(x2), "C")
+  expect_identical(px_source(x2), "Statistic Greenland")
 
   x3 <-
     x2 %>%
@@ -82,7 +84,8 @@ test_that('Other keywords are modified and removed', {
     px_map(NULL) %>%
     px_baseperiod(NULL) %>%
     px_stockfa(NULL) %>%
-    px_cfprices(NULL)
+    px_cfprices(NULL) %>%
+    px_source(NULL)
 
   expect_identical(px_description(x3), NULL)
   expect_identical(px_contact(x3), NULL)
@@ -92,6 +95,7 @@ test_that('Other keywords are modified and removed', {
   expect_identical(px_baseperiod(x3), NULL)
   expect_identical(px_stockfa(x3), NULL)
   expect_identical(px_cfprices(x3), NULL)
+  expect_identical(px_source(x3), NULL)
 
   expect_error(px_contents(x3, NULL), regex = 'mandatory')
   expect_error(px_units(x3, NULL),    regex = 'mandatory')

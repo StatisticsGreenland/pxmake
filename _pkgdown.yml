@@ -58,6 +58,7 @@ reference:
    - px_notex
    - px_precision
    - px_showdecimals
+   - px_source
    - px_stockfa
    - px_stub
    - px_subject_area

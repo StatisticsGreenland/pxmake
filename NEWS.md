@@ -6,7 +6,8 @@
 with all other modifying functions. (#296)
 
 ## New features
-- Add modifying functions: `px_values()`, `px_variable_label()`, `px_data()`. 
+- Add modifying functions: `px_values()`, `px_variable_label()`, `px_data()`, 
+`px_source()`. 
 (#291)
 - Add pkgdown version of documentation on: https://statisticsgreenland.github.io/pxmake/
 - Add example data sets `population_gl` and `greenlanders`. (#282)

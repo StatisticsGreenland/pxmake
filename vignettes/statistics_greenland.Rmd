@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 ## Minimal px template
 
-Below is a minimal template used by Statistics Greenland for thier px files. Others can use it as inspiration.
+Below is a minimal template used by Statistics Greenland for our px files. Others can use it as inspiration.
 
 ```{r, warning = FALSE, message = FALSE}
 library(pxmake)

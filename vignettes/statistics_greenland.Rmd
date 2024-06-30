@@ -27,7 +27,7 @@ library(dplyr)
 library(stringr)
 ```
 
-```{r}
+```{r,}
 creation_date <- "20240301 09:00"
 last_updated <- "20240711 09:00"
 next_update   <- "20250301 09:00"
@@ -87,7 +87,7 @@ https://bank.stat.gl/api/v1/kl/Greenland
 into one dataframe in r and add column with language, in tidyverse, fetch as function
 
 
-```{r}
+```{r, eval = FALSE}
 by ChatGPT
 
 # Load the necessary packages

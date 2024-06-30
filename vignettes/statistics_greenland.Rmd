@@ -77,13 +77,17 @@ x <-
 
 ```
 
-## Subjects by ChatGPT
+## Subjects
 
-Question
-Please combine data from 
-https://bank.stat.gl/api/v1/en/Greenland, 
-https://bank.stat.gl/api/v1/da/Greenland and 
-https://bank.stat.gl/api/v1/kl/Greenland 
+
+
+### Subjects by ChatGPT
+
+Question  
+Please combine data from  
+https://bank.stat.gl/api/v1/en/Greenland,  
+https://bank.stat.gl/api/v1/da/Greenland and  
+https://bank.stat.gl/api/v1/kl/Greenland  
 into one dataframe in r and add column with language, in tidyverse, fetch as function
 
 

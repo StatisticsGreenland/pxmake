@@ -86,7 +86,8 @@ files. Others can use it as inspiration.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">creation_data</span> <span class="op">&lt;-</span> <span class="st">"20240301 09:00"</span></span>
+<code class="sourceCode R"><span><span class="va">creation_date</span> <span class="op">&lt;-</span> <span class="st">"20240301 09:00"</span></span>
+<span><span class="va">last_updated</span> <span class="op">&lt;-</span> <span class="st">"20240711 09:00"</span></span>
 <span><span class="va">next_update</span>   <span class="op">&lt;-</span> <span class="st">"20250301 09:00"</span></span>
 <span><span class="va">year</span> <span class="op">&lt;-</span> <span class="st">"2024"</span></span>
 <span></span>
@@ -126,13 +127,56 @@ files. Others can use it as inspiration.</p>
 <span>                              <span class="st">"age"</span> ,      <span class="st">"da"</span>,  <span class="st">"VPAlder"</span>,</span>
 <span>                              <span class="st">"age"</span> ,      <span class="st">"kl"</span>,  <span class="st">"VPUkiut"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/px_update_frequency.px.html">px_update_frequency</a></span><span class="op">(</span><span class="st">"Annually"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/px_creation_date.px.html">px_creation_date</a></span><span class="op">(</span><span class="va">creation_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/px_last_updated.px.html">px_last_updated</a></span><span class="op">(</span><span class="va">creation_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/px_creation_date.px.html">px_creation_date</a></span><span class="op">(</span><span class="va">creation_date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/px_last_updated.px.html">px_last_updated</a></span><span class="op">(</span><span class="va">last_updated</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/px_next_update.px.html">px_next_update</a></span><span class="op">(</span><span class="va">next_update</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/px_link.px.html">px_link</a></span><span class="op">(</span><span class="st">"www.stat.gl/bee202401/m1"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/px_contact.px.html">px_contact</a></span><span class="op">(</span><span class="st">"Lars Pedersen"</span><span class="op">)</span></span></code></pre></div>
 </div>
-  </main>
+<div class="section level2">
+<h2 id="subjects-by-chatgpt">Subjects by ChatGPT<a class="anchor" aria-label="anchor" href="#subjects-by-chatgpt"></a>
+</h2>
+<p>Question Please combine data from <a href="https://bank.stat.gl/api/v1/en/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/en/Greenland</a>, <a href="https://bank.stat.gl/api/v1/da/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/da/Greenland</a> and <a href="https://bank.stat.gl/api/v1/kl/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/kl/Greenland</a> into one
+dataframe in r and add column with language, in tidyverse, fetch as
+function</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>by ChatGPT</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Load the necessary packages</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># Function to fetch data from API and add language column</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>fetch_data <span class="ot">&lt;-</span> <span class="cf">function</span>(url, language) {</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  response <span class="ot">&lt;-</span> <span class="fu">GET</span>(url)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">content</span>(response, <span class="at">as =</span> <span class="st">"text"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  json_data <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(data, <span class="at">flatten =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>()</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  json_data <span class="ot">&lt;-</span> json_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">language =</span> language)</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  <span class="fu">return</span>(json_data)</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>}</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co"># URLs for the APIs</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>url_en <span class="ot">&lt;-</span> <span class="st">"https://bank.stat.gl/api/v1/en/Greenland"</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>url_da <span class="ot">&lt;-</span> <span class="st">"https://bank.stat.gl/api/v1/da/Greenland"</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>url_kl <span class="ot">&lt;-</span> <span class="st">"https://bank.stat.gl/api/v1/kl/Greenland"</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co"># Fetch data from each API</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>df_en <span class="ot">&lt;-</span> <span class="fu">fetch_data</span>(url_en, <span class="st">'English'</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>df_da <span class="ot">&lt;-</span> <span class="fu">fetch_data</span>(url_da, <span class="st">'Danish'</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>df_kl <span class="ot">&lt;-</span> <span class="fu">fetch_data</span>(url_kl, <span class="st">'Greenlandic'</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co"># Combine the dataframes</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>combined_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_en, df_da, df_kl)</span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co"># Clean and inspect the combined dataframe</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co"># View the first few rows of the combined dataframe</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="fu">head</span>(combined_df)</span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co"># Check the structure of the combined dataframe</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="fu">glimpse</span>(combined_df)</span></code></pre></div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

@@ -28,7 +28,8 @@ library(stringr)
 ```
 
 ```{r}
-creation_data <- "20240301 09:00"
+creation_date <- "20240301 09:00"
+last_updated <- "20240711 09:00"
 next_update   <- "20250301 09:00"
 year <- "2024"
 
@@ -68,9 +69,60 @@ x <-
                               "age" ,      "da",  "VPAlder",
                               "age" ,      "kl",  "VPUkiut")) %>%
   px_update_frequency("Annually") %>%
-  px_creation_date(creation_data) %>%
-  px_last_updated(creation_data) %>%
+  px_creation_date(creation_date) %>%
+  px_last_updated(last_updated) %>%
   px_next_update(next_update) %>%
   px_link("www.stat.gl/bee202401/m1") %>%
   px_contact("Lars Pedersen")
+
 ```
+
+## Subjects by ChatGPT
+
+Question
+Please combine data from 
+https://bank.stat.gl/api/v1/en/Greenland, 
+https://bank.stat.gl/api/v1/da/Greenland and 
+https://bank.stat.gl/api/v1/kl/Greenland 
+into one dataframe in r and add column with language, in tidyverse, fetch as function
+
+
+```{r}
+by ChatGPT
+
+# Load the necessary packages
+library(httr)
+library(jsonlite)
+library(tidyverse)
+
+# Function to fetch data from API and add language column
+fetch_data <- function(url, language) {
+  response <- GET(url)
+  data <- content(response, as = "text")
+  json_data <- fromJSON(data, flatten = TRUE) %>% as_tibble()
+  json_data <- json_data %>% mutate(language = language)
+  return(json_data)
+}
+
+# URLs for the APIs
+url_en <- "https://bank.stat.gl/api/v1/en/Greenland"
+url_da <- "https://bank.stat.gl/api/v1/da/Greenland"
+url_kl <- "https://bank.stat.gl/api/v1/kl/Greenland"
+
+# Fetch data from each API
+df_en <- fetch_data(url_en, 'English')
+df_da <- fetch_data(url_da, 'Danish')
+df_kl <- fetch_data(url_kl, 'Greenlandic')
+
+# Combine the dataframes
+combined_df <- bind_rows(df_en, df_da, df_kl)
+
+# Clean and inspect the combined dataframe
+# View the first few rows of the combined dataframe
+head(combined_df)
+
+# Check the structure of the combined dataframe
+glimpse(combined_df)
+
+```
+

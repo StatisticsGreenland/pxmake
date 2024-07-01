@@ -73,7 +73,11 @@ x <-
   px_last_updated(last_updated) %>%
   px_next_update(next_update) %>%
   px_link("www.stat.gl/bee202401/m1") %>%
-  px_contact("Lars Pedersen")
+  px_contact("Lars Pedersen") %>%
+  px_source(tribble(~language, ~value,
+            "en",  "Statistics Greenland",
+            "da",  "Grønlands Statistik",
+            "kl",  "Kalaallit Nunaanni Naatsorsueqqissaartarfik"))
 
 ```
 

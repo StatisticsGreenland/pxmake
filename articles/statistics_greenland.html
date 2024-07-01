@@ -79,8 +79,8 @@
 <div class="section level2">
 <h2 id="minimal-px-template">Minimal px template<a class="anchor" aria-label="anchor" href="#minimal-px-template"></a>
 </h2>
-<p>Below is a minimal template used by Statistics Greenland for our px
-files. Others can use it as inspiration.</p>
+<p>Below is a minimal template for tables meant to be presented in
+Statbank Greenland.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://statisticsgreenland.github.io/pxmake/">pxmake</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -131,7 +131,7 @@ files. Others can use it as inspiration.</p>
 <span>  <span class="fu"><a href="../reference/px_last_updated.px.html">px_last_updated</a></span><span class="op">(</span><span class="va">last_updated</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/px_next_update.px.html">px_next_update</a></span><span class="op">(</span><span class="va">next_update</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/px_link.px.html">px_link</a></span><span class="op">(</span><span class="st">"www.stat.gl/bee202401/m1"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/px_contact.px.html">px_contact</a></span><span class="op">(</span><span class="st">"Lars Pedersen"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/px_contact.px.html">px_contact</a></span><span class="op">(</span><span class="st">"Lars Pedersen, LARP at STAT.gl"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/px_source.px.html">px_source</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">value</span>,</span>
 <span>            <span class="st">"en"</span>,  <span class="st">"Statistics Greenland"</span>,</span>
 <span>            <span class="st">"da"</span>,  <span class="st">"Grønlands Statistik"</span>,</span>
@@ -140,13 +140,19 @@ files. Others can use it as inspiration.</p>
 <div class="section level2">
 <h2 id="subjects">Subjects<a class="anchor" aria-label="anchor" href="#subjects"></a>
 </h2>
+<p>px files are presented to endusers in Statbank Greenland and
+organized into subjects/topics. The api (pxweb) exposes this information
+for each supported language in <a href="https://bank.stat.gl/api/v1/%7Blanguage%7D/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/{language}/Greenland</a>.</p>
 <div class="section level3">
 <h3 id="subjects-by-chatgpt">Subjects by ChatGPT<a class="anchor" aria-label="anchor" href="#subjects-by-chatgpt"></a>
 </h3>
-<p>Question<br>
-Please combine data from<br><a href="https://bank.stat.gl/api/v1/en/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/en/Greenland</a>,<br><a href="https://bank.stat.gl/api/v1/da/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/da/Greenland</a> and<br><a href="https://bank.stat.gl/api/v1/kl/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/kl/Greenland</a><br>
+<p>ChatGPT can be used to generate R code. In this example, api
+endpoints adresses to subject (codes and texts) are provided and ChatGPT
+i asked to:</p>
+<p>Please combine data from<br><a href="https://bank.stat.gl/api/v1/en/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/en/Greenland</a>,<br><a href="https://bank.stat.gl/api/v1/da/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/da/Greenland</a> and<br><a href="https://bank.stat.gl/api/v1/kl/Greenland" class="external-link uri">https://bank.stat.gl/api/v1/kl/Greenland</a><br>
 into one dataframe in r and add column with language, in tidyverse,
 fetch as function</p>
+<p>This is returned:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>by ChatGPT</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Load the necessary packages</span></span>

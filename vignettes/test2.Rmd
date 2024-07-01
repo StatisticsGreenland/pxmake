@@ -1,0 +1,20 @@
+---
+title: "Test2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Test2}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Test3 px template

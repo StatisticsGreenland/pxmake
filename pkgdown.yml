@@ -6,9 +6,8 @@ articles:
   languages: languages.html
   micro-files: micro-files.html
   statistics_greenland: statistics_greenland.html
-  test: test.html
   test2: test2.html
-last_built: 2024-07-01T07:27Z
+last_built: 2024-07-01T07:30Z
 urls:
   reference: https://statisticsgreenland.github.io/pxmake/reference
   article: https://statisticsgreenland.github.io/pxmake/articles

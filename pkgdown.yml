@@ -7,7 +7,8 @@ articles:
   micro-files: micro-files.html
   statistics_greenland: statistics_greenland.html
   test: test.html
-last_built: 2024-07-01T07:14Z
+  test2: test2.html
+last_built: 2024-07-01T07:17Z
 urls:
   reference: https://statisticsgreenland.github.io/pxmake/reference
   article: https://statisticsgreenland.github.io/pxmake/articles

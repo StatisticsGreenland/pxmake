@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 ## Minimal px template
 
-Below is a minimal template used by Statistics Greenland for our px files. Others can use it as inspiration.
+Below is a minimal template for tables meant to be presented in Statbank Greenland. 
 
 ```{r, warning = FALSE, message = FALSE}
 library(pxmake)
@@ -73,7 +73,7 @@ x <-
   px_last_updated(last_updated) %>%
   px_next_update(next_update) %>%
   px_link("www.stat.gl/bee202401/m1") %>%
-  px_contact("Lars Pedersen") %>%
+  px_contact("Lars Pedersen, LARP at STAT.gl") %>%
   px_source(tribble(~language, ~value,
             "en",  "Statistics Greenland",
             "da",  "Grønlands Statistik",
@@ -83,17 +83,20 @@ x <-
 
 ## Subjects
 
-
+px files are presented to endusers in Statbank Greenland and organized into subjects/topics. The api (pxweb) exposes this information for each supported language in  https://bank.stat.gl/api/v1/{language}/Greenland.
+  
 
 ### Subjects by ChatGPT
 
-Question  
+ChatGPT can be used to generate R code. In this example, api endpoints adresses to subject (codes and texts) are provided and ChatGPT i asked to:  
+
 Please combine data from  
 https://bank.stat.gl/api/v1/en/Greenland,  
 https://bank.stat.gl/api/v1/da/Greenland and  
 https://bank.stat.gl/api/v1/kl/Greenland  
 into one dataframe in r and add column with language, in tidyverse, fetch as function
 
+This is returned:  
 
 ```{r, eval = FALSE}
 by ChatGPT

@@ -27,7 +27,7 @@ pxmake is an R package for creating and modifying px files.
 With pxmake you can:
 
 -   Import a PC-AXIS px file, modify it, and save it as a new px file.
--   Save a px file as an Excel workbook.
+-   Save a px file as an Excel workbook, and import the workbook to a px-object.
 -   Do complex modifications to a px file, like adding total levels to a variable.
 
 ## Installation

@@ -83,7 +83,7 @@ x <-
 
 ## Subjects
 
-px files are presented to endusers in Statbank Greenland and organized into subjects/topics. The api (pxweb) exposes this information for each supported language in  https://bank.stat.gl/api/v1/{language}/Greenland.
+px files are published in Statbank Greenland and organized into subjects/topics. The api (pxweb) exposes this information for each supported language in  https://bank.stat.gl/api/v1/{language}/Greenland.
   
 
 ### Subjects by ChatGPT

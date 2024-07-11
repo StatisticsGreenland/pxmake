@@ -4,6 +4,10 @@ keyword_to_function <- function(keyword) {
   paste0("px_", gsub("-", "_", tolower(keyword)))
 }
 
+function_to_keyword <- function(fnc_name) {
+  toupper(substr(gsub("_", "-", fnc_name), 4, nchar(fnc_name)))
+}
+
 split_multiline_str_into_vector <- function(str) {
   str %>%
     stringr::str_split(pattern = "\n") %>%

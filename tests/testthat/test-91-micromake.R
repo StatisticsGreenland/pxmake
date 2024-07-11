@@ -104,8 +104,8 @@ test_that("px_micro can control data for individual tables", {
     px_stub(names(df)) %>%
     px_heading("study") %>%
     px_micro(out_dir = out_dir,
-              keyword_values = table_level
-              )
+             keyword_values = table_level
+             )
 
   px_paths <- list.files(out_dir, full.names = TRUE)
 
@@ -120,6 +120,57 @@ test_that("px_micro can control data for individual tables", {
     expect_equal(px_description(x_micro), micro_table_level$px_description)
     expect_equal(px_matrix(x_micro), micro_table_level$px_matrix)
   }
+})
+
+test_that("keyword_values are multilingual", {
+  x <-
+    greenlanders %>%
+    px() %>%
+    px_language('en') %>%
+    px_languages(c('en', 'kl')) %>%
+    px_stub(names(greenlanders)) %>%
+    px_heading("cohort")
+
+  keyword_values <-
+    dplyr::tribble(~variable, ~language, ~px_description, ~px_matrix,
+                      "age",       "en",           "Age",       "gl",
+                      "age",       "kl",         "Ukiut",         NA,
+                   "gender",       "en",        "Gender",       "ge",
+                   "gender",       "kl",   "Suiaassuseq",       "ge"
+                   )
+
+  out_dir <- temp_dir()
+
+  px_micro(x, out_dir = out_dir, keyword_values = keyword_values)
+
+  px_age <- px(file.path(out_dir, 'age.px'))
+  keyword_values_age <- dplyr::filter(keyword_values, variable == "age")
+
+  expect_identical(px_description(px_age),
+                   keyword_values_age %>%
+                     dplyr::select(language, value = px_description)
+                   )
+
+  expect_identical(px_matrix(px_age),
+                   keyword_values_age %>%
+                     tidyr::drop_na(px_matrix) %>%
+                     dplyr::pull(px_matrix)
+                   )
+
+  px_gender <- px(file.path(out_dir, 'gender.px'))
+  keyword_values_gender <- dplyr::filter(keyword_values, variable == "gender")
+
+  expect_identical(px_description(px_gender),
+                   keyword_values_gender %>%
+                     dplyr::select(language, value = px_description)
+                   )
+
+  expect_identical(px_matrix(px_gender),
+                   keyword_values_gender %>%
+                     tidyr::drop_na(px_matrix) %>%
+                     dplyr::distinct(px_matrix) %>%
+                     dplyr::pull(px_matrix)
+                   )
 })
 
 test_that("px_micro can control filenames", {

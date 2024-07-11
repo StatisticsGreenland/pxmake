@@ -110,18 +110,18 @@ px(file.path(micro_dir, 'municipality.px'))$data
 
 ## Keyword values
 
-In general the keyword values in the mother px object are carried over to the micro files. This is the case for keywords like 'MATRIX', 'SUBJECT-CODE', 'CONTACT', 'LANGUAGE', 'CODEPAGE', etc.
+In general the keyword values from the px object are carried over to the micro files. This is the case for keywords like 'MATRIX', 'SUBJECT-CODE', 'CONTACT', 'LANGUAGE', 'CODEPAGE', etc.
 
-To change keywords across all the micro files it is easiest to simply change them in the mother px object before calling `px_micro()`.
+To change keywords across all the micro files, the easiest is to change them in the px object before calling `px_micro()`.
 
 ```{r, eval = FALSE}
-# Change contact in all micro files
+# Change CONTACT in all micro files
 x2 |>
   px_contact("Johan Ejstrud") |>
   px_micro(out_dir = micro_dir)
 ```
 
-However, some keywords might need to be customized for each micro file. To do so, create a data frame with the column 'variable' and then a column for each keyword that should be customized.
+However, some keywords need to be changed individually for each micro file. To do so, create a data frame with the column 'variable' and a column for each px keyword to change.
 
 ```{r}
 individual_keywords <- tibble::tribble(~variable     ,      ~px_description,
@@ -131,17 +131,47 @@ individual_keywords <- tibble::tribble(~variable     ,      ~px_description,
                                        )
 ```
 
+Supply this dataframe to the `keyword_values` argument of `px_micro()`.
+
 ```{r}
 px_micro(x2, out_dir = micro_dir, keyword_values = individual_keywords)
 ```
 
+DESCRIPTION is changed in the micro files: 
+
 ```{r}
 px(file.path(micro_dir, 'age.px')) %>% px_description()
- 
 px(file.path(micro_dir, 'gender.px')) %>% px_description()
-
 px(file.path(micro_dir, 'municipality.px')) %>% px_description()
 ```
+
+
+### Multilingual files
+
+For multilingual files add a 'language' column to `keyword_values`.
+
+```{r}
+x3 <-
+  x2 |>
+  px_language("en") |>
+  px_languages(c("en", "kl"))
+
+
+individual_keywords_ml <- 
+  tibble::tribble(
+       ~variable, ~language,     ~px_description, ~px_matrix,
+           "age",      "en",   "Age count 18-99",      "AGE",
+           "age",      "kl",       "Ukiut 18-99",         NA,
+        "gender",      "en",      "Gender count",      "GEN",
+        "gender",      "kl",      " Suiaassuseq",         NA,
+  "municipality",      "en", "Municipality 2024",      "MUN",
+  "municipality",      "kl",      "Kommuni 2024",         NA
+  )
+
+px_micro(x3, out_dir = micro_dir, keyword_values = individual_keywords_ml)
+```
+
+Here 'px_description' varies for each language, and 'px_matrix' is only set for one of the languages, since it is not a language dependent keywords. For language independant keywords it doesn't matter which language the value is set for.
 
 ### Filenames
 

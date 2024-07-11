@@ -19,7 +19,7 @@ that match the 'variable' column. It probably work for other keywords as well.
 Use the column 'filename' to control the filename of each micro file. The
 filename path is relative to 'out_dir'.
 
-Currently doesn't support multiple languages.}
+Use the column 'language' if the px file has multiple languages.}
 }
 \value{
 Nothing
@@ -35,4 +35,7 @@ specified by \code{out_dir}.
 
 The main loop uses the furrr package for parallelisation. Use future::plan()
 to choose how to parallelise.
+}
+\seealso{
+\link{vignette("Micro files")}
 }

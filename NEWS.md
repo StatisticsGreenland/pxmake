@@ -11,6 +11,7 @@ with all other modifying functions. (#296)
 (#291)
 - Add pkgdown version of documentation on: https://statisticsgreenland.github.io/pxmake/
 - Add example data sets `population_gl` and `greenlanders`. (#282)
+- `px_micro()` support multilingual `keyword_values` arguments. (#306) 
 
 ## Bug fixes and minor improvements
 - Update `px_micro()` documentation.

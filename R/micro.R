@@ -82,10 +82,25 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
       keyword_values_long %>%
       dplyr::filter(variable %in% micro_var)
 
-    for (i in 1:nrow(extra_keywords)) {
-      modifying_function <- get(extra_keywords$keyword_function[i])
+    keyword_functions <- unique(extra_keywords$keyword_function)
 
-      x_micro <- modifying_function(x = x_micro, value = extra_keywords$value[i])
+    for (fnc in keyword_functions) {
+      language_dependent_keyword <-
+        function_to_keyword(fnc) %in% language_dependant_keywords()
+
+      value <-
+        extra_keywords %>%
+        dplyr::filter(keyword_function == fnc) %>%
+        { if (language_dependent_keyword & "language" %in% names(.)) {
+          dplyr::distinct(., language, value)
+        } else {
+          dplyr::distinct(., value) %>%
+            dplyr::pull(value)
+        }}
+
+      modifying_function <- get(fnc)
+
+      x_micro <- modifying_function(x = x_micro, value = value)
     }
   }
 
@@ -120,7 +135,9 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 #' Use the column 'filename' to control the filename of each micro file. The
 #' filename path is relative to 'out_dir'.
 #'
-#' Currently doesn't support multiple languages.
+#' Use the column 'language' if the px file has multiple languages.
+#'
+#' @seealso [vignette("Micro files")]
 #'
 #' @return Nothing
 #' @export
@@ -147,6 +164,7 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
       tidyr::pivot_longer(cols = setdiff(names(.), c("variable", "language")),
                           names_to = "keyword_function"
                           ) %>%
+      tidyr::drop_na(value) %>%
       dplyr::filter(keyword_function != "filename")
   } else {
     keyword_values_long <- NULL

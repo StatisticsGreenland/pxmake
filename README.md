@@ -82,7 +82,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 47 keywords have a modifying function in pxmake:
+Currently the following 48 keywords have a modifying function in pxmake:
 
     #>  Keyword            Function name        
     #>  AGGREGALLOWED      px_aggregallowed     
@@ -119,6 +119,7 @@ Currently the following 47 keywords have a modifying function in pxmake:
     #>  NOTEX              px_notex             
     #>  PRECISION          px_precision         
     #>  SHOWDECIMALS       px_showdecimals      
+    #>  SOURCE             px_source            
     #>  STOCKFA            px_stockfa           
     #>  STUB               px_stub              
     #>  SUBJECT-AREA       px_subject_area      
@@ -149,7 +150,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 37 keywords currently doesn’t have a modifying function, but can
+These 36 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>  Keyword             Function name          Priority Complexity
@@ -187,7 +188,6 @@ be implemented.
     #>  REFPERIOD           px_refperiod                              
     #>  ROUNDING            px_rounding                               
     #>  SEASADJ             px_seasadj                                
-    #>  SOURCE              px_source              **       Medium    
     #>  SURVEY              px_survey                                 
     #>  SYNONYMS            px_synonyms
 

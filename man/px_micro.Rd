@@ -36,6 +36,3 @@ specified by \code{out_dir}.
 The main loop uses the furrr package for parallelisation. Use future::plan()
 to choose how to parallelise.
 }
-\seealso{
-\link{vignette("Micro files")}
-}

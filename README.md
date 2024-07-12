@@ -233,9 +233,6 @@ to be able ro run these tests. This only works on Windows.
 6.  Run `git push`.
 7.  Run `git push --tags`.
 8.  Run `devtools::use_github_release()`.
-9.  Review relase description. If sattified, click the ‘edit’ pen in the
-    upper right corner.
-10. Click ‘Publish release’.
-11. Run `usethis::use_version('dev')`. Answer ‘Yes’ to the prompt ‘Is it
+9.  Run `usethis::use_version('dev')`. Answer ‘Yes’ to the prompt ‘Is it
     ok to commit them?’.
-12. Run `git push`.
+10. Run `git push`.

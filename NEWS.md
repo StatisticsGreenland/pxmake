@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.12.0
 
 ## Breaking changes
 - Change argument 'variable' and 'variables' to 'value' in `px_stub()`,
@@ -12,17 +12,16 @@ with all other modifying functions. (#296)
 - Add pkgdown version of documentation on: https://statisticsgreenland.github.io/pxmake/
 - Add example data sets `population_gl` and `greenlanders`. (#282)
 - `px_micro()` support multilingual `keyword_values` arguments. (#306) 
+- Add example section to most help pages.
 
 ## Bug fixes and minor improvements
 - Update `px_micro()` documentation.
 - Bugfix: `px_add_totals()` now uses default value 'Total' if 
 `x$variables2$elimination` is `NA`. (#284)
 - Add `na.rm` argument to `px_add_totalts()`.
-- Improve pkdown site.
 - `px()` can now take an Excel workbook without a 'Data' sheet, without 
 requiring that argument 'data' is supplied.
 - Remove unused functions.
-- Add examples in documentation for `px()` and `px_add_totals()`.
 - Add three vigenttes. (#277, #278, #280)
 - Increase test coverage.
 - Move px keywords to internal data set.

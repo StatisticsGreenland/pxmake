@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0.9018</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,30 +39,29 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="pxmake-development-version">pxmake (development version)<a class="anchor" aria-label="anchor" href="#pxmake-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.12.0" id="pxmake-0120">pxmake 0.12.0<a class="anchor" aria-label="anchor" href="#pxmake-0120"></a></h2>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<h3 id="breaking-changes-0-12-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-12-0"></a></h3>
 <ul><li>Change argument ‘variable’ and ‘variables’ to ‘value’ in <code><a href="../reference/px_stub.px.html">px_stub()</a></code>, <code><a href="../reference/px_heading.px.html">px_heading()</a></code>, <code><a href="../reference/px_figures.px.html">px_figures()</a></code>, <code><a href="../reference/px_timeval.px.html">px_timeval()</a></code>, <code><a href="../reference/px_add_totals.px.html">px_add_totals()</a></code>, to align with all other modifying functions. (#296)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-0-12-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-12-0"></a></h3>
 <ul><li>Add modifying functions: <code><a href="../reference/px_values.px.html">px_values()</a></code>, <code><a href="../reference/px_variable_label.px.html">px_variable_label()</a></code>, <code><a href="../reference/px_data.px.html">px_data()</a></code>, <code><a href="../reference/px_source.px.html">px_source()</a></code>. (#291)</li>
 <li>Add pkgdown version of documentation on: <a href="https://statisticsgreenland.github.io/pxmake/" class="uri">https://statisticsgreenland.github.io/pxmake/</a>
 </li>
 <li>Add example data sets <code>population_gl</code> and <code>greenlanders</code>. (#282)</li>
 <li>
 <code><a href="../reference/px_micro.html">px_micro()</a></code> support multilingual <code>keyword_values</code> arguments. (#306)</li>
+<li>Add example section to most help pages.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-and-minor-improvements-development-version">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-development-version"></a></h3>
+<h3 id="bug-fixes-and-minor-improvements-0-12-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-12-0"></a></h3>
 <ul><li>Update <code><a href="../reference/px_micro.html">px_micro()</a></code> documentation.</li>
 <li>Bugfix: <code><a href="../reference/px_add_totals.px.html">px_add_totals()</a></code> now uses default value ‘Total’ if <code>x$variables2$elimination</code> is <code>NA</code>. (#284)</li>
 <li>Add <code>na.rm</code> argument to <code>px_add_totalts()</code>.</li>
-<li>Improve pkdown site.</li>
 <li>
 <code><a href="../reference/px.html">px()</a></code> can now take an Excel workbook without a ‘Data’ sheet, without requiring that argument ‘data’ is supplied.</li>
 <li>Remove unused functions.</li>
-<li>Add examples in documentation for <code><a href="../reference/px.html">px()</a></code> and <code><a href="../reference/px_add_totals.px.html">px_add_totals()</a></code>.</li>
 <li>Add three vigenttes. (#277, #278, #280)</li>
 <li>Increase test coverage.</li>
 <li>Move px keywords to internal data set.</li>

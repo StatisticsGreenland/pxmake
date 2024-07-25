@@ -1,0 +1,513 @@
+---
+title: "Metadata for Research"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Metadata for Research}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, warning=FALSE, message=FALSE, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Setup & helpers. Click to see/hide code"
+
+# cran
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(arrow)
+library(cprr)
+
+# github
+# install.packages("devtools")
+# devtools::install_github("StatisticsGreenland/pxmake")
+library(pxmake)
+# devtools::install_github("StatisticsGreenland/statgl")
+library(statgl)
+
+# local path
+pgmPath <- file.path("S:","STATFACT","GSpakker","pxmake","vignette","mikro")
+
+# parameter
+reference_date <- as.Date("2024-01-01")
+
+
+
+# helpers
+#################
+# By chatGPT:
+# can you convert code on this page to r? 
+# "https://blog.ploeh.dk/2018/12/10/danish-cpr-numbers-in-f/"
+#
+# With a few extra iterations chatGPT offered
+#
+
+# Define the CprNumber class
+CprNumber <- function(day, month, year, sequenceNumber) {
+  list(day = day, month = month, year = year, sequenceNumber = sequenceNumber)
+}
+
+# Convert CprNumber to string
+cprToString <- function(cpr) {
+  sprintf("%02d%02d%02d-%04d", cpr$day, cpr$month, cpr$year, cpr$sequenceNumber)
+}
+
+# Calculate the four-digit year
+calculateFourDigitYear <- function(year, sequenceNumber) {
+  centuryDigit <- sequenceNumber %/% 1000
+  century <- switch(centuryDigit + 1,
+    "1900", "1900", "1900", "1900", # For centuryDigit 0 to 3
+    if (year <= 36) "2000" else "1900", # For centuryDigit 4
+    if (year <= 57) "2000" else "1800", # For centuryDigit 5 to 8
+    "2000", "2000", "2000", "2000", # For centuryDigit 9 (and above if needed)
+    if (year <= 36) "2000" else "1900" # Default case
+  )
+  as.integer(century) + year
+}
+
+# Try to create a CprNumber
+tryCreate <- function(day, month, year, sequenceNumber) {
+  if (month >= 1 && month <= 12 &&
+      year >= 0 && year <= 99 &&
+      sequenceNumber >= 0 && sequenceNumber <= 9999) {
+    fourDigitYear <- calculateFourDigitYear(year, sequenceNumber)
+    if (day >= 1 && day <= days_in_month(ymd(sprintf("%04d-%02d-01", fourDigitYear, month)))) {
+      return(CprNumber(day, month, year, sequenceNumber))
+    }
+  }
+  return(NULL)
+}
+
+# Generate CPR number
+generateCPR <- function(birthdate, sequence, sex) {
+  day <- day(birthdate)
+  month <- month(birthdate)
+  year <- year(birthdate) %% 100
+  sexDigit <- ifelse(sex == 0, 0, 1)
+  sequenceNumber <- sequence * 10 + sexDigit
+  
+  cpr <- tryCreate(day, month, year, sequenceNumber)
+  if (!is.null(cpr)) {
+    return(cprToString(cpr))
+  } else {
+    return("Invalid CPR parameters")
+  }
+}
+
+# # Example usage
+# birthdate <- as.Date("2003-01-02")
+# sequence <- 123
+# sex <- 1
+# generateCPR(birthdate, sequence, sex)
+
+#################
+
+# helper function
+copy2clipboard <- function(x,row.names=FALSE,col.names=FALSE,...) {
+  write.table(x,"clipboard",dec = ",", sep="\t", row.names=row.names, col.names=col.names,...)
+}
+# %>% filter(grp=="4" & sex=="F" & age=="33" & area=="956")
+# %>% copy2clipboard
+# %>% view()
+
+#########################################
+#
+# first time creation of a px-file takes a lot of time to get translated metadata
+#
+# BUT a lot is already translated to Greenlandic and English
+#
+# these helpers gets some metadata from any Statbank table
+#
+#########################################
+
+
+get_codelist <- function(table_id, langs = c("en", "kl", "da")) {
+  enframe(langs, name = NULL, value = "langs") %>% 
+    mutate(try = map2_chr(table_id, langs, statgl_url) %>% 
+             purrr::map(statgl_meta) %>% 
+             purrr::map(pluck,"variables")
+           ) %>% 
+    unnest(try) %>% 
+    unnest(c(values, valueTexts)) %>% 
+    select(variable = code,
+           `variable-code` = text,
+           code = values,
+           language = langs,
+           value = valueTexts) %>%
+    group_by(variable,language) %>%
+    mutate(order = row_number())
+}
+
+# try to get code labels for a variable
+codelist_age <- get_codelist("BEXSTA") %>%
+  filter(variable=="age") %>% 
+  as.data.frame() %>%
+  select(`variable-code`=variable,code,language,value,order)
+
+get_variable_labels <- function(table_id, langs = c("en", "kl", "da")) {
+  enframe(langs, name = NULL, value = "langs") %>% 
+    mutate(try = map2_chr(table_id, langs, statgl_url) %>% 
+             purrr::map(statgl_meta) %>% 
+             purrr::map(pluck,"variables")
+           ) %>% 
+    unnest(try) %>% 
+    unnest(c(values, valueTexts)) %>% 
+    select(`variable-label` = text,
+           `variable-code` = code,
+           language = langs) %>% 
+    unique()
+}
+
+# try to get the variable labels for the table
+var_label_time <- get_variable_labels("BEXSTA") %>%
+  filter(`variable-code`=="time")
+
+
+```
+
+## Background
+
+At birth or upon immigration, everyone moving to Greenland is registered in the Danish CPR system, which was adopted in Greenland by law in 1972. Each individual is assigned a personal identification number (PIN), a 10-digit code that includes the person's date of birth, a sequence number, and their sex.
+
+To ensure efficient and cost-effective administration, the PIN is an identifier, used as reference key for administrative purposes all across public sector. Statistics on our society benefit from this, as data from administrative registers, serves as the primary source for all official statistics on persons.
+
+With the PIN and access to the registers, one can combine information nationwide, at microlevel - for each individual. Statistics Greenland is granted access to all public registers by the Statistical Act, which also limits dissemination of personal information, except for regulated research purposes.
+
+The population register is pivotal, as it keeps track on where citizens live (addresses), legal family ties and other information, critical for electoral and taxation purposes.
+
+Any contact with public administration requires a PIN, and it is not possible to live in Greenland without.
+
+To explain how pxmake supports internal production of statistics a synthetic population is created with look-a-like PINs, some of them valid, but that is a coincidence.
+
+## A population table from Statbank Greenland <br>as a tidy dataset
+
+```{r, echo=TRUE, message=FALSE, eval=FALSE}
+
+# get latest January 1st. Population count from
+# Statbank Greenland as a tidy dataset &
+# add fictive birthdates, sequences to generate PIN
+
+
+syntpop <- statgl_fetch("BEXSTA", time=px_top(1), 
+                        .col_code=T, .val_code=T, .eliminate_rest = F) %>% 
+  clean_names() %>% 
+  filter(place_of_birth!="T" & 
+           gender!="T" & 
+           residence_type!="T" & 
+           value!=0) %>% 
+  uncount(value) %>% 
+  mutate(age=strtoi(age)) %>% 
+  group_by(age) %>%
+  mutate(tally = rep(1:365, length.out = n())) %>%
+  ungroup() %>% 
+  mutate(yob=strtoi(time)-age-1,
+  dob = ymd(paste0(yob, "-01-01")) + days(tally - 1)) %>% 
+  group_by(dob) %>%
+  mutate(pr_day = rep(1:365, length.out = n())) %>%
+  ungroup() %>% 
+  select(time,place_of_birth,residence_type, gender,dob,pr_day) %>% 
+  mutate(lbnr = ifelse(year(dob) >= 1900 & year(dob) <= 1999,
+                       300 + pr_day,
+                       ifelse(year(dob) < 1900,
+                              500 + pr_day,
+                              900 + pr_day))) %>% 
+  select(-pr_day)
+
+```
+
+## Create micro data with look-a-like, synthetic PIN
+
+```{r, echo=TRUE, message=FALSE, eval=FALSE}
+
+CPR_data <- syntpop %>%
+  mutate(
+    birth_year=year(dob),
+    birth_date=dob,
+    sex=as.integer(ifelse(gender=="M",1,0)),
+    PIN = mapply(generateCPR, birth_date, sequence=lbnr, sex)
+  ) %>%
+  select(PIN,place_of_birth,residence_type) %>% 
+  arrange(PIN,place_of_birth,residence_type)
+
+CPR_data %>% sample_n(5) %>% statgl_table()
+
+```
+
+In this deliberately small sample, the information is a snapshot, at a specific point in time - the reference date. Included here is the PIN and compressed basic details for clarity about birthplace and address. In practice, the CPR system delivers extensive data, including detailed address information, event dates, event types, and much more.
+
+When received, the raw data is checked for errors. All variable codes, should be known, the PIN shall be valid, values shall be within acceptance bounds, etc.
+
+Deviated variables, like age and gender, are calculated, using the cran package cprr. Contents of the 2 variables 'place of birth' and 'residence type' are matched against code/text formats, making sure, all are known values. If missing, the data needs attention.
+
+Reference_date is a sepecial variable and is stored typically formatted to year in annual statistics. Time is crucial to understand the dataset.
+
+Finally microdata are stored as a parquet file on disk, ready for dissemination.
+
+```{r, message=TRUE, warning=FALSE, eval=FALSE}
+
+fmt_pob = tribble(~place_of_birth,~place_of_birth_txt,
+                  "N","Born in Greenland",
+                  "S","Born outside Greenland")
+
+fmt_res = tribble(~residence_type,~residence_type_txt,
+                  "A","Capital city",
+                  "B","Main settlements",
+                  "C","Larger settlements",
+                  "D","Settlements",
+                  "E","Smaller settlements",
+                  "F","Smallest settlements",
+                  "G","Other localities",)
+
+df_raw <- CPR_data %>% 
+  mutate(time=year(reference_date),
+         dob=dob(PIN),
+         age=floor(age(PIN,reference_date)),
+         gender=gender(PIN))
+
+df_check_me <- df_raw %>% 
+  left_join(fmt_pob, by = join_by(place_of_birth)) %>% 
+  left_join(fmt_res, by = join_by(residence_type)) %>% 
+  filter(is.na(place_of_birth_txt) | is.na(residence_type))
+         
+# Check if the data frame is empty
+if (nrow(df_check_me) != 0) {
+  print(df_check_me)
+} else {
+  print("good to continue")
+}
+
+write_parquet(df_raw,file.path(pgmPath,"data","df_raw.parquet"))
+
+df_raw %>% sample_n(5) %>% statgl_table(year_col="time")
+
+
+```
+
+## Presenting metadata for Researchers <br>in StatBank Greenland
+
+The purpose is to let researchers access metadata on datasets gathered and stored in Statistics Greenland. 
+
+Statistics Greenland expects that anyone with professional needs for knowledge on our society begin their learning path online in Statbank Greenland. Next level, is to to learn about our datasources and to understand the scope and limitation of each variable. Without needs to learn an additional user interface.
+
+Each register consists of a number of variables and for each variable the Statbank system presents a table with a frequency count for each time period. This does not reveal any confidential personal information, as information cannot be combined, without access to more than one variable.
+
+To get access to research data, a formal contract has to be negotiated, and access to micro data is only granted on a dedicated research server.
+
+The variables in a dataset comes in many classes:
+
+ID - PIN, reference PIN (to mother, to father, to ..)
+
+Date - date at event (birth~, death~, moving~, change~)
+
+Classifications - birthplace, citizenship, gender, locality
+
+Numeric - age, income, weight
+
+Reference_date - time for compilation
+
+### Preparing
+With this in mind the variables in a dataset are prepared before px-files are created. For example:
+
+**PIN/ID**, as there is no need to present individual values for PINs, all are mutated to "count". 
+
+**Date**, is also too detailed to get a quick overview. The researcher will learn, that the variable holds 'dates' and are presented grouped by month.
+
+**Classification** will have a defined codelist with code/text
+
+**Numeric** variables can be shown at detailed level like 1-year age groups, income~,weight~ intervals. It can be relevant to prevent revealing personal information. Typically lower and upper bounds are open classes, hiding data. 
+
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+
+df_ready <- read_parquet(file.path(pgmPath,"data","df_raw.parquet")) %>% 
+  select(time,PIN,place_of_birth,residence_type,dob,age,gender) %>% 
+  mutate(PIN="count",
+         dob=format(as_date(dob), "%m"))
+
+```
+
+### Convert to a multi-lingual px-object
+
+Converting from a dataframe to a px-object is simple, the function pxmake::px(), does the trick, and after creation, desired languague(s) needs to be declared. 
+
+px_micro is designed to have the time variable in heading and the focus variable as stub. So when px_heading is not empty, these variables need to be moved from heading to stub using pxmake::px_stub(), before executing pxmake::px_micro()
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+
+# 1st conversion
+x <- px(df_ready) %>% 
+  px_language("en") %>%                # English is set as mainlanguage
+  px_languages(c("en","da","kl"))      # and also Danish and Greenlandic shall 
+
+# Check to see if numeric columns should be forced to sub
+px_heading(x)
+#[1] "age"
+
+x <- px(df_ready) %>% 
+  px_language("en") %>%                # English is set as mainlanguage
+  px_languages(c("en","da","kl")) %>%  # and also Danish and Greenlandic shall 
+  px_timeval("time") %>% 
+  px_stub("age")
+
+# Second check
+px_heading(x)
+#character(0)
+
+# ready for first px-file creation
+px_micro(x,file.path(pgmPath,"px"))
+
+```
+pxmake::px_micro() creates a px-file for each variable in the px-object
+
+
+![](px.png){fig-align="left" width="262"}
+
+At this point the px-files generated are still too sparse to open with Pxwin, but Pxedit does. Pxedit also tells you, what mandatory keywords are missing
+
+![](pxedit.png){fig-align="left" width="262"}
+
+
+So additional metadata must be added. For metadata general to all files in the microdataset, adding information is straigth forward. Use the relevant pxmake functions to bulk update all px-files in the folder. 
+
+Statistics Greenland has chosen to present micro datasets in the same topic structure as used for tables in Statbank Greenland for easier navigation. 
+
+
+```{r, message=FALSE, warning=FALSE , eval=FALSE}
+
+subject <-
+  tribble(~language, ~value,
+          "en", "Population", 
+          "da", "Befolkning", 
+          "kl", "Innuttaasut")
+
+creation_date <- "20240801 09:00"
+last_updated <- "20240811 09:00"
+next_update   <- "20250801 09:00"
+
+# 2nd conversion
+x <-
+  df_ready %>%
+  pxmake::px() %>%
+  px_codepage("utf-8") %>%
+  px_language("en") %>%
+  px_languages(c("en", "da", "kl")) %>%
+  px_decimals("0") %>%
+  px_showdecimals("0") %>%
+  px_subject_code("BE") %>% 
+  px_subject_area(subject) %>% 
+  px_autopen("YES") %>%          # with only 2 variables, there is no need for selecting
+  px_stub("age") %>% 
+  px_timeval("time") %>%
+  px_units(tribble(~language, ~value,
+                   "en", "Persons", 
+                   "da", "Personer", 
+                   "kl", "Inuit")) %>%
+  px_update_frequency("Annually") %>%
+  px_creation_date(creation_date) %>%
+  px_last_updated(last_updated) %>%
+  px_next_update(next_update) %>%
+  px_link("www.stat.gl/bee202401/m1") %>%
+  px_contact("Lars Pedersen, LARP at STAT.gl") %>%
+  px_source(tribble(~language, ~value,
+            "en",  "Statistics Greenland",
+            "da",  "Grønlands Statistik",
+            "kl",  "Kalaallit Nunaanni Naatsorsueqqissaartarfik"))
+
+
+# ready for 2nd px-file creation
+px_micro(x,file.path(pgmPath,"px"))
+
+```
+
+![](pxpob1.png){fig-align="left" width="362"}
+
+It gets a little more complicated with metadata, that are specific to each of the px-files.
+
+At table-level, description is shown in the menu, as variable identifier. Contents hold the first leg of the title. Title consists of contents and additional variable names (on microdata only time). Valuenote(x) holds text information about each variable.
+
+At variable-level codes needs to be defined with texts in all languages.
+
+To handle this, a dataframe with metadata, that will be added to each file individually is created: here it is named metadoc
+
+```{r, message=FALSE, warning=FALSE , eval=FALSE}
+
+metadoc <- x$variables2 %>% select(variable=`variable-code`, language) %>% 
+  mutate(px_contents=variable,
+         px_title=variable,
+         px_matrix=variable,
+         px_description=variable,
+         px_matrix=variable)
+
+# ready for 4th px-file creation
+px_micro(x,file.path(pgmPath,"px"), keyword_values = metadoc)
+
+```
+
+
+And when it comes to translating all codes to text in multple languages, we can try to steal as much as possible from the Statbank. Her the helper function 'get_codelist' comes in handy
+
+
+```{r, message=FALSE, warning=FALSE }
+
+#hi <- x$cells1
+
+codelist_age <- get_codelist("BEXSTA") %>%
+  filter(variable=="age") %>% 
+  as.data.frame() %>%
+  select(`variable-code`=variable,code,language,value)
+
+codelist_age_order <- get_codelist("BEXSTA") %>%
+  filter(variable=="age" & language=="en") %>% 
+  as.data.frame() %>%
+  select(`variable-code`=variable,code,order)
+
+codelist_pob <- get_codelist("BEXSTA") %>%
+  filter(variable=="place of birth") %>% 
+  as.data.frame() %>%
+  filter(code!="T") %>% 
+  select(`variable-code`=variable,code,language,value)
+
+codelist_res <- get_codelist("BEXSTA") %>%
+  filter(variable=="residence type") %>% 
+  as.data.frame() %>%
+  filter(code!="T") %>% 
+  select(`variable-code`=variable,code,language,value)
+
+codelist_gender <- get_codelist("BEXSTA") %>%
+  filter(variable=="gender") %>% 
+  as.data.frame() %>%
+  select(`variable-code`=variable,code,language,value)
+
+codelist_dob <- get_codelist("BEXBBDMD1") %>%
+  filter(variable=="month") %>% 
+  as.data.frame() %>%
+  mutate(code=sprintf("%02d", as.numeric(code))) %>% 
+  select(`variable-code`=variable,code,language,value)
+
+variable_values <- codelist_age %>% 
+  bind_rows(codelist_pob) %>% 
+  bind_rows(codelist_res) %>% 
+  bind_rows(codelist_gender) %>% 
+  bind_rows(codelist_dob) %>% 
+  mutate(`variable-code`=ifelse(`variable-code`=="place of birth","place_of_birth",`variable-code`),
+         `variable-code`=ifelse(`variable-code`=="residence type","residence_type",`variable-code`),
+         `variable-code`=ifelse(`variable-code`=="month","dob",`variable-code`))
+
+x1 <- x %>% 
+  px_values(variable_values) %>% 
+  px_order(codelist_age_order)
+
+# ready for 4th px-file creation
+px_micro(x1,file.path(pgmPath,"px"), keyword_values = metadoc)
+
+```
+

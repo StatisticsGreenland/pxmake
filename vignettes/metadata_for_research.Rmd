@@ -458,7 +458,7 @@ px_micro(x,file.path(pgmPath,"px"), keyword_values = metadoc)
 And when it comes to translating all codes to text in multple languages, we can try to steal as much as possible from the Statbank. Her the helper function 'get_codelist' comes in handy
 
 
-```{r, message=FALSE, warning=FALSE }
+```{r, message=FALSE, warning=FALSE, eval=FALSE }
 
 #hi <- x$cells1
 

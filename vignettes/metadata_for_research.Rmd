@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Metadata for Research(ers)  
+
 ```{r setup, warning=FALSE, message=FALSE, eval=FALSE}
 #| code-fold: true
 #| code-summary: "Setup & helpers. Click to see/hide code"

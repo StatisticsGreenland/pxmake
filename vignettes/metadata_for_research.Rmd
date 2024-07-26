@@ -1,6 +1,9 @@
 ---
 title: "Metadata for Research"
 output: html_vignette
+vignette: >
+  %\VignetteIndexEntry{Metadata for Research}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, echo = FALSE}

@@ -1,0 +1,12 @@
+---
+title: "Vignettes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignettes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Vignettes
+
+- [Metadata for Research](metadata_for_research.html)

@@ -3,12 +3,11 @@ pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   first-px-file: first-px-file.html
-  index: index.html
   languages: languages.html
   metadata_for_research: metadata_for_research.html
   micro-files: micro-files.html
   statistics_greenland: statistics_greenland.html
-last_built: 2024-07-26T06:30Z
+last_built: 2024-07-26T06:33Z
 urls:
   reference: https://statisticsgreenland.github.io/pxmake/reference
   article: https://statisticsgreenland.github.io/pxmake/articles

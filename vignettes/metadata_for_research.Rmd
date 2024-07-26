@@ -4,5 +4,5 @@ output: html_vignette
 ---
 
 ```{r, echo = FALSE}
-browseURL("metadata_for_research.html")
+browseURL("https://statisticsgreenland.github.io/pxmake/articles/metadata_for_research.html")
 

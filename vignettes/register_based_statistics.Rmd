@@ -1,0 +1,10 @@
+---
+title: "Register based statistics"
+output: html_vignette
+vignette: >
+  %\VignetteIndexEntry{Register based statistics}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE}
+browseURL("register_based_statistics.html")

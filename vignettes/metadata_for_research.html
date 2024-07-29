@@ -3306,10 +3306,12 @@ border: 0;
   <li><a href="#pin-is-key" id="toc-pin-is-key" class="nav-link" data-scroll-target="#pin-is-key">PIN is key</a></li>
   <li><a href="#a-tidy-dataset" id="toc-a-tidy-dataset" class="nav-link" data-scroll-target="#a-tidy-dataset">a tidy dataset</a></li>
   <li><a href="#with-synthetic-pin" id="toc-with-synthetic-pin" class="nav-link" data-scroll-target="#with-synthetic-pin">with synthetic PIN</a></li>
-  <li><a href="#define-metadata" id="toc-define-metadata" class="nav-link" data-scroll-target="#define-metadata">Define metadata</a>
+  <li><a href="#a-simplified-example" id="toc-a-simplified-example" class="nav-link" data-scroll-target="#a-simplified-example">a simplified example</a></li>
+  <li><a href="#metadata" id="toc-metadata" class="nav-link" data-scroll-target="#metadata">Metadata</a>
   <ul class="collapse">
-  <li><a href="#as-multi-lingual-px-object" id="toc-as-multi-lingual-px-object" class="nav-link" data-scroll-target="#as-multi-lingual-px-object">as multi-lingual px-object</a></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link" data-scroll-target="#preface">Preface</a></li>
   </ul></li>
+  <li><a href="#as-multi-lingual-px-object" id="toc-as-multi-lingual-px-object" class="nav-link" data-scroll-target="#as-multi-lingual-px-object">as multi-lingual px-object</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -3553,29 +3555,29 @@ border: 0;
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">171192-3011</td>
+<td style="text-align: left;">180383-3011</td>
+<td style="text-align: right;">N</td>
+<td style="text-align: right;">A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">230222-9020</td>
+<td style="text-align: right;">N</td>
+<td style="text-align: right;">A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">230284-3030</td>
+<td style="text-align: right;">S</td>
+<td style="text-align: right;">B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">160762-3011</td>
+<td style="text-align: right;">N</td>
+<td style="text-align: right;">B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">110983-3011</td>
 <td style="text-align: right;">N</td>
 <td style="text-align: right;">C</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">220105-9011</td>
-<td style="text-align: right;">N</td>
-<td style="text-align: right;">A</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">100340-3010</td>
-<td style="text-align: right;">N</td>
-<td style="text-align: right;">D</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">250572-3021</td>
-<td style="text-align: right;">S</td>
-<td style="text-align: right;">A</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">200958-3011</td>
-<td style="text-align: right;">N</td>
-<td style="text-align: right;">D</td>
 </tr>
 </tbody>
 </table>
@@ -3585,11 +3587,14 @@ border: 0;
 </div>
 </div>
 </div>
-<p>In this deliberately small sample, the information is a snapshot, at a specific point in time - the reference date. Included here is the PIN and compressed basic details for clarity about birthplace and address. In practice, the CPR system delivers extensive data, including detailed address information, event dates, event types, and much more.</p>
+</section>
+<section id="a-simplified-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-simplified-example">a simplified example</h2>
+<p>In this simplified exsample, the information is a snapshot from an administrative register, at a specific point in time - the reference date. Included here is the PIN and compressed basic details for clarity about birthplace and address. In practice, the CPR system delivers extensive data, including detailed address information, event dates, event types, and much more.</p>
 <p>When received, the raw data is checked for errors. All variable codes, should be known, the PIN shall be valid, values shall be within acceptance bounds, etc.</p>
 <p>Deviated variables, like age and gender, are calculated, using the cran package cprr. Contents of the 2 variables ‘place of birth’ and ‘residence type’ are matched against code/text formats, making sure, all are known values. If missing, the data needs attention.</p>
 <p>Reference_date is a special variable and is stored typically formatted to year in annual statistics. Time is crucial to understand the dataset.</p>
-<p>Finally microdata are stored as a parquet file on disk, ready for dissemination.</p>
+<p>Finally microdata are stored as a parquet file on disk, ready for dissemination. We refer to this file as the Statistical register.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fmt_pob <span class="ot">=</span> <span class="fu">tribble</span>(<span class="sc">~</span>place_of_birth,<span class="sc">~</span>place_of_birth_txt,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;N&quot;</span>,<span class="st">&quot;Born in Greenland&quot;</span>,</span>
@@ -3644,48 +3649,48 @@ border: 0;
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">290495-3031</td>
-<td style="text-align: right;">S</td>
+<td style="text-align: left;">310788-3011</td>
+<td style="text-align: right;">N</td>
 <td style="text-align: right;">B</td>
 <td style="text-align: right;">2024</td>
-<td style="text-align: right;">1995-04-29</td>
-<td style="text-align: right;">28</td>
+<td style="text-align: right;">1988-07-31</td>
+<td style="text-align: right;">35</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">281255-3010</td>
+<td style="text-align: left;">151001-9011</td>
 <td style="text-align: right;">N</td>
 <td style="text-align: right;">C</td>
 <td style="text-align: right;">2024</td>
-<td style="text-align: right;">1955-12-28</td>
-<td style="text-align: right;">68</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">2001-10-15</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">190315-9020</td>
+<td style="text-align: left;">210105-9011</td>
 <td style="text-align: right;">N</td>
 <td style="text-align: right;">A</td>
 <td style="text-align: right;">2024</td>
-<td style="text-align: right;">2015-03-19</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">2005-01-21</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">110666-3020</td>
+<td style="text-align: left;">221186-3020</td>
 <td style="text-align: right;">N</td>
-<td style="text-align: right;">A</td>
+<td style="text-align: right;">E</td>
 <td style="text-align: right;">2024</td>
-<td style="text-align: right;">1966-06-11</td>
-<td style="text-align: right;">57</td>
+<td style="text-align: right;">1986-11-22</td>
+<td style="text-align: right;">37</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">160758-3011</td>
+<td style="text-align: left;">141208-9011</td>
 <td style="text-align: right;">N</td>
-<td style="text-align: right;">C</td>
+<td style="text-align: right;">E</td>
 <td style="text-align: right;">2024</td>
-<td style="text-align: right;">1958-07-16</td>
-<td style="text-align: right;">65</td>
+<td style="text-align: right;">2008-12-14</td>
+<td style="text-align: right;">15</td>
 <td style="text-align: right;">1</td>
 </tr>
 </tbody>
@@ -3697,10 +3702,11 @@ border: 0;
 </div>
 </div>
 </section>
-<section id="define-metadata" class="level2">
-<h2 class="anchored" data-anchor-id="define-metadata">Define metadata</h2>
-<p>The purpose is to let researchers access metadata on datasets gathered and stored in Statistics Greenland.</p>
-<p>Statistics Greenland expects that anyone with professional needs for knowledge on our society begin their learning curve online in Statbank Greenland. Next level, is to to learn about our datasources and to understand the scope and limitation of each variable. Without needs to learn an additional user interface.</p>
+<section id="metadata" class="level2">
+<h2 class="anchored" data-anchor-id="metadata">Metadata</h2>
+<p>The Statistical Register is ready for use, when it is complete with full documentation, both on data, editing and processes. In short this is referred to as Metadata. Statistics Greenland aims to keep Metadata intended for public use in English, Greenlandic and Danish. Metadata on processes for internal use, is in one language only.</p>
+<p>The purpose is to enable all future use to stand firmly on work done to produce the Statistical Register, with no need to repeat basic research. Metadata on the various registers is stored in a section of Statbank Greenland to let researchers and the Public gain knowledge on datasets kept at Statistics Greenland.</p>
+<p>Statistics Greenland expects, that anyone with professional needs for knowledge on our society begin their learning curve online in Statbank Greenland. Next level, is to to learn about our datasources and to understand the scope and limitation of each variable. Without need to learn an additional user interface.</p>
 <p>Each register consists of a number of variables and for each variable the Statbank system presents a table with a frequency count for each time period. This does not reveal any confidential personal information, as information cannot be combined, without access to more than one variable.</p>
 <p>To get access to research data, a formal contract has to be negotiated, and access to micro data is only granted on a dedicated research server.</p>
 <p>The variables in a dataset comes in many classes:</p>
@@ -3709,11 +3715,12 @@ border: 0;
 <li><p>Date - date at event (birth~, death~, moving~, change~)</p></li>
 <li><p>Classifications - birthplace, citizenship, gender, locality</p></li>
 <li><p>Numeric - age, income, weight</p></li>
-<li><p>Reference_date - time for compilation</p>
-<h3 id="preface" class="anchored">Preface</h3></li>
+<li><p>Reference_date - time for compilation</p></li>
 </ul>
+<section id="preface" class="level3">
+<h3 class="anchored" data-anchor-id="preface">Preface</h3>
 <p>With this in mind the variables in a dataset are prepared before px-files are created. For example:</p>
-<p><strong>PIN/ID</strong>, as there is no need to present individual values for PINs, all are mutated to “count”.</p>
+<p><strong>PIN/ID</strong>, as there is no need to present individual values for PINs, all are mutated to the textstring “count”.</p>
 <p><strong>Date</strong>, is also too detailed to get a quick overview. The researcher will learn, that the variable holds ‘dates’ and are presented grouped by month.</p>
 <p><strong>Classification</strong> will have a defined codelist with code/text</p>
 <p><strong>Numeric</strong> variables can be shown at detailed level like 1-year age groups, income<sub>,weight</sub> intervals. It can be relevant to prevent revealing personal information. Typically lower and upper bounds are open classes, hiding data.</p>
@@ -3723,8 +3730,10 @@ border: 0;
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PIN=</span><span class="st">&quot;count&quot;</span>,</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">dob=</span><span class="fu">format</span>(<span class="fu">as_date</span>(dob), <span class="st">&quot;%m&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="as-multi-lingual-px-object" class="level3">
-<h3 class="anchored" data-anchor-id="as-multi-lingual-px-object">as multi-lingual px-object</h3>
+</section>
+</section>
+<section id="as-multi-lingual-px-object" class="level2">
+<h2 class="anchored" data-anchor-id="as-multi-lingual-px-object">as multi-lingual px-object</h2>
 <p>Converting from a dataframe to a px-object is simple, the function pxmake::px(), does the trick, and after creation, desired languague(s) needs to be declared.</p>
 <p>px_micro is designed to have the time variable in heading and the focus variable as stub. So when px_heading is not empty, these variables need to be moved from heading to stub using pxmake::px_stub(), before executing pxmake::px_micro()</p>
 <div class="cell">
@@ -3865,7 +3874,6 @@ border: 0;
 <span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co"># ready for 4th px-file creation</span></span>
 <span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="fu">px_micro</span>(x1,<span class="fu">file.path</span>(pgmPath,<span class="st">&quot;px&quot;</span>), <span class="at">keyword_values =</span> metadoc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
 </section>
 </section>
 

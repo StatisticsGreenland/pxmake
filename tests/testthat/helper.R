@@ -2,8 +2,12 @@ get_data_path <- function(table_name) {
   tables_with_data_in_excel <-
     c("FOTEST", "no_timeval_or_codes", "zero_heading", "zero_stub")
 
+  tabels_with_data_in_parquet <- "BEXSTA_parquet"
+
   if (tolower(table_name) %in% tolower(tables_with_data_in_excel)) {
     NULL
+  } else if (tolower(table_name) %in% tolower(tabels_with_data_in_parquet)) {
+    test_path('fixtures', 'data', paste0(table_name, '.parquet'))
   } else {
     test_path('fixtures', 'data', paste0(table_name, '.rds'))
   }

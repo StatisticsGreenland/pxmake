@@ -321,9 +321,10 @@ is_path_extension <- function(extension) {
   }
 }
 
-is_rds_file  <- is_path_extension("rds")
-is_xlsx_file <- is_path_extension("xlsx")
-is_px_file   <- is_path_extension("px")
+is_rds_file     <- is_path_extension("rds")
+is_parquet_file <- is_path_extension("parquet")
+is_xlsx_file    <- is_path_extension("xlsx")
+is_px_file      <- is_path_extension("px")
 
 #' Change all variables to character
 #'

@@ -7,6 +7,7 @@ library(testthat)
 library(readxl)
 library(pxweb)
 library(haven)
+library(arrow)
 
 bexsta <-
   pxweb_get(url = "https://bank.stat.gl/api/v1/en/Greenland/BE/BE01/BE0120/BEXSTA.px",
@@ -22,6 +23,7 @@ bexsta <-
   arrange_all()
 
 write_rds(bexsta, test_path('fixtures', 'data', 'BEXSTA.rds'))
+write_parquet(bexsta, test_path('fixtures', 'data', 'BEXSTA_parquet.parquet'))
 
 bexsta %>%
   filter(`place of birth` != 'T', gender != "T") %>%

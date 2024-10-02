@@ -43,6 +43,17 @@ test_that("px runs without errors (data frame and rds path)", {
   expect_runs_without_errors("BEXSTA")
 })
 
+test_that("px runs without errors (data frame and parquet path)", {
+  expect_runs_without_errors <- function(name) {
+    px(input = arrow::read_parquet(get_data_path(name)))
+    px(input = get_data_path(name))
+
+    expect_true(TRUE)
+  }
+
+  expect_runs_without_errors("BEXSTA_parquet")
+})
+
 test_that("px can run on an Excel workbook without a 'Data' sheet", {
   px(input = get_metadata_path("BEXSTA"))
 

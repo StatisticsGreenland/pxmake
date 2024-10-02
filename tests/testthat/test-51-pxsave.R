@@ -33,7 +33,7 @@ test_that("px_save save_data and data_path arguments works", {
                )
 
   expect_error(px_save(x = x, path = temp_xlsx_file(), data_path = temp_px_file()),
-               regexp = "'data_path' must be a path to an .rds file"
+               regexp = "'data_path' must be a path to an .rds or .parquet file"
                )
 
   expect_error(px_save(x = x, path = temp_xlsx_file(), save_data = "maybe"),

@@ -321,6 +321,8 @@ save_px_as_xlsx <- function(x, path, save_data, data_path) {
       add_excel_sheet(wb, x$data, "Data")
     } else if (is_rds_file(data_path)) {
       saveRDS(x$data, data_path)
+    } else if (is_parquet_file(data_path)) {
+      arrow::write_parquet(x$data, data_path)
     } else {
       unexpected_error()
     }

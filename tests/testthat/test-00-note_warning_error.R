@@ -14,7 +14,7 @@ test_that("Error data is specified when input is not .xlsx", {
   )
 })
 
-test_that("Error if data is not NULL, a data frame, or .rds file", {
+test_that("Error if data is not NULL, a data frame, .rds or .parquet file", {
   expect_data_error <- function(data) {
     expect_error(px(input = get_metadata_path("FOTEST"), data = data),
                  regexp = "'data' has wrong format"

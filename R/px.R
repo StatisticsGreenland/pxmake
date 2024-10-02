@@ -4,10 +4,11 @@
 #' frame.
 #'
 #' @param input Path to px file, path to an Excel metadata workbook, a data
-#' frame or path to an .rds file with a data frame. If input is a data frame, a
-#' px object with minimal metadata is created.
-#' @param data Either a data frame or a path to an `.rds` file with a data frame.
-#' This can only be used if `input` is an Excel metadata workbook.
+#' frame or path to an `.rds` or `.parquet` file with a data frame. If input is
+#' a data frame, a px object with minimal metadata is created.
+#' @param data Either a data frame or a path to an `.rds` or `.parquet` file
+#' with a data frame. This can only be used if `input` is an Excel metadata
+#' workbook.
 #'
 #' @return A px object
 #'
@@ -30,8 +31,16 @@ px <- function(input, data = NULL) {
     input <- readRDS(input)
   }
 
+  if (is_parquet_file(input)) {
+    input <- arrow::read_parquet(input)
+  }
+
   if (is_rds_file(data)) {
     data <- readRDS(data)
+  }
+
+  if (is_parquet_file(data)) {
+    data <- arrow::read_parquet(data)
   }
 
   if (is_px_file(input)) {
@@ -55,10 +64,10 @@ px <- function(input, data = NULL) {
 #' - `.xlsx` to save as an Excel metadata workbook
 #' @param save_data If FALSE, no 'Data' sheet is created in the Excel workbook.
 #' Can only be used if `path` is an `.xlsx` file.
-#' @param data_path Path to an `.rds` file to save data table at. This is usefull
-#' when saving an Excel workbook where the data has more rows than Excel can
-#' handle. Can only be used if 'path' is an `.xlsx` file, and 'save_data' is
-#' TRUE.
+#' @param data_path Path to an `.rds` or `.parquet` file to save data table at.
+#' This is usefull when saving an Excel workbook where the data has more rows
+#' than Excel can handle. Can only be used if 'path' is an `.xlsx` file, and
+#' 'save_data' is TRUE.
 #' @details
 #' Use `px_codepage()` to change file encoding.
 #'

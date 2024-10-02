@@ -257,7 +257,7 @@ error_if_data_column_is_not_defined <- function(x, table_name) {
 #' @keywords internal
 validate_px_arguments <- function(input, data) {
   if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input),
-            is_rds_file(input))) {
+            is_rds_file(input), is_parquet_file(input))) {
     error("Argument 'input' has wrong format. See ?px.")
   }
 
@@ -270,13 +270,9 @@ validate_px_arguments <- function(input, data) {
     }
   }
 
-  if (! any(is.null(data), is.data.frame(data), is_rds_file(data))) {
+  if (! any(is.null(data), is.data.frame(data), is_rds_file(data), is_parquet_file(data))) {
     error("Argument 'data' has wrong format. See ?px.")
   }
-
-  # if (is.null(data) & is_xlsx_file(input)) {
-  #     error_if_excel_sheet_does_not_exist("Data", input)
-  # }
 
   if (! is.null(data) & ! is_xlsx_file(input)) {
       error("Argument 'data' can only be used if 'input' is an .xlsx file.")
@@ -301,7 +297,7 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
   }
 
   if (! any(is.null(data_path), is_rds_file(data_path))) {
-    error("Argument 'data_path' must be a path to an .rds file.")
+    error("Argument 'data_path' must be a path to an .rds or .parquet file.")
   }
 
   if (all(!is.null(data_path), !is_xlsx_file(path))) {

@@ -1,3 +1,8 @@
+# pxmake (development version)
+
+## New features
+- `px()` and `px_save()` can write and read to and from `.parquet` files.
+
 # pxmake 0.12.0
 
 ## Breaking changes

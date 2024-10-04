@@ -3,6 +3,9 @@
 ## New features
 - `px()` and `px_save()` can write and read to and from `.parquet` files.
 
+## Bug fixes and minor improvements
+- Keyword UNITS is now placed after CONTVARIABLE and VALUES in the px file. (#308)
+
 # pxmake 0.12.0
 
 ## Breaking changes

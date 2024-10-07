@@ -6,6 +6,7 @@
 ## Bug fixes and minor improvements
 - Keyword UNITS is now placed after CONTVARIABLE and VALUES in the px file. (#308)
 - Add default values for mandatory keywords in all languages. (#219)
+- Bugfix `px_language()` stops removing previously defined languages. (#297)
 
 # pxmake 0.12.0
 

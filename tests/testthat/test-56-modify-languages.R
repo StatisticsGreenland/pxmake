@@ -71,4 +71,20 @@ test_that('LANGUAGE modified', {
   x %>%
     px_languages(c("en", "kl")) %>%
     px_language("dk")
+
+  # Setting language doesn't interfere with languages
+  x_before <-
+    population_gl %>%
+    px() %>%
+    px_languages(c("en", "da", "kl"))
+
+  x_after <-
+    x_before %>%
+    px_language("en")
+
+  expect_equal(px_languages(x_after), c("en", "da", "kl"))
+
+  expect_identical(x_before %>% purrr::pluck("table2"),
+                   x_after  %>% purrr::pluck("table2")
+                   )
 })

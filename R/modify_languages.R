@@ -50,7 +50,7 @@ modify_languages_in_px <- function(x, new_languages) {
   x$table2 <-
     modify_languages_in_table(df = x$table2,
                               new_languages = new_languages,
-                              keep_vars = c("keyword"),
+                              keep_vars = c("keyword", "value"),
                               align_df = get_base_table2()
                               )
 

@@ -9,3 +9,7 @@ keywords_indexed_by_contvariable <- function() {
 language_dependant_keywords <- function() {
   px_keywords %>% dplyr::filter(language_dependent) %>% dplyr::pull(keyword)
 }
+
+default_value <- function(keyword) {
+  px_keywords %>% dplyr::filter(keyword == !!keyword) %>% dplyr::pull(default_value)
+}

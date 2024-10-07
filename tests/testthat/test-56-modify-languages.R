@@ -30,6 +30,39 @@ test_that('LANGUAGE modified', {
 
   expect_identical(px_languages(x5), NULL)
 
+  # Creates mandatory keywords for all languages
+  expect_all_mandatory_keywords_return_non_na_values <- function(x) {
+    mandatory_keyword_values <-
+      mandatory_keywords() %>%
+      sapply(function(keyword) {
+        f <- get(keyword_to_function(keyword))
+        f(x)
+      })
+
+    any_na_values <- function(l) {
+      if (is.data.frame(l)) {
+        any(is.na(l$value))
+      } else {
+        is.na(l)
+      }
+    }
+
+    sapply(mandatory_keyword_values, any_na_values) %>%
+      any() %>%
+      expect_false()
+  }
+
+  x6 <-
+    x %>%
+    px_language('da')
+
+  x7 <-
+    x %>%
+    px_languages(c("da", "kl"))
+
+  expect_all_mandatory_keywords_return_non_na_values(x6)
+  expect_all_mandatory_keywords_return_non_na_values(x7)
+
   # Runs without errors
   x %>%
     px_languages(c("en", "kl")) %>%

@@ -84,7 +84,5 @@ test_that('LANGUAGE modified', {
 
   expect_equal(px_languages(x_after), c("en", "da", "kl"))
 
-  expect_identical(x_before %>% purrr::pluck("table2"),
-                   x_after  %>% purrr::pluck("table2")
-                   )
+  expect_identical(x_before$table2, x_after$table2)
 })

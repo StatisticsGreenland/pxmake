@@ -108,7 +108,7 @@ px_language.px <- function(x, value) {
 
   x <- modify_table1(x, "LANGUAGE", value)
 
-  x <- modify_languages_in_px(x, new_languages = value)
+  x <- modify_languages_in_px(x, new_languages = defined_languages(x))
 
   validate_px(x)
 }

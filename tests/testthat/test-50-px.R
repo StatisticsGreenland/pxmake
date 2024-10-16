@@ -59,3 +59,11 @@ test_that("px can run on an Excel workbook without a 'Data' sheet", {
 
   expect_true(TRUE)
 })
+
+test_that("Minimal px object can be created without data", {
+  x <- px()
+
+  validate_px(x)
+
+  expect_true(TRUE)
+})

@@ -5,7 +5,7 @@
 #'
 #' @param input Path to px file, path to an Excel metadata workbook, a data
 #' frame or path to an `.rds` or `.parquet` file with a data frame. If input is
-#' a data frame, a px object with minimal metadata is created.
+#' a data frame or NULL, a px object with minimal metadata is created.
 #' @param data Either a data frame or a path to an `.rds` or `.parquet` file
 #' with a data frame. This can only be used if `input` is an Excel metadata
 #' workbook.
@@ -24,7 +24,7 @@
 #' x2 <- px(px_path)
 #'
 #' @export
-px <- function(input, data = NULL) {
+px <- function(input = NULL, data = NULL) {
   validate_px_arguments(input, data)
 
   if (is_rds_file(input)) {
@@ -33,6 +33,10 @@ px <- function(input, data = NULL) {
 
   if (is_parquet_file(input)) {
     input <- arrow::read_parquet(input)
+  }
+
+  if (is.null(input)) {
+    input <- data.frame()
   }
 
   if (is_rds_file(data)) {

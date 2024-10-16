@@ -10,6 +10,7 @@
 - Change sorting order of px-file, so variables within keywords are in 
 stub/heading order instead of alphabetic. (#264)
 - Throw error if any value contains quotation marks ("). (#238)
+- Allow minimal px object to be created even if no input is provided. (#234)
 
 # pxmake 0.12.0
 

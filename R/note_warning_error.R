@@ -272,7 +272,7 @@ error_if_value_contains_quotation_marks <- function(x) {
 #' @keywords internal
 validate_px_arguments <- function(input, data) {
   if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input),
-            is_rds_file(input), is_parquet_file(input))) {
+            is_rds_file(input), is_parquet_file(input), is.null(input))) {
     error("Argument 'input' has wrong format. See ?px.")
   }
 

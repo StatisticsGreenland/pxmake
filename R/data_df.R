@@ -87,19 +87,23 @@ px_from_data_df <- function(df) {
                   ) %>%
     align_data_frames(get_base_variables2())
 
-  cells1 <-
-    data_df %>%
-    dplyr::select(setdiff(names(.), figures_variable)) %>%
-    tidyr::pivot_longer(cols = everything(),
-                        names_to = "variable-code",
-                        values_to = "code"
-                        ) %>%
-    dplyr::distinct() %>%
-    dplyr::arrange(`variable-code`, code) %>%
-    dplyr::group_by(`variable-code`) %>%
-    dplyr::mutate(order = dplyr::row_number()) %>%
-    dplyr::ungroup() %>%
-    align_data_frames(get_base_cells1())
+  if (length(df) == 0) {
+    cells1 <- get_base_cells1()
+  } else {
+    cells1 <-
+      data_df %>%
+      dplyr::select(setdiff(names(.), figures_variable)) %>%
+      tidyr::pivot_longer(cols = everything(),
+                          names_to = "variable-code",
+                          values_to = "code"
+                          ) %>%
+      dplyr::distinct() %>%
+      dplyr::arrange(`variable-code`, code) %>%
+      dplyr::group_by(`variable-code`) %>%
+      dplyr::mutate(order = dplyr::row_number()) %>%
+      dplyr::ungroup() %>%
+      align_data_frames(get_base_cells1())
+  }
 
   cells2 <-
     cells1 %>%

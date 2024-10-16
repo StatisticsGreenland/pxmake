@@ -39,9 +39,7 @@ test_that("Error wrong input", {
                  )
   }
 
-  expect_input_error(input = NULL)
   expect_input_error(input = list())
-  expect_input_error(input = NULL, data = data.frame())
 })
 
 test_that("Error if any value contains quotation marks", {

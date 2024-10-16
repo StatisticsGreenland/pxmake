@@ -9,7 +9,7 @@ frame."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,7 @@ frame.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">px</span><span class="op">(</span><span class="va">input</span>, data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">px</span><span class="op">(</span>input <span class="op">=</span> <span class="cn">NULL</span>, data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -59,7 +59,7 @@ frame.</p>
 <dl><dt id="arg-input">input<a class="anchor" aria-label="anchor" href="#arg-input"></a></dt>
 <dd><p>Path to px file, path to an Excel metadata workbook, a data
 frame or path to an <code>.rds</code> or <code>.parquet</code> file with a data frame. If input is
-a data frame, a px object with minimal metadata is created.</p></dd>
+a data frame or NULL, a px object with minimal metadata is created.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>

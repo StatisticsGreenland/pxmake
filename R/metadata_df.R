@@ -190,15 +190,26 @@ sort_metadata_df <- function(metadata_df) {
     dplyr::mutate(language_order = dplyr::row_number()) %>%
     dplyr::select(language = value, language_order)
 
+  stub_heading <-
+    metadata_df %>%
+    dplyr::filter(keyword %in% c("STUB", "HEADING"),
+                  language %in% get_main_language(.)
+                  ) %>%
+    dplyr::arrange(desc(keyword)) %>%
+    tidyr::unnest(value) %>%
+    dplyr::mutate(stub_heading_order = dplyr::row_number()) %>%
+    dplyr::select(variable = value, stub_heading_order)
+
   metadata_df %>%
     dplyr::left_join(px_keywords %>% dplyr::select('keyword', 'order'),
                      by = "keyword"
-    ) %>%
+                     ) %>%
     dplyr::left_join(languages, by = "language") %>%
-    dplyr::arrange(order, keyword, language_order,
+    dplyr::left_join(stub_heading, by = "variable") %>%
+    dplyr::arrange(order, keyword, stub_heading_order, language_order,
                    !is.na(variable), variable, cell
-    ) %>%
-    dplyr::select(-order, -language_order)
+                   ) %>%
+    dplyr::select(-order, -language_order, -stub_heading_order)
 }
 
 #' Get metadata df from px object

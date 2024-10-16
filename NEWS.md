@@ -7,6 +7,8 @@
 - Keyword UNITS is now placed after CONTVARIABLE and VALUES in the px file. (#308)
 - Add default values for mandatory keywords in all languages. (#219)
 - Bugfix `px_language()` stops removing previously defined languages. (#297)
+- Change sorting order of px-file, so variables within keywords are in 
+stub/heading order instead of alphabetic. (#264)
 
 # pxmake 0.12.0
 

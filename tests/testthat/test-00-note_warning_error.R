@@ -44,6 +44,23 @@ test_that("Error wrong input", {
   expect_input_error(input = NULL, data = data.frame())
 })
 
+test_that("Error if any value contains quotation marks", {
+  x <- px(input = population_gl)
+
+  expect_quotation_error <- function(input) {
+    expect_error(input,
+                 regexp = "quotation marks"
+                 )
+  }
+
+  expect_quotation_error(x %>% px_language(value = 'd"a'))
+  expect_quotation_error(x %>% px_matrix(value = 'quotation"marks"'))
+  expect_quotation_error(x %>% px_contents(value = 'val " with quo'))
+  expect_quotation_error(x %>% px_note(value = 'val " with quo'))
+  expect_quotation_error(x %>% px_valuenote(value = data.frame(valuenote ='"')))
+  expect_quotation_error(x %>% px_cellnote(value = data.frame(cellnote ='"')))
+})
+
 # px_micro()
 
 test_that("px_micro arguments are validated", {

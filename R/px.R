@@ -171,6 +171,7 @@ validate_px <- function(x) {
   error_if_data_column_is_not_defined(x, "variables2")
   error_if_used_languages_are_not_defined(x)
   error_if_language_not_in_languages(x)
+  error_if_value_contains_quotation_marks(x)
 
   return(x)
 }

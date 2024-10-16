@@ -249,6 +249,21 @@ error_if_data_column_is_not_defined <- function(x, table_name) {
   }
 }
 
+error_if_value_contains_quotation_marks <- function(x) {
+  df_contains_quotation_marks <-
+    lapply(x, function(df) {
+      df %>%
+        dplyr::mutate(across(everything(), ~grepl('"', .))) %>%
+        unlist() %>%
+        any()
+    }) %>%
+    unlist()
+
+  if (any(df_contains_quotation_marks)) {
+    error("px object: values cannot contain quotation marks")
+  }
+}
+
 #' Check all arguments to px()
 #'
 #' @inheritParams px

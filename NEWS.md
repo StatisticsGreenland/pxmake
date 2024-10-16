@@ -10,8 +10,6 @@
 - Change sorting order of px-file, so variables within keywords are in 
 stub/heading order instead of alphabetic. (#264)
 - Throw error if any value contains quotation marks ("). (#238)
-- Change sorting order of px-file, so variables within keywords are in 
-stub/heading order instead of alphabetic. (#264)
 
 # pxmake 0.12.0
 

@@ -326,6 +326,16 @@ is_parquet_file <- is_path_extension("parquet")
 is_xlsx_file    <- is_path_extension("xlsx")
 is_px_file      <- is_path_extension("px")
 
+#' Create and return path to temporary directory
+#'
+#' @return Character
+#' @keywords internal
+temp_dir <- function() {
+  path <- tempfile()
+  dir.create(path)
+  return(path)
+}
+
 #' Change all variables to character
 #'
 #' @param df Data frame

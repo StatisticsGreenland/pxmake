@@ -25,13 +25,6 @@ get_pxjob_file_path <- function(table_name) {
   test_path('fixtures', paste0(table_name, '_pxjob.px'))
 }
 
-
-temp_dir <- function() {
-  path <- tempfile()
-  dir.create(path)
-  return(path)
-}
-
 expect_equal_lines <- function(path1, path2) {
   lines1 <- readLines(path1)
   lines2 <- readLines(path2)

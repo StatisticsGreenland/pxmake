@@ -12,6 +12,7 @@ stub/heading order instead of alphabetic. (#264)
 - Throw error if any value contains quotation marks ("). (#238)
 - Allow minimal px object to be created even if no input is provided. (#234)
 - Bugfix `px_micro()` used undefined function. (#290)
+- Changing figures removes previous figures variable form cells1 and cells2. (#300)
 
 # pxmake 0.12.0
 

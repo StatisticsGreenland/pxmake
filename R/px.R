@@ -164,6 +164,8 @@ validate_px <- function(x) {
   error_if_list_names_are_wrong(x)
   error_if_data_frame_is_missing_column(x)
   error_if_multiple_time_variables(x)
+  error_if_timeval_isnot_heading_or_stub(x)
+  error_if_contvariable_isnot_heading_or_stub(x)
   error_if_variable_label_is_na(x)
   error_if_misplaced_keywords_in_table(x, table_name = "table1")
   error_if_misplaced_keywords_in_table(x, table_name = "table2")

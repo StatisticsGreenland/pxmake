@@ -234,7 +234,6 @@ px_contvariable.px <- function(x, value) {
       dplyr::bind_rows(previously_indexed_by_contvariable) %>%
       dplyr::mutate(code = NA_character_)
   } else {
-
     x$variables1$contvariable <- FALSE
 
     x <- modify_variables1(x, "contvariable",
@@ -244,7 +243,7 @@ px_contvariable.px <- function(x, value) {
                            )
 
 
-    contvariable_codes <- unique(x$data[[value]])
+    contvariable_codes <- unique(x$data[[value]]) %>% as.character()
 
     indexed_by_contvariable <-
       x$table2 %>%

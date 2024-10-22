@@ -13,6 +13,7 @@ stub/heading order instead of alphabetic. (#264)
 - Allow minimal px object to be created even if no input is provided. (#234)
 - Bugfix `px_micro()` used undefined function. (#290)
 - Changing figures removes previous figures variable form cells1 and cells2. (#300)
+- Add validation check that CONTVARIABLE and TIMEVAL has to be STUB or HEADING variables. (#305)
 
 # pxmake 0.12.0
 

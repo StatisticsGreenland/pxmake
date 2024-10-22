@@ -169,6 +169,22 @@ error_if_multiple_time_variables <- function(x) {
   }
 }
 
+error_if_timeval_isnot_heading_or_stub <- function(x) {
+  if (!is.null(px_timeval(x))) {
+    if (! px_timeval(x) %in% c(px_heading(x), px_stub(x))) {
+      error("TIMEVAL has to be a STUB or HEADING variable.")
+    }
+  }
+}
+
+error_if_contvariable_isnot_heading_or_stub <- function(x) {
+  if (!is.null(px_contvariable(x))) {
+    if (! px_contvariable(x) %in% c(px_heading(x), px_stub(x))) {
+      error("CONTVARIABLE has to be a STUB or HEADING variable.")
+    }
+  }
+}
+
 error_if_variable_label_is_na <- function(x) {
   if (any(is.na(x$variables2$`variable-label`))) {
     error("px object: in x$variables2 'variable-label' has NA values.")

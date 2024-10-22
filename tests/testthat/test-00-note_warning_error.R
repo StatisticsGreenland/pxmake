@@ -32,6 +32,16 @@ test_that("Error if multiple time vars in variable", {
                )
 })
 
+test_that("Error if timeval is not stub or heading", {
+  expect_error(px(population_gl) %>% px_timeval("n"),
+               regexp = "TIMEVAL has to be a STUB or")
+})
+
+test_that("Error if contvariable is not stub or heading", {
+  expect_error(px(population_gl) %>% px_contvariable("n"),
+               regexp = "CONTVARIABLE has to be a STUB or")
+})
+
 test_that("Error wrong input", {
   expect_input_error <- function(input, data = NULL) {
     expect_error(px(input = input, data = data),

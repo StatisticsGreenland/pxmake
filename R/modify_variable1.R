@@ -152,6 +152,14 @@ px_figures.px <- function(x, value) {
 
   x <- change_pivot_variables(x, old_figures_variable, "STUB")
 
+  x$cells1 <-
+    x$cells1 %>%
+    dplyr::filter(!`variable-code` %in% !!value)
+
+  x$cells2 <-
+    x$cells2 %>%
+    dplyr::filter(!`variable-code` %in% !!value)
+
   validate_px(x)
 }
 

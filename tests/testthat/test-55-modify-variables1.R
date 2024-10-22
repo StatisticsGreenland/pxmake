@@ -148,3 +148,22 @@ test_that('stub and heading modifies acrosscells', {
 
   expect_identical(expect2, x2$acrosscells)
 })
+
+test_that('changing px_figures removes it from cells', {
+  x <-
+    population_gl %>%
+    dplyr::relocate(n) %>%
+    px() %>%
+    px_figures("n")
+
+  x$cells1 %>%
+    dplyr::filter(`variable-code` == "n") %>%
+    nrow() %>%
+    expect_equal(0)
+
+
+  x$cells2 %>%
+    dplyr::filter(`variable-code` == "n") %>%
+    nrow() %>%
+    expect_equal(0)
+})

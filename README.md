@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# pxmake
+# pxmake <a href="https://statisticsgreenland.github.io/pxmake/"><img src="man/figures/logo.png" align="right" height="139" alt="pxmake website" /></a>
 
 <!-- badges: start -->
 

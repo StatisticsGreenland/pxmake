@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# pxmake
+# pxmake <a href="https://statisticsgreenland.github.io/pxmake/"><img src="man/figures/logo.png" align="right" height="139" alt="pxmake website" /></a>
 
 <!-- badges: start -->
 ![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)

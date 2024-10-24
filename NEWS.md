@@ -14,6 +14,7 @@ stub/heading order instead of alphabetic. (#264)
 - Bugfix `px_micro()` used undefined function. (#290)
 - Changing figures removes previous figures variable form cells1 and cells2. (#300)
 - Add validation check that CONTVARIABLE and TIMEVAL has to be STUB or HEADING variables. (#305)
+- Add pxmake logo.
 
 # pxmake 0.12.0
 

@@ -46,6 +46,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/StatisticsGreenland/pxmake/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -61,7 +62,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>First px file</h1>
             
       
-
+      <small class="dont-index">Source: <a href="https://github.com/StatisticsGreenland/pxmake/blob/main/vignettes/first-px-file.Rmd" class="external-link"><code>vignettes/first-px-file.Rmd</code></a></small>
       <div class="d-none name"><code>first-px-file.Rmd</code></div>
     </div>
 
@@ -76,7 +77,7 @@ an existing px file, or use a data set.</p>
 <code><a href="../reference/px.html">px()</a></code> to create a <em>px object</em>. Here we are using the
 built in dataset <code>population_gl</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://statisticsgreenland.github.io/pxmake/">pxmake</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/StatisticsGreenland/pxmake" class="external-link">pxmake</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">population_gl</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -198,7 +199,7 @@ VARIABLECODE("age")="age";
 VARIABLECODE("gender")="gender";
 VARIABLECODE("year")="year";
 VARIABLECODE("n")="n";
-LAST-UPDATED="20241024 10:33";
+LAST-UPDATED="20241024 10:40";
 CONTACT="Johan Ejstrud";
 NOTE="See information about data: ?population_gl";
 DATA=

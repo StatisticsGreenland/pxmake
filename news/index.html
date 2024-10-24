@@ -27,6 +27,7 @@
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/StatisticsGreenland/pxmake/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -35,7 +36,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-
+      <small>Source: <a href="https://github.com/StatisticsGreenland/pxmake/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
@@ -47,15 +48,15 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-development-version">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-development-version"></a></h3>
-<ul><li>Keyword UNITS is now placed after CONTVARIABLE and VALUES in the px file. (#308)</li>
-<li>Add default values for mandatory keywords in all languages. (#219)</li>
-<li>Bugfix <code><a href="../reference/px_language.px.html">px_language()</a></code> stops removing previously defined languages. (#297)</li>
-<li>Change sorting order of px-file, so variables within keywords are in stub/heading order instead of alphabetic. (#264)</li>
-<li>Throw error if any value contains quotation marks (“). (#238)</li>
-<li>Allow minimal px object to be created even if no input is provided. (#234)</li>
-<li>Bugfix <code><a href="../reference/px_micro.html">px_micro()</a></code> used undefined function. (#290)</li>
-<li>Changing figures removes previous figures variable form cells1 and cells2. (#300)</li>
-<li>Add validation check that CONTVARIABLE and TIMEVAL has to be STUB or HEADING variables. (#305)</li>
+<ul><li>Keyword UNITS is now placed after CONTVARIABLE and VALUES in the px file. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/308" class="external-link">#308</a>)</li>
+<li>Add default values for mandatory keywords in all languages. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/219" class="external-link">#219</a>)</li>
+<li>Bugfix <code><a href="../reference/px_language.px.html">px_language()</a></code> stops removing previously defined languages. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/297" class="external-link">#297</a>)</li>
+<li>Change sorting order of px-file, so variables within keywords are in stub/heading order instead of alphabetic. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/264" class="external-link">#264</a>)</li>
+<li>Throw error if any value contains quotation marks (“). (<a href="https://github.com/StatisticsGreenland/pxmake/issues/238" class="external-link">#238</a>)</li>
+<li>Allow minimal px object to be created even if no input is provided. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/234" class="external-link">#234</a>)</li>
+<li>Bugfix <code><a href="../reference/px_micro.html">px_micro()</a></code> used undefined function. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/290" class="external-link">#290</a>)</li>
+<li>Changing figures removes previous figures variable form cells1 and cells2. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/300" class="external-link">#300</a>)</li>
+<li>Add validation check that CONTVARIABLE and TIMEVAL has to be STUB or HEADING variables. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/305" class="external-link">#305</a>)</li>
 <li>Add pxmake logo.</li>
 </ul></div>
 </div>
@@ -63,27 +64,27 @@
 <h2 class="pkg-version" data-toc-text="0.12.0" id="pxmake-0120">pxmake 0.12.0<a class="anchor" aria-label="anchor" href="#pxmake-0120"></a></h2>
 <div class="section level3">
 <h3 id="breaking-changes-0-12-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-12-0"></a></h3>
-<ul><li>Change argument ‘variable’ and ‘variables’ to ‘value’ in <code><a href="../reference/px_stub.px.html">px_stub()</a></code>, <code><a href="../reference/px_heading.px.html">px_heading()</a></code>, <code><a href="../reference/px_figures.px.html">px_figures()</a></code>, <code><a href="../reference/px_timeval.px.html">px_timeval()</a></code>, <code><a href="../reference/px_add_totals.px.html">px_add_totals()</a></code>, to align with all other modifying functions. (#296)</li>
+<ul><li>Change argument ‘variable’ and ‘variables’ to ‘value’ in <code><a href="../reference/px_stub.px.html">px_stub()</a></code>, <code><a href="../reference/px_heading.px.html">px_heading()</a></code>, <code><a href="../reference/px_figures.px.html">px_figures()</a></code>, <code><a href="../reference/px_timeval.px.html">px_timeval()</a></code>, <code><a href="../reference/px_add_totals.px.html">px_add_totals()</a></code>, to align with all other modifying functions. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/296" class="external-link">#296</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-0-12-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-12-0"></a></h3>
-<ul><li>Add modifying functions: <code><a href="../reference/px_values.px.html">px_values()</a></code>, <code><a href="../reference/px_variable_label.px.html">px_variable_label()</a></code>, <code><a href="../reference/px_data.px.html">px_data()</a></code>, <code><a href="../reference/px_source.px.html">px_source()</a></code>. (#291)</li>
+<ul><li>Add modifying functions: <code><a href="../reference/px_values.px.html">px_values()</a></code>, <code><a href="../reference/px_variable_label.px.html">px_variable_label()</a></code>, <code><a href="../reference/px_data.px.html">px_data()</a></code>, <code><a href="../reference/px_source.px.html">px_source()</a></code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/291" class="external-link">#291</a>)</li>
 <li>Add pkgdown version of documentation on: <a href="https://statisticsgreenland.github.io/pxmake/" class="uri">https://statisticsgreenland.github.io/pxmake/</a>
 </li>
-<li>Add example data sets <code>population_gl</code> and <code>greenlanders</code>. (#282)</li>
+<li>Add example data sets <code>population_gl</code> and <code>greenlanders</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/282" class="external-link">#282</a>)</li>
 <li>
-<code><a href="../reference/px_micro.html">px_micro()</a></code> support multilingual <code>keyword_values</code> arguments. (#306)</li>
+<code><a href="../reference/px_micro.html">px_micro()</a></code> support multilingual <code>keyword_values</code> arguments. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/306" class="external-link">#306</a>)</li>
 <li>Add example section to most help pages.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-12-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-12-0"></a></h3>
 <ul><li>Update <code><a href="../reference/px_micro.html">px_micro()</a></code> documentation.</li>
-<li>Bugfix: <code><a href="../reference/px_add_totals.px.html">px_add_totals()</a></code> now uses default value ‘Total’ if <code>x$variables2$elimination</code> is <code>NA</code>. (#284)</li>
+<li>Bugfix: <code><a href="../reference/px_add_totals.px.html">px_add_totals()</a></code> now uses default value ‘Total’ if <code>x$variables2$elimination</code> is <code>NA</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/284" class="external-link">#284</a>)</li>
 <li>Add <code>na.rm</code> argument to <code>px_add_totalts()</code>.</li>
 <li>
 <code><a href="../reference/px.html">px()</a></code> can now take an Excel workbook without a ‘Data’ sheet, without requiring that argument ‘data’ is supplied.</li>
 <li>Remove unused functions.</li>
-<li>Add three vigenttes. (#277, #278, #280)</li>
+<li>Add three vigenttes. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/277" class="external-link">#277</a>, <a href="https://github.com/StatisticsGreenland/pxmake/issues/278" class="external-link">#278</a>, <a href="https://github.com/StatisticsGreenland/pxmake/issues/280" class="external-link">#280</a>)</li>
 <li>Increase test coverage.</li>
 <li>Move px keywords to internal data set.</li>
 <li>Add link to Statstics Sweden’s documentation in help page for all px keywords.</li>
@@ -118,23 +119,23 @@
 </ul></div>
 <div class="section level3">
 <h3 id="breaking-changes-0-11-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-11-0"></a></h3>
-<ul><li>Rename ‘codelists’ to ‘cells’ in px-object and Excel workbooks. (#256)</li>
-<li>Deprecate ‘metamake’, ‘pxmake’ and ‘make_template’. (#198)</li>
-<li>Change name of all modifying functions by adding the prefix ‘px_’. (#254)</li>
-<li>Rename ‘acrosscell’ to ‘acrosscells’. (#271)</li>
-<li>Rename <code>type</code> to <code>variable-type</code> in variables1. (#261)</li>
-<li>Move TIMEVAL to its own column in variables1, instead of having it as part of <code>variable-type</code>. (#265)</li>
-<li>Rename ‘pxsave’ to ‘px_save’. (#273)</li>
-<li>Rename ‘figures’ to ‘px_figures’, ‘order’ to ‘px_order’, ‘add_totals’ to ‘px_add_totals’. (#274)</li>
+<ul><li>Rename ‘codelists’ to ‘cells’ in px-object and Excel workbooks. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/256" class="external-link">#256</a>)</li>
+<li>Deprecate ‘metamake’, ‘pxmake’ and ‘make_template’. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/198" class="external-link">#198</a>)</li>
+<li>Change name of all modifying functions by adding the prefix ‘px_’. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/254" class="external-link">#254</a>)</li>
+<li>Rename ‘acrosscell’ to ‘acrosscells’. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/271" class="external-link">#271</a>)</li>
+<li>Rename <code>type</code> to <code>variable-type</code> in variables1. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/261" class="external-link">#261</a>)</li>
+<li>Move TIMEVAL to its own column in variables1, instead of having it as part of <code>variable-type</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/265" class="external-link">#265</a>)</li>
+<li>Rename ‘pxsave’ to ‘px_save’. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/273" class="external-link">#273</a>)</li>
+<li>Rename ‘figures’ to ‘px_figures’, ‘order’ to ‘px_order’, ‘add_totals’ to ‘px_add_totals’. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/274" class="external-link">#274</a>)</li>
 <li>Rename ‘micromake’ to ‘px_mircro’.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-0-11-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-11-0"></a></h3>
-<ul><li>Add modifying functions: <code>map()</code>, <code>baseperiod()</code>, <code>domain()</code>, <code>elimination()</code>, <code>descriptiondefault()</code>, <code><a href="https://rdrr.io/r/base/order.html" class="external-link">order()</a></code>, <code>precision()</code>, <code>cellnote()</code>, <code>cellnotex()</code>, <code>cfprices()</code>, <code>stockfa()</code>, <code>variable_type()</code>, <code>contvariable()</code>. (#246) (#125) (#223)</li>
+<ul><li>Add modifying functions: <code>map()</code>, <code>baseperiod()</code>, <code>domain()</code>, <code>elimination()</code>, <code>descriptiondefault()</code>, <code><a href="https://rdrr.io/r/base/order.html" class="external-link">order()</a></code>, <code>precision()</code>, <code>cellnote()</code>, <code>cellnotex()</code>, <code>cfprices()</code>, <code>stockfa()</code>, <code>variable_type()</code>, <code>contvariable()</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/246" class="external-link">#246</a>) (<a href="https://github.com/StatisticsGreenland/pxmake/issues/125" class="external-link">#125</a>) (<a href="https://github.com/StatisticsGreenland/pxmake/issues/223" class="external-link">#223</a>)</li>
 <li>
-<code>micromake()</code> use furrr package to run in parallel. (#248)</li>
+<code>micromake()</code> use furrr package to run in parallel. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/248" class="external-link">#248</a>)</li>
 <li>
-<code>micromake()</code> removes headings if all figures are NA. (#250)</li>
+<code>micromake()</code> removes headings if all figures are NA. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/250" class="external-link">#250</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-11-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-11-0"></a></h3>
@@ -150,19 +151,19 @@
 <ul><li>Change all modifying functions to also be getters, so e.g. <code>stub(x)</code> returns current STUB variables.</li>
 <li>
 <code>pxsave()</code> automatically adds values if they aren’t defined in codelists2.</li>
-<li>Add argument <code>save_data</code> to <code>pxsave()</code> to supress saving of ‘Data’ sheet in Excel. (#204)</li>
-<li>Add arugment <code>data_path</code> to <code>pxsave()</code> to save data table as an .rds file. (#204)</li>
-<li>Add micromake arguments to control keywords for invidual tables. (#239)</li>
-<li>Add possibility for micromake to control output filenames. (#242)</li>
+<li>Add argument <code>save_data</code> to <code>pxsave()</code> to supress saving of ‘Data’ sheet in Excel. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/204" class="external-link">#204</a>)</li>
+<li>Add arugment <code>data_path</code> to <code>pxsave()</code> to save data table as an .rds file. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/204" class="external-link">#204</a>)</li>
+<li>Add micromake arguments to control keywords for invidual tables. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/239" class="external-link">#239</a>)</li>
+<li>Add possibility for micromake to control output filenames. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/242" class="external-link">#242</a>)</li>
 <li>Add new modifying functions: <code>last_updated()</code>, <code>next_update()</code>, <code>language()</code>, <code>languages()</code>, <code>valuenote()</code>, <code>valuenotex()</code>, <code>contents()</code>, <code>description()</code>, <code>subject_area()</code>, <code>subject_code()</code>, <code><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title()</a></code>, <code><a href="https://rdrr.io/r/base/units.html" class="external-link">units()</a></code>, <code>aggregallowed()</code>, <code>autopen()</code>, <code>axis_version()</code>, <code>codepage()</code>, <code>confidential()</code>, <code>copyright()</code>, <code>showdecimals()</code>, <code>tableid()</code>, <code>update-frequency()</code>, <code>contact()</code>, <code>link()</code>, <code>note()</code>, <code>notex()</code>, <code>infofile()</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-10-1">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-10-1"></a></h3>
-<ul><li>Throw error if trying to remove mandatory keyword. (#208)</li>
+<ul><li>Throw error if trying to remove mandatory keyword. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/208" class="external-link">#208</a>)</li>
 <li>Validate px after using modifying functions.</li>
 <li>validate_px checks that keywords in table1 and table2 are in the right table.</li>
 <li>Check that arguments to micromake are valid.</li>
-<li>Sort data before creating codelist from data frame. (#197)</li>
+<li>Sort data before creating codelist from data frame. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/197" class="external-link">#197</a>)</li>
 <li>Add priority and complexity to list of unimplemented keywords.</li>
 <li>Add check if keywords are in correct table.</li>
 <li>Remove ‘micro’ prefix from filenames created by micromake().</li>
@@ -171,13 +172,13 @@
 <li>Check that all defined variable-codes are in data.</li>
 <li>Add check that data columns are defined.</li>
 <li>In <code>micromake()</code> used preserve HEADING variables, and produces px files for all other variables.</li>
-<li>Bugfix: <code>heading()</code>, <code>stub()</code> and <code>figures()</code> no longer modify order of other variables. (#225)</li>
+<li>Bugfix: <code>heading()</code>, <code>stub()</code> and <code>figures()</code> no longer modify order of other variables. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/225" class="external-link">#225</a>)</li>
 <li>Remove duplication in documentaiton of pivot modifying functions.</li>
-<li>Bugfix: <code>last_updated()</code> created wrong keyword (#233)</li>
+<li>Bugfix: <code>last_updated()</code> created wrong keyword (<a href="https://github.com/StatisticsGreenland/pxmake/issues/233" class="external-link">#233</a>)</li>
 <li>Remove ‘micro’ prefix from filenames created by micromake().</li>
-<li>Bugfix: wrong error message (#243)</li>
+<li>Bugfix: wrong error message (<a href="https://github.com/StatisticsGreenland/pxmake/issues/243" class="external-link">#243</a>)</li>
 <li>Bugfix: <code>last_updated()</code> modified wrong table.</li>
-<li>Bugfix: Remove NA values when creating px file (#205).</li>
+<li>Bugfix: Remove NA values when creating px file (<a href="https://github.com/StatisticsGreenland/pxmake/issues/205" class="external-link">#205</a>).</li>
 <li>Bugfix: <code>px(input)</code> can be a path to an <code>.rds</code> file.</li>
 </ul></div>
 </div>
@@ -185,7 +186,7 @@
 <h2 class="pkg-version" data-toc-text="0.10.0" id="pxmake-0100">pxmake 0.10.0<a class="anchor" aria-label="anchor" href="#pxmake-0100"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-10-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-10-0"></a></h3>
-<ul><li>The function <code><a href="../reference/px.html">px()</a></code> creates a <em>px object</em>. This is a major change to the way package works. <code>pxmake</code> and <code>metamake</code> are soft deprecated. Use <code><a href="../reference/px.html">px()</a></code> and <code>pxsave()</code> instead. (#197)</li>
+<ul><li>The function <code><a href="../reference/px.html">px()</a></code> creates a <em>px object</em>. This is a major change to the way package works. <code>pxmake</code> and <code>metamake</code> are soft deprecated. Use <code><a href="../reference/px.html">px()</a></code> and <code>pxsave()</code> instead. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/197" class="external-link">#197</a>)</li>
 <li>To modify the px object, a number of <em>modifying functions</em> have been added: <code>charset()</code>, <code>creation_date()</code>, <code>decimals()</code>, <code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code>, <code>stub()</code>, <code>heading()</code>, <code>timeval()</code>, <code>add_totals()</code> and <code>figures()</code>. Many more need to be added in the future, to cover all px keywords.</li>
 </ul></div>
 <div class="section level3">
@@ -210,9 +211,9 @@
 <h2 class="pkg-version" data-toc-text="0.9.1" id="pxmake-091">pxmake 0.9.1<a class="anchor" aria-label="anchor" href="#pxmake-091"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-9-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-9-1"></a></h3>
-<ul><li>Add <code>make_template</code> to create a minimial multilingual metadata template. (#186)</li>
-<li>Add <code>micromake</code> to create many small px-files from a large data set. See <code>vignette(micromake)</code>. (#176)</li>
-<li>Support keyword VALUENOTE (#187)</li>
+<ul><li>Add <code>make_template</code> to create a minimial multilingual metadata template. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/186" class="external-link">#186</a>)</li>
+<li>Add <code>micromake</code> to create many small px-files from a large data set. See <code>vignette(micromake)</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/176" class="external-link">#176</a>)</li>
+<li>Support keyword VALUENOTE (<a href="https://github.com/StatisticsGreenland/pxmake/issues/187" class="external-link">#187</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-9-1">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-9-1"></a></h3>
@@ -232,7 +233,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-9-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-9-0"></a></h3>
-<ul><li>Handle px-files with either zero heading variables or zero stub variables. (#95)</li>
+<ul><li>Handle px-files with either zero heading variables or zero stub variables. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/95" class="external-link">#95</a>)</li>
 <li>Fix edge case in list sorting caused by px-files with no codes.</li>
 <li>Use values as codes if no code is given for add_totals variable.</li>
 </ul></div>
@@ -241,29 +242,29 @@
 <h2 class="pkg-version" data-toc-text="0.8.1" id="pxmake-081">pxmake 0.8.1<a class="anchor" aria-label="anchor" href="#pxmake-081"></a></h2>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-8-1">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-8-1"></a></h3>
-<ul><li>Use variable-code as variable-label if no label is given. (#173)</li>
-<li>Quote values of text keywords even if their text is a number. (#164)</li>
+<ul><li>Use variable-code as variable-label if no label is given. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/173" class="external-link">#173</a>)</li>
+<li>Quote values of text keywords even if their text is a number. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/164" class="external-link">#164</a>)</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.0" id="pxmake-080">pxmake 0.8.0<a class="anchor" aria-label="anchor" href="#pxmake-080"></a></h2>
 <div class="section level3">
 <h3 id="breaking-changes-0-8-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-8-0"></a></h3>
-<ul><li>Split sheet ‘Table’ into two sheets by language dependency. (#65)</li>
-<li>Split column ‘position’ in ‘Variables’ sheet into ‘pivot’ and ‘order’. (#159)</li>
+<ul><li>Split sheet ‘Table’ into two sheets by language dependency. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/65" class="external-link">#65</a>)</li>
+<li>Split column ‘position’ in ‘Variables’ sheet into ‘pivot’ and ‘order’. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/159" class="external-link">#159</a>)</li>
 <li>Check for illegal values in columns ‘pivot’ and ‘type’ in ’Variables sheet.</li>
-<li>Rename ‘variable’ and ‘long_name’ to ‘variable-code’ and ‘variable-label’. (#144)</li>
+<li>Rename ‘variable’ and ‘long_name’ to ‘variable-code’ and ‘variable-label’. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/144" class="external-link">#144</a>)</li>
 <li>Add check for language-dependent mandatory variables in Excel metadata.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-0-8-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-8-0"></a></h3>
-<ul><li>Return rds object invisibly from <code>pxmake</code> and <code>metamake</code>. (#37)</li>
-<li>Support CONTVARIABLE. (#132)</li>
+<ul><li>Return rds object invisibly from <code>pxmake</code> and <code>metamake</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/37" class="external-link">#37</a>)</li>
+<li>Support CONTVARIABLE. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/132" class="external-link">#132</a>)</li>
 <li>Preserve name of FIGURES variable through all data formats.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-8-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-8-0"></a></h3>
-<ul><li>Rename all internal functions from ‘source_data’ to ‘data’. (#151)</li>
+<ul><li>Rename all internal functions from ‘source_data’ to ‘data’. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/151" class="external-link">#151</a>)</li>
 <li>Print error message without the name of the function that threw the error.</li>
 <li>Sort metadata before saving.</li>
 </ul></div>
@@ -277,9 +278,9 @@
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-7-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-7-0"></a></h3>
 <ul><li>Validate arguments to <code>pxmake</code> and <code>metamake</code> and give helpful error messages.</li>
-<li>Support px-files without LANGUAGES keyword. (#143)</li>
-<li>Remove dependencies between test and run them in parallel. (#112)</li>
-<li>Split tests into more files to run them faster in parallel. (#149)</li>
+<li>Support px-files without LANGUAGES keyword. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/143" class="external-link">#143</a>)</li>
+<li>Remove dependencies between test and run them in parallel. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/112" class="external-link">#112</a>)</li>
+<li>Split tests into more files to run them faster in parallel. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/149" class="external-link">#149</a>)</li>
 <li>GitHub actions cancels build if a newer commit is pushed.</li>
 <li>Lots of documentation improvements.</li>
 </ul></div>
@@ -319,40 +320,40 @@
 <h2 class="pkg-version" data-toc-text="0.5.0" id="pxmake-050">pxmake 0.5.0<a class="anchor" aria-label="anchor" href="#pxmake-050"></a></h2>
 <div class="section level3">
 <h3 id="breaking-changes-0-5-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-5-0"></a></h3>
-<ul><li>Rename ‘General’ metadata sheet to ‘Table’. (#85)</li>
-<li>Rename argument <code>pxmake(source_data_path)</code> to <code>source_data</code> (#71)</li>
-<li>Rename argument <code>metamake(out_path)</code> to <code>xlsx_path</code>. (#106)</li>
+<ul><li>Rename ‘General’ metadata sheet to ‘Table’. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/85" class="external-link">#85</a>)</li>
+<li>Rename argument <code>pxmake(source_data_path)</code> to <code>source_data</code> (<a href="https://github.com/StatisticsGreenland/pxmake/issues/71" class="external-link">#71</a>)</li>
+<li>Rename argument <code>metamake(out_path)</code> to <code>xlsx_path</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/106" class="external-link">#106</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-0-5-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-5-0"></a></h3>
-<ul><li>Write and read files in encoding defined by keyword CODEPAGE. (#114, #115)</li>
-<li>Break lines in px-files with values longer than 256 characters. (#113)</li>
-<li>Support other main languages than English. (#54)</li>
-<li>Support any language code (previously only supported: en, da, kl, and fo). (#117)</li>
+<ul><li>Write and read files in encoding defined by keyword CODEPAGE. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/114" class="external-link">#114</a>, <a href="https://github.com/StatisticsGreenland/pxmake/issues/115" class="external-link">#115</a>)</li>
+<li>Break lines in px-files with values longer than 256 characters. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/113" class="external-link">#113</a>)</li>
+<li>Support other main languages than English. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/54" class="external-link">#54</a>)</li>
+<li>Support any language code (previously only supported: en, da, kl, and fo). (<a href="https://github.com/StatisticsGreenland/pxmake/issues/117" class="external-link">#117</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-5-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-5-0"></a></h3>
-<ul><li>Add formatting to Excel metadata workbook created by <code>metamake()</code>. (#100)</li>
-<li>Add argument <code>rds_data_path</code> to <code>metamake()</code> to save data as rds file. (#108)</li>
-<li>Let <code>pxmake()</code> accept data frame as source data in addition to accepting a path. (#71)</li>
-<li>Turn off <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines()</a></code> warning for missing EOL character. (#113)</li>
-<li>Rename <code>.figures</code> to <code>figures_</code> in metadata created by <code>metamake()</code>. (#104)</li>
+<ul><li>Add formatting to Excel metadata workbook created by <code>metamake()</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/100" class="external-link">#100</a>)</li>
+<li>Add argument <code>rds_data_path</code> to <code>metamake()</code> to save data as rds file. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/108" class="external-link">#108</a>)</li>
+<li>Let <code>pxmake()</code> accept data frame as source data in addition to accepting a path. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/71" class="external-link">#71</a>)</li>
+<li>Turn off <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines()</a></code> warning for missing EOL character. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/113" class="external-link">#113</a>)</li>
+<li>Rename <code>.figures</code> to <code>figures_</code> in metadata created by <code>metamake()</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/104" class="external-link">#104</a>)</li>
 <li>Allow forward slashes in variables names.</li>
-<li>Let <code>metamake()</code> support tables without time variables. (#120)</li>
-<li>Use values as codes in there are no codes in metadata. (#102)</li>
+<li>Let <code>metamake()</code> support tables without time variables. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/120" class="external-link">#120</a>)</li>
+<li>Use values as codes in there are no codes in metadata. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/102" class="external-link">#102</a>)</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="pxmake-040">pxmake 0.4.0<a class="anchor" aria-label="anchor" href="#pxmake-040"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-0"></a></h3>
-<ul><li>Add metamake() which creates an Excel metadata workbook from a px-file. This is the inverse function of pxmake(). (#68)</li>
+<ul><li>Add metamake() which creates an Excel metadata workbook from a px-file. This is the inverse function of pxmake(). (<a href="https://github.com/StatisticsGreenland/pxmake/issues/68" class="external-link">#68</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-4-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-4-0"></a></h3>
-<ul><li>CODES added for time variables. (#91)</li>
-<li>Data cube is sorted correctly for data with more than one heading variable. (#93)</li>
-<li>Non-figure variables are read as character. (#87, #84, #73)</li>
+<ul><li>CODES added for time variables. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/91" class="external-link">#91</a>)</li>
+<li>Data cube is sorted correctly for data with more than one heading variable. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/93" class="external-link">#93</a>)</li>
+<li>Non-figure variables are read as character. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/87" class="external-link">#87</a>, <a href="https://github.com/StatisticsGreenland/pxmake/issues/84" class="external-link">#84</a>, <a href="https://github.com/StatisticsGreenland/pxmake/issues/73" class="external-link">#73</a>)</li>
 <li>Add keywords AUTOPEN and AGGREGALLOWED</li>
 <li>Allow figures variable to have any name (previously only ‘values’)</li>
 </ul></div>

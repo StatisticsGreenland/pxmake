@@ -7,11 +7,14 @@
 \alias{pxmake-package.R}
 \title{pxmake: Create px files}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Create and modify px files in R.
 }
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://github.com/StatisticsGreenland/pxmake}
   \item \url{https://statisticsgreenland.github.io/pxmake/}
 }
 

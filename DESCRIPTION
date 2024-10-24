@@ -40,4 +40,4 @@ VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
 LazyData: true
-URL: https://statisticsgreenland.github.io/pxmake/
+URL: https://github.com/StatisticsGreenland/pxmake, https://statisticsgreenland.github.io/pxmake/

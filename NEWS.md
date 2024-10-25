@@ -2,6 +2,9 @@
 
 ## New features
 - `px()` and `px_save()` can write and read to and from `.parquet` files.
+- Change default value for all mandatory keywords to be descriptive rather than 
+empty string "". This was done because PxWin does not allow empty strings in
+mandatory keywords. (#320)
 
 ## Bug fixes and minor improvements
 - Keyword UNITS is now placed after CONTVARIABLE and VALUES in the px file. (#308)

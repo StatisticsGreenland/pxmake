@@ -7,6 +7,7 @@ test_that('variables 2 is modified', {
 
   expect_identical(px_domain(x), NULL)
   expect_identical(px_elimination(x), NULL)
+  expect_identical(px_map(x), NULL)
 
   domain_str <- "aggregation list"
 
@@ -51,4 +52,12 @@ test_that('variables 2 is modified', {
   x8 <- px_variable_label(x, variable_label_df)
 
   expect_identical(px_variable_label(x8), variable_label_df)
+
+  map_df <- dplyr::tribble(~`variable-code`, ~`map`,
+                           "time",            "not really a map, just an example"
+                           )
+
+  x9 <- px_map(x, map_df)
+
+  expect_identical(px_map(x9), map_df)
 })

@@ -34,6 +34,16 @@ px_elimination.px <- function(x, value) {
   handle_variables2_keyword(x, value, "ELIMINATION")
 }
 
+#' @rdname px_map.px
+#' @export
+px_map <- function(x, value) {
+  UseMethod("px_map")
+}
+
+#' @eval add_documentation_variables2("MAP", "greenland", "cities", "municipalities")
+px_map.px <- function(x, value) {
+  handle_variables2_keyword(x, value, "MAP")
+}
 
 #' @rdname px_variable_label.px
 #' @export

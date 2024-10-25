@@ -33,6 +33,7 @@ get_base_variables2 <- function() {
                 `variable-label` = as.character(),
                 domain           = as.character(),
                 elimination      = as.character(),
+                map              = as.character(),
                 note             = as.character(),
                 notex            = as.character()
                 )

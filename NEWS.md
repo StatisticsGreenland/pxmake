@@ -18,6 +18,7 @@ stub/heading order instead of alphabetic. (#264)
 - Changing figures removes previous figures variable form cells1 and cells2. (#300)
 - Add validation check that CONTVARIABLE and TIMEVAL has to be STUB or HEADING variables. (#305)
 - Add pxmake logo.
+- Keyword MAP is now stored in variables2 instead of table2. (#295)
 
 # pxmake 0.12.0
 

@@ -109,18 +109,6 @@ px_link.px <- function(x, value) {
 }
 
 
-#' @rdname px_map.px
-#' @export
-px_map <- function(x, value) {
-  UseMethod("px_map")
-}
-
-#' @eval add_documentation_table2("MAP", "Great Britain", "Kalaallit Nunaat")
-px_map.px <- function(x, value) {
-  handle_table2_keyword(x, value, "MAP")
-}
-
-
 #' @rdname px_source.px
 #' @export
 px_source <- function(x, value) {

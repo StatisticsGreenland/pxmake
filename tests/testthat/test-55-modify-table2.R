@@ -55,7 +55,6 @@ test_that('Other keywords are modified and removed', {
     px_contact('Johan Ejstrud') %>%
     px_link('The Legend of Zelda') %>%
     px_infofile("infofile") %>%
-    px_map('X marks the spot') %>%
     px_baseperiod("baseperiod") %>%
     px_stockfa("S") %>%
     px_cfprices("C") %>%
@@ -69,7 +68,6 @@ test_that('Other keywords are modified and removed', {
   expect_identical(px_contact(x2), 'Johan Ejstrud')
   expect_identical(px_link(x2), 'The Legend of Zelda')
   expect_identical(px_infofile(x2), "infofile")
-  expect_identical(px_map(x2), 'X marks the spot')
   expect_identical(px_baseperiod(x2), "baseperiod")
   expect_identical(px_stockfa(x2), "S")
   expect_identical(px_cfprices(x2), "C")
@@ -81,7 +79,6 @@ test_that('Other keywords are modified and removed', {
     px_contact(NULL) %>%
     px_link(NULL) %>%
     px_infofile(NULL) %>%
-    px_map(NULL) %>%
     px_baseperiod(NULL) %>%
     px_stockfa(NULL) %>%
     px_cfprices(NULL) %>%
@@ -91,7 +88,6 @@ test_that('Other keywords are modified and removed', {
   expect_identical(px_contact(x3), NULL)
   expect_identical(px_link(x3), NULL)
   expect_identical(px_infofile(x3), NULL)
-  expect_identical(px_map(x3), NULL)
   expect_identical(px_baseperiod(x3), NULL)
   expect_identical(px_stockfa(x3), NULL)
   expect_identical(px_cfprices(x3), NULL)

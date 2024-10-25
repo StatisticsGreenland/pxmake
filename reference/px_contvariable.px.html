@@ -11,7 +11,7 @@ Removing CONTVARIABLE removes the indexing from table2."><meta property="og:imag
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.0.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.0.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,8 +91,8 @@ Removing CONTVARIABLE removes the indexing from table2.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   code   language value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> female <span style="color: #BB0000;">NA</span>       <span style="color: #949494;">""</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> male   <span style="color: #BB0000;">NA</span>       <span style="color: #949494;">""</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> female <span style="color: #BB0000;">NA</span>       units</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> male   <span style="color: #BB0000;">NA</span>       units</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Remove CONTVARIABLE</span></span></span>
 <span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu">px_contvariable</span><span class="op">(</span><span class="va">x1</span>, <span class="cn">NULL</span><span class="op">)</span></span></span>
@@ -101,7 +101,7 @@ Removing CONTVARIABLE removes the indexing from table2.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Removing CONTVARIABLE also removes the index from UNITS</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="px_units.px.html">px_units</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] ""</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "units"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

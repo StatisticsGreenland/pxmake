@@ -111,7 +111,7 @@ test_that("CONTVARIABLE is changed", {
   expect_equal(px_contvariable(x2), NULL)
 
   # Setting CONTVARIABLE to NULL removes indexing in table2
-  expect_equal(px_units(x2), "")
+  expect_equal(px_units(x2), "units")
 })
 
 test_that('stub and heading modifies acrosscells', {

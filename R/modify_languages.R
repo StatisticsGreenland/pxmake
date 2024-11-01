@@ -67,6 +67,13 @@ modify_languages_in_px <- function(x, new_languages) {
                               keep_vars = c("variable-code", "code"),
                               align_df = get_base_cells2()
                               )
+  x$acrosscells <-
+    modify_languages_in_table(df = x$acrosscells,
+                              new_languages = new_languages,
+                              keep_vars = c(px_stub(x), px_heading(x), 'cellnote'),
+                              align_df = get_base_acrosscells()
+                              )
+
   return(x)
 }
 

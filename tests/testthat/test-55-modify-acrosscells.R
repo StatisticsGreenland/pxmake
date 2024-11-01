@@ -21,19 +21,26 @@ test_that('cellnote is modified and removed', {
   x2 <- px_cellnote(x, cellnote_df2)
   expect_identical(px_cellnote(x2), cellnote_df1)
 
-  language_list <- c("en", "da", "kl")
-  x_lang <- px_languages(x, language_list)
+  # Changing languages adds cellnote for each language
+  language_list <- c("da", "en", "kl")
 
-  expect_identical(px_cellnote(x_lang), NULL)
+  x1_lang <- px_languages(x1, language_list)
 
   cellnote_df2_lang <-
-    tidyr::crossing(cellnote_df1, language = c("en", "da")) %>%
+    tidyr::crossing(cellnote_df1, language = language_list) %>%
     dplyr::relocate(language, .before = "cellnote")
 
-  x2_lang <- px_cellnote(x_lang, cellnote_df2_lang)
+  expect_identical(px_cellnote(x1_lang), cellnote_df2_lang)
+
+  # Set cellnote for multiple languages
+  x2_lang <-
+    x %>%
+    px_languages(language_list) %>%
+    px_cellnote(cellnote_df2_lang)
 
   expect_identical(px_cellnote(x2_lang), cellnote_df2_lang)
 
+  # error if column is not in the data
   cellnote_error1 <- dplyr::tibble(not_a_column = "fisk",
                                    `place of birth` = "*",
                                    gender = "K",
@@ -43,7 +50,7 @@ test_that('cellnote is modified and removed', {
 
   expect_error(px_cellnote(x, cellnote_error1), regexp = "invalid column")
 
-  # px_cellnotex
+  # cellnotex
   expect_identical(px_cellnotex(x), NULL)
 
   cellnotex_df1 <- cellnote_df1 %>% dplyr::rename(cellnotex = cellnote)

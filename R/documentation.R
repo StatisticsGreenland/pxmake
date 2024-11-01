@@ -71,6 +71,18 @@ add_documentation_variables2 <- function(keyword, example_value1, example_value2
     split_multiline_str_into_vector()
 }
 
+add_documentation_acrosscells <- function(keyword) {
+  stringr::str_glue(
+    "{doc_keyword_function_intro(keyword)}",
+    "@param value {acrosscells_param_value(keyword)}",
+    "{return_px_or_df()}",
+    "@export",
+    .sep = "\n"
+  ) %>%
+    split_multiline_str_into_vector()
+
+}
+
 doc_keyword_function_intro <- function(keyword) {
   str <-
     stringr::str_glue(
@@ -351,7 +363,7 @@ acrosscells_param_value <- function(keyword) {
     "Optional. A data frame with columns '{colname}' and one or more columns ",
     "with the names of the STUB and HEADING variables. The '{colname}' column is ",
     "the {colname} text, and the STUB/HEADING columns control which cells the ",
-    "note applies to. Use '*' if the note applies to all cells for a variable.",
+    "note applies to. Use '*' if the note applies to all cells for a variable. ",
     "If 'value' is missing, the current {keyword} is returned. If NULL, {keyword} ",
     "is removed."
   )

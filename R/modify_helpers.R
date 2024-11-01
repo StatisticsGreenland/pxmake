@@ -152,7 +152,7 @@ modify_acrosscells <- function(x, value, keyword) {
   value_completed <-
     value %>%
     { if (length(missing_columns) > 0) {
-      dplyr::bind_cols(., na_tibble(columns = missing_columns))
+      dplyr::bind_cols(., asterisk_tibble(columns = missing_columns))
     } else {
       .
     }}

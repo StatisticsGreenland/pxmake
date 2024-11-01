@@ -16,6 +16,11 @@ test_that('cellnote is modified and removed', {
   x1 <- px_cellnote(x, cellnote_df1)
   expect_identical(px_cellnote(x1), cellnote_df1)
 
+  # Astrixs are added for variables that aren't supplied
+  cellnote_df2 <- dplyr::select(cellnote_df1, -`place of birth`)
+  x2 <- px_cellnote(x, cellnote_df2)
+  expect_identical(px_cellnote(x2), cellnote_df1)
+
   language_list <- c("en", "da", "kl")
   x_lang <- px_languages(x, language_list)
 

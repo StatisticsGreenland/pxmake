@@ -8,9 +8,9 @@ get_px_metadata_regex <- function() {
          "(?<language>[[:alpha:]_-]+)?", # Maybe language
          "(?:\\])?",                     # Maybe closing language bracket ]
          "(?:\\(\")?",                   # Maybe opening sub-key parentheses (
-         "(?<variable>[^\"]+)?",         # Maybe sub-key
+         "(?<variable>[^\"=]+)?",        # Maybe sub-key
          "(?:\",\")?",                   # Maybe comma before cell value
-         "(?<cell>[^\"]+)?",             # Maybe cell value
+         "(?<cell>[^\\)=]+)?",           # Maybe cell value
          "(?:\")?",                      # Maybe closing " after cell value
          "(?:\"\\))?",                   # Maybe closing sub-key parentheses )
          "=",                            # definitely =

@@ -18,15 +18,7 @@ px_cellnote <- function(x, value) {
   UseMethod("px_cellnote")
 }
 
-#' @title CELLNOTE
-#'
-#' @description `r description_start("CELLNOTE")`
-#'
-#' @param x A px object
-#' @param value `r acrosscells_param_value("CELLNOTE")`
-#'
-#' @return A px object, or a data frame.
-#'
+#' @eval add_documentation_acrosscells("CELLNOTE")
 #' @export
 px_cellnote.px <- function(x, value) {
   handle_acrossnote_keyword(x, value, "CELLNOTE")
@@ -38,10 +30,7 @@ px_cellnotex <- function(x, value) {
   UseMethod("px_cellnotex")
 }
 
-#' @inherit px_cellnote.px
-#' @title CELLNOTEX
-#' @description `r description_start("CELLNOTEX")`
-#' @param value `r acrosscells_param_value("CELLNOTEX")`
+#' @eval add_documentation_acrosscells("CELLNOTEX")
 #' @export
 px_cellnotex.px <- function(x, value) {
   handle_acrossnote_keyword(x, value, "CELLNOTEX")

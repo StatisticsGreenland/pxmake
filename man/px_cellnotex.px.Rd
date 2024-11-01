@@ -12,11 +12,14 @@ px_cellnotex(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame with columns 'cellnotex' and one or more columns with the names of the STUB and HEADING variables. The 'cellnotex' column is the cellnotex text, and the STUB/HEADING columns control which cells the note applies to. Use '*' if the note applies to all cells for a variable.If 'value' is missing, the current CELLNOTEX is returned. If NULL, CELLNOTEX is removed.}
+\item{value}{Optional. A data frame with columns 'cellnotex' and one or more columns with the names of the STUB and HEADING variables. The 'cellnotex' column is the cellnotex text, and the STUB/HEADING columns control which cells the note applies to. Use '*' if the note applies to all cells for a variable. If 'value' is missing, the current CELLNOTEX is returned. If NULL, CELLNOTEX is removed.}
 }
 \value{
-A px object, or a data frame.
+A px object or data frame.
 }
 \description{
 Inspect or change CELLNOTEX.
+}
+\seealso{
+\href{https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf#\%5B\%7B\%22num\%22\%3A40\%2C\%22gen\%22\%3A0\%7D\%2C\%7B\%22name\%22\%3A\%22XYZ\%22\%7D\%2C184\%2C277\%2C0\%5D}{Statistics Sweden's documentation}
 }

@@ -12,13 +12,46 @@ px_cellnote(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame with columns 'cellnote' and one or more columns with the names of the STUB and HEADING variables. The 'cellnote' column is the cellnote text, and the STUB/HEADING columns control which cells the note applies to. Use '*' if the note applies to all cells for a variable. If 'value' is missing, the current CELLNOTE is returned. If NULL, CELLNOTE is removed.}
+\item{value}{Optional. A data frame with columns 'cellnote' and one or more columns with the names of the STUB and HEADING variables. The 'cellnote' column is the cellnote text, and the STUB/HEADING columns control which cells the note applies to. Use asterisk (*) if a note applies to all cells in a variable. Use column 'language'  to set CELLNOTE for specific languages. If 'value' is missing, the current CELLNOTE is returned. If value is NULL, CELLNOTE is removed.}
 }
 \value{
 A px object or data frame.
 }
 \description{
 Inspect or change CELLNOTE.
+}
+\examples{
+# Set CELLNOTE for a value
+library(tibble)
+x1 <-
+  population_gl |>
+  px() |>
+  px_cellnote(
+    tribble(~gender,  ~age,  ~year, ~cellnote,
+             'male', '0-6', '2004', 'Approximation'))
+
+x2 <-
+  x1 |>
+  px_cellnote(
+    tribble(~gender,   ~age,  ~year, ~cellnote,
+           'female',    '*', '2014', 'Uncertainty in ages'))
+
+# Print CELLNOTE
+px_cellnote(x2)
+
+# Set CELLNOTE in multiple languagese
+x3 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_cellnote(
+    tribble(~age, ~year, ~language, ~cellnote,
+             '*', '2003',  'en', 'Some of the figures are from 2003',
+             '*', '2003', 'kl', 'Kisitsisit ilaat 2003-imeersuupput'))
+px_cellnote(x3)
+
+# Remove CELLNOTE
+x4 <- px_cellnote(x3, NULL)
+px_cellnote(x4)
 }
 \seealso{
 \href{https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf#\%5B\%7B\%22num\%22\%3A40\%2C\%22gen\%22\%3A0\%7D\%2C\%7B\%22name\%22\%3A\%22XYZ\%22\%7D\%2C184\%2C460\%2C0\%5D}{Statistics Sweden's documentation}

@@ -19,7 +19,6 @@ px_cellnote <- function(x, value) {
 }
 
 #' @eval add_documentation_acrosscells("CELLNOTE")
-#' @export
 px_cellnote.px <- function(x, value) {
   handle_acrossnote_keyword(x, value, "CELLNOTE")
 }
@@ -31,7 +30,6 @@ px_cellnotex <- function(x, value) {
 }
 
 #' @eval add_documentation_acrosscells("CELLNOTEX")
-#' @export
 px_cellnotex.px <- function(x, value) {
   handle_acrossnote_keyword(x, value, "CELLNOTEX")
 }

@@ -5,6 +5,7 @@
 - Change default value for all mandatory keywords to be descriptive rather than 
 empty string "". This was done because PxWin does not allow empty strings in
 mandatory keywords. (#320)
+- Improve implementation and fix bugs in `px_cellnote()` and `px_cellnotex()`. (#289)
 
 ## Bug fixes and minor improvements
 - Keyword UNITS is now placed after CONTVARIABLE and VALUES in the px file. (#308)

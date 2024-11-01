@@ -76,6 +76,7 @@ add_documentation_acrosscells <- function(keyword) {
     "{doc_keyword_function_intro(keyword)}",
     "@param value {acrosscells_param_value(keyword)}",
     "{return_px_or_df()}",
+    "{acrosscells_example(keyword)}",
     "@export",
     .sep = "\n"
   ) %>%
@@ -296,6 +297,48 @@ cells2_example <- function(keyword, example_value1, example_value2, example_valu
 
 add_cells2_example <- add_documentation_function(cells2_example)
 
+acrosscells_example <- function(keyword) {
+  px_function <- keyword_to_function(keyword)
+
+  stringr::str_glue(
+    "@examples",
+    "# Set {keyword} for a value",
+    "library(tibble)",
+    "x1 <-",
+    "  population_gl |>",
+    "  px() |>",
+    "  {px_function}(",
+    "    tribble(~gender,  ~age,  ~year, ~cellnote,",
+    "             'male', '0-6', '2004', 'Approximation'))",
+    "",
+    "x2 <-",
+    "  x1 |>",
+    "  px_cellnote(",
+    "    tribble(~gender,   ~age,  ~year, ~cellnote,",
+    "           'female',    '*', '2014', 'Uncertainty in ages'))",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x2)",
+    "",
+    "# Set {keyword} in multiple languagese",
+    "x3 <-",
+    "  x1 |>",
+    "  px_languages(c('en', 'kl')) |>",
+    "  {px_function}(",
+    "    tribble(~age, ~year, ~language, ~cellnote,",
+    "             '*', '2003',  'en', 'Some of the figures are from 2003',",
+    "             '*', '2003', 'kl', 'Kisitsisit ilaat 2003-imeersuupput'))",
+    "{px_function}(x3)",
+    "",
+    "# Remove {keyword}",
+    "x4 <- {px_function}(x3, NULL)",
+    "{px_function}(x4)",
+    .sep = "\n"
+  )
+}
+
+add_acrosscells_example <- add_documentation_function(acrosscells_example)
+
 table_param_value_ending <- function(keyword) {
   if (keyword %in% mandatory_keywords()) {
     stringr::str_glue(
@@ -361,11 +404,13 @@ acrosscells_param_value <- function(keyword) {
 
   stringr::str_glue(
     "Optional. A data frame with columns '{colname}' and one or more columns ",
-    "with the names of the STUB and HEADING variables. The '{colname}' column is ",
+    "with the names of the STUB and HEADING variables.",
+    " The '{colname}' column is ",
     "the {colname} text, and the STUB/HEADING columns control which cells the ",
-    "note applies to. Use '*' if the note applies to all cells for a variable. ",
-    "If 'value' is missing, the current {keyword} is returned. If NULL, {keyword} ",
-    "is removed."
+    "note applies to. Use asterisk (*) if a note applies to all cells in a ",
+    "variable. Use column 'language'  to set {keyword} for specific ",
+    "languages. If 'value' is missing, the current {keyword} is returned. If ",
+    "value is NULL, {keyword} is removed."
   )
 }
 

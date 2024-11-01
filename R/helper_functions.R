@@ -420,3 +420,4 @@ create_dummy_tibbles <- function(dummy_value) {
 
 na_tibble <- create_dummy_tibbles(NA)
 character0_tibble <- create_dummy_tibbles(character(0))
+asterisk_tibble <- create_dummy_tibbles("*")

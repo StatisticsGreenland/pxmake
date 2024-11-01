@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.0.9012</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.0.9013</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,14 +61,66 @@
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>Optional. A data frame with columns 'cellnotex' and one or more columns with the names of the STUB and HEADING variables. The 'cellnotex' column is the cellnotex text, and the STUB/HEADING columns control which cells the note applies to. Use '*' if the note applies to all cells for a variable.If 'value' is missing, the current CELLNOTEX is returned. If NULL, CELLNOTEX is removed.</p></dd>
+<dd><p>Optional. A data frame with columns 'cellnotex' and one or more columns with the names of the STUB and HEADING variables. The 'cellnotex' column is the cellnotex text, and the STUB/HEADING columns control which cells the note applies to. Use asterisk (*) if a note applies to all cells in a variable. Use column 'language'  to set CELLNOTEX for specific languages. If 'value' is missing, the current CELLNOTEX is returned. If value is NULL, CELLNOTEX is removed.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A px object, or a data frame.</p>
+    <p>A px object or data frame.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><a href="https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf#%5B%7B%22num%22%3A40%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C184%2C277%2C0%5D" class="external-link">Statistics Sweden's documentation</a></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set CELLNOTEX for a value</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">population_gl</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="px.html">px</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">px_cellnotex</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">gender</span>,  <span class="op">~</span><span class="va">age</span>,  <span class="op">~</span><span class="va">year</span>, <span class="op">~</span><span class="va">cellnote</span>,</span></span>
+<span class="r-in"><span>             <span class="st">'male'</span>, <span class="st">'0-6'</span>, <span class="st">'2004'</span>, <span class="st">'Approximation'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">x1</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="px_cellnote.px.html">px_cellnote</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">gender</span>,   <span class="op">~</span><span class="va">age</span>,  <span class="op">~</span><span class="va">year</span>, <span class="op">~</span><span class="va">cellnote</span>,</span></span>
+<span class="r-in"><span>           <span class="st">'female'</span>,    <span class="st">'*'</span>, <span class="st">'2014'</span>, <span class="st">'Uncertainty in ages'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Print CELLNOTEX</span></span></span>
+<span class="r-in"><span><span class="fu">px_cellnotex</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   gender age   year  cellnotex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> male   0-6   2004  <span style="color: #BB0000;">NA</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> female *     2014  <span style="color: #BB0000;">NA</span>       </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Set CELLNOTEX in multiple languagese</span></span></span>
+<span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">x1</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="px_languages.px.html">px_languages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'en'</span>, <span class="st">'kl'</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">px_cellnotex</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">age</span>, <span class="op">~</span><span class="va">year</span>, <span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">cellnote</span>,</span></span>
+<span class="r-in"><span>             <span class="st">'*'</span>, <span class="st">'2003'</span>,  <span class="st">'en'</span>, <span class="st">'Some of the figures are from 2003'</span>,</span></span>
+<span class="r-in"><span>             <span class="st">'*'</span>, <span class="st">'2003'</span>, <span class="st">'kl'</span>, <span class="st">'Kisitsisit ilaat 2003-imeersuupput'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">px_cellnotex</span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   gender age   year  language cellnotex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> male   0-6   2004  en       <span style="color: #BB0000;">NA</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> male   0-6   2004  kl       <span style="color: #BB0000;">NA</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> *      *     2003  en       <span style="color: #BB0000;">NA</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> *      *     2003  kl       <span style="color: #BB0000;">NA</span>       </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove CELLNOTEX</span></span></span>
+<span class="r-in"><span><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu">px_cellnotex</span><span class="op">(</span><span class="va">x3</span>, <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">px_cellnotex</span><span class="op">(</span><span class="va">x4</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

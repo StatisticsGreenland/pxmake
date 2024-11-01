@@ -464,7 +464,8 @@ px_from_px_file <- function(path) {
                            )
                          )
                   ) %>%
-    align_data_frames(get_base_acrosscells(stub_heading_variables))
+    align_data_frames(get_base_acrosscells(stub_heading_variables)) %>%
+    dplyr::mutate(across(tolower(acrosscells_variables), ~ dplyr::na_if(.x, "NULL")))
 
   # data
   # Order: stub1, stub2, ..., heading1, heading2, ...

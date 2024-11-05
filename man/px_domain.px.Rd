@@ -14,7 +14,8 @@ px_domain(x, value)
 
 \item{value}{Optional. A character string or data frame.
 \itemize{
-\item Use character to set DOMAIN for all languages and variables.
+\item Use character to set DOMAIN for all languages and STUB/HEADING
+variables.
 \item Use data frame with columns 'variable-code', 'language' and
 'domain' to set DOMAIN for specific variables.
 \item If missing, the current DOMAIN is returned.

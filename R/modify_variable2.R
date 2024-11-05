@@ -5,9 +5,13 @@ handle_variables2_keyword <- function(x, value, keyword) {
     return(get_variables2_value(x, colname))
   } else if (is.null(value)) {
     return(remove_keyword_variables2(x, keyword))
-  } else {
-    x <- modify_variables2(x, colname, value)
+  } else if (is.character(value)) {
+    value <- dplyr::tibble(`variable-code` = c(px_stub(x), px_heading(x)),
+                           !!colname := value
+                           )
   }
+
+  x <- modify_variables2(x, colname, value)
 
   validate_px(x)
 }

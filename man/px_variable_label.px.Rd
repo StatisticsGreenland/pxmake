@@ -14,7 +14,8 @@ px_variable_label(x, value)
 
 \item{value}{Optional. A character string or data frame.
 \itemize{
-\item Use character to set VARIABLE-LABEL for all languages and variables.
+\item Use character to set VARIABLE-LABEL for all languages and STUB/HEADING
+variables.
 \item Use data frame with columns 'variable-code', 'language' and
 'variable-label' to set VARIABLE-LABEL for specific variables.
 \item If missing, the current VARIABLE-LABEL is returned.

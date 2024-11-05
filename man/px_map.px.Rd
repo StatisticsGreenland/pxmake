@@ -14,7 +14,8 @@ px_map(x, value)
 
 \item{value}{Optional. A character string or data frame.
 \itemize{
-\item Use character to set MAP for all languages and variables.
+\item Use character to set MAP for all languages and STUB/HEADING
+variables.
 \item Use data frame with columns 'variable-code', 'language' and
 'map' to set MAP for specific variables.
 \item If missing, the current MAP is returned.

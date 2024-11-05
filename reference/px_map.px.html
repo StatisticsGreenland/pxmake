@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.1.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,8 @@
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>Optional. A character string or data frame.</p><ul><li><p>Use character to set MAP for all languages and variables.</p></li>
+<dd><p>Optional. A character string or data frame.</p><ul><li><p>Use character to set MAP for all languages and STUB/HEADING
+variables.</p></li>
 <li><p>Use data frame with columns 'variable-code', 'language' and
 'map' to set MAP for specific variables.</p></li>
 <li><p>If missing, the current MAP is returned.</p></li>
@@ -87,7 +88,12 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print MAP</span></span></span>
 <span class="r-in"><span><span class="fu">px_map</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "greenland"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `variable-code` map      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> gender          greenland</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> age             greenland</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> year            greenland</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set MAP for individual variables</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></span>
@@ -97,13 +103,12 @@
 <span class="r-in"><span>                    <span class="st">'gender'</span>, <span class="st">'cities'</span>,</span></span>
 <span class="r-in"><span>                    <span class="st">'age'</span>,    <span class="st">'municipalities'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">px_map</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `variable-code` map           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> gender          cities        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> age             municipalities</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> year            greenland     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> n               greenland     </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set MAP for individual languages</span></span></span>
 <span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span></span></span>

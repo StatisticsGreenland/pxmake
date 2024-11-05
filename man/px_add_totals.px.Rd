@@ -21,10 +21,11 @@ A px object
 }
 \description{
 Adds a total level, which is the sum of the figures for all other levels of
-the variable. NA values are ignored in the summation.
+the variable. NA values are ignored when calculating the sum.
 
-The name of the total level can be changed with \link{px_elimination}. If
-elimination is NA, the name "Total" is used.
+The default name of the total level is 'Total', unless \link{px_elimination}
+is set, in which case the elimination value becomes the name of the total
+level.
 }
 \examples{
 # Create small px object example
@@ -39,7 +40,7 @@ x1$data
 x2 <- px_add_totals(x0, c("gender", "age"))
 x2$data
 
-# The name of the total level is set with `px_elimination`
+# The name of the total level can be changed with px_elimination()
 x3 <-
   x0 |>
   px_elimination("T") |>
@@ -47,4 +48,7 @@ x3 <-
 
 x3$data
 
+}
+\seealso{
+\link{px_elimination}
 }

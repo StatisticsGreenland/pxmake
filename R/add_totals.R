@@ -68,16 +68,19 @@ px_add_totals <- function(x, value, na.rm = TRUE) {
 #'
 #' @description
 #' Adds a total level, which is the sum of the figures for all other levels of
-#' the variable. NA values are ignored in the summation.
+#' the variable. NA values are ignored when calculating the sum.
 #'
-#' The name of the total level can be changed with \link{px_elimination}. If
-#' elimination is NA, the name "Total" is used.
+#' The default name of the total level is 'Total', unless \link{px_elimination}
+#' is set, in which case the elimination value becomes the name of the total
+#' level.
 #'
 #' @param x A px object
 #' @param value A character vector of variables to add total levels to.
 #' @param na.rm Optional. Logical. If TRUE, NAs are removed before summing.
 #'
 #' @return A px object
+#'
+#' @seealso [px_elimination]
 #'
 #' @examples
 #' # Create small px object example
@@ -92,7 +95,7 @@ px_add_totals <- function(x, value, na.rm = TRUE) {
 #' x2 <- px_add_totals(x0, c("gender", "age"))
 #' x2$data
 #'
-#' # The name of the total level is set with `px_elimination`
+#' # The name of the total level can be changed with px_elimination()
 #' x3 <-
 #'   x0 |>
 #'   px_elimination("T") |>

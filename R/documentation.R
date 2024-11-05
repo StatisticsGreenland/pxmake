@@ -389,7 +389,8 @@ variables2_param_value <- function(keyword) {
   stringr::str_glue(
     "Optional. A character string or data frame.
     \\itemize{{
-      \\item Use character to set {keyword} for all languages and variables.
+      \\item Use character to set {keyword} for all languages and STUB/HEADING
+      variables.
       \\item Use data frame with columns 'variable-code', 'language' and
       '{colname}' to set {keyword} for specific variables.
       \\item If missing, the current {keyword} is returned.

@@ -47,25 +47,21 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
     else dplyr::tibble(`variable-code` = character(), code = character())
     }
 
-  x_new <-
-    x %>%
-    px_stub(micro_var)
-
   x_micro <-
-    new_px(languages  = x_new$languages,
-           table1     = x_new$table1,
-           table2     = x_new$table2,
-           variables1 = dplyr::filter(x_new$variables1, `variable-code` %in% data_names),
-           variables2 = dplyr::filter(x_new$variables2, `variable-code` %in% data_names),
-           cells1 = dplyr::filter(x_new$cells1, `variable-code` %in% data_names) %>%
+    new_px(languages  = x$languages,
+           table1     = x$table1,
+           table2     = x$table2,
+           variables1 = dplyr::filter(x$variables1, `variable-code` %in% data_names),
+           variables2 = dplyr::filter(x$variables2, `variable-code` %in% data_names),
+           cells1 = dplyr::filter(x$cells1, `variable-code` %in% data_names) %>%
                           dplyr::anti_join(headings_with_only_na_values_long,
                                            by = c("variable-code", "code")
                                            ),
-           cells2 = dplyr::filter(x_new$cells2, `variable-code` %in% data_names) %>%
+           cells2 = dplyr::filter(x$cells2, `variable-code` %in% data_names) %>%
                           dplyr::anti_join(headings_with_only_na_values_long,
                                            by = c("variable-code", "code")
                                            ),
-           acrosscells = dplyr::select(x_new$acrosscells,
+           acrosscells = dplyr::select(x$acrosscells,
                                       all_of(c(setdiff(data_names, figures_var),
                                                names(get_base_acrosscells())
                                                )
@@ -171,7 +167,7 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
 
   furrr::future_walk(micro_vars,
                      create_micro_file,
-                     x = x,
+                     x = px_stub(x, micro_vars),
                      filenames = filenames,
                      keyword_values_long = keyword_values_long,
                      out_dir = out_dir

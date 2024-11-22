@@ -71,7 +71,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
            data       = new_data
            ) %>%
     fix_px() %>%
-    px_figures(figures_var)
+    px_figures(figures_var, validate = FALSE)
 
   if (all(! is.null(keyword_values_long), nrow(keyword_values_long) > 0)) {
     extra_keywords <-
@@ -167,7 +167,7 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
 
   furrr::future_walk(micro_vars,
                      create_micro_file,
-                     x = px_stub(x, micro_vars),
+                     x = px_stub(x, micro_vars, validate = FALSE),
                      filenames = filenames,
                      keyword_values_long = keyword_values_long,
                      out_dir = out_dir

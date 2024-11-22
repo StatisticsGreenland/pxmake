@@ -9,7 +9,11 @@ Authors@R: c(
              person("Lars Pedersen",
                     email = "larp@stat.gl",
                     role = c("cre", "aut")
-                   )
+                   ),
+             person("Statistics Greenland", 
+                    role = "cph", 
+                    comment =  c(URL = "https://stat.gl/")
+                    )
             )
 Description: Create and modify px files in R.
 License: MIT + file LICENSE

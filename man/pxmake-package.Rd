@@ -27,5 +27,10 @@ Authors:
   \item Johan Ejstrud \email{johan@ejstrud.com}
 }
 
+Other contributors:
+\itemize{
+  \item Statistics Greenland (https://stat.gl/) [copyright holder]
+}
+
 }
 \keyword{internal}

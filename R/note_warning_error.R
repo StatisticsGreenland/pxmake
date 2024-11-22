@@ -317,8 +317,6 @@ validate_px_arguments <- function(input, data) {
 #' @return Nothing
 #' @keywords internal
 validate_px_save_arguments <- function(x, path, save_data, data_path) {
-  validate_px(x)
-
   if (! any(is_px_file(path), is_xlsx_file(path))) {
     error("Argument 'path' must be a path to an .px or .xlsx file.")
   }
@@ -364,8 +362,6 @@ validate_px_micro_arguments <- function(x, out_dir) {
   if (class(x) != "px") {
     error("Argument 'x' must be a px object.")
   }
-
-  validate_px(x)
 
   if (! is.null(out_dir)) {
     if (! is.character(out_dir)) {

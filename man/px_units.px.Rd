@@ -5,14 +5,16 @@
 \alias{px_units.px}
 \title{UNITS}
 \usage{
-px_units(x, value)
+px_units(x, value, validate)
 
-\method{px_units}{px}(x, value)
+\method{px_units}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A character string to set the value for all languages or a data frame with columns 'language' and 'value' to set it for specific languages. If 'value' is missing, the current UNITS is returned. If NULL, an error is thrown because UNITS cannot be removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object, a character string, or a data frame.

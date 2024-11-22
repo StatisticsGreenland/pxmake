@@ -5,9 +5,9 @@
 \alias{px_variable_label.px}
 \title{Change VARIABLE-LABEL}
 \usage{
-px_variable_label(x, value)
+px_variable_label(x, value, validate)
 
-\method{px_variable_label}{px}(x, value)
+\method{px_variable_label}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
@@ -21,6 +21,8 @@ variables.
 \item If missing, the current VARIABLE-LABEL is returned.
 \item If NULL, VARIABLE-LABEL is removed for all variables.
 }}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object, a character string, or a data frame.

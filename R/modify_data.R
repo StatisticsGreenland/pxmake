@@ -1,6 +1,6 @@
 #' @rdname px_data.px
 #' @export
-px_data <- function(x, value) {
+px_data <- function(x, value, validate) {
   UseMethod("px_data")
 }
 
@@ -8,8 +8,9 @@ px_data <- function(x, value) {
 #' @param value Optional. A data frame. If missing, the current DATA is returned.
 #' If NULL, all data rows are removed.
 #' @eval add_return_px_or_df()
+#' @eval param_validate()
 #' @export
-px_data.px <- function(x, value) {
+px_data.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
     return(x$data)
   } else if (is.null(value)) {
@@ -18,5 +19,5 @@ px_data.px <- function(x, value) {
     x$data <- value
   }
 
-  return(validate_px(x))
+  return_px(x, validate)
 }

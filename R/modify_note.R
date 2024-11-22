@@ -1,4 +1,4 @@
-handle_notes <- function(x, value, keyword) {
+handle_notes <- function(x, value, keyword, validate) {
   colname <- tolower(keyword)
   error_msg <- stringr::str_glue("Argument 'value' has wrong format. See ?{colname}.")
 
@@ -36,13 +36,13 @@ handle_notes <- function(x, value, keyword) {
     error(error_msg)
   }
 
-  validate_px(x)
+  return_px(x, validate)
 }
 
 
 #' @rdname px_note.px
 #' @export
-px_note <- function(x, value) {
+px_note <- function(x, value, validate) {
   UseMethod("px_note")
 }
 
@@ -52,19 +52,20 @@ px_note <- function(x, value) {
 #'
 #' @param x A px object
 #' @param value `r note_param_value("NOTE")`
+#' @eval param_validate()
 #'
 #' @return A px object, a character string, a data frame, or a list of character
 #' strings and/or data frames.
 #'
 #' @export
-px_note.px <- function(x, value) {
-  handle_notes(x, value, "NOTE")
+px_note.px <- function(x, value, validate = TRUE) {
+  handle_notes(x, value, "NOTE", validate)
 }
 
 
 #' @rdname px_notex.px
 #' @export
-px_notex <- function(x, value) {
+px_notex <- function(x, value, validate) {
   UseMethod("px_notex")
 }
 
@@ -72,7 +73,8 @@ px_notex <- function(x, value) {
 #' @title NOTEX
 #' @description `r note_description("NOTEX")`
 #' @param value `r note_param_value("NOTEX")`
+#' @eval param_validate()
 #' @export
-px_notex.px <- function(x, value) {
-  handle_notes(x, value, "NOTEX")
+px_notex.px <- function(x, value, validate = TRUE) {
+  handle_notes(x, value, "NOTEX", validate)
 }

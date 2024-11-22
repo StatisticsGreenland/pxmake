@@ -79,7 +79,7 @@ modify_languages_in_px <- function(x, new_languages) {
 
 #' @rdname px_language.px
 #' @export
-px_language <- function(x, value) {
+px_language <- function(x, value, validate) {
   UseMethod("px_language")
 }
 
@@ -92,11 +92,12 @@ px_language <- function(x, value) {
 #' @param x A px object
 #' @param value Optional. A character string. If missing, the current LANGUAGE
 #' is returned. If NULL, LANGUAGE is removed.
+#' @eval param_validate()
 #'
 #' @seealso \code{\link{px_languages}}
 #'
 #' @export
-px_language.px <- function(x, value) {
+px_language.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
     language <- get_table1_value(x, "LANGUAGE")
 
@@ -117,13 +118,13 @@ px_language.px <- function(x, value) {
 
   x <- modify_languages_in_px(x, new_languages = defined_languages(x))
 
-  validate_px(x)
+  return_px(x, validate)
 }
 
 
 #' @rdname px_languages.px
 #' @export
-px_languages <- function(x, value) {
+px_languages <- function(x, value, validate) {
   UseMethod("px_languages")
 }
 
@@ -136,11 +137,12 @@ px_languages <- function(x, value) {
 #' @param x A px object
 #' @param value Optional. A character vector. If missing, the current LANGUAGES
 #' are returned. If NULL, LANGUAGES are removed.
+#' @eval param_validate()
 #'
 #' @seealso \code{\link{px_language}}
 #'
 #' @export
-px_languages.px <- function(x, value) {
+px_languages.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
     languages <- x$languages$language
 
@@ -160,5 +162,5 @@ px_languages.px <- function(x, value) {
 
   x <- modify_languages_in_px(x, new_languages = value)
 
-  validate_px(x)
+  return_px(x, validate)
 }

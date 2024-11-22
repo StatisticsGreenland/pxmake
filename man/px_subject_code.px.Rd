@@ -5,14 +5,16 @@
 \alias{px_subject_code.px}
 \title{SUBJECT-CODE}
 \usage{
-px_subject_code(x, value)
+px_subject_code(x, value, validate)
 
-\method{px_subject_code}{px}(x, value)
+\method{px_subject_code}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A character string. If missing, the current SUBJECT-CODE is returned. If NULL, an error is thrown because SUBJECT-CODE cannot be removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object or a character string.

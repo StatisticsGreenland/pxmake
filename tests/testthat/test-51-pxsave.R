@@ -7,7 +7,6 @@ test_that("px_save basic functionality", {
 
   expect_error(px_save(x), regexp = 'argument "path" is missing')
   expect_error(px_save(x, temp_rds_file()), regexp = "Argument 'path'")
-  expect_error(px_save(list(), temp_px_file()), regexp = "class 'px'")
 })
 
 test_that("px_save save_data and data_path arguments works", {

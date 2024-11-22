@@ -5,14 +5,16 @@
 \alias{px_creation_date.px}
 \title{CREATION-DATE}
 \usage{
-px_creation_date(x, value)
+px_creation_date(x, value, validate)
 
-\method{px_creation_date}{px}(x, value)
+\method{px_creation_date}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A character string. If missing, the current CREATION-DATE is returned. If NULL, CREATION-DATE is removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object or a character string.

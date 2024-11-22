@@ -60,7 +60,7 @@ add_totals_to_df <- function(df,
 
 #' @rdname px_add_totals.px
 #' @export
-px_add_totals <- function(x, value, na.rm = TRUE) {
+px_add_totals <- function(x, value, na.rm = TRUE, validate) {
   UseMethod("px_add_totals")
 }
 
@@ -77,6 +77,7 @@ px_add_totals <- function(x, value, na.rm = TRUE) {
 #' @param x A px object
 #' @param value A character vector of variables to add total levels to.
 #' @param na.rm Optional. Logical. If TRUE, NAs are removed before summing.
+#' @eval param_validate()
 #'
 #' @return A px object
 #'
@@ -104,7 +105,7 @@ px_add_totals <- function(x, value, na.rm = TRUE) {
 #' x3$data
 #'
 #' @export
-px_add_totals.px <- function(x, value, na.rm = TRUE) {
+px_add_totals.px <- function(x, value, na.rm = TRUE, validate = TRUE) {
   params <-
     x$variables2 %>%
     dplyr::left_join(dplyr::select(x$cells2, `variable-code`, code, value),
@@ -128,5 +129,5 @@ px_add_totals.px <- function(x, value, na.rm = TRUE) {
                      na.rm = !!na.rm
                      )
 
-  return(x)
+  return_px(x, validate)
 }

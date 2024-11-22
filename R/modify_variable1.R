@@ -55,7 +55,7 @@ get_pivot_variables <- function(x, pivot) {
 
 #' @rdname px_stub.px
 #' @export
-px_stub <- function(x, value) {
+px_stub <- function(x, value, validate) {
   UseMethod("px_stub")
 }
 
@@ -72,17 +72,17 @@ px_stub <- function(x, value) {
 #' # Change order of STUB
 #' x3 <- px_stub(x2, c('age', 'gender'))
 #' px_stub(x3)
-px_stub.px <- function(x, value) {
+px_stub.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
     return(get_pivot_variables(x, "STUB"))
   }
 
-  validate_px(change_pivot_variables(x, value, "STUB"))
+  return_px(change_pivot_variables(x, value, "STUB"), validate)
 }
 
 #' @rdname px_heading.px
 #' @export
-px_heading <- function(x, value) {
+px_heading <- function(x, value, validate) {
   UseMethod("px_heading")
 }
 
@@ -101,17 +101,17 @@ px_heading <- function(x, value) {
 #' # Change order of HEADING
 #' x3 <- px_heading(x2, 'year')
 #' px_heading(x3)
-px_heading.px <- function(x, value) {
+px_heading.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
     return(get_pivot_variables(x, "HEADING"))
   }
 
-  validate_px(change_pivot_variables(x, value, "HEADING"))
+  return_px(change_pivot_variables(x, value, "HEADING"), validate)
 }
 
 #' @rdname px_figures.px
 #' @export
-px_figures <- function(x, value) {
+px_figures <- function(x, value, validate) {
   UseMethod("px_figures")
 }
 
@@ -123,6 +123,7 @@ px_figures <- function(x, value) {
 #' @param x A px object
 #' @param value Optional. Name of variable to use as FIGRUES. If missing, the
 #' current PX_FIGURES variable is returned.
+#' @eval param_validate()
 #'
 #' @return A px object or a character string
 #'
@@ -139,7 +140,7 @@ px_figures <- function(x, value) {
 #' px_figures(x2)
 #' px_stub(x2)
 #' @export
-px_figures.px <- function(x, value) {
+px_figures.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
     return(get_pivot_variables(x, "FIGURES"))
   }
@@ -160,18 +161,18 @@ px_figures.px <- function(x, value) {
     x$cells2 %>%
     dplyr::filter(!`variable-code` %in% !!value)
 
-  validate_px(x)
+  return_px(x, validate)
 }
 
 #' @rdname px_timeval.px
 #' @export
-px_timeval <- function(x, value) {
+px_timeval <- function(x, value, validate) {
   UseMethod("px_timeval")
 }
 
 #' @eval add_documentation_table1("TIMEVAL", "year")
 #' @description There can only be one time variable.
-px_timeval.px <- function(x, value) {
+px_timeval.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
     return(get_variable1_logic_value(x, "timeval"))
   } else if (is.null(value)) {
@@ -186,12 +187,12 @@ px_timeval.px <- function(x, value) {
                            )
   }
 
-  validate_px(x)
+  return_px(x, validate)
 }
 
 #' @rdname px_contvariable.px
 #' @export
-px_contvariable <- function(x, value) {
+px_contvariable <- function(x, value, validate) {
   UseMethod("px_contvariable")
 }
 
@@ -199,6 +200,7 @@ px_contvariable <- function(x, value) {
 #' @description Setting CONTVARIABLE indexes several variables in table2.
 #' Removing CONTVARIABLE removes the indexing from table2.
 #' @param value `r table1_param_value("CONTVARIABLE")`
+#' @eval param_validate()
 #' @eval add_return_px_or_char_str()
 #' @examples
 #' # Set CONTVARIABLE
@@ -216,7 +218,7 @@ px_contvariable <- function(x, value) {
 #' # Removing CONTVARIABLE also removes the index from UNITS
 #' px_units(x2)
 #' @export
-px_contvariable.px <- function(x, value) {
+px_contvariable.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
     return(get_variable1_logic_value(x, "contvariable"))
   } else if (is.null(value)) {
@@ -257,13 +259,13 @@ px_contvariable.px <- function(x, value) {
       dplyr::bind_rows(indexed_by_contvariable)
   }
 
-  validate_px(x)
+  return_px(x, validate)
 }
 
 
 #' @rdname px_variable_type.px
 #' @export
-px_variable_type <- function(x, value) {
+px_variable_type <- function(x, value, validate) {
   UseMethod("px_variable_type")
 }
 
@@ -271,9 +273,10 @@ px_variable_type <- function(x, value) {
 #' @param value A data frame with columns 'variable-code' and 'type'. If value
 #' is missing, the current VARIABLE-TYPE is returned. If NULL, all
 #' VARIABLE-TYPE is removed.
+#' @eval param_validate()
 #' @eval add_return_px_or_df()
 #' @export
-px_variable_type.px <- function(x, value) {
+px_variable_type.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
     return(get_variable1_value(x, "variable-type"))
   } else if (is.null(value)) {
@@ -282,5 +285,5 @@ px_variable_type.px <- function(x, value) {
     x <- modify_variables1(x, "variable-type", value)
   }
 
-  validate_px(x)
+  return_px(x, validate)
 }

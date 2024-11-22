@@ -63,7 +63,18 @@ test_that("px can run on an Excel workbook without a 'Data' sheet", {
 test_that("Minimal px object can be created without data", {
   x <- px()
 
-  validate_px(x)
+  px_validate(x)
+
+  expect_true(TRUE)
+})
+
+
+test_that("Validation can be turned off", {
+  x0 <- px(women)
+
+  x1 <- px_figures(x0, "fisk", validate = FALSE)
+
+  expect_error(px_validate(x1), regexp = "variable-codes not in x")
 
   expect_true(TRUE)
 })

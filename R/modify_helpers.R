@@ -161,7 +161,7 @@ modify_acrosscells <- function(x, value, keyword) {
     modify_with_df(x$acrosscells, value_completed, tolower(keyword)) %>%
     align_data_frames(get_base_acrosscells(c(px_stub(x), px_heading(x))))
 
-  validate_px(x)
+  return(x)
 }
 
 

@@ -5,14 +5,16 @@
 \alias{px_precision.px}
 \title{PRECISION}
 \usage{
-px_precision(x, value)
+px_precision(x, value, validate)
 
-\method{px_precision}{px}(x, value)
+\method{px_precision}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A data frame with the columns 'precision' and one or more of the columns: 'variable-code', and 'code'. If 'value' is missing, the current PRECISION is returned. If NULL, PRECISION is removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object or data frame.

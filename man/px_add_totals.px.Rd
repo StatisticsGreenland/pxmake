@@ -5,9 +5,9 @@
 \alias{px_add_totals.px}
 \title{Add total levels to variables}
 \usage{
-px_add_totals(x, value, na.rm = TRUE)
+px_add_totals(x, value, na.rm = TRUE, validate)
 
-\method{px_add_totals}{px}(x, value, na.rm = TRUE)
+\method{px_add_totals}{px}(x, value, na.rm = TRUE, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
@@ -15,6 +15,8 @@ px_add_totals(x, value, na.rm = TRUE)
 \item{value}{A character vector of variables to add total levels to.}
 
 \item{na.rm}{Optional. Logical. If TRUE, NAs are removed before summing.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object

@@ -1,4 +1,4 @@
-handle_acrossnote_keyword <- function(x, value, keyword) {
+handle_acrossnote_keyword <- function(x, value, keyword, validate) {
   if (missing(value)) {
     return(get_acrosscells_value(x, keyword))
   } else if (is.null(value)) {
@@ -9,27 +9,27 @@ handle_acrossnote_keyword <- function(x, value, keyword) {
     x <- modify_acrosscells(x, value, keyword)
   }
 
-  return(validate_px(x))
+  return_px(x, validate)
 }
 
 #' @rdname px_cellnote.px
 #' @export
-px_cellnote <- function(x, value) {
+px_cellnote <- function(x, value, validate) {
   UseMethod("px_cellnote")
 }
 
 #' @eval add_documentation_acrosscells("CELLNOTE")
-px_cellnote.px <- function(x, value) {
-  handle_acrossnote_keyword(x, value, "CELLNOTE")
+px_cellnote.px <- function(x, value, validate = TRUE) {
+  handle_acrossnote_keyword(x, value, "CELLNOTE", validate)
 }
 
 #' @rdname px_cellnotex.px
 #' @export
-px_cellnotex <- function(x, value) {
+px_cellnotex <- function(x, value, validate) {
   UseMethod("px_cellnotex")
 }
 
 #' @eval add_documentation_acrosscells("CELLNOTEX")
-px_cellnotex.px <- function(x, value) {
-  handle_acrossnote_keyword(x, value, "CELLNOTEX")
+px_cellnotex.px <- function(x, value, validate = TRUE) {
+  handle_acrossnote_keyword(x, value, "CELLNOTEX", validate)
 }

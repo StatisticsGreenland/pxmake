@@ -5,14 +5,16 @@
 \alias{px_subject_area.px}
 \title{SUBJECT-AREA}
 \usage{
-px_subject_area(x, value)
+px_subject_area(x, value, validate)
 
-\method{px_subject_area}{px}(x, value)
+\method{px_subject_area}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A character string to set the value for all languages or a data frame with columns 'language' and 'value' to set it for specific languages. If 'value' is missing, the current SUBJECT-AREA is returned. If NULL, an error is thrown because SUBJECT-AREA cannot be removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object, a character string, or a data frame.

@@ -5,9 +5,9 @@
 \alias{px_variable_type.px}
 \title{VARIABLE-TYPE}
 \usage{
-px_variable_type(x, value)
+px_variable_type(x, value, validate)
 
-\method{px_variable_type}{px}(x, value)
+\method{px_variable_type}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
@@ -15,6 +15,8 @@ px_variable_type(x, value)
 \item{value}{A data frame with columns 'variable-code' and 'type'. If value
 is missing, the current VARIABLE-TYPE is returned. If NULL, all
 VARIABLE-TYPE is removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object or data frame.

@@ -5,9 +5,9 @@
 \alias{px_notex.px}
 \title{NOTEX}
 \usage{
-px_notex(x, value)
+px_notex(x, value, validate)
 
-\method{px_notex}{px}(x, value)
+\method{px_notex}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
@@ -25,6 +25,8 @@ This is the same as calling NOTEX multiple times with different values.
 \item If missing, the current NOTEX is returned.
 \item If NULL, NOTEX is removed for the table and all variables.
 }}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object, a character string, a data frame, or a list of character

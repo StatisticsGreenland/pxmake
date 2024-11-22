@@ -1,4 +1,4 @@
-handle_variables2_keyword <- function(x, value, keyword) {
+handle_variables2_keyword <- function(x, value, keyword, validate) {
   colname <- tolower(keyword)
 
   if (missing(value)) {
@@ -13,45 +13,45 @@ handle_variables2_keyword <- function(x, value, keyword) {
 
   x <- modify_variables2(x, colname, value)
 
-  validate_px(x)
+  return_px(x, validate)
 }
 
 #' @rdname px_domain.px
 #' @export
-px_domain <- function(x, value) {
+px_domain <- function(x, value, validate) {
   UseMethod("px_domain")
 }
 
 #' @eval add_documentation_variables2("DOMAIN", "aggregation1", "aggregation2", "aggregation3")
-px_domain.px <- function(x, value) {
-  handle_variables2_keyword(x, value, "DOMAIN")
+px_domain.px <- function(x, value, validate = TRUE) {
+  handle_variables2_keyword(x, value, "DOMAIN", validate)
 }
 
 #' @rdname px_elimination.px
 #' @export
-px_elimination <- function(x, value) {
+px_elimination <- function(x, value, validate) {
   UseMethod("px_elimination")
 }
 
 #' @eval add_documentation_variables2("ELIMINATION", "YES", "All", "Total")
-px_elimination.px <- function(x, value) {
-  handle_variables2_keyword(x, value, "ELIMINATION")
+px_elimination.px <- function(x, value, validate = TRUE) {
+  handle_variables2_keyword(x, value, "ELIMINATION", validate)
 }
 
 #' @rdname px_map.px
 #' @export
-px_map <- function(x, value) {
+px_map <- function(x, value, validate) {
   UseMethod("px_map")
 }
 
 #' @eval add_documentation_variables2("MAP", "greenland", "cities", "municipalities")
-px_map.px <- function(x, value) {
-  handle_variables2_keyword(x, value, "MAP")
+px_map.px <- function(x, value, validate = TRUE) {
+  handle_variables2_keyword(x, value, "MAP", validate)
 }
 
 #' @rdname px_variable_label.px
 #' @export
-px_variable_label <- function(x, value) {
+px_variable_label <- function(x, value, validate) {
   UseMethod("px_variable_label")
 }
 
@@ -83,6 +83,6 @@ px_variable_label <- function(x, value) {
 #' # Remove VARIABLE-LABEL
 #' x3 <- px_variable_label(x2, NULL)
 #' px_variable_label(x3)
-px_variable_label.px <- function(x, value) {
-  handle_variables2_keyword(x, value, "variable-label")
+px_variable_label.px <- function(x, value, validate = TRUE) {
+  handle_variables2_keyword(x, value, "variable-label", validate)
 }

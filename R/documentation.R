@@ -28,6 +28,7 @@ add_documentation_table1 <- function(keyword, example_value) {
   stringr::str_glue(
     "{doc_keyword_function_intro(keyword)}",
     "@param value {table1_param_value(keyword)}",
+    param_validate(),
     "{return_px_or_char_str()}",
     "{table1_example(keyword, example_value)}",
     "@export",
@@ -40,6 +41,7 @@ add_documentation_table2 <- function(keyword, example_value1, example_value2) {
   stringr::str_glue(
     "{doc_keyword_function_intro(keyword)}",
     "@param value {table2_param_value(keyword)}",
+    param_validate(),
     "{return_px_or_char_vector_or_df()}",
     "{table2_example(keyword, example_value1, example_value2)}",
     "@export",
@@ -52,6 +54,7 @@ add_documentation_head_stub <- function(keyword) {
   stringr::str_glue(
     "{doc_keyword_function_intro(keyword)}",
     "@param value {pivot_param_value(keyword)}",
+    param_validate(),
     "{return_px_or_char_vector()}",
     "@export",
     .sep = "\n"
@@ -63,6 +66,7 @@ add_documentation_variables2 <- function(keyword, example_value1, example_value2
   stringr::str_glue(
     "{doc_keyword_function_intro(keyword)}",
     "@param value {variables2_param_value(keyword)}",
+    param_validate(),
     "{return_px_or_char_vector_or_df()}",
     "{variables2_example(keyword, example_value1, example_value2, example_value3)}",
     "@export",
@@ -75,6 +79,7 @@ add_documentation_acrosscells <- function(keyword) {
   stringr::str_glue(
     "{doc_keyword_function_intro(keyword)}",
     "@param value {acrosscells_param_value(keyword)}",
+    param_validate(),
     "{return_px_or_df()}",
     "{acrosscells_example(keyword)}",
     "@export",
@@ -338,6 +343,15 @@ acrosscells_example <- function(keyword) {
 }
 
 add_acrosscells_example <- add_documentation_function(acrosscells_example)
+
+param_validate <- function() {
+  stringr::str_glue(
+    "@param validate Optional. If TRUE a number of validation checks are performed ",
+    "on the px object, and an error is thrown if the object is not valid. If FALSE, ",
+    "the checks are skipped, which can be usefull for large px objects where the ",
+    "check can be time consuming. Use [px_validate()] to manually preform the check."
+  )
+}
 
 table_param_value_ending <- function(keyword) {
   if (keyword %in% mandatory_keywords()) {

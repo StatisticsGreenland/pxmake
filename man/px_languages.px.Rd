@@ -5,15 +5,17 @@
 \alias{px_languages.px}
 \title{LANGUAGES}
 \usage{
-px_languages(x, value)
+px_languages(x, value, validate)
 
-\method{px_languages}{px}(x, value)
+\method{px_languages}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A character vector. If missing, the current LANGUAGES
 are returned. If NULL, LANGUAGES are removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \description{
 Inspect or change LANGUAGES.

@@ -5,15 +5,17 @@
 \alias{px_figures.px}
 \title{Change figures variable}
 \usage{
-px_figures(x, value)
+px_figures(x, value, validate)
 
-\method{px_figures}{px}(x, value)
+\method{px_figures}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. Name of variable to use as FIGRUES. If missing, the
 current PX_FIGURES variable is returned.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object or a character string

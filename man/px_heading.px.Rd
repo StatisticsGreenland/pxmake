@@ -5,9 +5,9 @@
 \alias{px_heading.px}
 \title{HEADING}
 \usage{
-px_heading(x, value)
+px_heading(x, value, validate)
 
-\method{px_heading}{px}(x, value)
+\method{px_heading}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
@@ -15,6 +15,8 @@ px_heading(x, value)
 \item{value}{Optional. A character vector of variable names to change to
 STUB. This also changes the HEADING order. With names in \code{variables}
 becoming 1, 2, ... If missing, the current HEADING variables are returned.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object or a character vector.

@@ -5,14 +5,16 @@
 \alias{px_valuenotex.px}
 \title{VALUENOTEX}
 \usage{
-px_valuenotex(x, value)
+px_valuenotex(x, value, validate)
 
-\method{px_valuenotex}{px}(x, value)
+\method{px_valuenotex}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A data frame with the columns 'valuenotex' and one or more of the columns: 'variable-code', 'code', and 'language'. If 'value' is missing, the current VALUENOTEX is returned. If NULL, VALUENOTEX is removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object or data frame.

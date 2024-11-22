@@ -5,14 +5,16 @@
 \alias{px_showdecimals.px}
 \title{SHOWDECIMALS}
 \usage{
-px_showdecimals(x, value)
+px_showdecimals(x, value, validate)
 
-\method{px_showdecimals}{px}(x, value)
+\method{px_showdecimals}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A character string. If missing, the current SHOWDECIMALS is returned. If NULL, SHOWDECIMALS is removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object or a character string.

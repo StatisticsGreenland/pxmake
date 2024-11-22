@@ -9,6 +9,7 @@
 #' @param data Either a data frame or a path to an `.rds` or `.parquet` file
 #' with a data frame. This can only be used if `input` is an Excel metadata
 #' workbook.
+#' @eval param_validate()
 #'
 #' @return A px object
 #'
@@ -24,7 +25,7 @@
 #' x2 <- px(px_path)
 #'
 #' @export
-px <- function(input = NULL, data = NULL) {
+px <- function(input = NULL, data = NULL, validate = TRUE) {
   validate_px_arguments(input, data)
 
   if (is_rds_file(input)) {
@@ -57,7 +58,7 @@ px <- function(input = NULL, data = NULL) {
     unexpected_error()
   }
 
-  validate_px(px)
+  return_px(px, validate)
 }
 
 #' Save px object to file
@@ -151,13 +152,27 @@ fix_px <- function(x) {
 
 #' Validate px object
 #'
-#' Throws an error if the px object is not valid.
+#' Runs a number of checks on px object to see if it is valid.
+#'
+#' This check is run by default by all `px_*` functions, but can be skipped by
+#' using `validate = FALSE`. This can be useful on large px objects where the
+#' checks are time consuming. Instead of validating on every modifying function
+#' `px_validate()` can be run as the final step to validate the object.
 #'
 #' @param x A supposed px object.
 #'
 #' @return A valid px object.
-#' @keywords internal
-validate_px <- function(x) {
+#' @examples
+#' # Turn of validation for modifying functions, and manually
+#' # run validation as final step in creating px object.
+#' x1 <-
+#'   px(population_gl, validate = FALSE) |>
+#'   px_title("Test", validate = FALSE) |>
+#'   px_validate()
+#'
+#' px_save(x1, 'validated.px')
+#' @export
+px_validate <- function(x) {
   error_if_not_list(x)
   error_if_not_class_px(x)
   error_if_not_list_of_data_frames(x)
@@ -180,4 +195,19 @@ validate_px <- function(x) {
   error_if_value_contains_quotation_marks(x)
 
   return(x)
+}
+
+#' Return px object
+#'
+#' Wrapper potentially validate it and return px object.
+#'
+#' @inheritParams px
+#'
+#' @keywords internal
+return_px <- function(x, validate) {
+  if (validate) {
+    return(px_validate(x))
+  } else {
+    return(x)
+  }
 }

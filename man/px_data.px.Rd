@@ -5,15 +5,17 @@
 \alias{px_data.px}
 \title{DATA}
 \usage{
-px_data(x, value)
+px_data(x, value, validate)
 
-\method{px_data}{px}(x, value)
+\method{px_data}{px}(x, value, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A data frame. If missing, the current DATA is returned.
 If NULL, all data rows are removed.}
+
+\item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
 A px object or data frame.

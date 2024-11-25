@@ -1,0 +1,32 @@
+CHARSET="ANSI";
+DECIMALS=0;
+MATRIX="matrix";
+SUBJECT-CODE="subject-code";
+SUBJECT-AREA="subject-area";
+TITLE="Test";
+CONTENTS="contents";
+STUB="gender","age";
+HEADING="year";
+VALUES("gender")="female","male";
+VALUES("age")="0-6","17-24","25-64","65+","7-16";
+VALUES("year")="2004","2014","2024";
+UNITS="units";
+CODES("gender")="female","male";
+CODES("age")="0-6","17-24","25-64","65+","7-16";
+CODES("year")="2004","2014","2024";
+VARIABLECODE("gender")="gender";
+VARIABLECODE("age")="age";
+VARIABLECODE("year")="year";
+VARIABLECODE("n")="n";
+DATA=
+3109 2644 2668
+3003 3528 2862
+13744 14397 15098
+1630 2004 2616
+5018 3979 3534
+3237 2950 2769
+3191 3614 2940
+17328 16888 17231
+1481 2238 3116
+5085 4040 3865
+;

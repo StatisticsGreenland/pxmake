@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.1.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.1.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,10 +42,15 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="pxmake-development-version">pxmake (development version)<a class="anchor" aria-label="anchor" href="#pxmake-development-version"></a></h2>
 <div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>Add <code>validate =</code> option to all modifying functions to enable turning off validation. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/332" class="external-link">#332</a>)</li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-development-version">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-development-version"></a></h3>
 <ul><li>
 <code><a href="../reference/px_elimination.px.html">px_elimination()</a></code>, <code><a href="../reference/px_map.px.html">px_map()</a></code>, and <code><a href="../reference/px_domain.px.html">px_domain()</a></code> now only sets value for STUB/HEADING variables if value is character. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/325" class="external-link">#325</a>)</li>
 <li>Optimize <code><a href="../reference/px_micro.html">px_micro()</a></code> by only setting stub once, instead of for all files.</li>
+<li>Add <code>na_to_star</code> option to <code><a href="../reference/px_cellnote.px.html">px_cellnote()</a></code> and <code><a href="../reference/px_cellnotex.px.html">px_cellnotex()</a></code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/335" class="external-link">#335</a>)</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -115,7 +120,7 @@
 <li>Change <code>micromake()</code> to <code><a href="../reference/px_micro.html">px_micro()</a></code>.</li>
 </ul></li>
 <li>Remove functions
-<ul><li>These functions have been deprecated and can no longer be used: <code>metamake()</code>, <code>pxmake()</code>, <code>make_template()</code>.</li>
+<ul><li>These functions have been deprecated and can no longer be used: <code>metamake()</code>, <code><a href="../reference/pxmake-package.html">pxmake()</a></code>, <code>make_template()</code>.</li>
 </ul></li>
 <li>px-object changes
 <ul><li>Change <code>x$codelists1</code> and <code>x$codelists2</code> to <code>x$cells1</code> and <code>x$cells2</code>.</li>
@@ -203,7 +208,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="breaking-changes-0-10-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-10-0"></a></h3>
-<ul><li>The ‘rds’ version of the px file is completly gone. Neither <code>pxmake()</code> nor <code>metamake()</code> can create them. pxmake() and metamake() can convert between Excel and px files, and they return a px object invisibly. <code>pxmake()</code> and <code>metamake()</code> will be deprecated in the future.</li>
+<ul><li>The ‘rds’ version of the px file is completly gone. Neither <code><a href="../reference/pxmake-package.html">pxmake()</a></code> nor <code>metamake()</code> can create them. pxmake() and metamake() can convert between Excel and px files, and they return a px object invisibly. <code><a href="../reference/pxmake-package.html">pxmake()</a></code> and <code>metamake()</code> will be deprecated in the future.</li>
 <li>
 <code>make_template()</code> will be deprecated in the future - <code><a href="../reference/px.html">px()</a></code> automatically creates a metadata template if none is provided.</li>
 <li>
@@ -347,7 +352,7 @@
 <h3 id="bug-fixes-and-minor-improvements-0-5-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-5-0"></a></h3>
 <ul><li>Add formatting to Excel metadata workbook created by <code>metamake()</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/100" class="external-link">#100</a>)</li>
 <li>Add argument <code>rds_data_path</code> to <code>metamake()</code> to save data as rds file. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/108" class="external-link">#108</a>)</li>
-<li>Let <code>pxmake()</code> accept data frame as source data in addition to accepting a path. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/71" class="external-link">#71</a>)</li>
+<li>Let <code><a href="../reference/pxmake-package.html">pxmake()</a></code> accept data frame as source data in addition to accepting a path. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/71" class="external-link">#71</a>)</li>
 <li>Turn off <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines()</a></code> warning for missing EOL character. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/113" class="external-link">#113</a>)</li>
 <li>Rename <code>.figures</code> to <code>figures_</code> in metadata created by <code>metamake()</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/104" class="external-link">#104</a>)</li>
 <li>Allow forward slashes in variables names.</li>
@@ -375,7 +380,7 @@
 <div class="section level3">
 <h3 id="new-features-0-3-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-0"></a></h3>
 <ul><li>Time values are added correctly the px file.</li>
-<li>If no <code>source_data_path</code> is given, <code>pxmake()</code> looks for a ‘Data’ sheet in the metadata and uses that instead.</li>
+<li>If no <code>source_data_path</code> is given, <code><a href="../reference/pxmake-package.html">pxmake()</a></code> looks for a ‘Data’ sheet in the metadata and uses that instead.</li>
 <li>New argument: add_totals. Choose variable(s) to add a total level to.</li>
 </ul></div>
 <div class="section level3">

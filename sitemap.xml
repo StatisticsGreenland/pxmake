@@ -108,6 +108,7 @@
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/px_title.px.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/px_units.px.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/px_update_frequency.px.html</loc></url>
+<url><loc>https://statisticsgreenland.github.io/pxmake/reference/px_validate.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/px_valuenote.px.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/px_valuenotex.px.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/px_values.px.html</loc></url>
@@ -117,13 +118,13 @@
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/quote_unless_yes_no.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/read_px_file.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/replace_na_language_with_main_language.html</loc></url>
+<url><loc>https://statisticsgreenland.github.io/pxmake/reference/return_px.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/save_px_as_px_file.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/save_px_as_xlsx.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/sort_metadata_df.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/str_quote.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/temp_dir.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/temp_file_with_extension.html</loc></url>
-<url><loc>https://statisticsgreenland.github.io/pxmake/reference/validate_px.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/validate_px_arguments.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/validate_px_micro_arguments.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/validate_px_save_arguments.html</loc></url>

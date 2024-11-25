@@ -75,6 +75,7 @@ reference:
 - title: Special functions
   contents:
    - px_micro
+   - px_validate
 - title: Built in datasets
   contents:
    - population_gl

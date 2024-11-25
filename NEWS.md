@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## New features
+- Add `validate =` option to all modifying functions to enable turning off 
+validation. (#332)
+
 ## Bug fixes and minor improvements
 - `px_elimination()`, `px_map()`, and `px_domain()` now only sets value for
 STUB/HEADING variables if value is character. (#325)

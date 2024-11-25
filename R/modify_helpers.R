@@ -146,13 +146,19 @@ modify_variables2 <- function(x, column, value) {
   return(x)
 }
 
-modify_acrosscells <- function(x, value, keyword) {
+modify_acrosscells <- function(x, value, keyword, na_to_star) {
   missing_columns <- setdiff(c(px_stub(x), px_heading(x)), names(value))
 
   value_completed <-
     value %>%
     { if (length(missing_columns) > 0) {
-      dplyr::bind_cols(., asterisk_tibble(columns = missing_columns))
+      if (na_to_star) {
+        dummy_df <- asterisk_tibble(columns = missing_columns)
+      } else {
+        dummy_df <- na_tibble(columns = missing_columns)
+      }
+
+      dplyr::bind_cols(., dummy_df)
     } else {
       .
     }}

@@ -5,14 +5,16 @@
 \alias{px_cellnote.px}
 \title{CELLNOTE}
 \usage{
-px_cellnote(x, value, validate)
+px_cellnote(x, value, na_to_star, validate)
 
-\method{px_cellnote}{px}(x, value, validate = TRUE)
+\method{px_cellnote}{px}(x, value, na_to_star = TRUE, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame with columns 'cellnote' and one or more columns with the names of the STUB and HEADING variables. The 'cellnote' column is the cellnote text, and the STUB/HEADING columns control which cells the note applies to. Use asterisk (*) if a note applies to all cells in a variable. Use column 'language'  to set CELLNOTE for specific languages. If 'value' is missing, the current CELLNOTE is returned. If value is NULL, CELLNOTE is removed.}
+\item{value}{Optional. A data frame with columns 'cellnote' and one or more columns with the names of the STUB and HEADING variables. The 'cellnote' column is the cellnote text, and the STUB/HEADING columns control which cells the note applies to. Use star (*) if a note applies to all cells in a variable. Use column 'language'  to set CELLNOTE for specific languages. If 'value' is missing, the current CELLNOTE is returned. If value is NULL, CELLNOTE is removed.}
+
+\item{na_to_star}{Optional. Convert all NAs to '*'.}
 
 \item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }

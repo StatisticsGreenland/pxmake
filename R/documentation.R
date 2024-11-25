@@ -26,11 +26,11 @@ add_doc_keyword_function_intro <-
 
 add_documentation_table1 <- function(keyword, example_value) {
   stringr::str_glue(
-    "{doc_keyword_function_intro(keyword)}",
+    doc_keyword_function_intro(keyword),
     "@param value {table1_param_value(keyword)}",
     param_validate(),
-    "{return_px_or_char_str()}",
-    "{table1_example(keyword, example_value)}",
+    return_px_or_char_str(),
+    table1_example(keyword, example_value),
     "@export",
     .sep = "\n"
     ) %>%
@@ -39,11 +39,11 @@ add_documentation_table1 <- function(keyword, example_value) {
 
 add_documentation_table2 <- function(keyword, example_value1, example_value2) {
   stringr::str_glue(
-    "{doc_keyword_function_intro(keyword)}",
+    doc_keyword_function_intro(keyword),
     "@param value {table2_param_value(keyword)}",
     param_validate(),
-    "{return_px_or_char_vector_or_df()}",
-    "{table2_example(keyword, example_value1, example_value2)}",
+    return_px_or_char_vector_or_df(),
+    table2_example(keyword, example_value1, example_value2),
     "@export",
     .sep = "\n"
     ) %>%
@@ -52,10 +52,10 @@ add_documentation_table2 <- function(keyword, example_value1, example_value2) {
 
 add_documentation_head_stub <- function(keyword) {
   stringr::str_glue(
-    "{doc_keyword_function_intro(keyword)}",
+    doc_keyword_function_intro(keyword),
     "@param value {pivot_param_value(keyword)}",
     param_validate(),
-    "{return_px_or_char_vector()}",
+    return_px_or_char_vector(),
     "@export",
     .sep = "\n"
     ) %>%
@@ -64,11 +64,11 @@ add_documentation_head_stub <- function(keyword) {
 
 add_documentation_variables2 <- function(keyword, example_value1, example_value2, example_value3) {
   stringr::str_glue(
-    "{doc_keyword_function_intro(keyword)}",
+    doc_keyword_function_intro(keyword),
     "@param value {variables2_param_value(keyword)}",
     param_validate(),
-    "{return_px_or_char_vector_or_df()}",
-    "{variables2_example(keyword, example_value1, example_value2, example_value3)}",
+    return_px_or_char_vector_or_df(),
+    variables2_example(keyword, example_value1, example_value2, example_value3),
     "@export",
     .sep = "\n"
   ) %>%
@@ -77,12 +77,12 @@ add_documentation_variables2 <- function(keyword, example_value1, example_value2
 
 add_documentation_acrosscells <- function(keyword) {
   stringr::str_glue(
-    "{doc_keyword_function_intro(keyword)}",
+    doc_keyword_function_intro(keyword),
     "@param value {acrosscells_param_value(keyword)}",
     "@param na_to_star Optional. Convert all NAs to '*'.",
     param_validate(),
-    "{return_px_or_df()}",
-    "{acrosscells_example(keyword)}",
+    return_px_or_df(),
+    acrosscells_example(keyword),
     "@export",
     .sep = "\n"
   ) %>%

@@ -79,6 +79,7 @@ add_documentation_acrosscells <- function(keyword) {
   stringr::str_glue(
     "{doc_keyword_function_intro(keyword)}",
     "@param value {acrosscells_param_value(keyword)}",
+    "@param na_to_star Optional. Convert all NAs to '*'.",
     param_validate(),
     "{return_px_or_df()}",
     "{acrosscells_example(keyword)}",
@@ -422,7 +423,7 @@ acrosscells_param_value <- function(keyword) {
     "with the names of the STUB and HEADING variables.",
     " The '{colname}' column is ",
     "the {colname} text, and the STUB/HEADING columns control which cells the ",
-    "note applies to. Use asterisk (*) if a note applies to all cells in a ",
+    "note applies to. Use star (*) if a note applies to all cells in a ",
     "variable. Use column 'language'  to set {keyword} for specific ",
     "languages. If 'value' is missing, the current {keyword} is returned. If ",
     "value is NULL, {keyword} is removed."

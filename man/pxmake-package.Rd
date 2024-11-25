@@ -2,8 +2,8 @@
 % Please edit documentation in R/pxmake-package.R
 \docType{package}
 \name{pxmake-package}
+\alias{pxmake}
 \alias{pxmake-package}
-\alias{_PACKAGE}
 \alias{pxmake-package.R}
 \title{pxmake: Create px files}
 \description{

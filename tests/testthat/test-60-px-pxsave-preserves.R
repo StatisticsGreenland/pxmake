@@ -8,13 +8,13 @@ test_that("px file = px_save(px(px file))", {
 
   # Cell values with closing parenthesis )
   population_gl |>
-    dplyr::mutate(across(age, ~ forcats::fct_recode(.,
-                                                    "(0-6)" = "0-6",
-                                                    "(7)-16" = "7-16",
-                                                    "17-(24)" = "17-24",
-                                                    "25)-64" = "25-64",
-                                                    "65(" = "65+"
-                                                    )
+    dplyr::mutate(across(age, ~ dplyr::case_when(. == "0-6"  ~ "(0-6)",
+                                                 . == "7-16"  ~ "(7)-16",
+                                                 . == "17-24" ~ "17-(24)",
+                                                 . == "25-64" ~ "25)-64",
+                                                 . =="65+"    ~ "65(",
+                                                 TRUE ~ .
+                                                 )
                          )
                   ) %>%
     px() %>%

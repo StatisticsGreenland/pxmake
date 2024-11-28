@@ -32,6 +32,7 @@ Imports:
     tibble,
     tidyr,
     tools,
+    vctrs,
     withr
 Suggests: 
     knitr,

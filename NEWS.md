@@ -11,6 +11,7 @@ and save classifications (value sets and aggregations). (#327)
 STUB/HEADING variables if value is character. (#325)
 - Optimize `px_micro()` by only setting stub once, instead of for all files.
 - Add `na_to_star` option to `px_cellnote()` and `px_cellnotex()`. (#335)
+- Support px-files with cell values that contain closing parentheses. (#337)
 
 # pxmake 0.12.1
 

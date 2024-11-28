@@ -45,14 +45,17 @@ expect_equal_lines <- function(path1, path2) {
   expect_equal(lines1, lines2)
 }
 
-expect_px_px_save_preserves_everything <- function(table_name) {
+px_from_table_name <- function(table_name) {
+  px(input = get_metadata_path(table_name),
+     data = get_data_path(table_name)
+     )
+}
+
+expect_px_px_save_preserves_everything <- function(x) {
   px1   <- temp_px_file()
   px2   <- temp_px_file()
 
-  px(input = get_metadata_path(table_name),
-     data = get_data_path(table_name)
-     ) %>%
-    px_save(path = px1)
+  px_save(x, path = px1)
 
   px1 %>%
     px() %>%

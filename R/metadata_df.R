@@ -10,7 +10,7 @@ get_px_metadata_regex <- function() {
          "(?:\\(\")?",                   # Maybe opening sub-key parentheses (
          "(?<variable>[^\"=]+)?",        # Maybe sub-key
          "(?:\",\")?",                   # Maybe comma before cell value
-         "(?<cell>[^\\)=]+)?",           # Maybe cell value
+         "(?<cell>[^=]+?)?(?=\\)=|=)",   # Maybe cell value
          "(?:\")?",                      # Maybe closing " after cell value
          "(?:\"\\))?",                   # Maybe closing sub-key parentheses )
          "=",                            # definitely =
@@ -34,8 +34,15 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
     stringr::str_split(";") %>%
     unlist() %>%
     stringr::str_match(get_px_metadata_regex()) %>%
-    magrittr::extract(,-1) %>% # remove full match column
-    dplyr::as_tibble() %>%
+    dplyr::as_tibble(.name_repair = ~ vctrs::vec_as_names(...,
+                                                          repair = "unique",
+                                                          quiet = TRUE
+                                                          )
+                     ) %>%
+    dplyr::select(-starts_with("...")) %>%
+    dplyr::mutate(cell = stringr::str_replace_all(cell, '"\\)', ''),
+                  cell = dplyr::na_if(cell, '')
+                  ) %>%
     # remove leading and trailing " on all keywords except TIMEVAL
     dplyr::mutate(value = ifelse(keyword != "TIMEVAL",
                                  stringr::str_replace_all(value, '^"|"$', ''),

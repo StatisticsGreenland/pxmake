@@ -13,6 +13,19 @@ get_data_path <- function(table_name) {
   }
 }
 
+get_classification_path <- function(name) {
+  test_path('fixtures', 'classification', name)
+}
+
+classification_path <- function(name) {
+  function() {
+    return(get_classification_path(name = name))
+  }
+}
+
+agg_25years_path <- classification_path("25-years classes.agg")
+vs_age5_path     <- classification_path("Age5.vs")
+
 get_metadata_path <- function(table_name) {
   test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))
 }

@@ -32,3 +32,17 @@
 #'
 #' @source <https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf>
 "px_keywords"
+
+#' Age classification
+#'
+#' Example data set to create age classification with aggreations form 10 and
+#' 25 years classes.
+#'
+#' @format A data frame:
+#' \describe{
+#'   \item{valuecode}{Value code}
+#'   \item{valuetext}{Value text}
+#'   \item{10 years classes}{Aggregtation into 10 years classes}
+#'   \item{25 years classes}{Aggregtation into 25 years classes}
+#' }
+"age_classification"

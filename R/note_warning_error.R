@@ -373,3 +373,20 @@ validate_px_micro_arguments <- function(x, out_dir) {
     }
   }
 }
+
+
+#' Check all arguments to px_classification
+#'
+#' @inheritParams px_classification
+#'
+#' @return Nothing
+#' @keywords internal
+validate_px_classification_arguments <- function(name,
+                                                 prestext,
+                                                 domain,
+                                                 df,
+                                                 vs_path,
+                                                 agg_paths){
+  return()
+}
+

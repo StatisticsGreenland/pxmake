@@ -77,10 +77,10 @@ reference:
   contents:
    - px_micro
    - px_validate
-- title: Collections (aggregations)
+- title: Collections (value set and aggregations)
   contents:
-   - px_collection
-   - px_save_collection
+   - px_classification
+   - px_save_classification
 - title: Built in datasets
   contents:
    - population_gl

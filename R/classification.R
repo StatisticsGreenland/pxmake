@@ -115,7 +115,7 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #'
 #' A classification is a combination of a value set and zero, one or more
 #' aggregations. The classification can be saved as .vs and .agg files
-#' (see [save_px_classification()]).
+#' (see [px_save_classification()]).
 #'
 #' If a classification is created from a data frame, the arguments 'name' and
 #' 'domain' are required. If a classification is created from .vs and .agg files,

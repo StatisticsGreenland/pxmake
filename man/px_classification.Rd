@@ -37,7 +37,7 @@ Create a classification object from a data frame or .vs and .agg files.
 \details{
 A classification is a combination of a value set and zero, one or more
 aggregations. The classification can be saved as .vs and .agg files
-(see \code{\link[=save_px_classification]{save_px_classification()}}).
+(see \code{\link[=px_save_classification]{px_save_classification()}}).
 
 If a classification is created from a data frame, the arguments 'name' and
 'domain' are required. If a classification is created from .vs and .agg files,

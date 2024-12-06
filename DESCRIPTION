@@ -1,6 +1,6 @@
 Package: pxmake
 Title: Create px files
-Version: 0.12.1.9005
+Version: 0.12.1.9006
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",
@@ -26,8 +26,10 @@ Imports:
     furrr,
     magrittr,
     openxlsx,
+    purrr,
     readxl,
     rlang,
+    stringi,
     stringr,
     tibble,
     tidyr,

@@ -82,6 +82,12 @@ px_classification_from_path <- function(vs_path, agg_paths = NULL) {
                   valuetext = extract_chunk(vs_lines, '[Valuetext]')
                   )
 
+  if (is.null(agg_paths)) {
+    vs_dir <- dirname(vs_path)
+
+    agg_paths <- file.path(vs_dir, extract_chunk(vs_lines, '[Aggreg]'))
+  }
+
   if (length(agg_paths) == 0) {
     df <- vs_df
   } else {
@@ -113,7 +119,7 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #'
 #' Create a classification object from a data frame or .vs and .agg files.
 #'
-#' A classification is a combination of a value set and zero, one or more
+#' A classification is a combination of a value set and zero, one, or more
 #' aggregations. The classification can be saved as .vs and .agg files
 #' (see [px_save_classification()]).
 #'
@@ -121,7 +127,7 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' 'domain' are required. If a classification is created from .vs and .agg files,
 #' all other arguments should be empty.
 #'
-#' Type 'V' classifications are supported. Type 'H' and 'N' classifications are
+#' Type 'V' value sets are supported. Type 'H' and 'N' value set are
 #' not supported.
 #'
 #' @param name Optional. Name of the classification.
@@ -131,13 +137,19 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' optional column 'valuetext', if the codes have texts. Each additional column
 #' represents an aggregation. The column name is the name of the aggregation.
 #' @param vs_path Optional. Path to a values set (.vs) file.
-#' @param agg_paths Optional. Paths to one or more aggregation (.agg) files.
-#'
+#' @param agg_paths Optional.
+#' \itemize{
+#'   \item If NULL, aggregation paths are automatically taken from the
+#'   \[Aggreg\] field in the .vs file.
+#'   \item Use a vector of paths to one or more aggregation files (.agg) to
+#'   manually choose aggregations.
+#'   \item Use character(0) if aggregations from the .vs files should not be
+#'   added automatically.
+#' }
 #' @return A classification object
 #'
 #' @examples
 #' # Create classification from data frame
-#'
 #' library(tibble)
 #'
 #' c1 <- px_classification(name = "Age5",
@@ -165,17 +177,21 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #'                         )
 #'
 #' \dontrun{
-#' # Create classification from .vs and .agg files
+#' # Create classification from .vs file and use aggregations mentioned in .vs
+#' c2 <- px_classification(vs_path = "path/to/value_set.vs")
 #'
-#' c2 <- px_classification(vs_path = "path/to/value_set.vs",
+#' # Create classification from .vs file and manually specify aggregation files
+#' c3 <- px_classification(vs_path = "path/to/value_set.vs",
 #'                        agg_paths = c("path/to/aggregation1.agg",
 #'                                      "path/to/aggregation2.agg"
 #'                                      )
 #'                        )
+#'
+#'
 #' }
 #'
 #' @export
-px_classification <- function(name, prestext="", domain="", df, vs_path=NULL, agg_paths=NULL) {
+px_classification <- function(name, prestext="", domain, df, vs_path=NULL, agg_paths=NULL) {
   validate_px_classification_arguments(name, prestext, domain, df, vs_path, agg_paths)
 
   if (all(is.null(vs_path), length(agg_paths) == 0)) {

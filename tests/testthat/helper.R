@@ -23,6 +23,7 @@ classification_path <- function(name) {
   }
 }
 
+agg_10years_path <- classification_path("10-years classes.agg")
 agg_25years_path <- classification_path("25-years classes.agg")
 vs_age5_path     <- classification_path("Age5.vs")
 

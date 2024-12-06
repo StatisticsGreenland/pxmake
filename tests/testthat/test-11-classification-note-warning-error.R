@@ -28,7 +28,7 @@ test_that(".vs and .agg files exists", {
                )
 })
 
-test_that("if agg is defined vs_path should also", {
+test_that("if agg_paths is defined vs_path should also", {
   expect_error(px_classification(agg_paths = agg_25years_path()),
                regexp = 'vs_path'
                )
@@ -51,3 +51,6 @@ test_that("df columns have right format", {
                regexp = 'character'
                )
 })
+
+
+# Check that agg paths in the vs file actually exist before reading them

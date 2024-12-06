@@ -7,7 +7,7 @@
 px_classification(
   name,
   prestext = "",
-  domain = "",
+  domain,
   df,
   vs_path = NULL,
   agg_paths = NULL
@@ -26,7 +26,15 @@ represents an aggregation. The column name is the name of the aggregation.}
 
 \item{vs_path}{Optional. Path to a values set (.vs) file.}
 
-\item{agg_paths}{Optional. Paths to one or more aggregation (.agg) files.}
+\item{agg_paths}{Optional.
+\itemize{
+\item If NULL, aggregation paths are automatically taken from the
+[Aggreg] field in the .vs file.
+\item Use a vector of paths to one or more aggregation files (.agg) to
+manually choose aggregations.
+\item Use character(0) if aggregations from the .vs files should not be
+added automatically.
+}}
 }
 \value{
 A classification object
@@ -35,7 +43,7 @@ A classification object
 Create a classification object from a data frame or .vs and .agg files.
 }
 \details{
-A classification is a combination of a value set and zero, one or more
+A classification is a combination of a value set and zero, one, or more
 aggregations. The classification can be saved as .vs and .agg files
 (see \code{\link[=px_save_classification]{px_save_classification()}}).
 
@@ -43,12 +51,11 @@ If a classification is created from a data frame, the arguments 'name' and
 'domain' are required. If a classification is created from .vs and .agg files,
 all other arguments should be empty.
 
-Type 'V' classifications are supported. Type 'H' and 'N' classifications are
+Type 'V' value sets are supported. Type 'H' and 'N' value set are
 not supported.
 }
 \examples{
 # Create classification from data frame
-
 library(tibble)
 
 c1 <- px_classification(name = "Age5",
@@ -76,13 +83,17 @@ c1 <- px_classification(name = "Age5",
                         )
 
 \dontrun{
-# Create classification from .vs and .agg files
+# Create classification from .vs file and use aggregations mentioned in .vs
+c2 <- px_classification(vs_path = "path/to/value_set.vs")
 
-c2 <- px_classification(vs_path = "path/to/value_set.vs",
+# Create classification from .vs file and manually specify aggregation files
+c3 <- px_classification(vs_path = "path/to/value_set.vs",
                        agg_paths = c("path/to/aggregation1.agg",
                                      "path/to/aggregation2.agg"
                                      )
                        )
+
+
 }
 
 }

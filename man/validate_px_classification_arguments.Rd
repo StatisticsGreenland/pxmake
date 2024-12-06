@@ -26,7 +26,15 @@ represents an aggregation. The column name is the name of the aggregation.}
 
 \item{vs_path}{Optional. Path to a values set (.vs) file.}
 
-\item{agg_paths}{Optional. Paths to one or more aggregation (.agg) files.}
+\item{agg_paths}{Optional.
+\itemize{
+\item If NULL, aggregation paths are automatically taken from the
+[Aggreg] field in the .vs file.
+\item Use a vector of paths to one or more aggregation files (.agg) to
+manually choose aggregations.
+\item Use character(0) if aggregations from the .vs files should not be
+added automatically.
+}}
 }
 \value{
 Nothing

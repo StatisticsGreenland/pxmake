@@ -27,5 +27,8 @@ test_that("classification is preserved", {
                     agg_paths = agg_25years_path()
                     ) %>%
     expect_save_read_preserves_classification()
+
+  px_classification(vs_path = vs_age5_path()) %>%
+    expect_save_read_preserves_classification()
 })
 

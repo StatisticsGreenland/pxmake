@@ -13,6 +13,20 @@ get_data_path <- function(table_name) {
   }
 }
 
+get_classification_path <- function(name) {
+  test_path('fixtures', 'classification', name)
+}
+
+classification_path <- function(name) {
+  function() {
+    return(get_classification_path(name = name))
+  }
+}
+
+agg_10years_path <- classification_path("10-years classes.agg")
+agg_25years_path <- classification_path("25-years classes.agg")
+vs_age5_path     <- classification_path("Age5.vs")
+
 get_metadata_path <- function(table_name) {
   test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))
 }
@@ -70,4 +84,24 @@ create_px_file <- function(table_name) {
     px_save(path = px_path)
 
   return(px_path)
+}
+
+expect_save_read_preserves_classification <- function(c) {
+  tempdir <- temp_dir()
+  px_save_classification(c, tempdir)
+
+  c2 <-
+    px_classification(vs_path = list.files(tempdir, pattern = ".*\\.vs", full.names = TRUE))
+
+  expect_identical(c, c2)
+}
+
+return_c2 <- function(c) {
+  tempdir <- temp_dir()
+  px_save_classification(c, tempdir)
+
+  c2 <-
+    px_classification(vs_path = list.files(tempdir, pattern = ".*\\.vs", full.names = TRUE))
+
+  return(c2)
 }

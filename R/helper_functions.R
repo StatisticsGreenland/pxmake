@@ -259,6 +259,21 @@ wrap_varaible_in_list <- function(df, var) {
     dplyr::ungroup()
 }
 
+#' Read lines with specific encoding
+#'
+#' @param path Path to file
+#' @param encoding Encoding to use
+#'
+#' @return A character vector
+#' @keywords internal
+readLines_with_encoding <- function(path, encoding) {
+  file_connection <- file(path, encoding = encoding)
+  lines <- readLines(con = file_connection, warn = FALSE)
+  close(file_connection)
+
+  return(lines)
+}
+
 #' Get px file content as lines
 #'
 #' Read file with correct encoding.
@@ -268,11 +283,23 @@ wrap_varaible_in_list <- function(df, var) {
 #' @return A character vector
 #' @keywords internal
 read_px_file <- function(px_path) {
-  file_connection <- file(px_path, encoding = get_encoding_from_px_file(px_path))
-  lines <- readLines(con = file_connection, warn = FALSE)
-  close(file_connection)
+  readLines_with_encoding(path = px_path,
+                          encoding = get_encoding_from_px_file(px_path)
+                          )
+}
 
-  return(lines)
+#' Read lines from file with guessed encoding
+#'
+#' Wrapper around readLines to guess encoding before reading.
+#'
+#' @param path Path to file
+#'
+#' @return A character vector
+#' @keywords internal
+readLines_guess_encoding <- function(path) {
+  readLines_with_encoding(path = path,
+                          encoding = guess_file_encoding(path)
+                          )
 }
 
 #' Default encoding to read and save px file in
@@ -303,6 +330,38 @@ get_encoding_from_px_file <- function(px_path) {
   }
 
   return(encoding)
+}
+
+#' Guess encoding of file
+#'
+#' @param path Path to file
+#' @param prefer Named list of encodings, used to give higher confidence to
+#' specific encodings.
+#'
+#' @return Character
+#' @keywords internal
+guess_file_encoding <- function(path, prefer = list("UTF-8" = .2,
+                                                    "ISO-8859-1" = .2)
+                                ) {
+
+  prefer_df <-
+    prefer %>%
+    tibble::enframe(name = "Encoding", value = "Confidence") %>%
+    tidyr::unnest(Confidence) %>%
+    dplyr::mutate(across(Encoding, as.character))
+
+  best_guess <-
+    readBin(path, what = "raw", n = file.info(path)$size) %>%
+    stringi::stri_enc_detect() %>%
+    magrittr::extract2(1) %>%
+    dplyr::bind_rows(prefer_df) %>%
+    dplyr::group_by(Encoding) %>%
+    dplyr::summarise(Confidence = sum(Confidence)) %>%
+    dplyr::arrange(desc(Confidence)) %>%
+    .[["Encoding"]] %>%
+    head(1)
+
+  return(best_guess)
 }
 
 #' Check if a path has a specific extension (function factory)

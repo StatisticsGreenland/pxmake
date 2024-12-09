@@ -335,14 +335,29 @@ get_encoding_from_px_file <- function(px_path) {
 #' Guess encoding of file
 #'
 #' @param path Path to file
+#' @param prefer Named list of encodings, used to give higher confidence to
+#' specific encodings.
 #'
 #' @return Character
 #' @keywords internal
-guess_file_encoding <- function(path) {
+guess_file_encoding <- function(path, prefer = list("UTF-8" = .2,
+                                                    "ISO-8859-1" = .2)
+                                ) {
+
+  prefer_df <-
+    prefer %>%
+    tibble::enframe(name = "Encoding", value = "Confidence") %>%
+    tidyr::unnest(Confidence) %>%
+    dplyr::mutate(across(Encoding, as.character))
+
   best_guess <-
     readBin(path, what = "raw", n = file.info(path)$size) %>%
     stringi::stri_enc_detect() %>%
     magrittr::extract2(1) %>%
+    dplyr::bind_rows(prefer_df) %>%
+    dplyr::group_by(Encoding) %>%
+    dplyr::summarise(Confidence = sum(Confidence)) %>%
+    dplyr::arrange(desc(Confidence)) %>%
     .[["Encoding"]] %>%
     head(1)
 

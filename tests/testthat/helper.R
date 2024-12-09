@@ -85,3 +85,23 @@ create_px_file <- function(table_name) {
 
   return(px_path)
 }
+
+expect_save_read_preserves_classification <- function(c) {
+  tempdir <- temp_dir()
+  px_save_classification(c, tempdir)
+
+  c2 <-
+    px_classification(vs_path = list.files(tempdir, pattern = ".*\\.vs", full.names = TRUE))
+
+  expect_identical(c, c2)
+}
+
+return_c2 <- function(c) {
+  tempdir <- temp_dir()
+  px_save_classification(c, tempdir)
+
+  c2 <-
+    px_classification(vs_path = list.files(tempdir, pattern = ".*\\.vs", full.names = TRUE))
+
+  return(c2)
+}

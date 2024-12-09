@@ -22,6 +22,10 @@ extract_values <- function(lines) {
 extract_chunk <- function(lines, heading, key = NULL) {
   head_line <- stringr::str_which(lines, stringr::fixed(heading))
 
+  if (identical(head_line, integer(0))) {
+    return(NULL)
+  }
+
   chunk <- get_chunk(lines, head_line)
 
   if (! is.null(key)) {
@@ -46,25 +50,28 @@ df_from_agg <- function(path) {
   agg_lines <- readLines_guess_encoding(path)
 
   aggregation_name <-
-    extract_chunk(agg_lines, '[Aggreg]', 'Name') %>%
-    stringr::str_trim()
+    basename(path) %>%
+    stringr::str_remove("\\.agg$")
 
-  aggregation_levels <-
-    extract_chunk(agg_lines, '[Aggtext]')
+  aggregations <-
+    dplyr::tibble(valuecode = extract_chunk(agg_lines, '[Aggreg]') %>% tail(-2),
+                  valuetext = extract_chunk(agg_lines, '[Aggtext]')
+                  )
+
 
   df <- dplyr::tibble(valuecode           = as.character(),
-                      !!aggregation_name := factor(levels = aggregation_levels,
+                      !!aggregation_name := factor(levels = aggregations$valuecode,
                                                    ordered = TRUE
                                                    )
                       )
 
-  for (aggregation_level in aggregation_levels) {
+  for (aggregation_code in aggregations$valuecode) {
     df <- dplyr::bind_rows(df,
                            dplyr::tibble(valuecode = extract_chunk(agg_lines,
-                                                                   paste0("[", aggregation_level, "]")
-                                                                   ),
-                                         !!aggregation_name := factor(aggregation_level,
-                                                                      levels = aggregation_levels,
+                                                                 paste0("[", aggregation_code, "]")
+                                                                 ),
+                                         !!aggregation_name := factor(aggregation_code,
+                                                                      levels = aggregations$valuecode,
                                                                       ordered = TRUE
                                                                       )
                                          )
@@ -80,7 +87,8 @@ px_classification_from_path <- function(vs_path, agg_paths = NULL) {
   vs_df <-
     dplyr::tibble(valuecode = extract_chunk(vs_lines, '[Valuecode]'),
                   valuetext = extract_chunk(vs_lines, '[Valuetext]')
-                  )
+                  ) %>%
+    dplyr::mutate(across(valuetext, ~ dplyr::na_if(.x, "")))
 
   if (is.null(agg_paths)) {
     vs_dir <- dirname(vs_path)
@@ -213,22 +221,36 @@ blank_line <- function() " "
 write_value_set <- function(c, directory) {
   filename <- file.path(directory, paste0(c$name, ".vs"))
 
-  aggregation_names <-
+  aggregation_df <-
     c$df %>%
-    dplyr::select(-valuecode, -valuetext) %>%
-    names() %>%
-    paste0(".agg") %>%
-    enumerate_lines()
+    dplyr::select(-valuecode, -valuetext)
 
-  value_codes <-
-    c$df %>%
-    dplyr::pull(valuecode) %>%
-    enumerate_lines()
+  if (ncol(aggregation_df) == 0) {
+    aggregation_text <- ''
+  } else {
+    aggregation_names <-
+      aggregation_df %>%
+      names() %>%
+      paste0(".agg") %>%
+      enumerate_lines()
 
-  value_text <-
+    aggregation_text <-
+      stringr::str_glue("[Aggreg]",
+                        aggregation_names,
+                        "{blank_line()}\n",
+                        .sep = "\n"
+                        )
+  }
+
+  get_values <- function(var) {
     c$df %>%
-    dplyr::pull(valuetext) %>%
-    enumerate_lines()
+      tidyr::replace_na(setNames(list(""), var)) %>%
+      dplyr::pull(var) %>%
+      enumerate_lines()
+  }
+
+  value_codes <- get_values("valuecode")
+  value_text <- get_values("valuetext")
 
   vs_lines <-
     stringr::str_glue(
@@ -237,9 +259,7 @@ write_value_set <- function(c, directory) {
     "Prestext={c$prestext}",
     "Type=V",
     blank_line(),
-    "[Aggreg]",
-    aggregation_names,
-    blank_line(),
+    aggregation_text,
     "[Domain]",
     enumerate_lines(c$domain),
     blank_line(),

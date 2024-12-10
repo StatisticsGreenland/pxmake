@@ -472,30 +472,3 @@ validate_px_classification_arguments <- function(name,
     }
   }
 }
-
-my_function <- function(arg1, arg2, arg3, arg4, arg5, arg6) {
-  # Check if the first 4 arguments are all provided
-  all_first_defined <- !missing(arg1) && !missing(arg2) && !missing(arg3) && !missing(arg4)
-
-  # Check if the last 2 arguments are all provided
-  all_last_defined <- !missing(arg5) && !missing(arg6)
-
-  # Validate that either the first 4 or the last 2 arguments are provided, but not both
-  if (all_first_defined && all_last_defined) {
-    stop("Either define all of the first 4 arguments or all of the last 2 arguments, but not both.")
-  }
-  if (!all_first_defined && !all_last_defined) {
-    stop("You must define either all of the first 4 arguments or all of the last 2 arguments.")
-  }
-
-  # Main logic depending on which set of arguments is provided
-  if (all_first_defined) {
-    # Handle the case where the first 4 arguments are provided
-    message("Processing with the first 4 arguments.")
-    # Your code here for this case
-  } else if (all_last_defined) {
-    # Handle the case where the last 2 arguments are provided
-    message("Processing with the last 2 arguments.")
-    # Your code here for this case
-  }
-}

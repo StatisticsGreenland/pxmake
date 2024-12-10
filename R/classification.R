@@ -224,7 +224,7 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' library(tibble)
 #'
 #' c1 <- px_classification(name = "Age5",
-#'                         pretext = "Ages 0-9 - 60+",
+#'                         prestext = "Ages 0-9 - 60+",
 #'                         domain = "age",
 #'                         df = tribble(
 #'                            ~valuecode,    ~valuetext,   ~`25 years classes`,
@@ -253,9 +253,9 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #'
 #' # Create classification from .vs file and manually specify aggregation files
 #' c3 <- px_classification(vs_path = "path/to/value_set.vs",
-#'                        agg_paths = c("path/to/aggregation1.agg",
-#'                                      "path/to/aggregation2.agg"
-#'                                      )
+#'                         agg_paths = c("path/to/aggregation1.agg",
+#'                                       "path/to/aggregation2.agg"
+#'                                       )
 #'                        )
 #'
 #'

@@ -395,9 +395,9 @@ write_aggregation <- function(aggregation, c, path) {
 #'
 #' @examples
 #' c <- px_classification(name = "Age5",
-#'                        pretext = "Ages 0-9 - 60+",
+#'                        prestext = "Ages 0-9 - 60+",
 #'                        domain = "age",
-#'                        df = classification_age
+#'                        df = age_classification
 #'                        )
 #'
 #' px_save_classification(c, path = tempdir())

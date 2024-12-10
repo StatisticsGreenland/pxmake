@@ -53,7 +53,7 @@ not supported.
 library(tibble)
 
 c1 <- px_classification(name = "Age5",
-                        pretext = "Ages 0-9 - 60+",
+                        prestext = "Ages 0-9 - 60+",
                         domain = "age",
                         df = tribble(
                            ~valuecode,    ~valuetext,   ~`25 years classes`,
@@ -82,9 +82,9 @@ c2 <- px_classification(vs_path = "path/to/value_set.vs")
 
 # Create classification from .vs file and manually specify aggregation files
 c3 <- px_classification(vs_path = "path/to/value_set.vs",
-                       agg_paths = c("path/to/aggregation1.agg",
-                                     "path/to/aggregation2.agg"
-                                     )
+                        agg_paths = c("path/to/aggregation1.agg",
+                                      "path/to/aggregation2.agg"
+                                      )
                        )
 
 

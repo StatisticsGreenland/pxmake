@@ -1,0 +1,35 @@
+[Aggreg]
+Name=kommune                         
+Valueset=BEXSTALLlkode
+1=Kommune Kujalleq
+2=Kommuneqarfik Sermersooq
+3=Qeqqata Kommunia
+4=Kommune Qeqertalik
+5=Avannaata Kommunia
+6=Udenfor kommunerne
+ 
+[Aggtext]
+1=Kommune Kujalleq
+2=Kommuneqarfik Sermersooq
+3=Qeqqata Kommunia
+4=Kommune Qeqertalik
+5=Avannaata Kommunia
+6=Udenfor kommunerne
+ 
+[Avannaata Kommunia]
+1=960
+ 
+[Kommune Kujalleq]
+1=955
+ 
+[Kommune Qeqertalik]
+1=959
+ 
+[Kommuneqarfik Sermersooq]
+1=956
+ 
+[Qeqqata Kommunia]
+1=957
+ 
+[Udenfor kommunerne]
+1=961

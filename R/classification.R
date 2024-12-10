@@ -81,7 +81,7 @@ df_from_agg <- function(path) {
   return(df)
 }
 
-px_classification_from_path <- function(vs_path, agg_paths = NULL) {
+px_classification_from_path <- function(vs_path, agg_paths) {
   vs_lines  <- readLines_guess_encoding(vs_path)
 
   vs_df <-
@@ -90,7 +90,7 @@ px_classification_from_path <- function(vs_path, agg_paths = NULL) {
                   ) %>%
     dplyr::mutate(across(valuetext, ~ dplyr::na_if(.x, "")))
 
-  if (is.null(agg_paths)) {
+  if (missing(agg_paths)) {
     vs_dir <- dirname(vs_path)
 
     agg_paths <- file.path(vs_dir, extract_chunk(vs_lines, '[Aggreg]'))
@@ -115,10 +115,18 @@ px_classification_from_path <- function(vs_path, agg_paths = NULL) {
 }
 
 px_classification_from_df <- function(name, prestext, domain, df) {
+  character_columns <- intersect(names(df), c("valuecode", "valuetext"))
+
+  df_formatted <-
+    df %>%
+    dplyr::mutate(across(character_columns, as.character),
+                  across(-character_columns, ~ factor(.x, ordered = TRUE))
+                  )
+
   new_classification(name     = name,
                      prestext = prestext,
                      domain   = domain,
-                     df       = df
+                     df       = df_formatted
                      )
 }
 
@@ -199,11 +207,13 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' }
 #'
 #' @export
-px_classification <- function(name, prestext="", domain, df, vs_path=NULL, agg_paths=NULL) {
+px_classification <- function(name, prestext, domain, df, vs_path, agg_paths) {
   validate_px_classification_arguments(name, prestext, domain, df, vs_path, agg_paths)
 
-  if (all(is.null(vs_path), length(agg_paths) == 0)) {
+  if (all(missing(vs_path), missing(agg_paths))) {
     c <- px_classification_from_df(name, prestext, domain, df)
+  } else if (missing(agg_paths)) {
+    c <- px_classification_from_path(vs_path)
   } else {
     c <- px_classification_from_path(vs_path, agg_paths)
   }

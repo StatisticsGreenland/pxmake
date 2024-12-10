@@ -1,8 +1,8 @@
 test_that("A classification can be created from df and paths", {
-
   c1 <- px_classification(name = "Test",
+                          prestext = "Test",
                           domain = "Test",
-                          df = data.frame(code = 1:26, text = letters)
+                          df = data.frame(valuecode = 1:26, valuetext = letters)
                           )
 
   expect_s3_class(c1, "classification")
@@ -22,6 +22,7 @@ test_that("Classification can be created without aggregation", {
   expect_s3_class(c1, "classification")
 
   c2 <- px_classification(name = "No aggregation",
+                          prestext = "No aggregation",
                           domain = "no_agg",
                           df = dplyr::tribble(~valuecode,    ~valuetext,
                                                    "0-4",   "0-4 years",
@@ -38,3 +39,4 @@ test_that("Classification automatically read agg files", {
 
   expect_equal(c$df, age_classification)
 })
+

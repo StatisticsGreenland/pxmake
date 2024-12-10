@@ -387,6 +387,115 @@ validate_px_classification_arguments <- function(name,
                                                  df,
                                                  vs_path,
                                                  agg_paths){
-  return()
+  any_path_argument_is_defined <- (!missing(vs_path) | !missing(agg_paths))
+
+  any_non_path_argument_is_defined <-
+    (!missing(name) | !missing(prestext) | !missing(domain) | !missing(df))
+
+  if (any_path_argument_is_defined & any_non_path_argument_is_defined) {
+    error(paste0("Cannot use path arguments and other aguments together. ",
+                 "Either define only name/prestext/domain/df, or only ",
+                 "vs_path/agg_paths."
+                 )
+          )
+  }
+
+  if (any_path_argument_is_defined) {
+    if (! missing(vs_path)) {
+      if (! is.character(vs_path)) {
+        error("Argument 'vs_path': must be a character string.")
+      }
+
+      if (! file.exists(vs_path)) {
+        error("Argument 'vs_path': file does not exist.")
+      }
+    }
+
+    if (! missing(agg_paths)) {
+      if (! is.character(agg_paths)) {
+        error("Argument 'agg_paths': must be a character vector.")
+      }
+
+      if (! all(file.exists(agg_paths))) {
+        missing_files <- agg_paths[! file.exists(agg_paths)]
+
+        error(paste0("Argument 'agg_paths': one or more files does not exist: ",
+                     paste0(missing_files, collapse = ", ")
+                     )
+              )
+      }
+    }
+  }
+
+  if (all(any_path_argument_is_defined, missing(vs_path))) {
+    error(paste0("Argument 'vs_path' is missing. If 'agg_paths' is defined, ",
+                 "'vs_path' must also be defined."
+                 )
+          )
+  }
+
+  if (any_non_path_argument_is_defined) {
+    if (missing(name)) {
+      error("Argument 'name' is missing, with no default.")
+    }
+
+    if (missing(prestext)) {
+      error("Argument 'prestext' is missing, with no default.")
+    }
+
+    if (missing(domain)) {
+      error("Argument 'domain' is missing, with no default.")
+    }
+
+    if (missing(df)) {
+      error("Argument 'df' is missing, with no default.")
+    }
+
+    if (! is.character(name)) {
+      error("Argument 'name' must be a character string.")
+    }
+
+    if (! is.character(prestext)) {
+      error("Argument 'prestext' must be a character string.")
+    }
+
+    if (! is.character(domain)) {
+      error("Argument 'domain' must be a character string.")
+    }
+
+    if (! is.data.frame(df)) {
+      error("Argument 'df' must be a data frame.")
+    }
+
+    if (! "valuecode" %in% names(df)) {
+      error("Argument 'df' is missing column 'valuecode'.")
+    }
+  }
 }
 
+my_function <- function(arg1, arg2, arg3, arg4, arg5, arg6) {
+  # Check if the first 4 arguments are all provided
+  all_first_defined <- !missing(arg1) && !missing(arg2) && !missing(arg3) && !missing(arg4)
+
+  # Check if the last 2 arguments are all provided
+  all_last_defined <- !missing(arg5) && !missing(arg6)
+
+  # Validate that either the first 4 or the last 2 arguments are provided, but not both
+  if (all_first_defined && all_last_defined) {
+    stop("Either define all of the first 4 arguments or all of the last 2 arguments, but not both.")
+  }
+  if (!all_first_defined && !all_last_defined) {
+    stop("You must define either all of the first 4 arguments or all of the last 2 arguments.")
+  }
+
+  # Main logic depending on which set of arguments is provided
+  if (all_first_defined) {
+    # Handle the case where the first 4 arguments are provided
+    message("Processing with the first 4 arguments.")
+    # Your code here for this case
+  } else if (all_last_defined) {
+    # Handle the case where the last 2 arguments are provided
+    message("Processing with the last 2 arguments.")
+    # Your code here for this case
+  }
+}

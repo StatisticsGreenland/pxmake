@@ -41,6 +41,10 @@ extract_chunk <- function(lines, heading, key = NULL) {
 }
 
 new_classification <- function(name, prestext, domain, df) {
+  if (length(name) == 0 | length(prestext) == 0 | length(domain) == 0) {
+    stop("name, prestext, and domain must be non-empty.")
+  }
+
   vs <- list(name     = as.character(name),
              prestext = as.character(prestext),
              domain   = as.character(domain), #list

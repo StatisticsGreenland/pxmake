@@ -1,0 +1,40 @@
+[Aggreg]
+Name=size                            
+Valueset=BEXSTALLlcode
+1=Capital city
+2=Main settlements
+3=Larger settlements
+4=Settlements
+5=Smaller settlements
+6=Smallest settlements
+7=Other localities
+ 
+[Aggtext]
+1=Capital city
+2=Main settlements
+3=Larger settlements
+4=Settlements
+5=Smaller settlements
+6=Smallest settlements
+7=Other localities
+ 
+[Capital city]
+1=a
+ 
+[Larger settlements]
+1=c
+ 
+[Main settlements]
+1=b
+ 
+[Other localities]
+1=g
+ 
+[Settlements]
+1=d
+ 
+[Smaller settlements]
+1=e
+ 
+[Smallest settlements]
+1=f

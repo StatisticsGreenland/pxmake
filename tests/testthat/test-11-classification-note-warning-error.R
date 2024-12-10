@@ -71,9 +71,11 @@ test_that("df has the right columns", {
                )
 })
 
-# WARNINGS
+# ERROR
+# If trying to read a non-option (Aggtext, Valuetext) heading?
+# E.g. when an agg file has a heading that doesn't match a group
 
-# agg paths in the vs file doesn't exists
+# WARNINGS
 
 test_that("agg file doesn't exist", {
   expect_warning(px_classification(vs_path = vs_agg_dont_exists()),
@@ -91,3 +93,8 @@ test_that("agg file doesn't exist", {
 # valuetext and valuecode have differing lengths
 
 # aggregation groups and aggtexts have different length
+
+# Heading isn't proberly formatted (e.g. letters after brackets)
+
+# A chunk contains invalid formatted lines. All should be digit|Name|Pretext=value
+

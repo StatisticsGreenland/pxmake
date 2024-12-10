@@ -1,0 +1,441 @@
+[Aggreg]
+Name=lokaliteter             
+Valueset=BEXSTALLlkode
+1=Nanortalik (by)
+2=Aappilattoq (bygd i Kujalleq)
+3=Narsarmijit (bygd)
+4=Tasiusaq (bygd i Kujalleq)
+5=Ammassivik (bygd)
+6=Alluitsup Paa (bygd)
+7=Uoplyst i Nanortalik distrikt
+8=Qaqortoq (by)
+9=Saarloq (bygd)
+10=Eqalugaarsuit (bygd)
+11=Qassimiut (bygd)
+12=Uoplyst i Qaqortoq distrikt
+13=Narsaq (by)
+14=Igaliku (bygd)
+15=Qassiarsuk (bygd)
+16=Narsarsuaq (bygd)
+17=Uoplyst i Narsaq distrikt
+18=Uoplyst i Ivittuut distrikt
+19=Paamiut (by)
+20=Arsuk (bygd)
+21=Uoplyst i Paamiut distrikt
+22=Nuuk (by)
+23=Qeqertarsuatsiaat (bygd)
+24=Kapisillit (bygd)
+25=Uoplyst i Nuuk distrikt
+26=Tasiilaq (by)
+27=Sermiligaaq (bygd)
+28=Isertoq (bygd)
+29=Kulusuk (bygd)
+30=Tiilerilaaq (bygd)
+31=Kuummiit (bygd)
+32=Uoplyst i Tasiilaq distrikt
+33=Ittoqqortoormiit (by)
+34=Nerlerit Inaat (Lufthavn)
+35=Uoplyst i Ittoqqortoormiit distrikt
+36=Maniitsoq (by)
+37=Atammik (bygd)
+38=Napasoq (bygd)
+39=Kangaamiut (bygd)
+40=Sisimiut (by)
+41=Itilleq (bygd)
+42=Sarfannguit (bygd)
+43=Kangerlussuaq (bygd)
+44=Kangaatsiaq (by)
+45=Attu (bygd)
+46=Iginniarfik (bygd)
+47=Niaqornaarsuk (bygd)
+48=Ikerasaarsuk (KAN)(bygd)
+49=Uoplyst i Kangaatsiaq distrikt
+50=Aasiaat (by)
+51=Akunnaaq (bygd)
+52=Kitsissuarsuit (bygd)
+53=Qasigiannguit (by)
+54=Ikamiut (bygd)
+55=Qeqertarsuaq (by)
+56=Kangerluk (bygd)
+57=Ilulissat (by)
+58=Oqaatsut (bygd)
+59=Qeqertaq (bygd)
+60=Saqqaq (bygd)
+61=Ilimanaq (bygd)
+62=Uummannaq (by)
+63=Niaqornat (bygd)
+64=Qaarsut (bygd)
+65=Ikerasak (bygd)
+66=Saattut (bygd)
+67=Ukkusissat (bygd)
+68=Uoplyst i Uummannaq distrikt
+69=Upernavik (by)
+70=Upernavik Kujalleq (bygd)
+71=Kangersuatsiaq (bygd)
+72=Aappilattoq (bygd i Avannaani)
+73=Tasiusaq (bygd i Avannaa)
+74=Nuussuaq (bygd)
+75=Kullorsuaq (bygd)
+76=Naajaat (bygd)
+77=Innaarsuit (bygd)
+78=Nutaarmiut (bygd)
+79=Ikerasaarsuk (UPE)(bygd)
+80=Uoplyst i Upernavik distrikt
+81=Qaanaaq (by)
+82=Savissivik (bygd)
+83=Siorapaluk (bygd)
+84=Qeqertat (bygd)
+85=Uoplyst i Qaanaaq distrikt
+86=Pituffik (Station)
+88=Uoplyst udenfor kommunerne
+ 
+[Aggtext]
+1=Nanortalik (by)
+2=Aappilattoq (bygd i Kujalleq)
+3=Narsarmijit (bygd)
+4=Tasiusaq (bygd i Kujalleq)
+5=Ammassivik (bygd)
+6=Alluitsup Paa (bygd)
+7=Uoplyst i Nanortalik distrikt
+8=Qaqortoq (by)
+9=Saarloq (bygd)
+10=Eqalugaarsuit (bygd)
+11=Qassimiut (bygd)
+12=Uoplyst i Qaqortoq distrikt
+13=Narsaq (by)
+14=Igaliku (bygd)
+15=Qassiarsuk (bygd)
+16=Narsarsuaq (bygd)
+17=Uoplyst i Narsaq distrikt
+18=Uoplyst i Ivittuut distrikt
+19=Paamiut (by)
+20=Arsuk (bygd)
+21=Uoplyst i Paamiut distrikt
+22=Nuuk (by)
+23=Qeqertarsuatsiaat (bygd)
+24=Kapisillit (bygd)
+25=Uoplyst i Nuuk distrikt
+26=Tasiilaq (by)
+27=Sermiligaaq (bygd)
+28=Isertoq (bygd)
+29=Kulusuk (bygd)
+30=Tiilerilaaq (bygd)
+31=Kuummiit (bygd)
+32=Uoplyst i Tasiilaq distrikt
+33=Ittoqqortoormiit (by)
+34=Nerlerit Inaat (Lufthavn)
+35=Uoplyst i Ittoqqortoormiit distrikt
+36=Maniitsoq (by)
+37=Atammik (bygd)
+38=Napasoq (bygd)
+39=Kangaamiut (bygd)
+40=Sisimiut (by)
+41=Itilleq (bygd)
+42=Sarfannguit (bygd)
+43=Kangerlussuaq (bygd)
+44=Kangaatsiaq (by)
+45=Attu (bygd)
+46=Iginniarfik (bygd)
+47=Niaqornaarsuk (bygd)
+48=Ikerasaarsuk (KAN)(bygd)
+49=Uoplyst i Kangaatsiaq distrikt
+50=Aasiaat (by)
+51=Akunnaaq (bygd)
+52=Kitsissuarsuit (bygd)
+53=Qasigiannguit (by)
+54=Ikamiut (bygd)
+55=Qeqertarsuaq (by)
+56=Kangerluk (bygd)
+57=Ilulissat (by)
+58=Oqaatsut (bygd)
+59=Qeqertaq (bygd)
+60=Saqqaq (bygd)
+61=Ilimanaq (bygd)
+62=Uummannaq (by)
+63=Niaqornat (bygd)
+64=Qaarsut (bygd)
+65=Ikerasak (bygd)
+66=Saattut (bygd)
+67=Ukkusissat (bygd)
+68=Uoplyst i Uummannaq distrikt
+69=Upernavik (by)
+70=Upernavik Kujalleq (bygd)
+71=Kangersuatsiaq (bygd)
+72=Aappilattoq (bygd i Avannaani)
+73=Tasiusaq (bygd i Avannaa)
+74=Nuussuaq (bygd)
+75=Kullorsuaq (bygd)
+76=Naajaat (bygd)
+77=Innaarsuit (bygd)
+78=Nutaarmiut (bygd)
+79=Ikerasaarsuk (UPE)(bygd)
+80=Uoplyst i Upernavik distrikt
+81=Qaanaaq (by)
+82=Savissivik (bygd)
+83=Siorapaluk (bygd)
+84=Qeqertat (bygd)
+85=Uoplyst i Qaanaaq distrikt
+86=Pituffik (Station)
+88=Uoplyst udenfor kommunerne
+ 
+[Aappilattoq (bygd i Avannaani)]
+1=9601602KAQ
+ 
+[Aappilattoq (bygd i Kujalleq)]
+1=9550102APL
+ 
+[Aasiaat (by)]
+1=9590999ZZZ
+ 
+[Akunnaaq (bygd)]
+1=9591000AAS
+ 
+[Alluitsup Paa (bygd)]
+1=9550108ALP
+ 
+[Ammassivik (bygd)]
+1=9550106AMS
+ 
+[Arsuk (bygd)]
+1=9560501ARS
+ 
+[Atammik (bygd)]
+1=9570701ATA
+ 
+[Attu (bygd)]
+1=9590900KAT
+ 
+[Eqalugaarsuit (bygd)]
+1=9550202EQA
+ 
+[Igaliku (bygd)]
+1=9550302IGA
+ 
+[Iginniarfik (bygd)]
+1=9590902ATT
+ 
+[Ikamiut (bygd)]
+1=9591100QAS
+ 
+[Ikerasaarsuk (KAN)(bygd)]
+1=9590906NQK
+ 
+[Ikerasaarsuk (UPE)(bygd)]
+1=9601610NUT
+ 
+[Ikerasak (bygd)]
+1=9601502QST
+ 
+[Ilimanaq (bygd)]
+1=9601203SQQ
+ 
+[Ilulissat (by)]
+1=9591403KLK
+ 
+[Innaarsuit (bygd)]
+1=9601608NAJ
+ 
+[Isertoq (bygd)]
+1=9561803ISO
+ 
+[Itilleq (bygd)]
+1=9570801ITI
+ 
+[Ittoqqortoormiit (by)]
+1=9561900ILT
+ 
+[Kangaamiut (bygd)]
+1=9570703KAM
+ 
+[Kangaatsiaq (by)]
+1=959 Kommun
+ 
+[Kangerluk (bygd)]
+1=9591400QEQ
+ 
+[Kangerlussuaq (bygd)]
+1=9570820KAN
+ 
+[Kangersuatsiaq (bygd)]
+1=9601601UPK
+ 
+[Kapisillit (bygd)]
+1=9560605KAP
+ 
+[Kitsissuarsuit (bygd)]
+1=9591003AKU
+ 
+[Kullorsuaq (bygd)]
+1=9601606NUS
+ 
+[Kulusuk (bygd)]
+1=9561804KUL
+ 
+[Kuummiit (bygd)]
+1=9561806KUM
+ 
+[Maniitsoq (by)]
+1=9570700MAN
+ 
+[Naajaat (bygd)]
+1=9601607KLQ
+ 
+[Nanortalik (by)]
+1=9550100NAN
+ 
+[Napasoq (bygd)]
+1=9570702NAP
+ 
+[Narsaq (by)]
+1=9550300NAR
+ 
+[Narsarmijit (bygd)]
+1=9550103NKJ
+ 
+[Narsarsuaq (bygd)]
+1=9550321NRS
+ 
+[Nerlerit Inaat (Lufthavn)]
+1=9561906NRI
+ 
+[Niaqornaarsuk (bygd)]
+1=9590905IGF
+ 
+[Niaqornat (bygd)]
+1=9601500UUM
+ 
+[Nutaarmiut (bygd)]
+1=9601609INN
+ 
+[Nuuk (by)]
+1=9560600NUK
+ 
+[Nuussuaq (bygd)]
+1=9601605TSS
+ 
+[Oqaatsut (bygd)]
+1=9601200ILU
+ 
+[Paamiut (by)]
+1=9560500PAA
+ 
+[Pituffik (Station)]
+1=9601799ZZZ
+ 
+[Qaanaaq (by)]
+1=9601699ZZZ
+ 
+[Qaarsut (bygd)]
+1=9601501NIA
+ 
+[Qaqortoq (by)]
+1=9550200QAQ
+ 
+[Qasigiannguit (by)]
+1=9591004KIT
+ 
+[Qassiarsuk (bygd)]
+1=9550305QSK
+ 
+[Qassimiut (bygd)]
+1=9550204QSM
+ 
+[Qeqertaq (bygd)]
+1=9601201OQA
+ 
+[Qeqertarsuaq (by)]
+1=9591101IKA
+ 
+[Qeqertarsuatsiaat (bygd)]
+1=9560601QTT
+ 
+[Qeqertat (bygd)]
+1=9601704SIO
+ 
+[Saarloq (bygd)]
+1=9550201SAL
+ 
+[Saattut (bygd)]
+1=9601503IKE
+ 
+[Saqqaq (bygd)]
+1=9601202QQT
+ 
+[Sarfannguit (bygd)]
+1=9570803SFN
+ 
+[Savissivik (bygd)]
+1=9601700QNQ
+ 
+[Sermiligaaq (bygd)]
+1=9561802SML
+ 
+[Siorapaluk (bygd)]
+1=9601701SAV
+ 
+[Sisimiut (by)]
+1=9570800SIS
+ 
+[Tasiilaq (by)]
+1=9561800TAS
+ 
+[Tasiusaq (bygd i Avannaa)]
+1=9601603AAP
+ 
+[Tasiusaq (bygd i Kujalleq)]
+1=9550104TAQ
+ 
+[Tiilerilaaq (bygd)]
+1=9561805TIN
+ 
+[Ukkusissat (bygd)]
+1=9601504SAA
+ 
+[Uoplyst i Ittoqqortoormiit distrikt]
+1=9561999ZZZ
+ 
+[Uoplyst i Ivittuut distrikt]
+1=9560499ZZZ
+ 
+[Uoplyst i Kangaatsiaq distrikt]
+1=9590908IKS
+ 
+[Uoplyst i Nanortalik distrikt]
+1=9550199ZZZ
+ 
+[Uoplyst i Narsaq distrikt]
+1=9550399ZZZ
+ 
+[Uoplyst i Nuuk distrikt]
+1=9560699ZZZ
+ 
+[Uoplyst i Paamiut distrikt]
+1=9560599ZZZ
+ 
+[Uoplyst i Qaanaaq distrikt]
+1=9601707QET
+ 
+[Uoplyst i Qaqortoq distrikt]
+1=9550299ZZZ
+ 
+[Uoplyst i Tasiilaq distrikt]
+1=9561899ZZZ
+ 
+[Uoplyst i Upernavik distrikt]
+1=9601611IKK
+ 
+[Uoplyst i Uummannaq distrikt]
+1=9601505UKK
+ 
+[Uoplyst udenfor kommunerne]
+1=9612099ZZZ
+2=9612070PIT
+ 
+[Upernavik (by)]
+1=9601599ZZZ
+ 
+[Upernavik Kujalleq (bygd)]
+1=9601600UPV
+ 
+[Uummannaq (by)]
+1=9601204ILQ

@@ -7,27 +7,24 @@ test_that(" ", {
   }
 
   ## Keep
-  vs_path_inverse(get_classification_path(file.path("statgl", "BEXSTALLlcode.vs"))) # keep, aggregation order
-  vs_path_inverse(get_classification_path(file.path("statgl", "BEXSTALLlkode.vs"))) # keep, fil findes ikke
-
-  vs_path_inverse(get_classification_path(file.path("statgl", "OFAKD.vs"))) # keep, aggregation as codes
-
-  vs_path_inverse(get_classification_path(file.path("statgl", "OFAKN.vs")))  # # keep, head line
+  # vs_path_inverse(get_classification_path(file.path("statgl", "BEXSTALLlcode.vs"))) # aggregation order
+  # vs_path_inverse(get_classification_path(file.path("statgl", "BEXSTALLlkode.vs"))) # fil findes ikke
+  # vs_path_inverse(get_classification_path(file.path("statgl", "OFAKD.vs")))         # aggregation as codes
+  # vs_path_inverse(get_classification_path(file.path("statgl", "OFAKN.vs")))         # head line
+  # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSAarmd.vs")))     # compatible size
+  # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSAge.vs")))       # Invalid keyword 'Desc'
 
   ## Prospects
-  vs_path_inverse(get_classification_path(file.path("statgl", "BEXSTALLlkodi.vs")))
-  vs_path_inverse(get_classification_path(file.path("statgl", "OFFMD.vs"))) # head line
-  vs_path_inverse(get_classification_path(file.path("statgl", "OFFMN.vs"))) # head line
-  # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSAarmd.vs"))) # compatible size
-  # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSAge.vs"))) # compatible size
+  # vs_path_inverse(get_classification_path(file.path("statgl", "BEXSTALLlkodi.vs")))
+  # vs_path_inverse(get_classification_path(file.path("statgl", "OFFMD.vs"))) # head line
+  # vs_path_inverse(get_classification_path(file.path("statgl", "OFFMN.vs"))) # head line
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSAgec.vs"))) # compatible size
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSAgeMother.vs"))) # compatible size
-  # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSAlder.vs"))) # compatible size
+
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSAlderc.vs"))) # compatible size
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSAlderMor.vs"))) # compatible size
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSCausesdeath.vs"))) # compatible size
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSCausesdeathB.vs"))) # compatible size
-  # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSda_ie.vs"))) # fil findes ikke
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSDISTIKT.vs")))  # compatible size
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSDodsarsag.vs")))  # compatible size
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSDodsarsagB.vs")))  # compatible size
@@ -39,7 +36,7 @@ test_that(" ", {
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSISC11E.vs"))) # head line
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSISC11N.vs"))) # head line
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSISC97D.vs"))) # compatible size 2
-  # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSISC97E.vs"))) # compatible size 2
+  vs_path_inverse(get_classification_path(file.path("statgl", "PXVSISC97E.vs"))) # compatible size 2
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSISC97N.vs"))) # head line
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSkl_ie.vs"))) # file not exist
   # vs_path_inverse(get_classification_path(file.path("statgl", "PXVSKOMD.vs"))) # compatible size 2

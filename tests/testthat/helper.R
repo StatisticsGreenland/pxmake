@@ -27,6 +27,7 @@ agg_10years_path      <- classification_path("10-years classes.agg")
 agg_25years_path      <- classification_path("25-years classes.agg")
 vs_age5_path          <- classification_path("Age5.vs")
 vs_age5_strangely_formatted_path <- classification_path("Age5_strangely_formatted.vs")
+vs_agg_dont_exists    <- classification_path("non_existing_agg.vs")
 
 get_metadata_path <- function(table_name) {
   test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))

@@ -75,6 +75,17 @@ test_that("df has the right columns", {
 
 # agg paths in the vs file doesn't exists
 
+test_that("agg file doesn't exist", {
+  expect_warning(px_classification(vs_path = vs_agg_dont_exists()),
+                 regexp = "do not exist"
+                 )
+
+  target <- px_classification(vs_path = vs_age5_path())
+  c <- suppressWarnings(px_classification(vs_path = vs_agg_dont_exists()))
+
+  expect_identical(target, c)
+})
+
 # Heading is missing is vs/agg file. Maybe an error? Error for some headings
 
 # valuetext and valuecode have differing lengths

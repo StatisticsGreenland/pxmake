@@ -60,7 +60,7 @@ df_from_agg <- function(path) {
 
   aggregation_groups_df <-
     extract_chunk(agg_lines, '[Aggreg]') %>%
-    dplyr::filter(! id %in% c("Name", "Valueset"))
+    dplyr::filter(stringr::str_detect(id, "^\\d+$"))
 
   aggregation_text_df <- extract_chunk(agg_lines, '[Aggtext]')
 
@@ -68,7 +68,12 @@ df_from_agg <- function(path) {
     aggregation_df <- dplyr::select(aggregation_groups_df, -id)
   } else {
     if (nrow(aggregation_groups_df) != nrow(aggregation_text_df)) {
-      warning("The number of aggregation groups and Aggtext differ.")
+      warning(paste0("The number of aggregation groups (",
+                     nrow(aggregation_groups_df), ") and Aggtexts (",
+                     nrow(aggregation_text_df),
+                     ") differ in '",  basename(path), "'."
+                     )
+              )
     }
 
     aggregation_df <-
@@ -128,12 +133,25 @@ px_classification_from_path <- function(vs_path, agg_paths) {
     agg_paths <- file.path(vs_dir, extract_chunk(vs_lines, '[Aggreg]')$aggreg)
   }
 
+  if (any(!file.exists(agg_paths))) {
+    warning(paste0("Aggregation files: ",
+                   paste(basename(agg_paths[!file.exists(agg_paths)]),
+                         collapse = ", "
+                         ),
+                   " do not exist."
+                   )
+            )
+
+    agg_paths <- agg_paths[file.exists(agg_paths)]
+  }
+
   if (length(agg_paths) == 0) {
     df <- vs_df
   } else {
     agg_df <-
       agg_paths %>%
       purrr::map(df_from_agg) %>%
+      purrr::compact() %>%
       purrr::reduce(dplyr::full_join, by = "valuecode")
 
     df <- dplyr::full_join(vs_df, agg_df, by = 'valuecode')

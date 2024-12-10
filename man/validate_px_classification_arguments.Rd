@@ -18,7 +18,8 @@ validate_px_classification_arguments(
 
 \item{prestext}{Optional. Presentation text.}
 
-\item{domain}{Optional. Domain name used to link to px-file.}
+\item{domain}{Optional. Character vector with domain names. Used to link to
+px-file.}
 
 \item{df}{Optional. A data frame with required column 'valuecode' and
 optional column 'valuetext', if the codes have texts. Each additional column

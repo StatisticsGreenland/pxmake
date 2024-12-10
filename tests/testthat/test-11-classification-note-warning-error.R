@@ -76,3 +76,7 @@ test_that("df has the right columns", {
 # agg paths in the vs file doesn't exists
 
 # Heading is missing is vs/agg file. Maybe an error? Error for some headings
+
+# valuetext and valuecode have differing lengths
+
+# aggregation groups and aggtexts have different length

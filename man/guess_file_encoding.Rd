@@ -4,10 +4,13 @@
 \alias{guess_file_encoding}
 \title{Guess encoding of file}
 \usage{
-guess_file_encoding(path)
+guess_file_encoding(path, prefer = list(`UTF-8` = 0.2, `ISO-8859-1` = 0.2))
 }
 \arguments{
 \item{path}{Path to file}
+
+\item{prefer}{Named list of encodings, used to give higher confidence to
+specific encodings.}
 }
 \value{
 Character

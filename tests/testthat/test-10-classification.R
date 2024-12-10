@@ -40,3 +40,16 @@ test_that("Classification automatically read agg files", {
   expect_equal(c$df, age_classification)
 })
 
+test_that("Classification is robust to formatting differences in files", {
+  target <- px_classification(vs_path = vs_age5_path())
+  c      <- px_classification(vs_path = vs_age5_strangely_formatted_path())
+
+  expect_identical(target$name, c$name)
+  expect_identical(target$prestext, c$prestext)
+  expect_identical(target$domain, c$domain)
+  expect_identical(target$df$valuecode, c$df$valuecode)
+  expect_identical(target$df$valuetext, c$df$valuetext)
+  expect_identical(target$df[[3]], c$df[[3]])
+  expect_identical(target$df[[4]], c$df[[4]])
+})
+

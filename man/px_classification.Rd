@@ -4,14 +4,7 @@
 \alias{px_classification}
 \title{Create a classification object}
 \usage{
-px_classification(
-  name,
-  prestext = "",
-  domain,
-  df,
-  vs_path = NULL,
-  agg_paths = NULL
-)
+px_classification(name, prestext, domain, df, vs_path, agg_paths)
 }
 \arguments{
 \item{name}{Optional. Name of the classification.}

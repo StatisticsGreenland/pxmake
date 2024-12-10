@@ -2,37 +2,42 @@ smallest_larger_value <- function(vec, value) {
   min(vec[vec > value])
 }
 
-value_set_interval <- function(lines, head_line) {
-  breaks <-
-    c(stringr::str_which(lines, '^[:space:]*$'), length(lines) + 1)
+chunk_interval <- function(lines, head_line) {
+ breaks <-
+    c(stringr::str_which(lines, '^\\[[^\\]]+\\]$'), length(lines)+1)
 
   (head_line+1):(smallest_larger_value(breaks, head_line)-1)
 }
 
 get_chunk <- function(lines, head_line) {
-  lines[value_set_interval(lines, head_line)]
-}
-
-extract_values <- function(lines) {
-  lines %>%
-    stringr::str_match("=(.*)$") %>%
-    magrittr::extract(, 2)
+  lines[chunk_interval(lines, head_line)]
 }
 
 extract_chunk <- function(lines, heading, key = NULL) {
-  head_line <- stringr::str_which(lines, stringr::fixed(heading))
+  head_lines <- stringr::str_which(lines, stringr::fixed(heading))
 
-  if (identical(head_line, integer(0))) {
+  if (identical(head_lines, integer(0))) {
     return(NULL)
   }
 
-  chunk <- get_chunk(lines, head_line)
+  colname <- stringr::str_remove_all(heading, "\\[|\\]") %>% tolower()
+
+  chunk <-
+    head_lines %>%
+    purrr::map(~ get_chunk(lines, .x)) %>%
+    unlist() %>%
+    dplyr::as_tibble() %>%
+    dplyr::mutate(across(value, stringr::str_trim)) %>%
+    dplyr::filter(value != "") %>%
+    tidyr::drop_na(value) %>%
+    tidyr::separate_wider_delim(cols = value, delim = "=", names = c('id', colname))
+
 
   if (! is.null(key)) {
-     chunk <-  stringr::str_subset(chunk, stringr::str_glue("^{key}=.*$"))
+     chunk <- chunk %>% dplyr::filter(id == key)
   }
 
-  extract_values(chunk)
+  return(chunk)
 }
 
 new_classification <- function(name, prestext, domain, df) {
@@ -53,28 +58,45 @@ df_from_agg <- function(path) {
     basename(path) %>%
     stringr::str_remove("\\.agg$")
 
-  aggregations <-
-    dplyr::tibble(valuecode = extract_chunk(agg_lines, '[Aggreg]') %>% tail(-2),
-                  valuetext = extract_chunk(agg_lines, '[Aggtext]')
-                  )
+  aggregation_groups_df <-
+    extract_chunk(agg_lines, '[Aggreg]') %>%
+    dplyr::filter(! id %in% c("Name", "Valueset"))
 
+  aggregation_text_df <- extract_chunk(agg_lines, '[Aggtext]')
+
+  if (is.null(aggregation_text_df)) {
+    aggregation_df <- dplyr::select(aggregation_groups_df, -id)
+  } else {
+    if (nrow(aggregation_groups_df) != nrow(aggregation_text_df)) {
+      warning("The number of aggregation groups and Aggtext differ.")
+    }
+
+    aggregation_df <-
+      dplyr::left_join(aggregation_groups_df, aggregation_text_df, by = "id") %>%
+      dplyr::select(-id) %>%
+      dplyr::mutate(across(everything(), ~ dplyr::na_if(.x, "")))
+  }
 
   df <- dplyr::tibble(valuecode           = as.character(),
-                      !!aggregation_name := factor(levels = aggregations$valuecode,
+                      !!aggregation_name := factor(levels = aggregation_df$aggreg,
                                                    ordered = TRUE
                                                    )
                       )
 
-  for (aggregation_code in aggregations$valuecode) {
-    df <- dplyr::bind_rows(df,
-                           dplyr::tibble(valuecode = extract_chunk(agg_lines,
-                                                                 paste0("[", aggregation_code, "]")
-                                                                 ),
-                                         !!aggregation_name := factor(aggregation_code,
-                                                                      levels = aggregations$valuecode,
-                                                                      ordered = TRUE
-                                                                      )
-                                         )
+  for (aggregation_group in aggregation_df$aggreg) {
+    aggregation_values <-
+      extract_chunk(agg_lines, paste0("[", aggregation_group, "]")) %>%
+      dplyr::select(-id) %>%
+      dplyr::pull(1)
+
+    df <-
+      dplyr::bind_rows(df,
+                       dplyr::tibble(valuecode = aggregation_values,
+                                     !!aggregation_name := factor(aggregation_group,
+                                                                  levels = aggregation_df$aggreg,
+                                                                  ordered = TRUE
+                                                                  )
+                                     )
                            )
   }
 
@@ -84,16 +106,26 @@ df_from_agg <- function(path) {
 px_classification_from_path <- function(vs_path, agg_paths) {
   vs_lines  <- readLines_guess_encoding(vs_path)
 
-  vs_df <-
-    dplyr::tibble(valuecode = extract_chunk(vs_lines, '[Valuecode]'),
-                  valuetext = extract_chunk(vs_lines, '[Valuetext]')
-                  ) %>%
-    dplyr::mutate(across(valuetext, ~ dplyr::na_if(.x, "")))
+  valuecode_df <- extract_chunk(vs_lines, '[Valuecode]')
+  valuetext_df <- extract_chunk(vs_lines, '[Valuetext]')
+
+  if (is.null(valuetext_df)) {
+    vs_df <- dplyr::select(valuecode_df, -id)
+  } else {
+    if (nrow(valuecode_df) != nrow(valuetext_df)) {
+      warning("[Valuecode] and [Valuetext] have different number of rows.")
+    }
+
+    vs_df <-
+      dplyr::left_join(valuecode_df, valuetext_df, by = "id") %>%
+      dplyr::select(-id) %>%
+      dplyr::mutate(across(everything(), ~ dplyr::na_if(.x, "")))
+  }
 
   if (missing(agg_paths)) {
     vs_dir <- dirname(vs_path)
 
-    agg_paths <- file.path(vs_dir, extract_chunk(vs_lines, '[Aggreg]'))
+    agg_paths <- file.path(vs_dir, extract_chunk(vs_lines, '[Aggreg]')$aggreg)
   }
 
   if (length(agg_paths) == 0) {
@@ -107,9 +139,9 @@ px_classification_from_path <- function(vs_path, agg_paths) {
     df <- dplyr::full_join(vs_df, agg_df, by = 'valuecode')
   }
 
-  new_classification(name     = extract_chunk(vs_lines, '[Descr]', 'Name'),
-                     prestext = extract_chunk(vs_lines, '[Descr]', 'Prestext'),
-                     domain   = extract_chunk(vs_lines, '[Domain]'),
+  new_classification(name     = extract_chunk(vs_lines, '[Descr]', 'Name') %>% dplyr::pull(2),
+                     prestext = extract_chunk(vs_lines, '[Descr]', 'Prestext') %>% dplyr::pull(2),
+                     domain   = extract_chunk(vs_lines, '[Domain]') %>% dplyr::pull(2),
                      df = df
                      )
 }
@@ -119,8 +151,8 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 
   df_formatted <-
     df %>%
-    dplyr::mutate(across(character_columns, as.character),
-                  across(-character_columns, ~ factor(.x, ordered = TRUE))
+    dplyr::mutate(across(all_of(character_columns), as.character),
+                  across(-all_of(character_columns), ~ factor(.x, ordered = TRUE))
                   )
 
   new_classification(name     = name,

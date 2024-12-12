@@ -1,8 +1,8 @@
 [Aggreg]
-1=10-years classes_strangely_formatted.agg
+1=10-years_classes_strangely_formatted.agg
 
 [Aggreg]
-2=25-years classes_strangely_formatted.agg
+2=25-years_classes_strangely_formatted.agg
 [Domain]
 1=age
 			

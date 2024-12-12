@@ -42,7 +42,7 @@
 #' \describe{
 #'   \item{valuecode}{Value code}
 #'   \item{valuetext}{Value text}
-#'   \item{10-years classes}{Aggregtation into 10 years classes}
-#'   \item{25-years classes}{Aggregtation into 25 years classes}
+#'   \item{10-years_classes}{Aggregtation into 10 years classes}
+#'   \item{25-years_classes}{Aggregtation into 25 years classes}
 #' }
 "age_classification"

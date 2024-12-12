@@ -4,8 +4,8 @@ Prestext=Ages 0-9 - 60+
 Type=V
 
 [Aggreg]
-1=10-years classes.agg
-2=25-years classes.agg
+1=10-years_classes.agg
+2=25-years_classes.agg
 
 [Domain]
 1=age

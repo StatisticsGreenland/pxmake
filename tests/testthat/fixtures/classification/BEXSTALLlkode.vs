@@ -2,17 +2,17 @@
 Name=BEXSTALLlkode
 Prestext=
 Type=V
- 
+
 [Aggreg]
 1=BEXSTALLkommune.agg
-2=BEXSTALLstørrelse.agg
+2=BEXSTALLstoerrelse.agg
 3=BEXSTALLdisktrikter.agg
 4=BEXSTALLlokaliteter.agg
-5=BEXSTALLgrønland.agg
- 
+5=BEXSTALLgroenland.agg
+
 [Domain]
 1=lkode
- 
+
 [Valuecode]
 1=GRL
 2=a
@@ -133,12 +133,12 @@ Type=V
 117=9601707QET
 118=9601799ZZZ
 119=9612099ZZZ
- 
+
 [Valuetext]
 1=Hele landet
 2=Hovedstad
 3=Hovedbosteder
-4=Større bosteder
+4=St?rre bosteder
 5=Bosteder
 6=Mindre bosteder
 7=Mindste bosteder

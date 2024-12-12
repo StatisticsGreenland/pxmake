@@ -1,5 +1,5 @@
 [Aggreg]
-Name=10-year(0-9, 10-19,...)
+Name=10-year_0-9_10-19.
 Valueset=PXVSAge
 1=0-9
 2=10-19

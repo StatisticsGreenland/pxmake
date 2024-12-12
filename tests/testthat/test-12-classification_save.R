@@ -9,6 +9,6 @@ test_that("px_classification_save saves .vs and .agg files", {
     px_save_classification(path = tmp_dir)
 
   expect_equal(list.files(tmp_dir, pattern = "(agg|vs)$"),
-               c("10-years classes.agg", "25-years classes.agg", "Age.vs")
+               c("10-years_classes.agg", "25-years_classes.agg", "Age.vs")
                )
 })

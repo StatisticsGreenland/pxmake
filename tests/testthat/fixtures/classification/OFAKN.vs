@@ -137,5 +137,5 @@ Type=V
 63=I alt
 
 [Aggreg]
-1=Artskonto qaffasissuseq 2.agg
-2=Artskonto qaffasissuseq 3.agg
+1=Artskonto_qaffasissuseq_2.agg
+2=Artskonto_qaffasissuseq_3.agg

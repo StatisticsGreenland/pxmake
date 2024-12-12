@@ -137,5 +137,5 @@ Type=V
 63=I alt
 
 [Aggreg]
-1=Artskonto niveau 2.agg
-2=Artskonto niveau 3.agg
+1=Artskonto_niveau_2.agg
+2=Artskonto_niveau_3.agg

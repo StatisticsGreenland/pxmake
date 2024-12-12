@@ -1,5 +1,5 @@
 age_classification <-
-  readr::read_tsv(file.path('data-raw', 'classification_age.tsv'),
+  readr::read_tsv(file.path('data-raw', 'age_classification.tsv'),
                   na = "NA",
                   col_types = "ccff"
                   ) |>

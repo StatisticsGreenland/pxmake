@@ -1,12 +1,21 @@
+#' Regexp that matches a classification file section heading
+#' @keywords internal
 classification_file_section_heading_regexp <- function() {
   '^\\[[^\\]]+\\]$'
 }
 
+#' Smallest larger value
+#'
+#' @param vec A numeric vector
+#' @param value A numeric value
+#'
+#' @return The smallest value in 'vec' that is larger than 'value'
+#' @keywords internal
 smallest_larger_value <- function(vec, value) {
   min(vec[vec > value])
 }
 
-chunk_interval <- function(lines, head_line) {
+section_interval <- function(lines, head_line) {
  breaks <-
     c(stringr::str_which(lines,
                          classification_file_section_heading_regexp()
@@ -17,11 +26,11 @@ chunk_interval <- function(lines, head_line) {
   (head_line+1):(smallest_larger_value(breaks, head_line)-1)
 }
 
-get_chunk <- function(lines, head_line) {
-  lines[chunk_interval(lines, head_line)]
+get_section <- function(lines, head_line) {
+  lines[section_interval(lines, head_line)]
 }
 
-extract_chunk <- function(lines, heading, key = NULL) {
+extract_section <- function(lines, heading, key = NULL) {
   head_lines <- stringr::str_which(lines, stringr::fixed(heading))
 
   if (identical(head_lines, integer(0))) {
@@ -30,9 +39,9 @@ extract_chunk <- function(lines, heading, key = NULL) {
 
   colname <- stringr::str_remove_all(heading, "\\[|\\]") %>% tolower()
 
-  chunk <-
+  section <-
     head_lines %>%
-    purrr::map(~ get_chunk(lines, .x)) %>%
+    purrr::map(~ get_section(lines, .x)) %>%
     unlist() %>%
     dplyr::as_tibble() %>%
     dplyr::mutate(across(value, stringr::str_trim)) %>%
@@ -42,10 +51,10 @@ extract_chunk <- function(lines, heading, key = NULL) {
 
 
   if (! is.null(key)) {
-     chunk <- chunk %>% dplyr::filter(id == key)
+     section <- section %>% dplyr::filter(id == key)
   }
 
-  return(chunk)
+  return(section)
 }
 
 new_classification <- function(name, prestext, domain, df) {
@@ -69,6 +78,7 @@ new_classification <- function(name, prestext, domain, df) {
 #'
 #' @return A data frame with columns 'valuecode' (character) and a second column
 #' (ordered) named after the aggregation
+#' @keywords internal
 aggregation_df <- function(path) {
   agg_lines <- readLines_guess_encoding(path)
 
@@ -79,10 +89,10 @@ aggregation_df <- function(path) {
     stringr::str_remove("\\.agg$")
 
   aggregation_groups_df <-
-    extract_chunk(agg_lines, '[Aggreg]') %>%
+    extract_section(agg_lines, '[Aggreg]') %>%
     dplyr::filter(stringr::str_detect(id, "^\\d+$"))
 
-  aggregation_text_df <- extract_chunk(agg_lines, '[Aggtext]')
+  aggregation_text_df <- extract_section(agg_lines, '[Aggtext]')
 
   if (is.null(aggregation_text_df)) {
     aggregation_df <- dplyr::select(aggregation_groups_df, -id)
@@ -109,16 +119,16 @@ aggregation_df <- function(path) {
                       )
 
   for (aggregation_group in aggregation_df$aggreg) {
-    chunk <- extract_chunk(agg_lines, paste0("[", aggregation_group, "]"))
+    section <- extract_section(agg_lines, paste0("[", aggregation_group, "]"))
 
-    if (is.null(chunk)) {
+    if (is.null(section)) {
       warning("No group with label '[", aggregation_group, "]' found in '",
               basename(path), "'."
               )
     } else {
 
       aggregation_values <-
-        chunk %>%
+        section %>%
         dplyr::select(-id) %>%
         dplyr::pull(1)
 
@@ -142,8 +152,8 @@ px_classification_from_path <- function(vs_path, agg_paths) {
 
   error_if_vs_file_is_missing_mandatory_headings(vs_lines)
 
-  valuecode_df <- extract_chunk(vs_lines, '[Valuecode]')
-  valuetext_df <- extract_chunk(vs_lines, '[Valuetext]')
+  valuecode_df <- extract_section(vs_lines, '[Valuecode]')
+  valuetext_df <- extract_section(vs_lines, '[Valuetext]')
 
   if (is.null(valuetext_df)) {
     vs_df <- dplyr::select(valuecode_df, -id)
@@ -161,7 +171,7 @@ px_classification_from_path <- function(vs_path, agg_paths) {
   if (missing(agg_paths)) {
     vs_dir <- dirname(vs_path)
 
-    agg_paths <- file.path(vs_dir, extract_chunk(vs_lines, '[Aggreg]')$aggreg)
+    agg_paths <- file.path(vs_dir, extract_section(vs_lines, '[Aggreg]')$aggreg)
   }
 
   if (any(!file.exists(agg_paths))) {
@@ -188,9 +198,9 @@ px_classification_from_path <- function(vs_path, agg_paths) {
     df <- dplyr::full_join(vs_df, agg_df, by = 'valuecode')
   }
 
-  new_classification(name     = extract_chunk(vs_lines, '[Descr]', 'Name') %>% dplyr::pull(2),
-                     prestext = extract_chunk(vs_lines, '[Descr]', 'Prestext') %>% dplyr::pull(2),
-                     domain   = extract_chunk(vs_lines, '[Domain]') %>% dplyr::pull(2),
+  new_classification(name     = extract_section(vs_lines, '[Descr]', 'Name') %>% dplyr::pull(2),
+                     prestext = extract_section(vs_lines, '[Descr]', 'Prestext') %>% dplyr::pull(2),
+                     domain   = extract_section(vs_lines, '[Domain]') %>% dplyr::pull(2),
                      df = df
                      )
 }

@@ -16,3 +16,4 @@ A data frame with columns 'valuecode' (character) and a second column
 \description{
 Get data set from aggregation file
 }
+\keyword{internal}

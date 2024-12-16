@@ -1,10 +1,18 @@
+classification_file_section_heading_regexp <- function() {
+  '^\\[[^\\]]+\\]$'
+}
+
 smallest_larger_value <- function(vec, value) {
   min(vec[vec > value])
 }
 
 chunk_interval <- function(lines, head_line) {
  breaks <-
-    c(stringr::str_which(lines, '^\\[[^\\]]+\\]$'), length(lines)+1)
+    c(stringr::str_which(lines,
+                         classification_file_section_heading_regexp()
+                         ),
+      length(lines)+1
+      )
 
   (head_line+1):(smallest_larger_value(breaks, head_line)-1)
 }
@@ -55,8 +63,16 @@ new_classification <- function(name, prestext, domain, df) {
   structure(vs, class = "classification")
 }
 
-df_from_agg <- function(path) {
+#' Get data set from aggregation file
+#'
+#' @param Path to an aggregation file
+#'
+#' @return A data frame with columns 'valuecode' (character) and a second column
+#' (ordered) named after the aggregation
+aggregation_df <- function(path) {
   agg_lines <- readLines_guess_encoding(path)
+
+  error_if_aggregation_file_is_missing_mandatory_headings(agg_lines)
 
   aggregation_name <-
     basename(path) %>%
@@ -93,20 +109,29 @@ df_from_agg <- function(path) {
                       )
 
   for (aggregation_group in aggregation_df$aggreg) {
-    aggregation_values <-
-      extract_chunk(agg_lines, paste0("[", aggregation_group, "]")) %>%
-      dplyr::select(-id) %>%
-      dplyr::pull(1)
+    chunk <- extract_chunk(agg_lines, paste0("[", aggregation_group, "]"))
 
-    df <-
-      dplyr::bind_rows(df,
-                       dplyr::tibble(valuecode = aggregation_values,
-                                     !!aggregation_name := factor(aggregation_group,
-                                                                  levels = aggregation_df$aggreg,
-                                                                  ordered = TRUE
-                                                                  )
-                                     )
-                           )
+    if (is.null(chunk)) {
+      warning("No group with label '[", aggregation_group, "]' found in '",
+              basename(path), "'."
+              )
+    } else {
+
+      aggregation_values <-
+        chunk %>%
+        dplyr::select(-id) %>%
+        dplyr::pull(1)
+
+      df <-
+        dplyr::bind_rows(df,
+                         dplyr::tibble(valuecode = aggregation_values,
+                                       !!aggregation_name := factor(aggregation_group,
+                                                                    levels = aggregation_df$aggreg,
+                                                                    ordered = TRUE
+                                       )
+                         )
+        )
+    }
   }
 
   return(df)
@@ -114,6 +139,8 @@ df_from_agg <- function(path) {
 
 px_classification_from_path <- function(vs_path, agg_paths) {
   vs_lines  <- readLines_guess_encoding(vs_path)
+
+  error_if_vs_file_is_missing_mandatory_headings(vs_lines)
 
   valuecode_df <- extract_chunk(vs_lines, '[Valuecode]')
   valuetext_df <- extract_chunk(vs_lines, '[Valuetext]')
@@ -154,7 +181,7 @@ px_classification_from_path <- function(vs_path, agg_paths) {
   } else {
     agg_df <-
       agg_paths %>%
-      purrr::map(df_from_agg) %>%
+      purrr::map(aggregation_df) %>%
       purrr::compact() %>%
       purrr::reduce(dplyr::full_join, by = "valuecode")
 

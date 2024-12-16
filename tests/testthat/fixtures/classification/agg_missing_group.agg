@@ -1,0 +1,12 @@
+[Aggreg]
+Name=greenland
+Valueset=BEXSTALLlcode
+1=GRL
+2=DK
+
+[Aggtext]
+1=Greenland
+2=Denmark
+
+[GRL]
+1=GRL

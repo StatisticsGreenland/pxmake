@@ -1,0 +1,16 @@
+[Aggreg]
+Name=greenland
+Valueset=BEXSTALLlcode
+1=GRL
+2=DK
+
+[Aggtext]
+1=Greenland
+2=Denmark
+3=Vatican City
+
+[GRL]
+1=GRL
+
+[DK]
+1=Denmark

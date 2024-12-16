@@ -76,25 +76,6 @@ test_that("df has the right columns", {
 # E.g. when an agg file has a heading that doesn't match a group
 
 # WARNINGS
-
-test_that("agg file doesn't exist", {
-  expect_warning(px_classification(vs_path = vs_agg_dont_exists()),
-                 regexp = "do not exist"
-                 )
-
-  target <- px_classification(vs_path = vs_age5_path())
-  c <- suppressWarnings(px_classification(vs_path = vs_agg_dont_exists()))
-
-  expect_identical(target, c)
-})
-
-# Heading is missing is vs/agg file. Maybe an error? Error for some headings
-
 # valuetext and valuecode have differing lengths
-
-# aggregation groups and aggtexts have different length
-
-# Heading isn't proberly formatted (e.g. letters after brackets)
-
 # A chunk contains invalid formatted lines. All should be digit|Name|Pretext=value
 

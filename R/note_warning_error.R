@@ -472,3 +472,37 @@ validate_px_classification_arguments <- function(name,
     }
   }
 }
+
+error_if_vs_file_is_missing_mandatory_headings <- function(vs_lines) {
+  headings <-
+    stringr::str_extract_all(vs_lines,
+                             classification_file_section_heading_regexp()
+                             )
+
+  missing_headings <- setdiff(c("[Descr]", "[Domain]", "[Valuecode]"),
+                              headings
+                              )
+
+  if (length(missing_headings) > 0) {
+    error(paste(".vs file is missing mandatory sections: ",
+                paste0(missing_headings, collapse = ", ")
+                )
+          )
+  }
+}
+
+error_if_aggregation_file_is_missing_mandatory_headings <- function(agg_lines) {
+  headings <-
+    stringr::str_extract_all(agg_lines,
+                             classification_file_section_heading_regexp()
+                             )
+
+  missing_headings <- setdiff(c("[Aggreg]", "[Aggtext]"), headings)
+
+  if (length(missing_headings) > 0) {
+    error(paste(".agg file is missing mandatory sections: ",
+                paste0(missing_headings, collapse = ", ")
+                )
+          )
+  }
+}

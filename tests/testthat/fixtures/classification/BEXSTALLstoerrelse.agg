@@ -1,0 +1,40 @@
+[Aggreg]
+Name=BEXSTALLstoerrelse
+Valueset=BEXSTALLlkodi
+1=Inoqarfiit pingaarnersaat
+2=Inoqarfiit pingaarnerusut
+3=Inoqarfiit annerit
+4=Inoqarfiit
+5=Inoqarfiit minnerit
+6=Inoqarfiit minnerpaat
+7=Andre lokaliteter
+
+[Aggtext]
+1=Inoqarfiit pingaarnersaat
+2=Inoqarfiit pingaarnerusut
+3=Inoqarfiit annerit
+4=Inoqarfiit
+5=Inoqarfiit minnerit
+6=Inoqarfiit minnerpaat
+7=Andre lokaliteter
+
+[Andre lokaliteter]
+1=g
+
+[Inoqarfiit]
+1=d
+
+[Inoqarfiit annerit]
+1=c
+
+[Inoqarfiit minnerit]
+1=e
+
+[Inoqarfiit minnerpaat]
+1=f
+
+[Inoqarfiit pingaarnersaat]
+1=a
+
+[Inoqarfiit pingaarnerusut]
+1=b

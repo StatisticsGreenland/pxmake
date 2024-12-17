@@ -373,3 +373,110 @@ validate_px_micro_arguments <- function(x, out_dir) {
     }
   }
 }
+
+#' Throw error if argument is not a character string
+#' @keywords internal
+error_if_agument_is_not_character_string <- function(name, value) {
+  if (! all(is.character(value), length(value) == 1)) {
+    error(paste0("Argument '", name, "' must be a character string."))
+  }
+}
+
+#' Check all arguments to px_classification
+#'
+#' @inheritParams px_classification
+#'
+#' @return Nothing
+#' @keywords internal
+validate_px_classification_arguments <- function(name,
+                                                 prestext,
+                                                 domain,
+                                                 df,
+                                                 vs_path,
+                                                 agg_paths){
+  any_path_argument_is_defined <- (!missing(vs_path) | !missing(agg_paths))
+
+  any_non_path_argument_is_defined <-
+    (!missing(name) | !missing(prestext) | !missing(domain) | !missing(df))
+
+  if (any_path_argument_is_defined & any_non_path_argument_is_defined) {
+    error(paste0("Cannot use path arguments and other aguments together. ",
+                 "Either define only name/prestext/domain/df, or only ",
+                 "vs_path/agg_paths."
+                 )
+          )
+  }
+
+  if (any_path_argument_is_defined) {
+    if (! missing(vs_path)) {
+      if (! is.character(vs_path)) {
+        error("Argument 'vs_path': must be a character string.")
+      }
+
+      if (! file.exists(vs_path)) {
+        error("Argument 'vs_path': file does not exist.")
+      }
+    }
+
+    if (! missing(agg_paths)) {
+      if (! is.character(agg_paths)) {
+        error("Argument 'agg_paths': must be a character vector.")
+      }
+    }
+  }
+
+  if (all(any_path_argument_is_defined, missing(vs_path))) {
+    error(paste0("Argument 'vs_path' is missing. If 'agg_paths' is defined, ",
+                 "'vs_path' must also be defined."
+                 )
+          )
+  }
+
+  if (any_non_path_argument_is_defined) {
+    error_if_agument_is_not_character_string("name", name)
+    error_if_agument_is_not_character_string("prestext", prestext)
+    error_if_agument_is_not_character_string("domain", domain)
+
+    if (! is.data.frame(df)) {
+      error("Argument 'df' must be a data frame.")
+    }
+
+    if (! "valuecode" %in% names(df)) {
+      error("Argument 'df' is missing column 'valuecode'.")
+    }
+  }
+}
+
+error_if_vs_file_is_missing_mandatory_headings <- function(vs_lines) {
+  headings <-
+    stringr::str_extract_all(vs_lines,
+                             classification_file_section_heading_regexp()
+                             )
+
+  missing_headings <- setdiff(c("[Descr]", "[Domain]", "[Valuecode]"),
+                              headings
+                              )
+
+  if (length(missing_headings) > 0) {
+    error(paste(".vs file is missing mandatory sections: ",
+                paste0(missing_headings, collapse = ", ")
+                )
+          )
+  }
+}
+
+error_if_aggregation_file_is_missing_mandatory_headings <- function(agg_lines) {
+  headings <-
+    stringr::str_extract_all(agg_lines,
+                             classification_file_section_heading_regexp()
+                             )
+
+  missing_headings <- setdiff(c("[Aggreg]", "[Aggtext]"), headings)
+
+  if (length(missing_headings) > 0) {
+    error(paste(".agg file is missing mandatory sections: ",
+                paste0(missing_headings, collapse = ", ")
+                )
+          )
+  }
+}

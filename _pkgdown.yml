@@ -10,17 +10,11 @@ reference:
 - title: Create files
 - contents:
   - px_save
+  - px_save_classification
 - title: Modify px object
   desc: >
     Once a px object has been created, with `px()`, it can be modified with
     the functions below
-- subtitle: Special modifying functions
-  desc: Modifying functions that does not have a specific px keyword.
-  contents:
-   - px_add_totals
-   - px_figures
-   - px_order
-   - px_variable_label
 - subtitle: px Keywords
   desc: Modifying functions that match a specific px keyword.
   contents:
@@ -72,14 +66,26 @@ reference:
    - px_valuenotex
    - px_values
    - px_variable_type
+- subtitle: Special modifying functions
+  desc: Modifying functions that does not relate to a specific px keyword.
+  contents:
+   - px_add_totals
+   - px_figures
+   - px_order
+   - px_variable_label
 - title: Special functions
   contents:
    - px_micro
    - px_validate
+- title: Collections (value set and aggregations)
+  contents:
+   - px_classification
+   - px_save_classification
 - title: Built in datasets
   contents:
    - population_gl
    - greenlanders
    - px_keywords
+   - age_classification
 
 

@@ -3,6 +3,8 @@
 ## New features
 - Add `validate =` option to all modifying functions to enable turning off 
 validation. (#332)
+- Add functions `px_classification()` and `px_classification_save()` to create
+and save classifications (value sets and aggregations). (#327)
 
 ## Bug fixes and minor improvements
 - `px_elimination()`, `px_map()`, and `px_domain()` now only sets value for

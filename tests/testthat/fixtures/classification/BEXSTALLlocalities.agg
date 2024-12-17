@@ -1,0 +1,441 @@
+[Aggreg]
+Name=localities              
+Valueset=BEXSTALLlcode
+1=Nanortalik (town)
+2=Aappilattoq (settlement in Kujalleq)
+3=Narsarmijit (settlement)
+4=Tasiusaq (settlement in Kujalleq)
+5=Ammassivik (settlement)
+6=Alluitsup Paa (settlement)
+7=Uoplyst i Nanortalik distrikt
+8=Qaqortoq (town)
+9=Saarloq (settlement)
+10=Eqalugaarsuit (settlement)
+11=Qassimiut (settlement)
+12=Uoplyst i Qaqortoq distrikt
+13=Narsaq (town)
+14=Igaliku (settlement)
+15=Qassiarsuk (settlement)
+16=Narsarsuaq (settlement)
+17=Uoplyst i Narsaq distrikt
+18=Uoplyst i Ivittuut distrikt
+19=Paamiut (town)
+20=Arsuk (settlement)
+21=Uoplyst i Paamiut distrikt
+22=Nuuk (town)
+23=Qeqertarsuatsiaat (settlement)
+24=Kapisillit (settlement)
+25=Uoplyst i Nuuk distrikt
+26=Tasiilaq (town)
+27=Sermiligaaq (settlement)
+28=Isertoq (settlement)
+29=Kulusuk (settlement)
+30=Tiilerilaaq (settlement)
+31=Kuummiit (settlement)
+32=Uoplyst i Tasiilaq distrikt
+33=Ittoqqortoormiit (town)
+34=Nerlerit Inaat (Airport)
+35=Uoplyst i Ittoqqortoormiit distrikt
+36=Maniitsoq (town)
+37=Atammik (settlement)
+38=Napasoq (settlement)
+39=Kangaamiut (settlement)
+40=Sisimiut (town)
+41=Itilleq (settlement)
+42=Sarfannguit (settlement)
+43=Kangerlussuaq (settlement)
+44=Kangaatsiaq (town)
+45=Attu (settlement)
+46=Iginniarfik (settlement)
+47=Niaqornaarsuk (settlement)
+48=Ikerasaarsuk (KAN)(settlement)
+49=Uoplyst i Kangaatsiaq distrikt
+50=Aasiaat (town)
+51=Akunnaaq (settlement)
+52=Kitsissuarsuit (settlement)
+53=Qasigiannguit (town)
+54=Ikamiut (settlement)
+55=Qeqertarsuaq (town)
+56=Kangerluk (settlement)
+57=Ilulissat (town)
+58=Oqaatsut (settlement)
+59=Qeqertaq (settlement)
+60=Saqqaq (settlement)
+61=Ilimanaq (settlement)
+62=Uummannaq (town)
+63=Niaqornat (settlement)
+64=Qaarsut (settlement)
+65=Ikerasak (settlement)
+66=Saattut (settlement)
+67=Ukkusissat (settlement)
+68=Uoplyst i Uummannaq distrikt
+69=Upernavik (town)
+70=Upernavik Kujalleq (settlement)
+71=Kangersuatsiaq (settlement)
+72=Aappilattoq (settlement in Avannaa)
+73=Tasiusaq (settlement in Avannaa)
+74=Nuussuaq (settlement)
+75=Kullorsuaq (settlement)
+76=Naajaat (settlement)
+77=Innaarsuit (settlement)
+78=Nutaarmiut (settlement)
+79=Ikerasaarsuk (UPE)(settlement)
+80=Uoplyst i Upernavik distrikt
+81=Qaanaaq (town)
+82=Savissivik (settlement)
+83=Siorapaluk (settlement)
+84=Qeqertat (settlement)
+85=Uoplyst i Qaanaaq distrikt
+86=Pituffik (Station)
+88=Uoplyst udenfor kommunerne
+ 
+[Aggtext]
+1=Nanortalik (town)
+2=Aappilattoq (settlement in Kujalleq)
+3=Narsarmijit (settlement)
+4=Tasiusaq (settlement in Kujalleq)
+5=Ammassivik (settlement)
+6=Alluitsup Paa (settlement)
+7=Uoplyst i Nanortalik distrikt
+8=Qaqortoq (town)
+9=Saarloq (settlement)
+10=Eqalugaarsuit (settlement)
+11=Qassimiut (settlement)
+12=Uoplyst i Qaqortoq distrikt
+13=Narsaq (town)
+14=Igaliku (settlement)
+15=Qassiarsuk (settlement)
+16=Narsarsuaq (settlement)
+17=Uoplyst i Narsaq distrikt
+18=Uoplyst i Ivittuut distrikt
+19=Paamiut (town)
+20=Arsuk (settlement)
+21=Uoplyst i Paamiut distrikt
+22=Nuuk (town)
+23=Qeqertarsuatsiaat (settlement)
+24=Kapisillit (settlement)
+25=Uoplyst i Nuuk distrikt
+26=Tasiilaq (town)
+27=Sermiligaaq (settlement)
+28=Isertoq (settlement)
+29=Kulusuk (settlement)
+30=Tiilerilaaq (settlement)
+31=Kuummiit (settlement)
+32=Uoplyst i Tasiilaq distrikt
+33=Ittoqqortoormiit (town)
+34=Nerlerit Inaat (Airport)
+35=Uoplyst i Ittoqqortoormiit distrikt
+36=Maniitsoq (town)
+37=Atammik (settlement)
+38=Napasoq (settlement)
+39=Kangaamiut (settlement)
+40=Sisimiut (town)
+41=Itilleq (settlement)
+42=Sarfannguit (settlement)
+43=Kangerlussuaq (settlement)
+44=Kangaatsiaq (town)
+45=Attu (settlement)
+46=Iginniarfik (settlement)
+47=Niaqornaarsuk (settlement)
+48=Ikerasaarsuk (KAN)(settlement)
+49=Uoplyst i Kangaatsiaq distrikt
+50=Aasiaat (town)
+51=Akunnaaq (settlement)
+52=Kitsissuarsuit (settlement)
+53=Qasigiannguit (town)
+54=Ikamiut (settlement)
+55=Qeqertarsuaq (town)
+56=Kangerluk (settlement)
+57=Ilulissat (town)
+58=Oqaatsut (settlement)
+59=Qeqertaq (settlement)
+60=Saqqaq (settlement)
+61=Ilimanaq (settlement)
+62=Uummannaq (town)
+63=Niaqornat (settlement)
+64=Qaarsut (settlement)
+65=Ikerasak (settlement)
+66=Saattut (settlement)
+67=Ukkusissat (settlement)
+68=Uoplyst i Uummannaq distrikt
+69=Upernavik (town)
+70=Upernavik Kujalleq (settlement)
+71=Kangersuatsiaq (settlement)
+72=Aappilattoq (settlement in Avannaa)
+73=Tasiusaq (settlement in Avannaa)
+74=Nuussuaq (settlement)
+75=Kullorsuaq (settlement)
+76=Naajaat (settlement)
+77=Innaarsuit (settlement)
+78=Nutaarmiut (settlement)
+79=Ikerasaarsuk (UPE)(settlement)
+80=Uoplyst i Upernavik distrikt
+81=Qaanaaq (town)
+82=Savissivik (settlement)
+83=Siorapaluk (settlement)
+84=Qeqertat (settlement)
+85=Uoplyst i Qaanaaq distrikt
+86=Pituffik (Station)
+88=Uoplyst udenfor kommunerne
+ 
+[Aappilattoq (settlement in Avannaa)]
+1=9601602KAQ
+ 
+[Aappilattoq (settlement in Kujalleq)]
+1=9550102APL
+ 
+[Aasiaat (town)]
+1=9590999ZZZ
+ 
+[Akunnaaq (settlement)]
+1=9591000AAS
+ 
+[Alluitsup Paa (settlement)]
+1=9550108ALP
+ 
+[Ammassivik (settlement)]
+1=9550106AMS
+ 
+[Arsuk (settlement)]
+1=9560501ARS
+ 
+[Atammik (settlement)]
+1=9570701ATA
+ 
+[Attu (settlement)]
+1=9590900KAT
+ 
+[Eqalugaarsuit (settlement)]
+1=9550202EQA
+ 
+[Igaliku (settlement)]
+1=9550302IGA
+ 
+[Iginniarfik (settlement)]
+1=9590902ATT
+ 
+[Ikamiut (settlement)]
+1=9591100QAS
+ 
+[Ikerasaarsuk (KAN)(settlement)]
+1=9590906NQK
+ 
+[Ikerasaarsuk (UPE)(settlement)]
+1=9601610NUT
+ 
+[Ikerasak (settlement)]
+1=9601502QST
+ 
+[Ilimanaq (settlement)]
+1=9601203SQQ
+ 
+[Ilulissat (town)]
+1=9591403KLK
+ 
+[Innaarsuit (settlement)]
+1=9601608NAJ
+ 
+[Isertoq (settlement)]
+1=9561803ISO
+ 
+[Itilleq (settlement)]
+1=9570801ITI
+ 
+[Ittoqqortoormiit (town)]
+1=9561900ILT
+ 
+[Kangaamiut (settlement)]
+1=9570703KAM
+ 
+[Kangaatsiaq (town)]
+1=959 Kommun
+ 
+[Kangerluk (settlement)]
+1=9591400QEQ
+ 
+[Kangerlussuaq (settlement)]
+1=9570820KAN
+ 
+[Kangersuatsiaq (settlement)]
+1=9601601UPK
+ 
+[Kapisillit (settlement)]
+1=9560605KAP
+ 
+[Kitsissuarsuit (settlement)]
+1=9591003AKU
+ 
+[Kullorsuaq (settlement)]
+1=9601606NUS
+ 
+[Kulusuk (settlement)]
+1=9561804KUL
+ 
+[Kuummiit (settlement)]
+1=9561806KUM
+ 
+[Maniitsoq (town)]
+1=9570700MAN
+ 
+[Naajaat (settlement)]
+1=9601607KLQ
+ 
+[Nanortalik (town)]
+1=9550100NAN
+ 
+[Napasoq (settlement)]
+1=9570702NAP
+ 
+[Narsaq (town)]
+1=9550300NAR
+ 
+[Narsarmijit (settlement)]
+1=9550103NKJ
+ 
+[Narsarsuaq (settlement)]
+1=9550321NRS
+ 
+[Nerlerit Inaat (Airport)]
+1=9561906NRI
+ 
+[Niaqornaarsuk (settlement)]
+1=9590905IGF
+ 
+[Niaqornat (settlement)]
+1=9601500UUM
+ 
+[Nutaarmiut (settlement)]
+1=9601609INN
+ 
+[Nuuk (town)]
+1=9560600NUK
+ 
+[Nuussuaq (settlement)]
+1=9601605TSS
+ 
+[Oqaatsut (settlement)]
+1=9601200ILU
+ 
+[Paamiut (town)]
+1=9560500PAA
+ 
+[Pituffik (Station)]
+1=9601799ZZZ
+ 
+[Qaanaaq (town)]
+1=9601699ZZZ
+ 
+[Qaarsut (settlement)]
+1=9601501NIA
+ 
+[Qaqortoq (town)]
+1=9550200QAQ
+ 
+[Qasigiannguit (town)]
+1=9591004KIT
+ 
+[Qassiarsuk (settlement)]
+1=9550305QSK
+ 
+[Qassimiut (settlement)]
+1=9550204QSM
+ 
+[Qeqertaq (settlement)]
+1=9601201OQA
+ 
+[Qeqertarsuaq (town)]
+1=9591101IKA
+ 
+[Qeqertarsuatsiaat (settlement)]
+1=9560601QTT
+ 
+[Qeqertat (settlement)]
+1=9601704SIO
+ 
+[Saarloq (settlement)]
+1=9550201SAL
+ 
+[Saattut (settlement)]
+1=9601503IKE
+ 
+[Saqqaq (settlement)]
+1=9601202QQT
+ 
+[Sarfannguit (settlement)]
+1=9570803SFN
+ 
+[Savissivik (settlement)]
+1=9601700QNQ
+ 
+[Sermiligaaq (settlement)]
+1=9561802SML
+ 
+[Siorapaluk (settlement)]
+1=9601701SAV
+ 
+[Sisimiut (town)]
+1=9570800SIS
+ 
+[Tasiilaq (town)]
+1=9561800TAS
+ 
+[Tasiusaq (settlement in Avannaa)]
+1=9601603AAP
+ 
+[Tasiusaq (settlement in Kujalleq)]
+1=9550104TAQ
+ 
+[Tiilerilaaq (settlement)]
+1=9561805TIN
+ 
+[Ukkusissat (settlement)]
+1=9601504SAA
+ 
+[Uoplyst i Ittoqqortoormiit distrikt]
+1=9561999ZZZ
+ 
+[Uoplyst i Ivittuut distrikt]
+1=9560499ZZZ
+ 
+[Uoplyst i Kangaatsiaq distrikt]
+1=9590908IKS
+ 
+[Uoplyst i Nanortalik distrikt]
+1=9550199ZZZ
+ 
+[Uoplyst i Narsaq distrikt]
+1=9550399ZZZ
+ 
+[Uoplyst i Nuuk distrikt]
+1=9560699ZZZ
+ 
+[Uoplyst i Paamiut distrikt]
+1=9560599ZZZ
+ 
+[Uoplyst i Qaanaaq distrikt]
+1=9601707QET
+ 
+[Uoplyst i Qaqortoq distrikt]
+1=9550299ZZZ
+ 
+[Uoplyst i Tasiilaq distrikt]
+1=9561899ZZZ
+ 
+[Uoplyst i Upernavik distrikt]
+1=9601611IKK
+ 
+[Uoplyst i Uummannaq distrikt]
+1=9601505UKK
+ 
+[Uoplyst udenfor kommunerne]
+1=9612099ZZZ
+2=9612070PIT
+ 
+[Upernavik (town)]
+1=9601599ZZZ
+ 
+[Upernavik Kujalleq (settlement)]
+1=9601600UPV
+ 
+[Uummannaq (town)]
+1=9601204ILQ

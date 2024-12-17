@@ -53,3 +53,9 @@ test_that("Classification is robust to formatting differences in files", {
   expect_identical(target$df[[4]], c$df[[4]])
 })
 
+test_that("Classification can be create without [Valuetext]", {
+  expect_s3_class(
+    px_classification(vs_path = get_classification_path("vs_without_valuetext.vs")),
+    "classification"
+    )
+})

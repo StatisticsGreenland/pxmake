@@ -15,6 +15,11 @@ smallest_larger_value <- function(vec, value) {
   min(vec[vec > value])
 }
 
+#' Get index of first and last line of section
+#'
+#' @param lines A character vector
+#' @param head_line A numeric value, line number of section heading
+#' @keywords internal
 section_interval <- function(lines, head_line) {
  breaks <-
     c(stringr::str_which(lines,
@@ -26,10 +31,20 @@ section_interval <- function(lines, head_line) {
   (head_line+1):(smallest_larger_value(breaks, head_line)-1)
 }
 
+#' Return lines in section
+#'
+#' @inheritParams section_interval
+#' @keywords internal
 get_section <- function(lines, head_line) {
   lines[section_interval(lines, head_line)]
 }
 
+#' Get section in .vs or .agg file
+#'
+#' @param lines A character vector
+#' @param heading Character, the section heading
+#' @param key Optional. Character, subkey in section
+#' @keywords internal
 extract_section <- function(lines, heading, key = NULL) {
   head_lines <- stringr::str_which(lines, stringr::fixed(heading))
 
@@ -57,6 +72,14 @@ extract_section <- function(lines, heading, key = NULL) {
   return(section)
 }
 
+#' Create new classification object
+#'
+#' Constructor for internal functions
+#'
+#' @inheritParams px_classification
+#'
+#' @return A classification object
+#' @keywords internal
 new_classification <- function(name, prestext, domain, df) {
   if (length(name) == 0 | length(prestext) == 0 | length(domain) == 0) {
     stop("name, prestext, and domain must be non-empty.")
@@ -147,6 +170,14 @@ aggregation_df <- function(path) {
   return(df)
 }
 
+#' px classification from path
+#'
+#' Create px classification from .vs and .agg files
+#'
+#' @inheritParams px_classification
+#'
+#' @return A classification object
+#' @keywords internal
 px_classification_from_path <- function(vs_path, agg_paths) {
   vs_lines  <- readLines_guess_encoding(vs_path)
 
@@ -159,7 +190,10 @@ px_classification_from_path <- function(vs_path, agg_paths) {
     vs_df <- dplyr::select(valuecode_df, -id)
   } else {
     if (nrow(valuecode_df) != nrow(valuetext_df)) {
-      warning("[Valuecode] and [Valuetext] have different number of rows.")
+      warning(paste0("[Valuecode] and [Valuetext] in '", basename(vs_path),
+                     "' have different number of rows."
+                     )
+              )
     }
 
     vs_df <-
@@ -205,6 +239,14 @@ px_classification_from_path <- function(vs_path, agg_paths) {
                      )
 }
 
+#' px classification from data frame
+#'
+#' Create px classification from a data frame.
+#'
+#' @inheritParams px_classification
+#'
+#' @return A classification object
+#' @keywords internal
 px_classification_from_df <- function(name, prestext, domain, df) {
   character_columns <- intersect(names(df), c("valuecode", "valuetext"))
 
@@ -313,6 +355,14 @@ px_classification <- function(name, prestext, domain, df, vs_path, agg_paths) {
   return(c)
 }
 
+#' Add lines numbers
+#'
+#' Add '1=', '2=', etc. at start of each line.
+#'
+#' @param lines A character vector
+#'
+#' @return A character vector
+#' @keywords internal
 enumerate_lines <- function(lines) {
   stringr::str_glue("{seq_along(lines)}={lines}") %>%
     paste(collapse = "\n")
@@ -320,6 +370,15 @@ enumerate_lines <- function(lines) {
 
 blank_line <- function() " "
 
+#' Save classification as .vs file
+#'
+#' Write value set part of classification to a file.
+#'
+#' @param c A classification object
+#' @param directory Directory to save the file in
+#'
+#' @return Nothing
+#' @keywords internal
 write_value_set <- function(c, directory) {
   filename <- file.path(directory, paste0(c$name, ".vs"))
 
@@ -378,8 +437,19 @@ write_value_set <- function(c, directory) {
   close(file_connection)
 }
 
-write_aggregation <- function(aggregation, c, path) {
-  filename <- file.path(path, paste0(aggregation, ".agg"))
+#' Save classification as .agg file
+#'
+#' Write one aggregation column in a classification to an .agg file.
+#'
+#' @param aggregation Character, the column name of the aggregation in the
+#' classification
+#' @param c A classification object
+#' @param directory Directory to save the file in
+#'
+#' @return Nothing
+#' @keywords internal
+write_aggregation <- function(aggregation, c, directory) {
+  filename <- file.path(directory, paste0(aggregation, ".agg"))
 
   groups <- levels(c$df[[aggregation]])
 
@@ -447,5 +517,5 @@ px_save_classification <- function(c, path) {
     dplyr::select(-valuecode, -valuetext) %>%
     names()
 
-  purrr::walk(aggregations, write_aggregation, c = c, path = path)
+  purrr::walk(aggregations, write_aggregation, c = c, directory = path)
 }

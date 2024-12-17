@@ -374,6 +374,13 @@ validate_px_micro_arguments <- function(x, out_dir) {
   }
 }
 
+#' Throw error if argument is not a character string
+#' @keywords internal
+error_if_agument_is_not_character_string <- function(name, value) {
+  if (! all(is.character(value), length(value) == 1)) {
+    error(paste0("Argument '", name, "' must be a character string."))
+  }
+}
 
 #' Check all arguments to px_classification
 #'
@@ -415,15 +422,6 @@ validate_px_classification_arguments <- function(name,
       if (! is.character(agg_paths)) {
         error("Argument 'agg_paths': must be a character vector.")
       }
-
-      if (! all(file.exists(agg_paths))) {
-        missing_files <- agg_paths[! file.exists(agg_paths)]
-
-        error(paste0("Argument 'agg_paths': one or more files does not exist: ",
-                     paste0(missing_files, collapse = ", ")
-                     )
-              )
-      }
     }
   }
 
@@ -435,33 +433,9 @@ validate_px_classification_arguments <- function(name,
   }
 
   if (any_non_path_argument_is_defined) {
-    if (missing(name)) {
-      error("Argument 'name' is missing, with no default.")
-    }
-
-    if (missing(prestext)) {
-      error("Argument 'prestext' is missing, with no default.")
-    }
-
-    if (missing(domain)) {
-      error("Argument 'domain' is missing, with no default.")
-    }
-
-    if (missing(df)) {
-      error("Argument 'df' is missing, with no default.")
-    }
-
-    if (! is.character(name)) {
-      error("Argument 'name' must be a character string.")
-    }
-
-    if (! is.character(prestext)) {
-      error("Argument 'prestext' must be a character string.")
-    }
-
-    if (! is.character(domain)) {
-      error("Argument 'domain' must be a character string.")
-    }
+    error_if_agument_is_not_character_string("name", name)
+    error_if_agument_is_not_character_string("prestext", prestext)
+    error_if_agument_is_not_character_string("domain", domain)
 
     if (! is.data.frame(df)) {
       error("Argument 'df' must be a data frame.")

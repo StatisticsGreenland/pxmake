@@ -117,23 +117,19 @@ aggregation_df <- function(path) {
 
   aggregation_text_df <- extract_section(agg_lines, '[Aggtext]')
 
-  if (is.null(aggregation_text_df)) {
-    aggregation_df <- dplyr::select(aggregation_groups_df, -id)
-  } else {
-    if (nrow(aggregation_groups_df) != nrow(aggregation_text_df)) {
-      warning(paste0("The number of aggregation groups (",
-                     nrow(aggregation_groups_df), ") and Aggtexts (",
-                     nrow(aggregation_text_df),
-                     ") differ in '",  basename(path), "'."
-                     )
-              )
-    }
-
-    aggregation_df <-
-      dplyr::left_join(aggregation_groups_df, aggregation_text_df, by = "id") %>%
-      dplyr::select(-id) %>%
-      dplyr::mutate(across(everything(), ~ dplyr::na_if(.x, "")))
+  if (nrow(aggregation_groups_df) != nrow(aggregation_text_df)) {
+    warning(paste0("The number of aggregation groups (",
+                   nrow(aggregation_groups_df), ") and Aggtexts (",
+                   nrow(aggregation_text_df),
+                   ") differ in '",  basename(path), "'."
+                   )
+            )
   }
+
+  aggregation_df <-
+    dplyr::left_join(aggregation_groups_df, aggregation_text_df, by = "id") %>%
+    dplyr::select(-id) %>%
+    dplyr::mutate(across(everything(), ~ dplyr::na_if(.x, "")))
 
   df <- dplyr::tibble(valuecode           = as.character(),
                       !!aggregation_name := factor(levels = aggregation_df$aggreg,

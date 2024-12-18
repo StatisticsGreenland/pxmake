@@ -5,11 +5,11 @@
 \alias{pxmake}
 \alias{pxmake-package}
 \alias{pxmake-package.R}
-\title{pxmake: Create px files}
+\title{pxmake: Create PX-files}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Create and modify px files in R.
+Create and modify PX-files in R.
 }
 \seealso{
 Useful links:

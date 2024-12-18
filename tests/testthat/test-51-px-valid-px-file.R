@@ -1,5 +1,5 @@
-test_that("px file is valid", {
-  # Create 4 px files that all tests are run on
+test_that("PX-file is valid", {
+  # Create 4 PX-files that all tests are run on
   bexsta              <- create_px_file("BEXSTA")
   bexltall            <- create_px_file("BEXLTALL")
   fotest              <- create_px_file("FOTEST")

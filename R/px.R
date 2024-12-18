@@ -1,9 +1,9 @@
 #' Create a px object
 #'
-#' Create a px object from a px file, an Excel metadata workbook, or a data
+#' Create a px object from a PX-file, an Excel metadata workbook, or a data
 #' frame.
 #'
-#' @param input Path to px file, path to an Excel metadata workbook, a data
+#' @param input Path to PX-file, path to an Excel metadata workbook, a data
 #' frame or path to an `.rds` or `.parquet` file with a data frame. If input is
 #' a data frame or NULL, a px object with minimal metadata is created.
 #' @param data Either a data frame or a path to an `.rds` or `.parquet` file
@@ -17,7 +17,7 @@
 #' # Create px object from dataset
 #' x1 <- px(population_gl)
 #'
-#' # Create px object from px file
+#' # Create px object from PX-file
 #' px_path <- tempfile(fileext = ".px")
 #' url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
 #' download.file(url, px_path)
@@ -65,7 +65,7 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
 #'
 #' @param x A px object.
 #' @param path Path to file. The file extension determines the format. Can be:
-#' - `.px` to save as a px file
+#' - `.px` to save as a PX-file
 #' - `.xlsx` to save as an Excel metadata workbook
 #' @param save_data If FALSE, no 'Data' sheet is created in the Excel workbook.
 #' Can only be used if `path` is an `.xlsx` file.

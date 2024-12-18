@@ -1,5 +1,5 @@
 Package: pxmake
-Title: Create px files
+Title: Create PX-files
 Version: 0.12.1.9006
 Authors@R: c(
              person("Johan", "Ejstrud", 
@@ -15,7 +15,7 @@ Authors@R: c(
                     comment =  c(URL = "https://stat.gl/")
                     )
             )
-Description: Create and modify px files in R.
+Description: Create and modify PX-files in R.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -48,6 +48,6 @@ Config/testthat/parallel: true
 Config/testthat/start-first: 60-metamake-bexltall
 VignetteBuilder: knitr
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0)
 LazyData: true
 URL: https://github.com/StatisticsGreenland/pxmake, https://statisticsgreenland.github.io/pxmake/

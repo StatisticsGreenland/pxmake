@@ -30,7 +30,7 @@ A px object, a character string, or a data frame.
 \description{
 Inspect or change VARIABLE-LABEL.
 
-The variable label is the name that is shown in the px file.
+The variable label is the name that is shown in the PX-file.
 }
 \examples{
 # Set VARIABLE-LABEL for individual variables

@@ -12,7 +12,7 @@ new_classification(name, prestext, domain, df)
 \item{prestext}{Optional. Presentation text.}
 
 \item{domain}{Optional. Character vector with domain names. Used to link to
-px-file.}
+PX-file.}
 
 \item{df}{Optional. A data frame with required column 'valuecode' and
 optional column 'valuetext', if the codes have texts. Each additional column

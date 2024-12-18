@@ -8,18 +8,18 @@
 A data frame:
 \describe{
 \item{keyword}{Name}
-\item{mandatory}{Is required in a px file}
+\item{mandatory}{Is required in a PX-file}
 \item{table_meta}{Is metadata for entire table; not individual variables or cells}
 \item{language_dependent}{Is language dependent}
 \item{indexed_by_contvariable}{Is indexed if CONTVARIABLE is set}
-\item{quote_value}{Value should be quoted in px file}
+\item{quote_value}{Value should be quoted in PX-file}
 \item{default_value}{Default value for mandatory keywords}
 \item{documentation}{URL to Statistic Sweden's documentation}
 \item{order}{Recommended order}
 }
 }
 \source{
-\url{https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf}
+\url{https://www.scb.se/globalassets/vara-tjanster/px-programmen/PX-file_format_specification_2013.pdf}
 }
 \usage{
 px_keywords

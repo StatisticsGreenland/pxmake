@@ -2,19 +2,19 @@
 % Please edit documentation in R/px_file.R
 \name{save_px_as_px_file}
 \alias{save_px_as_px_file}
-\title{Save px object to px-file}
+\title{Save px object to PX-file}
 \usage{
 save_px_as_px_file(x, path)
 }
 \arguments{
 \item{x}{A px object}
 
-\item{path}{Path to save px-file at}
+\item{path}{Path to save PX-file at}
 }
 \value{
 Nothing
 }
 \description{
-Save px object to px-file
+Save px object to PX-file
 }
 \keyword{internal}

@@ -10,13 +10,13 @@
 coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StatisticsGreenland/pxmake?branch=main)
 <!-- badges: end -->
 
-pxmake is an R package for creating and modifying px files.
+pxmake is an R package for creating and modifying PX-files.
 
 With pxmake you can:
 
-- Import a PC-AXIS px file, modify it, and save it as a new px file.
-- Save a px file as an Excel workbook.
-- Do complex modifications to a px file, like adding total levels to a
+- Import a PC-AXIS PX-file, modify it, and save it as a new PX-file.
+- Save a PX-file as an Excel workbook.
+- Do complex modifications to a PX-file, like adding total levels to a
   variable.
 
 ## Installation
@@ -36,18 +36,18 @@ or
 
 ## How to use
 
-Use `px()` and `px_save()` to read/write a px file to a px object.
+Use `px()` and `px_save()` to read/write a PX-file to a px object.
 
 ``` r
 library(pxmake)
 
-# Read px file into a px object
+# Read PX-file into a px object
 x <- px(input = "example.px")
 
 class(x)
 #> [1] "px"
 
-# Save px object as a new px file
+# Save px object as a new PX-file
 px_save(x, path = "example2.px")
 ```
 
@@ -81,7 +81,7 @@ x %>%
   px_heading("year") %>%  # Set year as HEADING
   px_stub("group") %>%    # Set group as STUB
   px_decimals("2") %>%    # Set DECIMALS to 2
-  px_save("example.px") # Save as px file
+  px_save("example.px") # Save as PX-file
 ```
 
 ### Modifying functions

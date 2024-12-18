@@ -1,4 +1,4 @@
-#' Regular expression to parse header in px file
+#' Regular expression to parse header in PX-file
 #'
 #' @return A character vector
 #' @keywords internal
@@ -21,7 +21,7 @@ get_px_metadata_regex <- function() {
 
 #' Get metadata df from px lines
 #'
-#' @param metadata_lines A character vector with the header of a px file.
+#' @param metadata_lines A character vector with the header of a PX-file.
 #'
 #' @return A data frame
 #' @keywords internal

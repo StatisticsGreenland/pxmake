@@ -14,7 +14,7 @@ str_quote <- function(str) {
 #' Add language, other than the main langue, to keyword
 #'
 #' @inheritParams add_sub_key_to_keyword
-#' @param main_language Main language of px file
+#' @param main_language Main language of PX-file
 #' @param language Lange to add to keyword
 #'
 #' @return String
@@ -125,7 +125,7 @@ merge_named_lists <- function(lst1, lst2) {
 
 #' Get time scale code from values (see TIMEVAL in px-specification)
 #'
-#' @param values Values form px file
+#' @param values Values form PX-file
 #'
 #' @return A character vector
 #' @keywords internal
@@ -144,7 +144,7 @@ get_timeval_type_from_values <- function(values) {
   return(time_type)
 }
 
-#' Format time values for px file
+#' Format time values for PX-file
 #'
 #' @param values Time values
 #'
@@ -274,11 +274,11 @@ readLines_with_encoding <- function(path, encoding) {
   return(lines)
 }
 
-#' Get px file content as lines
+#' Get PX-file content as lines
 #'
 #' Read file with correct encoding.
 #'
-#' @param px_path Path to a px file
+#' @param px_path Path to a PX-file
 #'
 #' @return A character vector
 #' @keywords internal
@@ -302,7 +302,7 @@ readLines_guess_encoding <- function(path) {
                           )
 }
 
-#' Default encoding to read and save px file in
+#' Default encoding to read and save PX-file in
 #'
 #' @return Character
 #' @keywords internal
@@ -310,7 +310,7 @@ get_default_encoding <- function() {
   return('latin1')
 }
 
-#' Get encoding listed in px file
+#' Get encoding listed in PX-file
 #'
 #' Encoding is listed in CODEPAGE.
 #'

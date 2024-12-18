@@ -109,20 +109,20 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
   px_save(x = x_micro, path = file.path(out_dir, filename))
 }
 
-#' Create micro px files
+#' Create micro PX-files
 #'
-#' Split one px object into many small px files (micro files), with count of
+#' Split one px object into many small PX-files (micro files), with count of
 #' the variables in it.
 #'
 #' The HEADING variables are use in all the micro files, and a file is created
-#' for each non-HEADING variable. The new px files are saved in a directory
+#' for each non-HEADING variable. The new PX-files are saved in a directory
 #' specified by `out_dir`.
 #'
 #' The main loop uses the furrr package for parallelisation. Use future::plan()
 #' to choose how to parallelise.
 #'
 #' @param x A px object.
-#' @param out_dir Directory to save px files in.
+#' @param out_dir Directory to save PX-files in.
 #' @param keyword_values Optional. A data frame with column 'variable' and one
 #' or more of: 'px_contents', 'px_title', 'px_description', and 'px_matrix'. The
 #' columns will be added as keywords to the table for each non-HEADING variable
@@ -131,7 +131,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 #' Use the column 'filename' to control the filename of each micro file. The
 #' filename path is relative to 'out_dir'.
 #'
-#' Use the column 'language' if the px file has multiple languages.
+#' Use the column 'language' if the PX-file has multiple languages.
 #'
 #' @return Nothing
 #' @export
@@ -174,5 +174,5 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
                      out_dir = out_dir
                      )
 
-  if (print_out_dir) print(paste("Created px files in:", out_dir))
+  if (print_out_dir) print(paste("Created PX-files in:", out_dir))
 }

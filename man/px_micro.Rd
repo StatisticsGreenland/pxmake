@@ -2,14 +2,14 @@
 % Please edit documentation in R/micro.R
 \name{px_micro}
 \alias{px_micro}
-\title{Create micro px files}
+\title{Create micro PX-files}
 \usage{
 px_micro(x, out_dir = NULL, keyword_values = NULL)
 }
 \arguments{
 \item{x}{A px object.}
 
-\item{out_dir}{Directory to save px files in.}
+\item{out_dir}{Directory to save PX-files in.}
 
 \item{keyword_values}{Optional. A data frame with column 'variable' and one
 or more of: 'px_contents', 'px_title', 'px_description', and 'px_matrix'. The
@@ -19,18 +19,18 @@ that match the 'variable' column. It probably work for other keywords as well.
 Use the column 'filename' to control the filename of each micro file. The
 filename path is relative to 'out_dir'.
 
-Use the column 'language' if the px file has multiple languages.}
+Use the column 'language' if the PX-file has multiple languages.}
 }
 \value{
 Nothing
 }
 \description{
-Split one px object into many small px files (micro files), with count of
+Split one px object into many small PX-files (micro files), with count of
 the variables in it.
 }
 \details{
 The HEADING variables are use in all the micro files, and a file is created
-for each non-HEADING variable. The new px files are saved in a directory
+for each non-HEADING variable. The new PX-files are saved in a directory
 specified by \code{out_dir}.
 
 The main loop uses the furrr package for parallelisation. Use future::plan()

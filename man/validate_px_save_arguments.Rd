@@ -11,7 +11,7 @@ validate_px_save_arguments(x, path, save_data, data_path)
 
 \item{path}{Path to file. The file extension determines the format. Can be:
 \itemize{
-\item \code{.px} to save as a px file
+\item \code{.px} to save as a PX-file
 \item \code{.xlsx} to save as an Excel metadata workbook
 }}
 

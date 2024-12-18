@@ -1,4 +1,4 @@
-#' Get data cube used in px file format
+#' Get data cube used in PX-file format
 #'
 #' @inheritParams sort_metadata_df
 #' @inheritParams format_data_df
@@ -111,7 +111,7 @@ get_data_cube <- function(metadata_df, data_df) {
   return(data_cube)
 }
 
-#' Get lines for px-file from px object
+#' Get lines for PX-file from px object
 #'
 #' @param x A px object
 #'
@@ -175,10 +175,10 @@ format_px_object_as_lines <- function(x) {
   c(metadata_lines, "DATA=", data_lines, ";")
 }
 
-#' Save px object to px-file
+#' Save px object to PX-file
 #'
 #' @param x A px object
-#' @param path Path to save px-file at
+#' @param path Path to save PX-file at
 #'
 #' @return Nothing
 #' @keywords internal
@@ -199,9 +199,9 @@ save_px_as_px_file <- function(x, path) {
   close(file_connection)
 }
 
-#' Create a px object form a px-file
+#' Create a px object form a PX-file
 #'
-#' @param path Path to a px-file
+#' @param path Path to a PX-file
 #'
 #' @return A px object
 #' @keywords internal

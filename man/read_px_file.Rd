@@ -2,12 +2,12 @@
 % Please edit documentation in R/helper_functions.R
 \name{read_px_file}
 \alias{read_px_file}
-\title{Get px file content as lines}
+\title{Get PX-file content as lines}
 \usage{
 read_px_file(px_path)
 }
 \arguments{
-\item{px_path}{Path to a px file}
+\item{px_path}{Path to a PX-file}
 }
 \value{
 A character vector

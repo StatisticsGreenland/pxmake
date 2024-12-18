@@ -278,7 +278,7 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' @param name Optional. Name of the classification.
 #' @param prestext Optional. Presentation text.
 #' @param domain Optional. Character vector with domain names. Used to link to
-#' px-file.
+#' PX-file.
 #' @param df Optional. A data frame with required column 'valuecode' and
 #' optional column 'valuetext', if the codes have texts. Each additional column
 #' represents an aggregation. The column name is the name of the aggregation.

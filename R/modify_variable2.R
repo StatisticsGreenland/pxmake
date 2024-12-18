@@ -58,7 +58,7 @@ px_variable_label <- function(x, value, validate) {
 #' @title Change VARIABLE-LABEL
 #' @eval add_documentation_variables2("VARIABLE-LABEL", NA, NA, NA)
 #' @description
-#' The variable label is the name that is shown in the px file.
+#' The variable label is the name that is shown in the PX-file.
 #' @examples
 #' # Set VARIABLE-LABEL for individual variables
 #' library(tibble)

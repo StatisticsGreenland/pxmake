@@ -102,7 +102,7 @@ doc_keyword_function_intro <- function(keyword) {
   url <-
     px_keywords %>%
     dplyr::filter(keyword == !!keyword) %>%
-    dplyr::pull(documentation)
+    dplyr::pull(.data$documentation)
 
   if (length(url) == 1) {
     str <-

@@ -25,20 +25,23 @@ Imports:
     dplyr,
     furrr,
     magrittr,
+    methods,
     openxlsx,
     purrr,
     readxl,
     rlang,
+    stats,
     stringi,
     stringr,
     tibble,
     tidyr,
     tools,
-    vctrs,
-    withr
+    utils,
+    vctrs
 Suggests: 
     knitr,
     rmarkdown,
+    withr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/testthat/parallel: true

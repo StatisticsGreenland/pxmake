@@ -142,9 +142,10 @@ fix_px <- function(x) {
   # Add missing variable-labels to variables2
   x$variables2 <-
     x$variables2 %>%
-    dplyr::mutate(`variable-label` = ifelse(is.na(`variable-label`),
-                                            `variable-code`,
-                                            `variable-label`)
+    dplyr::mutate(`variable-label` = ifelse(is.na(.data$`variable-label`),
+                                                  .data$`variable-code`,
+                                                  .data$`variable-label`
+                                                  )
                   )
 
   x
@@ -170,7 +171,6 @@ fix_px <- function(x) {
 #'   px_title("Test", validate = FALSE) |>
 #'   px_validate()
 #'
-#' px_save(x1, 'validated.px')
 #' @export
 px_validate <- function(x) {
   error_if_not_list(x)

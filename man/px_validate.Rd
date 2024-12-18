@@ -29,5 +29,4 @@ x1 <-
   px_title("Test", validate = FALSE) |>
   px_validate()
 
-px_save(x1, 'validated.px')
 }

@@ -9,7 +9,7 @@ wrap_varaible_in_list(df, var)
 \arguments{
 \item{df}{Data frame}
 
-\item{var}{Variable to convert to list}
+\item{var}{Character. Variable to convert to list}
 }
 \value{
 A data frame

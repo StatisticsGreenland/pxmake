@@ -226,9 +226,9 @@ break_long_lines <- function(str, max_line_length = 256) {
       str %>%
       stringr::str_locate_all('","') %>%
       as.data.frame() %>%
-      dplyr::filter(start < max_line_length) %>%
+      dplyr::filter(.data$start < max_line_length) %>%
       dplyr::slice_tail(n = 1) %>%
-      dplyr::pull(start)
+      dplyr::pull(.data$start)
 
     if (identical(comma_split, integer(0))) {
       # no comma_split character; split at specific point
@@ -248,14 +248,14 @@ break_long_lines <- function(str, max_line_length = 256) {
 #' Convert a variable to a list
 #'
 #' @param df Data frame
-#' @param var Variable to convert to list
+#' @param var Character. Variable to convert to list
 #'
 #' @return A data frame
 #' @keywords internal
 wrap_varaible_in_list <- function(df, var) {
   df %>%
     dplyr::rowwise() %>%
-    dplyr::mutate({{ var }} := list({{ var }})) %>%
+    dplyr::mutate(across(all_of(var), ~ list(.x))) %>%
     dplyr::ungroup()
 }
 
@@ -347,17 +347,17 @@ guess_file_encoding <- function(path, prefer = list("UTF-8" = .2,
   prefer_df <-
     prefer %>%
     tibble::enframe(name = "Encoding", value = "Confidence") %>%
-    tidyr::unnest(Confidence) %>%
-    dplyr::mutate(across(Encoding, as.character))
+    tidyr::unnest("Confidence") %>%
+    dplyr::mutate(across("Encoding", as.character))
 
   best_guess <-
     readBin(path, what = "raw", n = file.info(path)$size) %>%
     stringi::stri_enc_detect() %>%
     magrittr::extract2(1) %>%
     dplyr::bind_rows(prefer_df) %>%
-    dplyr::group_by(Encoding) %>%
-    dplyr::summarise(Confidence = sum(Confidence)) %>%
-    dplyr::arrange(desc(Confidence)) %>%
+    dplyr::group_by(.data$Encoding) %>%
+    dplyr::summarise(Confidence = sum(.data$Confidence)) %>%
+    dplyr::arrange(desc(.data$Confidence)) %>%
     .[["Encoding"]] %>%
     head(1)
 

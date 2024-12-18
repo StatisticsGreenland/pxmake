@@ -51,13 +51,13 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
     new_px(languages  = x$languages,
            table1     = x$table1,
            table2     = x$table2,
-           variables1 = dplyr::filter(x$variables1, `variable-code` %in% data_names),
-           variables2 = dplyr::filter(x$variables2, `variable-code` %in% data_names),
-           cells1 = dplyr::filter(x$cells1, `variable-code` %in% data_names) %>%
+           variables1 = dplyr::filter(x$variables1, .data$`variable-code` %in% data_names),
+           variables2 = dplyr::filter(x$variables2, .data$`variable-code` %in% data_names),
+           cells1 = dplyr::filter(x$cells1, .data$`variable-code` %in% data_names) %>%
                           dplyr::anti_join(headings_with_only_na_values_long,
                                            by = c("variable-code", "code")
                                            ),
-           cells2 = dplyr::filter(x$cells2, `variable-code` %in% data_names) %>%
+           cells2 = dplyr::filter(x$cells2, .data$`variable-code` %in% data_names) %>%
                           dplyr::anti_join(headings_with_only_na_values_long,
                                            by = c("variable-code", "code")
                                            ),
@@ -76,7 +76,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
   if (all(! is.null(keyword_values_long), nrow(keyword_values_long) > 0)) {
     extra_keywords <-
       keyword_values_long %>%
-      dplyr::filter(variable %in% micro_var)
+      dplyr::filter(.data$variable %in% micro_var)
 
     keyword_functions <- unique(extra_keywords$keyword_function)
 
@@ -86,9 +86,9 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 
       value <-
         extra_keywords %>%
-        dplyr::filter(keyword_function == fnc) %>%
+        dplyr::filter(.data$keyword_function == fnc) %>%
         { if (language_dependent_keyword & "language" %in% names(.)) {
-          dplyr::distinct(., language, value)
+          dplyr::distinct(., .data$language, .data$value)
         } else {
           dplyr::distinct(., value) %>%
             dplyr::pull(value)
@@ -147,7 +147,8 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
   if (! is.null(keyword_values)) {
     if ("filename" %in% colnames(keyword_values)) {
       filenames <-
-        dplyr::select(keyword_values, variable, filename) %>%
+        keyword_values %>%
+        dplyr::select("variable", "filename") %>%
         tibble::deframe()
     } else {
       filenames <- NULL
@@ -158,8 +159,8 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
       tidyr::pivot_longer(cols = setdiff(names(.), c("variable", "language")),
                           names_to = "keyword_function"
                           ) %>%
-      tidyr::drop_na(value) %>%
-      dplyr::filter(keyword_function != "filename")
+      tidyr::drop_na("value") %>%
+      dplyr::filter(.data$keyword_function != "filename")
   } else {
     keyword_values_long <- NULL
     filenames <- NULL

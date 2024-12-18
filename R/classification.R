@@ -59,14 +59,14 @@ extract_section <- function(lines, heading, key = NULL) {
     purrr::map(~ get_section(lines, .x)) %>%
     unlist() %>%
     dplyr::as_tibble() %>%
-    dplyr::mutate(across(value, stringr::str_trim)) %>%
-    dplyr::filter(value != "") %>%
-    tidyr::drop_na(value) %>%
-    tidyr::separate_wider_delim(cols = value, delim = "=", names = c('id', colname))
+    dplyr::mutate(across("value", stringr::str_trim)) %>%
+    dplyr::filter(.data$value != "") %>%
+    tidyr::drop_na("value") %>%
+    tidyr::separate_wider_delim(cols = "value", delim = "=", names = c('id', colname))
 
 
   if (! is.null(key)) {
-     section <- section %>% dplyr::filter(id == key)
+     section <- section %>% dplyr::filter(.data$id == key)
   }
 
   return(section)
@@ -113,7 +113,7 @@ aggregation_df <- function(path) {
 
   aggregation_groups_df <-
     extract_section(agg_lines, '[Aggreg]') %>%
-    dplyr::filter(stringr::str_detect(id, "^\\d+$"))
+    dplyr::filter(stringr::str_detect(.data$id, "^\\d+$"))
 
   aggregation_text_df <- extract_section(agg_lines, '[Aggtext]')
 
@@ -128,7 +128,7 @@ aggregation_df <- function(path) {
 
   aggregation_df <-
     dplyr::left_join(aggregation_groups_df, aggregation_text_df, by = "id") %>%
-    dplyr::select(-id) %>%
+    dplyr::select(-"id") %>%
     dplyr::mutate(across(everything(), ~ dplyr::na_if(.x, "")))
 
   df <- dplyr::tibble(valuecode           = as.character(),
@@ -148,7 +148,7 @@ aggregation_df <- function(path) {
 
       aggregation_values <-
         section %>%
-        dplyr::select(-id) %>%
+        dplyr::select(-"id") %>%
         dplyr::pull(1)
 
       df <-
@@ -183,7 +183,7 @@ px_classification_from_path <- function(vs_path, agg_paths) {
   valuetext_df <- extract_section(vs_lines, '[Valuetext]')
 
   if (is.null(valuetext_df)) {
-    vs_df <- dplyr::select(valuecode_df, -id)
+    vs_df <- dplyr::select(valuecode_df, -"id")
   } else {
     if (nrow(valuecode_df) != nrow(valuetext_df)) {
       warning(paste0("[Valuecode] and [Valuetext] in '", basename(vs_path),
@@ -194,7 +194,7 @@ px_classification_from_path <- function(vs_path, agg_paths) {
 
     vs_df <-
       dplyr::left_join(valuecode_df, valuetext_df, by = "id") %>%
-      dplyr::select(-id) %>%
+      dplyr::select(-"id") %>%
       dplyr::mutate(across(everything(), ~ dplyr::na_if(.x, "")))
   }
 
@@ -380,7 +380,7 @@ write_value_set <- function(c, directory) {
 
   aggregation_df <-
     c$df %>%
-    dplyr::select(-valuecode, -valuetext)
+    dplyr::select(-"valuecode", -"valuetext")
 
   if (ncol(aggregation_df) == 0) {
     aggregation_text <- ''
@@ -451,7 +451,7 @@ write_aggregation <- function(aggregation, c, directory) {
 
   agg_texts <-
     c$df %>%
-    dplyr::distinct(valuecode, !!rlang::sym(aggregation)) %>%
+    dplyr::distinct(.data$valuecode, !!rlang::sym(aggregation)) %>%
     dplyr::arrange(as.character(!!rlang::sym(aggregation))) %>%
     tidyr::pivot_wider(names_from = all_of(aggregation),
                        values_from  = "valuecode",
@@ -464,7 +464,7 @@ write_aggregation <- function(aggregation, c, directory) {
                                       "{paste(enumerate_lines(value), collapse = '\n')}"
                     )
     ) %>%
-    dplyr::pull(str) %>%
+    dplyr::pull("str") %>%
     paste0(collapse = paste0("\n", blank_line(), "\n"))
 
   agg_lines <-
@@ -510,7 +510,7 @@ px_save_classification <- function(c, path) {
 
   aggregations <-
     c$df %>%
-    dplyr::select(-valuecode, -valuetext) %>%
+    dplyr::select(-"valuecode", -"valuetext") %>%
     names()
 
   purrr::walk(aggregations, write_aggregation, c = c, directory = path)

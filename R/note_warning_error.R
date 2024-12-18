@@ -195,13 +195,13 @@ error_if_misplaced_keywords_in_table <- function(x, table_name) {
   if (table_name == "table1") {
     other_keywords <-
       px_keywords %>%
-      dplyr::filter(! (table_meta & !language_dependent)) %>%
-      dplyr::pull(keyword)
+      dplyr::filter(! (.data$table_meta & !.data$language_dependent)) %>%
+      dplyr::pull(.data$keyword)
   } else if (table_name == "table2") {
     other_keywords <-
       px_keywords %>%
-      dplyr::filter(! (table_meta & language_dependent)) %>%
-      dplyr::pull(keyword)
+      dplyr::filter(! (.data$table_meta & .data$language_dependent)) %>%
+      dplyr::pull(.data$keyword)
   } else {
     unexpected_error()
   }
@@ -359,7 +359,7 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
 #' @return Nothing
 #' @keywords internal
 validate_px_micro_arguments <- function(x, out_dir) {
-  if (class(x) != "px") {
+  if (! inherits(x, "px")) {
     error("Argument 'x' must be a px object.")
   }
 

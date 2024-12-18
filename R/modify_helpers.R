@@ -122,7 +122,7 @@ get_cells_name <- function(number) {
 
 modify_cells <- function(x, number, column, value) {
   if ('values' %in% names(value)) {
-    value <- dplyr::rename(value, value = values)
+    value <- dplyr::rename(value, "value" = "values")
   }
 
   x[[get_cells_name(number)]] <-
@@ -187,10 +187,10 @@ get_table1_value <- function(x, keyword) {
 get_table2_value <- function(x, keyword) {
   value <-
     x$table2 %>%
-    dplyr::filter(keyword == !!keyword) %>%
-    dplyr::select(code, language, value) %>%
+    dplyr::filter(.data$keyword == !!keyword) %>%
+    dplyr::select("code", "language", "value") %>%
     { if (length(unique(.$code)) == 1) {
-      dplyr::select(., -code)
+      dplyr::select(., -"code")
     } else {
       .
     }}
@@ -221,7 +221,7 @@ get_cells_value <- function(x, number, column) {
 get_variable1_value <- function(x, column) {
   value <-
     x$variables1 %>%
-    dplyr::select(`variable-code`, !!column) %>%
+    dplyr::select("variable-code", !!column) %>%
     tidyr::drop_na(!!column)
 
   if (nrow(value) == 0) {
@@ -234,8 +234,8 @@ get_variable1_value <- function(x, column) {
 get_variable1_logic_value <- function(x, column) {
   value <-
     x$variables1 %>%
-    dplyr::filter(get(column) == TRUE) %>%
-    dplyr::pull(`variable-code`)
+    dplyr::filter(.data[[column]] == TRUE) %>%
+    dplyr::pull("variable-code")
 
   if (length(value) == 0) {
     return(NULL)
@@ -247,8 +247,8 @@ get_variable1_logic_value <- function(x, column) {
 get_variables2_value <- function(x, column) {
   value <-
     x$variables2 %>%
-    dplyr::select(`variable-code`, language, !!column) %>%
-    tidyr::drop_na(!!column)
+    dplyr::select("variable-code", "language", all_of(column)) %>%
+    tidyr::drop_na(all_of(column))
 
   if (nrow(value) == 0) {
     return(NULL)
@@ -256,7 +256,7 @@ get_variables2_value <- function(x, column) {
     return(unique(x$variables2[[column]]))
   } else {
     if (length(defined_languages(x)) == 1) {
-      return(dplyr::select(value, -language))
+      return(dplyr::select(value, -"language"))
     } else {
       return(value)
     }
@@ -278,7 +278,7 @@ get_acrosscells_value <- function(x, keyword) {
   if (nrow(value) == 0) {
     return(NULL)
   } else if (length(defined_languages(x)) == 1) {
-    return(dplyr::select(value, -language))
+    return(dplyr::select(value, -"language"))
   } else {
     return(value)
   }

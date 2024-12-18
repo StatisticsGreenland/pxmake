@@ -26,7 +26,7 @@ defined_languages <- function(x) {
 modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
   add_languages <- setdiff(new_languages, df$language)
 
-  keep <- dplyr::filter(df, language %in% new_languages)
+  keep <- dplyr::filter(df, .data$language %in% new_languages)
 
   new  <-
     df %>%

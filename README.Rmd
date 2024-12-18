@@ -35,11 +35,15 @@ With pxmake you can:
 Install the latest version by running:
 
 ``` r
-# install.packages('devtools')
-devtools::install_github('StatisticsGreenland/pxmake')
+# Install latest release from CRAN
+install.packages('pxmake')
+
+# Or the development version from GitHub
+# install.packages('pak')
+pak::pak("StatisticsGreenland/pxmake")
 ```
 
-pxmake is not available on CRAN.
+or 
 
 ## How to use
 

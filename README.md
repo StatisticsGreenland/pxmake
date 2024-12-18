@@ -12,13 +12,12 @@ coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/bad
 
 ## Overview
 
-‘pxmake’ is an R package making PX-files.
+‘pxmake’ is an R package for creating and modifying PX-files.
 
 With pxmake you can:
 
 - Import a PX-file, modify it, and save it as a new PX-file.
-- Modify all metadata in a PX-file, with [modifying
-  functions](#modifying-functions) named after the PX keywords.
+- Modify all metadata keywords in a PX-file.
 - Do complex modifications to a PX-file, like adding total levels to a
   variable.
 - Save a PX-file as an Excel workbook.

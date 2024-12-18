@@ -1,5 +1,5 @@
 Package: pxmake
-Title: Create PX-files
+Title: Create and modify PX-files in R
 Version: 0.12.1.9006
 Authors@R: c(
              person("Johan", "Ejstrud", 
@@ -15,7 +15,9 @@ Authors@R: c(
                     comment =  c(URL = "https://stat.gl/")
                     )
             )
-Description: Create and modify PX-files in R.
+Description: Create PX-files from scratch or read and modify existing ones. 
+    Includes a function for every PX keyword, making metadata manipulation
+    simple and human-readable.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

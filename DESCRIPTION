@@ -53,3 +53,4 @@ Depends:
     R (>= 3.5.0)
 LazyData: true
 URL: https://github.com/StatisticsGreenland/pxmake, https://statisticsgreenland.github.io/pxmake/
+BugReports: https://github.com/StatisticsGreenland/pxmake/issues

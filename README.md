@@ -24,18 +24,14 @@ With pxmake you can:
 
 ## Installation
 
-Install the latest version by running:
-
 ``` r
-# Install latest release from CRAN
+# Install the latest release from CRAN
 install.packages('pxmake')
 
 # Or the development version from GitHub
 # install.packages('pak')
 pak::pak("StatisticsGreenland/pxmake")
 ```
-
-or
 
 ## How to use
 

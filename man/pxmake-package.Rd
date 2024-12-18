@@ -5,17 +5,18 @@
 \alias{pxmake}
 \alias{pxmake-package}
 \alias{pxmake-package.R}
-\title{pxmake: Create PX-files}
+\title{pxmake: Create and modify PX-files in R}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Create and modify PX-files in R.
+Create PX-files from scratch or read and modify existing ones. Includes a function for every PX keyword, making metadata manipulation simple and human-readable.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/StatisticsGreenland/pxmake}
   \item \url{https://statisticsgreenland.github.io/pxmake/}
+  \item Report bugs at \url{https://github.com/StatisticsGreenland/pxmake/issues}
 }
 
 }

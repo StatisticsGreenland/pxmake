@@ -12,13 +12,14 @@ px_save_classification(c, path)
 \item{path}{Directory to save the files in}
 }
 \value{
-Nothing
+Nothing.
 }
 \description{
 Save a classification object as .vs and .agg files. The .vs file contains
 the value set and the .agg files contain the aggregations.
 }
 \examples{
+# Save classification as .vs as .agg files
 c <- px_classification(name = "Age5",
                        prestext = "Ages 0-9 - 60+",
                        domain = "age",

@@ -6,7 +6,7 @@
 #' @param variable Name of variable to add total level to.
 #' @param level_name Total level name.
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 add_total_level_to_var <- function(df,
                                    variable,
@@ -19,7 +19,7 @@ add_total_level_to_var <- function(df,
 
   df %>%
     dplyr::group_by(across(-any_of(c(variable, sum_var)))) %>%
-    dplyr::summarise({{sum_var}} := sum(!!rlang::sym(sum_var), na.rm = !!na.rm)) %>%
+    dplyr::summarise(!!sum_var := sum(!!rlang::sym(sum_var), na.rm = !!na.rm)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate({{variable}} := level_name) %>%
     dplyr::bind_rows(df) %>%
@@ -79,7 +79,7 @@ px_add_totals <- function(x, value, na.rm = TRUE, validate) {
 #' @param na.rm Optional. Logical. If TRUE, NAs are removed before summing.
 #' @eval param_validate()
 #'
-#' @return A px object
+#' @returns A px object
 #'
 #' @seealso [px_elimination]
 #'
@@ -108,18 +108,18 @@ px_add_totals <- function(x, value, na.rm = TRUE, validate) {
 px_add_totals.px <- function(x, value, na.rm = TRUE, validate = TRUE) {
   params <-
     x$variables2 %>%
-    dplyr::left_join(dplyr::select(x$cells2, `variable-code`, code, value),
+    dplyr::left_join(dplyr::select(x$cells2, "variable-code", "code", "value"),
                      by = c("variable-code", "elimination" = "value"),
                      multiple = "all"
                      ) %>%
-    dplyr::filter(`variable-code` %in% value) %>%
-    dplyr::mutate(code = ifelse(is.na(code),
-                                elimination,
-                                code
+    dplyr::filter(.data$`variable-code` %in% value) %>%
+    dplyr::mutate(code = ifelse(is.na(.data$code),
+                                .data$elimination,
+                                .data$code
                                 ),
-                  code = ifelse(is.na(code), "Total", code)
+                  code = ifelse(is.na(.data$code), "Total", .data$code)
                   ) %>%
-    dplyr::distinct(`variable-code`, code)
+    dplyr::distinct(.data$`variable-code`, .data$code)
 
   x$data <-
     add_totals_to_df(x$data,

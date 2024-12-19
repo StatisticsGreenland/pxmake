@@ -87,7 +87,21 @@ add_documentation_acrosscells <- function(keyword) {
     .sep = "\n"
   ) %>%
     split_multiline_str_into_vector()
+}
 
+add_documentation_note <- function(keyword) {
+  stringr::str_glue(
+    doc_keyword_function_intro(keyword),
+    "@param value {note_param_value(keyword)}",
+    "@details {keyword} has a lot of possible ways to specify `value`, because ",
+    "it can be set both for the entire PX-file and for individual variables.",
+    param_validate(),
+    return_px_char_df_or_list(),
+    note_example(keyword),
+    "@export",
+    .sep = "\n"
+  ) %>%
+    split_multiline_str_into_vector()
 }
 
 doc_keyword_function_intro <- function(keyword) {
@@ -102,7 +116,7 @@ doc_keyword_function_intro <- function(keyword) {
   url <-
     px_keywords %>%
     dplyr::filter(keyword == !!keyword) %>%
-    dplyr::pull(documentation)
+    dplyr::pull(.data$documentation)
 
   if (length(url) == 1) {
     str <-
@@ -345,6 +359,50 @@ acrosscells_example <- function(keyword) {
 
 add_acrosscells_example <- add_documentation_function(acrosscells_example)
 
+note_example <- function(keyword) {
+  px_function <- keyword_to_function(keyword)
+
+  stringr::str_glue(
+    "@examples",
+    "library(tibble)",
+    "",
+    "# Set {keyword} for entire PX-file",
+    "x1 <-",
+    "  px(population_gl) |>",
+    "  {px_function}('Note about PX-file')",
+    "",
+    "# Print {keyword}",
+    "{px_function}(x1)",
+    "",
+    "# Set {keyword} for entire PX-file in multiple languages",
+    "x2 <-",
+    "  x1 |>",
+    "  px_languages(c('en', 'kl')) |>",
+    "  {px_function}(tribble(~language,            ~value,",
+    "                       'en',    'English {tolower(keyword)}',",
+    "                       'kl', 'Kalaallisut {tolower(keyword)}'",
+    "                 )",
+    "         )",
+    "{px_function}(x2)",
+    "",
+    "# Set {keyword} for variables",
+    "x3 <-",
+    "  x1 |>",
+    "  {px_function}(tribble(~`variable-code`, ~{tolower(keyword)},",
+    "                 'year', 'Some data collected in following year',",
+    "                 'age',  'Is rounded down'",
+    "                 )",
+    "        )",
+    "{px_function}(x3)",
+    "",
+    "# Remove all {keyword}s",
+    "x4 <- {px_function}(x3, NULL)",
+    .sep = "\n"
+  )
+}
+
+add_note_example <- add_documentation_function(note_example)
+
 param_validate <- function() {
   stringr::str_glue(
     "@param validate Optional. If TRUE a number of validation checks are performed ",
@@ -430,12 +488,6 @@ acrosscells_param_value <- function(keyword) {
   )
 }
 
-note_description <- function(keyword) {
-  stringr::str_glue("{description_start(keyword)}. {keyword} can be set for the ",
-                    "entire table or for a specific variable."
-                    )
-}
-
 note_param_value <- function(keyword) {
   colname <- tolower(keyword)
   stringr::str_glue(
@@ -468,22 +520,29 @@ pivot_param_value <- function(keyword) {
 }
 
 return_px_or_df <- function(keyword=NULL) {
-  "@return A px object or data frame."
+  "@returns A px object or data frame."
 }
 
 add_return_px_or_df <- add_documentation_function(return_px_or_df)
 
 return_px_or_char_str <- function(keyword=NULL) {
-  "@return A px object or a character string."
+  "@returns A px object or a character string."
 }
 
 add_return_px_or_char_str <- add_documentation_function(return_px_or_char_str)
 
 return_px_or_char_vector <- function() {
-  "@return A px object or a character vector."
+  "@returns A px object or a character vector."
 }
+
 return_px_or_char_vector_or_df <- function() {
-  "@return A px object, a character string, or a data frame."
+  "@returns A px object, a character string, or a data frame."
+}
+
+return_px_char_df_or_list <- function() {
+  paste0("@returns A px object, a character string, a data frame, or a list of ",
+         "character strings and/or data frames."
+         )
 }
 
 

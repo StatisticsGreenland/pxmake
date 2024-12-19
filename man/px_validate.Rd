@@ -2,7 +2,7 @@
 % Please edit documentation in R/px.R
 \name{px_validate}
 \alias{px_validate}
-\title{Validate px object}
+\title{Check px object}
 \usage{
 px_validate(x)
 }
@@ -22,12 +22,11 @@ checks are time consuming. Instead of validating on every modifying function
 \code{px_validate()} can be run as the final step to validate the object.
 }
 \examples{
-# Turn of validation for modifying functions, and manually
+# Turn off validation for modifying functions, and manually
 # run validation as final step in creating px object.
 x1 <-
   px(population_gl, validate = FALSE) |>
   px_title("Test", validate = FALSE) |>
   px_validate()
 
-px_save(x1, 'validated.px')
 }

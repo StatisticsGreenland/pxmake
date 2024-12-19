@@ -7,7 +7,7 @@
 get_timeval_type_from_values(values)
 }
 \arguments{
-\item{values}{Values form px file}
+\item{values}{Values form PX-file}
 }
 \value{
 A character vector

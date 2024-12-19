@@ -4,7 +4,7 @@
 #'
 #' @param msg String, error message
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 error <- function(msg) {
   stop(msg, call. = FALSE)
@@ -44,7 +44,7 @@ error_if_not_exactly_one_figures_variable <- function(figures_var) {
 error_if_not_exactly_one_data_line <- function(data_line_index) {
   if(length(data_line_index) != 1) {
     error(stringr::str_glue("There are {length(data_line_index)} lines in the ",
-                            "px file like this: 'DATA='. There needs to be ",
+                            "PX-file like this: 'DATA='. There needs to be ",
                             "exactly 1."
                             )
          )
@@ -195,13 +195,13 @@ error_if_misplaced_keywords_in_table <- function(x, table_name) {
   if (table_name == "table1") {
     other_keywords <-
       px_keywords %>%
-      dplyr::filter(! (table_meta & !language_dependent)) %>%
-      dplyr::pull(keyword)
+      dplyr::filter(! (.data$table_meta & !.data$language_dependent)) %>%
+      dplyr::pull(.data$keyword)
   } else if (table_name == "table2") {
     other_keywords <-
       px_keywords %>%
-      dplyr::filter(! (table_meta & language_dependent)) %>%
-      dplyr::pull(keyword)
+      dplyr::filter(! (.data$table_meta & .data$language_dependent)) %>%
+      dplyr::pull(.data$keyword)
   } else {
     unexpected_error()
   }
@@ -284,7 +284,7 @@ error_if_value_contains_quotation_marks <- function(x) {
 #'
 #' @inheritParams px
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 validate_px_arguments <- function(input, data) {
   if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input),
@@ -314,7 +314,7 @@ validate_px_arguments <- function(input, data) {
 #'
 #' @inheritParams px_save
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 validate_px_save_arguments <- function(x, path, save_data, data_path) {
   if (! any(is_px_file(path), is_xlsx_file(path))) {
@@ -356,10 +356,10 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
 #'
 #' @inheritParams px_micro
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 validate_px_micro_arguments <- function(x, out_dir) {
-  if (class(x) != "px") {
+  if (! inherits(x, "px")) {
     error("Argument 'x' must be a px object.")
   }
 
@@ -386,7 +386,7 @@ error_if_agument_is_not_character_string <- function(name, value) {
 #'
 #' @inheritParams px_classification
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 validate_px_classification_arguments <- function(name,
                                                  prestext,

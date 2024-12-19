@@ -10,44 +10,44 @@
 coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StatisticsGreenland/pxmake?branch=main)
 <!-- badges: end -->
 
-pxmake is an R package for creating and modifying px files.
+## Overview
+
+‘pxmake’ is an R package for creating and modifying PX-files.
 
 With pxmake you can:
 
-- Import a PC-AXIS px file, modify it, and save it as a new px file.
-- Save a px file as an Excel workbook.
-- Do complex modifications to a px file, like adding total levels to a
+- Import a PX-file, modify it, and save it as a new PX-file.
+- Modify all metadata keywords in a PX-file.
+- Do complex modifications to a PX-file, like adding total levels to a
   variable.
+- Save a PX-file as an Excel workbook.
 
 ## Installation
 
-Install the latest version by running:
-
 ``` r
-# install.packages('devtools')
-devtools::install_github('StatisticsGreenland/pxmake')
-```
+# Install the latest release from CRAN
+install.packages('pxmake')
 
-pxmake is not available on CRAN.
+# Or the development version from GitHub
+# install.packages('pak')
+pak::pak("StatisticsGreenland/pxmake")
+```
 
 ## How to use
 
-Use `px()` and `px_save()` to read/write a px file to a px object.
+*(Find complete documentation on [pxmake
+webpage](https://statisticsgreenland.github.io/pxmake/).)*
+
+Use `px()` to import an existing PX-file into R.
 
 ``` r
 library(pxmake)
 
-# Read px file into a px object
+# Import PX-file
 x <- px(input = "example.px")
-
-class(x)
-#> [1] "px"
-
-# Save px object as a new px file
-px_save(x, path = "example2.px")
 ```
 
-To modify a px object, use pxmake’s *modifying functions*.
+Once imported, use one of pxmake’s *modifying functions*.
 
 In general, modifying functions are named after the keyword they modify.
 It’s possible to chain multiple modifying functions together in
@@ -77,7 +77,7 @@ x %>%
   px_heading("year") %>%  # Set year as HEADING
   px_stub("group") %>%    # Set group as STUB
   px_decimals("2") %>%    # Set DECIMALS to 2
-  px_save("example.px") # Save as px file
+  px_save("example.px") # Save as PX-file
 ```
 
 ### Modifying functions
@@ -212,13 +212,14 @@ via email.
 
 ### PX specification
 
-See the [PX-file format specification on Statistics Swedens
+pxmake is based on the [PX-file format specification on Statistics
+Swedens
 homepage](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf).
 
 ### PxJob
 
 Some tests cases uses
-[PxJob](https://www.stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html).
+[PxJob](https://stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html).
 Install [pxjob64Win](https://github.com/StatisticsGreenland/pxjob64Win)
 to be able ro run these tests. This only works on Windows.
 

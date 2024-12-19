@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{format_time_values}
 \alias{format_time_values}
-\title{Format time values for px file}
+\title{Format time values for PX-file}
 \usage{
 format_time_values(values)
 }
@@ -13,6 +13,6 @@ format_time_values(values)
 A character vector
 }
 \description{
-Format time values for px file
+Format time values for PX-file
 }
 \keyword{internal}

@@ -51,13 +51,13 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
     new_px(languages  = x$languages,
            table1     = x$table1,
            table2     = x$table2,
-           variables1 = dplyr::filter(x$variables1, `variable-code` %in% data_names),
-           variables2 = dplyr::filter(x$variables2, `variable-code` %in% data_names),
-           cells1 = dplyr::filter(x$cells1, `variable-code` %in% data_names) %>%
+           variables1 = dplyr::filter(x$variables1, .data$`variable-code` %in% data_names),
+           variables2 = dplyr::filter(x$variables2, .data$`variable-code` %in% data_names),
+           cells1 = dplyr::filter(x$cells1, .data$`variable-code` %in% data_names) %>%
                           dplyr::anti_join(headings_with_only_na_values_long,
                                            by = c("variable-code", "code")
                                            ),
-           cells2 = dplyr::filter(x$cells2, `variable-code` %in% data_names) %>%
+           cells2 = dplyr::filter(x$cells2, .data$`variable-code` %in% data_names) %>%
                           dplyr::anti_join(headings_with_only_na_values_long,
                                            by = c("variable-code", "code")
                                            ),
@@ -76,7 +76,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
   if (all(! is.null(keyword_values_long), nrow(keyword_values_long) > 0)) {
     extra_keywords <-
       keyword_values_long %>%
-      dplyr::filter(variable %in% micro_var)
+      dplyr::filter(.data$variable %in% micro_var)
 
     keyword_functions <- unique(extra_keywords$keyword_function)
 
@@ -86,9 +86,9 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 
       value <-
         extra_keywords %>%
-        dplyr::filter(keyword_function == fnc) %>%
+        dplyr::filter(.data$keyword_function == fnc) %>%
         { if (language_dependent_keyword & "language" %in% names(.)) {
-          dplyr::distinct(., language, value)
+          dplyr::distinct(., .data$language, .data$value)
         } else {
           dplyr::distinct(., value) %>%
             dplyr::pull(value)
@@ -109,20 +109,20 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
   px_save(x = x_micro, path = file.path(out_dir, filename))
 }
 
-#' Create micro px files
+#' Create micro PX-files
 #'
-#' Split one px object into many small px files (micro files), with count of
+#' Split one px object into many small PX-files (micro files), with count of
 #' the variables in it.
 #'
 #' The HEADING variables are use in all the micro files, and a file is created
-#' for each non-HEADING variable. The new px files are saved in a directory
+#' for each non-HEADING variable. The new PX-files are saved in a directory
 #' specified by `out_dir`.
 #'
 #' The main loop uses the furrr package for parallelisation. Use future::plan()
 #' to choose how to parallelise.
 #'
 #' @param x A px object.
-#' @param out_dir Directory to save px files in.
+#' @param out_dir Directory to save PX-files in.
 #' @param keyword_values Optional. A data frame with column 'variable' and one
 #' or more of: 'px_contents', 'px_title', 'px_description', and 'px_matrix'. The
 #' columns will be added as keywords to the table for each non-HEADING variable
@@ -131,9 +131,22 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 #' Use the column 'filename' to control the filename of each micro file. The
 #' filename path is relative to 'out_dir'.
 #'
-#' Use the column 'language' if the px file has multiple languages.
+#' Use the column 'language' if the PX-file has multiple languages.
 #'
-#' @return Nothing
+#' @returns Nothing
+#'
+#' @examples
+#' # Create px object with cohort as HEADING
+#' x <-
+#'   greenlanders |>
+#'   px() |>
+#'   px_stub(names(greenlanders)) |>
+#'   px_heading("cohort")
+#'
+#' # Create micro files, one for each of the non-HEADING variables (gender, age,
+#' # municipality)
+#' px_micro(x)
+#'
 #' @export
 px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
   validate_px_micro_arguments(x, out_dir)
@@ -147,7 +160,8 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
   if (! is.null(keyword_values)) {
     if ("filename" %in% colnames(keyword_values)) {
       filenames <-
-        dplyr::select(keyword_values, variable, filename) %>%
+        keyword_values %>%
+        dplyr::select("variable", "filename") %>%
         tibble::deframe()
     } else {
       filenames <- NULL
@@ -158,8 +172,8 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
       tidyr::pivot_longer(cols = setdiff(names(.), c("variable", "language")),
                           names_to = "keyword_function"
                           ) %>%
-      tidyr::drop_na(value) %>%
-      dplyr::filter(keyword_function != "filename")
+      tidyr::drop_na("value") %>%
+      dplyr::filter(.data$keyword_function != "filename")
   } else {
     keyword_values_long <- NULL
     filenames <- NULL
@@ -173,5 +187,5 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
                      out_dir = out_dir
                      )
 
-  if (print_out_dir) print(paste("Created px files in:", out_dir))
+  if (print_out_dir) print(paste("Created PX-files in:", out_dir))
 }

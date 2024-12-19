@@ -9,6 +9,22 @@ px_data <- function(x, value, validate) {
 #' If NULL, all data rows are removed.
 #' @eval add_return_px_or_df()
 #' @eval param_validate()
+#'
+#' @details
+#' It is not recommended to change the data table of a px object with this
+#' function, since it does update any metadata.
+#'
+#' @examples
+#' x1 <- px(population_gl)
+#'
+#' # Print data table
+#' px_data(x1)
+#'
+#' # Change data table (risky business)
+#' population_gl_2024 <- subset(population_gl, year == 2024)
+#'
+#' x2 <- px_data(x1, population_gl_2024)
+#'
 #' @export
 px_data.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {

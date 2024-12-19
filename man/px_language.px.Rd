@@ -17,11 +17,29 @@ is returned. If NULL, LANGUAGE is removed.}
 
 \item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
+\value{
+A px object
+}
 \description{
 Inspect or change LANGUAGE.
 }
 \details{
 If LANGUAGES is defined, changing LANGUAGE will also add is to LANGUAGES.
+}
+\examples{
+# Set LANGUAGE to 'en'
+x1 <-
+  population_gl |>
+  px() |>
+  px_language('en')
+
+# Print LANGUAGE
+px_language(x1)
+
+# Remove LANGUAGE
+x2 <- px_language(x1, NULL)
+px_language(x2)
+
 }
 \seealso{
 \code{\link{px_languages}}

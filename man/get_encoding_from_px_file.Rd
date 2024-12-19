@@ -2,12 +2,12 @@
 % Please edit documentation in R/helper_functions.R
 \name{get_encoding_from_px_file}
 \alias{get_encoding_from_px_file}
-\title{Get encoding listed in px file}
+\title{Get encoding listed in PX-file}
 \usage{
 get_encoding_from_px_file(px_path)
 }
 \arguments{
-\item{px_path}{Path to a px file}
+\item{px_path}{Path to a PX-file}
 }
 \value{
 Character

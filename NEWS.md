@@ -11,7 +11,7 @@ and save classifications (value sets and aggregations). (#327)
 STUB/HEADING variables if value is character. (#325)
 - Optimize `px_micro()` by only setting stub once, instead of for all files.
 - Add `na_to_star` option to `px_cellnote()` and `px_cellnotex()`. (#335)
-- Support px-files with cell values that contain closing parentheses. (#337)
+- Support PX-files with cell values that contain closing parentheses. (#337)
 
 # pxmake 0.12.1
 
@@ -23,10 +23,10 @@ mandatory keywords. (#320)
 - Improve implementation and fix bugs in `px_cellnote()` and `px_cellnotex()`. (#289)
 
 ## Bug fixes and minor improvements
-- Keyword UNITS is now placed after CONTVARIABLE and VALUES in the px file. (#308)
+- Keyword UNITS is now placed after CONTVARIABLE and VALUES in the PX-file. (#308)
 - Add default values for mandatory keywords in all languages. (#219)
 - Bugfix `px_language()` stops removing previously defined languages. (#297)
-- Change sorting order of px-file, so variables within keywords are in 
+- Change sorting order of PX-file, so variables within keywords are in 
 stub/heading order instead of alphabetic. (#264)
 - Throw error if any value contains quotation marks ("). (#238)
 - Allow minimal px object to be created even if no input is provided. (#234)
@@ -155,7 +155,7 @@ and very easy to change.
 - Add test coverage badge to README.md.
 - Check that all defined variable-codes are in data.
 - Add check that data columns are defined.
-- In `micromake()` used preserve HEADING variables, and produces px files for
+- In `micromake()` used preserve HEADING variables, and produces PX-files for
 all other variables.
 - Bugfix: `heading()`, `stub()` and `figures()` no longer modify order of 
 other variables. (#225)
@@ -164,7 +164,7 @@ other variables. (#225)
 - Remove 'micro' prefix from filenames created by micromake(). 
 - Bugfix: wrong error message (#243)
 - Bugfix: `last_updated()` modified wrong table.
-- Bugfix: Remove NA values when creating px file (#205).
+- Bugfix: Remove NA values when creating PX-file (#205).
 - Bugfix: `px(input)` can be a path to an `.rds` file.
 
 # pxmake 0.10.0
@@ -178,9 +178,9 @@ package works. `pxmake` and `metamake` are soft deprecated. Use `px()` and `pxsa
 future, to cover all px keywords.
 
 ## Breaking changes
-- The 'rds' version of the px file is completly gone. Neither `pxmake()` nor 
+- The 'rds' version of the PX-file is completly gone. Neither `pxmake()` nor 
 `metamake()` can create them. pxmake() and metamake() can convert between Excel
-and px files, and they return a px object invisibly. `pxmake()` and `metamake()`
+and PX-files, and they return a px object invisibly. `pxmake()` and `metamake()`
 will be deprecated in the future.
 - `make_template()` will be deprecated in the future - `px()` automatically
 creates a metadata template if none is provided.
@@ -196,13 +196,13 @@ modifying functions. All vignettes have been removed.
 
 ## New features
 - Add `make_template` to create a minimial multilingual metadata template. (#186)
-- Add `micromake` to create many small px-files from a large data set. See
+- Add `micromake` to create many small PX-files from a large data set. See
 `vignette(micromake)`. (#176)
 - Support keyword VALUENOTE (#187)
 
 ## Bug fixes and minor improvements
 - Add import of pipe. (Reverses commit #d59866c)
-- Add vignette about creating px file and multilingual px file.
+- Add vignette about creating PX-file and multilingual PX-file.
 - Fix edge case in list mergeing.
 - Use latin1 to default encoding, but add CODEPAGE=utf-8.
 - Set maximum column width in Excel.
@@ -215,8 +215,8 @@ modifying functions. All vignettes have been removed.
 template for the data.
 
 ## Bug fixes and minor improvements
-- Handle px-files with either zero heading variables or zero stub variables. (#95)
-- Fix edge case in list sorting caused by px-files with no codes.
+- Handle PX-files with either zero heading variables or zero stub variables. (#95)
+- Fix edge case in list sorting caused by PX-files with no codes.
 - Use values as codes if no code is given for add_totals variable.
 
 # pxmake 0.8.1
@@ -251,7 +251,7 @@ template for the data.
 
 ## Bug fixes and minor improvements
 - Validate arguments to `pxmake` and `metamake` and give helpful error messages.
-- Support px-files without LANGUAGES keyword. (#143)
+- Support PX-files without LANGUAGES keyword. (#143)
 - Remove dependencies between test and run them in parallel. (#112)
 - Split tests into more files to run them faster in parallel. (#149) 
 - GitHub actions cancels build if a newer commit is pushed.
@@ -295,7 +295,7 @@ Previously this has to be written as `en","da","kl`, but can now be `en,da,kl`.
 ## New features
 
 - Write and read files in encoding defined by keyword CODEPAGE. (#114, #115)
-- Break lines in px-files with values longer than 256 characters. (#113)
+- Break lines in PX-files with values longer than 256 characters. (#113)
 - Support other main languages than English. (#54)
 - Support any language code (previously only supported: en, da, kl, and fo). (#117)
 
@@ -317,7 +317,7 @@ path. (#71)
 
 ## New features
 
-- Add metamake() which creates an Excel metadata workbook from a px-file. This
+- Add metamake() which creates an Excel metadata workbook from a PX-file. This
 is the inverse function of pxmake(). (#68)
 
 ## Bug fixes and minor improvements
@@ -332,7 +332,7 @@ is the inverse function of pxmake(). (#68)
 
 ## New features
 
-- Time values are added correctly the px file.
+- Time values are added correctly the PX-file.
 - If no `source_data_path` is given, `pxmake()` looks for a 'Data' sheet in the metadata and uses that instead.
 - New argument: add_totals. Choose variable(s) to add a total level to.
 

@@ -1,4 +1,4 @@
-test_that("px_micro creates px files correctly", {
+test_that("px_micro creates PX-files correctly", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   expect_that_micro_files_are_correct <- function(x) {
@@ -51,7 +51,7 @@ test_that("px_micro creates px files correctly", {
     expect_that_micro_files_are_correct()
 })
 
-test_that("px_micro creates valid px files", {
+test_that("px_micro creates valid PX-files", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   expect_that_pxjob_runs_without_errors <- function(px) {

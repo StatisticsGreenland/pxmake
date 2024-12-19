@@ -1,8 +1,8 @@
 ---
-title: "First px file"
+title: "First PX-file"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{First px file}
+  %\VignetteIndexEntry{First PX-file}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,9 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-To create your first px file with pxmake, you can either start with an existing px file, or use a data set.
+To create your first PX-file with pxmake, you can either start with an existing PX-file, or use a data set.
 
-## How to create a px file from a data set
+## How to create a PX-file from a data set
 
 All workflows in pxmake, starts the same way: by using the `px()` to create a *px object*. Here we are using the built in dataset `population_gl`.
 
@@ -34,25 +34,25 @@ To create the px object, simply pass the data set to the `px()` function.
 x <- px(population_gl)
 ```
 
-`x` is now a px object. The word *object* just means that the px file is stored in a specific format that all functions in the pxmake package uses.
+`x` is now a px object. The word *object* just means that the PX-file is stored in a specific format that all functions in the pxmake package uses.
 
-Use `px_save()` to save the px object as a px file.
+Use `px_save()` to save the px object as a PX-file.
 
 ```{r}
 px_save(x, "population_gl.px")
 ```
 
-Since we provided no metadata, `px()` added a minimal set of metadata, which is necessary for creating a valid px file.
+Since we provided no metadata, `px()` added a minimal set of metadata, which is necessary for creating a valid PX-file.
 
-The resulting px file can be seen below.
+The resulting PX-file can be seen below.
 
 ```{r, comment="", echo = FALSE}
 readLines('population_gl.px') |> cat(sep = '\n')
 ```
 
-## How to create a px file from a px file
+## How to create a PX-file from a PX-file
 
-If you already have a px file, that you want to manipulate using pxmake, simple pass the path of the file, to the `px()` function.
+If you already have a PX-file, that you want to manipulate using pxmake, simple pass the path of the file, to the `px()` function.
 
 ```{r}
 x2 <- px("population_gl.px")
@@ -65,7 +65,7 @@ Just as with the dataset, `x2` is now a px object and can be saved or modified u
 
 The real fun starts when you start modifying the px object, using one of pxmake many built in functions.
 
-In general, each px keyword has a corresponding function in pxmake. For example, to change the title of the px file, you can use the `px_title()` function.
+In general, each px keyword has a corresponding function in pxmake. For example, to change the title of the PX-file, you can use the `px_title()` function.
 
 ```{r}
 x3 <- px_title(x, "Population in Greenland")
@@ -90,7 +90,7 @@ x3 |>
   px_save("population_gl_modified.px")
 ```
 
-The resulting px file can be seen below.
+The resulting PX-file can be seen below.
 
 ```{r, comment="", echo = FALSE}
 readLines('population_gl_modified.px') |> cat(sep = '\n')

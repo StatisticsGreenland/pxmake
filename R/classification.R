@@ -9,7 +9,7 @@ classification_file_section_heading_regexp <- function() {
 #' @param vec A numeric vector
 #' @param value A numeric value
 #'
-#' @return The smallest value in 'vec' that is larger than 'value'
+#' @returns The smallest value in 'vec' that is larger than 'value'
 #' @keywords internal
 smallest_larger_value <- function(vec, value) {
   min(vec[vec > value])
@@ -59,14 +59,14 @@ extract_section <- function(lines, heading, key = NULL) {
     purrr::map(~ get_section(lines, .x)) %>%
     unlist() %>%
     dplyr::as_tibble() %>%
-    dplyr::mutate(across(value, stringr::str_trim)) %>%
-    dplyr::filter(value != "") %>%
-    tidyr::drop_na(value) %>%
-    tidyr::separate_wider_delim(cols = value, delim = "=", names = c('id', colname))
+    dplyr::mutate(across("value", stringr::str_trim)) %>%
+    dplyr::filter(.data$value != "") %>%
+    tidyr::drop_na("value") %>%
+    tidyr::separate_wider_delim(cols = "value", delim = "=", names = c('id', colname))
 
 
   if (! is.null(key)) {
-     section <- section %>% dplyr::filter(id == key)
+     section <- section %>% dplyr::filter(.data$id == key)
   }
 
   return(section)
@@ -78,7 +78,7 @@ extract_section <- function(lines, heading, key = NULL) {
 #'
 #' @inheritParams px_classification
 #'
-#' @return A classification object
+#' @returns A classification object
 #' @keywords internal
 new_classification <- function(name, prestext, domain, df) {
   if (length(name) == 0 | length(prestext) == 0 | length(domain) == 0) {
@@ -97,9 +97,9 @@ new_classification <- function(name, prestext, domain, df) {
 
 #' Get data set from aggregation file
 #'
-#' @param Path to an aggregation file
+#' @param path to an aggregation file
 #'
-#' @return A data frame with columns 'valuecode' (character) and a second column
+#' @returns A data frame with columns 'valuecode' (character) and a second column
 #' (ordered) named after the aggregation
 #' @keywords internal
 aggregation_df <- function(path) {
@@ -113,7 +113,7 @@ aggregation_df <- function(path) {
 
   aggregation_groups_df <-
     extract_section(agg_lines, '[Aggreg]') %>%
-    dplyr::filter(stringr::str_detect(id, "^\\d+$"))
+    dplyr::filter(stringr::str_detect(.data$id, "^\\d+$"))
 
   aggregation_text_df <- extract_section(agg_lines, '[Aggtext]')
 
@@ -128,7 +128,7 @@ aggregation_df <- function(path) {
 
   aggregation_df <-
     dplyr::left_join(aggregation_groups_df, aggregation_text_df, by = "id") %>%
-    dplyr::select(-id) %>%
+    dplyr::select(-"id") %>%
     dplyr::mutate(across(everything(), ~ dplyr::na_if(.x, "")))
 
   df <- dplyr::tibble(valuecode           = as.character(),
@@ -148,7 +148,7 @@ aggregation_df <- function(path) {
 
       aggregation_values <-
         section %>%
-        dplyr::select(-id) %>%
+        dplyr::select(-"id") %>%
         dplyr::pull(1)
 
       df <-
@@ -172,7 +172,7 @@ aggregation_df <- function(path) {
 #'
 #' @inheritParams px_classification
 #'
-#' @return A classification object
+#' @returns A classification object
 #' @keywords internal
 px_classification_from_path <- function(vs_path, agg_paths) {
   vs_lines  <- readLines_guess_encoding(vs_path)
@@ -183,7 +183,7 @@ px_classification_from_path <- function(vs_path, agg_paths) {
   valuetext_df <- extract_section(vs_lines, '[Valuetext]')
 
   if (is.null(valuetext_df)) {
-    vs_df <- dplyr::select(valuecode_df, -id)
+    vs_df <- dplyr::select(valuecode_df, -"id")
   } else {
     if (nrow(valuecode_df) != nrow(valuetext_df)) {
       warning(paste0("[Valuecode] and [Valuetext] in '", basename(vs_path),
@@ -194,7 +194,7 @@ px_classification_from_path <- function(vs_path, agg_paths) {
 
     vs_df <-
       dplyr::left_join(valuecode_df, valuetext_df, by = "id") %>%
-      dplyr::select(-id) %>%
+      dplyr::select(-"id") %>%
       dplyr::mutate(across(everything(), ~ dplyr::na_if(.x, "")))
   }
 
@@ -241,7 +241,7 @@ px_classification_from_path <- function(vs_path, agg_paths) {
 #'
 #' @inheritParams px_classification
 #'
-#' @return A classification object
+#' @returns A classification object
 #' @keywords internal
 px_classification_from_df <- function(name, prestext, domain, df) {
   character_columns <- intersect(names(df), c("valuecode", "valuetext"))
@@ -268,17 +268,17 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' aggregations. The classification can be saved as .vs and .agg files
 #' (see [px_save_classification()]).
 #'
-#' If a classification is created from a data frame, the arguments 'name' and
-#' 'domain' are required. If a classification is created from .vs and .agg files,
-#' all other arguments should be empty.
+#' If a classification is created from a data frame, the arguments `name` and
+#' `prestext` and `domain` are required. If a classification is created from .vs
+#' and .agg files, all other arguments should be empty.
 #'
-#' Type 'V' value sets are supported. Type 'H' and 'N' value set are
+#' Only type 'V' value sets are supported. Type 'H' and 'N' value sets are
 #' not supported.
 #'
 #' @param name Optional. Name of the classification.
 #' @param prestext Optional. Presentation text.
 #' @param domain Optional. Character vector with domain names. Used to link to
-#' px-file.
+#' PX-file.
 #' @param df Optional. A data frame with required column 'valuecode' and
 #' optional column 'valuetext', if the codes have texts. Each additional column
 #' represents an aggregation. The column name is the name of the aggregation.
@@ -292,7 +292,7 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #'   \item Use character(0) if aggregations from the .vs files should not be
 #'   added automatically.
 #' }
-#' @return A classification object
+#' @returns A classification object
 #'
 #' @examples
 #' # Create classification from data frame
@@ -357,7 +357,7 @@ px_classification <- function(name, prestext, domain, df, vs_path, agg_paths) {
 #'
 #' @param lines A character vector
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 enumerate_lines <- function(lines) {
   stringr::str_glue("{seq_along(lines)}={lines}") %>%
@@ -373,14 +373,14 @@ blank_line <- function() " "
 #' @param c A classification object
 #' @param directory Directory to save the file in
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 write_value_set <- function(c, directory) {
   filename <- file.path(directory, paste0(c$name, ".vs"))
 
   aggregation_df <-
     c$df %>%
-    dplyr::select(-valuecode, -valuetext)
+    dplyr::select(-"valuecode", -"valuetext")
 
   if (ncol(aggregation_df) == 0) {
     aggregation_text <- ''
@@ -442,7 +442,7 @@ write_value_set <- function(c, directory) {
 #' @param c A classification object
 #' @param directory Directory to save the file in
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 write_aggregation <- function(aggregation, c, directory) {
   filename <- file.path(directory, paste0(aggregation, ".agg"))
@@ -451,7 +451,7 @@ write_aggregation <- function(aggregation, c, directory) {
 
   agg_texts <-
     c$df %>%
-    dplyr::distinct(valuecode, !!rlang::sym(aggregation)) %>%
+    dplyr::distinct(.data$valuecode, !!rlang::sym(aggregation)) %>%
     dplyr::arrange(as.character(!!rlang::sym(aggregation))) %>%
     tidyr::pivot_wider(names_from = all_of(aggregation),
                        values_from  = "valuecode",
@@ -464,7 +464,7 @@ write_aggregation <- function(aggregation, c, directory) {
                                       "{paste(enumerate_lines(value), collapse = '\n')}"
                     )
     ) %>%
-    dplyr::pull(str) %>%
+    dplyr::pull("str") %>%
     paste0(collapse = paste0("\n", blank_line(), "\n"))
 
   agg_lines <-
@@ -494,9 +494,10 @@ write_aggregation <- function(aggregation, c, directory) {
 #' @param c A classification object
 #' @param path Directory to save the files in
 #'
-#' @returns Nothing
+#' @returns Nothing.
 #'
 #' @examples
+#' # Save classification as .vs as .agg files
 #' c <- px_classification(name = "Age5",
 #'                        prestext = "Ages 0-9 - 60+",
 #'                        domain = "age",
@@ -510,7 +511,7 @@ px_save_classification <- function(c, path) {
 
   aggregations <-
     c$df %>%
-    dplyr::select(-valuecode, -valuetext) %>%
+    dplyr::select(-"valuecode", -"valuetext") %>%
     names()
 
   purrr::walk(aggregations, write_aggregation, c = c, directory = path)

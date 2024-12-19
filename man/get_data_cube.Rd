@@ -2,7 +2,7 @@
 % Please edit documentation in R/px_file.R
 \name{get_data_cube}
 \alias{get_data_cube}
-\title{Get data cube used in px file format}
+\title{Get data cube used in PX-file format}
 \usage{
 get_data_cube(metadata_df, data_df)
 }
@@ -15,6 +15,6 @@ get_data_cube(metadata_df, data_df)
 A data frame
 }
 \description{
-Get data cube used in px file format
+Get data cube used in PX-file format
 }
 \keyword{internal}

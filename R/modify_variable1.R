@@ -2,10 +2,10 @@
 #'
 #' @param x A px object
 #' @param pivot Pivot type (STUB, HEADING, FIGURES)
-#' @param variables A character vector of variable codes to change to the pivot
+#' @param value A character vector of variable codes to change to the pivot
 #' type
 #'
-#' @return A px object
+#' @returns A px object
 #' @keywords internal
 change_pivot_variables <- function(x, value, pivot) {
   old_pivot_variables <- get_pivot_variables(x, pivot)
@@ -24,9 +24,13 @@ change_pivot_variables <- function(x, value, pivot) {
                       new_value = pivot
                       ) %>%
     dplyr::left_join(order_df, by = "variable-code") %>%
-    dplyr::mutate(order = ifelse(toupper(pivot) == !!pivot, order.y, order.x)) %>%
-    dplyr::select(-order.y, -order.x) %>%
-    dplyr::arrange(desc(pivot), order) %>%
+    dplyr::mutate(order = ifelse(toupper(pivot) == !!pivot,
+                                 .data$order.y,
+                                 .data$order.x
+                                 )
+                  ) %>%
+    dplyr::select(-all_of(c("order.y", "order.x"))) %>%
+    dplyr::arrange(desc("pivot"), "order") %>%
     align_data_frames(get_base_variables1())
 
   new_acrosscells_base <- get_base_acrosscells(c(px_stub(x), px_heading(x)))
@@ -44,13 +48,13 @@ change_pivot_variables <- function(x, value, pivot) {
 #' @param x A px object
 #' @param pivot A string, either "STUB", "HEADING" or "FIGURES"
 #'
-#' @return A character vector of variable codes
+#' @returns A character vector of variable codes
 #' @keywords internal
 get_pivot_variables <- function(x, pivot) {
   x$variables1 %>%
-    dplyr::filter(toupper(pivot) == !!pivot) %>%
-    dplyr::arrange(order, `variable-code`) %>%
-    dplyr::pull(`variable-code`)
+    dplyr::filter(toupper(.data$pivot) == !!pivot) %>%
+    dplyr::arrange(.data$order, .data$`variable-code`) %>%
+    dplyr::pull("variable-code")
 }
 
 #' @rdname px_stub.px
@@ -125,7 +129,7 @@ px_figures <- function(x, value, validate) {
 #' current PX_FIGURES variable is returned.
 #' @eval param_validate()
 #'
-#' @return A px object or a character string
+#' @returns A px object or a character string
 #'
 #' @seealso \code{\link{px_stub}} \code{\link{px_heading}}
 #'
@@ -155,11 +159,11 @@ px_figures.px <- function(x, value, validate = TRUE) {
 
   x$cells1 <-
     x$cells1 %>%
-    dplyr::filter(!`variable-code` %in% !!value)
+    dplyr::filter(!.data$`variable-code` %in% !!value)
 
   x$cells2 <-
     x$cells2 %>%
-    dplyr::filter(!`variable-code` %in% !!value)
+    dplyr::filter(!.data$`variable-code` %in% !!value)
 
   return_px(x, validate)
 }
@@ -226,21 +230,21 @@ px_contvariable.px <- function(x, value, validate = TRUE) {
 
     previously_indexed_by_contvariable <-
      x$table2 %>%
-     dplyr::filter(keyword %in% keywords_indexed_by_contvariable()) %>%
-     dplyr::group_by(keyword, language) %>%
+     dplyr::filter(.data$keyword %in% keywords_indexed_by_contvariable()) %>%
+     dplyr::group_by(.data$keyword, .data$language) %>%
      dplyr::slice(1)
 
     x$table2 <-
       x$table2 %>%
-      dplyr::filter(! keyword %in% keywords_indexed_by_contvariable()) %>%
+      dplyr::filter(! .data$keyword %in% keywords_indexed_by_contvariable()) %>%
       dplyr::bind_rows(previously_indexed_by_contvariable) %>%
       dplyr::mutate(code = NA_character_)
   } else {
     x$variables1$contvariable <- FALSE
 
     x <- modify_variables1(x, "contvariable",
-                           dplyr::tibble(`variable-code` = value,
-                                         contvariable = TRUE
+                           dplyr::tibble("variable-code" = value,
+                                         "contvariable" = TRUE
                                          )
                            )
 
@@ -249,13 +253,13 @@ px_contvariable.px <- function(x, value, validate = TRUE) {
 
     indexed_by_contvariable <-
       x$table2 %>%
-      dplyr::filter(keyword %in% keywords_indexed_by_contvariable()) %>%
-      dplyr::select(-code) %>%
+      dplyr::filter(.data$keyword %in% keywords_indexed_by_contvariable()) %>%
+      dplyr::select(-"code") %>%
       tidyr::crossing(code = contvariable_codes)
 
     x$table2 <-
       x$table2 %>%
-      dplyr::filter(! keyword %in% keywords_indexed_by_contvariable()) %>%
+      dplyr::filter(! .data$keyword %in% keywords_indexed_by_contvariable()) %>%
       dplyr::bind_rows(indexed_by_contvariable)
   }
 
@@ -270,11 +274,26 @@ px_variable_type <- function(x, value, validate) {
 }
 
 #' @eval add_doc_keyword_function_intro("VARIABLE-TYPE")
-#' @param value A data frame with columns 'variable-code' and 'type'. If value
-#' is missing, the current VARIABLE-TYPE is returned. If NULL, all
+#' @param value A data frame with columns 'variable-code' and 'variable-type'.
+#' If value is missing, the current VARIABLE-TYPE is returned. If NULL, all
 #' VARIABLE-TYPE is removed.
 #' @eval param_validate()
 #' @eval add_return_px_or_df()
+#' @examples
+#' library(tibble)
+#'
+#' # Set VARIABLE-TYPE
+#' x1 <-
+#'   px(population_gl) |>
+#'   px_variable_type(tibble('variable-code' = 'year', 'variable-type' = 'time'))
+#'
+#' # Print VARIABLE-TYPE
+#' px_variable_type(x1)
+#'
+#' # Remove VARIABLE-TYPE
+#' x2 <- px_variable_type(x1, NULL)
+#' px_variable_type(x2)
+#'
 #' @export
 px_variable_type.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {

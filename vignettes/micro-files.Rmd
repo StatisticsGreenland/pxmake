@@ -20,17 +20,17 @@ knitr::opts_chunk$set(
 
 `px_micro()` exists to support a specific use case for [Statistics Greenland](https://stat.gl/default.asp?lang=en). 
 
-They use it to create small px files to showcase and present metadata from a lager data set which cannot be made publicly available. See an example on [Statistic Greenland's microdata for Research and Analysis](https://bank.stat.gl/pxweb/en/GSmicro/).
+They use it to create small PX-files to showcase and present metadata from a lager data set which cannot be made publicly available. See an example on [Statistic Greenland's microdata for Research and Analysis](https://bank.stat.gl/pxweb/en/GSmicro/).
 
 ## `px_micro()`
 
-Apart from `px_save()`, `px_micro()` is the only other function that can save px objects as px files.
+Apart from `px_save()`, `px_micro()` is the only other function that can save px objects as PX-files.
 
-`px_micro()` turns a px object into many smaller px files, each containing a subset of the variables in the original px object.
+`px_micro()` turns a px object into many smaller PX-files, each containing a subset of the variables in the original px object.
 
 ## Input data
 
-The basis of micro files are usually a data set which doesn't have a count variable (like most px files). `px_micro()` will instead create a count of each individual variable.
+The basis of micro files are usually a data set which doesn't have a count variable (like most PX-files). `px_micro()` will instead create a count of each individual variable.
 
 In this example we will use the built-in data  data set `greenlanders`.
 
@@ -61,12 +61,12 @@ dir.create(micro_dir)
 # Write micro files to folder
 px_micro(x, out_dir = micro_dir)
 ```
-The folder now contains three px files, one for each variable except 'age'.
+The folder now contains three PX-files, one for each variable except 'age'.
 ```{r}
 list.files(micro_dir)
 ```
 
-The reason 'age' didn't get a px file is because it is the HEADING variable in `x`, and `px_micro()` creates a file for each non-HEADING variable. Instead the HEADNING variable is used in all the created px files.
+The reason 'age' didn't get a PX-file is because it is the HEADING variable in `x`, and `px_micro()` creates a file for each non-HEADING variable. Instead the HEADNING variable is used in all the created PX-files.
 
 ```{r}
 # Print HEADING variables
@@ -76,7 +76,7 @@ px_heading(x)
 c(px_stub(x), px_figures(x))
 ```
 
-In this case, we want 'cohort' to be heading, and to create a px file for 'gender', 'age' and 'municipality'.
+In this case, we want 'cohort' to be heading, and to create a PX-file for 'gender', 'age' and 'municipality'.
 
 ```{r}
 x2 <-

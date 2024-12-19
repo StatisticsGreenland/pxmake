@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>First px file • pxmake</title>
+<title>First PX-file • pxmake</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="First px file">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="First PX-file">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,11 +33,9 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/first-px-file.html">First px file</a></li>
+<li><a class="dropdown-item" href="../articles/first-px-file.html">First PX-file</a></li>
     <li><a class="dropdown-item" href="../articles/languages.html">Languages</a></li>
     <li><a class="dropdown-item" href="../articles/micro-files.html">Micro files</a></li>
-    <li><a class="dropdown-item" href="../articles/register_based_statistics.html">Register based statistics</a></li>
-    <li><a class="dropdown-item" href="../articles/statistics_greenland.html">Statistics Greenland</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -59,7 +57,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>First px file</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>First PX-file</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/StatisticsGreenland/pxmake/blob/main/vignettes/first-px-file.Rmd" class="external-link"><code>vignettes/first-px-file.Rmd</code></a></small>
@@ -68,44 +66,48 @@
 
     
     
-<p>To create your first px file with pxmake, you can either start with
-an existing px file, or use a data set.</p>
+<p>To create your first PX-file with pxmake, you can either start with
+an existing PX-file, or use a data set.</p>
 <div class="section level2">
-<h2 id="how-to-create-a-px-file-from-a-data-set">How to create a px file from a data set<a class="anchor" aria-label="anchor" href="#how-to-create-a-px-file-from-a-data-set"></a>
+<h2 id="how-to-create-a-px-file-from-a-data-set">How to create a PX-file from a data set<a class="anchor" aria-label="anchor" href="#how-to-create-a-px-file-from-a-data-set"></a>
 </h2>
 <p>All workflows in pxmake, starts the same way: by using the
 <code><a href="../reference/px.html">px()</a></code> to create a <em>px object</em>. Here we are using the
 built in dataset <code>population_gl</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/StatisticsGreenland/pxmake" class="external-link">pxmake</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
+<span><span class="co">#&gt;   object 'type_sum.accel' not found</span></span>
 <span></span>
 <span><span class="va">population_gl</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    gender   age year     n</span></span>
-<span><span class="co">#&gt; 1    male   0-6 2004  3237</span></span>
-<span><span class="co">#&gt; 2    male   0-6 2014  2950</span></span>
-<span><span class="co">#&gt; 3    male   0-6 2024  2769</span></span>
-<span><span class="co">#&gt; 4    male  7-16 2004  5085</span></span>
-<span><span class="co">#&gt; 5    male  7-16 2014  4040</span></span>
-<span><span class="co">#&gt; 6    male  7-16 2024  3865</span></span>
-<span><span class="co">#&gt; 7    male 17-24 2004  3191</span></span>
-<span><span class="co">#&gt; 8    male 17-24 2014  3614</span></span>
-<span><span class="co">#&gt; 9    male 17-24 2024  2940</span></span>
-<span><span class="co">#&gt; 10   male 25-64 2004 17328</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 4</span></span></span>
+<span><span class="co">#&gt;    gender age   year      n</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> male   0-6   2004   <span style="text-decoration: underline;">3</span>237</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> male   0-6   2014   <span style="text-decoration: underline;">2</span>950</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> male   0-6   2024   <span style="text-decoration: underline;">2</span>769</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> male   7-16  2004   <span style="text-decoration: underline;">5</span>085</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> male   7-16  2014   <span style="text-decoration: underline;">4</span>040</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> male   7-16  2024   <span style="text-decoration: underline;">3</span>865</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> male   17-24 2004   <span style="text-decoration: underline;">3</span>191</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> male   17-24 2014   <span style="text-decoration: underline;">3</span>614</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> male   17-24 2024   <span style="text-decoration: underline;">2</span>940</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> male   25-64 2004  <span style="text-decoration: underline;">17</span>328</span></span></code></pre></div>
 <p>To create the px object, simply pass the data set to the
 <code><a href="../reference/px.html">px()</a></code> function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="va">population_gl</span><span class="op">)</span></span></code></pre></div>
 <p><code>x</code> is now a px object. The word <em>object</em> just
-means that the px file is stored in a specific format that all functions
+means that the PX-file is stored in a specific format that all functions
 in the pxmake package uses.</p>
-<p>Use <code><a href="../reference/px_save.html">px_save()</a></code> to save the px object as a px file.</p>
+<p>Use <code><a href="../reference/px_save.html">px_save()</a></code> to save the px object as a PX-file.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/px_save.html">px_save</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"population_gl.px"</span><span class="op">)</span></span></code></pre></div>
 <p>Since we provided no metadata, <code><a href="../reference/px.html">px()</a></code> added a minimal set
-of metadata, which is necessary for creating a valid px file.</p>
-<p>The resulting px file can be seen below.</p>
+of metadata, which is necessary for creating a valid PX-file.</p>
+<p>The resulting PX-file can be seen below.</p>
 <pre><code>CHARSET="ANSI";
 DECIMALS=0;
 MATRIX="matrix";
@@ -140,9 +142,9 @@ DATA=
 ;</code></pre>
 </div>
 <div class="section level2">
-<h2 id="how-to-create-a-px-file-from-a-px-file">How to create a px file from a px file<a class="anchor" aria-label="anchor" href="#how-to-create-a-px-file-from-a-px-file"></a>
+<h2 id="how-to-create-a-px-file-from-a-px-file">How to create a PX-file from a PX-file<a class="anchor" aria-label="anchor" href="#how-to-create-a-px-file-from-a-px-file"></a>
 </h2>
-<p>If you already have a px file, that you want to manipulate using
+<p>If you already have a PX-file, that you want to manipulate using
 pxmake, simple pass the path of the file, to the <code><a href="../reference/px.html">px()</a></code>
 function.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -156,7 +158,7 @@ be saved or modified using the other functions in pxmake.</p>
 <p>The real fun starts when you start modifying the px object, using one
 of pxmake many built in functions.</p>
 <p>In general, each px keyword has a corresponding function in pxmake.
-For example, to change the title of the px file, you can use the
+For example, to change the title of the PX-file, you can use the
 <code><a href="../reference/px_title.px.html">px_title()</a></code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/px_title.px.html">px_title</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"Population in Greenland"</span><span class="op">)</span></span></code></pre></div>
@@ -176,7 +178,7 @@ the title changed. The original px object is not modified.</p>
 <span>  <span class="fu"><a href="../reference/px_last_updated.px.html">px_last_updated</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y%m%d %H:%M"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/px_stub.px.html">px_stub</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"gender"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Change order of STUB variables</span></span>
 <span>  <span class="fu"><a href="../reference/px_save.html">px_save</a></span><span class="op">(</span><span class="st">"population_gl_modified.px"</span><span class="op">)</span></span></code></pre></div>
-<p>The resulting px file can be seen below.</p>
+<p>The resulting PX-file can be seen below.</p>
 <pre><code>CHARSET="ANSI";
 CODEPAGE="UTF-8";
 DECIMALS=0;
@@ -199,7 +201,7 @@ VARIABLECODE("age")="age";
 VARIABLECODE("gender")="gender";
 VARIABLECODE("year")="year";
 VARIABLECODE("n")="n";
-LAST-UPDATED="20241217 12:00";
+LAST-UPDATED="20241219 14:44";
 CONTACT="Johan Ejstrud";
 NOTE="See information about data: ?population_gl";
 DATA=

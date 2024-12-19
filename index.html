@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Create px files • pxmake</title>
+<title>Make PX-Files in R • pxmake</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Create px files">
-<meta name="description" content="Create and modify px files in R.">
-<meta property="og:description" content="Create and modify px files in R.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Make PX-Files in R">
+<meta name="description" content="Create PX-files from scratch or read and modify existing ones. Includes a function for every PX keyword, making metadata manipulation simple and human-readable.">
+<meta property="og:description" content="Create PX-files from scratch or read and modify existing ones. Includes a function for every PX keyword, making metadata manipulation simple and human-readable.">
 <meta property="og:image" content="https://statisticsgreenland.github.io/pxmake/logo.png">
 </head>
 <body>
@@ -36,11 +36,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/first-px-file.html">First px file</a></li>
+<li><a class="dropdown-item" href="articles/first-px-file.html">First PX-file</a></li>
     <li><a class="dropdown-item" href="articles/languages.html">Languages</a></li>
     <li><a class="dropdown-item" href="articles/micro-files.html">Micro files</a></li>
-    <li><a class="dropdown-item" href="articles/register_based_statistics.html">Register based statistics</a></li>
-    <li><a class="dropdown-item" href="articles/statistics_greenland.html">Statistics Greenland</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -65,38 +63,40 @@
 </div>
 <!-- badges: start -->
 
-<p>pxmake is an R package for creating and modifying px files.</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>‘pxmake’ is an R package for creating and modifying PX-files.</p>
 <p>With pxmake you can:</p>
 <ul>
-<li>Import a PC-AXIS px file, modify it, and save it as a new px file.</li>
-<li>Save a px file as an Excel workbook.</li>
-<li>Do complex modifications to a px file, like adding total levels to a variable.</li>
+<li>Import a PX-file, modify it, and save it as a new PX-file.</li>
+<li>Modify all metadata keywords in a PX-file.</li>
+<li>Do complex modifications to a PX-file, like adding total levels to a variable.</li>
+<li>Save a PX-file as an Excel workbook.</li>
 </ul>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install the latest version by running:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages('devtools')</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'StatisticsGreenland/pxmake'</span><span class="op">)</span></span></code></pre></div>
-<p>pxmake is not available on CRAN.</p>
+<code class="sourceCode R"><span><span class="co"># Install the latest release from CRAN</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'pxmake'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or the development version from GitHub</span></span>
+<span><span class="co"># install.packages('pak')</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"StatisticsGreenland/pxmake"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="how-to-use">How to use<a class="anchor" aria-label="anchor" href="#how-to-use"></a>
 </h2>
-<p>Use <code><a href="reference/px.html">px()</a></code> and <code><a href="reference/px_save.html">px_save()</a></code> to read/write a px file to a px object.</p>
+<p><em>(Find complete documentation on <a href="https://statisticsgreenland.github.io/pxmake/">pxmake webpage</a>.)</em></p>
+<p>Use <code><a href="reference/px.html">px()</a></code> to import an existing PX-file into R.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/StatisticsGreenland/pxmake" class="external-link">pxmake</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Read px file into a px object</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/px.html">px</a></span><span class="op">(</span>input <span class="op">=</span> <span class="st">"example.px"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "px"</span></span>
-<span></span>
-<span><span class="co"># Save px object as a new px file</span></span>
-<span><span class="fu"><a href="reference/px_save.html">px_save</a></span><span class="op">(</span><span class="va">x</span>, path <span class="op">=</span> <span class="st">"example2.px"</span><span class="op">)</span></span></code></pre></div>
-<p>To modify a px object, use pxmake’s <em>modifying functions</em>.</p>
+<span><span class="co"># Import PX-file</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/px.html">px</a></span><span class="op">(</span>input <span class="op">=</span> <span class="st">"example.px"</span><span class="op">)</span></span></code></pre></div>
+<p>Once imported, use one of pxmake’s <em>modifying functions</em>.</p>
 <p>In general, modifying functions are named after the keyword they modify. It’s possible to chain multiple modifying functions together in tidyverse style by using the pipe operator <code>%&gt;%</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span> <span class="co"># import pipe</span></span>
@@ -122,7 +122,7 @@
 <span>  <span class="fu"><a href="reference/px_heading.px.html">px_heading</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>  <span class="co"># Set year as HEADING</span></span>
 <span>  <span class="fu"><a href="reference/px_stub.px.html">px_stub</a></span><span class="op">(</span><span class="st">"group"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>    <span class="co"># Set group as STUB</span></span>
 <span>  <span class="fu"><a href="reference/px_decimals.px.html">px_decimals</a></span><span class="op">(</span><span class="st">"2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>    <span class="co"># Set DECIMALS to 2</span></span>
-<span>  <span class="fu"><a href="reference/px_save.html">px_save</a></span><span class="op">(</span><span class="st">"example.px"</span><span class="op">)</span> <span class="co"># Save as px file</span></span></code></pre></div>
+<span>  <span class="fu"><a href="reference/px_save.html">px_save</a></span><span class="op">(</span><span class="st">"example.px"</span><span class="op">)</span> <span class="co"># Save as PX-file</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="modifying-functions">Modifying functions<a class="anchor" aria-label="anchor" href="#modifying-functions"></a>
 </h3>
@@ -241,12 +241,12 @@ Keywords without modifying functions
 <div class="section level3">
 <h3 id="px-specification">PX specification<a class="anchor" aria-label="anchor" href="#px-specification"></a>
 </h3>
-<p>See the <a href="https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf" class="external-link">PX-file format specification on Statistics Swedens homepage</a>.</p>
+<p>pxmake is based on the <a href="https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf" class="external-link">PX-file format specification on Statistics Swedens homepage</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="pxjob">PxJob<a class="anchor" aria-label="anchor" href="#pxjob"></a>
 </h3>
-<p>Some tests cases uses <a href="https://www.stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html" class="external-link">PxJob</a>. Install <a href="https://github.com/StatisticsGreenland/pxjob64Win" class="external-link">pxjob64Win</a> to be able ro run these tests. This only works on Windows.</p>
+<p>Some tests cases uses <a href="https://stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html" class="external-link">PxJob</a>. Install <a href="https://github.com/StatisticsGreenland/pxjob64Win" class="external-link">pxjob64Win</a> to be able ro run these tests. This only works on Windows.</p>
 </div>
 <div class="section level3">
 <h3 id="how-to-create-a-new-release">How to create a new release<a class="anchor" aria-label="anchor" href="#how-to-create-a-new-release"></a>
@@ -270,6 +270,7 @@ Keywords without modifying functions
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/StatisticsGreenland/pxmake/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/StatisticsGreenland/pxmake/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -292,8 +293,8 @@ Keywords without modifying functions
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Johan Ejstrud <br><small class="roles"> Author </small>  </li>
-<li>Lars Pedersen <br><small class="roles"> Maintainer, author </small>  </li>
+<li>Johan Ejstrud <br><small class="roles"> Maintainer, author </small>  </li>
+<li>Lars Pedersen <br><small class="roles"> Author </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>

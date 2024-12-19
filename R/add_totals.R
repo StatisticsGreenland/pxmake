@@ -6,7 +6,7 @@
 #' @param variable Name of variable to add total level to.
 #' @param level_name Total level name.
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 add_total_level_to_var <- function(df,
                                    variable,
@@ -79,7 +79,7 @@ px_add_totals <- function(x, value, na.rm = TRUE, validate) {
 #' @param na.rm Optional. Logical. If TRUE, NAs are removed before summing.
 #' @eval param_validate()
 #'
-#' @return A px object
+#' @returns A px object
 #'
 #' @seealso [px_elimination]
 #'

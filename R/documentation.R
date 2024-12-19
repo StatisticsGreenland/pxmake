@@ -468,22 +468,22 @@ pivot_param_value <- function(keyword) {
 }
 
 return_px_or_df <- function(keyword=NULL) {
-  "@return A px object or data frame."
+  "@returns A px object or data frame."
 }
 
 add_return_px_or_df <- add_documentation_function(return_px_or_df)
 
 return_px_or_char_str <- function(keyword=NULL) {
-  "@return A px object or a character string."
+  "@returns A px object or a character string."
 }
 
 add_return_px_or_char_str <- add_documentation_function(return_px_or_char_str)
 
 return_px_or_char_vector <- function() {
-  "@return A px object or a character vector."
+  "@returns A px object or a character vector."
 }
 return_px_or_char_vector_or_df <- function() {
-  "@return A px object, a character string, or a data frame."
+  "@returns A px object, a character string, or a data frame."
 }
 
 

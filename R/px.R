@@ -11,7 +11,7 @@
 #' workbook.
 #' @eval param_validate()
 #'
-#' @return A px object
+#' @returns A px object
 #'
 #' @examples
 #' # Create px object from dataset
@@ -77,7 +77,7 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
 #' Use `px_codepage()` to change file encoding.
 #'
 #' @seealso [px_codepage()]
-#' @return Nothing
+#' @returns Nothing
 #' @export
 px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
   validate_px_save_arguments(x, path, save_data, data_path)
@@ -105,7 +105,7 @@ px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
 #' @param acrosscells A data frame with metadata that spans multiple cells.
 #' @param data A data frame with data.
 #'
-#' @return A px object
+#' @returns A px object
 #' @keywords internal
 new_px <- function(languages, table1, table2, variables1, variables2,
                    cells1, cells2, acrosscells, data) {
@@ -127,7 +127,7 @@ new_px <- function(languages, table1, table2, variables1, variables2,
 #'
 #' @param x A px object.
 #'
-#' @return A px object
+#' @returns A px object
 #' @keywords internal
 fix_px <- function(x) {
   undefined_variables <- setdiff(colnames(x$data), x$variables2$`variable-code`)
@@ -162,7 +162,7 @@ fix_px <- function(x) {
 #'
 #' @param x A supposed px object.
 #'
-#' @return A valid px object.
+#' @returns A valid px object.
 #' @examples
 #' # Turn of validation for modifying functions, and manually
 #' # run validation as final step in creating px object.

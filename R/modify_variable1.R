@@ -5,7 +5,7 @@
 #' @param variables A character vector of variable codes to change to the pivot
 #' type
 #'
-#' @return A px object
+#' @returns A px object
 #' @keywords internal
 change_pivot_variables <- function(x, value, pivot) {
   old_pivot_variables <- get_pivot_variables(x, pivot)
@@ -48,7 +48,7 @@ change_pivot_variables <- function(x, value, pivot) {
 #' @param x A px object
 #' @param pivot A string, either "STUB", "HEADING" or "FIGURES"
 #'
-#' @return A character vector of variable codes
+#' @returns A character vector of variable codes
 #' @keywords internal
 get_pivot_variables <- function(x, pivot) {
   x$variables1 %>%
@@ -129,7 +129,7 @@ px_figures <- function(x, value, validate) {
 #' current PX_FIGURES variable is returned.
 #' @eval param_validate()
 #'
-#' @return A px object or a character string
+#' @returns A px object or a character string
 #'
 #' @seealso \code{\link{px_stub}} \code{\link{px_heading}}
 #'

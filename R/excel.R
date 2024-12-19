@@ -8,7 +8,7 @@ excel_sheet_exists <- function(sheet, excel_path) {
 #' @param add_automatically Logical. If TRUE, return an empty data frame if the
 #' sheet does not exist.
 #'
-#' @return A data frame.
+#' @returns A data frame.
 #' @keywords internal
 get_excel_sheet <- function(sheet, add_automatically = FALSE) {
   function(excel_path) {
@@ -36,7 +36,7 @@ get_data_sheet        <- get_excel_sheet("Data", add_automatically = FALSE)
 #'
 #' @inheritParams px_from_excel
 #'
-#' @return Character, name of figures variable.
+#' @returns Character, name of figures variable.
 #' @keywords internal
 get_figures_variable_from_excel <- function(excel_path) {
   figures_variable <-
@@ -56,7 +56,7 @@ get_figures_variable_from_excel <- function(excel_path) {
 #' @param excel_path Path to Excel metadata workbook.
 #' @param data A data frame if data isen't stored in the Excel workbook.
 #'
-#' @return A px object.
+#' @returns A px object.
 #' @keywords internal
 px_from_excel <- function(excel_path, data = NULL) {
   # languages, table1
@@ -205,7 +205,7 @@ px_from_excel <- function(excel_path, data = NULL) {
 #' @param df A data frame
 #' @param sheet_name Name of the sheet
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 add_excel_sheet <- function(wb, df, sheet_name) {
   openxlsx::addWorksheet(wb, sheet_name, gridLines = FALSE)
@@ -221,7 +221,7 @@ add_excel_sheet <- function(wb, df, sheet_name) {
 #' @param path Path to save Excel workbook
 #' @inheritParams px_save
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 save_px_as_xlsx <- function(x, path, save_data, data_path) {
   excel_table <-

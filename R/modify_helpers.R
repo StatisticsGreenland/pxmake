@@ -9,7 +9,7 @@
 #' @param modify_column Column to modify
 #' @param new_value New value to modify/add to modify_column
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 modify_or_add_row <- function(df,
                               lookup_column,

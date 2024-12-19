@@ -5,7 +5,7 @@
 #'
 #' @param str String to quote
 #'
-#' @return String
+#' @returns String
 #' @keywords internal
 str_quote <- function(str) {
   stringr::str_c('"', str, '"')
@@ -17,7 +17,7 @@ str_quote <- function(str) {
 #' @param main_language Main language of PX-file
 #' @param language Lange to add to keyword
 #'
-#' @return String
+#' @returns String
 #' @keywords internal
 add_language_to_keyword <- function(keyword, main_language, language) {
   ifelse(language == main_language | is.na(language),
@@ -31,7 +31,7 @@ add_language_to_keyword <- function(keyword, main_language, language) {
 #' @param keyword String, name of keyword
 #' @param name String, name of sub key
 #'
-#' @return String
+#' @returns String
 #' @keywords internal
 add_sub_key_to_keyword <- function(keyword, name) {
   ifelse(is.na(name),
@@ -45,7 +45,7 @@ add_sub_key_to_keyword <- function(keyword, name) {
 #' @inheritParams add_sub_key_to_keyword
 #' @param name String, cell name to add to keyword
 #'
-#' @return String
+#' @returns String
 #' @keywords internal
 add_cell_to_keyword <- function(keyword, name) {
   keyword_has_subkey <- stringr::str_sub(keyword, -1) == ")"
@@ -63,7 +63,7 @@ add_cell_to_keyword <- function(keyword, name) {
 #'
 #' @inheritParams str_quote
 #'
-#' @return String
+#' @returns String
 #' @keywords internal
 quote_unless_yes_no <- function(str) {
   str_is_quoted <- function(str) {
@@ -84,7 +84,7 @@ quote_unless_yes_no <- function(str) {
 #'
 #' @param lst List to sort
 #'
-#' @return List
+#' @returns List
 #' @keywords internal
 lst_distinct_and_arrange <- function(lst) {
   if (length(lst) == 0) {
@@ -100,7 +100,7 @@ lst_distinct_and_arrange <- function(lst) {
 #' @param lst1 List to merge
 #' @param lst2 List to merge
 #'
-#' @return List
+#' @returns List
 #' @keywords internal
 merge_named_lists <- function(lst1, lst2) {
   if (length(lst1) == 0) {
@@ -127,7 +127,7 @@ merge_named_lists <- function(lst1, lst2) {
 #'
 #' @param values Values form PX-file
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 get_timeval_type_from_values <- function(values) {
   time_type <-
@@ -148,7 +148,7 @@ get_timeval_type_from_values <- function(values) {
 #'
 #' @param values Time values
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 format_time_values <- function(values) {
   paste0("TLIST(",
@@ -165,7 +165,7 @@ format_time_values <- function(values) {
 #'
 #' @param str String with time values
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 get_values_from_time_format <- function(str) {
   tmp <-
@@ -196,7 +196,7 @@ get_values_from_time_format <- function(str) {
 #' @param v1 First vector Elements ends up on uneven indexes.
 #' @param v2 Second vector. Elements ends up on even indexes.
 #'
-#' @return List
+#' @returns List
 #' @keywords internal
 zip_vectors <- function(v1, v2) {
   if (length(v1) != length(v2)) {
@@ -214,7 +214,7 @@ zip_vectors <- function(v1, v2) {
 #' @param str String
 #' @param max_line_length Integer longest allowed line length
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 break_long_lines <- function(str, max_line_length = 256) {
   if (is.null(str)) {
@@ -250,7 +250,7 @@ break_long_lines <- function(str, max_line_length = 256) {
 #' @param df Data frame
 #' @param var Character. Variable to convert to list
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 wrap_varaible_in_list <- function(df, var) {
   df %>%
@@ -264,7 +264,7 @@ wrap_varaible_in_list <- function(df, var) {
 #' @param path Path to file
 #' @param encoding Encoding to use
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 readLines_with_encoding <- function(path, encoding) {
   file_connection <- file(path, encoding = encoding)
@@ -280,7 +280,7 @@ readLines_with_encoding <- function(path, encoding) {
 #'
 #' @param px_path Path to a PX-file
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 read_px_file <- function(px_path) {
   readLines_with_encoding(path = px_path,
@@ -294,7 +294,7 @@ read_px_file <- function(px_path) {
 #'
 #' @param path Path to file
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 readLines_guess_encoding <- function(path) {
   readLines_with_encoding(path = path,
@@ -304,7 +304,7 @@ readLines_guess_encoding <- function(path) {
 
 #' Default encoding to read and save PX-file in
 #'
-#' @return Character
+#' @returns Character
 #' @keywords internal
 get_default_encoding <- function() {
   return('latin1')
@@ -316,7 +316,7 @@ get_default_encoding <- function() {
 #'
 #' @inheritParams read_px_file
 #'
-#' @return Character
+#' @returns Character
 #' @keywords internal
 get_encoding_from_px_file <- function(px_path) {
   encoding <-
@@ -338,7 +338,7 @@ get_encoding_from_px_file <- function(px_path) {
 #' @param prefer Named list of encodings, used to give higher confidence to
 #' specific encodings.
 #'
-#' @return Character
+#' @returns Character
 #' @keywords internal
 guess_file_encoding <- function(path, prefer = list("UTF-8" = .2,
                                                     "ISO-8859-1" = .2)
@@ -368,7 +368,7 @@ guess_file_encoding <- function(path, prefer = list("UTF-8" = .2,
 #'
 #' @param extension String, file name extension
 #'
-#' @return Logic
+#' @returns Logic
 #' @keywords internal
 is_path_extension <- function(extension) {
   function(path) {
@@ -387,7 +387,7 @@ is_px_file      <- is_path_extension("px")
 
 #' Create and return path to temporary directory
 #'
-#' @return Character
+#' @returns Character
 #' @keywords internal
 temp_dir <- function() {
   path <- tempfile()
@@ -399,7 +399,7 @@ temp_dir <- function() {
 #'
 #' @param df Data frame
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 mutate_all_vars_to_character <- function(df) {
   dplyr::mutate(df, dplyr::across(everything(), as.character))
@@ -411,7 +411,7 @@ mutate_all_vars_to_character <- function(df) {
 #'
 #' @param extension String, file name extension
 #'
-#' @return Path to temporary file
+#' @returns Path to temporary file
 #' @keywords internal
 temp_file_with_extension <- function(extension) {
   function() {
@@ -430,7 +430,7 @@ temp_xlsx_file <- temp_file_with_extension(".xlsx")
 #' @param df_a Data frame to align
 #' @param df_b Data frame to align to
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 align_data_frames <- function(df_a, df_b) {
   names_a <- names(df_a)
@@ -460,7 +460,7 @@ align_data_frames <- function(df_a, df_b) {
 #'
 #' @param df Data frame
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 drop_blank_rows <- function(df) {
   dplyr::filter(df, if_any(everything(), ~! is.na(.)))

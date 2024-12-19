@@ -6,7 +6,7 @@
 #' @param data_df A data frame with data.
 #' @param figures_variable Character. The name of the figures variable.
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 format_data_df <- function(data_df, figures_variable) {
   data_df %>%
@@ -25,7 +25,7 @@ format_data_df <- function(data_df, figures_variable) {
 #'
 #' @param df A data frame
 #'
-#' @return A px object
+#' @returns A px object
 #' @keywords internal
 px_from_data_df <- function(df) {
   default_language <- NA

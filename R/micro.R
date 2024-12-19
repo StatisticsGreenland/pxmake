@@ -133,7 +133,7 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 #'
 #' Use the column 'language' if the PX-file has multiple languages.
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @export
 px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
   validate_px_micro_arguments(x, out_dir)

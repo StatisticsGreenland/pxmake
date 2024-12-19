@@ -9,7 +9,7 @@ classification_file_section_heading_regexp <- function() {
 #' @param vec A numeric vector
 #' @param value A numeric value
 #'
-#' @return The smallest value in 'vec' that is larger than 'value'
+#' @returns The smallest value in 'vec' that is larger than 'value'
 #' @keywords internal
 smallest_larger_value <- function(vec, value) {
   min(vec[vec > value])
@@ -78,7 +78,7 @@ extract_section <- function(lines, heading, key = NULL) {
 #'
 #' @inheritParams px_classification
 #'
-#' @return A classification object
+#' @returns A classification object
 #' @keywords internal
 new_classification <- function(name, prestext, domain, df) {
   if (length(name) == 0 | length(prestext) == 0 | length(domain) == 0) {
@@ -99,7 +99,7 @@ new_classification <- function(name, prestext, domain, df) {
 #'
 #' @param Path to an aggregation file
 #'
-#' @return A data frame with columns 'valuecode' (character) and a second column
+#' @returns A data frame with columns 'valuecode' (character) and a second column
 #' (ordered) named after the aggregation
 #' @keywords internal
 aggregation_df <- function(path) {
@@ -172,7 +172,7 @@ aggregation_df <- function(path) {
 #'
 #' @inheritParams px_classification
 #'
-#' @return A classification object
+#' @returns A classification object
 #' @keywords internal
 px_classification_from_path <- function(vs_path, agg_paths) {
   vs_lines  <- readLines_guess_encoding(vs_path)
@@ -241,7 +241,7 @@ px_classification_from_path <- function(vs_path, agg_paths) {
 #'
 #' @inheritParams px_classification
 #'
-#' @return A classification object
+#' @returns A classification object
 #' @keywords internal
 px_classification_from_df <- function(name, prestext, domain, df) {
   character_columns <- intersect(names(df), c("valuecode", "valuetext"))
@@ -292,7 +292,7 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #'   \item Use character(0) if aggregations from the .vs files should not be
 #'   added automatically.
 #' }
-#' @return A classification object
+#' @returns A classification object
 #'
 #' @examples
 #' # Create classification from data frame
@@ -357,7 +357,7 @@ px_classification <- function(name, prestext, domain, df, vs_path, agg_paths) {
 #'
 #' @param lines A character vector
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 enumerate_lines <- function(lines) {
   stringr::str_glue("{seq_along(lines)}={lines}") %>%
@@ -373,7 +373,7 @@ blank_line <- function() " "
 #' @param c A classification object
 #' @param directory Directory to save the file in
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 write_value_set <- function(c, directory) {
   filename <- file.path(directory, paste0(c$name, ".vs"))
@@ -442,7 +442,7 @@ write_value_set <- function(c, directory) {
 #' @param c A classification object
 #' @param directory Directory to save the file in
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 write_aggregation <- function(aggregation, c, directory) {
   filename <- file.path(directory, paste0(aggregation, ".agg"))

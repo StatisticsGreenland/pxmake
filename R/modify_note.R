@@ -54,7 +54,7 @@ px_note <- function(x, value, validate) {
 #' @param value `r note_param_value("NOTE")`
 #' @eval param_validate()
 #'
-#' @return A px object, a character string, a data frame, or a list of character
+#' @returns A px object, a character string, a data frame, or a list of character
 #' strings and/or data frames.
 #'
 #' @export

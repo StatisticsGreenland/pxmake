@@ -1,6 +1,6 @@
 #' Regular expression to parse header in PX-file
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 get_px_metadata_regex <- function() {
   paste0("(?<keyword>[[:upper:]-]+)",    # Leading keyword
@@ -23,7 +23,7 @@ get_px_metadata_regex <- function() {
 #'
 #' @param metadata_lines A character vector with the header of a PX-file.
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 get_metadata_df_from_px_lines <- function(metadata_lines) {
   acrosscells_keywords <- c("CELLNOTE", "CELLNOTEX")
@@ -86,7 +86,7 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
 #'
 #' @inheritParams sort_metadata_df
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 get_variable_label <- function(metadata_df) {
   metadata_df <- add_main_language(metadata_df)
@@ -131,7 +131,7 @@ get_variable_label <- function(metadata_df) {
 #'
 #' @inheritParams sort_metadata_df
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 add_main_language <- function(metadata_df) {
   m_language <- get_main_language(metadata_df)
@@ -150,7 +150,7 @@ add_main_language <- function(metadata_df) {
 #'
 #' @inheritParams sort_metadata_df
 #'
-#' @return Character
+#' @returns Character
 #' @keywords internal
 get_main_language <- function(metadata_df) {
   main_language <-
@@ -174,7 +174,7 @@ get_main_language <- function(metadata_df) {
 #'
 #' @inheritParams sort_metadata_df
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 replace_na_language_with_main_language <- function(metadata_df) {
   metadata_df %>%
@@ -191,7 +191,7 @@ replace_na_language_with_main_language <- function(metadata_df) {
 #'
 #' @param metadata_df Data frame with metadata.
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 sort_metadata_df <- function(metadata_df) {
   languages <-
@@ -232,7 +232,7 @@ sort_metadata_df <- function(metadata_df) {
 #'
 #' @param x A px object
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 get_metadata_df_from_px <- function(x) {
   metadata_template <- dplyr::tibble(keyword  = character(),

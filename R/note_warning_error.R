@@ -4,7 +4,7 @@
 #'
 #' @param msg String, error message
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 error <- function(msg) {
   stop(msg, call. = FALSE)
@@ -284,7 +284,7 @@ error_if_value_contains_quotation_marks <- function(x) {
 #'
 #' @inheritParams px
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 validate_px_arguments <- function(input, data) {
   if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input),
@@ -314,7 +314,7 @@ validate_px_arguments <- function(input, data) {
 #'
 #' @inheritParams px_save
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 validate_px_save_arguments <- function(x, path, save_data, data_path) {
   if (! any(is_px_file(path), is_xlsx_file(path))) {
@@ -356,7 +356,7 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
 #'
 #' @inheritParams px_micro
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 validate_px_micro_arguments <- function(x, out_dir) {
   if (! inherits(x, "px")) {
@@ -386,7 +386,7 @@ error_if_agument_is_not_character_string <- function(name, value) {
 #'
 #' @inheritParams px_classification
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 validate_px_classification_arguments <- function(name,
                                                  prestext,

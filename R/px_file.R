@@ -3,7 +3,7 @@
 #' @inheritParams sort_metadata_df
 #' @inheritParams format_data_df
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 get_data_cube <- function(metadata_df, data_df) {
   metadata_df <- add_main_language(metadata_df)
@@ -115,7 +115,7 @@ get_data_cube <- function(metadata_df, data_df) {
 #'
 #' @param x A px object
 #'
-#' @return A character vector
+#' @returns A character vector
 #' @keywords internal
 format_px_object_as_lines <- function(x) {
   metadata_df <- get_metadata_df_from_px(x)
@@ -180,7 +180,7 @@ format_px_object_as_lines <- function(x) {
 #' @param x A px object
 #' @param path Path to save PX-file at
 #'
-#' @return Nothing
+#' @returns Nothing
 #' @keywords internal
 save_px_as_px_file <- function(x, path) {
   px_lines <- format_px_object_as_lines(x)
@@ -203,7 +203,7 @@ save_px_as_px_file <- function(x, path) {
 #'
 #' @param path Path to a PX-file
 #'
-#' @return A px object
+#' @returns A px object
 #' @keywords internal
 px_from_px_file <- function(path) {
   px_lines <- read_px_file(path)

@@ -36,3 +36,15 @@ specified by \code{out_dir}.
 The main loop uses the furrr package for parallelisation. Use future::plan()
 to choose how to parallelise.
 }
+\examples{
+# Create px object with cohort as HEADING
+x <-
+  greenlanders |>
+  px_stub(names(.)) |>
+  px_heading(cohort) |>
+
+# Create micro files, one for each of the non-HEADING variables (gender, age,
+# municipality)
+px_micro(x)
+
+}

@@ -29,9 +29,49 @@ This is the same as calling NOTEX multiple times with different values.
 \item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
 \value{
-A px object, a character string, a data frame, or a list of character
-strings and/or data frames.
+A px object, a character string, a data frame, or a list of character strings and/or data frames.
 }
 \description{
-Inspect or change NOTEX.. NOTEX can be set for the entire table or for a specific variable.
+Inspect or change NOTEX.
+}
+\details{
+NOTEX has a lot of possible ways to specify \code{value}, because
+it can be set both for the entire PX-file and for individual variables.
+}
+\examples{
+library(tibble)
+
+# Set NOTEX for entire PX-file
+x1 <-
+  px(population_gl) |>
+  px_notex('Note about PX-file')
+
+# Print NOTEX
+px_notex(x1)
+
+# Set NOTEX for entire PX-file in multiple languages
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_notex(tribble(~language,            ~value,
+                       'en',    'English notex',
+                       'kl', 'Kalaallisut notex'
+                 )
+         )
+px_notex(x2)
+
+# Set NOTEX for variables
+x3 <-
+  x1 |>
+  px_notex(tribble(~`variable-code`, ~notex,
+                 'year', 'Some data collected in following year'))
+                 'age',  'Is rounded down'))
+                 )
+px_notex(x3)
+
+# Remove all NOTEXs
+x4 <- px_notex(x3, NULL)
+}
+\seealso{
+\href{https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf#\%5B\%7B\%22num\%22\%3A50\%2C\%22gen\%22\%3A0\%7D\%2C\%7B\%22name\%22\%3A\%22XYZ\%22\%7D\%2C184\%2C271\%2C0\%5D}{Statistics Sweden's documentation}
 }

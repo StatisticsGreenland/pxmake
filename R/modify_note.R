@@ -46,18 +46,7 @@ px_note <- function(x, value, validate) {
   UseMethod("px_note")
 }
 
-#' @title NOTE
-#'
-#' @description `r note_description("NOTE")`
-#'
-#' @param x A px object
-#' @param value `r note_param_value("NOTE")`
-#' @eval param_validate()
-#'
-#' @returns A px object, a character string, a data frame, or a list of character
-#' strings and/or data frames.
-#'
-#' @export
+#' @eval add_documentation_note("NOTE")
 px_note.px <- function(x, value, validate = TRUE) {
   handle_notes(x, value, "NOTE", validate)
 }
@@ -69,12 +58,7 @@ px_notex <- function(x, value, validate) {
   UseMethod("px_notex")
 }
 
-#' @inherit px_note.px
-#' @title NOTEX
-#' @description `r note_description("NOTEX")`
-#' @param value `r note_param_value("NOTEX")`
-#' @eval param_validate()
-#' @export
+#' @eval add_documentation_note("NOTEX")
 px_notex.px <- function(x, value, validate = TRUE) {
   handle_notes(x, value, "NOTEX", validate)
 }

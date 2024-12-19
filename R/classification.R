@@ -268,11 +268,11 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' aggregations. The classification can be saved as .vs and .agg files
 #' (see [px_save_classification()]).
 #'
-#' If a classification is created from a data frame, the arguments 'name' and
-#' 'domain' are required. If a classification is created from .vs and .agg files,
-#' all other arguments should be empty.
+#' If a classification is created from a data frame, the arguments `name` and
+#' `prestext` and `domain` are required. If a classification is created from .vs
+#' and .agg files, all other arguments should be empty.
 #'
-#' Type 'V' value sets are supported. Type 'H' and 'N' value set are
+#' Only type 'V' value sets are supported. Type 'H' and 'N' value sets are
 #' not supported.
 #'
 #' @param name Optional. Name of the classification.
@@ -494,9 +494,10 @@ write_aggregation <- function(aggregation, c, directory) {
 #' @param c A classification object
 #' @param path Directory to save the files in
 #'
-#' @returns Nothing
+#' @returns Nothing.
 #'
 #' @examples
+#' # Save classification as .vs as .agg files
 #' c <- px_classification(name = "Age5",
 #'                        prestext = "Ages 0-9 - 60+",
 #'                        domain = "age",

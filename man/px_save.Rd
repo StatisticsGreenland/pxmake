@@ -12,7 +12,7 @@ px_save(x, path, save_data = TRUE, data_path = NULL)
 \item{path}{Path to file. The file extension determines the format. Can be:
 \itemize{
 \item \code{.px} to save as a PX-file
-\item \code{.xlsx} to save as an Excel metadata workbook
+\item \code{.xlsx} to save as an Excel workbook
 }}
 
 \item{save_data}{If FALSE, no 'Data' sheet is created in the Excel workbook.
@@ -20,8 +20,8 @@ Can only be used if \code{path} is an \code{.xlsx} file.}
 
 \item{data_path}{Path to an \code{.rds} or \code{.parquet} file to save data table at.
 This is usefull when saving an Excel workbook where the data has more rows
-than Excel can handle. Can only be used if 'path' is an \code{.xlsx} file, and
-'save_data' is TRUE.}
+than Excel can handle. Can only be used if \code{path} is an \code{.xlsx} file, and
+\code{save_data} is \code{TRUE}.}
 }
 \value{
 Nothing
@@ -31,6 +31,19 @@ Save px object to file
 }
 \details{
 Use \code{px_codepage()} to change file encoding.
+}
+\examples{
+
+# Save px object to PX-file
+tmp_dir <- tempdir()
+
+x <- px(population_gl)
+
+px_save(x, file.path(tmp_dir, "population.px"))
+
+# Save px object to Excel workbook
+px_save(x, file.path(tmp_dir, "population.xlsx"))
+
 }
 \seealso{
 \code{\link[=px_codepage]{px_codepage()}}

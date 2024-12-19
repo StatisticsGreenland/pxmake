@@ -24,6 +24,22 @@ A px object or data frame.
 \description{
 Inspect or change VARIABLE-TYPE.
 }
+\examples{
+libray(tibble)
+
+# Set VARIABLE-TYPE
+x1 <-
+  px(population_gl) |>
+  px_varaible_type(tibble('variable-code' = 'year', 'type' = 'time')
+
+# Print VARIABLE-TYPE
+px_variable_type(x1)
+
+# Remove VARIABLE-TYPE
+x2 <- px_variable_type(x1, NULL)
+px_variable_type(x2)
+
+}
 \seealso{
 \href{https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf#\%5B\%7B\%22num\%22\%3A56\%2C\%22gen\%22\%3A0\%7D\%2C\%7B\%22name\%22\%3A\%22XYZ\%22\%7D\%2C184\%2C499\%2C0\%5D}{Statistics Sweden's documentation}
 }

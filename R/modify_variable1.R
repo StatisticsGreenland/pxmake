@@ -279,6 +279,21 @@ px_variable_type <- function(x, value, validate) {
 #' VARIABLE-TYPE is removed.
 #' @eval param_validate()
 #' @eval add_return_px_or_df()
+#' @examples
+#' libray(tibble)
+#'
+#' # Set VARIABLE-TYPE
+#' x1 <-
+#'   px(population_gl) |>
+#'   px_varaible_type(tibble('variable-code' = 'year', 'type' = 'time')
+#'
+#' # Print VARIABLE-TYPE
+#' px_variable_type(x1)
+#'
+#' # Remove VARIABLE-TYPE
+#' x2 <- px_variable_type(x1, NULL)
+#' px_variable_type(x2)
+#'
 #' @export
 px_variable_type.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {

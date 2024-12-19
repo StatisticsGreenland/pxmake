@@ -66,18 +66,31 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
 #' @param x A px object.
 #' @param path Path to file. The file extension determines the format. Can be:
 #' - `.px` to save as a PX-file
-#' - `.xlsx` to save as an Excel metadata workbook
+#' - `.xlsx` to save as an Excel workbook
 #' @param save_data If FALSE, no 'Data' sheet is created in the Excel workbook.
 #' Can only be used if `path` is an `.xlsx` file.
 #' @param data_path Path to an `.rds` or `.parquet` file to save data table at.
 #' This is usefull when saving an Excel workbook where the data has more rows
-#' than Excel can handle. Can only be used if 'path' is an `.xlsx` file, and
-#' 'save_data' is TRUE.
+#' than Excel can handle. Can only be used if `path` is an `.xlsx` file, and
+#' `save_data` is `TRUE`.
 #' @details
 #' Use `px_codepage()` to change file encoding.
 #'
 #' @seealso [px_codepage()]
 #' @returns Nothing
+#'
+#' @examples
+#'
+#' # Save px object to PX-file
+#' tmp_dir <- tempdir()
+#'
+#' x <- px(population_gl)
+#'
+#' px_save(x, file.path(tmp_dir, "population.px"))
+#'
+#' # Save px object to Excel workbook
+#' px_save(x, file.path(tmp_dir, "population.xlsx"))
+#'
 #' @export
 px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
   validate_px_save_arguments(x, path, save_data, data_path)
@@ -151,7 +164,7 @@ fix_px <- function(x) {
   x
 }
 
-#' Validate px object
+#' Check px object
 #'
 #' Runs a number of checks on px object to see if it is valid.
 #'
@@ -164,7 +177,7 @@ fix_px <- function(x) {
 #'
 #' @returns A valid px object.
 #' @examples
-#' # Turn of validation for modifying functions, and manually
+#' # Turn off validation for modifying functions, and manually
 #' # run validation as final step in creating px object.
 #' x1 <-
 #'   px(population_gl, validate = FALSE) |>

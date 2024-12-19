@@ -41,11 +41,11 @@ A classification is a combination of a value set and zero, one, or more
 aggregations. The classification can be saved as .vs and .agg files
 (see \code{\link[=px_save_classification]{px_save_classification()}}).
 
-If a classification is created from a data frame, the arguments 'name' and
-'domain' are required. If a classification is created from .vs and .agg files,
-all other arguments should be empty.
+If a classification is created from a data frame, the arguments \code{name} and
+\code{prestext} and \code{domain} are required. If a classification is created from .vs
+and .agg files, all other arguments should be empty.
 
-Type 'V' value sets are supported. Type 'H' and 'N' value set are
+Only type 'V' value sets are supported. Type 'H' and 'N' value sets are
 not supported.
 }
 \examples{

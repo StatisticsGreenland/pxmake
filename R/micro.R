@@ -139,8 +139,9 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 #' # Create px object with cohort as HEADING
 #' x <-
 #'   greenlanders |>
-#'   px_stub(names(.)) |>
-#'   px_heading(cohort) |>
+#'   px() |>
+#'   px_stub(names(greenlanders)) |>
+#'   px_heading("cohort")
 #'
 #' # Create micro files, one for each of the non-HEADING variables (gender, age,
 #' # municipality)

@@ -35,22 +35,19 @@ pak::pak("StatisticsGreenland/pxmake")
 
 ## How to use
 
-Use `px()` and `px_save()` to read/write a PX-file to a px object.
+*(Find complete documentation on [pxmake
+webpage](https://statisticsgreenland.github.io/pxmake/).)*
+
+Use `px()` to import an existing PX-file into R.
 
 ``` r
 library(pxmake)
 
-# Read PX-file into a px object
+# Import PX-file
 x <- px(input = "example.px")
-
-class(x)
-#> [1] "px"
-
-# Save px object as a new PX-file
-px_save(x, path = "example2.px")
 ```
 
-To modify a px object, use pxmake’s *modifying functions*.
+Once imported, use one of pxmake’s *modifying functions*.
 
 In general, modifying functions are named after the keyword they modify.
 It’s possible to chain multiple modifying functions together in
@@ -215,13 +212,14 @@ via email.
 
 ### PX specification
 
-See the [PX-file format specification on Statistics Swedens
+pxmake is based on the [PX-file format specification on Statistics
+Swedens
 homepage](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf).
 
 ### PxJob
 
 Some tests cases uses
-[PxJob](https://www.stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html).
+[PxJob](https://stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html).
 Install [pxjob64Win](https://github.com/StatisticsGreenland/pxjob64Win)
 to be able ro run these tests. This only works on Windows.
 

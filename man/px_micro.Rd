@@ -40,8 +40,9 @@ to choose how to parallelise.
 # Create px object with cohort as HEADING
 x <-
   greenlanders |>
-  px_stub(names(.)) |>
-  px_heading(cohort) |>
+  px() |>
+  px_stub(names(greenlanders)) |>
+  px_heading("cohort")
 
 # Create micro files, one for each of the non-HEADING variables (gender, age,
 # municipality)

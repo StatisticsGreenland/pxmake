@@ -67,7 +67,7 @@ reference:
    - px_values
    - px_variable_type
 - subtitle: Special modifying functions
-  desc: Modifying functions that does not relate to a specific px keyword.
+  desc: Modifying functions that do not relate to a specific px keyword.
   contents:
    - px_add_totals
    - px_figures

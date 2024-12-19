@@ -6,7 +6,7 @@
 #' @param data_df A data frame with data.
 #' @param figures_variable Character. The name of the figures variable.
 #'
-#' @return A data frame
+#' @returns A data frame
 #' @keywords internal
 format_data_df <- function(data_df, figures_variable) {
   data_df %>%
@@ -25,25 +25,25 @@ format_data_df <- function(data_df, figures_variable) {
 #'
 #' @param df A data frame
 #'
-#' @return A px object
+#' @returns A px object
 #' @keywords internal
 px_from_data_df <- function(df) {
   default_language <- NA
 
   mandatory_table_keywords <-
     px_keywords %>%
-    dplyr::filter(mandatory, table_meta)
+    dplyr::filter(.data$mandatory, .data$table_meta)
 
   table1 <-
     mandatory_table_keywords %>%
-    dplyr::filter(!language_dependent) %>%
-    dplyr::select(keyword, value = default_value) %>%
+    dplyr::filter(!.data$language_dependent) %>%
+    dplyr::select("keyword", "value" = "default_value") %>%
     align_data_frames(get_base_table1())
 
   table2 <-
     mandatory_table_keywords %>%
-    dplyr::filter(language_dependent) %>%
-    dplyr::select(keyword, value = default_value) %>%
+    dplyr::filter(.data$language_dependent) %>%
+    dplyr::select("keyword", "value" = "default_value") %>%
     dplyr::mutate(language = default_language) %>%
     align_data_frames(get_base_table2())
 
@@ -71,9 +71,12 @@ px_from_data_df <- function(df) {
                    heading_variables, "HEADING",
                    figures_variable,  "FIGURES"
                    ) %>%
-    tidyr::unnest(`variable-code`) %>%
-    dplyr::group_by(pivot) %>%
-    dplyr::mutate(order = ifelse(pivot == "FIGURES", NA, dplyr::row_number()),
+    tidyr::unnest("variable-code") %>%
+    dplyr::group_by(.data$pivot) %>%
+    dplyr::mutate(order = ifelse(.data$pivot == "FIGURES",
+                                 NA,
+                                 dplyr::row_number()
+                                 ),
                   contvariable = FALSE
                   ) %>%
     dplyr::ungroup() %>%
@@ -81,9 +84,9 @@ px_from_data_df <- function(df) {
 
   variables2 <-
     variables1 %>%
-    dplyr::select(`variable-code`) %>%
+    dplyr::select("variable-code") %>%
     dplyr::mutate(language = default_language,
-                  `variable-label` = `variable-code`
+                  `variable-label` = .data$`variable-code`
                   ) %>%
     align_data_frames(get_base_variables2())
 
@@ -92,14 +95,14 @@ px_from_data_df <- function(df) {
   } else {
     cells1 <-
       data_df %>%
-      dplyr::select(setdiff(names(.), figures_variable)) %>%
+      dplyr::select(all_of(setdiff(names(.), figures_variable))) %>%
       tidyr::pivot_longer(cols = everything(),
                           names_to = "variable-code",
                           values_to = "code"
                           ) %>%
       dplyr::distinct() %>%
-      dplyr::arrange(`variable-code`, code) %>%
-      dplyr::group_by(`variable-code`) %>%
+      dplyr::arrange(.data$`variable-code`, .data$code) %>%
+      dplyr::group_by(.data$`variable-code`) %>%
       dplyr::mutate(order = dplyr::row_number()) %>%
       dplyr::ungroup() %>%
       align_data_frames(get_base_cells1())
@@ -107,9 +110,9 @@ px_from_data_df <- function(df) {
 
   cells2 <-
     cells1 %>%
-    dplyr::select(`variable-code`, code) %>%
+    dplyr::select("variable-code", "code") %>%
     dplyr::mutate(language = default_language,
-                  value = code
+                  value = .data$code
                   ) %>%
     align_data_frames(get_base_cells2())
 

@@ -7,7 +7,7 @@
 validate_px_arguments(input, data)
 }
 \arguments{
-\item{input}{Path to px file, path to an Excel metadata workbook, a data
+\item{input}{Path to PX-file, path to an Excel metadata workbook, a data
 frame or path to an \code{.rds} or \code{.parquet} file with a data frame. If input is
 a data frame or NULL, a px object with minimal metadata is created.}
 

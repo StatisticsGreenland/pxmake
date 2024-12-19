@@ -9,7 +9,7 @@ add_language_to_keyword(keyword, main_language, language)
 \arguments{
 \item{keyword}{String, name of keyword}
 
-\item{main_language}{Main language of px file}
+\item{main_language}{Main language of PX-file}
 
 \item{language}{Lange to add to keyword}
 }

@@ -23,7 +23,7 @@ A px object or a character string.
 Inspect or change CODEPAGE.
 }
 \details{
-CODEPAGE controls which encoding px files are read and stored in.
+CODEPAGE controls which encoding PX-files are read and stored in.
 Use \code{iconvlist()} to see available encodings on your system.
 }
 \examples{

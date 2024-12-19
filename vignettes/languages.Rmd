@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The px file format supports having multiple langauges in one file. Let's start by creating a minimal example of a px object, based on the built in data set `population_gl`.
+The PX-file format supports having multiple langauges in one file. Let's start by creating a minimal example of a px object, based on the built in data set `population_gl`.
 
 ```{r setup}
 library(pxmake)
@@ -34,7 +34,7 @@ To set the main language, use `px_language()`, and add the [ISO 639](https://en.
 x1 <- px_language(x, "kl")
 ```
 
-This adds the keyword 'LANGUAGE=kl' if the px file is saved, but otherwise there are no changes. 
+This adds the keyword 'LANGUAGE=kl' if the PX-file is saved, but otherwise there are no changes. 
 
 To set multiple languages, use `px_languages()` with a list of language codes.
 

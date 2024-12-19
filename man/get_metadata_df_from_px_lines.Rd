@@ -7,7 +7,7 @@
 get_metadata_df_from_px_lines(metadata_lines)
 }
 \arguments{
-\item{metadata_lines}{A character vector with the header of a px file.}
+\item{metadata_lines}{A character vector with the header of a PX-file.}
 }
 \value{
 A data frame

@@ -1,9 +1,9 @@
 #' Create a px object
 #'
-#' Create a px object from a px file, an Excel metadata workbook, or a data
+#' Create a px object from a PX-file, an Excel metadata workbook, or a data
 #' frame.
 #'
-#' @param input Path to px file, path to an Excel metadata workbook, a data
+#' @param input Path to PX-file, path to an Excel metadata workbook, a data
 #' frame or path to an `.rds` or `.parquet` file with a data frame. If input is
 #' a data frame or NULL, a px object with minimal metadata is created.
 #' @param data Either a data frame or a path to an `.rds` or `.parquet` file
@@ -11,13 +11,13 @@
 #' workbook.
 #' @eval param_validate()
 #'
-#' @return A px object
+#' @returns A px object
 #'
 #' @examples
 #' # Create px object from dataset
 #' x1 <- px(population_gl)
 #'
-#' # Create px object from px file
+#' # Create px object from PX-file
 #' px_path <- tempfile(fileext = ".px")
 #' url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
 #' download.file(url, px_path)
@@ -65,19 +65,32 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
 #'
 #' @param x A px object.
 #' @param path Path to file. The file extension determines the format. Can be:
-#' - `.px` to save as a px file
-#' - `.xlsx` to save as an Excel metadata workbook
+#' - `.px` to save as a PX-file
+#' - `.xlsx` to save as an Excel workbook
 #' @param save_data If FALSE, no 'Data' sheet is created in the Excel workbook.
 #' Can only be used if `path` is an `.xlsx` file.
 #' @param data_path Path to an `.rds` or `.parquet` file to save data table at.
 #' This is usefull when saving an Excel workbook where the data has more rows
-#' than Excel can handle. Can only be used if 'path' is an `.xlsx` file, and
-#' 'save_data' is TRUE.
+#' than Excel can handle. Can only be used if `path` is an `.xlsx` file, and
+#' `save_data` is `TRUE`.
 #' @details
 #' Use `px_codepage()` to change file encoding.
 #'
 #' @seealso [px_codepage()]
-#' @return Nothing
+#' @returns Nothing
+#'
+#' @examples
+#'
+#' # Save px object to PX-file
+#' tmp_dir <- tempdir()
+#'
+#' x <- px(population_gl)
+#'
+#' px_save(x, file.path(tmp_dir, "population.px"))
+#'
+#' # Save px object to Excel workbook
+#' px_save(x, file.path(tmp_dir, "population.xlsx"))
+#'
 #' @export
 px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
   validate_px_save_arguments(x, path, save_data, data_path)
@@ -105,7 +118,7 @@ px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
 #' @param acrosscells A data frame with metadata that spans multiple cells.
 #' @param data A data frame with data.
 #'
-#' @return A px object
+#' @returns A px object
 #' @keywords internal
 new_px <- function(languages, table1, table2, variables1, variables2,
                    cells1, cells2, acrosscells, data) {
@@ -127,7 +140,7 @@ new_px <- function(languages, table1, table2, variables1, variables2,
 #'
 #' @param x A px object.
 #'
-#' @return A px object
+#' @returns A px object
 #' @keywords internal
 fix_px <- function(x) {
   undefined_variables <- setdiff(colnames(x$data), x$variables2$`variable-code`)
@@ -142,15 +155,16 @@ fix_px <- function(x) {
   # Add missing variable-labels to variables2
   x$variables2 <-
     x$variables2 %>%
-    dplyr::mutate(`variable-label` = ifelse(is.na(`variable-label`),
-                                            `variable-code`,
-                                            `variable-label`)
+    dplyr::mutate(`variable-label` = ifelse(is.na(.data$`variable-label`),
+                                                  .data$`variable-code`,
+                                                  .data$`variable-label`
+                                                  )
                   )
 
   x
 }
 
-#' Validate px object
+#' Check px object
 #'
 #' Runs a number of checks on px object to see if it is valid.
 #'
@@ -161,16 +175,15 @@ fix_px <- function(x) {
 #'
 #' @param x A supposed px object.
 #'
-#' @return A valid px object.
+#' @returns A valid px object.
 #' @examples
-#' # Turn of validation for modifying functions, and manually
+#' # Turn off validation for modifying functions, and manually
 #' # run validation as final step in creating px object.
 #' x1 <-
 #'   px(population_gl, validate = FALSE) |>
 #'   px_title("Test", validate = FALSE) |>
 #'   px_validate()
 #'
-#' px_save(x1, 'validated.px')
 #' @export
 px_validate <- function(x) {
   error_if_not_list(x)

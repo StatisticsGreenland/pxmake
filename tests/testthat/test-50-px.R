@@ -15,7 +15,7 @@ test_that("px runs without errors (excel file)", {
   expect_runs_without_errors("zero_stub")
 })
 
-test_that("px runs without errors (px file)", {
+test_that("px runs without errors (PX-file)", {
   expect_runs_without_errors <- function(name) {
     px(input = get_px_file_path(name))
 

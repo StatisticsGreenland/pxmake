@@ -26,7 +26,7 @@ defined_languages <- function(x) {
 modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
   add_languages <- setdiff(new_languages, df$language)
 
-  keep <- dplyr::filter(df, language %in% new_languages)
+  keep <- dplyr::filter(df, .data$language %in% new_languages)
 
   new  <-
     df %>%
@@ -96,6 +96,22 @@ px_language <- function(x, value, validate) {
 #'
 #' @seealso \code{\link{px_languages}}
 #'
+#' @returns A px object
+#'
+#' @examples
+#' # Set LANGUAGE to 'en'
+#' x1 <-
+#'   population_gl |>
+#'   px() |>
+#'   px_language('en')
+#'
+#' # Print LANGUAGE
+#' px_language(x1)
+#'
+#' # Remove LANGUAGE
+#' x2 <- px_language(x1, NULL)
+#' px_language(x2)
+#'
 #' @export
 px_language.px <- function(x, value, validate = TRUE) {
   if (missing(value)) {
@@ -134,12 +150,32 @@ px_languages <- function(x, value, validate) {
 #'
 #' If LANGUAGE is defined it should be one of the values in LANGUAGES.
 #'
+#' If LANGUAGE is set, it is considered the main language.
+#' If LANGUAGE is not set, the first language in LANGUAGES is considered the
+#' main language.
+#'
 #' @param x A px object
 #' @param value Optional. A character vector. If missing, the current LANGUAGES
 #' are returned. If NULL, LANGUAGES are removed.
 #' @eval param_validate()
 #'
 #' @seealso \code{\link{px_language}}
+#'
+#' @returns A px object
+#'
+#' @examples
+#' # Set LANGUAGES to 'en' and 'kl', with 'en' as main language
+#' x1 <-
+#'   population_gl |>
+#'   px() |>
+#'   px_languages(c('en', 'kl'))
+#'
+#' # Print LANGUAGES
+#' px_languages(x1)
+#'
+#' # Remove LANGUAGES
+#' x2 <- px_languages(x1, NULL)
+#' px_languages(x2)
 #'
 #' @export
 px_languages.px <- function(x, value, validate = TRUE) {

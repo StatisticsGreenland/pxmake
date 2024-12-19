@@ -1,5 +1,5 @@
-test_that("px file and px_save(px(px file), path='*.px') are equivalent", {
-  # Some files don't give an exact match in the px-file because there can be
+test_that("PX-file and px_save(px(PX-file), path='*.px') are equivalent", {
+  # Some files don't give an exact match in the PX-file because there can be
   # subtle differences in formatting. PxJob is run on these file to test
   # that they are equivalent.
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")

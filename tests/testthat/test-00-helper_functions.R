@@ -168,7 +168,7 @@ test_that("Variables are converted to lists", {
                           y = c(list(1), list(2), list(NA_real_))
                           )
 
-  expect_equal(wrap_varaible_in_list(input, y), expect)
+  expect_equal(wrap_varaible_in_list(input, "y"), expect)
 })
 
 test_that("File extensions work", {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/metadata_df.R
 \name{get_px_metadata_regex}
 \alias{get_px_metadata_regex}
-\title{Regular expression to parse header in px file}
+\title{Regular expression to parse header in PX-file}
 \usage{
 get_px_metadata_regex()
 }
@@ -10,6 +10,6 @@ get_px_metadata_regex()
 A character vector
 }
 \description{
-Regular expression to parse header in px file
+Regular expression to parse header in PX-file
 }
 \keyword{internal}

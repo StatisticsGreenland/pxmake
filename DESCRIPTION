@@ -1,21 +1,23 @@
 Package: pxmake
-Title: Create px files
+Title: Make PX-Files in R
 Version: 0.12.1.9006
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",
-                    role = c("aut")
+                    role = c("cre", "aut")
                    ),
              person("Lars Pedersen",
                     email = "larp@stat.gl",
-                    role = c("cre", "aut")
+                    role = c("aut")
                    ),
              person("Statistics Greenland", 
                     role = "cph", 
                     comment =  c(URL = "https://stat.gl/")
                     )
             )
-Description: Create and modify px files in R.
+Description: Create PX-files from scratch or read and modify existing ones. 
+    Includes a function for every PX keyword, making metadata manipulation
+    simple and human-readable.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -25,26 +27,30 @@ Imports:
     dplyr,
     furrr,
     magrittr,
+    methods,
     openxlsx,
     purrr,
     readxl,
     rlang,
+    stats,
     stringi,
     stringr,
     tibble,
     tidyr,
     tools,
-    vctrs,
-    withr
+    utils,
+    vctrs
 Suggests: 
     knitr,
     rmarkdown,
+    withr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/testthat/start-first: 60-metamake-bexltall
 VignetteBuilder: knitr
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0)
 LazyData: true
 URL: https://github.com/StatisticsGreenland/pxmake, https://statisticsgreenland.github.io/pxmake/
+BugReports: https://github.com/StatisticsGreenland/pxmake/issues

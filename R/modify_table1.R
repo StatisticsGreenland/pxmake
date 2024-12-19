@@ -68,7 +68,7 @@ px_codepage <- function(x, value, validate) {
 
 #' @eval add_documentation_table1("CODEPAGE", "utf-8")
 #' @details
-#' CODEPAGE controls which encoding px files are read and stored in.
+#' CODEPAGE controls which encoding PX-files are read and stored in.
 #' Use `iconvlist()` to see available encodings on your system.
 #' @seealso [px_save()]
 px_codepage.px <- function(x, value, validate = TRUE) {

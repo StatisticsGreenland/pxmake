@@ -7,7 +7,7 @@
 px(input = NULL, data = NULL, validate = TRUE)
 }
 \arguments{
-\item{input}{Path to px file, path to an Excel metadata workbook, a data
+\item{input}{Path to PX-file, path to an Excel metadata workbook, a data
 frame or path to an \code{.rds} or \code{.parquet} file with a data frame. If input is
 a data frame or NULL, a px object with minimal metadata is created.}
 
@@ -21,14 +21,14 @@ workbook.}
 A px object
 }
 \description{
-Create a px object from a px file, an Excel metadata workbook, or a data
+Create a px object from a PX-file, an Excel metadata workbook, or a data
 frame.
 }
 \examples{
 # Create px object from dataset
 x1 <- px(population_gl)
 
-# Create px object from px file
+# Create px object from PX-file
 px_path <- tempfile(fileext = ".px")
 url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
 download.file(url, px_path)

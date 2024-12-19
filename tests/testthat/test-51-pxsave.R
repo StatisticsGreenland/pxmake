@@ -11,7 +11,7 @@ test_that("px_save basic functionality", {
 
 test_that("px_save save_data and data_path arguments works", {
   x <- px(get_data_path("BEXLTALL"))
-  x$data <- rbind(x$data, x$data)
+  x$data <- do.call(rbind, replicate(20, x$data, simplify = FALSE))
 
   expect_error(px_save(x, temp_xlsx_file()), regexp = "too many rows")
 

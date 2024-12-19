@@ -22,7 +22,7 @@ bexsta <-
   rename(persons = last_col()) %>%
   arrange_all()
 
-write_rds(bexsta, test_path('fixtures', 'data', 'BEXSTA.rds'))
+saveRDS(bexsta, file = test_path('fixtures', 'data', 'BEXSTA.rds'))
 write_parquet(bexsta, test_path('fixtures', 'data', 'BEXSTA_parquet.parquet'))
 
 bexsta %>%
@@ -40,4 +40,4 @@ test_path('fixtures', 'data-raw', 'BEXLTALL_RAW.rds') %>%
          ) %>%
   filter(is.finite(value)) %>%
   group_by(age) %>%
-  write_rds(test_path('fixtures', 'data', 'BEXLTALL.rds'))
+  saveRDS(file = test_path('fixtures', 'data', 'BEXLTALL.rds'))

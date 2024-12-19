@@ -23,6 +23,22 @@ A px object or data frame.
 \description{
 Inspect or change DATA.
 }
+\details{
+It is not recommended to change the data table of a px object with this
+function, since it does update any metadata.
+}
+\examples{
+x1 <- px(population_gl)
+
+# Print data table
+px_data(x1)
+
+# Change data table (risky business)
+population_gl_2024 <- subset(population_gl, year == 2024)
+
+x2 <- px_data(x1, population_gl_2024)
+
+}
 \seealso{
 \href{https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf#\%5B\%7B\%22num\%22\%3A32\%2C\%22gen\%22\%3A0\%7D\%2C\%7B\%22name\%22\%3A\%22XYZ\%22\%7D\%2C184\%2C502\%2C0\%5D}{Statistics Sweden's documentation}
 }

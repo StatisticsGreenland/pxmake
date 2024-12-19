@@ -1,4 +1,4 @@
-test_that("px file = px_save(px(px file))", {
+test_that("PX-file = px_save(px(PX-file))", {
   expect_px_px_save_preserves_everything(px_from_table_name("BEXSTA"))
   expect_px_px_save_preserves_everything(px_from_table_name("FOTEST"))
   expect_px_px_save_preserves_everything(px_from_table_name("no_timeval_or_codes"))

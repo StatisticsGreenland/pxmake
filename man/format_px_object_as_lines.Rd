@@ -2,7 +2,7 @@
 % Please edit documentation in R/px_file.R
 \name{format_px_object_as_lines}
 \alias{format_px_object_as_lines}
-\title{Get lines for px-file from px object}
+\title{Get lines for PX-file from px object}
 \usage{
 format_px_object_as_lines(x)
 }
@@ -13,6 +13,6 @@ format_px_object_as_lines(x)
 A character vector
 }
 \description{
-Get lines for px-file from px object
+Get lines for PX-file from px object
 }
 \keyword{internal}

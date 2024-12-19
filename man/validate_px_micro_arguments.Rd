@@ -9,7 +9,7 @@ validate_px_micro_arguments(x, out_dir)
 \arguments{
 \item{x}{A px object.}
 
-\item{out_dir}{Directory to save px files in.}
+\item{out_dir}{Directory to save PX-files in.}
 }
 \value{
 Nothing

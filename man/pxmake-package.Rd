@@ -21,12 +21,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Lars Pedersen \email{larp@stat.gl}
-
-Authors:
-\itemize{
-  \item Johan Ejstrud \email{johan@ejstrud.com}
-}
+\strong{Maintainer}: Johan Ejstrud \email{johan@ejstrud.com}
 
 Other contributors:
 \itemize{

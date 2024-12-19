@@ -4,7 +4,7 @@ Version: 0.12.1.9006
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",
-                    role = c("aut")
+                    role = c("cre", "aut")
                    ),
              person("Lars Pedersen",
                     email = "larp@stat.gl",

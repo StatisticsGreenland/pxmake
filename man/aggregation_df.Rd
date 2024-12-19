@@ -7,7 +7,7 @@
 aggregation_df(path)
 }
 \arguments{
-\item{Path}{to an aggregation file}
+\item{path}{to an aggregation file}
 }
 \value{
 A data frame with columns 'valuecode' (character) and a second column

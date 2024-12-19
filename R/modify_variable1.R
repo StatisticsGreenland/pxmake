@@ -274,18 +274,18 @@ px_variable_type <- function(x, value, validate) {
 }
 
 #' @eval add_doc_keyword_function_intro("VARIABLE-TYPE")
-#' @param value A data frame with columns 'variable-code' and 'type'. If value
-#' is missing, the current VARIABLE-TYPE is returned. If NULL, all
+#' @param value A data frame with columns 'variable-code' and 'variable-type'.
+#' If value is missing, the current VARIABLE-TYPE is returned. If NULL, all
 #' VARIABLE-TYPE is removed.
 #' @eval param_validate()
 #' @eval add_return_px_or_df()
 #' @examples
-#' libray(tibble)
+#' library(tibble)
 #'
 #' # Set VARIABLE-TYPE
 #' x1 <-
 #'   px(population_gl) |>
-#'   px_varaible_type(tibble('variable-code' = 'year', 'type' = 'time'))
+#'   px_variable_type(tibble('variable-code' = 'year', 'variable-type' = 'time'))
 #'
 #' # Print VARIABLE-TYPE
 #' px_variable_type(x1)

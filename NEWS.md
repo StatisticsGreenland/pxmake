@@ -1,6 +1,7 @@
-# pxmake (development version)
+# pxmake 0.14.0
 
 ## New features
+- Prepare for CRAN submission. (#330)
 - Add `validate =` option to all modifying functions to enable turning off 
 validation. (#332)
 - Add functions `px_classification()` and `px_classification_save()` to create
@@ -12,6 +13,12 @@ STUB/HEADING variables if value is character. (#325)
 - Optimize `px_micro()` by only setting stub once, instead of for all files.
 - Add `na_to_star` option to `px_cellnote()` and `px_cellnotex()`. (#335)
 - Support PX-files with cell values that contain closing parentheses. (#337)
+- Avoid all R CMD Check notes, warning and errors.
+- Add CRAN installation instruction.
+- Use name 'PX-files' consistently.
+- Update package title and description.
+- Add @examples and @return for all exported functions.
+- Reduce size of large files.
 
 # pxmake 0.12.1
 

@@ -23,6 +23,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Johan Ejstrud \email{johan@ejstrud.com}
 
+Authors:
+\itemize{
+  \item Lars Pedersen \email{larp@stat.gl}
+}
+
 Other contributors:
 \itemize{
   \item Statistics Greenland (https://stat.gl/) [copyright holder]

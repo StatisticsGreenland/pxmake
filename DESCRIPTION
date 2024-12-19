@@ -8,7 +8,7 @@ Authors@R: c(
                    ),
              person("Lars Pedersen",
                     email = "larp@stat.gl",
-                    role = c("cre", "aut")
+                    role = c("aut")
                    ),
              person("Statistics Greenland", 
                     role = "cph", 

@@ -1,5 +1,5 @@
 Package: pxmake
-Title: Create and modify PX-files in R
+Title: Make PX-files in R
 Version: 0.12.1.9006
 Authors@R: c(
              person("Johan", "Ejstrud", 

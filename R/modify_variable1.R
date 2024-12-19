@@ -285,7 +285,7 @@ px_variable_type <- function(x, value, validate) {
 #' # Set VARIABLE-TYPE
 #' x1 <-
 #'   px(population_gl) |>
-#'   px_varaible_type(tibble('variable-code' = 'year', 'type' = 'time')
+#'   px_varaible_type(tibble('variable-code' = 'year', 'type' = 'time'))
 #'
 #' # Print VARIABLE-TYPE
 #' px_variable_type(x1)

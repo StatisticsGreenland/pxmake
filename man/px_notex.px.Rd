@@ -64,9 +64,10 @@ px_notex(x2)
 x3 <-
   x1 |>
   px_notex(tribble(~`variable-code`, ~notex,
-                 'year', 'Some data collected in following year'))
-                 'age',  'Is rounded down'))
+                 'year', 'Some data collected in following year',
+                 'age',  'Is rounded down'
                  )
+        )
 px_notex(x3)
 
 # Remove all NOTEXs

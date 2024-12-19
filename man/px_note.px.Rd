@@ -64,9 +64,10 @@ px_note(x2)
 x3 <-
   x1 |>
   px_note(tribble(~`variable-code`, ~note,
-                 'year', 'Some data collected in following year'))
-                 'age',  'Is rounded down'))
+                 'year', 'Some data collected in following year',
+                 'age',  'Is rounded down'
                  )
+        )
 px_note(x3)
 
 # Remove all NOTEs

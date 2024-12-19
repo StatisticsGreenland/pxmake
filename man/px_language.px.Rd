@@ -37,7 +37,7 @@ x1 <-
 px_language(x1)
 
 # Remove LANGUAGE
-x2 <- px_language(x, NULL)
+x2 <- px_language(1x, NULL)
 px_language(x2)
 
 }

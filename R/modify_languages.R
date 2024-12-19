@@ -109,7 +109,7 @@ px_language <- function(x, value, validate) {
 #' px_language(x1)
 #'
 #' # Remove LANGUAGE
-#' x2 <- px_language(x, NULL)
+#' x2 <- px_language(1x, NULL)
 #' px_language(x2)
 #'
 #' @export
@@ -174,7 +174,7 @@ px_languages <- function(x, value, validate) {
 #' px_languages(x1)
 #'
 #' # Remove LANGUAGES
-#' x2 <- px_languages(x, NULL)
+#' x2 <- px_languages(x1, NULL)
 #' px_languages(x2)
 #'
 #' @export

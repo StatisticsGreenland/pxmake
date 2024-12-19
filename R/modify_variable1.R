@@ -2,7 +2,7 @@
 #'
 #' @param x A px object
 #' @param pivot Pivot type (STUB, HEADING, FIGURES)
-#' @param variables A character vector of variable codes to change to the pivot
+#' @param value A character vector of variable codes to change to the pivot
 #' type
 #'
 #' @returns A px object

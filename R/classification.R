@@ -97,7 +97,7 @@ new_classification <- function(name, prestext, domain, df) {
 
 #' Get data set from aggregation file
 #'
-#' @param Path to an aggregation file
+#' @param path to an aggregation file
 #'
 #' @returns A data frame with columns 'valuecode' (character) and a second column
 #' (ordered) named after the aggregation

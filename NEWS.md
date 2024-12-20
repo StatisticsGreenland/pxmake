@@ -1,3 +1,8 @@
+# pxmake 0.14.1
+
+## Bug fixes and minor improvements
+- Fix one CRAN submission related issue, and add a note about another.
+
 # pxmake 0.14.0
 
 ## New features

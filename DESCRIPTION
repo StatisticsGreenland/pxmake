@@ -12,7 +12,7 @@ Authors@R: c(
                    ),
              person("Statistics Greenland", 
                     role = "cph", 
-                    comment =  c(URL = "https://stat.gl/")
+                    comment = "https://stat.gl/"
                     )
             )
 Description: Create PX-files from scratch or read and modify existing ones. 

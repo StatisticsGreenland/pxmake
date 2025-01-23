@@ -11,7 +11,7 @@ status](https://www.r-pkg.org/badges/version/pxmake)](https://cran.r-project.org
 [![Codecov test
 coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StatisticsGreenland/pxmake?branch=main)
 [![Total
-downloads](http://cranlogs.r-pkg.org/badges/grand-total/pxmake?color=blue)](https://cran.r-project.org/package=pxmake)
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/pxmake)](https://cran.r-project.org/package=pxmake)
 <!-- badges: end -->
 
 ## Overview

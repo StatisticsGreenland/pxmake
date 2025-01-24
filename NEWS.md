@@ -1,6 +1,12 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Bugfix: `px_micro()` sometimes ordered variable references incorectly in 
+CELLNOTES. (#348)
+
+
 # pxmake 0.14.2
+- Add CRAN note explaning why /dontrun{} is used.
 
 # pxmake 0.14.1
 

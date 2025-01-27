@@ -10,8 +10,10 @@ status](https://www.r-pkg.org/badges/version/pxmake)](https://cran.r-project.org
 ![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)
 [![Codecov test
 coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StatisticsGreenland/pxmake?branch=main)
-[![Total
-downloads](https://cranlogs.r-pkg.org/badges/last-month/pxmake)](https://cran.r-project.org/package=pxmake)
+[![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
+[![Total downloads](https://cranlogs.r-pkg.org/badges/last-month/pxmake)](https://cran.r-project.org/package=pxmake)
+
+
 <!-- badges: end -->
 
 ## Overview

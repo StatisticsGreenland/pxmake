@@ -4,6 +4,7 @@ test_that("px_save basic functionality", {
   # Runs without errors
   px_save(x, temp_xlsx_file())
   px_save(x, temp_px_file())
+  px_save(x, temp_r_file())
 
   expect_error(px_save(x), regexp = 'argument "path" is missing')
   expect_error(px_save(x, temp_rds_file()), regexp = "Argument 'path'")

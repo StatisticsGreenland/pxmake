@@ -317,8 +317,8 @@ validate_px_arguments <- function(input, data) {
 #' @returns Nothing
 #' @keywords internal
 validate_px_save_arguments <- function(x, path, save_data, data_path) {
-  if (! any(is_px_file(path), is_xlsx_file(path))) {
-    error("Argument 'path' must be a path to an .px or .xlsx file.")
+  if (! any(is_px_file(path), is_xlsx_file(path), is_r_file(path))) {
+    error("Argument 'path' must be a path to an .px, .xlsx or .R file.")
   }
 
   if (! is.logical(save_data)) {

@@ -111,9 +111,21 @@ modify_table2 <- function(x, keyword, value) {
       data.frame(keyword = keyword, value = value, language = defined_languages(x))
   }
 
-  x$table2 <- modify_with_df(x$table2, value, "value")
+  x$table2 <-
+    x$table2 %>%
+    modify_with_df(value, "value") %>%
+    sort_in_keyword_order()
 
   return(x)
+}
+
+sort_in_keyword_order <- function(df) {
+  df %>%
+    dplyr::left_join(dplyr::select(px_keywords, keyword, order),
+                     by = "keyword"
+                     ) %>%
+    dplyr::arrange(order) %>%
+    dplyr::select(-order)
 }
 
 get_cells_name <- function(number) {
@@ -127,6 +139,7 @@ modify_cells <- function(x, number, column, value) {
 
   x[[get_cells_name(number)]] <-
     modify_with_df(x[[get_cells_name(number)]], value, column) %>%
+    align_data_frames(get(paste0("get_base_cells", number))()) %>%
     dplyr::arrange(match(.data$`variable-code`, names(x$data)))
 
   return(x)
@@ -216,7 +229,8 @@ get_cells_value <- function(x, number, column) {
 
   x[[get_cells_name(number)]] %>%
     dplyr::select(all_of(c("variable-code", "code", language_col, !!column))) %>%
-    tidyr::drop_na(!!column)
+    tidyr::drop_na(!!column) %>%
+    dplyr::select(where(~ ! all(is.na(.))))
 }
 
 get_variable1_value <- function(x, column) {

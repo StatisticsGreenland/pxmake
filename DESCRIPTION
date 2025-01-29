@@ -25,6 +25,7 @@ RoxygenNote: 7.3.2
 Imports: 
     arrow,
     dplyr,
+    forcats,
     furrr,
     magrittr,
     methods,

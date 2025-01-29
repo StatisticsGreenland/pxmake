@@ -12,11 +12,11 @@ format_data_df <- function(data_df, figures_variable) {
   data_df %>%
     dplyr::ungroup() %>%
     dplyr::mutate(across(-one_of(intersect(names(.), figures_variable)),
-                         as.character
+                         ~factor(.x, ordered = FALSE)
                          )
                   ) %>%
-    dplyr::mutate(dplyr::across(where(is.character),
-                                ~ tidyr::replace_na(.x, "-")
+    dplyr::mutate(dplyr::across(where(~ is.factor(.x) && anyNA(.x)),
+                                ~ forcats::fct_na_value_to_level(.x, level = "-")
                                 )
                   )
 }
@@ -97,11 +97,11 @@ px_from_data_df <- function(df) {
       data_df %>%
       dplyr::select(all_of(setdiff(names(.), figures_variable))) %>%
       tidyr::pivot_longer(cols = everything(),
+                          cols_vary = "slowest",
                           names_to = "variable-code",
                           values_to = "code"
                           ) %>%
       dplyr::distinct() %>%
-      dplyr::arrange(.data$`variable-code`, .data$code) %>%
       dplyr::group_by(.data$`variable-code`) %>%
       dplyr::mutate(order = dplyr::row_number()) %>%
       dplyr::ungroup() %>%

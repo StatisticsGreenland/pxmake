@@ -126,7 +126,8 @@ modify_cells <- function(x, number, column, value) {
   }
 
   x[[get_cells_name(number)]] <-
-    modify_with_df(x[[get_cells_name(number)]], value, column)
+    modify_with_df(x[[get_cells_name(number)]], value, column) %>%
+    dplyr::arrange(match(.data$`variable-code`, names(x$data)))
 
   return(x)
 }

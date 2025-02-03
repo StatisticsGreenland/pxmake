@@ -8,6 +8,10 @@
 #' @returns Nothing
 #' @keywords internal
 save_px_as_r_script <- function(x, path) {
+  is_list_of_lists <- function(x) {
+    all(purrr::map_lgl(x, is.list))
+  }
+
   data_code <-
     px_keywords %>%
     # Remove unimplemented functions
@@ -18,6 +22,12 @@ save_px_as_r_script <- function(x, path) {
     dplyr::filter(!purrr::map_lgl(value, is.null)) %>%
     # Remove rows where value is default value
     dplyr::filter(!purrr::map2_lgl(value, default_value, identical)) %>%
+    # Expand values that are list of lists
+    dplyr::mutate(value = purrr::map(value,
+                                     ~if (is_list_of_lists(.x)) .x else list(.x)
+                                     )
+                  ) %>%
+    tidyr::unnest(value) %>%
     dplyr::mutate(value_constructor = purrr::map_chr(value, convert_value_to_code)) %>%
     dplyr::select(keyword, px_function, value_constructor) %>%
     dplyr::arrange(keyword != "DATA") %>%

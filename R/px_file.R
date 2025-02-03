@@ -222,6 +222,12 @@ px_from_px_file <- function(path) {
 
   variable_label <- get_variable_label(metadata_df)
 
+  stub_heading_variables <-
+    variable_label %>%
+    dplyr::filter(.data$main_language, .data$keyword %in% c("HEADING", "STUB")) %>%
+    dplyr::arrange(desc(.data$keyword), .data$index) %>%
+    dplyr::pull("variable-code")
+
   name_relation <-
     variable_label %>%
     dplyr::distinct(.data$`variable-code`,
@@ -265,14 +271,16 @@ px_from_px_file <- function(path) {
     table_sheet_data %>%
     dplyr::filter(! .data$language_dependent) %>%
     dplyr::select("keyword", "value") %>%
-    align_data_frames(get_base_table1())
+    align_data_frames(get_base_table1()) %>%
+    sort_in_keyword_order()
 
   # table2
   table2 <-
     table_sheet_data %>%
     dplyr::filter(.data$language_dependent) %>%
     dplyr::select('keyword', "code" = "cell", "language", "value") %>%
-    align_data_frames(get_base_table2())
+    align_data_frames(get_base_table2()) %>%
+    sort_in_keyword_order()
 
   # variable1
   figures_variable <-
@@ -292,10 +300,6 @@ px_from_px_file <- function(path) {
                                        )
                        )
     }
-
-  empty_type_df <- tidyr::tibble("variable-code" = character(0),
-                                 "variable-type" = character(0)
-                                 )
 
   time_var <-
     metadata %>%
@@ -352,9 +356,12 @@ px_from_px_file <- function(path) {
     dplyr::left_join(timeval_df, by = "variable-code") %>%
     dplyr::filter(! .data$`variable-code` %in% figures_variable) %>%
     dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,
-                                   pivot = "FIGURES"
+                                   pivot = "FIGURES",
+                                   contvariable = FALSE,
+                                   timeval = FALSE
                                    )
-                     )
+                     ) %>%
+    align_data_frames(get_base_variables1())
 
   # variables2
   variables2 <-
@@ -379,7 +386,8 @@ px_from_px_file <- function(path) {
                                            )
                                       )
                      ) %>%
-    align_data_frames(get_base_variables2())
+    align_data_frames(get_base_variables2()) %>%
+    dplyr::arrange(match(.data$`variable-code`, stub_heading_variables))
 
   # cells1, cells2
   codes <-
@@ -451,12 +459,6 @@ px_from_px_file <- function(path) {
     align_data_frames(get_base_cells2())
 
   # acrosscells
-  stub_heading_variables <-
-    variable_label %>%
-    dplyr::filter(.data$main_language, .data$keyword %in% c("HEADING", "STUB")) %>%
-    dplyr::arrange(desc(.data$keyword), .data$index) %>%
-    dplyr::pull("variable-code")
-
   acrosscells_variables <- intersect(unique(metadata$keyword),
                                     c("CELLNOTE", "CELLNOTEX")
                                     )

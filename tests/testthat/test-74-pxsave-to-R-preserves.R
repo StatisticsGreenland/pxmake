@@ -27,7 +27,7 @@ test_that('px file is preserved', {
   }
 
   expect_equal_all_px_element(px(population_gl))
-  # expect_equal_all_px_element(px(get_px_file_path('BEXSTA_windows_1252')))
+  expect_equal_all_px_element(px(get_px_file_path('BEXSTA_windows_1252')))
   # expect_equal_all_px_element(px(get_px_file_path('CONTVARIABLE')))
   # expect_equal_all_px_element(px(get_px_file_path('CONTVARIABLE_multiple_languages')))
   # expect_equal_all_px_element(px(get_px_file_path('no_timeval_or_codes2')))

@@ -99,7 +99,9 @@ remove_keyword_variables2 <- function(x, keyword) {
 }
 
 modify_table1 <- function(x, keyword, value) {
-  x$table1 <- modify_or_add_row(x$table1, "keyword", keyword, "value", value)
+  x$table1 <-
+    modify_or_add_row(x$table1, "keyword", keyword, "value", value) %>%
+    sort_in_keyword_order()
   return(x)
 }
 
@@ -146,7 +148,10 @@ modify_cells <- function(x, number, column, value) {
 }
 
 modify_variables1 <- function(x, column, value) {
-  x$variables1 <- modify_with_df(x$variables1, value, column)
+  x$variables1 <-
+    modify_with_df(x$variables1, value, column) %>%
+    dplyr::arrange(match(.data$`variable-code`, names(x$data)))
+
   return(x)
 }
 
@@ -155,7 +160,12 @@ modify_variables2 <- function(x, column, value) {
     value <- dplyr::tibble("{column}" := value)
   }
 
-  x$variables2 <- modify_with_df(x$variables2, value, column)
+  x$variables2 <-
+    modify_with_df(x$variables2, value, column) %>%
+    align_data_frames(get_base_variables2()) %>%
+    dplyr::arrange(match(.data$`variable-code`, names(px_data(x))),
+                   match(.data$`variable-code`, px_languages(x))
+                   )
 
   return(x)
 }

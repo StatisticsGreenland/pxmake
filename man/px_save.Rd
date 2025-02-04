@@ -13,6 +13,7 @@ px_save(x, path, save_data = TRUE, data_path = NULL)
 \itemize{
 \item \code{.px} to save as a PX-file
 \item \code{.xlsx} to save as an Excel workbook
+\item \code{.R} to save an R-script that creates the px object
 }}
 
 \item{save_data}{If FALSE, no 'Data' sheet is created in the Excel workbook.
@@ -43,6 +44,9 @@ px_save(x, file.path(tmp_dir, "population.px"))
 
 # Save px object to Excel workbook
 px_save(x, file.path(tmp_dir, "population.xlsx"))
+
+# Save px object as R-script that creates the px object
+px_save(x, file.path(tmp_dir, "population.R"))
 
 }
 \seealso{

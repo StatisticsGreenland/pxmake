@@ -387,7 +387,9 @@ px_from_px_file <- function(path) {
                                       )
                      ) %>%
     align_data_frames(get_base_variables2()) %>%
-    dplyr::arrange(match(.data$`variable-code`, stub_heading_variables))
+    dplyr::arrange(match(.data$`variable-code`, stub_heading_variables),
+                   match(.data$language, languages$language)
+                   )
 
   # cells1, cells2
   codes <-
@@ -451,12 +453,19 @@ px_from_px_file <- function(path) {
   cells1 <-
     cells %>%
     dplyr::distinct(.data$`variable-code`, .data$code, .data$order, .data$precision) %>%
-    align_data_frames(get_base_cells1())
+    align_data_frames(get_base_cells1()) %>%
+    dplyr::arrange(match(.data$`variable-code`, stub_heading_variables),
+                   order
+                   )
 
   cells2 <-
     cells %>%
     dplyr::select("variable-code", "code", "language", "value", "valuenote") %>%
-    align_data_frames(get_base_cells2())
+    align_data_frames(get_base_cells2()) %>%
+    dplyr::arrange(match(.data$`variable-code`, stub_heading_variables),
+                   .data$code,
+                   match(.data$language, languages$language)
+                   )
 
   # acrosscells
   acrosscells_variables <- intersect(unique(metadata$keyword),

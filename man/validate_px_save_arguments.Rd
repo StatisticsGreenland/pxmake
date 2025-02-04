@@ -13,6 +13,7 @@ validate_px_save_arguments(x, path, save_data, data_path)
 \itemize{
 \item \code{.px} to save as a PX-file
 \item \code{.xlsx} to save as an Excel workbook
+\item \code{.R} to save an R-script that creates the px object
 }}
 
 \item{save_data}{If FALSE, no 'Data' sheet is created in the Excel workbook.

@@ -16,6 +16,11 @@ save_px_as_r_script <- function(x, path) {
     px_keywords %>%
     # Remove unimplemented functions
     dplyr::filter(px_function %in% getNamespaceExports('pxmake')) %>%
+    # Add px_order
+    dplyr::bind_rows(data.frame(keyword = NA_character_,
+                                px_function = "px_order"
+                                )
+                     ) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(value = list(eval(parse(text = paste0(px_function, "(x)"))))) %>%
     dplyr::ungroup() %>%

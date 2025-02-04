@@ -105,7 +105,10 @@ px_from_data_df <- function(df) {
       dplyr::group_by(.data$`variable-code`) %>%
       dplyr::mutate(order = dplyr::row_number()) %>%
       dplyr::ungroup() %>%
-      align_data_frames(get_base_cells1())
+      align_data_frames(get_base_cells1()) %>%
+      dplyr::arrange(match(.data$`variable-code`, names(data_df)),
+                     .data$order
+                     )
   }
 
   cells2 <-
@@ -114,7 +117,10 @@ px_from_data_df <- function(df) {
     dplyr::mutate(language = default_language,
                   value = .data$code
                   ) %>%
-    align_data_frames(get_base_cells2())
+    align_data_frames(get_base_cells2()) %>%
+    dplyr::arrange(match(.data$`variable-code`, names(data_df)),
+                   .data$code
+                   )
 
   new_px(languages = get_base_languages(),
          table1 = table1,

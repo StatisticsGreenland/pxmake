@@ -66,7 +66,12 @@ modify_languages_in_px <- function(x, new_languages) {
                               new_languages = new_languages,
                               keep_vars = c("variable-code", "code"),
                               align_df = get_base_cells2()
-                              )
+                              ) %>%
+    dplyr::arrange(match(.data$`variable-code`, names(px_data(x))),
+                   .data$code,
+                   match(.data$language, new_languages)
+                   )
+
   x$acrosscells <-
     modify_languages_in_table(df = x$acrosscells,
                               new_languages = new_languages,

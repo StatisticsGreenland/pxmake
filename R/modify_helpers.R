@@ -144,6 +144,20 @@ modify_cells <- function(x, number, column, value) {
     align_data_frames(get(paste0("get_base_cells", number))()) %>%
     dplyr::arrange(match(.data$`variable-code`, names(x$data)))
 
+  if (number == "1"){
+    x$cells1 <-
+      x$cells1 %>%
+      dplyr::arrange(match(.data$`variable-code`, names(px_data(x))),
+                     .data$order
+                     )
+  } else if (number == "2") {
+    x$cells2 <-
+      x$cells2 %>%
+      dplyr::arrange(match(.data$`variable-code`, names(px_data(x))))
+  } else {
+    unexpected_error()
+  }
+
   return(x)
 }
 
@@ -164,7 +178,7 @@ modify_variables2 <- function(x, column, value) {
     modify_with_df(x$variables2, value, column) %>%
     align_data_frames(get_base_variables2()) %>%
     dplyr::arrange(match(.data$`variable-code`, names(px_data(x))),
-                   match(.data$`variable-code`, px_languages(x))
+                   match(.data$language, px_languages(x))
                    )
 
   return(x)

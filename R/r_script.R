@@ -102,9 +102,12 @@ convert_df_to_code <- function(df) {
 
   rows <-
     df %>%
-    dplyr::mutate(across(where(is.character), ~shQuote(.)),
-                  across(where(is.numeric), as.character),
-                  across(everything(), ~ifelse(is.na(.), "NA", .))
+    dplyr::mutate(across(where(is.character),
+                         ~ dplyr::if_else(is.na(.), "NA", shQuote(.))
+                         ),
+                  across(where(is.numeric),
+                         ~ dplyr::if_else(is.na(.), "NA", as.character(.))
+                         ),
                   ) %>%
     tidyr::unite("rows", everything(), sep = ", ") %>%
     dplyr::pull(1)

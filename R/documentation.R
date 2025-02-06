@@ -1,4 +1,4 @@
-# Functions to create roxygen2 documention
+# Functions to create roxygen2 documentation
 
 keyword_to_function <- function(keyword) {
   paste0("px_", gsub("-", "_", tolower(keyword)))

@@ -2,6 +2,7 @@
 
 ## New features
 - Variable order is preserved in the order that they appear in data set. (#345)
+- `px()` can use an URL as input. (#353)
 
 ## Bug fixes and minor improvements
 - Bugfix: `px_micro()` sometimes ordered variable references incorrectly in 

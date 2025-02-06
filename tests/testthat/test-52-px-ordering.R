@@ -30,7 +30,7 @@ test_that("numerics are sorted", {
     px_save(tmp_px)
 
   height_order_in_px <-
-    px(tmp_px)$cells2 %>%
+    px(tmp_px)$cells1 %>%
     dplyr::filter(`variable-code` == "height") %>%
     dplyr::pull(code)
 

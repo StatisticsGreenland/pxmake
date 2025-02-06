@@ -123,11 +123,11 @@ modify_table2 <- function(x, keyword, value) {
 
 sort_in_keyword_order <- function(df) {
   df %>%
-    dplyr::left_join(dplyr::select(px_keywords, keyword, order),
+    dplyr::left_join(dplyr::select(px_keywords, "keyword", "order"),
                      by = "keyword"
                      ) %>%
-    dplyr::arrange(order) %>%
-    dplyr::select(-order)
+    dplyr::arrange(.data$order) %>%
+    dplyr::select(-"order")
 }
 
 get_cells_name <- function(number) {

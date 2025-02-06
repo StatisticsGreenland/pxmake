@@ -15,33 +15,33 @@ save_px_as_r_script <- function(x, path) {
   data_code <-
     px_keywords %>%
     # Remove unimplemented functions
-    dplyr::filter(px_function %in% getNamespaceExports('pxmake')) %>%
+    dplyr::filter(.data$px_function %in% getNamespaceExports('pxmake')) %>%
     # Add px_order
     dplyr::bind_rows(data.frame(keyword = NA_character_,
                                 px_function = "px_order"
                                 )
                      ) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(value = list(eval(parse(text = paste0(px_function, "(x)"))))) %>%
+    dplyr::mutate(value = list(eval(parse(text = paste0(.data$px_function, "(x)"))))) %>%
     dplyr::ungroup() %>%
-    dplyr::filter(!purrr::map_lgl(value, is.null)) %>%
+    dplyr::filter(!purrr::map_lgl(.data$value, is.null)) %>%
     # Remove rows where value is default value
-    dplyr::filter(!purrr::map2_lgl(value, default_value, identical)) %>%
+    dplyr::filter(!purrr::map2_lgl(.data$value, default_value, identical)) %>%
     # Expand values that are list of lists
-    dplyr::mutate(value = purrr::map(value,
+    dplyr::mutate(value = purrr::map(.data$value,
                                      ~if (is_list_of_lists(.x)) .x else list(.x)
                                      )
                   ) %>%
-    tidyr::unnest(value) %>%
-    dplyr::mutate(value_constructor = purrr::map_chr(value, convert_value_to_code)) %>%
-    dplyr::select(keyword, px_function, value_constructor) %>%
-    dplyr::arrange(keyword != "DATA") %>%
+    tidyr::unnest(.data$value) %>%
+    dplyr::mutate(value_constructor = purrr::map_chr(.data$value, convert_value_to_code)) %>%
+    dplyr::select("keyword", "px_function", "value_constructor") %>%
+    dplyr::arrange(.data$keyword != "DATA") %>%
     dplyr::mutate(last_row = dplyr::row_number() == dplyr::n()) %>%
     dplyr::mutate(
       code = dplyr::case_when(
-        keyword == "DATA" ~ stringr::str_glue("px(input = {value_constructor}) %>%"),
-        !last_row         ~ stringr::str_glue("  {px_function}({value_constructor}) %>%"),
-        last_row          ~ stringr::str_glue("  {px_function}({value_constructor})")
+        keyword == "DATA" ~ stringr::str_glue("px(input = {.data$value_constructor}) %>%"),
+        !last_row         ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor}) %>%"),
+        last_row          ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor})")
       )
     ) %>%
     dplyr::pull(code) %>%

@@ -7,6 +7,7 @@
 ## Bug fixes and minor improvements
 - Bugfix: `px_micro()` sometimes ordered variable references incorrectly in 
 CELLNOTES. (#348)
+- Add package files to remove dontrun example for `px_classification()`. (#346)
 
 # pxmake 0.14.2
 - Add CRAN note explaning why /dontrun{} is used.

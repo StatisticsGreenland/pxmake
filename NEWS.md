@@ -8,6 +8,7 @@
 - Bugfix: `px_micro()` sometimes ordered variable references incorrectly in 
 CELLNOTES. (#348)
 - Add package files to remove dontrun example for `px_classification()`. (#346)
+- Use *main language* VALUES as CODES in PX-files without CODES. (#361)
 
 # pxmake 0.14.2
 - Add CRAN note explaning why /dontrun{} is used.

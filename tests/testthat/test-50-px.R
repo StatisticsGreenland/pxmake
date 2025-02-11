@@ -28,6 +28,7 @@ test_that("px runs without errors (PX-file)", {
   expect_runs_without_errors("CONTVARIABLE")
   expect_runs_without_errors("CONTVARIABLE_multiple_languages")
   expect_runs_without_errors("PRXPRISH")
+  expect_runs_without_errors("multilingual_no_codes")
 })
 
 test_that("px runs without errors (data frame and rds path)", {

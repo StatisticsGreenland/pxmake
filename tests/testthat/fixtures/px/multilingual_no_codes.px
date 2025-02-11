@@ -1,0 +1,52 @@
+CHARSET="ANSI";
+AXIS-VERSION="2000";
+LANGUAGE="en";
+LANGUAGES="en","kl";
+CREATION-DATE="";
+NEXT-UPDATE="";
+UPDATE-FREQUENCY="";
+DECIMALS=0;
+SHOWDECIMALS=0;
+MATRIX="NO_TIMEVAL";
+SUBJECT-CODE="BE";
+SUBJECT-AREA="Population";
+SUBJECT-AREA[kl]="Population";
+COPYRIGHT=YES;
+DESCRIPTION="Population";
+DESCRIPTION[kl]="Population";
+CONTENTS="Example without timeval";
+CONTENTS[kl]="Example without timeval";
+STUB="type";
+STUB[kl]="type";
+HEADING="gender";
+HEADING[kl]="gender";
+VALUES("type")="a","b","c","d";
+VALUES[kl]("type")="a_kl","b_kl","c_kl","d_kl";
+VALUES("gender")="F","M";
+VALUES[kl]("gender")="F_kl","M_kl";
+UNITS="persons";
+UNITS[kl]="persons";
+VARIABLECODE("type")="type";
+VARIABLECODE[kl]("type")="type";
+VARIABLECODE("gender")="gender";
+VARIABLECODE[kl]("gender")="gender";
+VARIABLECODE("value")="value";
+VARIABLECODE[kl]("value")="value";
+LAST-UPDATED="";
+LAST-UPDATED[kl]="";
+CONTACT="";
+CONTACT[kl]="";
+SOURCE="Statistics Greenland";
+SOURCE[kl]="Statistics Greenland";
+LINK="";
+LINK[kl]="";
+NOTEX="";
+NOTEX[kl]="";
+NOTE="";
+NOTE[kl]="";
+DATA=
+2 1
+4 3
+6 5
+8 7
+;

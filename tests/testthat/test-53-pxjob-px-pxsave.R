@@ -19,6 +19,7 @@ test_that("pxjob exists without errors (exit code 0)", {
   expect_that_pxjob_runs_without_errors(px(input = get_metadata_path("FOTEST")))
   expect_that_pxjob_runs_without_errors(px(input = get_px_file_path("TUX01")))
   expect_that_pxjob_runs_without_errors(px(input = get_data_path("BEXSTA")))
+  expect_that_pxjob_runs_without_errors(px(input = get_px_file_path("multilingual_no_codes")))
 
   x1 <- px(input = women)
   x1$cells2 <- get_base_cells2()

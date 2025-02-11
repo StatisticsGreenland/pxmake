@@ -2,10 +2,13 @@
 
 ## New features
 - Variable order is preserved in the order that they appear in data set. (#345)
+- `px()` can use an URL as input. (#353)
 
 ## Bug fixes and minor improvements
 - Bugfix: `px_micro()` sometimes ordered variable references incorrectly in 
 CELLNOTES. (#348)
+- Add package files to remove dontrun example for `px_classification()`. (#346)
+- Use *main language* VALUES as CODES in PX-files without CODES. (#361)
 
 # pxmake 0.14.2
 - Add CRAN note explaning why /dontrun{} is used.

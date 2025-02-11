@@ -437,12 +437,18 @@ px_from_px_file <- function(path) {
 
   codes_and_values <-
     codes %>%
-    # Use values as codes, if codes are missing
+    # Use main language values as codes, if codes are missing
     dplyr::full_join(values, by = c("variable-code", "order"),
                      multiple = "all"
                      ) %>%
     dplyr::full_join(valuenote, by = c("variable-code", "value", "language")) %>%
-    dplyr::mutate(code = ifelse(is.na(.data$code), .data$value, .data$code))
+    dplyr::group_by(.data$`variable-code`, .data$order) %>%
+    dplyr::mutate(code = ifelse(is.na(.data$code),
+                                .data$value[.data$main_language],
+                                .data$code
+                                )
+                  ) %>%
+    dplyr::ungroup()
 
   cells <-
     codes_and_values %>%

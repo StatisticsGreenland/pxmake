@@ -3,9 +3,16 @@
 #' Create a px object from a PX-file, an Excel metadata workbook, or a data
 #' frame.
 #'
-#' @param input Path to PX-file, path to an Excel metadata workbook, a data
-#' frame or path to an `.rds` or `.parquet` file with a data frame. If input is
-#' a data frame or NULL, a px object with minimal metadata is created.
+#' @param input Optional character string. Can be:
+#' \itemize{
+#'   \item Path to a PX-file
+#'   \item Path to an Excel metadata workbook
+#'   \item A data frame
+#'   \item Path to an `.rds` or `.parquet` file with a data frame
+#'   \item URL of a PX-file
+#' }
+#'
+#' If input is a data frame or NULL, a px object with minimal metadata is created.
 #' @param data Either a data frame or a path to an `.rds` or `.parquet` file
 #' with a data frame. This can only be used if `input` is an Excel metadata
 #' workbook.
@@ -23,6 +30,12 @@
 #' download.file(url, px_path)
 #'
 #' x2 <- px(px_path)
+#'
+#' # Create px object from URL
+#' x3 <- px(url)
+#'
+#' # Create minimal px object
+#' x4 <- px()
 #'
 #' @export
 px <- function(input = NULL, data = NULL, validate = TRUE) {
@@ -48,7 +61,7 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
     data <- arrow::read_parquet(data)
   }
 
-  if (is_px_file(input)) {
+  if (is_px_file(input) || is_url(input)) {
     px <- px_from_px_file(input)
   } else if (is_xlsx_file(input)) {
     px <- px_from_excel(input, data)

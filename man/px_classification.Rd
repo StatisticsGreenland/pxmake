@@ -76,18 +76,24 @@ c1 <- px_classification(name = "Age5",
                                 )
                         )
 
-\dontrun{
-# Create classification from .vs file and use aggregations mentioned in .vs
-c2 <- px_classification(vs_path = "path/to/value_set.vs")
+# Create classifications from files
 
-# Create classification from .vs file and manually specify aggregation files
-c3 <- px_classification(vs_path = "path/to/value_set.vs",
-                        agg_paths = c("path/to/aggregation1.agg",
-                                      "path/to/aggregation2.agg"
-                                      )
-                       )
+vs_file <- system.file("extdata", "Age5.vs", package = "pxmake")
 
+agg_files <- c(
+  system.file("extdata", "10-years_classes.agg", package = "pxmake"),
+  system.file("extdata", "25-years_classes.agg", package = "pxmake")
+)
 
+if (vs_file != "" & all(agg_files != "")) {
+  # Create classification from .vs file and use aggregations mentioned in .vs
+  c2 <- px_classification(vs_path = vs_file)
+
+  # Create classification from .vs file and manually specify aggregation files
+  c3 <- px_classification(vs_path = vs_file,
+                          agg_paths = agg_files
+                          )
+
+  identical(c2, c3)
 }
-
 }

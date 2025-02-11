@@ -280,6 +280,14 @@ error_if_value_contains_quotation_marks <- function(x) {
   }
 }
 
+is_url <- function(path) {
+  if (!is.character(path) || length(path) != 1) {
+    return(FALSE)
+  }
+
+  stringr::str_detect(path, "^https?://")
+}
+
 #' Check all arguments to px()
 #'
 #' @inheritParams px
@@ -288,7 +296,8 @@ error_if_value_contains_quotation_marks <- function(x) {
 #' @keywords internal
 validate_px_arguments <- function(input, data) {
   if (! any(is_px_file(input), is_xlsx_file(input), is.data.frame(input),
-            is_rds_file(input), is_parquet_file(input), is.null(input))) {
+            is_rds_file(input), is_parquet_file(input), is.null(input),
+            is_url(input))) {
     error("Argument 'input' has wrong format. See ?px.")
   }
 

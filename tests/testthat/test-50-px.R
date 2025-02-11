@@ -28,6 +28,7 @@ test_that("px runs without errors (PX-file)", {
   expect_runs_without_errors("CONTVARIABLE")
   expect_runs_without_errors("CONTVARIABLE_multiple_languages")
   expect_runs_without_errors("PRXPRISH")
+  expect_runs_without_errors("multilingual_no_codes")
 })
 
 test_that("px runs without errors (data frame and rds path)", {
@@ -52,6 +53,12 @@ test_that("px runs without errors (data frame and parquet path)", {
   }
 
   expect_runs_without_errors("BEXSTA_parquet")
+})
+
+test_that("px runs without errors (URL)", {
+  px(input = "https://bank.stat.gl:443/sq/deed6eff-22dd-4b25-9b78-fca11875352b")
+
+  expect_true(TRUE)
 })
 
 test_that("px can run on an Excel workbook without a 'Data' sheet", {

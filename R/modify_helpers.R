@@ -164,7 +164,8 @@ modify_cells <- function(x, number, column, value) {
 modify_variables1 <- function(x, column, value) {
   x$variables1 <-
     modify_with_df(x$variables1, value, column) %>%
-    dplyr::arrange(match(.data$`variable-code`, names(x$data)))
+    dplyr::arrange(match(.data$`variable-code`, names(x$data))) %>%
+    align_data_frames(get_base_variables1())
 
   return(x)
 }

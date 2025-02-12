@@ -16,7 +16,7 @@ test_that('px file is preserved', {
 
     expect_equal(x$languages, x2$languages)
     expect_equal(x$table1, x2$table1)
-    expect_equal(dplyr::arrange_all(x$table2), dplyr::arrange_all(x2$table2))
+    expect_equal(x$table2, x2$table2)
     expect_equal(x$variables1, x2$variables1)
     expect_equal(x$variables2, x2$variables2)
     expect_equal(x$cells1, x2$cells1)
@@ -30,12 +30,17 @@ test_that('px file is preserved', {
   expect_equal_all_px_element(px(get_px_file_path('BEXSTA_windows_1252')))
   expect_equal_all_px_element(px(get_px_file_path('SOXATI4')))
 
-  # UNITS in wrong, it's set for values that do not exist
+  # UNITS in wrong because of (#364)
   # expect_equal_all_px_element(px(get_px_file_path('CONTVARIABLE')))
-
   # expect_equal_all_px_element(px(get_px_file_path('CONTVARIABLE_multiple_languages')))
+
+  # TITLE differ, which is fine ("" vs NULL)
+  # TIMEVAL differ, easy fix
   # expect_equal_all_px_element(px(get_px_file_path('no_timeval_or_codes2')))
+
+  # Something about TIMEVAL causes problems
   # expect_equal_all_px_element(px(get_px_file_path('PRXPRISH')))
 
-#  expect_equal_all_px_element(px(get_px_file_path('TUX01')))
+  # Fails to create
+  # expect_equal_all_px_element(px(get_px_file_path('TUX01')))
 })

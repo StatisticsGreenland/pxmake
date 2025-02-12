@@ -32,7 +32,7 @@ save_px_as_r_script <- function(x, path) {
                                      ~if (is_list_of_lists(.x)) .x else list(.x)
                                      )
                   ) %>%
-    tidyr::unnest(.data$value) %>%
+    tidyr::unnest("value") %>%
     dplyr::mutate(value_constructor = purrr::map_chr(.data$value, convert_value_to_code)) %>%
     dplyr::select("keyword", "px_function", "value_constructor") %>%
     dplyr::arrange(.data$keyword != "DATA") %>%
@@ -102,7 +102,7 @@ convert_df_to_code <- function(df) {
 
   rows <-
     df %>%
-    dplyr::mutate(across(where(is.character),
+    dplyr::mutate(across(where(~ is.factor(.) | is.character(.)),
                          ~ dplyr::if_else(is.na(.), "NA", shQuote(.))
                          ),
                   across(where(is.numeric),

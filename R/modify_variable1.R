@@ -30,7 +30,7 @@ change_pivot_variables <- function(x, value, pivot) {
                                  )
                   ) %>%
     dplyr::select(-all_of(c("order.y", "order.x"))) %>%
-    dplyr::arrange(desc("pivot"), "order") %>%
+    dplyr::arrange(desc(.data$pivot), .data$order) %>%
     align_data_frames(get_base_variables1())
 
   new_acrosscells_base <- get_base_acrosscells(c(px_stub(x), px_heading(x)))
@@ -191,13 +191,13 @@ px_timeval.px <- function(x, value, validate = TRUE) {
                            )
 
     # TIMEVAL variables should not be in cells1/2
-    x$cells1  <-
-      x$cells1 %>%
-      dplyr::filter(!.data$`variable-code` %in% !!rlang::syms(value))
-
-    x$cells2  <-
-      x$cells2 %>%
-      dplyr::filter(!.data$`variable-code` %in% !!rlang::syms(value))
+    # x$cells1  <-
+    #   x$cells1 %>%
+    #   dplyr::filter(!.data$`variable-code` %in% !!rlang::syms(value))
+    #
+    # x$cells2  <-
+    #   x$cells2 %>%
+    #   dplyr::filter(!.data$`variable-code` %in% !!rlang::syms(value))
   }
 
   return_px(x, validate)

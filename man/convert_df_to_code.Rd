@@ -7,7 +7,7 @@
 convert_df_to_code(df)
 }
 \arguments{
-\item{value}{A data frame}
+\item{df}{A data frame}
 }
 \value{
 A character vector

@@ -101,7 +101,7 @@ convert_value_to_code <- function(value) {
 #'
 #' Convert data frame to the code nessasary to construct it as a tibble.
 #'
-#' @param value A data frame
+#' @param df A data frame
 #'
 #' @returns A character vector
 #' @keywords internal

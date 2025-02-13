@@ -272,7 +272,7 @@ px_from_px_file <- function(path) {
     dplyr::filter(! .data$language_dependent) %>%
     dplyr::select("keyword", "value") %>%
     align_data_frames(get_base_table1()) %>%
-    sort_in_keyword_order()
+    sort_table1()
 
   # table2
   table2 <-
@@ -280,7 +280,7 @@ px_from_px_file <- function(path) {
     dplyr::filter(.data$language_dependent) %>%
     dplyr::select('keyword', "code" = "cell", "language", "value") %>%
     align_data_frames(get_base_table2()) %>%
-    sort_in_keyword_order()
+    sort_table2()
 
   # variable1
   figures_variable <-
@@ -361,8 +361,8 @@ px_from_px_file <- function(path) {
                                    timeval = FALSE
                                    )
                      ) %>%
-    dplyr::arrange(desc(.data$pivot), .data$order) %>%
-    align_data_frames(get_base_variables1())
+    align_data_frames(get_base_variables1()) %>%
+    sort_variables1()
 
   # variables2
   variables2 <-
@@ -388,9 +388,9 @@ px_from_px_file <- function(path) {
                                       )
                      ) %>%
     align_data_frames(get_base_variables2()) %>%
-    dplyr::arrange(match(.data$`variable-code`, stub_heading_variables),
-                   match(.data$language, languages$language)
-                   )
+    sort_variables2(data_table_names =  stub_heading_variables,
+                    languages = languages$language
+                    )
 
   # cells1, cells2
   codes <-
@@ -461,18 +461,15 @@ px_from_px_file <- function(path) {
     cells %>%
     dplyr::distinct(.data$`variable-code`, .data$code, .data$order, .data$precision) %>%
     align_data_frames(get_base_cells1()) %>%
-    dplyr::arrange(match(.data$`variable-code`, stub_heading_variables),
-                   order
-                   )
+    sort_cells1(data_table_names = stub_heading_variables)
 
   cells2 <-
     cells %>%
     dplyr::select("variable-code", "code", "language", "value", "valuenote") %>%
     align_data_frames(get_base_cells2()) %>%
-    dplyr::arrange(match(.data$`variable-code`, stub_heading_variables),
-                   .data$code,
-                   match(.data$language, languages$language)
-                   )
+    sort_cells2(data_table_names = stub_heading_variables,
+                languages = languages$language
+                )
 
   # acrosscells
   acrosscells_variables <- intersect(unique(metadata$keyword),

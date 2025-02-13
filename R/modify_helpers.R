@@ -121,15 +121,6 @@ modify_table2 <- function(x, keyword, value) {
   return(x)
 }
 
-sort_in_keyword_order <- function(df) {
-  df %>%
-    dplyr::left_join(dplyr::select(px_keywords, "keyword", "order"),
-                     by = "keyword"
-                     ) %>%
-    dplyr::arrange(.data$order) %>%
-    dplyr::select(-"order")
-}
-
 get_cells_name <- function(number) {
   paste0("cells", number)
 }
@@ -141,19 +132,15 @@ modify_cells <- function(x, number, column, value) {
 
   x[[get_cells_name(number)]] <-
     modify_with_df(x[[get_cells_name(number)]], value, column) %>%
-    align_data_frames(get(paste0("get_base_cells", number))()) %>%
-    dplyr::arrange(match(.data$`variable-code`, names(x$data)))
+    align_data_frames(get(paste0("get_base_cells", number))())
 
   if (number == "1"){
-    x$cells1 <-
-      x$cells1 %>%
-      dplyr::arrange(match(.data$`variable-code`, names(px_data(x))),
-                     .data$order
-                     )
+    x$cells1 <- sort_cells1(x$cells1, data_table_names = names(px_data(x)))
   } else if (number == "2") {
-    x$cells2 <-
-      x$cells2 %>%
-      dplyr::arrange(match(.data$`variable-code`, names(px_data(x))))
+    x$cells2 <- sort_cells2(x$cells2,
+                            data_table_names = names(px_data(x)),
+                            languages = px_languages(x)
+                            )
   } else {
     unexpected_error()
   }
@@ -164,8 +151,8 @@ modify_cells <- function(x, number, column, value) {
 modify_variables1 <- function(x, column, value) {
   x$variables1 <-
     modify_with_df(x$variables1, value, column) %>%
-    dplyr::arrange(match(.data$`variable-code`, names(x$data))) %>%
-    align_data_frames(get_base_variables1())
+    align_data_frames(get_base_variables1()) %>%
+    sort_variables1()
 
   return(x)
 }
@@ -178,10 +165,9 @@ modify_variables2 <- function(x, column, value) {
   x$variables2 <-
     modify_with_df(x$variables2, value, column) %>%
     align_data_frames(get_base_variables2()) %>%
-    dplyr::arrange(match(.data$`variable-code`, names(px_data(x))),
-                   match(.data$language, px_languages(x))
-                   )
-
+    sort_variables2(data_table_names =  names(px_data(x)),
+                    languages = px_languages(x)
+                    )
   return(x)
 }
 

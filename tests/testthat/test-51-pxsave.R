@@ -6,6 +6,12 @@ test_that("px_save basic functionality", {
   px_save(x, temp_px_file())
   px_save(x, temp_r_file())
 
+  px(population_gl) %>%
+    px_save(path = temp_r_file(), data_path = temp_rds_file())
+
+  px(population_gl) %>%
+    px_save(path = temp_r_file(), data_path = temp_parquet_file())
+
   expect_error(px_save(x), regexp = 'argument "path" is missing')
   expect_error(px_save(x, temp_rds_file()), regexp = "Argument 'path'")
 })
@@ -29,7 +35,7 @@ test_that("px_save save_data and data_path arguments works", {
                )
 
   expect_error(px_save(x = x, path = temp_px_file(), data_path = temp_rds_file()),
-               regexp = "'data_path' can only be used if 'path' is an .xlsx file"
+               regexp = "'data_path' can only be used if 'path' is an .xlsx or .R file"
                )
 
   expect_error(px_save(x = x, path = temp_xlsx_file(), data_path = temp_px_file()),

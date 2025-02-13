@@ -334,12 +334,12 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
     error("Argument 'save_data' must be TRUE or FALSE.")
   }
 
-  if (! any(is.null(data_path), is_rds_file(data_path))) {
+  if (all(!is.null(data_path), all(!is_rds_file(data_path), !is_parquet_file(data_path)))) {
     error("Argument 'data_path' must be a path to an .rds or .parquet file.")
   }
 
-  if (all(!is.null(data_path), !is_xlsx_file(path))) {
-    error("Argument 'data_path' can only be used if 'path' is an .xlsx file.")
+  if (all(!is.null(data_path), all(!is_xlsx_file(path), !is_r_file(path)))) {
+    error("Argument 'data_path' can only be used if 'path' is an .xlsx or .R file.")
   }
 
   if (all(!is.null(data_path), isFALSE(save_data))) {

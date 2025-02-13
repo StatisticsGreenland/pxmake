@@ -1,3 +1,7 @@
+dummy_data_path <- function() {
+  'not_a_file'
+}
+
 #' Save px object as an R script
 #'
 #' Running the R script creates the px object.
@@ -7,9 +11,21 @@
 #'
 #' @returns Nothing
 #' @keywords internal
-save_px_as_r_script <- function(x, path) {
+save_px_as_r_script <- function(x, path, data_path) {
   is_list_of_lists <- function(x) {
     all(purrr::map_lgl(x, is.list))
+  }
+
+  if (!is.null(data_path)) {
+    if (is_rds_file(data_path)) {
+      saveRDS(x$data, data_path)
+    } else if (is_parquet_file(data_path)) {
+      arrow::write_parquet(x$data, data_path)
+    } else {
+      unexpected_error()
+    }
+  } else {
+    data_path <- dummy_data_path()
   }
 
   data_code <-
@@ -28,9 +44,9 @@ save_px_as_r_script <- function(x, path) {
     # Remove rows where value is default value
     dplyr::filter(!purrr::map2_lgl(.data$value, default_value, identical)) %>%
     # Expand values that are list of lists
-    dplyr::mutate(value = purrr::map(.data$value,
-                                     ~if (is_list_of_lists(.x)) .x else list(.x)
-                                     )
+    dplyr::mutate(value = purrr::map(.data$value, function(x) {
+                                     if (is_list_of_lists(x)) x else list(x)
+                                     })
                   ) %>%
     tidyr::unnest("value") %>%
     dplyr::mutate(value_constructor = purrr::map_chr(.data$value, convert_value_to_code)) %>%
@@ -39,10 +55,11 @@ save_px_as_r_script <- function(x, path) {
     dplyr::mutate(last_row = dplyr::row_number() == dplyr::n()) %>%
     dplyr::mutate(
       code = dplyr::case_when(
-        keyword == "DATA" ~ stringr::str_glue("px(input = {.data$value_constructor}) %>%"),
+        keyword == "DATA" & data_path == dummy_data_path() ~ stringr::str_glue("px(input = {.data$value_constructor}) %>%"),
+        keyword == "DATA" & data_path != dummy_data_path() ~ stringr::str_glue('px(input = "{normalizePath(data_path, winslash = "/", mustWork = FALSE)}") %>%'),
         !last_row         ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor}) %>%"),
         last_row          ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor})")
-      )
+        )
     ) %>%
     dplyr::pull(code) %>%
     paste(collapse = "\n")

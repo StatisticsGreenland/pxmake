@@ -1,18 +1,23 @@
 # Add test that running px_save('.R') code creates the same px object.
 test_that('px file is preserved', {
 
-  save_as_r_and_open <- function(x) {
-    tmp_file <- temp_r_file()
+  save_as_r_and_open <- function(x, save_dataset = FALSE) {
+    tmp_r   <- temp_r_file()
+    tmp_rds <- temp_rds_file()
 
-    px_save(x, tmp_file)
+    if (isTRUE(save_dataset)) {
+      px_save(x, path = tmp_r, data_path = tmp_rds)
+    } else {
+      px_save(x, path = tmp_r)
+    }
 
-    x2 <- source(tmp_file)$value
+    x2 <- source(tmp_r)$value
 
     return(x2)
   }
 
-  expect_equal_all_px_element <- function(x) {
-    x2 <- save_as_r_and_open(x)
+  expect_equal_all_px_element <- function(x, save_dataset = FALSE) {
+    x2 <- save_as_r_and_open(x, save_dataset)
 
     expect_equal(x$languages, x2$languages)
     expect_equal(x$table1, x2$table1)
@@ -27,6 +32,7 @@ test_that('px file is preserved', {
   }
 
   expect_equal_all_px_element(px(population_gl))
+  expect_equal_all_px_element(px(population_gl), save_dataset = TRUE)
   expect_equal_all_px_element(px(get_px_file_path('BEXSTA_windows_1252')))
   expect_equal_all_px_element(px(get_px_file_path('SOXATI4')))
 

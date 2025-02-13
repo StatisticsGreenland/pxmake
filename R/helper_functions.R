@@ -420,10 +420,11 @@ temp_file_with_extension <- function(extension) {
   }
 }
 
-temp_px_file   <- temp_file_with_extension(".px")
-temp_rds_file  <- temp_file_with_extension(".rds")
-temp_xlsx_file <- temp_file_with_extension(".xlsx")
-temp_r_file    <- temp_file_with_extension(".R")
+temp_px_file      <- temp_file_with_extension(".px")
+temp_rds_file     <- temp_file_with_extension(".rds")
+temp_xlsx_file    <- temp_file_with_extension(".xlsx")
+temp_r_file       <- temp_file_with_extension(".R")
+temp_parquet_file <- temp_file_with_extension(".parquet")
 
 #' Align data frames
 #'

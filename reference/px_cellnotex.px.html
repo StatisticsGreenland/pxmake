@@ -98,11 +98,7 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print CELLNOTEX</span></span></span>
 <span class="r-in"><span><span class="fu">px_cellnotex</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   gender age   year  cellnotex</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> male   0-6   2004  <span style="color: #BB0000;">NA</span>       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> female *     2014  <span style="color: #BB0000;">NA</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set CELLNOTEX in multiple languagese</span></span></span>
 <span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span></span></span>
@@ -113,13 +109,7 @@
 <span class="r-in"><span>             <span class="st">'*'</span>, <span class="st">'2003'</span>,  <span class="st">'en'</span>, <span class="st">'Some of the figures are from 2003'</span>,</span></span>
 <span class="r-in"><span>             <span class="st">'*'</span>, <span class="st">'2003'</span>, <span class="st">'kl'</span>, <span class="st">'Kisitsisit ilaat 2003-imeersuupput'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">px_cellnotex</span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   gender age   year  language cellnotex</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> male   0-6   2004  en       <span style="color: #BB0000;">NA</span>       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> male   0-6   2004  kl       <span style="color: #BB0000;">NA</span>       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> *      *     2003  en       <span style="color: #BB0000;">NA</span>       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> *      *     2003  kl       <span style="color: #BB0000;">NA</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Remove CELLNOTEX</span></span></span>
 <span class="r-in"><span><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu">px_cellnotex</span><span class="op">(</span><span class="va">x3</span>, <span class="cn">NULL</span><span class="op">)</span></span></span>

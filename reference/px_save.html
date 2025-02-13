@@ -58,6 +58,7 @@
 <dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
 <dd><p>Path to file. The file extension determines the format. Can be:</p><ul><li><p><code>.px</code> to save as a PX-file</p></li>
 <li><p><code>.xlsx</code> to save as an Excel workbook</p></li>
+<li><p><code>.R</code> to save an R-script that creates the px object</p></li>
 </ul></dd>
 
 
@@ -68,9 +69,8 @@ Can only be used if <code>path</code> is an <code>.xlsx</code> file.</p></dd>
 
 <dt id="arg-data-path">data_path<a class="anchor" aria-label="anchor" href="#arg-data-path"></a></dt>
 <dd><p>Path to an <code>.rds</code> or <code>.parquet</code> file to save data table at.
-This is usefull when saving an Excel workbook where the data has more rows
-than Excel can handle. Can only be used if <code>path</code> is an <code>.xlsx</code> file, and
-<code>save_data</code> is <code>TRUE</code>.</p></dd>
+Can only be used if <code>path</code> is an <code>.xlsx</code> or <code>.R</code> file, and <code>save_data</code> is
+<code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -98,6 +98,9 @@ than Excel can handle. Can only be used if <code>path</code> is an <code>.xlsx</
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Save px object to Excel workbook</span></span></span>
 <span class="r-in"><span><span class="fu">px_save</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmp_dir</span>, <span class="st">"population.xlsx"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Save px object as R-script that creates the px object</span></span></span>
+<span class="r-in"><span><span class="fu">px_save</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmp_dir</span>, <span class="st">"population.R"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

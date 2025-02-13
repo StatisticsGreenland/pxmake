@@ -22,6 +22,8 @@
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/break_long_lines.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/change_pivot_variables.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/classification_file_section_heading_regexp.html</loc></url>
+<url><loc>https://statisticsgreenland.github.io/pxmake/reference/convert_df_to_code.html</loc></url>
+<url><loc>https://statisticsgreenland.github.io/pxmake/reference/convert_value_to_code.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/create_dummy_tibbles.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/defined_languages.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/drop_blank_rows.html</loc></url>
@@ -133,6 +135,7 @@
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/replace_na_language_with_main_language.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/return_px.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/save_px_as_px_file.html</loc></url>
+<url><loc>https://statisticsgreenland.github.io/pxmake/reference/save_px_as_r_script.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/save_px_as_xlsx.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/section_interval.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/smallest_larger_value.html</loc></url>

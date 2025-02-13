@@ -41,6 +41,5 @@ test_that('px file is preserved', {
   # Something about TIMEVAL causes problems
   # expect_equal_all_px_element(px(get_px_file_path('PRXPRISH')))
 
-  # Fails to create
-  # expect_equal_all_px_element(px(get_px_file_path('TUX01')))
+  expect_equal_all_px_element(px(get_px_file_path('TUX01')))
 })

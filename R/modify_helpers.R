@@ -313,7 +313,8 @@ get_acrosscells_value <- function(x, keyword) {
                            column_name
                            )
                          )
-                  )
+                  ) %>%
+    tidyr::drop_na(all_of(column_name))
 
   if (nrow(value) == 0) {
     return(NULL)

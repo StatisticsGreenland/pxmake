@@ -8,6 +8,7 @@ dummy_data_path <- function() {
 #'
 #' @param x A px object
 #' @param path Path to save R script at
+#' @param data_path `.rds` or `.parquest` path to save data at
 #'
 #' @returns Nothing
 #' @keywords internal
@@ -25,6 +26,7 @@ save_px_as_r_script <- function(x, path, data_path) {
       unexpected_error()
     }
   } else {
+    # Use dummy path because normalizePath() gives errors when data_path = NULL
     data_path <- dummy_data_path()
   }
 

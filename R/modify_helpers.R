@@ -101,7 +101,8 @@ remove_keyword_variables2 <- function(x, keyword) {
 modify_table1 <- function(x, keyword, value) {
   x$table1 <-
     modify_or_add_row(x$table1, "keyword", keyword, "value", value) %>%
-    sort_in_keyword_order()
+    sort_table1()
+
   return(x)
 }
 
@@ -116,7 +117,7 @@ modify_table2 <- function(x, keyword, value) {
   x$table2 <-
     x$table2 %>%
     modify_with_df(value, "value") %>%
-    sort_in_keyword_order()
+    sort_table2()
 
   return(x)
 }

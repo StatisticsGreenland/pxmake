@@ -395,9 +395,7 @@ px_from_px_file <- function(path) {
   # cells1, cells2
   codes <-
     metadata %>%
-    dplyr::filter(.data$main_language, .data$keyword %in% c("CODES"),
-                  #!.data$`variable-code` %in% time_var # Time vars should not be in cells
-                  ) %>%
+    dplyr::filter(.data$main_language, .data$keyword %in% c("CODES")) %>%
     tidyr::unnest("value") %>%
     dplyr::rename("code" = "value") %>%
     dplyr::group_by(.data$`variable-code`) %>%
@@ -454,7 +452,6 @@ px_from_px_file <- function(path) {
   cells <-
     codes_and_values %>%
     dplyr::select(-"main_language") %>%
-    #dplyr::filter(!.data$`variable-code` %in% time_var) %>%
     dplyr::left_join(precision, by = c("variable-code", "value"))
 
   cells1 <-

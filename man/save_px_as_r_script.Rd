@@ -10,6 +10,8 @@ save_px_as_r_script(x, path, data_path)
 \item{x}{A px object}
 
 \item{path}{Path to save R script at}
+
+\item{data_path}{\code{.rds} or \code{.parquest} path to save data at}
 }
 \value{
 Nothing

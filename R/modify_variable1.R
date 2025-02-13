@@ -189,15 +189,6 @@ px_timeval.px <- function(x, value, validate = TRUE) {
                                          timeval = TRUE
                                          )
                            )
-
-    # TIMEVAL variables should not be in cells1/2
-    # x$cells1  <-
-    #   x$cells1 %>%
-    #   dplyr::filter(!.data$`variable-code` %in% !!rlang::syms(value))
-    #
-    # x$cells2  <-
-    #   x$cells2 %>%
-    #   dplyr::filter(!.data$`variable-code` %in% !!rlang::syms(value))
   }
 
   return_px(x, validate)

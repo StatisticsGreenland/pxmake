@@ -1,5 +1,4 @@
-# Add test that running px_save('.R') code creates the same px object.
-test_that('px file is preserved', {
+test_that('px file is preserved when saved as R script', {
 
   save_as_r_and_open <- function(x, save_dataset = FALSE) {
     tmp_r   <- temp_r_file()
@@ -34,7 +33,13 @@ test_that('px file is preserved', {
   expect_equal_all_px_element(px(population_gl))
   expect_equal_all_px_element(px(population_gl), save_dataset = TRUE)
   expect_equal_all_px_element(px(get_px_file_path('BEXSTA_windows_1252')))
+  expect_equal_all_px_element(px(get_px_file_path('BEXSTA_windows_1252')), save_dataset = TRUE)
   expect_equal_all_px_element(px(get_px_file_path('SOXATI4')))
+  expect_equal_all_px_element(px(get_px_file_path('SOXATI4')), save_dataset = TRUE)
+  expect_equal_all_px_element(px(get_px_file_path('TUX01')))
+  expect_equal_all_px_element(px(get_px_file_path('TUX01')), save_dataset = TRUE)
+
+  # A couple of tests doens't work, but the functionality is 80 there
 
   # UNITS in wrong because of (#364)
   # expect_equal_all_px_element(px(get_px_file_path('CONTVARIABLE')))
@@ -46,6 +51,4 @@ test_that('px file is preserved', {
 
   # Something about TIMEVAL causes problems
   # expect_equal_all_px_element(px(get_px_file_path('PRXPRISH')))
-
-  expect_equal_all_px_element(px(get_px_file_path('TUX01')))
 })

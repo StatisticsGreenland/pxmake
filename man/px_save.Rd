@@ -13,15 +13,15 @@ px_save(x, path, save_data = TRUE, data_path = NULL)
 \itemize{
 \item \code{.px} to save as a PX-file
 \item \code{.xlsx} to save as an Excel workbook
+\item \code{.R} to save an R-script that creates the px object
 }}
 
 \item{save_data}{If FALSE, no 'Data' sheet is created in the Excel workbook.
 Can only be used if \code{path} is an \code{.xlsx} file.}
 
 \item{data_path}{Path to an \code{.rds} or \code{.parquet} file to save data table at.
-This is usefull when saving an Excel workbook where the data has more rows
-than Excel can handle. Can only be used if \code{path} is an \code{.xlsx} file, and
-\code{save_data} is \code{TRUE}.}
+Can only be used if \code{path} is an \code{.xlsx} or \code{.R} file, and \code{save_data} is
+\code{TRUE}.}
 }
 \value{
 Nothing
@@ -43,6 +43,9 @@ px_save(x, file.path(tmp_dir, "population.px"))
 
 # Save px object to Excel workbook
 px_save(x, file.path(tmp_dir, "population.xlsx"))
+
+# Save px object as R-script that creates the px object
+px_save(x, file.path(tmp_dir, "population.R"))
 
 }
 \seealso{

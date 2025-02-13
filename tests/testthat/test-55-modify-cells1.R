@@ -36,7 +36,10 @@ test_that('cells1 is modified', {
     px_precision(x, data.frame(precision = 1)) %>%
     px_precision() %>%
     dplyr::mutate(order = rev(dplyr::row_number())) %>%
-    dplyr::select(-precision)
+    dplyr::select(-precision) %>%
+    dplyr::arrange(match(.data$`variable-code`, names(px_data(x))),
+                   order
+                   )
 
   x5 <- px_order(x, reverse_order)
 

@@ -99,7 +99,10 @@ remove_keyword_variables2 <- function(x, keyword) {
 }
 
 modify_table1 <- function(x, keyword, value) {
-  x$table1 <- modify_or_add_row(x$table1, "keyword", keyword, "value", value)
+  x$table1 <-
+    modify_or_add_row(x$table1, "keyword", keyword, "value", value) %>%
+    sort_table1()
+
   return(x)
 }
 
@@ -111,7 +114,10 @@ modify_table2 <- function(x, keyword, value) {
       data.frame(keyword = keyword, value = value, language = defined_languages(x))
   }
 
-  x$table2 <- modify_with_df(x$table2, value, "value")
+  x$table2 <-
+    x$table2 %>%
+    modify_with_df(value, "value") %>%
+    sort_table2()
 
   return(x)
 }
@@ -127,13 +133,28 @@ modify_cells <- function(x, number, column, value) {
 
   x[[get_cells_name(number)]] <-
     modify_with_df(x[[get_cells_name(number)]], value, column) %>%
-    dplyr::arrange(match(.data$`variable-code`, names(x$data)))
+    align_data_frames(get(paste0("get_base_cells", number))())
+
+  if (number == "1"){
+    x$cells1 <- sort_cells1(x$cells1, data_table_names = names(px_data(x)))
+  } else if (number == "2") {
+    x$cells2 <- sort_cells2(x$cells2,
+                            data_table_names = names(px_data(x)),
+                            languages = px_languages(x)
+                            )
+  } else {
+    unexpected_error()
+  }
 
   return(x)
 }
 
 modify_variables1 <- function(x, column, value) {
-  x$variables1 <- modify_with_df(x$variables1, value, column)
+  x$variables1 <-
+    modify_with_df(x$variables1, value, column) %>%
+    align_data_frames(get_base_variables1()) %>%
+    sort_variables1()
+
   return(x)
 }
 
@@ -142,8 +163,12 @@ modify_variables2 <- function(x, column, value) {
     value <- dplyr::tibble("{column}" := value)
   }
 
-  x$variables2 <- modify_with_df(x$variables2, value, column)
-
+  x$variables2 <-
+    modify_with_df(x$variables2, value, column) %>%
+    align_data_frames(get_base_variables2()) %>%
+    sort_variables2(data_table_names =  names(px_data(x)),
+                    languages = px_languages(x)
+                    )
   return(x)
 }
 
@@ -216,7 +241,8 @@ get_cells_value <- function(x, number, column) {
 
   x[[get_cells_name(number)]] %>%
     dplyr::select(all_of(c("variable-code", "code", language_col, !!column))) %>%
-    tidyr::drop_na(!!column)
+    tidyr::drop_na(!!column) %>%
+    dplyr::select(where(~ ! all(is.na(.))))
 }
 
 get_variable1_value <- function(x, column) {
@@ -274,7 +300,8 @@ get_acrosscells_value <- function(x, keyword) {
                            column_name
                            )
                          )
-                  )
+                  ) %>%
+    tidyr::drop_na(all_of(column_name))
 
   if (nrow(value) == 0) {
     return(NULL)

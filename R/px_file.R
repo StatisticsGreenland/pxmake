@@ -222,6 +222,12 @@ px_from_px_file <- function(path) {
 
   variable_label <- get_variable_label(metadata_df)
 
+  stub_heading_variables <-
+    variable_label %>%
+    dplyr::filter(.data$main_language, .data$keyword %in% c("HEADING", "STUB")) %>%
+    dplyr::arrange(desc(.data$keyword), .data$index) %>%
+    dplyr::pull("variable-code")
+
   name_relation <-
     variable_label %>%
     dplyr::distinct(.data$`variable-code`,
@@ -265,14 +271,16 @@ px_from_px_file <- function(path) {
     table_sheet_data %>%
     dplyr::filter(! .data$language_dependent) %>%
     dplyr::select("keyword", "value") %>%
-    align_data_frames(get_base_table1())
+    align_data_frames(get_base_table1()) %>%
+    sort_table1()
 
   # table2
   table2 <-
     table_sheet_data %>%
     dplyr::filter(.data$language_dependent) %>%
     dplyr::select('keyword', "code" = "cell", "language", "value") %>%
-    align_data_frames(get_base_table2())
+    align_data_frames(get_base_table2()) %>%
+    sort_table2()
 
   # variable1
   figures_variable <-
@@ -292,10 +300,6 @@ px_from_px_file <- function(path) {
                                        )
                        )
     }
-
-  empty_type_df <- tidyr::tibble("variable-code" = character(0),
-                                 "variable-type" = character(0)
-                                 )
 
   time_var <-
     metadata %>%
@@ -352,9 +356,13 @@ px_from_px_file <- function(path) {
     dplyr::left_join(timeval_df, by = "variable-code") %>%
     dplyr::filter(! .data$`variable-code` %in% figures_variable) %>%
     dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,
-                                   pivot = "FIGURES"
+                                   pivot = "FIGURES",
+                                   contvariable = FALSE,
+                                   timeval = FALSE
                                    )
-                     )
+                     ) %>%
+    align_data_frames(get_base_variables1()) %>%
+    sort_variables1()
 
   # variables2
   variables2 <-
@@ -379,14 +387,15 @@ px_from_px_file <- function(path) {
                                            )
                                       )
                      ) %>%
-    align_data_frames(get_base_variables2())
+    align_data_frames(get_base_variables2()) %>%
+    sort_variables2(data_table_names =  stub_heading_variables,
+                    languages = languages$language
+                    )
 
   # cells1, cells2
   codes <-
     metadata %>%
-    dplyr::filter(.data$main_language, .data$keyword %in% c("CODES"),
-                  !.data$`variable-code` %in% time_var # Time vars should not be in cells
-                  ) %>%
+    dplyr::filter(.data$main_language, .data$keyword %in% c("CODES")) %>%
     tidyr::unnest("value") %>%
     dplyr::rename("code" = "value") %>%
     dplyr::group_by(.data$`variable-code`) %>%
@@ -443,26 +452,23 @@ px_from_px_file <- function(path) {
   cells <-
     codes_and_values %>%
     dplyr::select(-"main_language") %>%
-    dplyr::filter(!.data$`variable-code` %in% time_var) %>%
     dplyr::left_join(precision, by = c("variable-code", "value"))
 
   cells1 <-
     cells %>%
     dplyr::distinct(.data$`variable-code`, .data$code, .data$order, .data$precision) %>%
-    align_data_frames(get_base_cells1())
+    align_data_frames(get_base_cells1()) %>%
+    sort_cells1(data_table_names = stub_heading_variables)
 
   cells2 <-
     cells %>%
     dplyr::select("variable-code", "code", "language", "value", "valuenote") %>%
-    align_data_frames(get_base_cells2())
+    align_data_frames(get_base_cells2()) %>%
+    sort_cells2(data_table_names = stub_heading_variables,
+                languages = languages$language
+                )
 
   # acrosscells
-  stub_heading_variables <-
-    variable_label %>%
-    dplyr::filter(.data$main_language, .data$keyword %in% c("HEADING", "STUB")) %>%
-    dplyr::arrange(desc(.data$keyword), .data$index) %>%
-    dplyr::pull("variable-code")
-
   acrosscells_variables <- intersect(unique(metadata$keyword),
                                     c("CELLNOTE", "CELLNOTEX")
                                     )
@@ -496,7 +502,7 @@ px_from_px_file <- function(path) {
                                                    TRUE ~ NA
                                                    )
                   ) %>%
-    dplyr::arrange(dplyr::across(c("keyword_order", "index"))) %>%
+    dplyr::arrange(.data$keyword_order, .data$index) %>%
     dplyr::mutate(expand_order = dplyr::row_number()) %>%
     dplyr::select("variable-code", "expand_order")
 
@@ -543,7 +549,8 @@ px_from_px_file <- function(path) {
   data_df <-
     do.call(tidyr::expand_grid, stub_and_heading_values) %>%
     dplyr::bind_cols(figures) %>%
-    dplyr::as_tibble()
+    dplyr::as_tibble() %>%
+    dplyr::mutate(across(-all_of(figures_variable), as.factor))
 
   new_px(languages = languages,
          table1 = table1,

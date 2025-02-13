@@ -30,8 +30,8 @@ change_pivot_variables <- function(x, value, pivot) {
                                  )
                   ) %>%
     dplyr::select(-all_of(c("order.y", "order.x"))) %>%
-    dplyr::arrange(desc("pivot"), "order") %>%
-    align_data_frames(get_base_variables1())
+    align_data_frames(get_base_variables1()) %>%
+    sort_variables1()
 
   new_acrosscells_base <- get_base_acrosscells(c(px_stub(x), px_heading(x)))
 

@@ -80,12 +80,12 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
 #' @param path Path to file. The file extension determines the format. Can be:
 #' - `.px` to save as a PX-file
 #' - `.xlsx` to save as an Excel workbook
+#' - `.R` to save an R-script that creates the px object
 #' @param save_data If FALSE, no 'Data' sheet is created in the Excel workbook.
 #' Can only be used if `path` is an `.xlsx` file.
 #' @param data_path Path to an `.rds` or `.parquet` file to save data table at.
-#' This is usefull when saving an Excel workbook where the data has more rows
-#' than Excel can handle. Can only be used if `path` is an `.xlsx` file, and
-#' `save_data` is `TRUE`.
+#' Can only be used if `path` is an `.xlsx` or `.R` file, and `save_data` is
+#' `TRUE`.
 #' @details
 #' Use `px_codepage()` to change file encoding.
 #'
@@ -104,6 +104,9 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
 #' # Save px object to Excel workbook
 #' px_save(x, file.path(tmp_dir, "population.xlsx"))
 #'
+#' # Save px object as R-script that creates the px object
+#' px_save(x, file.path(tmp_dir, "population.R"))
+#'
 #' @export
 px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
   validate_px_save_arguments(x, path, save_data, data_path)
@@ -112,6 +115,8 @@ px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
     save_px_as_px_file(x, path)
   } else if (is_xlsx_file(path)) {
     save_px_as_xlsx(x, path, save_data, data_path)
+  } else if (is_r_file(path)) {
+    save_px_as_r_script(x, path, data_path)
   } else {
     unexpected_error()
   }

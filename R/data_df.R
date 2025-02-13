@@ -38,14 +38,16 @@ px_from_data_df <- function(df) {
     mandatory_table_keywords %>%
     dplyr::filter(!.data$language_dependent) %>%
     dplyr::select("keyword", "value" = "default_value") %>%
-    align_data_frames(get_base_table1())
+    align_data_frames(get_base_table1()) %>%
+    sort_table1()
 
   table2 <-
     mandatory_table_keywords %>%
     dplyr::filter(.data$language_dependent) %>%
     dplyr::select("keyword", "value" = "default_value") %>%
     dplyr::mutate(language = default_language) %>%
-    align_data_frames(get_base_table2())
+    align_data_frames(get_base_table2()) %>%
+    sort_table2()
 
   variable_names <- names(df)
 
@@ -80,7 +82,8 @@ px_from_data_df <- function(df) {
                   contvariable = FALSE
                   ) %>%
     dplyr::ungroup() %>%
-    align_data_frames(get_base_variables1())
+    align_data_frames(get_base_variables1()) %>%
+    sort_variables1()
 
   variables2 <-
     variables1 %>%
@@ -88,7 +91,10 @@ px_from_data_df <- function(df) {
     dplyr::mutate(language = default_language,
                   `variable-label` = .data$`variable-code`
                   ) %>%
-    align_data_frames(get_base_variables2())
+    align_data_frames(get_base_variables2()) %>%
+    sort_variables2(data_table_names = names(df),
+                    languages = default_language
+                    )
 
   if (length(df) == 0) {
     cells1 <- get_base_cells1()
@@ -105,7 +111,8 @@ px_from_data_df <- function(df) {
       dplyr::group_by(.data$`variable-code`) %>%
       dplyr::mutate(order = dplyr::row_number()) %>%
       dplyr::ungroup() %>%
-      align_data_frames(get_base_cells1())
+      align_data_frames(get_base_cells1()) %>%
+      sort_cells1(data_table_names = names(data_df))
   }
 
   cells2 <-
@@ -114,7 +121,10 @@ px_from_data_df <- function(df) {
     dplyr::mutate(language = default_language,
                   value = .data$code
                   ) %>%
-    align_data_frames(get_base_cells2())
+    align_data_frames(get_base_cells2()) %>%
+    sort_cells2(data_table_names = names(data_df),
+                languages = default_language
+                )
 
   new_px(languages = get_base_languages(),
          table1 = table1,

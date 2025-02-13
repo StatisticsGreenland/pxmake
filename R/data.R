@@ -19,6 +19,7 @@
 #' @format A data frame:
 #' \describe{
 #'   \item{keyword}{Name}
+#'   \item{px_function}{Function name}
 #'   \item{mandatory}{Is required in a PX-file}
 #'   \item{table_meta}{Is metadata for entire table; not individual variables or cells}
 #'   \item{language_dependent}{Is language dependent}

@@ -373,7 +373,7 @@ guess_file_encoding <- function(path, prefer = list("UTF-8" = .2,
 is_path_extension <- function(extension) {
   function(path) {
     if (is.character(path)) {
-      identical(TRUE, tolower(tools::file_ext(path)) == extension)
+      identical(TRUE, tolower(tools::file_ext(path)) == tolower(extension))
     } else {
       FALSE
     }
@@ -384,6 +384,7 @@ is_rds_file     <- is_path_extension("rds")
 is_parquet_file <- is_path_extension("parquet")
 is_xlsx_file    <- is_path_extension("xlsx")
 is_px_file      <- is_path_extension("px")
+is_r_file       <- is_path_extension("R")
 
 #' Create and return path to temporary directory
 #'
@@ -419,9 +420,11 @@ temp_file_with_extension <- function(extension) {
   }
 }
 
-temp_px_file   <- temp_file_with_extension(".px")
-temp_rds_file  <- temp_file_with_extension(".rds")
-temp_xlsx_file <- temp_file_with_extension(".xlsx")
+temp_px_file      <- temp_file_with_extension(".px")
+temp_rds_file     <- temp_file_with_extension(".rds")
+temp_xlsx_file    <- temp_file_with_extension(".xlsx")
+temp_r_file       <- temp_file_with_extension(".R")
+temp_parquet_file <- temp_file_with_extension(".parquet")
 
 #' Align data frames
 #'

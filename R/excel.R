@@ -80,7 +80,8 @@ px_from_excel <- function(excel_path, data = NULL) {
   table1 <-
     table_sheet %>%
     align_data_frames(get_base_table1()) %>%
-    dplyr::filter(! .data$keyword %in% c("LANGUAGES"))
+    dplyr::filter(! .data$keyword %in% c("LANGUAGES")) %>%
+    sort_table1()
 
   # table2
   table2 <-
@@ -91,7 +92,8 @@ px_from_excel <- function(excel_path, data = NULL) {
                         names_to = c("language"),
                         names_pattern = "^([[:alpha:]]+)_.*$"
                         ) %>%
-    align_data_frames(get_base_table2())
+    align_data_frames(get_base_table2()) %>%
+    sort_table2()
 
   # variables1, variables2
   variables_sheet <-
@@ -101,9 +103,28 @@ px_from_excel <- function(excel_path, data = NULL) {
   variables1 <-
     variables_sheet %>%
     align_data_frames(get_base_variables1()) %>%
+    sort_variables1() %>%
     dplyr::select("variable-code", "pivot", "order",
                   "variable-type", "contvariable", "timeval"
                   )
+
+  # data_df, variables2, cells1, cells2
+  if (is.null(data)) {
+    if (excel_sheet_exists("Data", excel_path)) {
+      data <- get_data_sheet(excel_path)
+    } else {
+      # Empty dummy data set
+      data <-
+        variables_sheet %>%
+        dplyr::pull("variable-code") %>%
+        rlang::rep_named(list(as.character())) %>%
+        dplyr::as_tibble()
+    }
+  }
+
+  data_df <- format_data_df(data,
+                            figures_variable = get_figures_variable_from_excel(excel_path)
+                            )
 
   variables2 <-
     variables_sheet %>%
@@ -124,25 +145,10 @@ px_from_excel <- function(excel_path, data = NULL) {
                                             .data$`variable-code`,
                                             .data$`variable-label`
                                             )
-                  )
-
-  # cells1, cells2, data_df
-  if (is.null(data)) {
-    if (excel_sheet_exists("Data", excel_path)) {
-      data <- get_data_sheet(excel_path)
-    } else {
-      # Empty dummy data set
-      data <-
-        variables_sheet %>%
-        dplyr::pull("variable-code") %>%
-        rlang::rep_named(list(as.character())) %>%
-        dplyr::as_tibble()
-    }
-  }
-
-  data_df <- format_data_df(data,
-                            figures_variable = get_figures_variable_from_excel(excel_path)
-                            )
+                  ) %>%
+    sort_variables2(data_table_names = names(data_df),
+                    languages = languages$language
+                    )
 
   cells_sheet <-
     excel_path %>%
@@ -169,7 +175,6 @@ px_from_excel <- function(excel_path, data = NULL) {
     variables1 %>%
     dplyr::filter(toupper(.data$pivot) %in% c("STUB", "HEADING")
                   ) %>%
-    dplyr::arrange(desc(.data$pivot), .data$order) %>%
     dplyr::pull("variable-code")
 
   acrosscells <-

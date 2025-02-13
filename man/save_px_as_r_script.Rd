@@ -4,7 +4,7 @@
 \alias{save_px_as_r_script}
 \title{Save px object as an R script}
 \usage{
-save_px_as_r_script(x, path)
+save_px_as_r_script(x, path, data_path)
 }
 \arguments{
 \item{x}{A px object}

@@ -20,9 +20,8 @@ validate_px_save_arguments(x, path, save_data, data_path)
 Can only be used if \code{path} is an \code{.xlsx} file.}
 
 \item{data_path}{Path to an \code{.rds} or \code{.parquet} file to save data table at.
-This is usefull when saving an Excel workbook where the data has more rows
-than Excel can handle. Can only be used if \code{path} is an \code{.xlsx} file, and
-\code{save_data} is \code{TRUE}.}
+Can only be used if \code{path} is an \code{.xlsx} or \code{.R} file, and \code{save_data} is
+\code{TRUE}.}
 }
 \value{
 Nothing

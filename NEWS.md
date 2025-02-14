@@ -1,16 +1,17 @@
 # pxmake (development version)
 
 ## New features
-- Variable order is preserved in the order that they appear in data set. (#345)
-- `px()` can use an URL as input. (#353)
-- `px_save()` can save px object as an R script that, when run, generates the
-px object. There implementation doesn't work 100 % of the time; there are some 
-cases where running the R script creates a slightly different px object. (#350)
+- Variable order is preserved as it appears in the data set. (#345)
+- `px()` supports URLs as input. (#353)
+- `px_save()` can save px object as an R script that, when run, regenerates the
+px object. The implementation is not fully reliable; in some cases, running the
+generated R script produces a slightly different px object. (#350)
 
 ## Bug fixes and minor improvements
 - Bugfix: `px_micro()` sometimes ordered variable references incorrectly in 
 CELLNOTES. (#348)
-- Add package files to remove dontrun example for `px_classification()`. (#346)
+- Removed `dontrun` example from `px_classification()` by updating package 
+files. (#346)
 - Use *main language* VALUES as CODES in PX-files without CODES. (#361)
 
 # pxmake 0.14.2

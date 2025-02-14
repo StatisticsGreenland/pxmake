@@ -10,10 +10,10 @@ status](https://www.r-pkg.org/badges/version/pxmake)](https://cran.r-project.org
 ![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)
 [![Codecov test
 coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StatisticsGreenland/pxmake?branch=main)
-[![Mentioned in Awesome Official Statistics ](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
-[![Total downloads](https://cranlogs.r-pkg.org/badges/last-month/pxmake)](https://cran.r-project.org/package=pxmake)
-
-
+[![Mentioned in Awesome Official
+Statistics](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
+[![Total
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/pxmake)](https://cran.r-project.org/package=pxmake)
 <!-- badges: end -->
 
 ## Overview
@@ -72,7 +72,7 @@ x <- px(data.frame(year = as.character(rep(2021:2023, each = 3)),
 head(x$data, 4)
 #> # A tibble: 4 × 3
 #>   year  group value
-#>   <chr> <chr> <dbl>
+#>   <fct> <fct> <dbl>
 #> 1 2021  a     0.266
 #> 2 2021  b     0.372
 #> 3 2021  c     0.573
@@ -88,7 +88,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 48 keywords have a modifying function in pxmake:
+Currently the following 49 keywords have a modifying function in pxmake:
 
     #>  Keyword            Function name        
     #>  AGGREGALLOWED      px_aggregallowed     
@@ -138,16 +138,16 @@ Currently the following 48 keywords have a modifying function in pxmake:
     #>  VALUENOTE          px_valuenote         
     #>  VALUENOTEX         px_valuenotex        
     #>  VALUES             px_values            
+    #>  VARIABLE-LABEL     px_variable_label    
     #>  VARIABLE-TYPE      px_variable_type
 
-In addition to the above, the following 4 modifying functions are
+In addition to the above, the following 3 modifying functions are
 available:
 
-    #>  Function name    
-    #>  px_add_totals    
-    #>  px_figures       
-    #>  px_order         
-    #>  px_variable_label
+    #>  Function name
+    #>  px_add_totals
+    #>  px_figures   
+    #>  px_order
 
 See the help page for each modifying function for more information.
 

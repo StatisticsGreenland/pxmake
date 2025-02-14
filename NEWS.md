@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.15.0
 
 ## New features
 - Variable order is preserved as it appears in the data set. (#345)

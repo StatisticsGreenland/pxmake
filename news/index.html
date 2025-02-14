@@ -41,16 +41,16 @@
 <h2 class="pkg-version" data-toc-text="development version" id="pxmake-development-version">pxmake (development version)<a class="anchor" aria-label="anchor" href="#pxmake-development-version"></a></h2>
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>Variable order is preserved in the order that they appear in data set. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/345" class="external-link">#345</a>)</li>
+<ul><li>Variable order is preserved as it appears in the data set. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/345" class="external-link">#345</a>)</li>
 <li>
-<code><a href="../reference/px.html">px()</a></code> can use an URL as input. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/353" class="external-link">#353</a>)</li>
+<code><a href="../reference/px.html">px()</a></code> supports URLs as input. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/353" class="external-link">#353</a>)</li>
 <li>
-<code><a href="../reference/px_save.html">px_save()</a></code> can save px object as an R script that, when run, generates the px object. There implementation doesn’t work 100 % of the time; there are some cases where running the R script creates a slightly different px object. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/350" class="external-link">#350</a>)</li>
+<code><a href="../reference/px_save.html">px_save()</a></code> can save px object as an R script that, when run, regenerates the px object. The implementation is not fully reliable; in some cases, running the generated R script produces a slightly different px object. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/350" class="external-link">#350</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-development-version">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-development-version"></a></h3>
 <ul><li>Bugfix: <code><a href="../reference/px_micro.html">px_micro()</a></code> sometimes ordered variable references incorrectly in CELLNOTES. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/348" class="external-link">#348</a>)</li>
-<li>Add package files to remove dontrun example for <code><a href="../reference/px_classification.html">px_classification()</a></code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/346" class="external-link">#346</a>)</li>
+<li>Removed <code>dontrun</code> example from <code><a href="../reference/px_classification.html">px_classification()</a></code> by updating package files. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/346" class="external-link">#346</a>)</li>
 <li>Use <em>main language</em> VALUES as CODES in PX-files without CODES. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/361" class="external-link">#361</a>)</li>
 </ul></div>
 </div>

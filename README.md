@@ -13,7 +13,7 @@ coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/bad
 [![Mentioned in Awesome Official
 Statistics](https://awesome.re/mentioned-badge.svg)](https://github.com/SNStatComp/awesome-official-statistics-software)
 [![Montly
-downloads](https://cranlogs.r-pkg.org/badges/last-monthl/pxmake)](https://cran.r-project.org/package=pxmake)
+downloads](https://cranlogs.r-pkg.org/badges/last-month/pxmake)](https://cran.r-project.org/package=pxmake)
 <!-- badges: end -->
 
 ## Overview

@@ -231,15 +231,4 @@ to be able ro run these tests. This only works on Windows.
 
 ### How to create a new release
 
-1.  Checkout ‘main’ branch.
-2.  Run `usethis::use_version('major'/'minor'/'patch')`. Answer ‘No’ to
-    the prompt ‘Is it ok to commit them?’.
-3.  Update NEWS.md with all changes since last release.
-4.  Commit changes with message ‘Increment version number to X.Y.Z’.
-5.  Run `git tag vX.Y.Z`.
-6.  Run `git push`.
-7.  Run `git push --tags`.
-8.  Run `devtools::use_github_release()`.
-9.  Run `usethis::use_version('dev')`. Answer ‘Yes’ to the prompt ‘Is it
-    ok to commit them?’.
-10. Run `git push`.
+Run `usethis::use_release_issue()` and follow checklist.

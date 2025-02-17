@@ -57,6 +57,3 @@ px_variable_label(x2)
 x3 <- px_variable_label(x2, NULL)
 px_variable_label(x3)
 }
-\seealso{
-\url{Statistics Sweden's documentation}
-}

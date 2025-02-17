@@ -118,7 +118,7 @@ doc_keyword_function_intro <- function(keyword) {
     dplyr::filter(keyword == !!keyword) %>%
     dplyr::pull(.data$documentation)
 
-  if (length(url) == 1) {
+  if (! any(identical(url, character(0)), identical(url, ""))) {
     str <-
       stringr::str_glue("{str}",
                       "@seealso [Statistics Sweden's documentation]({url})",

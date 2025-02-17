@@ -1,3 +1,8 @@
+# pxmake 0.15.1
+
+## Bug fixes and minor improvements
+- Remove invalid URL from `px_variable_label()` documentation.
+
 # pxmake 0.15.0
 
 ## New features

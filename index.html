@@ -251,18 +251,7 @@ Keywords without modifying functions
 <div class="section level3">
 <h3 id="how-to-create-a-new-release">How to create a new release<a class="anchor" aria-label="anchor" href="#how-to-create-a-new-release"></a>
 </h3>
-<ol style="list-style-type: decimal">
-<li>Checkout ‘main’ branch.</li>
-<li>Run <code>usethis::use_version('major'/'minor'/'patch')</code>. Answer ‘No’ to the prompt ‘Is it ok to commit them?’.</li>
-<li>Update NEWS.md with all changes since last release.</li>
-<li>Commit changes with message ‘Increment version number to X.Y.Z’.</li>
-<li>Run <code>git tag vX.Y.Z</code>.</li>
-<li>Run <code>git push</code>.</li>
-<li>Run <code>git push --tags</code>.</li>
-<li>Run <code>devtools::use_github_release()</code>.</li>
-<li>Run <code>usethis::use_version('dev')</code>. Answer ‘Yes’ to the prompt ‘Is it ok to commit them?’.</li>
-<li>Run <code>git push</code>.</li>
-</ol>
+<p>Run <code>usethis::use_release_issue()</code> and follow checklist.</p>
 </div>
 </div>
 </div>

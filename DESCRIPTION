@@ -30,6 +30,7 @@ Imports:
     magrittr,
     methods,
     openxlsx,
+    pillar,
     purrr,
     readxl,
     rlang,

@@ -108,8 +108,15 @@ px_from_data_df <- function(df) {
                           values_to = "code"
                           ) %>%
       dplyr::distinct() %>%
-      dplyr::group_by(.data$`variable-code`) %>%
-      dplyr::mutate(order = dplyr::row_number()) %>%
+      dplyr::left_join(get_variable_types(df), by = "variable-code") %>%
+      dplyr::group_by(`variable-code`) %>%
+      dplyr::mutate(order = dplyr::case_when(
+        variable_type %in% c("int", "dbl") ~ dplyr::dense_rank(as.numeric(.data$code)),
+        variable_type %in% c("ord") ~ as.integer(.data$code),
+        TRUE ~ match(as.character(code), sort(unique(as.character(code))))
+        )
+      ) %>%
+      dplyr::select(-variable_type) %>%
       dplyr::ungroup() %>%
       align_data_frames(get_base_cells1()) %>%
       sort_cells1(data_table_names = names(data_df))

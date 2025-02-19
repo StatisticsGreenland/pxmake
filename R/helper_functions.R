@@ -483,3 +483,16 @@ create_dummy_tibbles <- function(dummy_value) {
 na_tibble <- create_dummy_tibbles(NA)
 character0_tibble <- create_dummy_tibbles(character(0))
 asterisk_tibble <- create_dummy_tibbles("*")
+
+#' Returns a tibble with variable types
+#'
+#' Returns the name listed at the top of each column of a tibble when printed
+#' to the console, .e.g. <int>, <char>, <dbl> ...
+#'
+#' @param df Data frame
+#' @keywords internal
+get_variable_types <- function(df) {
+  df %>%
+    sapply(pillar::type_sum) %>%
+    tibble::enframe(name = "variable-code", value = "variable_type")
+}

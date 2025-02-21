@@ -100,25 +100,20 @@ px_from_data_df <- function(df) {
     cells1 <- get_base_cells1()
   } else {
     cells1 <-
-      data_df %>%
-      dplyr::select(all_of(setdiff(names(.), figures_variable))) %>%
-      tidyr::pivot_longer(cols = everything(),
-                          cols_vary = "slowest",
-                          names_to = "variable-code",
-                          values_to = "code"
-                          ) %>%
-      dplyr::filter(.data$code != "-") %>%
-      dplyr::distinct() %>%
-      dplyr::left_join(get_variable_types(df), by = "variable-code") %>%
+      dplyr::tibble(`variable-code` = setdiff(names(data_df), figures_variable)) %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(code =
+                      df[[.data$`variable-code`]] %>%
+                      unique() %>%
+                      sort() %>%
+                      as.character() %>%
+                      list()
+                    ) %>%
+      dplyr::ungroup() %>%
+      dplyr::filter(!is.null(.data$code)) %>%
+      tidyr::unnest("code") %>%
       dplyr::group_by(.data$`variable-code`) %>%
-      dplyr::mutate(order = dplyr::case_when(
-        .data$variable_type %in% c("int", "dbl") ~
-          suppressWarnings(rank(as.numeric(as.character(.data$code)))),
-        .data$variable_type %in% c("ord") ~ rank(.data$code),
-        TRUE ~ rank(as.character(.data$code))
-        )
-      ) %>%
-      dplyr::select(-"variable_type") %>%
+      dplyr::mutate(order = as.numeric(dplyr::row_number())) %>%
       dplyr::ungroup() %>%
       align_data_frames(get_base_cells1()) %>%
       sort_cells1(data_table_names = names(data_df))

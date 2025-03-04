@@ -1,5 +1,13 @@
 # pxmake (development version)
 
+## New features
+- When creating px object from data frame the ordering in cells1 is determined 
+based on the type in the data frame.
+
+## Breaking changes
+- Require R version >= 4.1. (#376)
+
+
 # pxmake 0.15.1
 
 ## Bug fixes and minor improvements

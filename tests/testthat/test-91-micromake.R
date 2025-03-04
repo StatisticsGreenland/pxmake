@@ -222,8 +222,7 @@ test_that("px_micro removes headings where all values are NA", {
     dplyr::count(taar, pnr) %>%
     tidyr::drop_na(pnr) %>%
     dplyr::select(pnr, taar, n) %>%
-    dplyr::mutate(n = as.double(n)) %>%
-    dplyr::mutate(across(where(is.character), as.factor))
+    dplyr::mutate(n = as.double(n))
 
   expect_identical(micro_df, target)
 })

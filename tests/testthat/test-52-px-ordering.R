@@ -10,12 +10,14 @@ test_that("ordered factors are sorted", {
                                )
                   )
 
-  px_df <-
-    df %>%
-    px() %>%
-    px_data()
+  px_ordering <-
+    px(df)$cells1 %>%
+    dplyr::filter(`variable-code` == "age") %>%
+    dplyr::arrange(order) %>%
+    dplyr::pull(code)
 
-  expect_identical(age_levels, levels(px_df$age))
+
+  expect_identical(age_levels, px_ordering)
 })
 
 test_that("numerics are sorted", {

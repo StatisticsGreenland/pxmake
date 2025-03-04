@@ -549,8 +549,7 @@ px_from_px_file <- function(path) {
   data_df <-
     do.call(tidyr::expand_grid, stub_and_heading_values) %>%
     dplyr::bind_cols(figures) %>%
-    dplyr::as_tibble() %>%
-    dplyr::mutate(across(-all_of(figures_variable), as.factor))
+    dplyr::as_tibble()
 
   new_px(languages = languages,
          table1 = table1,

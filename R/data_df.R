@@ -12,11 +12,11 @@ format_data_df <- function(data_df, figures_variable) {
   data_df %>%
     dplyr::ungroup() %>%
     dplyr::mutate(across(-one_of(intersect(names(.), figures_variable)),
-                         ~factor(.x, ordered = FALSE)
+                         as.character
                          )
                   ) %>%
-    dplyr::mutate(dplyr::across(where(~ is.factor(.x) && anyNA(.x)),
-                                ~ forcats::fct_na_value_to_level(.x, level = "-")
+    dplyr::mutate(dplyr::across(where(is.character),
+                                ~ tidyr::replace_na(.x, "-")
                                 )
                   )
 }

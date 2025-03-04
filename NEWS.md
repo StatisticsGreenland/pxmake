@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## Breaking changes
+- Require R version >= 4.1. (#376)
+
+
 # pxmake 0.15.1
 
 ## Bug fixes and minor improvements

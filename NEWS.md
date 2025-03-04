@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.16.0
 
 ## New features
 - When creating px object from data frame the ordering in cells1 is determined 

@@ -72,7 +72,7 @@ x <- px(data.frame(year = as.character(rep(2021:2023, each = 3)),
 head(x$data, 4)
 #> # A tibble: 4 × 3
 #>   year  group value
-#>   <fct> <fct> <dbl>
+#>   <chr> <chr> <dbl>
 #> 1 2021  a     0.266
 #> 2 2021  b     0.372
 #> 3 2021  c     0.573

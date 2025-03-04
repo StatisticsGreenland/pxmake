@@ -56,6 +56,8 @@ test_that("px runs without errors (data frame and parquet path)", {
 })
 
 test_that("px runs without errors (URL)", {
+  skip_if_offline(host = "bank.stat.gl")
+
   px(input = "https://bank.stat.gl:443/sq/deed6eff-22dd-4b25-9b78-fca11875352b")
 
   expect_true(TRUE)

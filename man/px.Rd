@@ -35,15 +35,22 @@ frame.
 # Create px object from dataset
 x1 <- px(population_gl)
 
-# Create px object from PX-file
-px_path <- tempfile(fileext = ".px")
-url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
-download.file(url, px_path)
+# Download PX-file for example
+download_succeeded <- tryCatch({
+  px_path <- tempfile(fileext = ".px")
+  url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
+  download.file(url, px_path)
+  TRUE
+}, error = function(e) FALSE)
 
-x2 <- px(px_path)
+# Run examples only if file was downloaded
+if (download_succeeded) {
+  # Create px object from PX-file
+  x2 <- px(px_path)
 
-# Create px object from URL
-x3 <- px(url)
+  # Create px object from URL
+  x3 <- px(url)
+}
 
 # Create minimal px object
 x4 <- px()

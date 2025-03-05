@@ -231,4 +231,5 @@ to be able ro run these tests. This only works on Windows.
 
 ### How to create a new release
 
-Run `usethis::use_release_issue()` and follow checklist.
+1.  Run `usethis::use_release_issue()` and follow checklist.
+2.  Sync fork on [PxTools/pxmake](https://github.com/PxTools/pxmake).

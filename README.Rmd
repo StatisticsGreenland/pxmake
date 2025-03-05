@@ -200,4 +200,5 @@ Some tests cases uses [PxJob](https://stat.fi/tup/tilastotietokannat/px-tuoteper
 
 ### How to create a new release
 
-Run `usethis::use_release_issue()` and follow checklist.
+1. Run `usethis::use_release_issue()` and follow checklist.
+2. Sync fork on [PxTools/pxmake](https://github.com/PxTools/pxmake).

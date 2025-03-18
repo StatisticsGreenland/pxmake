@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Remove import of 'pillar' package (#387)
+
 # pxmake 0.16.0
 
 ## New features

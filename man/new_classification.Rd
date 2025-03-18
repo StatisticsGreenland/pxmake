@@ -16,7 +16,9 @@ PX-file.}
 
 \item{df}{Optional. A data frame with required column 'valuecode' and
 optional column 'valuetext', if the codes have texts. Each additional column
-represents an aggregation. The column name is the name of the aggregation.}
+represents an aggregation. The column name is the name of the aggregation.
+If the column type is character the aggregation levels will be sorted
+alphabetically; use factors to control the ordering.}
 }
 \value{
 A classification object

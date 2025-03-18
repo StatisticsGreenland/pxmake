@@ -272,8 +272,8 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' `prestext` and `domain` are required. If a classification is created from .vs
 #' and .agg files, all other arguments should be empty.
 #'
-#' Only type 'V' value sets are supported. Type 'H' and 'N' value sets are
-#' not supported.
+#' Only value sets of type 'V' are supported. Type values sets with type 'H' and
+#' 'N' are not supported.
 #'
 #' @param name Optional. Name of the classification.
 #' @param prestext Optional. Presentation text.
@@ -282,6 +282,8 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' @param df Optional. A data frame with required column 'valuecode' and
 #' optional column 'valuetext', if the codes have texts. Each additional column
 #' represents an aggregation. The column name is the name of the aggregation.
+#' If the column type is character the aggregation levels will be sorted
+#' alphabetically; use factors to control the ordering.
 #' @param vs_path Optional. Path to a values set (.vs) file.
 #' @param agg_paths Optional.
 #' \itemize{

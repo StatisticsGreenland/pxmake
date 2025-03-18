@@ -16,7 +16,9 @@ PX-file.}
 
 \item{df}{Optional. A data frame with required column 'valuecode' and
 optional column 'valuetext', if the codes have texts. Each additional column
-represents an aggregation. The column name is the name of the aggregation.}
+represents an aggregation. The column name is the name of the aggregation.
+If the column type is character the aggregation levels will be sorted
+alphabetically; use factors to control the ordering.}
 
 \item{vs_path}{Optional. Path to a values set (.vs) file.}
 
@@ -45,8 +47,8 @@ If a classification is created from a data frame, the arguments \code{name} and
 \code{prestext} and \code{domain} are required. If a classification is created from .vs
 and .agg files, all other arguments should be empty.
 
-Only type 'V' value sets are supported. Type 'H' and 'N' value sets are
-not supported.
+Only value sets of type 'V' are supported. Type values sets with type 'H' and
+'N' are not supported.
 }
 \examples{
 # Create classification from data frame

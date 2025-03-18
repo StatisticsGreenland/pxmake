@@ -1,6 +1,6 @@
 Package: pxmake
 Title: Make PX-Files in R
-Version: 0.16.0.9001
+Version: 0.16.0.9002
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",

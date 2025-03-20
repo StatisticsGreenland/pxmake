@@ -47,7 +47,7 @@ px_from_data_df <- function(df) {
     dplyr::select("keyword", "value" = "default_value") %>%
     dplyr::mutate(language = default_language) %>%
     align_data_frames(get_base_table2()) %>%
-    sort_table2()
+    sort_table2(languages = default_language)
 
   variable_names <- names(df)
 

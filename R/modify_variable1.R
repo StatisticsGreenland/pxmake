@@ -249,18 +249,27 @@ px_contvariable.px <- function(x, value, validate = TRUE) {
                            )
 
 
-    contvariable_codes <- unique(x$data[[value]]) %>% as.character()
+    contvariable_values <-
+      x %>%
+      px_values() %>%
+      dplyr::filter(.data$`variable-code` %in% c(!!value)) %>%
+      dplyr::select(-c("variable-code", "code")) %>%
+      dplyr::rename("code" = "value") %>%
+      { if (!"language" %in% colnames(.)) dplyr::mutate(., language = NA_character_) else . }
 
     indexed_by_contvariable <-
       x$table2 %>%
       dplyr::filter(.data$keyword %in% keywords_indexed_by_contvariable()) %>%
       dplyr::select(-"code") %>%
-      tidyr::crossing(code = contvariable_codes)
+      dplyr::left_join(contvariable_values,
+                       by = "language",
+                       relationship = "many-to-many"
+                       )
 
     x$table2 <-
       x$table2 %>%
-      dplyr::filter(! .data$keyword %in% keywords_indexed_by_contvariable()) %>%
-      dplyr::bind_rows(indexed_by_contvariable)
+      dplyr::bind_rows(indexed_by_contvariable) %>%
+      sort_table2(languages = defined_languages(x))
   }
 
   return_px(x, validate)

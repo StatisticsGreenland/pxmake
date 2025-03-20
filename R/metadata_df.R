@@ -317,6 +317,13 @@ get_metadata_df_from_px <- function(x) {
     dplyr::select("keyword", "variable" = "variable-label", "language", "value") %>%
     wrap_varaible_in_list("value")
 
+  contvariable <-
+    variables1 %>%
+    dplyr::filter(.data$contvariable) %>%
+    dplyr::mutate(keyword = "CONTVARIABLE") %>%
+    dplyr::select("keyword", "language", "value" = "variable-label") %>%
+    wrap_varaible_in_list("value")
+
   time_metadata <-
     variables1 %>%
     dplyr::filter(.data$timeval)
@@ -421,6 +428,7 @@ get_metadata_df_from_px <- function(x) {
                      languages,
                      table,
                      table_language_dependent,
+                     contvariable,
                      variablecode,
                      note_etc,
                      head_stub,

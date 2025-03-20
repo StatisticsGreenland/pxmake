@@ -5,7 +5,7 @@ test_that('px_valuenote() and px_valuenotex()', {
     readRDS() %>%
     px()
 
-  x_lang <- px_languages(x, c('dk', 'kl'))
+  x_lang <- px_languages(x, c('da', 'kl'))
 
   expect_identical(px_valuenote(x), NULL)
   expect_identical(px_valuenote(x_lang), NULL)
@@ -27,7 +27,7 @@ test_that('px_valuenote() and px_valuenotex()', {
   x3 <- px_valuenote(x_lang, valuenote_df2)
 
   valuenote_df2_expect <- tidyr::crossing(valuenote_df2,
-                                          language = c('kl', 'dk')
+                                          language = c('kl', 'da')
                                           ) %>%
     dplyr::relocate(valuenote, .after = last_col())
 
@@ -62,7 +62,7 @@ test_that('px_values()', {
     readRDS() %>%
     px()
 
-  x_lang <- px_languages(x, c('dk', 'kl'))
+  x_lang <- px_languages(x, c('da', 'kl'))
 
   x1 <-
     x %>%
@@ -93,13 +93,23 @@ test_that('px_values()', {
 
   values_df <-
     dplyr::tribble( ~`variable-code`,  ~code, ~language,           ~value,
-                              "time", "2018",      "dk",        "år 2018",
+                              "time", "2018",      "da",        "år 2018",
                               "time", "2018",      "kl",  "ukiumi 2018-m"
                     )
 
+  value_df_expect <-
+    values_df %>%
+    dplyr::bind_rows(px_values(x) %>%
+                       tidyr::crossing(language = c('da', 'kl')) %>%
+                       dplyr::filter(! code %in% c(2018))
+                     ) %>%
+    sort_cells2(data_table_names = unique(expect$`variable-code`),
+                languages = c("da", "kl")
+                )
+
   x2 <- x_lang %>% px_values(values_df)
 
-  expect_identical(px_values(x2), values_df)
+  expect_identical(px_values(x2), value_df_expect)
 
   x3 <- x2 %>% px_values(NULL)
 

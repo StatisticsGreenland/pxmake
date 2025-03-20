@@ -278,9 +278,10 @@ px_from_px_file <- function(path) {
   table2 <-
     table_sheet_data %>%
     dplyr::filter(.data$language_dependent) %>%
+    dplyr::filter(.data$keyword != "CONTVARIABLE") %>% # CONTVAR is controlled in variables1
     dplyr::select('keyword', "code" = "cell", "language", "value") %>%
     align_data_frames(get_base_table2()) %>%
-    sort_table2()
+    sort_table2(languages = languages$language)
 
   # variable1
   figures_variable <-

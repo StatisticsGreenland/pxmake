@@ -97,7 +97,17 @@ sort_in_keyword_order <- function(df) {
 }
 
 sort_table1 <- sort_in_keyword_order
-sort_table2 <- sort_in_keyword_order
+
+sort_table2 <- function(df, languages) {
+  df %>%
+    dplyr::left_join(dplyr::select(px_keywords, "keyword", "order"),
+                     by = "keyword"
+                     ) %>%
+    dplyr::arrange(.data$order, !is.na(.data$code), .data$code,
+                   match(.data$language, languages)
+                   ) %>%
+    dplyr::select(-"order")
+}
 
 sort_variables1 <- function(df) {
   df %>%

@@ -91,7 +91,7 @@ test_that("CONTVARIABLE is changed", {
   expect_equal(px_contvariable(x1), "gender")
 
   # Contvariable indexes some variables in table2
-  expect_equal(px_units(x1), dplyr::tibble(code = c("K", "M", "T"),
+  expect_equal(px_units(x1), dplyr::tibble(code = c(NA, "K", "M", "T"),
                                            language = NA_character_,
                                            value = default_value("UNITS")
                                            )
@@ -99,12 +99,15 @@ test_that("CONTVARIABLE is changed", {
 
   x1_lang <- px_contvariable(x_lang, "gender")
 
-  expect_equal(px_units(x1_lang), dplyr::tibble(`code` = rep(c("K", "M", "T"), 2),
-                                                language = c(rep("da", 3), rep("kl", 3)),
+  expect_equal(px_units(x1_lang), dplyr::tibble(`code` = c(rep(NA, 2),
+                                                           rep("K", 2),
+                                                           rep("M", 2),
+                                                           rep("T", 2)
+                                                           ),
+                                                language = rep(c("kl", "da"), 4),
                                                 value = default_value("UNITS")
                                                 )
                )
-
 
   x2 <- px_contvariable(x1, NULL)
 

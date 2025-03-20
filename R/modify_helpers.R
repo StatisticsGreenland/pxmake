@@ -117,7 +117,7 @@ modify_table2 <- function(x, keyword, value) {
   x$table2 <-
     x$table2 %>%
     modify_with_df(value, "value") %>%
-    sort_table2()
+    sort_table2(languages = defined_languages(x))
 
   return(x)
 }

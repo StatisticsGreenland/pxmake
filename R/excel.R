@@ -93,7 +93,7 @@ px_from_excel <- function(excel_path, data = NULL) {
                         names_pattern = "^([[:alpha:]]+)_.*$"
                         ) %>%
     align_data_frames(get_base_table2()) %>%
-    sort_table2()
+    sort_table2(languages = languages$language)
 
   # variables1, variables2
   variables_sheet <-

@@ -308,7 +308,6 @@ get_metadata_df_from_px <- function(x) {
   variable_type <-
     variables1 %>%
     tidyr::drop_na("variable-type") %>%
-    dplyr::filter(! toupper(.data$`variable-type`) %in% c("CONTVARIABLE")) %>%
     tidyr::pivot_longer(cols= "variable-type",
                         names_to = "keyword",
                         values_to = "value"

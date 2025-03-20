@@ -1,7 +1,9 @@
 # pxmake (development version)
 
 ## Bug fixes and minor improvements
-- Remove import of 'pillar' package (#387)
+- Remove import of 'pillar' package. (#387)
+- Fix various issues with CONTVARIABLE. (#364 #386)
+- When adding more languages dummy values are added as VALUES instead of blanks.
 
 # pxmake 0.16.0
 

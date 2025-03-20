@@ -24,8 +24,8 @@ A px object or data frame.
 Inspect or change DATA.
 }
 \details{
-It is not recommended to change the data table of a px object with this
-function, since it does update any metadata.
+If adding a new data frame, metadata is generated for the new
+columns and removed for columns that are no longer present.
 }
 \examples{
 x1 <- px(population_gl)
@@ -33,7 +33,7 @@ x1 <- px(population_gl)
 # Print data table
 px_data(x1)
 
-# Change data table (risky business)
+# Change data table
 population_gl_2024 <- subset(population_gl, year == 2024)
 
 x2 <- px_data(x1, population_gl_2024)

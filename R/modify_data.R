@@ -37,7 +37,9 @@ px_data.px <- function(x, value, validate = TRUE) {
 
     dummy_px <- px_from_data_df(value)
 
-    swap_in_x2_metadata <- function(x1, x2, element) {
+    # Add new variables from x2 to x1, and remove variables from x1 that are
+    # not in x2.
+    swap_in_variables_metadata <- function(x1, x2, element) {
       x1[[element]] <-
         x1[[element]] %>%
         dplyr::filter(.data$`variable-code` %in% df_columns) %>%
@@ -48,10 +50,32 @@ px_data.px <- function(x, value, validate = TRUE) {
       return(x1)
     }
 
-    x <- swap_in_x2_metadata(x, dummy_px, element = 'variables1')
-    x <- swap_in_x2_metadata(x, dummy_px, element = 'variables2')
-    x <- swap_in_x2_metadata(x, dummy_px, element = 'cells1')
-    x <- swap_in_x2_metadata(x, dummy_px, element = 'cells2')
+    x <- swap_in_variables_metadata(x, dummy_px, element = 'variables1')
+    x <- swap_in_variables_metadata(x, dummy_px, element = 'variables2')
+
+    # Add new codes from x2 not in x1, and remove codes from x1 that are not
+    # in x2.
+    swap_in_cells_metadata <- function(x1, x2, element) {
+      join_vars <- c("variable-code", "code")
+
+      if (element == 'cells2') {
+        join_vars <- c(join_vars, "language")
+      }
+
+      new_codes <-
+        x2[[element]] %>%
+        dplyr::anti_join(x1[[element]], by = join_vars)
+
+      x1[[element]] <-
+        x1[[element]] %>%
+        dplyr::semi_join(x2[[element]], by = join_vars) %>%
+        dplyr::bind_rows(new_codes)
+
+      return(x1)
+    }
+
+    x <- swap_in_cells_metadata(x, dummy_px, element = 'cells1')
+    x <- swap_in_cells_metadata(x, dummy_px, element = 'cells2')
 
     x$acrosscells <- get_base_acrosscells(c(px_stub(x), px_heading(x)))
 

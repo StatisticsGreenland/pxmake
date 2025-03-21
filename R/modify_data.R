@@ -35,7 +35,9 @@ px_data.px <- function(x, value, validate = TRUE) {
     df_columns <- names(value)
     new_columns <- setdiff(df_columns, old_df_columns)
 
-    dummy_px <- px_from_data_df(value)
+    dummy_px <-
+      px_from_data_df(value) %>%
+      px_languages(defined_languages(x))
 
     # Add new variables from x2 to x1, and remove variables from x1 that are
     # not in x2.

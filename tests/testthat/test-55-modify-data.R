@@ -116,6 +116,24 @@ test_that('modifying data updates metadata', {
 
   expect_all_matches(new_codes, x2$cells1)
   expect_all_matches(new_codes, x2$cells2)
+
+  ## Multilingual
+  x_lang1 <-
+    population_gl %>%
+    px() %>%
+    px_languages(c('en', 'fr'))
+
+  x_lang2 <-
+    x_lang1 %>%
+    px_data(population_gl_new)
+
+  x_lang2$variables2 %>%
+    dplyr::filter(`variable-code` == "shortyear") %>%
+    dplyr::pull(language) %>%
+    expect_identical(c('en', 'fr'))
+
+  expect_identical(nrow(x_lang2$cells2), 18L)
+  expect_identical(x_lang2$cells2$language, rep(c('en', 'fr'), 9))
 })
 
 

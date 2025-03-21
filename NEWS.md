@@ -3,7 +3,7 @@
 ## Bug fixes and minor improvements
 - Remove import of 'pillar' package. (#387)
 - Fix various issues with CONTVARIABLE. (#364 #386)
-- `px_data()` updates metadata to match new data frame. (#385 #396)
+- `px_data()` updates metadata to match new data frame. (#385 #396 #399)
 - When adding more languages dummy values are added as VALUES instead of blanks.
 
 # pxmake 0.16.0

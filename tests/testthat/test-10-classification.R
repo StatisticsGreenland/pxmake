@@ -59,3 +59,54 @@ test_that("Classification can be create without [Valuetext]", {
     "classification"
     )
 })
+
+test_that("Aggregation values are taken from Aggtext section", {
+  c <- px_classification(vs_path = vs_pxvsbrche_path())
+
+  expect_equal(c$df$BRCH_BRCH_E %>% as.character(),
+               c("All industries",
+                 "Agriculture, forestry and related industries",
+                 "Fishing and other related industries",
+                 "Mining and quarrying",
+                 "Manufacturing",
+                 "Energy and watersupply",
+                 "Construction",
+                 "Wholesale and retail trade",
+                 "Transportation and storage",
+                 "Accommodation and food service activities",
+                 "Information and communication",
+                 "Financial and insurance activities",
+                 "Real estate activities",
+                 "Professional, scientific and technical activities",
+                 "Administrative and support service activities",
+                 "Public administration and service",
+                 rep(NA, 17),
+                 "Other service industries",
+                 "Unknown"
+                 )
+               )
+
+  expect_equal(c$df$BRCH_OFF_E %>% as.character(),
+               c(rep(NA, 15),
+                 "Public administration and service",
+                 "General public services (COFOG 1)",
+                 "Defence (COFOG 2)",
+                 "Public order and safety (COFOG 3)",
+                 "Economic affairs (COFOG 4)",
+                 "Environmental protection (COFOG 5)",
+                 "Housing and community amenities (COFOG 6)",
+                 "Health (COFOG 7)",
+                 "Recreation, culture and religion (COFOG 8)",
+                 "Education (COFOG 9)",
+                 "Education other (COFOG 9.x)",
+                 "Primary education (COFOG 9.10)",
+                 "Youth-level education (COFOG 9.20)",
+                 "Social protection (COFOG 10)",
+                 "Social protection (COFOG 10.x)",
+                 "Old age (COFOG 10.20)",
+                 "Family and children (COFOG 10.40)",
+                 "Other (COFOG x)",
+                 rep(NA, 2)
+                 )
+               )
+})

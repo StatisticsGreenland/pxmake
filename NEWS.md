@@ -8,6 +8,9 @@
 - Throw error when using `px_save()` on a px object that contains duplicates in 
 the data table. (#402)
 
+## Breaking changes
+- Create aggregations from texts in section [Aggtext]. (#389)
+
 # pxmake 0.16.0
 
 ## New features

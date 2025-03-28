@@ -9,10 +9,10 @@ Valueset=Age5
 
 [Aggtext]
 
-1=0-24 years
-2=25-49 years
-3=50-74 years
-4=75+ years
+1=0-24
+2=25-49
+3=50-74
+4=75+
 
 [0-24]
 1=0-4

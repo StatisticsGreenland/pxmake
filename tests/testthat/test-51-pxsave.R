@@ -17,8 +17,20 @@ test_that("px_save basic functionality", {
 })
 
 test_that("px_save save_data and data_path arguments works", {
-  x <- px(get_data_path("BEXLTALL"))
-  x$data <- do.call(rbind, replicate(20, x$data, simplify = FALSE))
+  df <- readRDS(get_data_path("BEXLTALL"))
+
+  set.seed(1)
+
+  df_large <-
+    purrr::map(1:20, ~ df) %>%
+    dplyr::bind_rows() %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(row_number = dplyr::row_number()) %>%  #add to avoid duplicated data
+    dplyr::relocate(row_number)
+
+  x <- px(df)
+
+  x$data <- df_large
 
   expect_error(px_save(x, temp_xlsx_file()), regexp = "too many rows")
 

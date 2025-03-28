@@ -12,3 +12,17 @@ test_that("px_classification_save saves .vs and .agg files", {
                c("10-years_classes.agg", "25-years_classes.agg", "Age.vs")
                )
 })
+
+test_that("NA values are not saved in .agg", {
+  c <- px_classification(vs_path = vs_pxvsbrche_path())
+
+  tmp_dir <- tempdir()
+
+  px_save_classification(c, path = tmp_dir)
+
+  agg_files <- list.files(tmp_dir, pattern = "\\.agg$", full.names = TRUE)
+
+  for (agg_file in agg_files) {
+    expect_false(any(readLines(agg_file) == "[NA]"))
+  }
+})

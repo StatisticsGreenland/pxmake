@@ -280,6 +280,24 @@ error_if_value_contains_quotation_marks <- function(x) {
   }
 }
 
+error_if_data_table_contains_duplicates <- function(x) {
+  duplicates <-
+    x %>%
+    px_data() %>%
+    dplyr::select(-px_figures(x)) %>%
+    dplyr::group_by(across(everything())) %>%
+    dplyr::filter(dplyr::n() > 1)
+
+  if (nrow(duplicates) > 0) {
+    error(paste0("px save: cannot save because data table contains duplicates:\n\n",
+                 paste(utils::capture.output(print(duplicates)),
+                       collapse = "\n"
+                       )
+                 )
+          )
+  }
+}
+
 is_url <- function(path) {
   if (!is.character(path) || length(path) != 1) {
     return(FALSE)
@@ -359,6 +377,8 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
                  "'save_data = FALSE' or 'data_path' instead.")
           )
   }
+
+  error_if_data_table_contains_duplicates(x)
 }
 
 #' Check all arguments to px_micro()

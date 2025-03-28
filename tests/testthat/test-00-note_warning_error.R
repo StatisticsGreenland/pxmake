@@ -84,3 +84,24 @@ test_that("px_micro arguments are validated", {
                regexp = "directory does not exist"
                )
 })
+
+test_that("px with duplicates in data table cannot be saved", {
+  duplicated_df <-
+    dplyr::bind_rows(population_gl, population_gl)
+
+  # px object can be created with duplicated data, which is necessary when
+  # micro data is created
+  x <- px(input = duplicated_df)
+
+  # However, an error is raised when saving, becuase it will created lists
+  # in figures.
+  expect_error(x %>%
+                 px_save(temp_px_file()),
+               regexp = "contains duplicates"
+               )
+
+  expect_error(x %>%
+                 px_save(temp_xlsx_file()),
+               regexp = "contains duplicates"
+               )
+})

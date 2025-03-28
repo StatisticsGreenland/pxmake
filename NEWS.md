@@ -7,6 +7,7 @@
 - When adding more languages dummy values are added as VALUES instead of blanks.
 - Throw error when using `px_save()` on a px object that contains duplicates in 
 the data table. (#402)
+- Don't save NA values in aggregations files. (#401)
 
 ## Breaking changes
 - Create aggregations from texts in section [Aggtext]. (#389)

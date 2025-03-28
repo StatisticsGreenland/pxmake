@@ -463,11 +463,12 @@ write_value_set <- function(c, directory) {
 write_aggregation <- function(aggregation, c, directory) {
   filename <- file.path(directory, paste0(aggregation, ".agg"))
 
-  groups <- levels(c$df[[aggregation]])
+  groups <- levels(na.omit(c$df[[aggregation]]))
 
   agg_texts <-
     c$df %>%
     dplyr::distinct(.data$valuecode, !!rlang::sym(aggregation)) %>%
+    tidyr::drop_na() %>%
     dplyr::arrange(as.character(!!rlang::sym(aggregation))) %>%
     tidyr::pivot_wider(names_from = all_of(aggregation),
                        values_from  = "valuecode",
@@ -479,7 +480,7 @@ write_aggregation <- function(aggregation, c, directory) {
                     stringr::str_glue("[{name}]\n",
                                       "{paste(enumerate_lines(value), collapse = '\n')}"
                     )
-    ) %>%
+                  ) %>%
     dplyr::pull("str") %>%
     paste0(collapse = paste0("\n", blank_line(), "\n"))
 

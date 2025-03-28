@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.0.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.0.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,6 +98,11 @@ aggregations. The classification can be saved as .vs and .agg files
 <p>If a classification is created from a data frame, the arguments <code>name</code> and
 <code>prestext</code> and <code>domain</code> are required. If a classification is created from .vs
 and .agg files, all other arguments should be empty.</p>
+<p>For aggregations, it's normally possible to have codes and values in the .agg
+file under the sections '[Aggreg]' and '[Aggtext]' respectively. However,
+in pxmake's implementation of classifications, it's not possible to
+distinguish between these. When a new classification is created, the values
+in the section '[Aggtext]' are used as aggregation values.</p>
 <p>Only value sets of type 'V' are supported. Type values sets with type 'H' and
 'N' are not supported.</p>
     </div>

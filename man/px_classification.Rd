@@ -47,6 +47,12 @@ If a classification is created from a data frame, the arguments \code{name} and
 \code{prestext} and \code{domain} are required. If a classification is created from .vs
 and .agg files, all other arguments should be empty.
 
+For aggregations, it's normally possible to have codes and values in the .agg
+file under the sections '[Aggreg]' and '[Aggtext]' respectively. However,
+in pxmake's implementation of classifications, it's not possible to
+distinguish between these. When a new classification is created, the values
+in the section '[Aggtext]' are used as aggregation values.
+
 Only value sets of type 'V' are supported. Type values sets with type 'H' and
 'N' are not supported.
 }

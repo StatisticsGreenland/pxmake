@@ -1,0 +1,97 @@
+[Aggreg]
+Name=Public administration and service
+valueset=PXVSBRCHE
+
+1=15
+2=31
+3=32
+4=33
+5=34
+6=35
+7=36
+8=37
+9=38
+10=39
+11=40
+12=41
+13=42
+14=43
+15=44
+16=45
+17=46
+18=47
+
+[Aggtext]
+1=Public administration and service
+2=General public services (COFOG 1)
+3=Defence (COFOG 2)
+4=Public order and safety (COFOG 3)
+5=Economic affairs (COFOG 4)
+6=Environmental protection (COFOG 5)
+7=Housing and community amenities (COFOG 6)
+8=Health (COFOG 7)
+9=Recreation, culture and religion (COFOG 8)
+10=Education (COFOG 9)
+11=Education other (COFOG 9.x)
+12=Primary education (COFOG 9.10)
+13=Youth-level education (COFOG 9.20)
+14=Social protection (COFOG 10)
+15=Social protection (COFOG 10.x)
+16=Old age (COFOG 10.20)
+17=Family and children (COFOG 10.40)
+18=Other (COFOG x)
+
+[15]
+1=15
+
+[31]
+1=31
+
+[32]
+1=32
+
+[33]
+1=33
+
+[34]
+1=34
+
+[35]
+1=35
+
+[36]
+1=36
+
+[37]
+1=37
+
+[38]
+1=38
+
+[39]
+1=39
+
+[40]
+1=40
+
+[41]
+1=41
+
+[42]
+1=42
+
+[43]
+1=43
+
+[44]
+1=44
+
+[45]
+1=45
+
+[46]
+1=46
+
+[47]
+1=47
+

@@ -132,13 +132,15 @@ aggregation_df <- function(path) {
     dplyr::mutate(across(everything(), ~ dplyr::na_if(.x, "")))
 
   df <- dplyr::tibble(valuecode           = as.character(),
-                      !!aggregation_name := factor(levels = aggregation_df$aggreg,
+                      !!aggregation_name := factor(levels = aggregation_df$aggtext,
                                                    ordered = TRUE
                                                    )
                       )
 
   for (aggregation_group in aggregation_df$aggreg) {
     section <- extract_section(agg_lines, paste0("[", aggregation_group, "]"))
+
+    aggregation_text <- aggregation_df$aggtext[aggregation_df$aggreg == aggregation_group]
 
     if (is.null(section)) {
       warning("No group with label '[", aggregation_group, "]' found in '",
@@ -154,8 +156,8 @@ aggregation_df <- function(path) {
       df <-
         dplyr::bind_rows(df,
                          dplyr::tibble(valuecode = aggregation_values,
-                                       !!aggregation_name := factor(aggregation_group,
-                                                                    levels = aggregation_df$aggreg,
+                                       !!aggregation_name := factor(aggregation_text,
+                                                                    levels = aggregation_df$aggtext,
                                                                     ordered = TRUE
                                        )
                          )
@@ -271,6 +273,12 @@ px_classification_from_df <- function(name, prestext, domain, df) {
 #' If a classification is created from a data frame, the arguments `name` and
 #' `prestext` and `domain` are required. If a classification is created from .vs
 #' and .agg files, all other arguments should be empty.
+#'
+#' For aggregations, it's normally possible to have codes and values in the .agg
+#' file under the sections '\[Aggreg\]' and '\[Aggtext\]' respectively. However,
+#' in pxmake's implementation of classifications, it's not possible to
+#' distinguish between these. When a new classification is created, the values
+#' in the section '\[Aggtext\]' are used as aggregation values.
 #'
 #' Only value sets of type 'V' are supported. Type values sets with type 'H' and
 #' 'N' are not supported.

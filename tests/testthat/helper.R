@@ -30,6 +30,7 @@ vs_age5_strangely_formatted_path <- classification_path("Age5_strangely_formatte
 vs_agg_dont_exists    <- classification_path("non_existing_agg.vs")
 agg_different_lengths <- classification_path("agg_different_lengths.agg")
 vs_different_lengths  <- classification_path("agg_different_lengths.vs")
+vs_pxvsbrche_path     <- classification_path("PXVSBRCHE.vs")
 
 get_metadata_path <- function(table_name) {
   test_path('fixtures', 'metadata', stringr::str_glue("metadata_{table_name}.xlsx"))

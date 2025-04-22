@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Bugfix when saving as R scripts. (#410)
+
 # pxmake 0.17.0
 
 ## Bug fixes and minor improvements

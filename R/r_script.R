@@ -50,6 +50,7 @@ save_px_as_r_script <- function(x, path, data_path) {
                                      if (is_list_of_lists(x)) x else list(x)
                                      })
                   ) %>%
+    dplyr::filter(lengths(.data$value) > 0) %>%
     tidyr::unnest("value") %>%
     dplyr::mutate(value_constructor = purrr::map_chr(.data$value, convert_value_to_code)) %>%
     dplyr::select("keyword", "px_function", "value_constructor") %>%

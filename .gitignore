@@ -4,6 +4,7 @@
 .RData
 .Ruserdata
 helpers.R
+daily_downloads.R
 logo/
 inst/doc
 docs

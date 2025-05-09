@@ -53,6 +53,15 @@ test_that('Variables is modified', {
   x10 <- px_elimination(x, elimination_df)
   expect_equal(px_elimination(x10), elimination_df)
 
+  x11 <- px_elimination(x10, 'T')
+
+  expect_equal(px_elimination(x11), dplyr::tribble(~`variable-code`, ~elimination,
+                                                   "place of birth", "T",
+                                                   "gender", "T",
+                                                   "time", "T"
+                                                   )
+               )
+
   x11 <- px_elimination(x10, NULL)
 
   expect_equal(px_elimination(x11), NULL)

@@ -104,9 +104,7 @@ px_from_excel <- function(excel_path, data = NULL) {
     variables_sheet %>%
     align_data_frames(get_base_variables1()) %>%
     sort_variables1() %>%
-    dplyr::select("variable-code", "pivot", "order",
-                  "variable-type", "contvariable", "timeval"
-                  )
+    dplyr::select(get_base_variables1() %>% names())
 
   # data_df, variables2, cells1, cells2
   if (is.null(data)) {
@@ -128,9 +126,9 @@ px_from_excel <- function(excel_path, data = NULL) {
 
   variables2 <-
     variables_sheet %>%
-    dplyr::select(-all_of(intersect(c("pivot", "order", "variable-type",
-                                      "contvariable", "timeval"
-                                      ),
+    dplyr::select(-all_of(intersect(setdiff(get_base_variables1() %>% names(),
+                                            "variable-code"
+                                            ),
                                     names(.)
                                     )
                           )

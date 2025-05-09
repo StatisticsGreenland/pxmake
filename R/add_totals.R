@@ -107,7 +107,7 @@ px_add_totals <- function(x, value, na.rm = TRUE, validate) {
 #' @export
 px_add_totals.px <- function(x, value, na.rm = TRUE, validate = TRUE) {
   params <-
-    x$variables2 %>%
+    x$variables1 %>%
     dplyr::left_join(dplyr::select(x$cells2, "variable-code", "code", "value"),
                      by = c("variable-code", "elimination" = "value"),
                      multiple = "all"

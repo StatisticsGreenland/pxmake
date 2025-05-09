@@ -382,6 +382,18 @@ get_metadata_df_from_px <- function(x) {
     dplyr::summarise(value = list(paste(.data$value, sep = ", ")), .groups = "keep") %>%
     dplyr::ungroup()
 
+  elimination <-
+    variables1 %>%
+    tidyr::drop_na("elimination") %>%
+    dplyr::rename(code = elimination) %>%
+    dplyr::left_join(cells %>% dplyr::select("variable-code", "code", "language", "value"),
+                      by = c("variable-code", "code", "language")
+                      ) %>%
+    dplyr::mutate(value = ifelse(is.na(.data$value), .data$code, .data$value)) %>%
+    dplyr::mutate(keyword = "ELIMINATION") %>%
+    dplyr::select("keyword", "language", "variable" = "variable-label", "value") %>%
+    wrap_varaible_in_list("value")
+
   valuenotes <-
     cells %>%
     tidyr::pivot_longer(cols = starts_with("valuenote"),
@@ -433,6 +445,7 @@ get_metadata_df_from_px <- function(x) {
                      head_stub,
                      variable_type,
                      timeval,
+                     elimination,
                      code_value,
                      valuenotes,
                      precision,

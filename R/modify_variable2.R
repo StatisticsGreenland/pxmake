@@ -27,17 +27,6 @@ px_domain.px <- function(x, value, validate = TRUE) {
   handle_variables2_keyword(x, value, "DOMAIN", validate)
 }
 
-#' @rdname px_elimination.px
-#' @export
-px_elimination <- function(x, value, validate) {
-  UseMethod("px_elimination")
-}
-
-#' @eval add_documentation_variables2("ELIMINATION", "YES", "All", "Total")
-px_elimination.px <- function(x, value, validate = TRUE) {
-  handle_variables2_keyword(x, value, "ELIMINATION", validate)
-}
-
 #' @rdname px_map.px
 #' @export
 px_map <- function(x, value, validate) {

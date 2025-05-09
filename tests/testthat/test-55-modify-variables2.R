@@ -6,7 +6,6 @@ test_that('variables 2 is modified', {
     px()
 
   expect_identical(px_domain(x), NULL)
-  expect_identical(px_elimination(x), NULL)
   expect_identical(px_map(x), NULL)
 
   domain_str <- "aggregation list"
@@ -70,15 +69,4 @@ test_that('variables 2 is modified', {
   x9 <- px_map(x, map_df)
 
   expect_identical(px_map(x9), map_df)
-
-  # px_elimination only sets for STUB/HEADING, not figures
-  x10 <- px_elimination(x, "T")
-
-  expect_identical(px_elimination(x10),
-                   dplyr::tribble(~`variable-code`, ~elimination,
-                                  "place of birth",          "T",
-                                  "gender",                  "T",
-                                  "time",                    "T"
-                                  )
-                   )
 })

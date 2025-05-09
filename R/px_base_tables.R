@@ -23,7 +23,8 @@ get_base_variables1 <- function() {
                 order           = as.numeric(),
                 `variable-type` = as.character(),
                 contvariable    = as.logical(),
-                timeval         = as.logical()
+                timeval         = as.logical(),
+                elimination      = as.character()
                 )
 }
 
@@ -32,7 +33,6 @@ get_base_variables2 <- function() {
                 language         = as.character(), #key
                 `variable-label` = as.character(),
                 domain           = as.character(),
-                elimination      = as.character(),
                 map              = as.character(),
                 note             = as.character(),
                 notex            = as.character()

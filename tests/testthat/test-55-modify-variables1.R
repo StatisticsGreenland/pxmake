@@ -45,6 +45,17 @@ test_that('Variables is modified', {
 
   x9 <- px_timeval(x8, NULL)
   expect_equal(px_timeval(x9), NULL)
+
+  elimination_df <- dplyr::tribble(~`variable-code`, ~elimination,
+                                   "gender", "Total"
+                                   )
+
+  x10 <- px_elimination(x, elimination_df)
+  expect_equal(px_elimination(x10), elimination_df)
+
+  x11 <- px_elimination(x10, NULL)
+
+  expect_equal(px_elimination(x11), NULL)
 })
 
 test_that("VARIABLE-TYPE is changed", {

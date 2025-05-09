@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## Breaking changes
+- ELIMINATION is changed from language dependent to not language dependent, and
+instead of adding ELIMINATION as values, it is done with codes. (#406)
+
 ## Bug fixes and minor improvements
 - Bugfix when saving as R scripts. (#410)
 

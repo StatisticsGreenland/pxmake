@@ -92,7 +92,7 @@ test_that("do not ignore NA when summing", {
                         "a",  10,
                         "b",  20,
                         "c",  NA
-  )
+                        )
 
   result <-
     px(df) %>%
@@ -101,4 +101,26 @@ test_that("do not ignore NA when summing", {
     dplyr::pull(n)
 
   expect_identical(result, c(NA, 10, 20, NA))
+})
+
+test_that("Add totals work for multiple languages", {
+  # Create px object with multilingual add_totals
+  x <-
+    population_gl %>%
+    px() %>%
+    px_languages(c('en', 'da')) %>%
+    px_elimination(dplyr::tribble(~`variable-code`, ~elimination,
+                                  'gender', 'Total'
+                                  )
+                   ) %>%
+    px_add_totals('gender')
+
+  # px_add_totals adds both 'en' and 'da' level in data. This is a mistake.
+  gender_levels <-
+    x %>%
+    px_data() %>%
+    dplyr::distinct(gender) %>%
+    dplyr::pull(gender)
+
+  expect_identical(gender_levels, c("Total", "male", "female"))
 })

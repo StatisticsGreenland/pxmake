@@ -346,29 +346,10 @@ px_from_px_file <- function(path) {
     dplyr::filter(! toupper(.data$value) %in% c("TIMEVAL", "CONTVARIABLE")) %>%
     dplyr::select("variable-code", "variable-type" = "value")
 
-  variables1 <-
-    variable_label %>%
-    dplyr::distinct(.data$`variable-code`,
-                    "pivot" = .data$keyword,
-                    "order" = .data$index
-                    ) %>%
-    dplyr::left_join(variable_type_df, by = "variable-code") %>%
-    dplyr::left_join(contvariable_df, by = "variable-code") %>%
-    dplyr::left_join(timeval_df, by = "variable-code") %>%
-    dplyr::filter(! .data$`variable-code` %in% figures_variable) %>%
-    dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,
-                                   pivot = "FIGURES",
-                                   contvariable = FALSE,
-                                   timeval = FALSE
-                                   )
-                     ) %>%
-    align_data_frames(get_base_variables1()) %>%
-    sort_variables1()
-
   # variables2
   variables2 <-
     metadata %>%
-    dplyr::filter(.data$keyword %in% c("NOTE", "ELIMINATION", "DOMAIN"),
+    dplyr::filter(.data$keyword %in% c("NOTE", "DOMAIN"),
                   ! is.na(.data$`variable-code`)
                   ) %>%
     dplyr::mutate(keyword = tolower(.data$keyword)) %>%
@@ -379,7 +360,7 @@ px_from_px_file <- function(path) {
     tidyr::pivot_wider(names_from = "keyword",
                        values_from = "value"
                        ) %>%
-    # Add variables without NOTE, ELIMINATION, DOMAIN to get all variable-labels
+    # Add variables without NOTE, DOMAIN to get all variable-labels
     dplyr::bind_rows(dplyr::anti_join(dplyr::select(name_relation, -"main_language"),
                                       .,
                                       by=c("variable-code",
@@ -468,6 +449,42 @@ px_from_px_file <- function(path) {
     sort_cells2(data_table_names = stub_heading_variables,
                 languages = languages$language
                 )
+
+  # variables 1
+  # elimination
+  elimination_df <-
+    metadata %>%
+    dplyr::filter(.data$main_language, .data$keyword %in% c("ELIMINATION")) %>%
+    tidyr::unnest("value") %>%
+    dplyr::left_join(dplyr::filter(codes_and_values, .data$main_language),
+                     by = c("variable-code", "value")
+                     ) %>%
+    dplyr::mutate(code = ifelse(is.na(.data$code),
+                                .data$value,
+                                .data$code
+                                )
+                  ) %>%
+    dplyr::select("variable-code", "elimination" = "code")
+
+  variables1 <-
+    variable_label %>%
+    dplyr::distinct(.data$`variable-code`,
+                    "pivot" = .data$keyword,
+                    "order" = .data$index
+                    ) %>%
+    dplyr::left_join(variable_type_df, by = "variable-code") %>%
+    dplyr::left_join(contvariable_df, by = "variable-code") %>%
+    dplyr::left_join(timeval_df, by = "variable-code") %>%
+    dplyr::left_join(elimination_df, by = "variable-code") %>%
+    dplyr::filter(! .data$`variable-code` %in% figures_variable) %>%
+    dplyr::bind_rows(dplyr::tibble(`variable-code` = figures_variable,
+                                   pivot = "FIGURES",
+                                   contvariable = FALSE,
+                                   timeval = FALSE
+                                   )
+                     ) %>%
+    align_data_frames(get_base_variables1()) %>%
+    sort_variables1()
 
   # acrosscells
   acrosscells_variables <- intersect(unique(metadata$keyword),

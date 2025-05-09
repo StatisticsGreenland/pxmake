@@ -275,6 +275,60 @@ px_contvariable.px <- function(x, value, validate = TRUE) {
   return_px(x, validate)
 }
 
+#' @rdname px_elimination.px
+#' @export
+px_elimination <- function(x, value, validate) {
+  UseMethod("px_elimination")
+}
+
+#' @eval add_doc_keyword_function_intro("ELIMINATION")
+#' @param value Optional. Use character to set ELIMINATION for all STUB and
+#' HEADING variables. Use a data frame with columns 'variable-code' and
+#' 'elimination' to set ELIMINATION for individual variables. If value is
+#' missing, the current ELIMINATION is returned. If NULL, ELIMINATION is removed
+#' for all variables.
+#' @eval param_validate()
+#' @eval add_return_px_or_df()
+#' @examples
+#' library(tibble)
+#'
+#' # Set ELIMINATION
+#' x1 <-
+#'   px(population_gl) |>
+#'   px_elimination(tribble(~`variable-code`, ~elimination,
+#'                          "gender", "T",
+#'                          "age", "YES"
+#'                         )
+#'                 )
+#'
+#' # Print ELIMINATION
+#' px_elimination(x1)
+#'
+#' # Remove ELIMINATION
+#' x2 <- px_elimination(x1, NULL)
+#' px_elimination(x2)
+#'
+#' @export
+px_elimination.px <- function(x, value, validate = TRUE) {
+  if (missing(value)) {
+    return(get_variable1_value(x, "elimination"))
+  } else if (is.null(value)) {
+    x$variables1$elimination <- NA
+  } else if (is.character(value)) {
+    x$variables1$elimination <- NA
+
+    x <- modify_variables1(x, "elimination",
+                           dplyr::tibble(`variable-code` = c(px_stub(x), px_heading(x)),
+                                         elimination = value
+                                         )
+                           )
+  } else {
+    x <- modify_variables1(x, "elimination", value)
+  }
+
+  return_px(x, validate)
+}
+
 
 #' @rdname px_variable_type.px
 #' @export

@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## New features
+- `px_data()` has a new argument, `labels`, which makes the function return the
+data table with VALUES instead of CODES. (#419)
+
 ## Breaking changes
 - ELIMINATION is changed from language dependent to not language dependent, and
 instead of adding ELIMINATION as values, it is done with codes. (#406)

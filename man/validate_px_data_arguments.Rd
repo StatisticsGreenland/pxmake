@@ -13,8 +13,8 @@ validate_px_data_arguments(x, value, labels, validate)
 If NULL, all data rows are removed.}
 
 \item{labels}{Optional. Logic or character vector. If TRUE, the data table
-is returned with labels instead of codes. By default the labels of the main
-language are returned, use a character language code to return labels for a
+is returned with VALUES instead of CODES. By default the VALUES of the main
+language are returned, use a character language code to return VALUES for a
 specific language.}
 
 \item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}

@@ -9,8 +9,8 @@ px_data <- function(x, value, labels, validate) {
 #' If NULL, all data rows are removed.
 #' @eval add_return_px_or_df()
 #' @param labels Optional. Logic or character vector. If TRUE, the data table
-#' is returned with labels instead of codes. By default the labels of the main
-#' language are returned, use a character language code to return labels for a
+#' is returned with VALUES instead of CODES. By default the VALUES of the main
+#' language are returned, use a character language code to return VALUES for a
 #' specific language.
 #' @eval param_validate()
 #'
@@ -28,10 +28,10 @@ px_data <- function(x, value, labels, validate) {
 #'
 #' x2 <- px_data(x1, population_gl_2024)
 #'
-#' # Return data table with labels
+#' # Return data table with VALUES instead of CODES
 #' px_data(x1, labels = TRUE)
 #'
-#' # Return data labels for a specific language
+#' # Return VALUES for a specific language
 #' x_mult <-
 #'   x1 |>
 #'   px_languages(c("en", "gl"))

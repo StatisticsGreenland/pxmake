@@ -254,6 +254,12 @@ error_if_language_not_in_languages <- function(x) {
   }
 }
 
+error_if_language_is_undefined <- function(language, x) {
+  if (! language %in% defined_languages(x)) {
+    error(paste0("Language '", language, "' is not defined in the px object."))
+  }
+}
+
 error_if_data_column_is_not_defined <- function(x, table_name) {
   undefined_variables <- setdiff(colnames(x$data), x[[table_name]]$`variable-code`)
 
@@ -472,6 +478,41 @@ validate_px_classification_arguments <- function(name,
 
     if (! "valuecode" %in% names(df)) {
       error("Argument 'df' is missing column 'valuecode'.")
+    }
+  }
+}
+
+#' Check all arguments to px_data
+#'
+#' @inheritParams px_data
+#'
+#' @returns Nothing
+#' @keywords internal
+validate_px_data_arguments <- function(x, value, labels, validate) {
+  if (! inherits(x, "px")) {
+    error("Argument 'x' must be a px object.")
+  }
+
+  if (! missing(value)) {
+    if (! (is.data.frame(value) | is.null(value))) {
+      error("Argument 'value' must be a data frame or NULL.")
+    }
+  }
+
+  if (! missing(labels)) {
+    if (! is.logical(labels) & ! is.character(labels)) {
+      error("Argument 'labels' must be TRUE/FALSE or a character string.")
+    }
+  }
+
+  # labels can only be used if value is missing
+  if (! missing(value) & ! isFALSE(labels)) {
+    error("Argument 'labels' can only be used if 'value' is missing.")
+  }
+
+  if (! missing(validate)) {
+    if (! is.logical(validate)) {
+      error("Argument 'validate' must be TRUE or FALSE.")
     }
   }
 }

@@ -5,15 +5,20 @@
 \alias{px_data.px}
 \title{DATA}
 \usage{
-px_data(x, value, validate)
+px_data(x, value, labels, validate)
 
-\method{px_data}{px}(x, value, validate = TRUE)
+\method{px_data}{px}(x, value, labels = FALSE, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
 
 \item{value}{Optional. A data frame. If missing, the current DATA is returned.
 If NULL, all data rows are removed.}
+
+\item{labels}{Optional. Logic or character vector. If TRUE, the data table
+is returned with labels instead of codes. By default the labels of the main
+language are returned, use a character language code to return labels for a
+specific language.}
 
 \item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
@@ -37,6 +42,16 @@ px_data(x1)
 population_gl_2024 <- subset(population_gl, year == 2024)
 
 x2 <- px_data(x1, population_gl_2024)
+
+# Return data table with labels
+px_data(x1, labels = TRUE)
+
+# Return data labels for a specific language
+x_mult <-
+  x1 |>
+  px_languages(c("en", "gl"))
+
+px_data(x_mult, labels = "gl")
 
 }
 \seealso{

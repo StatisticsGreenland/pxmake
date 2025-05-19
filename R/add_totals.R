@@ -68,11 +68,10 @@ px_add_totals <- function(x, value, na.rm = TRUE, validate) {
 #'
 #' @description
 #' Adds a total level, which is the sum of the figures for all other levels of
-#' the variable. NA values are ignored when calculating the sum.
+#' the variable.
 #'
 #' The default name of the total level is 'Total', unless \link{px_elimination}
-#' is set, in which case the elimination value becomes the name of the total
-#' level.
+#' is set, in which case the elimination code is used.
 #'
 #' @param x A px object
 #' @param value A character vector of variables to add total levels to.
@@ -86,15 +85,15 @@ px_add_totals <- function(x, value, na.rm = TRUE, validate) {
 #' @examples
 #' # Create small px object example
 #' x0 <- px(subset(population_gl, age == "65+"))
-#' x0$data
+#' px_data(x0)
 #'
 #' # Add total level to one variable
 #' x1 <- px_add_totals(x0, "gender")
-#' x1$data
+#' px_data(x1)
 #'
 #' # Add total level to multiple variables
 #' x2 <- px_add_totals(x0, c("gender", "age"))
-#' x2$data
+#' px_data(x2)
 #'
 #' # The name of the total level can be changed with px_elimination()
 #' x3 <-
@@ -102,29 +101,34 @@ px_add_totals <- function(x, value, na.rm = TRUE, validate) {
 #'   px_elimination("T") |>
 #'   px_add_totals("gender")
 #'
-#' x3$data
+#' px_data(x3)
 #'
 #' @export
 px_add_totals.px <- function(x, value, na.rm = TRUE, validate = TRUE) {
+  elimination <-
+    px_elimination(x)
+
+  values_not_in_elimination <-
+    value[!value %in% elimination$`variable-code`]
+
+  if (length(values_not_in_elimination) > 0) {
+    default_elimination <-
+      dplyr::tibble(`variable-code` = values_not_in_elimination,
+                    elimination = "Total"
+                    )
+
+    x <- px_elimination(x, dplyr::bind_rows(elimination, default_elimination))
+  }
+
   params <-
     x$variables1 %>%
-    dplyr::left_join(dplyr::select(x$cells2, "variable-code", "code", "value"),
-                     by = c("variable-code", "elimination" = "value"),
-                     multiple = "all"
-                     ) %>%
     dplyr::filter(.data$`variable-code` %in% value) %>%
-    dplyr::mutate(code = ifelse(is.na(.data$code),
-                                .data$elimination,
-                                .data$code
-                                ),
-                  code = ifelse(is.na(.data$code), "Total", .data$code)
-                  ) %>%
-    dplyr::distinct(.data$`variable-code`, .data$code)
+    dplyr::distinct(.data$`variable-code`, .data$elimination)
 
   x$data <-
     add_totals_to_df(x$data,
                      variables = params$`variable-code`,
-                     level_names = params$code,
+                     level_names = params$elimination,
                      sum_var = px_figures(x),
                      na.rm = !!na.rm
                      )

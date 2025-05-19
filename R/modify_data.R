@@ -39,6 +39,18 @@ px_data.px <- function(x, value, validate = TRUE) {
       px_from_data_df(value) %>%
       px_languages(defined_languages(x))
 
+    if (! is.null(px_elimination(x))) {
+      elimination_values <-
+        px_values(x) %>%
+        dplyr::semi_join(px_elimination(x),
+                         by = c('variable-code' = 'variable-code',
+                                'code' = 'elimination'
+                                )
+                         )
+
+      dummy_px <- px_values(dummy_px, elimination_values)
+    }
+
     # Add new variables from x2 to x1, and remove variables from x1 that are
     # not in x2.
     swap_in_variables_metadata <- function(x1, x2, element) {

@@ -136,4 +136,35 @@ test_that('modifying data updates metadata', {
   expect_identical(x_lang2$cells2$language, rep(c('en', 'fr'), 9))
 })
 
+test_that("Labels can be returned", {
+  x1 <- px_from_table_name('BEXSTA')
+
+  expect_error(px_data(x1, value = population_gl, labels = TRUE),
+               regexp = "can only be used"
+               )
+
+  expect_error(px_data(x1, labels = 'fr'),
+               regexp = "Language.*is not defined"
+               )
+
+  expect_identical(px_data(x1, labels = TRUE),
+                   px_data(x1, labels = 'en')
+                   )
+
+  expect_identical(head(px_data(x1, labels = 'kl'), 3),
+                   tibble::tribble(
+                     ~`place of birth`,  ~gender,  ~time, ~persons,
+                     "Kalaallit Nunaat", "Arnat", "2018",    24392,
+                     "Kalaallit Nunaat", "Arnat", "2019",    24434,
+                     "Kalaallit Nunaat", "Arnat", "2020",    24452
+                     )
+                   )
+
+  x2 <- px(population_gl)
+
+  expect_identical(px_data(x2, labels = TRUE),
+                   px_data(x2)
+                   )
+})
+
 

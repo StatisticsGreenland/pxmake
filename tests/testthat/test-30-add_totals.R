@@ -124,3 +124,48 @@ test_that("Add totals work for multiple languages", {
 
   expect_identical(gender_levels, c("Total", "male", "female"))
 })
+
+test_that("Add totals adds elimination", {
+  default_elimination <-
+    population_gl %>%
+    px() %>%
+    px_add_totals('gender') %>%
+    px_elimination()
+
+  expect_identical(default_elimination,
+                   dplyr::tibble('variable-code' = 'gender',
+                                 'elimination' = 'Total'
+                                 )
+                   )
+})
+
+test_that("Elimination and values are preserved when changing data frame", {
+  tmp_px_file <- temp_px_file()
+
+  population_gl %>%
+    px() %>%
+    px_add_totals('gender') %>%
+    px_save(tmp_px_file)
+
+  x <-
+    px(tmp_px_file) %>%
+    px_data(population_gl)
+
+  expect_identical(px_elimination(x),
+                   dplyr::tibble('variable-code' = 'gender',
+                                 'elimination' = 'Total'
+                                 )
+                   )
+
+  elimination_values <-
+    x %>%
+    px_values() %>%
+    dplyr::semi_join(px_elimination(x),
+                     by = c('variable-code' = 'variable-code',
+                            'code' = 'elimination'
+                            )
+                     ) %>%
+    dplyr::select("variable-code", "elimination" = "code")
+
+  expect_identical(elimination_values, px_elimination(x))
+})

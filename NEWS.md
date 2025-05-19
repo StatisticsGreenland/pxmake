@@ -6,6 +6,7 @@ instead of adding ELIMINATION as values, it is done with codes. (#406)
 
 ## Bug fixes and minor improvements
 - Bugfix when saving as R scripts. (#410)
+- Elimination values are preserved when changing data table. (#418)
 
 # pxmake 0.17.0
 

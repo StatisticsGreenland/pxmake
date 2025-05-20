@@ -57,7 +57,8 @@ px_data.px <- function(x, value, labels = FALSE, validate = TRUE) {
 
     data_with_labels <-
       px_data(x) %>%
-      tidyr::pivot_longer(-px_figures(x),
+      dplyr::mutate(id_ = dplyr::row_number()) %>%
+      tidyr::pivot_longer(-c(px_figures(x), "id_"),
                           names_to = 'variable-code',
                           values_to = 'code'
                           ) %>%
@@ -85,6 +86,7 @@ px_data.px <- function(x, value, labels = FALSE, validate = TRUE) {
       tidyr::pivot_wider(names_from = 'variable-code',
                          values_from = 'value'
                          ) %>%
+      dplyr::select(-"id_") %>%
       dplyr::relocate(names(px_data(x)))
 
     return(data_with_labels)

@@ -110,7 +110,18 @@ px_data.px <- function(x, value, labels = FALSE, validate = TRUE) {
                                 )
                          )
 
-      dummy_px <- px_values(dummy_px, elimination_values)
+      elimination_order <-
+        px_order(x) %>%
+        dplyr::semi_join(px_elimination(x),
+                         by = c('variable-code' = 'variable-code',
+                                'code' = 'elimination'
+                                )
+                         )
+
+      dummy_px <-
+        dummy_px %>%
+        px_values(elimination_values) %>%
+        px_order(elimination_order)
     }
 
     # Add new variables from x2 to x1, and remove variables from x1 that are

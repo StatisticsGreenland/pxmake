@@ -136,6 +136,40 @@ test_that('modifying data updates metadata', {
   expect_identical(x_lang2$cells2$language, rep(c('en', 'fr'), 9))
 })
 
+test_that('Elimination values and order is preserved ', {
+  elimination_df <- dplyr::tibble(`variable-code` = 'gender',
+                                  elimination = "all genders"
+                                  )
+
+  elimination_order <- dplyr::tibble(`variable-code` = 'gender',
+                                     code = 'all genders',
+                                     order = 0
+                                     )
+  x1 <-
+    population_gl %>%
+    px() %>%
+    px_elimination(elimination_df) %>%
+    px_order(elimination_order)
+
+  population_gl_2024 <-
+    population_gl %>%
+    dplyr::filter(year == 2024)
+
+  x2 <-
+    x1 %>%
+    px_data(population_gl_2024)
+
+  expect_identical(px_elimination(x2), elimination_df)
+
+  px_order(x2) %>%
+    dplyr::semi_join(elimination_df,
+                     by = c("variable-code" = "variable-code",
+                            "code" = "elimination"
+                            )
+                     ) %>%
+    expect_identical(elimination_order)
+})
+
 test_that("Labels can be returned", {
   x1 <- px_from_table_name('BEXSTA')
 

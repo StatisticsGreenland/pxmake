@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.18.0
 
 ## New features
 - `px_data()` has a new argument, `labels`, which makes the function return the

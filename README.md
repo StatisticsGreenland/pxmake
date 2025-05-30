@@ -152,7 +152,9 @@ available:
 See the help page for each modifying function for more information.
 
 <details>
+
 <summary>
+
 Keywords without modifying functions
 </summary>
 

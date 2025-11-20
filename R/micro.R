@@ -12,7 +12,8 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
     new_data %>%
     dplyr::filter(!!rlang::sym(micro_var) != "-") %>%
     dplyr::select(all_of(px_heading(x))) %>%
-    dplyr::distinct_all()
+    dplyr::distinct_all() %>%
+    tidyr::complete(!!!rlang::syms(px_heading(x)))
 
   headings_with_only_na_values <-
     new_data %>%

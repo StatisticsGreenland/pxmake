@@ -1,0 +1,63 @@
+# Languages
+
+The PX-file format supports having multiple langauges in one file. Let’s
+start by creating a minimal example of a px object, based on the built
+in data set `population_gl`.
+
+``` r
+library(pxmake)
+
+x <- px(population_gl)
+```
+
+Currently, `x` has neither a main language nor any additional languages.
+
+``` r
+px_language(x)  # Main language
+#> NULL
+px_languages(x) # All languages
+#> NULL
+```
+
+To set the main language, use
+[`px_language()`](https://statisticsgreenland.github.io/pxmake/reference/px_language.px.md),
+and add the [ISO
+639](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
+language code.
+
+``` r
+x1 <- px_language(x, "kl")
+```
+
+This adds the keyword ‘LANGUAGE=kl’ if the PX-file is saved, but
+otherwise there are no changes.
+
+To set multiple languages, use
+[`px_languages()`](https://statisticsgreenland.github.io/pxmake/reference/px_languages.px.md)
+with a list of language codes.
+
+``` r
+x2 <- px_languages(x1, c("da", "kl"))
+```
+
+This doubles the number of values for all language dependent keywords.
+For example CONTACT, can be set simultaneously for both languages:
+
+``` r
+x3 <- px_contact(x2, "Johan Ejstrud")
+```
+
+or it can be set with distinct values for the two languages:
+
+``` r
+x4 <- px_contact(x3, dplyr::tribble(~language, ~value,
+                                    "kl", "Lars Pedersen",
+                                    "da", "Johan Ejstrud"
+                                    )
+                 )
+```
+
+In general, changing a keyword for multiple languages, requires a data
+frame where the column ‘language’ has been added. See the help pages for
+each functions to see the exact details on which columns are needed in
+the data frame.

@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Micro files with multiple headings now only removes a heading if it is NA
+across all other headings.
+
 # pxmake 0.18.0
 
 ## New features

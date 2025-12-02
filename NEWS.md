@@ -3,7 +3,8 @@
 ## Bug fixes and minor improvements
 - Micro files with multiple headings now only removes a heading if it is NA
 across all other headings.
-- Add support for short TIMEVAL syntax (#435).
+- Add support for short TIMEVAL syntax. (#435)
+- Bugfix: Add MAP to variables2 instead of table2. ($409)
 
 # pxmake 0.18.0
 

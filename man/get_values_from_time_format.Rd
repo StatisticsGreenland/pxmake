@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{get_values_from_time_format}
 \alias{get_values_from_time_format}
-\title{Get time values from formatted string}
+\title{Get time values from TIMEVAL string}
 \usage{
 get_values_from_time_format(str)
 }
@@ -13,6 +13,6 @@ get_values_from_time_format(str)
 A character vector
 }
 \description{
-Get time values from formatted string
+Get time values from TIMEVAL string
 }
 \keyword{internal}

@@ -114,6 +114,22 @@ test_that("Can get time values from string", {
   expect_values_are_preserved(timeval2)
 })
 
+test_that("TIMEVAL short syntax is expanded", {
+  timeval1 <- 'TLIST(A1, "1994"-"1996")'
+  expect1  <- as.character(1994:1996)
+
+  expect_equal(get_values_from_time_format(timeval1),
+               expect1
+               )
+
+  timeval2 <- 'TLIST(Q1, "19951"-"19962")'
+  expect2  <- c("1995Q1", "1995Q2", "1995Q3", "1995Q4", "1996Q1")
+
+  expect_equal(get_values_from_time_format(timeval2),
+               expect2
+               )
+})
+
 test_that("Vectors are zipped", {
   expect_equal(zip_vectors(c(1, 3, 5), c(2, 4, 6)),
                c(1, 2, 3, 4, 5, 6)

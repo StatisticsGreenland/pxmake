@@ -1,0 +1,32 @@
+CHARSET="ANSI";
+AXIS-VERSION="2010";
+CODEPAGE="iso-8859-1";
+LANGUAGE="en";
+DECIMALS=0;
+SHOWDECIMALS=0;
+MATRIX="Levende";
+SUBJECT-CODE="al";
+SUBJECT-AREA="Labour market and earnings";
+TITLE="06913: Population and population changes, by region, contents and year";
+CONTENTS="06913: Population and population changes,";
+STUB="region";
+HEADING="contents","year";
+VALUES("region")="Halden","Moss";
+VALUES("contents")="Live births","Deaths","Excess of births";
+VALUES("year")="2019","2020","2021","2022";
+UNITS="persons";
+UNITS("Deaths")="persons";
+UNITS("Excess of births")="persons";
+UNITS("Live births")="persons";
+TIMEVAL("year")=TLIST(A1),"2019","2020","2021","2022";
+CODES("region")="K_3001","K_3002";
+CODES("contents")="Levende","Dode","Fodselsoverskudd";
+CODES("year")="2019","2020","2021","2022";
+VARIABLECODE("region")="region";
+VARIABLECODE("contents")="contents";
+VARIABLECODE("year")="year";
+VARIABLECODE("figures_")="figures_";
+DATA=
+257 254 260 226 299 284 311 298 -42 -30 -51 -72
+408 400 434 434 446 453 453 483 -38 -53 -19 -49
+;

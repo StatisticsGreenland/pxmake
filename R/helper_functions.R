@@ -161,31 +161,60 @@ format_time_values <- function(values) {
          )
 }
 
-#' Get time values from formatted string
+#' Get time values from TIMEVAL string
 #'
 #' @param str String with time values
 #'
 #' @returns A character vector
 #' @keywords internal
 get_values_from_time_format <- function(str) {
+  short_syntax = any(stringr::str_detect(str, "-"))
+
   tmp <-
     str %>%
     stringr::str_split(',') %>%
     unlist()
 
-  tlist <- tmp %>% head(1)
-  type  <- stringr::str_sub(tlist, 7, 7)
+  tlist      <- tmp %>% head(1)
+  type       <- stringr::str_sub(tlist, 7, 7)
+  value_part <- tmp %>% tail(-1)
 
- values <-
-    tmp %>%
-    tail(-1) %>%
-    stringr::str_replace_all('"', '')
+  if (short_syntax) {
+    times <-
+      value_part %>%
+      stringr::str_replace_all("[^0-9-]", "") %>%
+      stringr::str_split("-", simplify = TRUE)
 
- if (type == "A") {
-   return(values)
- } else {
-   return(paste0(stringr::str_sub(values, 1, 4), type, stringr::str_sub(values, 5)))
- }
+    interval_start <- times[1]
+    interval_end   <- times[2]
+
+    if (type == "A")
+      values <- as.character(seq(interval_start, interval_end))
+    else {
+      indicies_per_year <- c(H = 2, Q = 4, M = 12)
+
+      year_start <- stringr::str_sub(interval_start, 1, 4)
+      year_end   <- stringr::str_sub(interval_end,   1, 4)
+
+      values <-
+        tidyr::crossing(year = seq(year_start, year_end),
+                        index = seq(1, indicies_per_year[type])
+                        ) %>%
+        dplyr::mutate(value = paste0(year, index), .keep="none") %>%
+        dplyr::filter(as.numeric(value) < interval_end) %>%
+        dplyr::pull(1)
+    }
+  } else {
+    values <-
+      value_part %>%
+      stringr::str_replace_all('"', '')
+  }
+
+  if (type == "A") {
+    return(values)
+  } else {
+    return(paste0(stringr::str_sub(values, 1, 4), type, stringr::str_sub(values, 5)))
+  }
 }
 
 #' Zips list

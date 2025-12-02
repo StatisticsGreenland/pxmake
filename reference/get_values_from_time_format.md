@@ -1,6 +1,6 @@
-# Get time values from formatted string
+# Get time values from TIMEVAL string
 
-Get time values from formatted string
+Get time values from TIMEVAL string
 
 ## Usage
 

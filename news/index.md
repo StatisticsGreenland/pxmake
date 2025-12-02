@@ -6,6 +6,8 @@
 
 - Micro files with multiple headings now only removes a heading if it is
   NA across all other headings.
+- Add support for short TIMEVAL syntax
+  ([\#435](https://github.com/StatisticsGreenland/pxmake/issues/435)).
 
 ## pxmake 0.18.0
 

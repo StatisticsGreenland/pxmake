@@ -349,7 +349,7 @@ px_from_px_file <- function(path) {
   # variables2
   variables2 <-
     metadata %>%
-    dplyr::filter(.data$keyword %in% c("NOTE", "DOMAIN"),
+    dplyr::filter(.data$keyword %in% c("NOTE", "DOMAIN", "MAP"),
                   ! is.na(.data$`variable-code`)
                   ) %>%
     dplyr::mutate(keyword = tolower(.data$keyword)) %>%
@@ -360,7 +360,7 @@ px_from_px_file <- function(path) {
     tidyr::pivot_wider(names_from = "keyword",
                        values_from = "value"
                        ) %>%
-    # Add variables without NOTE, DOMAIN to get all variable-labels
+    # Add variables without NOTE, DOMAIN or MAP to get all variable-labels
     dplyr::bind_rows(dplyr::anti_join(dplyr::select(name_relation, -"main_language"),
                                       .,
                                       by=c("variable-code",

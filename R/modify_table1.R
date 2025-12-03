@@ -160,6 +160,18 @@ px_next_update.px <- function(x, value, validate = TRUE) {
 }
 
 
+#' @rdname px_official_statistics.px
+#' @export
+px_official_statistics <- function(x, value, validate) {
+  UseMethod("px_official_statistics")
+}
+
+#' @eval add_documentation_table1("OFFICIAL-STATISTICS", "YES")
+px_official_statistics.px <- function(x, value, validate = TRUE) {
+  handle_table1_keyword(x, value, "OFFICIAL-STATISTICS", validate)
+}
+
+
 #' @rdname px_showdecimals.px
 #' @export
 px_showdecimals <- function(x, value, validate) {

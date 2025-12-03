@@ -50,6 +50,7 @@ reference:
    - px_next_update
    - px_note
    - px_notex
+   - px_official_statistics
    - px_precision
    - px_showdecimals
    - px_source

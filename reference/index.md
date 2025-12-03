@@ -86,6 +86,8 @@ Modifying functions that match a specific px keyword.
   : NOTE
 - [`px_notex()`](https://statisticsgreenland.github.io/pxmake/reference/px_notex.px.md)
   : NOTEX
+- [`px_official_statistics()`](https://statisticsgreenland.github.io/pxmake/reference/px_official_statistics.px.md)
+  : OFFICIAL-STATISTICS
 - [`px_precision()`](https://statisticsgreenland.github.io/pxmake/reference/px_precision.px.md)
   : PRECISION
 - [`px_showdecimals()`](https://statisticsgreenland.github.io/pxmake/reference/px_showdecimals.px.md)

@@ -88,58 +88,59 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 49 keywords have a modifying function in pxmake:
+Currently the following 50 keywords have a modifying function in pxmake:
 
-    #>  Keyword            Function name        
-    #>  AGGREGALLOWED      px_aggregallowed     
-    #>  AUTOPEN            px_autopen           
-    #>  AXIS-VERSION       px_axis_version      
-    #>  BASEPERIOD         px_baseperiod        
-    #>  CELLNOTE           px_cellnote          
-    #>  CELLNOTEX          px_cellnotex         
-    #>  CFPRICES           px_cfprices          
-    #>  CHARSET            px_charset           
-    #>  CODEPAGE           px_codepage          
-    #>  CONFIDENTIAL       px_confidential      
-    #>  CONTACT            px_contact           
-    #>  CONTENTS           px_contents          
-    #>  CONTVARIABLE       px_contvariable      
-    #>  COPYRIGHT          px_copyright         
-    #>  CREATION-DATE      px_creation_date     
-    #>  DATA               px_data              
-    #>  DECIMALS           px_decimals          
-    #>  DESCRIPTION        px_description       
-    #>  DESCRIPTIONDEFAULT px_descriptiondefault
-    #>  DOMAIN             px_domain            
-    #>  ELIMINATION        px_elimination       
-    #>  HEADING            px_heading           
-    #>  INFOFILE           px_infofile          
-    #>  LANGUAGE           px_language          
-    #>  LANGUAGES          px_languages         
-    #>  LAST-UPDATED       px_last_updated      
-    #>  LINK               px_link              
-    #>  MAP                px_map               
-    #>  MATRIX             px_matrix            
-    #>  NEXT-UPDATE        px_next_update       
-    #>  NOTE               px_note              
-    #>  NOTEX              px_notex             
-    #>  PRECISION          px_precision         
-    #>  SHOWDECIMALS       px_showdecimals      
-    #>  SOURCE             px_source            
-    #>  STOCKFA            px_stockfa           
-    #>  STUB               px_stub              
-    #>  SUBJECT-AREA       px_subject_area      
-    #>  SUBJECT-CODE       px_subject_code      
-    #>  TABLEID            px_tableid           
-    #>  TIMEVAL            px_timeval           
-    #>  TITLE              px_title             
-    #>  UNITS              px_units             
-    #>  UPDATE-FREQUENCY   px_update_frequency  
-    #>  VALUENOTE          px_valuenote         
-    #>  VALUENOTEX         px_valuenotex        
-    #>  VALUES             px_values            
-    #>  VARIABLE-LABEL     px_variable_label    
-    #>  VARIABLE-TYPE      px_variable_type
+    #>  Keyword             Function name         
+    #>  AGGREGALLOWED       px_aggregallowed      
+    #>  AUTOPEN             px_autopen            
+    #>  AXIS-VERSION        px_axis_version       
+    #>  BASEPERIOD          px_baseperiod         
+    #>  CELLNOTE            px_cellnote           
+    #>  CELLNOTEX           px_cellnotex          
+    #>  CFPRICES            px_cfprices           
+    #>  CHARSET             px_charset            
+    #>  CODEPAGE            px_codepage           
+    #>  CONFIDENTIAL        px_confidential       
+    #>  CONTACT             px_contact            
+    #>  CONTENTS            px_contents           
+    #>  CONTVARIABLE        px_contvariable       
+    #>  COPYRIGHT           px_copyright          
+    #>  CREATION-DATE       px_creation_date      
+    #>  DATA                px_data               
+    #>  DECIMALS            px_decimals           
+    #>  DESCRIPTION         px_description        
+    #>  DESCRIPTIONDEFAULT  px_descriptiondefault 
+    #>  DOMAIN              px_domain             
+    #>  ELIMINATION         px_elimination        
+    #>  HEADING             px_heading            
+    #>  INFOFILE            px_infofile           
+    #>  LANGUAGE            px_language           
+    #>  LANGUAGES           px_languages          
+    #>  LAST-UPDATED        px_last_updated       
+    #>  LINK                px_link               
+    #>  MAP                 px_map                
+    #>  MATRIX              px_matrix             
+    #>  NEXT-UPDATE         px_next_update        
+    #>  NOTE                px_note               
+    #>  NOTEX               px_notex              
+    #>  OFFICIAL-STATISTICS px_official_statistics
+    #>  PRECISION           px_precision          
+    #>  SHOWDECIMALS        px_showdecimals       
+    #>  SOURCE              px_source             
+    #>  STOCKFA             px_stockfa            
+    #>  STUB                px_stub               
+    #>  SUBJECT-AREA        px_subject_area       
+    #>  SUBJECT-CODE        px_subject_code       
+    #>  TABLEID             px_tableid            
+    #>  TIMEVAL             px_timeval            
+    #>  TITLE               px_title              
+    #>  UNITS               px_units              
+    #>  UPDATE-FREQUENCY    px_update_frequency   
+    #>  VALUENOTE           px_valuenote          
+    #>  VALUENOTEX          px_valuenotex         
+    #>  VALUES              px_values             
+    #>  VARIABLE-LABEL      px_variable_label     
+    #>  VARIABLE-TYPE       px_variable_type
 
 In addition to the above, the following 3 modifying functions are
 available:
@@ -158,7 +159,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 36 keywords currently doesn’t have a modifying function, but can
+These 35 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>  Keyword             Function name          Priority Complexity
@@ -189,7 +190,6 @@ be implemented.
     #>  INFO                px_info                                   
     #>  KEYS                px_keys                                   
     #>  META-ID             px_meta_id                                
-    #>  OFFICIAL-STATISTICS px_official_statistics                    
     #>  PARTITIONED         px_partitioned                            
     #>  PRESTEXT            px_prestext                               
     #>  PX-SERVER           px_px_server                              

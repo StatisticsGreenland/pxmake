@@ -20,7 +20,8 @@ test_that('Table1 keywords are modified and removed', {
     px_update_frequency("yearly") %>%
     px_aggregallowed("YES") %>%
     px_autopen("NO") %>%
-    px_descriptiondefault("NO")
+    px_descriptiondefault("NO") %>%
+    px_official_statistics("YES")
 
   expect_identical(px_charset(x), "ANSI")
   expect_identical(px_creation_date(x), "2019-01-01 10:00")
@@ -39,6 +40,7 @@ test_that('Table1 keywords are modified and removed', {
   expect_identical(px_aggregallowed(x), "YES")
   expect_identical(px_autopen(x), "NO")
   expect_identical(px_descriptiondefault(x), "NO")
+  expect_identical(px_official_statistics(x), "YES")
 
   x2 <-
     x %>%
@@ -55,7 +57,8 @@ test_that('Table1 keywords are modified and removed', {
     px_update_frequency(NULL) %>%
     px_aggregallowed(NULL) %>%
     px_autopen(NULL) %>%
-    px_descriptiondefault(NULL)
+    px_descriptiondefault(NULL) %>%
+    px_official_statistics(NULL)
 
   expect_identical(px_charset(x2), NULL)
   expect_identical(px_creation_date(x2), NULL)
@@ -71,6 +74,7 @@ test_that('Table1 keywords are modified and removed', {
   expect_identical(px_aggregallowed(x2), NULL)
   expect_identical(px_autopen(x2), NULL)
   expect_identical(px_descriptiondefault(x2), NULL)
+  expect_identical(px_official_statistics(x2), NULL)
 
   expect_error(px_matrix(x, NULL), regexp = "mandatory")
   expect_error(px_decimals(x, NULL), regexp = "mandatory")

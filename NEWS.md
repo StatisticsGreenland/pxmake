@@ -5,6 +5,7 @@
 across all other headings.
 - Add support for short TIMEVAL syntax. (#435)
 - Bugfix: Add MAP to variables2 instead of table2. ($409)
+- Add support for OFFICIAL_STATISTICS keyword. (#443)
 
 # pxmake 0.18.0
 

@@ -13,7 +13,8 @@ px(input = NULL, data = NULL, validate = TRUE)
 \item Path to an Excel metadata workbook
 \item A data frame
 \item Path to an \code{.rds} or \code{.parquet} file with a data frame
-\item URL of a PX-file
+\item Direct download URL of a PX-file
+\item Direct download URL of a parquet file
 }
 
 If input is a data frame or NULL, a px object with minimal metadata is created.}

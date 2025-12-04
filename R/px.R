@@ -9,7 +9,8 @@
 #'   \item Path to an Excel metadata workbook
 #'   \item A data frame
 #'   \item Path to an `.rds` or `.parquet` file with a data frame
-#'   \item URL of a PX-file
+#'   \item Direct download URL of a PX-file
+#'   \item Direct download URL of a parquet file
 #' }
 #'
 #' If input is a data frame or NULL, a px object with minimal metadata is created.
@@ -48,6 +49,12 @@
 px <- function(input = NULL, data = NULL, validate = TRUE) {
   validate_px_arguments(input, data)
 
+  if (is_url(input)) {
+    input <- download_px_or_parquet_and_return_path(url = input)
+
+    validate_px_arguments(input, data)
+  }
+
   if (is_rds_file(input)) {
     input <- readRDS(input)
   }
@@ -68,7 +75,7 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
     data <- arrow::read_parquet(data)
   }
 
-  if (is_px_file(input) || is_url(input)) {
+  if (is_px_file(input)) {
     px <- px_from_px_file(input)
   } else if (is_xlsx_file(input)) {
     px <- px_from_excel(input, data)

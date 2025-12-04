@@ -200,8 +200,8 @@ get_values_from_time_format <- function(str) {
         tidyr::crossing(year = seq(year_start, year_end),
                         index = seq(1, indicies_per_year[type])
                         ) %>%
-        dplyr::mutate(value = paste0(year, index), .keep="none") %>%
-        dplyr::filter(as.numeric(value) < interval_end) %>%
+        dplyr::mutate(value = paste0(.data$year, .data$index), .keep="none") %>%
+        dplyr::filter(as.numeric(.data$value) < interval_end) %>%
         dplyr::pull(1)
     }
   } else {
@@ -512,3 +512,24 @@ create_dummy_tibbles <- function(dummy_value) {
 na_tibble <- create_dummy_tibbles(NA)
 character0_tibble <- create_dummy_tibbles(character(0))
 asterisk_tibble <- create_dummy_tibbles("*")
+
+#' Download parquet or PX-file and return path
+#'
+#' Assumes the file is .px, or parquet.
+#'
+#' @param url
+#'
+#' @returns Character
+#' @keywords internal
+download_px_or_parquet_and_return_path <- function(url) {
+  is_parquet <- stringr::str_detect(url, "parquet")
+
+  tmp_file_path <- ifelse(is_parquet,
+                          temp_parquet_file(),
+                          temp_px_file()
+                          )
+
+  curl::curl_download(url, tmp_file_path, quiet = TRUE)
+
+  return(tmp_file_path)
+}

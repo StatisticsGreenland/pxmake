@@ -200,8 +200,8 @@ get_values_from_time_format <- function(str) {
         tidyr::crossing(year = seq(year_start, year_end),
                         index = seq(1, indicies_per_year[type])
                         ) %>%
-        dplyr::mutate(value = paste0(year, index), .keep="none") %>%
-        dplyr::filter(as.numeric(value) < interval_end) %>%
+        dplyr::mutate(value = paste0(.data$year, .data$index), .keep="none") %>%
+        dplyr::filter(as.numeric(.data$value) < interval_end) %>%
         dplyr::pull(1)
     }
   } else {

@@ -164,7 +164,7 @@ The resulting PX-file can be seen below.
     VARIABLECODE("gender")="gender";
     VARIABLECODE("year")="year";
     VARIABLECODE("n")="n";
-    LAST-UPDATED="20251203 11:01";
+    LAST-UPDATED="20251208 10:29";
     CONTACT="Johan Ejstrud";
     NOTE="See information about data: ?population_gl";
     DATA=

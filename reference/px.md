@@ -23,7 +23,9 @@ px(input = NULL, data = NULL, validate = TRUE)
 
   - Path to an `.rds` or `.parquet` file with a data frame
 
-  - URL of a PX-file
+  - Direct download URL of a PX-file
+
+  - Direct download URL of a parquet file
 
   If input is a data frame or NULL, a px object with minimal metadata is
   created.

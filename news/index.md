@@ -11,6 +11,9 @@
 - Bugfix: Add MAP to variables2 instead of table2. (\$409)
 - Add support for OFFICIAL_STATISTICS keyword.
   ([\#443](https://github.com/StatisticsGreenland/pxmake/issues/443))
+- Add support for direct link download URL as input to
+  [`px()`](https://statisticsgreenland.github.io/pxmake/reference/px.md).
+  ([\#445](https://github.com/StatisticsGreenland/pxmake/issues/445))
 
 ## pxmake 0.18.0
 

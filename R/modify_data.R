@@ -6,14 +6,14 @@ sort_data_table_by_order <- function(x) {
   order_df <- px_order(x)
 
   columns_to_sort <- intersect(names(data_table),
-                               dplyr::pull(order_df, `variable-code`)
+                               dplyr::pull(order_df, .data$`variable-code`)
                                )
 
   for (column in rev(columns_to_sort)) {
     tmp <-
       order_df %>%
-      dplyr::filter(`variable-code` == column) %>%
-      tidyr::pivot_wider(names_from = `variable-code`, values_from = 'code')
+      dplyr::filter(.data$`variable-code` == column) %>%
+      tidyr::pivot_wider(names_from = .data$`variable-code`, values_from = 'code')
 
     data_table <-
       data_table %>%

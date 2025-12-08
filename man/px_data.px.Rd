@@ -7,7 +7,7 @@
 \usage{
 px_data(x, value, labels, validate)
 
-\method{px_data}{px}(x, value, labels = FALSE, validate = TRUE)
+\method{px_data}{px}(x, value, labels = FALSE, sort = FALSE, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
@@ -21,6 +21,9 @@ language are returned, use a character language code to return VALUES for a
 specific language.}
 
 \item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
+
+\item{sort}{Optional. If TRUE, the data table is returned in the sort order
+set by \code{\link[=px_order]{px_order()}}, otherwise the order is the data table is returned.}
 }
 \value{
 A px object or data frame.

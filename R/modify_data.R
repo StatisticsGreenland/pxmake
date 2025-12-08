@@ -1,6 +1,33 @@
+#' Sort data table by order
+#'
+#' @keywords internal
+sort_data_table_by_order <- function(x) {
+  data_table <- x$data
+  order_df <- px_order(x)
+
+  columns_to_sort <- intersect(names(data_table),
+                               dplyr::pull(order_df, `variable-code`)
+                               )
+
+  for (column in rev(columns_to_sort)) {
+    tmp <-
+      order_df %>%
+      dplyr::filter(`variable-code` == column) %>%
+      tidyr::pivot_wider(names_from = `variable-code`, values_from = 'code')
+
+    data_table <-
+      data_table %>%
+      dplyr::left_join(tmp, by = column) %>%
+      dplyr::arrange(order) %>%
+      dplyr::select(-order)
+  }
+
+  return(data_table)
+}
+
 #' @rdname px_data.px
 #' @export
-px_data <- function(x, value, labels, validate) {
+px_data <- function(x, value, labels, sort, validate) {
   UseMethod("px_data")
 }
 
@@ -12,6 +39,8 @@ px_data <- function(x, value, labels, validate) {
 #' is returned with VALUES instead of CODES. By default the VALUES of the main
 #' language are returned, use a character language code to return VALUES for a
 #' specific language.
+#' @param sort Optional. If TRUE, the data table is returned in the sort order
+#' defined by [px_order()]. If FALSE, the data table is returned as is.
 #' @eval param_validate()
 #'
 #' @details If adding a new data frame, metadata is generated for the new
@@ -39,15 +68,19 @@ px_data <- function(x, value, labels, validate) {
 #' px_data(x_mult, labels = "gl")
 #'
 #' @export
-px_data.px <- function(x, value, labels = FALSE, validate = TRUE) {
-  validate_px_data_arguments(x, value, labels, validate)
+px_data.px <- function(x, value, labels = FALSE, sort = FALSE, validate = TRUE) {
+  validate_px_data_arguments(x, value, labels, sort, validate)
 
   if (missing(value)) {
-    if (isFALSE(labels)) {
-      return(x$data)
+    if (isTRUE(sort)) {
+      data_table <- sort_data_table_by_order(x)
+    } else {
+      data_table <- x$data
     }
 
-    if (isTRUE(labels)) {
+    if (isFALSE(labels)) {
+      return(data_table)
+    } else if (isTRUE(labels)) {
       m_language <- defined_languages(x)[1]
     } else {
       m_language <- labels
@@ -56,7 +89,7 @@ px_data.px <- function(x, value, labels = FALSE, validate = TRUE) {
     error_if_language_is_undefined(m_language, x)
 
     data_with_labels <-
-      px_data(x) %>%
+      data_table %>%
       dplyr::mutate(id_ = dplyr::row_number()) %>%
       tidyr::pivot_longer(-c(px_figures(x), "id_"),
                           names_to = 'variable-code',
@@ -87,7 +120,7 @@ px_data.px <- function(x, value, labels = FALSE, validate = TRUE) {
                          values_from = 'value'
                          ) %>%
       dplyr::select(-"id_") %>%
-      dplyr::relocate(names(px_data(x)))
+      dplyr::relocate(names(data_table))
 
     return(data_with_labels)
   } else if (is.null(value)) {

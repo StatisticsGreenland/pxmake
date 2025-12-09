@@ -58,5 +58,5 @@ x <-
 # Create micro files, one for each of the non-HEADING variables (gender, age,
 # municipality)
 px_micro(x)
-#> [1] "Created PX-files in: /tmp/RtmpMN0Cew/file18dd5511adec"
+#> [1] "Created PX-files in: /tmp/RtmpDtTtAb/file1906404ec0ab"
 ```

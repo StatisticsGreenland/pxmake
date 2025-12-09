@@ -14,6 +14,8 @@
 - Add support for direct link download URL as input to
   [`px()`](https://statisticsgreenland.github.io/pxmake/reference/px.md).
   ([\#445](https://github.com/StatisticsGreenland/pxmake/issues/445))
+- Fix namespace issue with px_keywords data set.
+  ([\#358](https://github.com/StatisticsGreenland/pxmake/issues/358))
 
 ## pxmake 0.18.0
 

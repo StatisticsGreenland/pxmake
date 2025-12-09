@@ -31,7 +31,7 @@ save_px_as_r_script <- function(x, path, data_path) {
   }
 
   data_code <-
-    px_keywords %>%
+    pxmake::px_keywords %>%
     # Remove unimplemented functions
     dplyr::filter(.data$px_function %in% getNamespaceExports('pxmake')) %>%
     # Add px_order

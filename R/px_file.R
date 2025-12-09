@@ -127,7 +127,7 @@ format_px_object_as_lines <- function(x) {
 
   metadata_lines <-
     metadata_df %>%
-    dplyr::left_join(dplyr::select(px_keywords, "keyword", "quote_value"),
+    dplyr::left_join(dplyr::select(pxmake::px_keywords, "keyword", "quote_value"),
                      by = 'keyword'
                      ) %>%
     dplyr::rowwise() %>%
@@ -249,7 +249,7 @@ px_from_px_file <- function(path) {
     dplyr::left_join(dplyr::select(name_relation, -"main_language"),
                      by = c("language", "variable-label")
                      ) %>%
-    dplyr::left_join(px_keywords, by = "keyword")
+    dplyr::left_join(pxmake::px_keywords, by = "keyword")
 
   # languages
   languages <-

@@ -114,7 +114,7 @@ doc_keyword_function_intro <- function(keyword) {
     )
 
   url <-
-    px_keywords %>%
+    pxmake::px_keywords %>%
     dplyr::filter(keyword == !!keyword) %>%
     dplyr::pull(.data$documentation)
 

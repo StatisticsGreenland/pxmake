@@ -67,7 +67,9 @@ modify_languages_in_px <- function(x, new_languages) {
   x$cells2 <-
     modify_languages_in_table(df = x$cells2,
                               new_languages = new_languages,
-                              keep_vars = c("variable-code", "code", "value"),
+                              keep_vars = c("variable-code", "code", "value",
+                                            "valuenote", "valuenotex"
+                                            ),
                               align_df = get_base_cells2()
                               ) %>%
     sort_cells2(data_table_names = names(px_data(x)),

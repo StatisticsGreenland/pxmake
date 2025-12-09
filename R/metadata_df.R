@@ -212,7 +212,7 @@ sort_metadata_df <- function(metadata_df) {
     dplyr::select("variable" = "value", "stub_heading_order")
 
   metadata_df %>%
-    dplyr::left_join(px_keywords %>% dplyr::select('keyword', 'order'),
+    dplyr::left_join(pxmake::px_keywords %>% dplyr::select('keyword', 'order'),
                      by = "keyword"
                      ) %>%
     dplyr::left_join(languages, by = "language") %>%

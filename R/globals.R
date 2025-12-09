@@ -1,1 +1,1 @@
-utils::globalVariables(c(".data", ".", "px_keywords"))
+utils::globalVariables(c(".data", "."))

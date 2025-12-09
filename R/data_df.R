@@ -31,7 +31,7 @@ px_from_data_df <- function(df) {
   default_language <- NA
 
   mandatory_table_keywords <-
-    px_keywords %>%
+    pxmake::px_keywords %>%
     dplyr::filter(.data$mandatory, .data$table_meta)
 
   table1 <-

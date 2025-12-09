@@ -16,6 +16,8 @@
   ([\#445](https://github.com/StatisticsGreenland/pxmake/issues/445))
 - Fix namespace issue with px_keywords data set.
   ([\#358](https://github.com/StatisticsGreenland/pxmake/issues/358))
+- Preserve VALUENOTE(X) when making file multilingual.
+  ([\#363](https://github.com/StatisticsGreenland/pxmake/issues/363))
 
 ## pxmake 0.18.0
 

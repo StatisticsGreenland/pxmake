@@ -70,11 +70,13 @@ x2 <-
             'age', '0-6', 'en', 'Some of the figures are from 2003',
             'age', '0-6', 'kl', 'Kisitsisit ilaat 2003-imeersuupput'))
 px_valuenote(x2)
-#> # A tibble: 2 × 4
+#> # A tibble: 4 × 4
 #>   `variable-code` code  language valuenote                         
 #>   <chr>           <chr> <chr>    <chr>                             
 #> 1 age             0-6   en       Some of the figures are from 2003 
 #> 2 age             0-6   kl       Kisitsisit ilaat 2003-imeersuupput
+#> 3 year            2004  en       Counts are approximated           
+#> 4 year            2004  kl       Counts are approximated           
 
 # Remove VALUENOTE
 x3 <- px_valuenote(x2, NULL)

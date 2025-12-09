@@ -8,6 +8,7 @@ across all other headings.
 - Add support for OFFICIAL_STATISTICS keyword. (#443)
 - Add support for direct link download URL as input to `px()`. (#445)
 - Fix namespace issue with px_keywords data set. (#358)
+- Preserve VALUENOTE(X) when making file multilingual. (#363)
 
 # pxmake 0.18.0
 

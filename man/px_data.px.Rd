@@ -5,9 +5,9 @@
 \alias{px_data.px}
 \title{DATA}
 \usage{
-px_data(x, value, labels, validate)
+px_data(x, value, labels, sort, validate)
 
-\method{px_data}{px}(x, value, labels = FALSE, validate = TRUE)
+\method{px_data}{px}(x, value, labels = FALSE, sort = FALSE, validate = TRUE)
 }
 \arguments{
 \item{x}{A px object}
@@ -19,6 +19,9 @@ If NULL, all data rows are removed.}
 is returned with VALUES instead of CODES. By default the VALUES of the main
 language are returned, use a character language code to return VALUES for a
 specific language.}
+
+\item{sort}{Optional. If TRUE, the data table is returned in the sort order
+defined by \code{\link[=px_order]{px_order()}}. If FALSE, the data table is returned as is.}
 
 \item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }

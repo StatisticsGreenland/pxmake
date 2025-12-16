@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.19.0
 
 ## New features
 - `px_data()` has a new argument, `sort`, which return the data table sorted by

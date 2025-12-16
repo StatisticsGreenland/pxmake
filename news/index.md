@@ -2,6 +2,13 @@
 
 ## pxmake (development version)
 
+### New features
+
+- [`px_data()`](https://statisticsgreenland.github.io/pxmake/reference/px_data.px.md)
+  has a new argument, `sort`, which return the data table sorted by sort
+  order.
+  ([\#440](https://github.com/StatisticsGreenland/pxmake/issues/440))
+
 ### Bug fixes and minor improvements
 
 - Micro files with multiple headings now only removes a heading if it is

@@ -37,6 +37,7 @@
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/format_px_object_as_lines.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/format_time_values.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/get_data_cube.html</loc></url>
+<url><loc>https://statisticsgreenland.github.io/pxmake/reference/get_data_table.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/get_default_encoding.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/get_encoding_from_px_file.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/get_excel_sheet.html</loc></url>
@@ -146,6 +147,7 @@
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/str_quote.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/temp_dir.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/temp_file_with_extension.html</loc></url>
+<url><loc>https://statisticsgreenland.github.io/pxmake/reference/update_data_table.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/validate_px_arguments.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/validate_px_classification_arguments.html</loc></url>
 <url><loc>https://statisticsgreenland.github.io/pxmake/reference/validate_px_data_arguments.html</loc></url>

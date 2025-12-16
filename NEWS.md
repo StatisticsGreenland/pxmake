@@ -13,6 +13,7 @@ across all other headings.
 - Add support for direct link download URL as input to `px()`. (#445)
 - Fix namespace issue with px_keywords data set. (#358)
 - Preserve VALUENOTE(X) when making file multilingual. (#363)
+- Fix bug when figures variable is moved in data table. (#411)
 
 # pxmake 0.18.0
 

@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## New features
+- `px_data()` has a new argument, `sort`, which return the data table sorted by
+sort order. (#440)
+
 ## Bug fixes and minor improvements
 - Micro files with multiple headings now only removes a heading if it is NA
 across all other headings.

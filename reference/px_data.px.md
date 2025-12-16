@@ -5,10 +5,10 @@ Inspect or change DATA.
 ## Usage
 
 ``` r
-px_data(x, value, labels, validate)
+px_data(x, value, labels, sort, validate)
 
 # S3 method for class 'px'
-px_data(x, value, labels = FALSE, validate = TRUE)
+px_data(x, value, labels = FALSE, sort = FALSE, validate = TRUE)
 ```
 
 ## Arguments
@@ -28,6 +28,13 @@ px_data(x, value, labels = FALSE, validate = TRUE)
   returned with VALUES instead of CODES. By default the VALUES of the
   main language are returned, use a character language code to return
   VALUES for a specific language.
+
+- sort:
+
+  Optional. If TRUE, the data table is returned in the sort order
+  defined by
+  [`px_order()`](https://statisticsgreenland.github.io/pxmake/reference/px_order.px.md).
+  If FALSE, the data table is returned as is.
 
 - validate:
 

@@ -5,7 +5,7 @@ Check all arguments to px_data
 ## Usage
 
 ``` r
-validate_px_data_arguments(x, value, labels, validate)
+validate_px_data_arguments(x, value, labels, sort, validate)
 ```
 
 ## Arguments
@@ -25,6 +25,13 @@ validate_px_data_arguments(x, value, labels, validate)
   returned with VALUES instead of CODES. By default the VALUES of the
   main language are returned, use a character language code to return
   VALUES for a specific language.
+
+- sort:
+
+  Optional. If TRUE, the data table is returned in the sort order
+  defined by
+  [`px_order()`](https://statisticsgreenland.github.io/pxmake/reference/px_order.px.md).
+  If FALSE, the data table is returned as is.
 
 - validate:
 

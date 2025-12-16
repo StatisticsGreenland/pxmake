@@ -166,7 +166,7 @@ format_px_object_as_lines <- function(x) {
     dplyr::pull(.data$line)
 
   data_lines <-
-    get_data_cube(metadata_df, x$data) %>%
+    get_data_cube(metadata_df = metadata_df, data_df = x$data) %>%
     mutate_all_vars_to_character() %>%
     dplyr::mutate(dplyr::across(everything(), ~tidyr::replace_na(.x, '"-"'))) %>%
     tidyr::unite("tmp", sep = " ") %>%

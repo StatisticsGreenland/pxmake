@@ -27,4 +27,10 @@ test_that("PX-file = px_save(px(PX-file))", {
                      NA, "(0-6)", NA, 'Note to value with parensthsis ()'
                      )) %>%
     expect_px_px_save_preserves_everything()
+
+
+  px(population_gl) %>%
+    # change order or data columns
+    px_data(dplyr::relocate(population_gl, n)) %>%
+    expect_px_px_save_preserves_everything()
 })

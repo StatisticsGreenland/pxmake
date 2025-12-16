@@ -136,6 +136,9 @@ update_data_table <- function(x, value) {
 
   x$acrosscells <- get_base_acrosscells(c(px_stub(x), px_heading(x)))
 
+  x$cells1 <- x$cells1 %>% dplyr::filter(.data$`variable-code` != px_figures(x))
+  x$cells2 <- x$cells2 %>% dplyr::filter(.data$`variable-code` != px_figures(x))
+
   x$data <- value
 
   return(x)

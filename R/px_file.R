@@ -96,7 +96,7 @@ get_data_cube <- function(metadata_df, data_df) {
     # sortorder for second heading var, etc.
     dplyr::arrange(dplyr::across(zip_vectors(heading_sortorder_vars, heading_code_vars))) %>%
     dplyr::select(-all_of(heading_sortorder_vars)) %>%
-    { if(length(heading_code_vars > 0)) {
+    { if(length(heading_code_vars) > 0) {
       tidyr::pivot_wider(.,
                          names_from = all_of(heading_code_vars),
                          values_from = all_of(figures_var)

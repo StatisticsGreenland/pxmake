@@ -109,10 +109,23 @@ merge_named_lists <- function(lst1, lst2) {
     lst2 <- lst1
   }
 
-  keys <- unique(c(names(lst1), names(lst2)))
+  keys <- sort(unique(c(names(lst1), names(lst2))))
 
-  lst1_sorted <- lst_distinct_and_arrange(lst1[keys])
-  lst2_sorted <- lst_distinct_and_arrange(lst2[keys])
+  add_missing_keys <- function(lst, keys) {
+    keys_missing_in_list <- setdiff(keys, names(lst))
+    lst[keys_missing_in_list] <- NA_character_
+    return(lst)
+  }
+
+  lst1_sorted <-
+    lst1 %>%
+    add_missing_keys(keys) %>%
+    lst_distinct_and_arrange()
+
+  lst2_sorted <-
+    lst2 %>%
+    add_missing_keys(keys) %>%
+    lst_distinct_and_arrange()
 
   if (identical(lst1_sorted, lst2_sorted)) {
     temp <- lst1_sorted

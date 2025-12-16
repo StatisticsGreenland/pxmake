@@ -25,6 +25,8 @@
   ([\#358](https://github.com/StatisticsGreenland/pxmake/issues/358))
 - Preserve VALUENOTE(X) when making file multilingual.
   ([\#363](https://github.com/StatisticsGreenland/pxmake/issues/363))
+- Fix bug when figures variable is moved in data table.
+  ([\#411](https://github.com/StatisticsGreenland/pxmake/issues/411))
 
 ## pxmake 0.18.0
 

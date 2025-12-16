@@ -14,6 +14,7 @@ across all other headings.
 - Fix namespace issue with px_keywords data set. (#358)
 - Preserve VALUENOTE(X) when making file multilingual. (#363)
 - Fix bug when figures variable is moved in data table. (#411)
+- Fix incorrectly closed parentheses. (#413)
 
 # pxmake 0.18.0
 

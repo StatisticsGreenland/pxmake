@@ -13,7 +13,7 @@ sort_data_table_by_order <- function(x) {
     tmp <-
       order_df %>%
       dplyr::filter(.data$`variable-code` == column) %>%
-      tidyr::pivot_wider(names_from = .data$`variable-code`, values_from = 'code')
+      tidyr::pivot_wider(names_from = "variable-code", values_from = 'code')
 
     data_table <-
       data_table %>%

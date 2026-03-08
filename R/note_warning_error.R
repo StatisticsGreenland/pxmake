@@ -21,8 +21,8 @@ error_if_more_than_one_time_variable <- function(time_variable) {
     error(stringr::str_glue("The metadata has more than one variable where ",
                             "`timeval=TRUE`. Change the type of the variables ",
                             "{time_variable}, so only one has `timeval=TRUE`."
-                            )
-          )
+    )
+    )
   }
 }
 
@@ -30,24 +30,24 @@ error_if_not_exactly_one_figures_variable <- function(figures_var) {
   if (length(figures_var) == 0) {
     error(stringr::str_glue("There is no figures variable. Change the metadata ",
                             "so one variable has `pivot=FIGURES`."
-                            )
-         )
+    )
+    )
   } else if (length(figures_var) > 1) {
     error(stringr::str_glue("There are more than one variable with figures. ",
                             "Change the type of the variables {figures_var}, so ",
                             "only one has `pivot=FIGURES`."
-                            )
-         )
+    )
+    )
   }
 }
 
 error_if_not_exactly_one_data_line <- function(data_line_index) {
-  if(length(data_line_index) != 1) {
+  if (length(data_line_index) != 1) {
     error(stringr::str_glue("There are {length(data_line_index)} lines in the ",
                             "PX-file like this: 'DATA='. There needs to be ",
                             "exactly 1."
-                            )
-         )
+    )
+    )
   }
 }
 
@@ -59,13 +59,13 @@ error_if_too_many_rows_for_excel <- function(df) {
   data_lines <- nrow(df)
   excel_max_lines <- excel_max_lines()
 
-  if(data_lines > excel_max_lines) {
-   error(stringr::str_glue("The data cube contains {data_lines} data lines ",
-                           "which is more than the {excel_max_lines} lines ",
-                           "supported by Excel. Use argument `rds_data_path=` ",
-                           "to store the data in an .rds file instead."
-                           )
-        )
+  if (data_lines > excel_max_lines) {
+    error(stringr::str_glue("The data cube contains {data_lines} data lines ",
+                            "which is more than the {excel_max_lines} lines ",
+                            "supported by Excel. Use argument `rds_data_path=` ",
+                            "to store the data in an .rds file instead."
+    )
+    )
   }
 }
 
@@ -73,8 +73,8 @@ unexpected_error <- function() {
   error(paste("An unexpected error occurred. Please report the issue on GitHub,",
               "ideally with a minimal reproducible example.",
               "https://github.com/StatisticsGreenland/pxmake/issues "
-              )
-       )
+  )
+  )
 }
 
 #' A list of which variables should be in each sheet
@@ -115,8 +115,40 @@ error_if_not_class_px <- function(x) {
 }
 
 error_if_not_list_of_data_frames <- function(x) {
-  if (! all(sapply(x, is.data.frame))) {
+  required_df_names <- c(
+    "languages", "table1", "table2",
+    "variables1", "variables2",
+    "cells1", "cells2", "acrosscells"
+  )
+
+  if (! all(vapply(x[required_df_names], is.data.frame, logical(1)))) {
+    error("px object must contain data frames in all non-data components")
+  }
+
+  if (!(is.data.frame(x$data) || is_px_data_compact(x$data))) {
+    error("px object: data must be a data frame or px_data_compact")
+  }
+}
+
+error_if_not_valid_px_components <- function(x) {
+  required_df_names <- c(
+    "languages", "table1", "table2",
+    "variables1", "variables2",
+    "cells1", "cells2", "acrosscells"
+  )
+
+  present_df_names <- intersect(required_df_names, names(x))
+
+  bad_df <- present_df_names[!vapply(x[present_df_names], is.data.frame, logical(1))]
+
+  if (length(bad_df) > 0) {
     error("px object must be a list of data frames")
+  }
+
+  if ("data" %in% names(x)) {
+    if (!(is.data.frame(x$data) || is_px_data_compact(x$data))) {
+      error("px object must be a list of data frames")
+    }
   }
 }
 
@@ -132,15 +164,15 @@ error_if_list_names_are_wrong <- function(x) {
   if (length(missing_names) > 0) {
     error(paste0("px object is missing these names: ",
                  paste0(missing_names, collapse = ", ")
-                 )
-          )
+    )
+    )
   }
 
   if (length(invalid_names) > 0) {
     error(paste0("px object contains these invalid names: ",
                  paste0(invalid_names, collapse = ", ")
-                 )
-          )
+    )
+    )
   }
 }
 
@@ -148,6 +180,10 @@ error_if_data_frame_is_missing_column <- function(x) {
   px_target <- get_base_px()
 
   for (name in names(px_target)) {
+    if (name == "data" && is_px_data_compact(x$data)) {
+      next
+    }
+
     target_columns <- colnames(px_target[[name]])
     input_columns  <- colnames(x[[name]])
 
@@ -156,8 +192,8 @@ error_if_data_frame_is_missing_column <- function(x) {
     if (length(missing_columns) > 0) {
       error(paste0("px object: '", name, "' is missing these columns: ",
                    paste0(missing_columns, collapse = ", ")
-                   )
-            )
+      )
+      )
     }
   }
 }
@@ -211,19 +247,21 @@ error_if_misplaced_keywords_in_table <- function(x, table_name) {
   if (length(misplaced_keywords) > 0) {
     error(paste0("px object: '", table_name, "' contains misplaced keywords: ",
                  paste0(misplaced_keywords, collapse = ", ")
-                 )
-          )
+    )
+    )
   }
 }
 
 error_if_variable_code_not_in_data <- function(x, table_name) {
-  variables_not_in_data <- setdiff(x[[table_name]]$`variable-code`, names(x$data))
+  data_df <- materialize_px_data(x$data)
+
+  variables_not_in_data <- setdiff(x[[table_name]]$`variable-code`, names(data_df))
 
   if (length(variables_not_in_data) > 0) {
     error(paste0("px object: x$", table_name, " contains variable-codes not in x$data: ",
                  paste0(variables_not_in_data, collapse = ", ")
-                 )
-          )
+    )
+    )
   }
 }
 
@@ -232,7 +270,7 @@ error_if_used_languages_are_not_defined <- function(x) {
     unique(c(x$table2$language,
              x$variables2$language,
              x$cells2$language)
-           ) %>%
+    ) %>%
     na.omit() %>%
     as.character()
 
@@ -241,8 +279,7 @@ error_if_used_languages_are_not_defined <- function(x) {
   if (length(undefined_languages) > 0) {
     error(paste0("px object contains languages that are not defined in 'x$languages' ",
                  "or as keyword 'LANGUAGES' in x$table1: ",
-                 paste0(undefined_languages, collapse = ", "))
-          )
+                 paste0(undefined_languages, collapse = ", ")))
   }
 }
 
@@ -261,46 +298,89 @@ error_if_language_is_undefined <- function(language, x) {
 }
 
 error_if_data_column_is_not_defined <- function(x, table_name) {
-  undefined_variables <- setdiff(colnames(x$data), x[[table_name]]$`variable-code`)
+  data_df <- materialize_px_data(x$data)
+
+  undefined_variables <- setdiff(colnames(data_df), x[[table_name]]$`variable-code`)
 
   if (length(undefined_variables) > 0) {
     error(paste0("px object: x$data contains columns that are not defined in x$",
                  table_name, ": ", paste0(undefined_variables, collapse = ", ")
-                 )
-          )
+    )
+    )
   }
 }
 
 error_if_value_contains_quotation_marks <- function(x) {
-  df_contains_quotation_marks <-
-    lapply(x, function(df) {
-      df %>%
-        dplyr::mutate(across(everything(), ~grepl('"', .))) %>%
-        unlist() %>%
-        any()
-    }) %>%
-    unlist()
+  has_quotes_in_df <- function(df) {
+    if (!is.data.frame(df) || ncol(df) == 0 || nrow(df) == 0) {
+      return(FALSE)
+    }
 
-  if (any(df_contains_quotation_marks)) {
+    any(
+      vapply(df, function(col) {
+        if (is.list(col)) {
+          any(vapply(col, function(el) {
+            if (length(el) == 0 || all(is.na(el))) {
+              return(FALSE)
+            }
+            any(grepl('"', as.character(el), fixed = TRUE))
+          }, logical(1)))
+        } else {
+          if (length(col) == 0 || all(is.na(col))) {
+            return(FALSE)
+          }
+          any(grepl('"', as.character(col), fixed = TRUE), na.rm = TRUE)
+        }
+      }, logical(1))
+    )
+  }
+
+  has_quotes_in_compact <- function(data) {
+    any(grepl('"', names(data$dimensions), fixed = TRUE)) ||
+      any(grepl('"', data$figure_name, fixed = TRUE)) ||
+      any(vapply(data$dimensions, function(v) {
+        if (length(v) == 0 || all(is.na(v))) {
+          return(FALSE)
+        }
+        any(grepl('"', as.character(v), fixed = TRUE), na.rm = TRUE)
+      }, logical(1))) ||
+      any(grepl('"', as.character(data$figures), fixed = TRUE), na.rm = TRUE)
+  }
+
+  non_data_components <- x
+  non_data_components$data <- NULL
+
+  other_has_quotes <- any(vapply(non_data_components, has_quotes_in_df, logical(1)))
+
+  data_has_quotes <- if (is_px_data_compact(x$data)) {
+    has_quotes_in_compact(x$data)
+  } else {
+    has_quotes_in_df(x$data)
+  }
+
+  if (other_has_quotes || data_has_quotes) {
     error("px object: values cannot contain quotation marks")
   }
 }
 
 error_if_data_table_contains_duplicates <- function(x) {
+  if (is_px_data_compact(x$data)) {
+    return(invisible(NULL))
+  }
+
   duplicates <-
     x %>%
     px_data() %>%
     dplyr::select(-px_figures(x)) %>%
-    dplyr::group_by(across(everything())) %>%
+    dplyr::group_by(dplyr::across(dplyr::everything())) %>%
     dplyr::filter(dplyr::n() > 1)
 
   if (nrow(duplicates) > 0) {
     error(paste0("px save: cannot save because data table contains duplicates:\n\n",
                  paste(utils::capture.output(print(duplicates)),
                        collapse = "\n"
-                       )
                  )
-          )
+    ))
   }
 }
 
@@ -329,8 +409,8 @@ validate_px_arguments <- function(input, data) {
     if (! "data.frame" %in% class(readRDS(input))) {
       error(paste0("Argument 'input' has wrong format. The .rds file does not ",
                    "contain a data frame. See ?px."
-                   )
-            )
+      )
+      )
     }
   }
 
@@ -339,7 +419,7 @@ validate_px_arguments <- function(input, data) {
   }
 
   if (! is.null(data) & ! is_xlsx_file(input)) {
-      error("Argument 'data' can only be used if 'input' is an .xlsx file.")
+    error("Argument 'data' can only be used if 'input' is an .xlsx file.")
   }
 }
 
@@ -377,11 +457,11 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
   if (all(is_xlsx_file(path),
           save_data,
           is.null(data_path),
-          nrow(x$data) > excel_max_lines())
-      ) {
+          nrow_px_data(x$data) > excel_max_lines())
+  ) {
     error(paste0("x$data has too many rows to be saved as an .xlsx file. Use ",
                  "'save_data = FALSE' or 'data_path' instead.")
-          )
+    )
   }
 
   error_if_data_table_contains_duplicates(x)
@@ -428,7 +508,7 @@ validate_px_classification_arguments <- function(name,
                                                  domain,
                                                  df,
                                                  vs_path,
-                                                 agg_paths){
+                                                 agg_paths) {
   any_path_argument_is_defined <- (!missing(vs_path) | !missing(agg_paths))
 
   any_non_path_argument_is_defined <-
@@ -438,8 +518,8 @@ validate_px_classification_arguments <- function(name,
     error(paste0("Cannot use path arguments and other aguments together. ",
                  "Either define only name/prestext/domain/df, or only ",
                  "vs_path/agg_paths."
-                 )
-          )
+    )
+    )
   }
 
   if (any_path_argument_is_defined) {
@@ -463,8 +543,8 @@ validate_px_classification_arguments <- function(name,
   if (all(any_path_argument_is_defined, missing(vs_path))) {
     error(paste0("Argument 'vs_path' is missing. If 'agg_paths' is defined, ",
                  "'vs_path' must also be defined."
-                 )
-          )
+    )
+    )
   }
 
   if (any_non_path_argument_is_defined) {
@@ -531,17 +611,17 @@ error_if_vs_file_is_missing_mandatory_headings <- function(vs_lines) {
   headings <-
     stringr::str_extract_all(vs_lines,
                              classification_file_section_heading_regexp()
-                             )
+    )
 
   missing_headings <- setdiff(c("[Descr]", "[Domain]", "[Valuecode]"),
                               headings
-                              )
+  )
 
   if (length(missing_headings) > 0) {
     error(paste(".vs file is missing mandatory sections: ",
                 paste0(missing_headings, collapse = ", ")
-                )
-          )
+    )
+    )
   }
 }
 
@@ -549,14 +629,14 @@ error_if_aggregation_file_is_missing_mandatory_headings <- function(agg_lines) {
   headings <-
     stringr::str_extract_all(agg_lines,
                              classification_file_section_heading_regexp()
-                             )
+    )
 
   missing_headings <- setdiff(c("[Aggreg]", "[Aggtext]"), headings)
 
   if (length(missing_headings) > 0) {
     error(paste(".agg file is missing mandatory sections: ",
                 paste0(missing_headings, collapse = ", ")
-                )
-          )
+    )
+    )
   }
 }

@@ -363,13 +363,16 @@ save_px_as_px_file <- function(x, path) {
     encoding_str <- get_default_encoding()
   }
 
+  connection_encoding <- normalize_px_encoding_for_connection(encoding_str)
+
   if (!is_px_data_compact(x$data)) {
     px_lines <- format_px_object_as_lines(x)
 
-    file_connection <- file(tmp_path, open = "wt", encoding = encoding_str)
-    writeLines(px_lines, file_connection)
-    close(file_connection)
+    px_lines_out <- prepare_px_lines_for_write(px_lines, connection_encoding)
 
+    file_connection <- file(tmp_path, open = "wb")
+    writeLines(px_lines_out, file_connection, useBytes = TRUE)
+    close(file_connection)
     if (file.exists(path)) {
       unlink(path)
     }
@@ -422,10 +425,13 @@ save_px_as_px_file <- function(x, path) {
     ) %>%
     dplyr::pull(.data$line)
 
-  file_connection <- file(tmp_path, open = "wt", encoding = encoding_str)
-  writeLines(metadata_lines, file_connection)
-  writeLines("DATA=", file_connection)
-  write_compact_data_lines(x, metadata_df, file_connection)
+  metadata_lines_out <- prepare_px_lines_for_write(metadata_lines, connection_encoding)
+  data_header_out <- prepare_px_lines_for_write("DATA=", connection_encoding)
+
+  file_connection <- file(tmp_path, open = "wb")
+  writeLines(metadata_lines_out, file_connection, useBytes = TRUE)
+  writeLines(data_header_out, file_connection, useBytes = TRUE)
+  write_compact_data_lines(x, metadata_df, file_connection, encoding = connection_encoding)
   close(file_connection)
 
   if (file.exists(path)) {

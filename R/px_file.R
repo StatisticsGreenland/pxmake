@@ -122,7 +122,7 @@ get_data_cube <- function(metadata_df, data_df) {
 #'
 #' @returns Nothing
 #' @keywords internal
-write_compact_data_lines <- function(x, metadata_df, con) {
+write_compact_data_lines <- function(x, metadata_df, con, encoding) {
   stopifnot(is_px_data_compact(x$data))
 
   metadata_df <- add_main_language(metadata_df)
@@ -172,14 +172,19 @@ write_compact_data_lines <- function(x, metadata_df, con) {
       j <- j + 1L
     }
 
-    writeLines(out, con)
+    out <- prepare_px_lines_for_write(out, encoding)
+    writeLines(out, con, useBytes = TRUE)
 
     if (large) {
       tick_px_progress_10(prog, chunk_end, n_lines, prefix = "Writing data values")
     }
   }
 
-  writeLines(";", con)
+  writeLines(
+    prepare_px_lines_for_write(";", encoding),
+    con,
+    useBytes = TRUE
+  )
 }
 
 #' Read DATA values with progress in 10% steps for large datasets

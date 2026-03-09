@@ -117,16 +117,47 @@ save_px_as_r_script <- function(x, path, data_path) {
 #' @keywords internal
 convert_value_to_code <- function(value) {
   if (is.data.frame(value)) {
-    convert_df_to_code(value)
-  } else if (is.character(value)) {
-    if (length(value) == 1) {
-      shQuote(value)
-    } else {
-      paste0("c(", paste0(shQuote(value), collapse = ", "), ")")
-    }
-  } else {
-    unexpected_error()
+    return(convert_df_to_code(value))
   }
+
+  if (is.character(value)) {
+    if (length(value) == 1) {
+      return(shQuote(value))
+    }
+
+    return(paste0("c(", paste0(shQuote(value), collapse = ", "), ")"))
+  }
+
+  if (is.logical(value)) {
+    if (length(value) == 1) {
+      return(ifelse(is.na(value), "NA", ifelse(value, "TRUE", "FALSE")))
+    }
+
+    vals <- ifelse(is.na(value), "NA", ifelse(value, "TRUE", "FALSE"))
+    return(paste0("c(", paste0(vals, collapse = ", "), ")"))
+  }
+
+  if (is.numeric(value)) {
+    if (length(value) == 1) {
+      return(ifelse(is.na(value), "NA", as.character(value)))
+    }
+
+    vals <- ifelse(is.na(value), "NA", as.character(value))
+    return(paste0("c(", paste0(vals, collapse = ", "), ")"))
+  }
+
+  if (is.factor(value)) {
+    value <- as.character(value)
+
+    if (length(value) == 1) {
+      return(ifelse(is.na(value), "NA", shQuote(value)))
+    }
+
+    vals <- ifelse(is.na(value), "NA", shQuote(value))
+    return(paste0("c(", paste0(vals, collapse = ", "), ")"))
+  }
+
+  unexpected_error()
 }
 
 #' Create code to construct data frame

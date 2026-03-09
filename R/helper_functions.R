@@ -452,6 +452,15 @@ prepare_px_lines_for_write <- function(lines, encoding) {
   out
 }
 
+materialize_px_data_if_needed <- function(x) {
+  if (is_px_data_compact(x)) {
+    return(materialize_px_data(x))
+  }
+
+  x
+}
+
+
 #' Guess encoding of file
 #'
 #' @param path Path to file

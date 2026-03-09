@@ -13,7 +13,7 @@ excel_sheet_exists <- function(sheet, excel_path) {
 get_excel_sheet <- function(sheet, add_automatically = FALSE) {
   function(excel_path) {
     if (add_automatically) {
-      if (! excel_sheet_exists(sheet, excel_path)) {
+      if (!excel_sheet_exists(sheet, excel_path)) {
         return(data.frame())
       }
     } else {
@@ -67,11 +67,12 @@ px_from_excel <- function(excel_path, data = NULL) {
   languages <-
     table_sheet %>%
     dplyr::filter(.data$keyword %in% c("LANGUAGES")) %>%
-    dplyr::mutate(value =  stringr::str_replace_all(.data$value, " ", "") %>%
-                    # remove quotes to be backwards compatible
-                    stringr::str_replace_all('"', '') %>%
-                    stringr::str_split(pattern = ',')
-                  ) %>%
+    dplyr::mutate(
+      value = stringr::str_replace_all(.data$value, " ", "") %>%
+        # remove quotes to be backwards compatible
+        stringr::str_replace_all('"', "") %>%
+        stringr::str_split(pattern = ",")
+    ) %>%
     tidyr::unnest("value") %>%
     tidyr::drop_na("value") %>%
     dplyr::select("language" = "value") %>%
@@ -80,7 +81,7 @@ px_from_excel <- function(excel_path, data = NULL) {
   table1 <-
     table_sheet %>%
     align_data_frames(get_base_table1()) %>%
-    dplyr::filter(! .data$keyword %in% c("LANGUAGES")) %>%
+    dplyr::filter(!.data$keyword %in% c("LANGUAGES")) %>%
     sort_table1()
 
   # table2
@@ -88,10 +89,11 @@ px_from_excel <- function(excel_path, data = NULL) {
     excel_path %>%
     get_table2_sheet() %>%
     dplyr::filter(!is.na(.data$keyword)) %>%
-    tidyr::pivot_longer(cols = ends_with("_value"),
-                        names_to = c("language"),
-                        names_pattern = "^([[:alpha:]]+)_.*$"
-                        ) %>%
+    tidyr::pivot_longer(
+      cols = ends_with("_value"),
+      names_to = c("language"),
+      names_pattern = "^([[:alpha:]]+)_.*$"
+    ) %>%
     align_data_frames(get_base_table2()) %>%
     sort_table2(languages = languages$language)
 
@@ -120,33 +122,39 @@ px_from_excel <- function(excel_path, data = NULL) {
     }
   }
 
-  data_df <- format_data_df(data,
-                            figures_variable = get_figures_variable_from_excel(excel_path)
-                            )
+  data_df <- format_data_df(
+    data,
+    figures_variable = get_figures_variable_from_excel(excel_path)
+  )
 
   variables2 <-
     variables_sheet %>%
-    dplyr::select(-all_of(intersect(setdiff(get_base_variables1() %>% names(),
-                                            "variable-code"
-                                            ),
-                                    names(.)
-                                    )
-                          )
-                  ) %>%
-    tidyr::pivot_longer(cols = -c("variable-code"),
-                        names_to = c("language", "keyword"),
-                        names_pattern = "^([[:alpha:]]+)_(.*)$"
-                        ) %>%
+    dplyr::select(
+      -all_of(
+        intersect(
+          setdiff(get_base_variables1() %>% names(), "variable-code"),
+          names(.)
+        )
+      )
+    ) %>%
+    tidyr::pivot_longer(
+      cols = -c("variable-code"),
+      names_to = c("language", "keyword"),
+      names_pattern = "^([[:alpha:]]+)_(.*)$"
+    ) %>%
     tidyr::pivot_wider(names_from = "keyword") %>%
     align_data_frames(get_base_variables2()) %>%
-    dplyr::mutate(`variable-label` = ifelse(is.na(.data$`variable-label`),
-                                            .data$`variable-code`,
-                                            .data$`variable-label`
-                                            )
-                  ) %>%
-    sort_variables2(data_table_names = names(data_df),
-                    languages = languages$language
-                    )
+    dplyr::mutate(
+      `variable-label` = ifelse(
+        is.na(.data$`variable-label`),
+        .data$`variable-code`,
+        .data$`variable-label`
+      )
+    ) %>%
+    sort_variables2(
+      data_table_names = names(data_df),
+      languages = languages$language
+    )
 
   cells_sheet <-
     excel_path %>%
@@ -160,10 +168,11 @@ px_from_excel <- function(excel_path, data = NULL) {
   cells2 <-
     cells_sheet %>%
     dplyr::select(-"sortorder", -"precision") %>%
-    tidyr::pivot_longer(cols = ends_with(c("_code-label", "_valuenote")),
-                        names_to = c("language", "keyword"),
-                        names_pattern = "^([[:alpha:]]+)_(.*)$"
-                        ) %>%
+    tidyr::pivot_longer(
+      cols = ends_with(c("_code-label", "_valuenote")),
+      names_to = c("language", "keyword"),
+      names_pattern = "^([[:alpha:]]+)_(.*)$"
+    ) %>%
     tidyr::pivot_wider(names_from = "keyword") %>%
     dplyr::rename("value" = "code-label") %>%
     align_data_frames(get_base_cells2())
@@ -171,35 +180,38 @@ px_from_excel <- function(excel_path, data = NULL) {
   # acrosscells
   stub_heading_variables <-
     variables1 %>%
-    dplyr::filter(toupper(.data$pivot) %in% c("STUB", "HEADING")
-                  ) %>%
+    dplyr::filter(toupper(.data$pivot) %in% c("STUB", "HEADING")) %>%
     dplyr::pull("variable-code")
 
   acrosscells <-
     excel_path %>%
     get_acrosscells_sheet() %>%
-    { if (ncol(.) != 0) {
-      tidyr::pivot_longer(.,
-                          cols = ends_with(c("cellnote", "cellnotex")),
-                          names_to = c("language", "keyword"),
-                          names_pattern = "^([[:alpha:]]+)_(.*)$"
-      ) %>%
-        tidyr::pivot_wider(names_from = "keyword")
-    } else {
-      .
-    }} %>%
+    {
+      if (ncol(.) != 0) {
+        tidyr::pivot_longer(
+          .,
+          cols = ends_with(c("cellnote", "cellnotex")),
+          names_to = c("language", "keyword"),
+          names_pattern = "^([[:alpha:]]+)_(.*)$"
+        ) %>%
+          tidyr::pivot_wider(names_from = "keyword")
+      } else {
+        .
+      }
+    } %>%
     align_data_frames(get_base_acrosscells(stub_heading_variables))
 
-  new_px(languages = languages,
-         table1 = table1,
-         table2 = table2,
-         variables1 = variables1,
-         variables2 = variables2,
-         cells1 = cells1,
-         cells2 = cells2,
-         acrosscells = acrosscells,
-         data = data_df
-         )
+  new_px(
+    languages = languages,
+    table1 = table1,
+    table2 = table2,
+    variables1 = variables1,
+    variables2 = variables2,
+    cells1 = cells1,
+    cells2 = cells2,
+    acrosscells = acrosscells,
+    data = data_df
+  )
 }
 
 #' Add a data frame as a sheet to an Excel workbook
@@ -213,10 +225,23 @@ px_from_excel <- function(excel_path, data = NULL) {
 add_excel_sheet <- function(wb, df, sheet_name) {
   openxlsx::addWorksheet(wb, sheet_name, gridLines = FALSE)
   options("openxlsx.maxWidth" = 40)
-  openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = 'auto')
+  openxlsx::setColWidths(wb, sheet_name, cols = 1:ncol(df), widths = "auto")
   openxlsx::writeDataTable(wb, sheet_name, df, tableStyle = "TableStyleLight9")
 }
 
+#' Materialize compact px data if needed
+#'
+#' @param x A px data object or data frame
+#'
+#' @returns A data frame
+#' @keywords internal
+materialize_px_data_if_needed <- function(x) {
+  if (is_px_data_compact(x)) {
+    return(materialize_px_data(x))
+  }
+
+  x
+}
 
 #' Save px object as an Excel workbook
 #'
@@ -228,110 +253,119 @@ add_excel_sheet <- function(wb, df, sheet_name) {
 #' @keywords internal
 save_px_as_xlsx <- function(x, path, save_data, data_path) {
   excel_table <-
-    data.frame(keyword ="LANGUAGES",
-               value = paste0(x$languages$language, collapse = ",")
-               ) %>%
+    data.frame(
+      keyword = "LANGUAGES",
+      value = paste0(x$languages$language, collapse = ",")
+    ) %>%
     tidyr::drop_na("value") %>%
     dplyr::bind_rows(x$table1) %>%
     dplyr::arrange(.data$keyword)
 
-
   excel_table2 <-
     x$table2 %>%
-    tidyr::pivot_wider(names_from = "language",
-                       values_from = "value",
-                       names_glue = "{language}_value"
-                       )
+    tidyr::pivot_wider(
+      names_from = "language",
+      values_from = "value",
+      names_glue = "{language}_value"
+    )
 
   excel_variables <-
     x$variables2 %>%
-    tidyr::pivot_longer(cols = -all_of(intersect(c("variable-code",
-                                                   "language",
-                                                   "contvariable",
-                                                   "timeval"
-                                                   ),
-                                                 names(.)
-                                                 )
-                                       ),
-                        names_to = "keyword",
-                        values_to = "value"
-                        ) %>%
-    tidyr::pivot_wider(names_from = c("language", "keyword"),
-                       values_from = "value",
-                       names_glue = "{language}_{keyword}"
-                       ) %>%
-    dplyr::relocate("variable-code",
-                    ends_with("variable-label"),
-                    ends_with("domain"),
-                    ends_with("elimination"),
-                    ends_with("note")
-                    ) %>%
+    tidyr::pivot_longer(
+      cols = -all_of(
+        intersect(
+          c("variable-code", "language", "contvariable", "timeval"),
+          names(.)
+        )
+      ),
+      names_to = "keyword",
+      values_to = "value"
+    ) %>%
+    tidyr::pivot_wider(
+      names_from = c("language", "keyword"),
+      values_from = "value",
+      names_glue = "{language}_{keyword}"
+    ) %>%
+    dplyr::relocate(
+      "variable-code",
+      ends_with("variable-label"),
+      ends_with("domain"),
+      ends_with("elimination"),
+      ends_with("note")
+    ) %>%
     dplyr::full_join(x$variables1, by = "variable-code") %>%
     dplyr::relocate(names(x$variables1))
 
   excel_cells <-
     x$cells2 %>%
     dplyr::rename("code-label" = "value") %>%
-    tidyr::pivot_longer(cols = -c("variable-code", "code", "language"),
-                        names_to = "keyword",
-                        values_to = "value"
-                        ) %>%
-    tidyr::pivot_wider(names_from = c("language", "keyword"),
-                       values_from = "value",
-                       names_glue = "{language}_{keyword}"
-                       ) %>%
-    dplyr::relocate("variable-code",
-                    "code",
-                    ends_with("code-label"),
-                    ends_with("valuenote")
-                    ) %>%
+    tidyr::pivot_longer(
+      cols = -c("variable-code", "code", "language"),
+      names_to = "keyword",
+      values_to = "value"
+    ) %>%
+    tidyr::pivot_wider(
+      names_from = c("language", "keyword"),
+      values_from = "value",
+      names_glue = "{language}_{keyword}"
+    ) %>%
+    dplyr::relocate(
+      "variable-code",
+      "code",
+      ends_with("code-label"),
+      ends_with("valuenote")
+    ) %>%
     dplyr::full_join(x$cells1, by = c("variable-code", "code")) %>%
     dplyr::relocate(names(x$cells1)) %>%
     dplyr::rename("sortorder" = "order")
 
-
   empty_acrosscells <-
-    dplyr::bind_cols(dplyr::tibble("language" = defined_languages(x)),
-                     lapply(x$acrosscells, function(x) NA) %>%
-                       dplyr::as_tibble() %>%
-                       dplyr::select(-"language")
-                     )
+    dplyr::bind_cols(
+      dplyr::tibble("language" = defined_languages(x)),
+      lapply(x$acrosscells, function(x) NA) %>%
+        dplyr::as_tibble() %>%
+        dplyr::select(-"language")
+    )
 
   excel_acrosscells <-
     x$acrosscells %>%
     dplyr::bind_rows(empty_acrosscells) %>%
-    tidyr::pivot_longer(cols = setdiff(names(get_base_acrosscells()), "language"),
-                        names_to = "keyword",
-                        values_to = "value"
-                        ) %>%
-      tidyr::pivot_wider(names_from = c("language", "keyword"),
-                         values_from = "value",
-                         names_glue = "{language}_{keyword}"
-                         ) %>%
-      dplyr::relocate(ends_with("cellnote"),
-                      ends_with("cellnotex"),
-                      .after = last_col()
-                      ) %>%
-      drop_blank_rows()
-
+    tidyr::pivot_longer(
+      cols = setdiff(names(get_base_acrosscells()), "language"),
+      names_to = "keyword",
+      values_to = "value"
+    ) %>%
+    tidyr::pivot_wider(
+      names_from = c("language", "keyword"),
+      values_from = "value",
+      names_glue = "{language}_{keyword}"
+    ) %>%
+    dplyr::relocate(
+      ends_with("cellnote"),
+      ends_with("cellnotex"),
+      .after = last_col()
+    ) %>%
+    drop_blank_rows()
 
   ### Make sheets in workbook
   wb <- openxlsx::createWorkbook()
 
-  add_excel_sheet(wb, excel_table,      "Table")
-  add_excel_sheet(wb, excel_table2,     "Table2")
-  add_excel_sheet(wb, excel_variables,  "Variables")
-  add_excel_sheet(wb, excel_cells,      "Cells")
+  add_excel_sheet(wb, excel_table, "Table")
+  add_excel_sheet(wb, excel_table2, "Table2")
+  add_excel_sheet(wb, excel_variables, "Variables")
+  add_excel_sheet(wb, excel_cells, "Cells")
   add_excel_sheet(wb, excel_acrosscells, "Acrosscells")
 
   if (save_data) {
+    data_to_save <- materialize_px_data_if_needed(x$data)
+
     if (is.null(data_path)) {
-      error_if_too_many_rows_for_excel(x$data)
-      add_excel_sheet(wb, x$data, "Data")
+      error_if_too_many_rows_for_excel(data_to_save)
+      add_excel_sheet(wb, data_to_save, "Data")
     } else if (is_rds_file(data_path)) {
-      saveRDS(x$data, data_path)
+      saveRDS(data_to_save, data_path)
     } else if (is_parquet_file(data_path)) {
-      arrow::write_parquet(x$data, data_path)
+      arrow::write_parquet(data_to_save, data_path)
     } else {
       unexpected_error()
     }

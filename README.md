@@ -88,7 +88,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 50 keywords have a modifying function in pxmake:
+Currently the following 52 keywords have a modifying function in pxmake:
 
     #>  Keyword             Function name         
     #>  AGGREGALLOWED       px_aggregallowed      
@@ -107,6 +107,7 @@ Currently the following 50 keywords have a modifying function in pxmake:
     #>  COPYRIGHT           px_copyright          
     #>  CREATION-DATE       px_creation_date      
     #>  DATA                px_data               
+    #>  DATABASE            px_database           
     #>  DECIMALS            px_decimals           
     #>  DESCRIPTION         px_description        
     #>  DESCRIPTIONDEFAULT  px_descriptiondefault 
@@ -125,6 +126,7 @@ Currently the following 50 keywords have a modifying function in pxmake:
     #>  NOTEX               px_notex              
     #>  OFFICIAL-STATISTICS px_official_statistics
     #>  PRECISION           px_precision          
+    #>  REFPERIOD           px_refperiod          
     #>  SHOWDECIMALS        px_showdecimals       
     #>  SOURCE              px_source             
     #>  STOCKFA             px_stockfa            
@@ -159,14 +161,13 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 35 keywords currently doesn’t have a modifying function, but can
+These 33 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>  Keyword             Function name          Priority Complexity
     #>  ATTRIBUTE-ID        px_attribute_id                           
     #>  ATTRIBUTE-TEXT      px_attribute_text                         
     #>  ATTRIBUTES          px_attributes                             
-    #>  DATABASE            px_database                               
     #>  DATANOTE            px_datanote                               
     #>  DATANOTECELL        px_datanotecell                           
     #>  DATANOTESUM         px_datanotesum                            
@@ -193,7 +194,6 @@ be implemented.
     #>  PARTITIONED         px_partitioned                            
     #>  PRESTEXT            px_prestext                               
     #>  PX-SERVER           px_px_server                              
-    #>  REFPERIOD           px_refperiod                              
     #>  ROUNDING            px_rounding                               
     #>  SEASADJ             px_seasadj                                
     #>  SURVEY              px_survey                                 
@@ -227,7 +227,7 @@ homepage](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_fo
 ### PxJob
 
 Some tests cases uses
-[PxJob](https://stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html).
+[PxJob](https://stat.fi/en/services/statistical-data-services/statistical-databases/px-suite).
 Install [pxjob64Win](https://github.com/StatisticsGreenland/pxjob64Win)
 to be able ro run these tests. This only works on Windows.
 

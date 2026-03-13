@@ -34,6 +34,7 @@ reference:
    - px_copyright
    - px_creation_date
    - px_data
+   - px_database
    - px_decimals
    - px_description
    - px_descriptiondefault
@@ -52,6 +53,7 @@ reference:
    - px_notex
    - px_official_statistics
    - px_precision
+   - px_refperiod
    - px_showdecimals
    - px_source
    - px_stockfa

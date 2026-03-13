@@ -17,6 +17,8 @@ across all other headings.
 - Preserve VALUENOTE(X) when making file multilingual. (#363)
 - Fix bug when figures variable is moved in data table. (#411)
 - Fix incorrectly closed parentheses. (#413)
+- Adds support for DATABASE. (#455)
+- Adds support for REFPERIOD (#455)
 
 # pxmake 0.18.0
 

@@ -154,16 +154,17 @@ px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
 #' @keywords internal
 new_px <- function(languages, table1, table2, variables1, variables2,
                    cells1, cells2, acrosscells, data) {
-  x <- list(languages  = dplyr::as_tibble(languages),
-            table1     = dplyr::as_tibble(table1),
-            table2     = dplyr::as_tibble(table2),
-            variables1 = dplyr::as_tibble(variables1),
-            variables2 = dplyr::as_tibble(variables2),
-            cells1 = dplyr::as_tibble(cells1),
-            cells2 = dplyr::as_tibble(cells2),
-            acrosscells = dplyr::as_tibble(acrosscells),
-            data       = dplyr::as_tibble(data)
-            )
+  x <- list(
+    languages  = dplyr::as_tibble(languages),
+    table1     = dplyr::as_tibble(table1),
+    table2     = dplyr::as_tibble(table2),
+    variables1 = dplyr::as_tibble(variables1),
+    variables2 = dplyr::as_tibble(variables2),
+    cells1     = dplyr::as_tibble(cells1),
+    cells2     = dplyr::as_tibble(cells2),
+    acrosscells = dplyr::as_tibble(acrosscells),
+    data = if (is_px_data_compact(data)) data else dplyr::as_tibble(data)
+  )
 
   structure(x, class = "px")
 }
@@ -175,26 +176,31 @@ new_px <- function(languages, table1, table2, variables1, variables2,
 #' @returns A px object
 #' @keywords internal
 fix_px <- function(x) {
-  undefined_variables <- setdiff(colnames(x$data), x$variables2$`variable-code`)
+  data_df <- materialize_px_data(x$data)
+
+  undefined_variables <- setdiff(colnames(data_df), x$variables2$`variable-code`)
 
   if (length(undefined_variables) > 0) {
     x$variables2 <-
-      dplyr::bind_rows(x$variables2,
-                       dplyr::tibble(`variable-code` = undefined_variables)
-                       )
+      dplyr::bind_rows(
+        x$variables2,
+        dplyr::tibble(`variable-code` = undefined_variables)
+      )
   }
 
-  # Add missing variable-labels to variables2
   x$variables2 <-
     x$variables2 %>%
-    dplyr::mutate(`variable-label` = ifelse(is.na(.data$`variable-label`),
-                                                  .data$`variable-code`,
-                                                  .data$`variable-label`
-                                                  )
-                  )
+    dplyr::mutate(
+      `variable-label` = ifelse(
+        is.na(.data$`variable-label`),
+        .data$`variable-code`,
+        .data$`variable-label`
+      )
+    )
 
   x
 }
+
 
 #' Check px object
 #'
@@ -220,8 +226,8 @@ fix_px <- function(x) {
 px_validate <- function(x) {
   error_if_not_list(x)
   error_if_not_class_px(x)
-  error_if_not_list_of_data_frames(x)
   error_if_list_names_are_wrong(x)
+  error_if_not_valid_px_components(x)
   error_if_data_frame_is_missing_column(x)
   error_if_multiple_time_variables(x)
   error_if_timeval_isnot_heading_or_stub(x)
@@ -239,7 +245,7 @@ px_validate <- function(x) {
   error_if_language_not_in_languages(x)
   error_if_value_contains_quotation_marks(x)
 
-  return(x)
+  x
 }
 
 #' Return px object

@@ -14,9 +14,41 @@ get_px_metadata_regex <- function() {
          "(?:\")?",                      # Maybe closing " after cell value
          "(?:\"\\))?",                   # Maybe closing sub-key parentheses )
          "=",                            # definitely =
-         "(?<value>[^;]*)",              # Value is everything up to ending ;
+         "(?<value>.*)",
          "(?:;$)?"                       # Maybe ;
   )
+}
+
+#' Split PX metadata statements on semicolons outside quoted strings
+#'
+#' @param x A single character string containing PX metadata text.
+#'
+#' @returns A character vector of PX metadata statements.
+#' @keywords internal
+split_semicolon_outside_quotes <- function(x) {
+  chars <- strsplit(x, "", fixed = TRUE)[[1]]
+
+  out <- character()
+  current <- character()
+  in_quotes <- FALSE
+
+  for (ch in chars) {
+    if (ch == '"') {
+      in_quotes <- !in_quotes
+      current <- c(current, ch)
+    } else if (ch == ";" && !in_quotes) {
+      out <- c(out, paste0(current, collapse = ""))
+      current <- character()
+    } else {
+      current <- c(current, ch)
+    }
+  }
+
+  if (length(current) > 0) {
+    out <- c(out, paste0(current, collapse = ""))
+  }
+
+  out
 }
 
 #' Get metadata df from px lines
@@ -28,53 +60,68 @@ get_px_metadata_regex <- function() {
 get_metadata_df_from_px_lines <- function(metadata_lines) {
   acrosscells_keywords <- c("CELLNOTE", "CELLNOTEX")
 
-  metadata_lines %>%
-    # Remove newlines in file. Use semi-colon as line separator
+  split_lines <- metadata_lines %>%
     paste0(collapse = "") %>%
-    stringr::str_split(";") %>%
-    unlist() %>%
+    split_semicolon_outside_quotes() %>%
+    stringr::str_trim()
+
+  split_lines <- split_lines[nzchar(split_lines)]
+
+  split_lines %>%
     stringr::str_match(get_px_metadata_regex()) %>%
-    dplyr::as_tibble(.name_repair = ~ vctrs::vec_as_names(...,
-                                                          repair = "unique",
-                                                          quiet = TRUE
-                                                          )
-                     ) %>%
-    dplyr::select(-starts_with("...")) %>%
-    dplyr::mutate(cell = stringr::str_replace_all(.data$cell, '"\\)', ''),
-                  cell = dplyr::na_if(.data$cell, '')
-                  ) %>%
-    # remove leading and trailing " on all keywords except TIMEVAL
-    dplyr::mutate(value = ifelse(.data$keyword != "TIMEVAL",
-                                 stringr::str_replace_all(.data$value, '^"|"$', ''),
-                                 .data$value
-                                 )
-                  ) %>%
-    # Variables indexed by CONTVARIABLE are cell values not variable
-    dplyr::mutate(cell = ifelse(.data$keyword %in% keywords_indexed_by_contvariable(),
-                                .data$variable,
-                                .data$cell
-                                ),
-                  variable = ifelse(.data$keyword %in% keywords_indexed_by_contvariable(),
-                                    NA,
-                                    .data$variable
-                                    )
-                  ) %>%
-    dplyr::mutate(variable = dplyr::if_else(.data$keyword %in% acrosscells_keywords,
-                                            stringr::str_glue('"{variable}","{cell}"'),
-                                            .data$variable
-                                            ),
-                  cell = ifelse(.data$keyword %in% acrosscells_keywords,
-                                NA,
-                                .data$cell
-                                )
-                  ) %>%
-    # remove double quotes caused by collapsing values spanning multiple lines
-    dplyr::mutate(value = stringr::str_replace_all(.data$value, '""', '')) %>%
-    dplyr::mutate(value = ifelse(.data$keyword != "TIMEVAL",
-                                 stringr::str_split(.data$value, '","'),
-                                 .data$value
-                                 )
-                  ) %>%
+    dplyr::as_tibble(
+      .name_repair = ~ vctrs::vec_as_names(
+        ...,
+        repair = "unique",
+        quiet = TRUE
+      )
+    ) %>%
+    dplyr::select(-dplyr::starts_with("...")) %>%
+    dplyr::mutate(
+      cell = stringr::str_replace_all(.data$cell, '"\\)', ''),
+      cell = dplyr::na_if(.data$cell, '')
+    ) %>%
+    dplyr::mutate(
+      value = ifelse(
+        .data$keyword != "TIMEVAL",
+        stringr::str_replace_all(.data$value, '^"|"$', ''),
+        .data$value
+      )
+    ) %>%
+    dplyr::mutate(
+      cell = ifelse(
+        .data$keyword %in% keywords_indexed_by_contvariable(),
+        .data$variable,
+        .data$cell
+      ),
+      variable = ifelse(
+        .data$keyword %in% keywords_indexed_by_contvariable(),
+        NA,
+        .data$variable
+      )
+    ) %>%
+    dplyr::mutate(
+      variable = dplyr::if_else(
+        .data$keyword %in% acrosscells_keywords,
+        stringr::str_glue('"{variable}","{cell}"'),
+        .data$variable
+      ),
+      cell = ifelse(
+        .data$keyword %in% acrosscells_keywords,
+        NA,
+        .data$cell
+      )
+    ) %>%
+    dplyr::mutate(
+      value = stringr::str_replace_all(.data$value, '""', '')
+    ) %>%
+    dplyr::mutate(
+      value = ifelse(
+        .data$keyword != "TIMEVAL",
+        stringr::str_split(.data$value, '","'),
+        .data$value
+      )
+    ) %>%
     dplyr::filter(.data$keyword != "DATA")
 }
 
@@ -114,16 +161,16 @@ get_variable_label <- function(metadata_df) {
                   "variable-label" = "variable",
                   "language",
                   "main_language"
-                  ) %>%
+    ) %>%
     dplyr::full_join(head_stub,
                      by = c("variable-label", "language", "main_language")
-                     ) %>%
+    ) %>%
     dplyr::left_join(head_stub_main_language, by = c("keyword", "index")) %>%
     dplyr::mutate(`variable-code` = ifelse(is.na(.data$`variable-code`),
                                            .data$main_language_label,
                                            .data$`variable-code`
-                                           )
-                  ) %>%
+    )
+    ) %>%
     dplyr::select(-"main_language_label")
 }
 
@@ -180,8 +227,8 @@ replace_na_language_with_main_language <- function(metadata_df) {
   metadata_df %>%
     dplyr::mutate(language = tidyr::replace_na(.data$language,
                                                get_main_language(.)
-                                               )
-                  )
+    )
+    )
 }
 
 #' Sort metadata data frame
@@ -205,7 +252,7 @@ sort_metadata_df <- function(metadata_df) {
     metadata_df %>%
     dplyr::filter(.data$keyword %in% c("STUB", "HEADING"),
                   .data$language %in% get_main_language(.)
-                  ) %>%
+    ) %>%
     dplyr::arrange(desc(.data$keyword)) %>%
     tidyr::unnest("value") %>%
     dplyr::mutate(stub_heading_order = dplyr::row_number()) %>%
@@ -214,7 +261,7 @@ sort_metadata_df <- function(metadata_df) {
   metadata_df %>%
     dplyr::left_join(pxmake::px_keywords %>% dplyr::select('keyword', 'order'),
                      by = "keyword"
-                     ) %>%
+    ) %>%
     dplyr::left_join(languages, by = "language") %>%
     dplyr::left_join(stub_heading, by = "variable") %>%
     dplyr::arrange(.data$order,
@@ -224,7 +271,7 @@ sort_metadata_df <- function(metadata_df) {
                    !is.na(.data$variable),
                    .data$variable,
                    .data$cell
-                   ) %>%
+    ) %>%
     dplyr::select(-"order", -"language_order", -"stub_heading_order")
 }
 
@@ -235,12 +282,15 @@ sort_metadata_df <- function(metadata_df) {
 #' @returns A data frame
 #' @keywords internal
 get_metadata_df_from_px <- function(x) {
-  metadata_template <- dplyr::tibble(keyword  = character(),
-                                     language = character(),
-                                     variable = character(),
-                                     cell     = character(),
-                                     value    = list(character())
-                                     )
+  is_compact <- is_px_data_compact(x$data)
+
+  metadata_template <- dplyr::tibble(
+    keyword  = character(),
+    language = character(),
+    variable = character(),
+    cell     = character(),
+    value    = list(character())
+  )
 
   languages <-
     x$languages %>%
@@ -261,20 +311,22 @@ get_metadata_df_from_px <- function(x) {
 
   variablecode <-
     x$variables2 %>%
-    dplyr::distinct("keyword" = "VARIABLECODE",
-                    .data$language,
-                    "variable" = .data$`variable-label`,
-                    "value" = .data$`variable-code`
-                    ) %>%
+    dplyr::distinct(
+      "keyword" = "VARIABLECODE",
+      .data$language,
+      "variable" = .data$`variable-label`,
+      "value" = .data$`variable-code`
+    ) %>%
     tidyr::drop_na("value") %>%
     wrap_varaible_in_list("value")
 
   note_etc <-
     x$variables2 %>%
-    tidyr::pivot_longer(cols = c(-"variable-code", -"language", -"variable-label"),
-                        names_to = "keyword",
-                        values_to = "value"
-                        ) %>%
+    tidyr::pivot_longer(
+      cols = c(-"variable-code", -"language", -"variable-label"),
+      names_to = "keyword",
+      values_to = "value"
+    ) %>%
     dplyr::mutate(keyword = toupper(.data$keyword)) %>%
     dplyr::select("keyword", "variable" = "variable-label", "language", "value") %>%
     dplyr::arrange_all() %>%
@@ -301,17 +353,19 @@ get_metadata_df_from_px <- function(x) {
     dplyr::mutate(keyword = toupper(.data$pivot)) %>%
     dplyr::arrange(.data$keyword, .data$order) %>%
     dplyr::group_by(.data$keyword, .data$language) %>%
-    dplyr::summarise(value = list(paste(.data$`variable-label`, sep = ", ")),
-                     .groups = "keep"
-                     )
+    dplyr::summarise(
+      value = list(paste(.data$`variable-label`, sep = ", ")),
+      .groups = "keep"
+    )
 
   variable_type <-
     variables1 %>%
     tidyr::drop_na("variable-type") %>%
-    tidyr::pivot_longer(cols= "variable-type",
-                        names_to = "keyword",
-                        values_to = "value"
-                        ) %>%
+    tidyr::pivot_longer(
+      cols = "variable-type",
+      names_to = "keyword",
+      values_to = "value"
+    ) %>%
     dplyr::mutate(keyword = toupper(.data$keyword)) %>%
     dplyr::select("keyword", "variable" = "variable-label", "language", "value") %>%
     wrap_varaible_in_list("value")
@@ -337,33 +391,58 @@ get_metadata_df_from_px <- function(x) {
   } else {
     error_if_more_than_one_time_variable(time_variable)
 
-    time_values <-
-      x$data %>%
-      dplyr::distinct(across(all_of(time_variable))) %>%
-      dplyr::pull(1)
+    if (is_compact) {
+      time_values <- x$data$dimensions[[time_variable]]
+    } else {
+      time_values <-
+        x$data %>%
+        dplyr::distinct(dplyr::across(dplyr::all_of(time_variable))) %>%
+        dplyr::pull(1)
+    }
 
     timeval <-
       time_metadata %>%
-      dplyr::mutate(keyword = "TIMEVAL",
-                    value = format_time_values(time_values)
-                    ) %>%
+      dplyr::mutate(
+        keyword = "TIMEVAL",
+        value = format_time_values(time_values)
+      ) %>%
       dplyr::select("keyword", "language", "variable" = "variable-label", "value") %>%
       wrap_varaible_in_list("value")
   }
 
-  codes_not_in_cells <-
-    x$data %>%
-    dplyr::select(dplyr::all_of(intersect(stub_heading_variables, names(.)))) %>%
-    tidyr::pivot_longer(cols = everything(),
-                        names_to = "variable-code",
-                        values_to = "code"
-                        ) %>%
-    dplyr::distinct_all() %>%
-    align_data_frames(get_base_cells2()) %>%
-    dplyr::select("variable-code", "code") %>%
-    dplyr::anti_join(x$cells2, by = c("variable-code", "code")) %>%
-    dplyr::mutate(value = .data$code) %>%
-    tidyr::crossing(language = defined_languages(x))
+  if (is_compact) {
+    compact_codes_df <-
+      tibble::enframe(
+        x$data$dimensions[intersect(stub_heading_variables, names(x$data$dimensions))],
+        name = "variable-code",
+        value = "code"
+      ) %>%
+      tidyr::unnest("code") %>%
+      dplyr::distinct(.data$`variable-code`, .data$code)
+
+    codes_not_in_cells <-
+      compact_codes_df %>%
+      align_data_frames(get_base_cells2()) %>%
+      dplyr::select("variable-code", "code") %>%
+      dplyr::anti_join(x$cells2, by = c("variable-code", "code")) %>%
+      dplyr::mutate(value = .data$code) %>%
+      tidyr::crossing(language = defined_languages(x))
+  } else {
+    codes_not_in_cells <-
+      x$data %>%
+      dplyr::select(dplyr::all_of(intersect(stub_heading_variables, names(x$data)))) %>%
+      tidyr::pivot_longer(
+        cols = everything(),
+        names_to = "variable-code",
+        values_to = "code"
+      ) %>%
+      dplyr::distinct_all() %>%
+      align_data_frames(get_base_cells2()) %>%
+      dplyr::select("variable-code", "code") %>%
+      dplyr::anti_join(x$cells2, by = c("variable-code", "code")) %>%
+      dplyr::mutate(value = .data$code) %>%
+      tidyr::crossing(language = defined_languages(x))
+  }
 
   cells <-
     x$cells2 %>%
@@ -386,9 +465,10 @@ get_metadata_df_from_px <- function(x) {
     variables1 %>%
     tidyr::drop_na("elimination") %>%
     dplyr::rename(code = elimination) %>%
-    dplyr::left_join(cells %>% dplyr::select("variable-code", "code", "language", "value"),
-                      by = c("variable-code", "code", "language")
-                      ) %>%
+    dplyr::left_join(
+      cells %>% dplyr::select("variable-code", "code", "language", "value"),
+      by = c("variable-code", "code", "language")
+    ) %>%
     dplyr::mutate(value = ifelse(is.na(.data$value), .data$code, .data$value)) %>%
     dplyr::mutate(keyword = "ELIMINATION") %>%
     dplyr::select("keyword", "language", "variable" = "variable-label", "value") %>%
@@ -396,61 +476,66 @@ get_metadata_df_from_px <- function(x) {
 
   valuenotes <-
     cells %>%
-    tidyr::pivot_longer(cols = starts_with("valuenote"),
-                        names_to = "keyword",
-                        values_to = "keyword_value"
-                        ) %>%
+    tidyr::pivot_longer(
+      cols = starts_with("valuenote"),
+      names_to = "keyword",
+      values_to = "keyword_value"
+    ) %>%
     dplyr::mutate(keyword = toupper(.data$keyword)) %>%
     tidyr::drop_na("keyword_value") %>%
     wrap_varaible_in_list("keyword_value") %>%
-    dplyr::select("keyword",
-                  "language",
-                  "variable" = "variable-label",
-                  "cell" = "value",
-                  "value" = "keyword_value"
-                  )
+    dplyr::select(
+      "keyword",
+      "language",
+      "variable" = "variable-label",
+      "cell" = "value",
+      "value" = "keyword_value"
+    )
 
   precision <-
     cells %>%
     dplyr::mutate(keyword = "PRECISION") %>%
     tidyr::drop_na("precision") %>%
     wrap_varaible_in_list("precision") %>%
-    dplyr::select("keyword",
-                  "language",
-                  "variable" = "variable-label",
-                  "cell" = "value",
-                  "value" = "precision"
-                  )
+    dplyr::select(
+      "keyword",
+      "language",
+      "variable" = "variable-label",
+      "cell" = "value",
+      "value" = "precision"
+    )
 
   acrosscells <-
     x$acrosscells %>%
-    dplyr::mutate(across(c(px_stub(x), px_heading(x)), ~ifelse(is.na(.), "*", .))) %>%
-    tidyr::pivot_longer(cols = setdiff(get_base_acrosscells() %>% names(), "language"),
-                        names_to = "keyword",
-                        values_to = "value"
-                        ) %>%
+    dplyr::mutate(across(c(px_stub(x), px_heading(x)), ~ ifelse(is.na(.), "*", .))) %>%
+    tidyr::pivot_longer(
+      cols = setdiff(get_base_acrosscells() %>% names(), "language"),
+      names_to = "keyword",
+      values_to = "value"
+    ) %>%
     dplyr::mutate(keyword = toupper(.data$keyword)) %>%
     tidyr::drop_na("value") %>%
     tidyr::unite("variable", all_of(stub_heading_variables), sep = '","') %>%
     wrap_varaible_in_list("value")
 
   metadata_df <-
-    dplyr::bind_rows(metadata_template,
-                     languages,
-                     table,
-                     table_language_dependent,
-                     contvariable,
-                     variablecode,
-                     note_etc,
-                     head_stub,
-                     variable_type,
-                     timeval,
-                     elimination,
-                     code_value,
-                     valuenotes,
-                     precision,
-                     acrosscells
-                     ) %>%
+    dplyr::bind_rows(
+      metadata_template,
+      languages,
+      table,
+      table_language_dependent,
+      contvariable,
+      variablecode,
+      note_etc,
+      head_stub,
+      variable_type,
+      timeval,
+      elimination,
+      code_value,
+      valuenotes,
+      precision,
+      acrosscells
+    ) %>%
     replace_na_language_with_main_language() %>%
     sort_metadata_df()
 

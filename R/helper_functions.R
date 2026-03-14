@@ -325,9 +325,13 @@ readLines_with_encoding <- function(path, encoding) {
 #' @returns A character vector
 #' @keywords internal
 read_px_file <- function(px_path) {
-  readLines_with_encoding(path = px_path,
-                          encoding = get_encoding_from_px_file(px_path)
-                          )
+  enc <- get_encoding_from_px_file(px_path)
+  enc_read <- normalize_px_encoding_for_connection(enc)
+
+  readLines_with_encoding(
+    path = px_path,
+    encoding = enc_read
+  )
 }
 
 #' Read lines from file with guessed encoding
@@ -360,19 +364,102 @@ get_default_encoding <- function() {
 #'
 #' @returns Character
 #' @keywords internal
-get_encoding_from_px_file <- function(px_path) {
-  encoding <-
-    px_path %>%
-    readLines(warn = FALSE) %>%
-    paste(collapse = '\n') %>%
-    stringr::str_extract('(?<=CODEPAGE=").+(?=";)')
+get_encoding_from_px_file <- function(px_path, max_lines = 1000) {
+  header_lines <- readLines(
+    px_path,
+    n = max_lines,
+    warn = FALSE,
+    encoding = "latin1"
+  )
 
-  if (is.na(encoding)) {
-    encoding <- get_default_encoding()
+  data_pos <- grep("^DATA=$", header_lines)
+  if (length(data_pos) > 0) {
+    header_lines <- header_lines[seq_len(data_pos[1])]
   }
 
-  return(encoding)
+  header_text <- paste(header_lines, collapse = "\n")
+
+  codepage_match <- regmatches(
+    header_text,
+    regexec('CODEPAGE="([^"]+)"', header_text, perl = TRUE)
+  )[[1]]
+
+  if (length(codepage_match) >= 2) {
+    return(trimws(codepage_match[2]))
+  }
+
+  charset_match <- regmatches(
+    header_text,
+    regexec('CHARSET="([^"]+)"', header_text, perl = TRUE)
+  )[[1]]
+
+  if (length(charset_match) >= 2) {
+    charset <- trimws(charset_match[2])
+
+    key <- tolower(charset)
+
+    if (key == "ansi") {
+      return("latin1")
+    }
+
+    if (key %in% c("utf-8", "utf8")) {
+      return("UTF-8")
+    }
+
+    return(charset)
+  }
+
+  get_default_encoding()
 }
+
+
+normalize_px_encoding_for_connection <- function(enc) {
+  key <- tolower(trimws(enc))
+
+  if (key %in% c("iso-8859-1", "iso-8859-15", "latin1", "ansi")) {
+    return("latin1")
+  }
+
+  if (key %in% c("1252", "windows-1252")) {
+    return("windows-1252")
+  }
+
+  if (key %in% c("utf-8", "utf8")) {
+    return("UTF-8")
+  }
+
+  enc
+}
+
+prepare_px_lines_for_write <- function(lines, encoding) {
+  out <- iconv(
+    lines,
+    from = "UTF-8",
+    to = encoding,
+    sub = "byte"
+  )
+
+  bad <- is.na(out)
+  if (any(bad)) {
+    out[bad] <- iconv(
+      enc2utf8(lines[bad]),
+      from = "UTF-8",
+      to = encoding,
+      sub = "byte"
+    )
+  }
+
+  out
+}
+
+materialize_px_data_if_needed <- function(x) {
+  if (is_px_data_compact(x)) {
+    return(materialize_px_data(x))
+  }
+
+  x
+}
+
 
 #' Guess encoding of file
 #'

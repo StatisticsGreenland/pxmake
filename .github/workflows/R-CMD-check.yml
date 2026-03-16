@@ -54,5 +54,5 @@ jobs:
         run: pak::pkg_install("StatisticsGreenland/pxjob64Win", lib = .Library)
         shell: Rscript {0}
       - name: Run PxJob tests
-        run: testthat::test_package("pxmake", filter="pxjob", reporter = "progress")
+        run: devtools::test(filter="pxjob")
         shell: Rscript {0}

@@ -34,27 +34,24 @@ jobs:
       - name: Check package
         uses: r-lib/actions/check-r-package@v2
 
-  check-on-windows:
-    # Run on Windows to also run PxJob tests
+  run-pxjob-tests:
     runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-pandoc@v2
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
-          # Enable RStudio Package Manager to speed up package installation
           use-public-rspm: true
       - name: Install and cache dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
-          needs: check
+          extra-packages: any::testthat
       - name: Install pxjob64Win
         run: |
           pak::pkg_install("StatisticsGreenland/pxjob64Win", lib = .Library)
         shell: Rscript {0}
-      - name: Check package
-        uses: r-lib/actions/check-r-package@v2
+      - name: Run PxJob tests
+        run: testthat::test_dir("tests/testthat", filter="pxjob", reporter = "progress")
+        shell: Rscript {0}

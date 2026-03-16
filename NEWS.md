@@ -1,5 +1,8 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Support semicolons inside values. (#458)
+
 # pxmake 0.19.0
 
 ## New features

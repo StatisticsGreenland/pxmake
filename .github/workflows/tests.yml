@@ -1,4 +1,4 @@
-name: R-CMD-check
+name: Tests
 
 on:
   push:
@@ -17,6 +17,7 @@ jobs:
   r-cmd-check:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
 

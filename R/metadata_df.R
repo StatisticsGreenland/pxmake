@@ -14,7 +14,7 @@ get_px_metadata_regex <- function() {
          "(?:\")?",                      # Maybe closing " after cell value
          "(?:\"\\))?",                   # Maybe closing sub-key parentheses )
          "=",                            # definitely =
-         "(?<value>[^;]*)",              # Value is everything up to ending ;
+         '(?<value>(?:"[^"]*"|[^;])*)',  # Value is quoted strings or non-semicolon chars
          "(?:;$)?"                       # Maybe ;
   )
 }
@@ -31,7 +31,8 @@ get_metadata_df_from_px_lines <- function(metadata_lines) {
   metadata_lines %>%
     # Remove newlines in file. Use semi-colon as line separator
     paste0(collapse = "") %>%
-    stringr::str_split(";") %>%
+    # Split by semicolons not inside a pair of quotes ""
+    stringr::str_split(';(?=(?:[^"]*"[^"]*")*[^"]*$)') %>%
     unlist() %>%
     stringr::str_match(get_px_metadata_regex()) %>%
     dplyr::as_tibble(.name_repair = ~ vctrs::vec_as_names(...,

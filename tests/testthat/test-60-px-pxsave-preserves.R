@@ -4,6 +4,7 @@ test_that("PX-file = px_save(px(PX-file))", {
   expect_px_px_save_preserves_everything(px_from_table_name("no_timeval_or_codes"))
   expect_px_px_save_preserves_everything(px_from_table_name("zero_heading"))
   expect_px_px_save_preserves_everything(px_from_table_name("zero_stub"))
+  expect_px_px_save_preserves_everything(px(get_px_file_path("semicolon_in_values")))
 
 
   # Cell values with closing parenthesis )
@@ -33,4 +34,11 @@ test_that("PX-file = px_save(px(PX-file))", {
     # change order or data columns
     px_data(dplyr::relocate(population_gl, n)) %>%
     expect_px_px_save_preserves_everything()
+})
+
+test_that("Semicolon inside value is preserved", {
+  x <- px(get_px_file_path("semicolon_in_values"))
+
+  expect_false("Public administration" %in% px_values(x)$value)
+  expect_true("Public administration; defence" %in% px_values(x)$value)
 })

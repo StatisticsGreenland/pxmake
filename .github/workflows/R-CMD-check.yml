@@ -47,7 +47,7 @@ jobs:
       - name: Install and cache dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::testthat
+          extra-packages: any::testthat, local::.
       - name: Install pxjob64Win
         run: |
           pak::pkg_install("StatisticsGreenland/pxjob64Win", lib = .Library)

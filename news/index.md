@@ -2,6 +2,11 @@
 
 ## pxmake (development version)
 
+### Bug fixes and minor improvements
+
+- Support semicolons inside values.
+  ([\#458](https://github.com/StatisticsGreenland/pxmake/issues/458))
+
 ## pxmake 0.19.0
 
 CRAN release: 2025-12-16

@@ -53,7 +53,7 @@ jobs:
           needs: check
       - name: Install pxjob64Win
         run: |
-          pak::pkg_install("StatisticsGreenland/pxjob64Win")
+          pak::pkg_install("StatisticsGreenland/pxjob64Win", lib = .Library)
           cat("Library paths:\n")
           cat(paste(.libPaths(), collapse = "\n"), "\n")
           cat("pxjob64Win location:", find.package("pxjob64Win"), "\n")

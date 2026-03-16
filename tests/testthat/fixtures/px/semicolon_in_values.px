@@ -1,0 +1,21 @@
+CHARSET="ANSI";
+AXIS-VERSION=2000;
+LANGUAGE="en";
+LANGUAGES="en";
+DECIMALS=0;
+SHOWDECIMALS=0;
+MATRIX="SEMICOLON";
+SUBJECT-CODE="X";
+SUBJECT-AREA="Test";
+CONTENTS="Test with semicolons in values";
+UNITS="persons";
+STUB="industry";
+HEADING="year";
+VALUES("industry")="Manufacturing","Public administration; defence";
+VALUES("year")="2020","2021";
+VARIABLECODE("industry")="industry";
+VARIABLECODE("year")="year";
+DATA=
+1 2
+3 4
+;

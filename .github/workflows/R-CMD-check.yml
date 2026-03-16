@@ -35,6 +35,7 @@ jobs:
         uses: r-lib/actions/check-r-package@v2
 
   check-on-windows:
+    # Run on Windows to also run PxJob tests
     runs-on: windows-latest
 
     steps:
@@ -54,9 +55,6 @@ jobs:
       - name: Install pxjob64Win
         run: |
           pak::pkg_install("StatisticsGreenland/pxjob64Win", lib = .Library)
-          cat("Library paths:\n")
-          cat(paste(.libPaths(), collapse = "\n"), "\n")
-          cat("pxjob64Win location:", find.package("pxjob64Win"), "\n")
         shell: Rscript {0}
       - name: Check package
         uses: r-lib/actions/check-r-package@v2

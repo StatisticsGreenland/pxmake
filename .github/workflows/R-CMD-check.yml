@@ -49,7 +49,10 @@ jobs:
       - name: Install and cache dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, github::StatisticsGreenland/pxjob64Win
+          extra-packages: any::rcmdcheck
           needs: check
+      - name: Install pxjob64Win
+        run: pak::pkg_install("StatisticsGreenland/pxjob64Win")
+        shell: Rscript {0}
       - name: Check package
         uses: r-lib/actions/check-r-package@v2

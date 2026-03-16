@@ -52,7 +52,11 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
       - name: Install pxjob64Win
-        run: pak::pkg_install("StatisticsGreenland/pxjob64Win")
+        run: |
+          pak::pkg_install("StatisticsGreenland/pxjob64Win")
+          cat("Library paths:\n")
+          cat(paste(.libPaths(), collapse = "\n"), "\n")
+          cat("pxjob64Win location:", find.package("pxjob64Win"), "\n")
         shell: Rscript {0}
       - name: Check package
         uses: r-lib/actions/check-r-package@v2

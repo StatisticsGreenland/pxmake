@@ -6,6 +6,10 @@
 
 - Support semicolons inside values.
   ([\#458](https://github.com/StatisticsGreenland/pxmake/issues/458))
+- Adds support for DATABASE.
+  ([\#455](https://github.com/StatisticsGreenland/pxmake/issues/455))
+- Adds support for REFPERIOD
+  ([\#455](https://github.com/StatisticsGreenland/pxmake/issues/455))
 
 ## pxmake 0.19.0
 

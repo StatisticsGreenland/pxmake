@@ -54,6 +54,8 @@ Modifying functions that match a specific px keyword.
   : CREATION-DATE
 - [`px_data()`](https://statisticsgreenland.github.io/pxmake/reference/px_data.px.md)
   : DATA
+- [`px_database()`](https://statisticsgreenland.github.io/pxmake/reference/px_database.px.md)
+  : DATABASE
 - [`px_decimals()`](https://statisticsgreenland.github.io/pxmake/reference/px_decimals.px.md)
   : DECIMALS
 - [`px_description()`](https://statisticsgreenland.github.io/pxmake/reference/px_description.px.md)
@@ -90,6 +92,8 @@ Modifying functions that match a specific px keyword.
   : OFFICIAL-STATISTICS
 - [`px_precision()`](https://statisticsgreenland.github.io/pxmake/reference/px_precision.px.md)
   : PRECISION
+- [`px_refperiod()`](https://statisticsgreenland.github.io/pxmake/reference/px_refperiod.px.md)
+  : REFPERIOD
 - [`px_showdecimals()`](https://statisticsgreenland.github.io/pxmake/reference/px_showdecimals.px.md)
   : SHOWDECIMALS
 - [`px_source()`](https://statisticsgreenland.github.io/pxmake/reference/px_source.px.md)

@@ -227,7 +227,7 @@ homepage](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_fo
 ### PxJob
 
 Some tests cases uses
-[PxJob](https://stat.fi/tup/tilastotietokannat/px-tuoteperhe_en.html).
+[PxJob](https://stat.fi/en/services/statistical-data-services/statistical-databases/px-suite).
 Install [pxjob64Win](https://github.com/StatisticsGreenland/pxjob64Win)
 to be able ro run these tests. This only works on Windows.
 

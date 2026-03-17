@@ -19,8 +19,8 @@ test_that('Table2 keyword is modified', {
   expect_identical(px_last_updated(x4),
                    dplyr::tibble(language = c("en", "dk"),
                                  value = '2020-01-01 10:00'
-                                 )
-                   )
+    )
+  )
 
   datetime_df <- dplyr::tibble(language = c('en', 'dk'),
                                value = c('2020-01-01 10:00',
@@ -35,7 +35,7 @@ test_that('Table2 keyword is modified', {
   expect_error(px_last_updated(x3, data.frame(language = c('sv', 'kl'),
                                            value = datetime)),
                regex = 'LANGUAGE'
-               )
+  )
 })
 
 test_that('Other keywords are modified and removed', {
@@ -58,7 +58,9 @@ test_that('Other keywords are modified and removed', {
     px_baseperiod("baseperiod") %>%
     px_stockfa("S") %>%
     px_cfprices("C") %>%
-    px_source("Statistic Greenland")
+    px_source("Statistic Greenland") %>%
+    px_database("dbname") %>%
+    px_refperiod("year")
 
   expect_identical(px_contents(x2), 'content')
   expect_identical(px_description(x2), 'description')
@@ -72,6 +74,8 @@ test_that('Other keywords are modified and removed', {
   expect_identical(px_stockfa(x2), "S")
   expect_identical(px_cfprices(x2), "C")
   expect_identical(px_source(x2), "Statistic Greenland")
+  expect_identical(px_database(x2), "dbname")
+  expect_identical(px_refperiod(x2), "year")
 
   x3 <-
     x2 %>%
@@ -82,7 +86,9 @@ test_that('Other keywords are modified and removed', {
     px_baseperiod(NULL) %>%
     px_stockfa(NULL) %>%
     px_cfprices(NULL) %>%
-    px_source(NULL)
+    px_source(NULL) %>%
+    px_database(NULL) %>%
+    px_refperiod(NULL)
 
   expect_identical(px_description(x3), NULL)
   expect_identical(px_contact(x3), NULL)
@@ -92,6 +98,8 @@ test_that('Other keywords are modified and removed', {
   expect_identical(px_stockfa(x3), NULL)
   expect_identical(px_cfprices(x3), NULL)
   expect_identical(px_source(x3), NULL)
+  expect_identical(px_database(x3), NULL)
+  expect_identical(px_refperiod(x3), NULL)
 
   expect_error(px_contents(x3, NULL), regex = 'mandatory')
   expect_error(px_units(x3, NULL),    regex = 'mandatory')

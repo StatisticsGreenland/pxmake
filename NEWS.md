@@ -2,6 +2,8 @@
 
 ## Bug fixes and minor improvements
 - Support semicolons inside values. (#458)
+- Adds support for DATABASE. (#455)
+- Adds support for REFPERIOD (#455)
 
 # pxmake 0.19.0
 

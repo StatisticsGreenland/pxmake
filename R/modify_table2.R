@@ -60,6 +60,17 @@ px_contents.px <- function(x, value, validate = TRUE) {
 }
 
 
+#' @rdname px_database.px
+#' @export
+px_database <- function(x, value, validate) {
+  UseMethod("px_database")
+}
+
+#' @eval add_documentation_table1("DATABASE", "DB_NAME")
+px_database.px <- function(x, value, validate = TRUE) {
+  handle_table2_keyword(x, value, "DATABASE", validate)
+}
+
 #' @rdname px_description.px
 #' @export
 px_description <- function(x, value, validate) {
@@ -106,6 +117,17 @@ px_link <- function(x, value, validate) {
 #' @eval add_documentation_table2("LINK", "https://stat.gl/?lang=en", "https://stat.gl/")
 px_link.px <- function(x, value, validate = TRUE) {
   handle_table2_keyword(x, value, "LINK", validate)
+}
+
+
+#' @rdname px_refperiod.px
+#' @export
+px_refperiod <- function(x, value, validate) {
+  UseMethod("px_refperiod")
+}
+#' @eval add_documentation_table1("REFPERIOD", "20250311-20260311")
+px_refperiod.px <- function(x, value, validate = TRUE) {
+  handle_table2_keyword(x, value, "REFPERIOD", validate)
 }
 
 

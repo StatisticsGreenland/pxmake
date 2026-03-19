@@ -14,5 +14,8 @@ exclusions: list(
     # Some compromises are necessary.
     "R/helper_functions.R" = list(
         object_name_linter = c(321,352)
+        ),
+    "R/metadata_df.R" = list(
+        line_length_linter = 18
         )
     )

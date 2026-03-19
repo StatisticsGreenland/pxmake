@@ -1,0 +1,13 @@
+linters: linters_with_defaults(
+    object_length_linter(Inf)
+        )
+exclusions: list(
+    # excluded from object_usage_linter
+    "R/documentation.R" = list(
+        object_usage_linter = Inf,
+        return_linter = Inf
+        ),
+    "R/data.R" = list(
+        line_length_linter = Inf
+        )
+    )

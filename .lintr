@@ -20,5 +20,8 @@ exclusions: list(
         ),
     "R/add_totals.R" = list(
         object_name_linter = Inf
-        )
+        ),
+    "R/modify_helpers.R" = list(
+        object_usage_linter = c(53, 123)
+    )
     )

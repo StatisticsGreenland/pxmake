@@ -16,7 +16,7 @@ greenlanders <-
       "Qeqqata",
       "Sermersooq"
     ))
-  ) %>%
+  ) |>
   arrange_all()
 
 usethis::use_data(greenlanders, overwrite = TRUE)

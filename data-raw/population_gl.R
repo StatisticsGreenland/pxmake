@@ -11,10 +11,10 @@ download.file(
 )
 
 population_gl <-
-  population_path %>%
-  px() %>%
-  pluck("data") %>%
-  rename(year = time, n = figures_) %>%
+  population_path |>
+  px() |>
+  pluck("data") |>
+  rename(year = time, n = figures_) |>
   mutate(gender = fct_recode(gender, male = "M", female = "K"))
 
 usethis::use_data(population_gl, overwrite = TRUE)

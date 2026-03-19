@@ -14,7 +14,7 @@ change_pivot_variables <- function(x, value, pivot) {
 
   order_df <- dplyr::tibble(
     `variable-code` = new_pivot_variables,
-    order = 1:length(new_pivot_variables)
+    order = seq_along(new_pivot_variables)
   )
 
   x$variables1 <-
@@ -24,24 +24,24 @@ change_pivot_variables <- function(x, value, pivot) {
       lookup_column_values = value,
       modify_column = "pivot",
       new_value = pivot
-    ) %>%
-    dplyr::left_join(order_df, by = "variable-code") %>%
+    ) |>
+    dplyr::left_join(order_df, by = "variable-code") |>
     dplyr::mutate(order = ifelse(toupper(pivot) == !!pivot,
       .data$order.y,
       .data$order.x
-    )) %>%
-    dplyr::select(-all_of(c("order.y", "order.x"))) %>%
-    align_data_frames(get_base_variables1()) %>%
+    )) |>
+    dplyr::select(-all_of(c("order.y", "order.x"))) |>
+    align_data_frames(get_base_variables1()) |>
     sort_variables1()
 
   new_acrosscells_base <- get_base_acrosscells(c(px_stub(x), px_heading(x)))
 
   x$acrosscells <-
-    x$acrosscells %>%
-    align_data_frames(new_acrosscells_base) %>%
+    x$acrosscells |>
+    align_data_frames(new_acrosscells_base) |>
     dplyr::select(names(new_acrosscells_base))
 
-  return(x)
+  x
 }
 
 #' Get names of pivot variables
@@ -52,9 +52,9 @@ change_pivot_variables <- function(x, value, pivot) {
 #' @returns A character vector of variable codes
 #' @keywords internal
 get_pivot_variables <- function(x, pivot) {
-  x$variables1 %>%
-    dplyr::filter(toupper(.data$pivot) == !!pivot) %>%
-    dplyr::arrange(.data$order, .data$`variable-code`) %>%
+  x$variables1 |>
+    dplyr::filter(toupper(.data$pivot) == !!pivot) |>
+    dplyr::arrange(.data$order, .data$`variable-code`) |>
     dplyr::pull("variable-code")
 }
 
@@ -159,11 +159,11 @@ px_figures.px <- function(x, value, validate = TRUE) {
   x <- change_pivot_variables(x, old_figures_variable, "STUB")
 
   x$cells1 <-
-    x$cells1 %>%
+    x$cells1 |>
     dplyr::filter(!.data$`variable-code` %in% !!value)
 
   x$cells2 <-
-    x$cells2 %>%
+    x$cells2 |>
     dplyr::filter(!.data$`variable-code` %in% !!value)
 
   return_px(x, validate)
@@ -232,15 +232,15 @@ px_contvariable.px <- function(x, value, validate = TRUE) {
     x$variables1$contvariable <- FALSE
 
     previously_indexed_by_contvariable <-
-      x$table2 %>%
-      dplyr::filter(.data$keyword %in% keywords_indexed_by_contvariable()) %>%
-      dplyr::group_by(.data$keyword, .data$language) %>%
+      x$table2 |>
+      dplyr::filter(.data$keyword %in% keywords_indexed_by_contvariable()) |>
+      dplyr::group_by(.data$keyword, .data$language) |>
       dplyr::slice(1)
 
     x$table2 <-
-      x$table2 %>%
-      dplyr::filter(!.data$keyword %in% keywords_indexed_by_contvariable()) %>%
-      dplyr::bind_rows(previously_indexed_by_contvariable) %>%
+      x$table2 |>
+      dplyr::filter(!.data$keyword %in% keywords_indexed_by_contvariable()) |>
+      dplyr::bind_rows(previously_indexed_by_contvariable) |>
       dplyr::mutate(code = NA_character_)
   } else {
     x$variables1$contvariable <- FALSE
@@ -255,27 +255,31 @@ px_contvariable.px <- function(x, value, validate = TRUE) {
 
 
     contvariable_values <-
-      x %>%
-      px_values() %>%
-      dplyr::filter(.data$`variable-code` %in% c(!!value)) %>%
-      dplyr::select(-c("variable-code", "code")) %>%
-      dplyr::rename("code" = "value") %>%
-      {
-        if (!"language" %in% colnames(.)) dplyr::mutate(., language = NA_character_) else .
-      }
+      x |>
+      px_values() |>
+      dplyr::filter(.data$`variable-code` %in% c(!!value)) |>
+      dplyr::select(-c("variable-code", "code")) |>
+      dplyr::rename("code" = "value") |>
+      (\(.) {
+        if (!"language" %in% colnames(.)) {
+          dplyr::mutate(., language = NA_character_)
+        } else {
+          .
+        }
+      })()
 
     indexed_by_contvariable <-
-      x$table2 %>%
-      dplyr::filter(.data$keyword %in% keywords_indexed_by_contvariable()) %>%
-      dplyr::select(-"code") %>%
+      x$table2 |>
+      dplyr::filter(.data$keyword %in% keywords_indexed_by_contvariable()) |>
+      dplyr::select(-"code") |>
       dplyr::left_join(contvariable_values,
         by = "language",
         relationship = "many-to-many"
       )
 
     x$table2 <-
-      x$table2 %>%
-      dplyr::bind_rows(indexed_by_contvariable) %>%
+      x$table2 |>
+      dplyr::bind_rows(indexed_by_contvariable) |>
       sort_table2(languages = defined_languages(x))
   }
 
@@ -357,7 +361,9 @@ px_variable_type <- function(x, value, validate) {
 #' # Set VARIABLE-TYPE
 #' x1 <-
 #'   px(population_gl) |>
-#'   px_variable_type(tibble("variable-code" = "year", "variable-type" = "time"))
+#'   px_variable_type(
+#'     tibble("variable-code" = "year", "variable-type" = "time")
+#'   )
 #'
 #' # Print VARIABLE-TYPE
 #' px_variable_type(x1)

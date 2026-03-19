@@ -22,7 +22,7 @@ str_quote <- function(str) {
 add_language_to_keyword <- function(keyword, main_language, language) {
   ifelse(language == main_language | is.na(language),
     keyword,
-    stringr::str_glue("{keyword}[{language}]") %>% as.character()
+    stringr::str_glue("{keyword}[{language}]") |> as.character()
   )
 }
 
@@ -59,7 +59,8 @@ add_cell_to_keyword <- function(keyword, name) {
   )
 }
 
-#' Add quotes around unless in some very specific cases required by the px format
+#' Add quotes around unless in some very specific cases required by
+#' the px format
 #'
 #' @inheritParams str_quote
 #'
@@ -114,23 +115,25 @@ merge_named_lists <- function(lst1, lst2) {
   add_missing_keys <- function(lst, keys) {
     keys_missing_in_list <- setdiff(keys, names(lst))
     lst[keys_missing_in_list] <- NA_character_
-    return(lst)
+    lst
   }
 
   lst1_sorted <-
-    lst1 %>%
-    add_missing_keys(keys) %>%
+    lst1 |>
+    add_missing_keys(keys) |>
     lst_distinct_and_arrange()
 
   lst2_sorted <-
-    lst2 %>%
-    add_missing_keys(keys) %>%
+    lst2 |>
+    add_missing_keys(keys) |>
     lst_distinct_and_arrange()
 
   if (identical(lst1_sorted, lst2_sorted)) {
     temp <- lst1_sorted
   } else {
-    temp <- setNames(mapply(c, lst1_sorted, lst2_sorted, SIMPLIFY = FALSE), keys)
+    temp <- setNames(
+      mapply(c, lst1_sorted, lst2_sorted, SIMPLIFY = FALSE), keys
+    )
   }
 
   lst_distinct_and_arrange(temp)
@@ -144,17 +147,17 @@ merge_named_lists <- function(lst1, lst2) {
 #' @keywords internal
 get_timeval_type_from_values <- function(values) {
   time_type <-
-    values %>%
-    na.omit() %>%
-    stringr::str_replace_all("[:digit:]", "") %>%
-    paste(collapse = "") %>%
+    values |>
+    na.omit() |>
+    stringr::str_replace_all("[:digit:]", "") |>
+    paste(collapse = "") |>
     stringr::str_sub(1, 1)
 
   if (time_type == "") {
     time_type <- "A"
   }
 
-  return(time_type)
+  time_type
 }
 
 #' Format time values for PX-file
@@ -168,9 +171,9 @@ format_time_values <- function(values) {
     "TLIST(",
     get_timeval_type_from_values(values),
     "1),",
-    values %>%
-      stringr::str_replace_all("[:alpha:]", "") %>%
-      str_quote() %>%
+    values |>
+      stringr::str_replace_all("[:alpha:]", "") |>
+      str_quote() |>
       stringr::str_c(collapse = ",")
   )
 }
@@ -185,18 +188,18 @@ get_values_from_time_format <- function(str) {
   short_syntax <- any(stringr::str_detect(str, "-"))
 
   tmp <-
-    str %>%
-    stringr::str_split(",") %>%
+    str |>
+    stringr::str_split(",") |>
     unlist()
 
-  tlist <- tmp %>% head(1)
+  tlist <- tmp |> head(1)
   type <- stringr::str_sub(tlist, 7, 7)
-  value_part <- tmp %>% tail(-1)
+  value_part <- tmp |> tail(-1)
 
   if (short_syntax) {
     times <-
-      value_part %>%
-      stringr::str_replace_all("[^0-9-]", "") %>%
+      value_part |>
+      stringr::str_replace_all("[^0-9-]", "") |>
       stringr::str_split("-", simplify = TRUE)
 
     interval_start <- times[1]
@@ -214,21 +217,23 @@ get_values_from_time_format <- function(str) {
         tidyr::crossing(
           year = seq(year_start, year_end),
           index = seq(1, indicies_per_year[type])
-        ) %>%
-        dplyr::mutate(value = paste0(.data$year, .data$index), .keep = "none") %>%
-        dplyr::filter(as.numeric(.data$value) < interval_end) %>%
+        ) |>
+        dplyr::mutate(
+          value = paste0(.data$year, .data$index), .keep = "none"
+        ) |>
+        dplyr::filter(as.numeric(.data$value) < interval_end) |>
         dplyr::pull(1)
     }
   } else {
     values <-
-      value_part %>%
+      value_part |>
       stringr::str_replace_all('"', "")
   }
 
   if (type == "A") {
-    return(values)
+    values
   } else {
-    return(paste0(stringr::str_sub(values, 1, 4), type, stringr::str_sub(values, 5)))
+    paste0(stringr::str_sub(values, 1, 4), type, stringr::str_sub(values, 5))
   }
 }
 
@@ -247,9 +252,9 @@ zip_vectors <- function(v1, v2) {
     stop("v1 and v2 must have same length.")
   }
 
-  base::matrix(c(v1, v2), ncol = 2) %>%
-    t() %>%
-    as.list() %>%
+  base::matrix(c(v1, v2), ncol = 2) |>
+    t() |>
+    as.list() |>
     unlist()
 }
 
@@ -265,16 +270,16 @@ zip_vectors <- function(v1, v2) {
 #' @keywords internal
 break_long_lines <- function(str, max_line_length = 256) {
   if (is.null(str)) {
-    return("")
+    ""
   } else if (is.na(str)) {
-    return("")
+    ""
   } else if (nchar(str) > max_line_length) {
     comma_split <-
-      str %>%
-      stringr::str_locate_all('","') %>%
-      as.data.frame() %>%
-      dplyr::filter(.data$start < max_line_length) %>%
-      dplyr::slice_tail(n = 1) %>%
+      str |>
+      stringr::str_locate_all('","') |>
+      as.data.frame() |>
+      dplyr::filter(.data$start < max_line_length) |>
+      dplyr::slice_tail(n = 1) |>
       dplyr::pull(.data$start)
 
     if (identical(comma_split, integer(0))) {
@@ -286,9 +291,9 @@ break_long_lines <- function(str, max_line_length = 256) {
       line_end <- stringr::str_sub(str, comma_split + 2, -1)
     }
 
-    return(c(line_start, break_long_lines(line_end, max_line_length)))
+    c(line_start, break_long_lines(line_end, max_line_length))
   } else {
-    return(str)
+    str
   }
 }
 
@@ -300,9 +305,9 @@ break_long_lines <- function(str, max_line_length = 256) {
 #' @returns A data frame
 #' @keywords internal
 wrap_varaible_in_list <- function(df, var) {
-  df %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(across(all_of(var), ~ list(.x))) %>%
+  df |>
+    dplyr::rowwise() |>
+    dplyr::mutate(across(all_of(var), ~ list(.x))) |>
     dplyr::ungroup()
 }
 
@@ -318,7 +323,7 @@ readLines_with_encoding <- function(path, encoding) {
   lines <- readLines(con = file_connection, warn = FALSE)
   close(file_connection)
 
-  return(lines)
+  lines
 }
 
 #' Get PX-file content as lines
@@ -356,7 +361,7 @@ readLines_guess_encoding <- function(path) {
 #' @returns Character
 #' @keywords internal
 get_default_encoding <- function() {
-  return("latin1")
+  "latin1"
 }
 
 #' Get encoding listed in PX-file
@@ -369,16 +374,16 @@ get_default_encoding <- function() {
 #' @keywords internal
 get_encoding_from_px_file <- function(px_path) {
   encoding <-
-    px_path %>%
-    readLines(warn = FALSE) %>%
-    paste(collapse = "\n") %>%
+    px_path |>
+    readLines(warn = FALSE) |>
+    paste(collapse = "\n") |>
     stringr::str_extract('(?<=CODEPAGE=").+(?=";)')
 
   if (is.na(encoding)) {
     encoding <- get_default_encoding()
   }
 
-  return(encoding)
+  encoding
 }
 
 #' Guess encoding of file
@@ -389,28 +394,31 @@ get_encoding_from_px_file <- function(px_path) {
 #'
 #' @returns Character
 #' @keywords internal
-guess_file_encoding <- function(path, prefer = list(
-                                  "UTF-8" = .2,
-                                  "ISO-8859-1" = .2
-                                )) {
+guess_file_encoding <- function(
+    path,
+    prefer = list(
+      "UTF-8" = .2,
+      "ISO-8859-1" = .2
+    )) {
   prefer_df <-
-    prefer %>%
-    tibble::enframe(name = "Encoding", value = "Confidence") %>%
-    tidyr::unnest("Confidence") %>%
+    prefer |>
+    tibble::enframe(name = "Encoding", value = "Confidence") |>
+    tidyr::unnest("Confidence") |>
     dplyr::mutate(across("Encoding", as.character))
 
   best_guess <-
-    readBin(path, what = "raw", n = file.info(path)$size) %>%
-    stringi::stri_enc_detect() %>%
-    magrittr::extract2(1) %>%
-    dplyr::bind_rows(prefer_df) %>%
-    dplyr::group_by(.data$Encoding) %>%
-    dplyr::summarise(Confidence = sum(.data$Confidence)) %>%
-    dplyr::arrange(desc(.data$Confidence)) %>%
-    .[["Encoding"]] %>%
-    head(1)
+    readBin(path, what = "raw", n = file.info(path)$size) |>
+    stringi::stri_enc_detect() |>
+    (\(x) x[[1]])() |>
+    dplyr::bind_rows(prefer_df) |>
+    dplyr::group_by(Encoding) |>
+    dplyr::summarise(Confidence = sum(.data$Confidence)) |>
+    dplyr::arrange(desc(.data$Confidence)) |>
+    dplyr::pull("Encoding") |>
+    (\(x) x[[1]])()
 
-  return(best_guess)
+
+  best_guess
 }
 
 #' Check if a path has a specific extension (function factory)
@@ -442,7 +450,7 @@ is_r_file <- is_path_extension("R")
 temp_dir <- function() {
   path <- tempfile()
   dir.create(path)
-  return(path)
+  path
 }
 
 #' Change all variables to character
@@ -465,7 +473,7 @@ mutate_all_vars_to_character <- function(df) {
 #' @keywords internal
 temp_file_with_extension <- function(extension) {
   function() {
-    return(tempfile(fileext = extension))
+    tempfile(fileext = extension)
   }
 }
 
@@ -505,7 +513,7 @@ align_data_frames <- function(df_a, df_b) {
     df_a[[name]] <- as(df_a[[name]], class(df_b[[name]]))
   }
 
-  return(df_a)
+  df_a
 }
 
 #' Drop rows with only NA values
@@ -524,7 +532,9 @@ drop_blank_rows <- function(df) {
 #' @keywords internal
 create_dummy_tibbles <- function(dummy_value) {
   function(columns) {
-    tibble::tibble(!!!setNames(rep(list(dummy_value), length(columns)), columns))
+    tibble::tibble(
+      !!!setNames(rep(list(dummy_value), length(columns)), columns)
+    )
   }
 }
 
@@ -550,5 +560,5 @@ download_px_or_parquet_and_return_path <- function(url) {
 
   curl::curl_download(url, tmp_file_path, quiet = TRUE)
 
-  return(tmp_file_path)
+  tmp_file_path
 }

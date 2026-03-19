@@ -9,5 +9,10 @@ exclusions: list(
         ),
     "R/data.R" = list(
         line_length_linter = Inf
+        ),
+    # Don't want to functionally alter the package
+    # Some compromises are necessary.
+    "R/helper_functions.R" = list(
+        object_name_linter = c(321,352)
         )
     )

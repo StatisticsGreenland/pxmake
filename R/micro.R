@@ -1,22 +1,23 @@
-create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_dir) {
+create_micro_file <- function(
+    micro_var, x, filenames, keyword_values_long, out_dir) {
   figures_var <- "n"
 
   new_data <-
-    x$data %>%
-    dplyr::select(all_of(c(px_heading(x), micro_var))) %>%
-    dplyr::count(across(everything()), name = figures_var) %>%
-    dplyr::arrange_all() %>%
+    x$data |>
+    dplyr::select(all_of(c(px_heading(x), micro_var))) |>
+    dplyr::count(across(everything()), name = figures_var) |>
+    dplyr::arrange_all() |>
     format_data_df(figures_variable = figures_var)
 
   headings_with_non_na_values <-
-    new_data %>%
-    dplyr::filter(!!rlang::sym(micro_var) != "-") %>%
-    dplyr::select(all_of(px_heading(x))) %>%
-    dplyr::distinct_all() %>%
+    new_data |>
+    dplyr::filter(!!rlang::sym(micro_var) != "-") |>
+    dplyr::select(all_of(px_heading(x))) |>
+    dplyr::distinct_all() |>
     tidyr::complete(!!!rlang::syms(px_heading(x)))
 
   headings_with_only_na_values <-
-    new_data %>%
+    new_data |>
     dplyr::select(all_of(px_heading(x))) %>%
     {
       if (length(px_heading(x)) > 0) {
@@ -34,15 +35,15 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
   if (length(px_heading(x)) > 0) {
     # Remove headings where the figures variable only has NA values
     new_data <-
-      new_data %>%
+      new_data |>
       dplyr::anti_join(headings_with_only_na_values, by = px_heading(x))
   }
 
   data_names <- names(new_data)
 
   headings_with_only_na_values_long <-
-    headings_with_only_na_values %>%
-    {
+    headings_with_only_na_values |>
+    (\(.){
       if (nrow(.) > 0) {
         tidyr::pivot_longer(.,
           cols = px_heading(x),
@@ -52,20 +53,24 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
       } else {
         dplyr::tibble(`variable-code` = character(), code = character())
       }
-    }
+    })()
 
   x_micro <-
     new_px(
       languages = x$languages,
       table1 = x$table1,
       table2 = x$table2,
-      variables1 = dplyr::filter(x$variables1, .data$`variable-code` %in% data_names),
-      variables2 = dplyr::filter(x$variables2, .data$`variable-code` %in% data_names),
-      cells1 = dplyr::filter(x$cells1, .data$`variable-code` %in% data_names) %>%
+      variables1 = dplyr::filter(
+        x$variables1, .data$`variable-code` %in% data_names
+      ),
+      variables2 = dplyr::filter(
+        x$variables2, .data$`variable-code` %in% data_names
+      ),
+      cells1 = dplyr::filter(x$cells1, .data$`variable-code` %in% data_names) |>
         dplyr::anti_join(headings_with_only_na_values_long,
           by = c("variable-code", "code")
         ),
-      cells2 = dplyr::filter(x$cells2, .data$`variable-code` %in% data_names) %>%
+      cells2 = dplyr::filter(x$cells2, .data$`variable-code` %in% data_names) |>
         dplyr::anti_join(headings_with_only_na_values_long,
           by = c("variable-code", "code")
         ),
@@ -75,16 +80,16 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
           setdiff(data_names, figures_var),
           names(get_base_acrosscells())
         ))
-      ) %>%
+      ) |>
         tidyr::drop_na({{ micro_var }}),
       data = new_data
-    ) %>%
-    fix_px() %>%
+    ) |>
+    fix_px() |>
     px_figures(figures_var, validate = FALSE)
 
   if (all(!is.null(keyword_values_long), nrow(keyword_values_long) > 0)) {
     extra_keywords <-
-      keyword_values_long %>%
+      keyword_values_long |>
       dplyr::filter(.data$variable %in% micro_var)
 
     keyword_functions <- unique(extra_keywords$keyword_function)
@@ -94,16 +99,16 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
         function_to_keyword(fnc) %in% language_dependant_keywords()
 
       value <-
-        extra_keywords %>%
-        dplyr::filter(.data$keyword_function == fnc) %>%
-        {
-          if (language_dependent_keyword & "language" %in% names(.)) {
+        extra_keywords |>
+        dplyr::filter(.data$keyword_function == fnc) |>
+        (\(.){
+          if (language_dependent_keyword && "language" %in% names(.)) {
             dplyr::distinct(., .data$language, .data$value)
           } else {
-            dplyr::distinct(., value) %>%
+            dplyr::distinct(., value) |>
               dplyr::pull(value)
           }
-        }
+        })()
 
       modifying_function <- get(fnc)
 
@@ -137,7 +142,8 @@ create_micro_file <- function(micro_var, x, filenames, keyword_values_long, out_
 #' @param keyword_values Optional. A data frame with column 'variable' and one
 #' or more of: 'px_contents', 'px_title', 'px_description', and 'px_matrix'. The
 #' columns will be added as keywords to the table for each non-HEADING variable
-#' that match the 'variable' column. It probably work for other keywords as well.
+#' that match the 'variable' column. It probably work for other keywords as
+#' well.
 #'
 #' Use the column 'filename' to control the filename of each micro file. The
 #' filename path is relative to 'out_dir'.
@@ -171,20 +177,20 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
   if (!is.null(keyword_values)) {
     if ("filename" %in% colnames(keyword_values)) {
       filenames <-
-        keyword_values %>%
-        dplyr::select("variable", "filename") %>%
+        keyword_values |>
+        dplyr::select("variable", "filename") |>
         tibble::deframe()
     } else {
       filenames <- NULL
     }
 
     keyword_values_long <-
-      keyword_values %>%
+      keyword_values |>
       tidyr::pivot_longer(
-        cols = setdiff(names(.), c("variable", "language")),
+        cols = setdiff(names(keyword_values), c("variable", "language")),
         names_to = "keyword_function"
-      ) %>%
-      tidyr::drop_na("value") %>%
+      ) |>
+      tidyr::drop_na("value") |>
       dplyr::filter(.data$keyword_function != "filename")
   } else {
     keyword_values_long <- NULL

@@ -17,5 +17,8 @@ exclusions: list(
         ),
     "R/metadata_df.R" = list(
         line_length_linter = 18
+        ),
+    "R/add_totals.R" = list(
+        object_name_linter = Inf
         )
     )

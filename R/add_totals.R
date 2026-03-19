@@ -15,12 +15,14 @@ add_total_level_to_var <- function(df,
                                    na.rm = TRUE) {
   column_order <- names(df)
 
-  df %>%
-    dplyr::group_by(across(-any_of(c(variable, sum_var)))) %>%
-    dplyr::summarise(!!sum_var := sum(!!rlang::sym(sum_var), na.rm = !!na.rm)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate({{ variable }} := level_name) %>%
-    dplyr::bind_rows(df) %>%
+  df |>
+    dplyr::group_by(across(-any_of(c(variable, sum_var)))) |>
+    dplyr::summarise(
+      !!sum_var := sum(!!rlang::sym(sum_var), na.rm = !!na.rm)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate({{ variable }} := level_name) |>
+    dplyr::bind_rows(df) |>
     dplyr::relocate(all_of(column_order))
 }
 
@@ -43,7 +45,7 @@ add_totals_to_df <- function(df,
                              na.rm = TRUE) {
   params <- data.frame(variables = variables, level_names = level_names)
 
-  for (i in 1:nrow(params)) {
+  for (i in seq_len(nrow(params))) {
     df <- add_total_level_to_var(df,
       variable = params$variables[i],
       level_name = params$level_names[i],
@@ -52,7 +54,7 @@ add_totals_to_df <- function(df,
     )
   }
 
-  return(df)
+  df
 }
 
 #' @rdname px_add_totals.px
@@ -119,8 +121,8 @@ px_add_totals.px <- function(x, value, na.rm = TRUE, validate = TRUE) {
   }
 
   params <-
-    x$variables1 %>%
-    dplyr::filter(.data$`variable-code` %in% value) %>%
+    x$variables1 |>
+    dplyr::filter(.data$`variable-code` %in% value) |>
     dplyr::distinct(.data$`variable-code`, .data$elimination)
 
   x$data <-

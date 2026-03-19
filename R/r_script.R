@@ -1,5 +1,5 @@
 dummy_data_path <- function() {
-  'not_a_file'
+  "not_a_file"
 }
 
 #' Save px object as an R script
@@ -33,12 +33,12 @@ save_px_as_r_script <- function(x, path, data_path) {
   data_code <-
     pxmake::px_keywords %>%
     # Remove unimplemented functions
-    dplyr::filter(.data$px_function %in% getNamespaceExports('pxmake')) %>%
+    dplyr::filter(.data$px_function %in% getNamespaceExports("pxmake")) %>%
     # Add px_order
-    dplyr::bind_rows(data.frame(keyword = NA_character_,
-                                px_function = "px_order"
-                                )
-                     ) %>%
+    dplyr::bind_rows(data.frame(
+      keyword = NA_character_,
+      px_function = "px_order"
+    )) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(value = list(eval(parse(text = paste0(.data$px_function, "(x)"))))) %>%
     dplyr::ungroup() %>%
@@ -47,9 +47,8 @@ save_px_as_r_script <- function(x, path, data_path) {
     dplyr::filter(!purrr::map2_lgl(.data$value, default_value, identical)) %>%
     # Expand values that are list of lists
     dplyr::mutate(value = purrr::map(.data$value, function(x) {
-                                     if (is_list_of_lists(x)) x else list(x)
-                                     })
-                  ) %>%
+      if (is_list_of_lists(x)) x else list(x)
+    })) %>%
     dplyr::filter(lengths(.data$value) > 0) %>%
     tidyr::unnest("value") %>%
     dplyr::mutate(value_constructor = purrr::map_chr(.data$value, convert_value_to_code)) %>%
@@ -60,19 +59,20 @@ save_px_as_r_script <- function(x, path, data_path) {
       code = dplyr::case_when(
         keyword == "DATA" & data_path == dummy_data_path() ~ stringr::str_glue("px(input = {.data$value_constructor}) %>%"),
         keyword == "DATA" & data_path != dummy_data_path() ~ stringr::str_glue('px(input = "{normalizePath(data_path, winslash = "/", mustWork = FALSE)}") %>%'),
-        !last_row         ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor}) %>%"),
-        last_row          ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor})")
-        )
+        !last_row ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor}) %>%"),
+        last_row ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor})")
+      )
     ) %>%
     dplyr::pull(code) %>%
     paste(collapse = "\n")
 
   code <-
-    c("library(dplyr)",
+    c(
+      "library(dplyr)",
       "library(pxmake)",
       "",
       data_code
-      ) %>%
+    ) %>%
     paste(collapse = "\n")
 
   writeLines(code, path)
@@ -112,7 +112,7 @@ convert_df_to_code <- function(df) {
   col_names <-
     names(df) %>%
     purrr::map_chr(function(x) {
-      if(make.names(x) == x) {
+      if (make.names(x) == x) {
         x
       } else {
         paste0("`", x, "`")
@@ -122,22 +122,24 @@ convert_df_to_code <- function(df) {
 
   rows <-
     df %>%
-    dplyr::mutate(across(where(~ is.factor(.) | is.character(.)),
-                         ~ dplyr::if_else(is.na(.), "NA", shQuote(.))
-                         ),
-                  across(where(is.numeric),
-                         ~ dplyr::if_else(is.na(.), "NA", as.character(.))
-                         ),
-                  ) %>%
+    dplyr::mutate(
+      across(
+        where(~ is.factor(.) | is.character(.)),
+        ~ dplyr::if_else(is.na(.), "NA", shQuote(.))
+      ),
+      across(
+        where(is.numeric),
+        ~ dplyr::if_else(is.na(.), "NA", as.character(.))
+      ),
+    ) %>%
     tidyr::unite("rows", everything(), sep = ", ") %>%
     dplyr::pull(1)
 
-  c("tribble(",
+  c(
+    "tribble(",
     paste0("  ", col_names, ","),
     paste(" ", paste0(rows, ","), collapse = "\n"),
     "  )"
-    ) %>%
-  paste(collapse = "\n")
+  ) %>%
+    paste(collapse = "\n")
 }
-
-

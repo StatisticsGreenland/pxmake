@@ -26,12 +26,15 @@
 #' x1 <- px(population_gl)
 #'
 #' # Download PX-file for example
-#' download_succeeded <- tryCatch({
-#'   px_path <- tempfile(fileext = ".px")
-#'   url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
-#'   download.file(url, px_path)
-#'   TRUE
-#' }, error = function(e) FALSE)
+#' download_succeeded <- tryCatch(
+#'   {
+#'     px_path <- tempfile(fileext = ".px")
+#'     url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
+#'     download.file(url, px_path)
+#'     TRUE
+#'   },
+#'   error = function(e) FALSE
+#' )
 #'
 #' # Run examples only if file was downloaded
 #' if (download_succeeded) {
@@ -154,16 +157,17 @@ px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
 #' @keywords internal
 new_px <- function(languages, table1, table2, variables1, variables2,
                    cells1, cells2, acrosscells, data) {
-  x <- list(languages  = dplyr::as_tibble(languages),
-            table1     = dplyr::as_tibble(table1),
-            table2     = dplyr::as_tibble(table2),
-            variables1 = dplyr::as_tibble(variables1),
-            variables2 = dplyr::as_tibble(variables2),
-            cells1 = dplyr::as_tibble(cells1),
-            cells2 = dplyr::as_tibble(cells2),
-            acrosscells = dplyr::as_tibble(acrosscells),
-            data       = dplyr::as_tibble(data)
-            )
+  x <- list(
+    languages = dplyr::as_tibble(languages),
+    table1 = dplyr::as_tibble(table1),
+    table2 = dplyr::as_tibble(table2),
+    variables1 = dplyr::as_tibble(variables1),
+    variables2 = dplyr::as_tibble(variables2),
+    cells1 = dplyr::as_tibble(cells1),
+    cells2 = dplyr::as_tibble(cells2),
+    acrosscells = dplyr::as_tibble(acrosscells),
+    data = dplyr::as_tibble(data)
+  )
 
   structure(x, class = "px")
 }
@@ -179,19 +183,19 @@ fix_px <- function(x) {
 
   if (length(undefined_variables) > 0) {
     x$variables2 <-
-      dplyr::bind_rows(x$variables2,
-                       dplyr::tibble(`variable-code` = undefined_variables)
-                       )
+      dplyr::bind_rows(
+        x$variables2,
+        dplyr::tibble(`variable-code` = undefined_variables)
+      )
   }
 
   # Add missing variable-labels to variables2
   x$variables2 <-
     x$variables2 %>%
     dplyr::mutate(`variable-label` = ifelse(is.na(.data$`variable-label`),
-                                                  .data$`variable-code`,
-                                                  .data$`variable-label`
-                                                  )
-                  )
+      .data$`variable-code`,
+      .data$`variable-label`
+    ))
 
   x
 }

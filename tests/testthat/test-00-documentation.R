@@ -5,9 +5,9 @@ test_that("Documentation returns strings", {
     expect_true(is.character(x))
   }
 
-  expect_identical(keyword_to_function('AXIS-VERSION'), 'px_axis_version')
-  expect_identical(function_to_keyword('px_axis_version'), 'AXIS-VERSION')
-  expect_identical(split_multiline_str_into_vector("a\nb"), c('a', 'b'))
+  expect_identical(keyword_to_function("AXIS-VERSION"), "px_axis_version")
+  expect_identical(function_to_keyword("px_axis_version"), "AXIS-VERSION")
+  expect_identical(split_multiline_str_into_vector("a\nb"), c("a", "b"))
   expect_string(add_documentation_table1("MATRIX", "B"))
   expect_string(add_documentation_table1("DECIMALS", "B"))
   expect_string(add_documentation_table2("A", "B", "C"))

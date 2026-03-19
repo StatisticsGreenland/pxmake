@@ -1,29 +1,31 @@
-test_that('cells1 is modified', {
+test_that("cells1 is modified", {
   x <-
-    'BEXSTA' %>%
+    "BEXSTA" %>%
     get_data_path() %>%
     readRDS() %>%
     px()
 
   expect_identical(px_precision(x), NULL)
 
-  precision_df1 <- dplyr::tibble(`variable-code` = 'gender',
-                                 code = 'K',
-                                 precision = 1
-                                 )
+  precision_df1 <- dplyr::tibble(
+    `variable-code` = "gender",
+    code = "K",
+    precision = 1
+  )
 
   x2 <- px_precision(x, precision_df1)
   expect_identical(px_precision(x2), precision_df1)
 
-  precision_df2 <- dplyr::tibble(`variable-code` = 'gender',
-                                 precision = 2
-                                 )
+  precision_df2 <- dplyr::tibble(
+    `variable-code` = "gender",
+    precision = 2
+  )
 
   x3 <- px_precision(x, precision_df2)
 
   precision_df2_expect <- tidyr::crossing(precision_df2,
-                                          code = c('K', 'M', 'T')
-                                          ) %>%
+    code = c("K", "M", "T")
+  ) %>%
     dplyr::relocate(precision, .after = last_col())
 
   expect_identical(px_precision(x3), precision_df2_expect)
@@ -37,9 +39,10 @@ test_that('cells1 is modified', {
     px_precision() %>%
     dplyr::mutate(order = as.numeric(rev(dplyr::row_number()))) %>%
     dplyr::select(-precision) %>%
-    dplyr::arrange(match(.data$`variable-code`, names(px_data(x))),
-                   order
-                   )
+    dplyr::arrange(
+      match(.data$`variable-code`, names(px_data(x))),
+      order
+    )
 
   x5 <- px_order(x, reverse_order)
 
@@ -50,18 +53,19 @@ test_that('cells1 is modified', {
 })
 
 
-test_that('cells1 are properly created for multilingual file without CODES', {
-  x <- px(get_px_file_path('multilingual_no_codes'))
+test_that("cells1 are properly created for multilingual file without CODES", {
+  x <- px(get_px_file_path("multilingual_no_codes"))
 
-  expect_identical(x$cells1,
-                   tibble::tribble(
-                     ~`variable-code`,  ~code, ~order, ~precision,
-                               "type",    "a",     1L,   NA_real_,
-                               "type",    "b",     2L,   NA_real_,
-                               "type",    "c",     3L,   NA_real_,
-                               "type",    "d",     4L,   NA_real_,
-                             "gender",    "F",     1L,   NA_real_,
-                             "gender",    "M",     2L,   NA_real_
-                     )
-                   )
+  expect_identical(
+    x$cells1,
+    tibble::tribble(
+      ~`variable-code`, ~code, ~order, ~precision,
+      "type", "a", 1L, NA_real_,
+      "type", "b", 2L, NA_real_,
+      "type", "c", 3L, NA_real_,
+      "type", "d", 4L, NA_real_,
+      "gender", "F", 1L, NA_real_,
+      "gender", "M", 2L, NA_real_
+    )
+  )
 })

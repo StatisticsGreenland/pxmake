@@ -6,9 +6,10 @@ handle_variables2_keyword <- function(x, value, keyword, validate) {
   } else if (is.null(value)) {
     return(remove_keyword_variables2(x, keyword))
   } else if (is.character(value)) {
-    value <- dplyr::tibble(`variable-code` = c(px_stub(x), px_heading(x)),
-                           !!colname := value
-                           )
+    value <- dplyr::tibble(
+      `variable-code` = c(px_stub(x), px_heading(x)),
+      !!colname := value
+    )
   }
 
   x <- modify_variables2(x, colname, value)
@@ -53,20 +54,24 @@ px_variable_label <- function(x, value, validate) {
 #' library(tibble)
 #' x1 <-
 #'   px(population_gl) |>
-#'   px_variable_label(tribble(~`variable-code`, ~`variable-label`,
-#'                             'gender',         'Gender',
-#'                             'age',            'Age'))
+#'   px_variable_label(tribble(
+#'     ~`variable-code`, ~`variable-label`,
+#'     "gender", "Gender",
+#'     "age", "Age"
+#'   ))
 #' px_variable_label(x1)
 #'
 #' # Set VARIABLE-LABEL for individual languages
 #' x2 <-
 #'   x1 %>%
-#'   px_languages(c('en', 'kl')) |>
-#'   px_variable_label(tribble(~`variable-code`, ~language, ~`variable-label`,
-#'                             'gender',         'en',      'Gender',
-#'                             'gender',         'kl',      'Suiaassuseq',
-#'                             'age',            'en',      'Age',
-#'                             'age',            'kl',      'Ukiut'))
+#'   px_languages(c("en", "kl")) |>
+#'   px_variable_label(tribble(
+#'     ~`variable-code`, ~language, ~`variable-label`,
+#'     "gender", "en", "Gender",
+#'     "gender", "kl", "Suiaassuseq",
+#'     "age", "en", "Age",
+#'     "age", "kl", "Ukiut"
+#'   ))
 #' px_variable_label(x2)
 #'
 #' # Remove VARIABLE-LABEL

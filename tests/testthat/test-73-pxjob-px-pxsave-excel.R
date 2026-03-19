@@ -5,9 +5,9 @@ test_that("px(PX-file) and px(px_save(px(PX-file), path = excel)) are equivalent
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   run_px_px_save_excel_pxjob_and_compare <- function(table_name) {
-    px1    <- get_px_file_path(table_name)
+    px1 <- get_px_file_path(table_name)
     excel1 <- temp_xlsx_file()
-    px2    <- temp_px_file()
+    px2 <- temp_px_file()
     pxjob1 <- temp_px_file()
     pxjob2 <- temp_px_file()
 
@@ -30,12 +30,14 @@ test_that("px(PX-file) and px(px_save(px(PX-file), path = excel)) are equivalent
         # Improve when implementing #163
         stringr::str_subset("^VARIABLECODE.+", negate = TRUE) %>%
         stringr::str_subset("^META-ID.+", negate = TRUE) %>%
-        {if (table_name == "CONTVARIABLE_multiple_languages") {
-          .
-          stringr::str_subset(., '^VARIABLE-TYPE.+Time"', negate = TRUE)
-        } else {
-          .
-        }}
+        {
+          if (table_name == "CONTVARIABLE_multiple_languages") {
+            .
+            stringr::str_subset(., '^VARIABLE-TYPE.+Time"', negate = TRUE)
+          } else {
+            .
+          }
+        }
 
       if (table_name %in% c("no_timeval_or_codes2")) {
         lines <- stringr::str_subset(lines, "^CODES.+", negate = TRUE)

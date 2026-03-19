@@ -5,56 +5,59 @@
 #' @keywords internal
 get_data_table <- function(x, value, labels, sort) {
   if (isTRUE(sort)) {
-     data_table <- sort_data_table_by_order(x)
-   } else {
-     data_table <- x$data
-   }
+    data_table <- sort_data_table_by_order(x)
+  } else {
+    data_table <- x$data
+  }
 
-   if (isFALSE(labels)) {
-     return(data_table)
-   } else if (isTRUE(labels)) {
-     m_language <- defined_languages(x)[1]
-   } else {
-     m_language <- labels
-   }
+  if (isFALSE(labels)) {
+    return(data_table)
+  } else if (isTRUE(labels)) {
+    m_language <- defined_languages(x)[1]
+  } else {
+    m_language <- labels
+  }
 
-   error_if_language_is_undefined(m_language, x)
+  error_if_language_is_undefined(m_language, x)
 
-   data_with_labels <-
-     data_table %>%
-     dplyr::mutate(id_ = dplyr::row_number()) %>%
-     tidyr::pivot_longer(-c(px_figures(x), "id_"),
-                         names_to = 'variable-code',
-                         values_to = 'code'
-                         ) %>%
-     dplyr::left_join(px_values(x),
-                      by = c('variable-code', 'code'),
-                      relationship = "many-to-many"
-                      ) %>%
-     { if (! "language" %in% names(.)) {
-         dplyr::mutate(., language = m_language) # add dummy language
-       } else {
-         .
-       }
-     } %>%
-     dplyr::mutate(language = ifelse(is.na(.data$language),
-                                     m_language,
-                                     .data$language
-                                     ),
-                   value = ifelse(is.na(.data$value),
-                                  .data$code,
-                                  .data$value
-                                  )
-                   ) %>%
-     dplyr::filter(.data$language %in% m_language) %>%
-     dplyr::select(-"code", -"language") %>%
-     tidyr::pivot_wider(names_from = 'variable-code',
-                        values_from = 'value'
-                        ) %>%
-     dplyr::select(-"id_") %>%
-     dplyr::relocate(names(data_table))
+  data_with_labels <-
+    data_table %>%
+    dplyr::mutate(id_ = dplyr::row_number()) %>%
+    tidyr::pivot_longer(-c(px_figures(x), "id_"),
+      names_to = "variable-code",
+      values_to = "code"
+    ) %>%
+    dplyr::left_join(px_values(x),
+      by = c("variable-code", "code"),
+      relationship = "many-to-many"
+    ) %>%
+    {
+      if (!"language" %in% names(.)) {
+        dplyr::mutate(., language = m_language) # add dummy language
+      } else {
+        .
+      }
+    } %>%
+    dplyr::mutate(
+      language = ifelse(is.na(.data$language),
+        m_language,
+        .data$language
+      ),
+      value = ifelse(is.na(.data$value),
+        .data$code,
+        .data$value
+      )
+    ) %>%
+    dplyr::filter(.data$language %in% m_language) %>%
+    dplyr::select(-"code", -"language") %>%
+    tidyr::pivot_wider(
+      names_from = "variable-code",
+      values_from = "value"
+    ) %>%
+    dplyr::select(-"id_") %>%
+    dplyr::relocate(names(data_table))
 
-   return(data_with_labels)
+  return(data_with_labels)
 }
 
 #' Add value as data table in x
@@ -71,22 +74,24 @@ update_data_table <- function(x, value) {
     px_from_data_df(value) %>%
     px_languages(defined_languages(x))
 
-  if (! is.null(px_elimination(x))) {
+  if (!is.null(px_elimination(x))) {
     elimination_values <-
       px_values(x) %>%
       dplyr::semi_join(px_elimination(x),
-                       by = c('variable-code' = 'variable-code',
-                              'code' = 'elimination'
-                              )
-                       )
+        by = c(
+          "variable-code" = "variable-code",
+          "code" = "elimination"
+        )
+      )
 
     elimination_order <-
       px_order(x) %>%
       dplyr::semi_join(px_elimination(x),
-                       by = c('variable-code' = 'variable-code',
-                              'code' = 'elimination'
-                              )
-                       )
+        by = c(
+          "variable-code" = "variable-code",
+          "code" = "elimination"
+        )
+      )
 
     dummy_px <-
       dummy_px %>%
@@ -100,22 +105,22 @@ update_data_table <- function(x, value) {
     x1[[element]] <-
       x1[[element]] %>%
       dplyr::filter(.data$`variable-code` %in% df_columns) %>%
-      dplyr::bind_rows(dplyr::filter(x2[[element]],
-                                     .data$`variable-code` %in% new_columns
-                                     )
-                       )
+      dplyr::bind_rows(dplyr::filter(
+        x2[[element]],
+        .data$`variable-code` %in% new_columns
+      ))
     return(x1)
   }
 
-  x <- swap_in_variables_metadata(x, dummy_px, element = 'variables1')
-  x <- swap_in_variables_metadata(x, dummy_px, element = 'variables2')
+  x <- swap_in_variables_metadata(x, dummy_px, element = "variables1")
+  x <- swap_in_variables_metadata(x, dummy_px, element = "variables2")
 
   # Add new codes from x2 not in x1, and remove codes from x1 that are not
   # in x2.
   swap_in_cells_metadata <- function(x1, x2, element) {
     join_vars <- c("variable-code", "code")
 
-    if (element == 'cells2') {
+    if (element == "cells2") {
       join_vars <- c(join_vars, "language")
     }
 
@@ -131,8 +136,8 @@ update_data_table <- function(x, value) {
     return(x1)
   }
 
-  x <- swap_in_cells_metadata(x, dummy_px, element = 'cells1')
-  x <- swap_in_cells_metadata(x, dummy_px, element = 'cells2')
+  x <- swap_in_cells_metadata(x, dummy_px, element = "cells1")
+  x <- swap_in_cells_metadata(x, dummy_px, element = "cells2")
 
   x$acrosscells <- get_base_acrosscells(c(px_stub(x), px_heading(x)))
 
@@ -151,15 +156,16 @@ sort_data_table_by_order <- function(x) {
   data_table <- x$data
   order_df <- px_order(x)
 
-  columns_to_sort <- intersect(names(data_table),
-                               dplyr::pull(order_df, .data$`variable-code`)
-                               )
+  columns_to_sort <- intersect(
+    names(data_table),
+    dplyr::pull(order_df, .data$`variable-code`)
+  )
 
   for (column in rev(columns_to_sort)) {
     tmp <-
       order_df %>%
       dplyr::filter(.data$`variable-code` == column) %>%
-      tidyr::pivot_wider(names_from = "variable-code", values_from = 'code')
+      tidyr::pivot_wider(names_from = "variable-code", values_from = "code")
 
     data_table <-
       data_table %>%
@@ -218,11 +224,11 @@ px_data.px <- function(x, value, labels = FALSE, sort = FALSE, validate = TRUE) 
   validate_px_data_arguments(x, value, labels, sort, validate)
 
   if (missing(value)) {
-    return(get_data_table(x=x, value=value, labels=labels, sort=sort))
+    return(get_data_table(x = x, value = value, labels = labels, sort = sort))
   } else if (is.null(value)) {
     x$data <- dplyr::filter(x$data, FALSE)
   } else {
-    x <- update_data_table(x=x, value=value)
+    x <- update_data_table(x = x, value = value)
   }
 
   return_px(x, validate)

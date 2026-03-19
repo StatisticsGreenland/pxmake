@@ -43,7 +43,9 @@ unlink(micro_dir, recursive = TRUE)
 ```{r}
 library(pxmake)
 
-greenlanders |> dplyr::sample_n(10) |> dplyr::arrange_all()
+greenlanders |>
+  dplyr::sample_n(10) |>
+  dplyr::arrange_all()
 ```
 
 ## How to create micro files
@@ -81,8 +83,8 @@ In this case, we want 'cohort' to be heading, and to create a PX-file for 'gende
 ```{r}
 x2 <-
   x |>
-  px_stub('age') |>    # Change age to STUB
-  px_heading('cohort') # Change cohort to HEADING
+  px_stub("age") |> # Change age to STUB
+  px_heading("cohort") # Change cohort to HEADING
 ```
 
 ```{r}
@@ -101,11 +103,11 @@ list.files(micro_dir)
 Each file contains one of the three variables as STUB, 'cohort' as HEADING, and a variable 'n' which is the count of each combination of the variables.
 
 ```{r}
-px(file.path(micro_dir, 'age.px'))$data
+px(file.path(micro_dir, "age.px"))$data
 
-px(file.path(micro_dir, 'gender.px'))$data
+px(file.path(micro_dir, "gender.px"))$data
 
-px(file.path(micro_dir, 'municipality.px'))$data
+px(file.path(micro_dir, "municipality.px"))$data
 ```
 
 ## Keyword values
@@ -124,11 +126,12 @@ x2 |>
 However, some keywords need to be changed individually for each micro file. To do so, create a data frame with the column 'variable' and a column for each px keyword to change.
 
 ```{r}
-individual_keywords <- tibble::tribble(~variable     ,      ~px_description,
-                                       "age"         ,    "Age count 18-99",
-                                       "gender"      ,       "Gender count",
-                                       "municipality",  "Municipality 2024"
-                                       )
+individual_keywords <- tibble::tribble(
+  ~variable, ~px_description,
+  "age", "Age count 18-99",
+  "gender", "Gender count",
+  "municipality", "Municipality 2024"
+)
 ```
 
 Supply this dataframe to the `keyword_values` argument of `px_micro()`.
@@ -140,9 +143,9 @@ px_micro(x2, out_dir = micro_dir, keyword_values = individual_keywords)
 DESCRIPTION is changed in the micro files: 
 
 ```{r}
-px(file.path(micro_dir, 'age.px')) %>% px_description()
-px(file.path(micro_dir, 'gender.px')) %>% px_description()
-px(file.path(micro_dir, 'municipality.px')) %>% px_description()
+px(file.path(micro_dir, "age.px")) %>% px_description()
+px(file.path(micro_dir, "gender.px")) %>% px_description()
+px(file.path(micro_dir, "municipality.px")) %>% px_description()
 ```
 
 
@@ -157,15 +160,15 @@ x3 <-
   px_languages(c("en", "kl"))
 
 
-individual_keywords_ml <- 
+individual_keywords_ml <-
   tibble::tribble(
-       ~variable, ~language,     ~px_description, ~px_matrix,
-           "age",      "en",   "Age count 18-99",      "AGE",
-           "age",      "kl",       "Ukiut 18-99",         NA,
-        "gender",      "en",      "Gender count",      "GEN",
-        "gender",      "kl",      " Suiaassuseq",         NA,
-  "municipality",      "en", "Municipality 2024",      "MUN",
-  "municipality",      "kl",      "Kommuni 2024",         NA
+    ~variable, ~language, ~px_description, ~px_matrix,
+    "age", "en", "Age count 18-99", "AGE",
+    "age", "kl", "Ukiut 18-99", NA,
+    "gender", "en", "Gender count", "GEN",
+    "gender", "kl", " Suiaassuseq", NA,
+    "municipality", "en", "Municipality 2024", "MUN",
+    "municipality", "kl", "Kommuni 2024", NA
   )
 
 px_micro(x3, out_dir = micro_dir, keyword_values = individual_keywords_ml)
@@ -178,7 +181,7 @@ Here 'px_description' varies for each language, and 'px_matrix' is only set for 
 The filenames of the micro files are by default the name of the variable, however these can also be changed by passing a 'filename' column to 'keyword_values'
 
 ```{r}
-individual_keywords2 <- 
+individual_keywords2 <-
   individual_keywords |>
   dplyr::mutate(filename = paste0(variable, "_2024", ".px"))
 

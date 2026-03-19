@@ -3,7 +3,7 @@ handle_acrossnote_keyword <- function(x, value, keyword, na_to_star, validate) {
     return(get_acrosscells_value(x, keyword))
   } else if (is.null(value)) {
     x$acrosscells <- dplyr::filter(x$acrosscells, FALSE)
-  } else if (nrow(value) ==0) {
+  } else if (nrow(value) == 0) {
     return(x)
   } else {
     x <- modify_acrosscells(x, value, keyword, na_to_star)

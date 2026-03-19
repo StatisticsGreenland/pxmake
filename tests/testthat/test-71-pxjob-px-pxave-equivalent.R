@@ -5,14 +5,14 @@ test_that("PX-file and px_save(px(PX-file), path='*.px') are equivalent", {
   skip_if_not_installed("pxjob64Win", minimum_version = "1.1.0")
 
   run_px_px_save_and_expect_equal <- function(table_name) {
-    px_in  <- get_px_file_path(table_name)
+    px_in <- get_px_file_path(table_name)
     px_out <- temp_px_file()
 
     px_in %>%
       px() %>%
       px_save(path = px_out)
 
-    pxjob_clean(input = px_in,  output = pxjob_in  <- temp_px_file())
+    pxjob_clean(input = px_in, output = pxjob_in <- temp_px_file())
     pxjob_clean(input = px_out, output = pxjob_out <- temp_px_file())
 
     px_file_as_lines <- function(path) {

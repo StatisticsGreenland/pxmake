@@ -22,12 +22,15 @@ test_that("px_micro creates PX-files correctly", {
 
       expect_identical(px_figures(x_micro), "n")
 
-      expect_identical(px_note(x_micro),
-                       list("Table note",
-                            dplyr::tibble(`variable-code` = micro_var,
-                                          note = paste0("note for ", micro_var)
-                            )
-                       )
+      expect_identical(
+        px_note(x_micro),
+        list(
+          "Table note",
+          dplyr::tibble(
+            `variable-code` = micro_var,
+            note = paste0("note for ", micro_var)
+          )
+        )
       )
     }
   }
@@ -36,18 +39,19 @@ test_that("px_micro creates PX-files correctly", {
     readRDS() %>%
     dplyr::as_tibble() %>%
     dplyr::select(taar, sex, civst, alder) %>%
-    dplyr::mutate(alder = cut(alder, breaks = c(0, 20, 40, 60, 80, 100),
-                              labels = c("0-19", "20-39", "40-59", "60-79", "80+"))
-                  ) %>%
+    dplyr::mutate(alder = cut(alder,
+      breaks = c(0, 20, 40, 60, 80, 100),
+      labels = c("0-19", "20-39", "40-59", "60-79", "80+")
+    )) %>%
     px() %>%
     px_stub("civst") %>%
     px_timeval("taar") %>%
     px_heading(c("taar", "sex")) %>%
     px_note("Table note") %>%
-    px_note(dplyr::tibble(`variable-code` = c("civst", "alder"),
-                          note = paste0("note for ", `variable-code`)
-                          )
-            ) %>%
+    px_note(dplyr::tibble(
+      `variable-code` = c("civst", "alder"),
+      note = paste0("note for ", `variable-code`)
+    )) %>%
     expect_that_micro_files_are_correct()
 })
 
@@ -72,10 +76,11 @@ test_that("px_micro creates valid PX-files", {
   get_data_path("micro") %>%
     readRDS() %>%
     dplyr::as_tibble() %>%
-    dplyr::mutate(sidedoer = stringr::str_trim(sidedoer),
-                  sidedoer = dplyr::na_if(sidedoer, ""),
-                  pnr = NA
-                  ) %>%
+    dplyr::mutate(
+      sidedoer = stringr::str_trim(sidedoer),
+      sidedoer = dplyr::na_if(sidedoer, ""),
+      pnr = NA
+    ) %>%
     px() %>%
     px_timeval("taar") %>%
     expect_that_pxjob_runs_without_errors()
@@ -92,10 +97,11 @@ test_that("px_micro can control data for individual tables", {
     dplyr::mutate(study = sample(c("A", "B"), size = nrow(.), replace = TRUE))
 
   table_level <-
-    dplyr::tribble(~variable, ~px_description,
-                   "taar", "Year",
-                   "civst", "Civil status"
-                   ) %>%
+    dplyr::tribble(
+      ~variable, ~px_description,
+      "taar", "Year",
+      "civst", "Civil status"
+    ) %>%
     dplyr::mutate(px_matrix = variable)
 
   out_dir <- temp_dir()
@@ -103,9 +109,10 @@ test_that("px_micro can control data for individual tables", {
   px(df) %>%
     px_stub(names(df)) %>%
     px_heading("study") %>%
-    px_micro(out_dir = out_dir,
-             keyword_values = table_level
-             )
+    px_micro(
+      out_dir = out_dir,
+      keyword_values = table_level
+    )
 
   px_paths <- list.files(out_dir, full.names = TRUE)
 
@@ -126,51 +133,56 @@ test_that("keyword_values are multilingual", {
   x <-
     greenlanders %>%
     px() %>%
-    px_language('en') %>%
-    px_languages(c('en', 'kl')) %>%
+    px_language("en") %>%
+    px_languages(c("en", "kl")) %>%
     px_stub(names(greenlanders)) %>%
     px_heading("cohort")
 
   keyword_values <-
-    dplyr::tribble(~variable, ~language, ~px_description, ~px_matrix,
-                      "age",       "en",           "Age",       "gl",
-                      "age",       "kl",         "Ukiut",         NA,
-                   "gender",       "en",        "Gender",       "ge",
-                   "gender",       "kl",   "Suiaassuseq",       "ge"
-                   )
+    dplyr::tribble(
+      ~variable, ~language, ~px_description, ~px_matrix,
+      "age", "en", "Age", "gl",
+      "age", "kl", "Ukiut", NA,
+      "gender", "en", "Gender", "ge",
+      "gender", "kl", "Suiaassuseq", "ge"
+    )
 
   out_dir <- temp_dir()
 
   px_micro(x, out_dir = out_dir, keyword_values = keyword_values)
 
-  px_age <- px(file.path(out_dir, 'age.px'))
+  px_age <- px(file.path(out_dir, "age.px"))
   keyword_values_age <- dplyr::filter(keyword_values, variable == "age")
 
-  expect_identical(px_description(px_age),
-                   keyword_values_age %>%
-                     dplyr::select(language, value = px_description)
-                   )
+  expect_identical(
+    px_description(px_age),
+    keyword_values_age %>%
+      dplyr::select(language, value = px_description)
+  )
 
-  expect_identical(px_matrix(px_age),
-                   keyword_values_age %>%
-                     tidyr::drop_na(px_matrix) %>%
-                     dplyr::pull(px_matrix)
-                   )
+  expect_identical(
+    px_matrix(px_age),
+    keyword_values_age %>%
+      tidyr::drop_na(px_matrix) %>%
+      dplyr::pull(px_matrix)
+  )
 
-  px_gender <- px(file.path(out_dir, 'gender.px'))
+  px_gender <- px(file.path(out_dir, "gender.px"))
   keyword_values_gender <- dplyr::filter(keyword_values, variable == "gender")
 
-  expect_identical(px_description(px_gender),
-                   keyword_values_gender %>%
-                     dplyr::select(language, value = px_description)
-                   )
+  expect_identical(
+    px_description(px_gender),
+    keyword_values_gender %>%
+      dplyr::select(language, value = px_description)
+  )
 
-  expect_identical(px_matrix(px_gender),
-                   keyword_values_gender %>%
-                     tidyr::drop_na(px_matrix) %>%
-                     dplyr::distinct(px_matrix) %>%
-                     dplyr::pull(px_matrix)
-                   )
+  expect_identical(
+    px_matrix(px_gender),
+    keyword_values_gender %>%
+      tidyr::drop_na(px_matrix) %>%
+      dplyr::distinct(px_matrix) %>%
+      dplyr::pull(px_matrix)
+  )
 })
 
 test_that("px_micro can control filenames", {
@@ -183,9 +195,10 @@ test_that("px_micro can control filenames", {
   out_dir <- temp_dir()
 
   filename_df <-
-    dplyr::tibble(variable = names(df),
-                  filename = paste0("micro_", variable, ".px")
-                  ) %>%
+    dplyr::tibble(
+      variable = names(df),
+      filename = paste0("micro_", variable, ".px")
+    ) %>%
     dplyr::arrange(variable) %>%
     head(2)
 
@@ -193,9 +206,10 @@ test_that("px_micro can control filenames", {
     px_stub(names(df)) %>%
     px_micro(out_dir = out_dir, keyword_values = filename_df)
 
-  expect_equal(list.files(out_dir),
-               c(filename_df$filename, "pnrmor.px", "taar.px")
-               )
+  expect_equal(
+    list.files(out_dir),
+    c(filename_df$filename, "pnrmor.px", "taar.px")
+  )
 })
 
 test_that("px_micro removes headings where all values are NA", {

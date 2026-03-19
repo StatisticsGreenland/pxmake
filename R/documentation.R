@@ -33,7 +33,7 @@ add_documentation_table1 <- function(keyword, example_value) {
     table1_example(keyword, example_value),
     "@export",
     .sep = "\n"
-    ) %>%
+  ) %>%
     split_multiline_str_into_vector()
 }
 
@@ -46,7 +46,7 @@ add_documentation_table2 <- function(keyword, example_value1, example_value2) {
     table2_example(keyword, example_value1, example_value2),
     "@export",
     .sep = "\n"
-    ) %>%
+  ) %>%
     split_multiline_str_into_vector()
 }
 
@@ -58,7 +58,7 @@ add_documentation_head_stub <- function(keyword) {
     return_px_or_char_vector(),
     "@export",
     .sep = "\n"
-    ) %>%
+  ) %>%
     split_multiline_str_into_vector()
 }
 
@@ -107,10 +107,10 @@ add_documentation_note <- function(keyword) {
 doc_keyword_function_intro <- function(keyword) {
   str <-
     stringr::str_glue(
-    "@title {keyword}",
-    "@description Inspect or change {keyword}.",
-    "@param x A px object",
-    .sep = "\n"
+      "@title {keyword}",
+      "@description Inspect or change {keyword}.",
+      "@param x A px object",
+      .sep = "\n"
     )
 
   url <-
@@ -118,12 +118,12 @@ doc_keyword_function_intro <- function(keyword) {
     dplyr::filter(keyword == !!keyword) %>%
     dplyr::pull(.data$documentation)
 
-  if (! any(identical(url, character(0)), identical(url, ""))) {
+  if (!any(identical(url, character(0)), identical(url, ""))) {
     str <-
       stringr::str_glue("{str}",
-                      "@seealso [Statistics Sweden's documentation]({url})",
-                      .sep = "\n"
-                      )
+        "@seealso [Statistics Sweden's documentation]({url})",
+        .sep = "\n"
+      )
   }
   return(str)
 }
@@ -170,25 +170,25 @@ table2_example <- function(keyword, example_value1, example_value2) {
 
   str <-
     stringr::str_glue(
-    "@examples",
-    "# Set {keyword} for all languages",
-    "x1 <-",
-    "  px(population_gl) |>",
-    "  {px_function}('{example_value1}')",
-    "",
-    "# Print {keyword}",
-    "{px_function}(x1)",
-    "",
-    "# Set {keyword} for individual languages",
-    "library(tibble)",
-    "x2 <-",
-    "  x1 |>",
-    "  px_languages(c('en', 'kl')) |>",
-    "  {px_function}(tribble(~language, ~value,",
-    "                      'en', '{example_value1}',",
-    "                      'kl', '{example_value2}'))",
-    "{px_function}(x2)",
-    .sep = "\n"
+      "@examples",
+      "# Set {keyword} for all languages",
+      "x1 <-",
+      "  px(population_gl) |>",
+      "  {px_function}('{example_value1}')",
+      "",
+      "# Print {keyword}",
+      "{px_function}(x1)",
+      "",
+      "# Set {keyword} for individual languages",
+      "library(tibble)",
+      "x2 <-",
+      "  x1 |>",
+      "  px_languages(c('en', 'kl')) |>",
+      "  {px_function}(tribble(~language, ~value,",
+      "                      'en', '{example_value1}',",
+      "                      'kl', '{example_value2}'))",
+      "{px_function}(x2)",
+      .sep = "\n"
     )
 
   if (!keyword %in% c(mandatory_keywords(), "TITLE")) {
@@ -200,7 +200,7 @@ table2_example <- function(keyword, example_value1, example_value2) {
         "x3 <- {px_function}(x2, NULL)",
         "{px_function}(x3)",
         .sep = "\n"
-        )
+      )
   }
 
   return(str)
@@ -433,7 +433,7 @@ table2_param_value <- function(keyword) {
     "Optional. A character string to set the value for all languages or a data ",
     "frame with columns 'language' and 'value' to set it for specific languages. ",
     "If 'value' is missing, the current {keyword} is returned."
-    )
+  )
 
   stringr::str_glue("{start} {table_param_value_ending(keyword)}")
 }
@@ -519,13 +519,13 @@ pivot_param_value <- function(keyword) {
   )
 }
 
-return_px_or_df <- function(keyword=NULL) {
+return_px_or_df <- function(keyword = NULL) {
   "@returns A px object or data frame."
 }
 
 add_return_px_or_df <- add_documentation_function(return_px_or_df)
 
-return_px_or_char_str <- function(keyword=NULL) {
+return_px_or_char_str <- function(keyword = NULL) {
   "@returns A px object or a character string."
 }
 
@@ -540,9 +540,8 @@ return_px_or_char_vector_or_df <- function() {
 }
 
 return_px_char_df_or_list <- function() {
-  paste0("@returns A px object, a character string, a data frame, or a list of ",
-         "character strings and/or data frames."
-         )
+  paste0(
+    "@returns A px object, a character string, a data frame, or a list of ",
+    "character strings and/or data frames."
+  )
 }
-
-

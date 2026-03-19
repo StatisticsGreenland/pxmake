@@ -19,10 +19,12 @@ modify_or_add_row <- function(df,
   if (any(df[[lookup_column]] %in% lookup_column_values)) {
     df[df[[lookup_column]] %in% lookup_column_values, modify_column] <- new_value
   } else {
-    df <- dplyr::bind_rows(df,
-                           dplyr::tibble(!!lookup_column := lookup_column_values,
-                                         !!modify_column := new_value
-                           )
+    df <- dplyr::bind_rows(
+      df,
+      dplyr::tibble(
+        !!lookup_column := lookup_column_values,
+        !!modify_column := new_value
+      )
     )
   }
 
@@ -32,14 +34,14 @@ modify_or_add_row <- function(df,
 modify_or_add_in_column <- function(df,
                                     lookup_column,
                                     lookup_column_values,
-                                    new_value
-                                    ) {
+                                    new_value) {
   if (any(df[[lookup_column]] %in% lookup_column_values)) {
     df[df[[lookup_column]] %in% lookup_column_values, lookup_column] <- new_value
   } else {
-    df <- dplyr::bind_rows(df,
-                           dplyr::tibble(!!lookup_column := new_value)
-                           )
+    df <- dplyr::bind_rows(
+      df,
+      dplyr::tibble(!!lookup_column := new_value)
+    )
   }
 
   return(df)
@@ -68,12 +70,12 @@ modify_with_df <- function(df1, df2, modify_column) {
 
   if (length(merge_variables) == 0) {
     replace_values <- dplyr::cross_join(df1_without_modify_column, df2)
-    keep_values    <- dplyr::filter(df1, FALSE)
-    add_values     <- dplyr::filter(df2, FALSE)
+    keep_values <- dplyr::filter(df1, FALSE)
+    add_values <- dplyr::filter(df2, FALSE)
   } else {
     replace_values <- dplyr::inner_join(df1_without_modify_column, df2,
-                                        by = merge_variables
-                                        )
+      by = merge_variables
+    )
     keep_values <- dplyr::anti_join(df1, df2, by = merge_variables)
     add_values <- dplyr::anti_join(df2, df1, by = merge_variables)
   }
@@ -127,7 +129,7 @@ get_cells_name <- function(number) {
 }
 
 modify_cells <- function(x, number, column, value) {
-  if ('values' %in% names(value)) {
+  if ("values" %in% names(value)) {
     value <- dplyr::rename(value, "value" = "values")
   }
 
@@ -135,13 +137,13 @@ modify_cells <- function(x, number, column, value) {
     modify_with_df(x[[get_cells_name(number)]], value, column) %>%
     align_data_frames(get(paste0("get_base_cells", number))())
 
-  if (number == "1"){
+  if (number == "1") {
     x$cells1 <- sort_cells1(x$cells1, data_table_names = names(px_data(x)))
   } else if (number == "2") {
     x$cells2 <- sort_cells2(x$cells2,
-                            data_table_names = names(px_data(x)),
-                            languages = px_languages(x)
-                            )
+      data_table_names = names(px_data(x)),
+      languages = px_languages(x)
+    )
   } else {
     unexpected_error()
   }
@@ -166,9 +168,10 @@ modify_variables2 <- function(x, column, value) {
   x$variables2 <-
     modify_with_df(x$variables2, value, column) %>%
     align_data_frames(get_base_variables2()) %>%
-    sort_variables2(data_table_names =  names(px_data(x)),
-                    languages = px_languages(x)
-                    )
+    sort_variables2(
+      data_table_names = names(px_data(x)),
+      languages = px_languages(x)
+    )
   return(x)
 }
 
@@ -177,17 +180,19 @@ modify_acrosscells <- function(x, value, keyword, na_to_star) {
 
   value_completed <-
     value %>%
-    { if (length(missing_columns) > 0) {
-      if (na_to_star) {
-        dummy_df <- asterisk_tibble(columns = missing_columns)
-      } else {
-        dummy_df <- na_tibble(columns = missing_columns)
-      }
+    {
+      if (length(missing_columns) > 0) {
+        if (na_to_star) {
+          dummy_df <- asterisk_tibble(columns = missing_columns)
+        } else {
+          dummy_df <- na_tibble(columns = missing_columns)
+        }
 
-      dplyr::bind_cols(., dummy_df)
-    } else {
-      .
-    }}
+        dplyr::bind_cols(., dummy_df)
+      } else {
+        .
+      }
+    }
 
   x$acrosscells <-
     modify_with_df(x$acrosscells, value_completed, tolower(keyword)) %>%
@@ -215,11 +220,13 @@ get_table2_value <- function(x, keyword) {
     x$table2 %>%
     dplyr::filter(.data$keyword == !!keyword) %>%
     dplyr::select("code", "language", "value") %>%
-    { if (length(unique(.$code)) == 1) {
-      dplyr::select(., -"code")
-    } else {
-      .
-    }}
+    {
+      if (length(unique(.$code)) == 1) {
+        dplyr::select(., -"code")
+      } else {
+        .
+      }
+    }
 
   if (nrow(value) == 0) {
     return(NULL)
@@ -242,7 +249,7 @@ get_cells_value <- function(x, number, column) {
   x[[get_cells_name(number)]] %>%
     dplyr::select(all_of(c("variable-code", "code", language_col, !!column))) %>%
     tidyr::drop_na(!!column) %>%
-    dplyr::select(where(~ ! all(is.na(.))))
+    dplyr::select(where(~ !all(is.na(.))))
 }
 
 get_variable1_value <- function(x, column) {
@@ -295,12 +302,11 @@ get_acrosscells_value <- function(x, keyword) {
 
   value <-
     x$acrosscells %>%
-    dplyr::select(all_of(c(intersect(names(x$acrosscells), names(x$data)),
-                           "language",
-                           column_name
-                           )
-                         )
-                  ) %>%
+    dplyr::select(all_of(c(
+      intersect(names(x$acrosscells), names(x$data)),
+      "language",
+      column_name
+    ))) %>%
     tidyr::drop_na(all_of(column_name))
 
   if (nrow(value) == 0) {

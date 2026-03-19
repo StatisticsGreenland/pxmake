@@ -16,15 +16,21 @@ test_that("Table2 keyword is modified", {
   expect_identical(px_last_updated(x3), NULL)
 
   x4 <- px_last_updated(x3, datetime)
-  expect_identical(px_last_updated(x4),
-                   dplyr::tibble(language = c("en", "dk"),
-                                 value = "2020-01-01 10:00"
+  expect_identical(
+    px_last_updated(x4),
+    dplyr::tibble(
+      language = c("en", "dk"),
+      value = "2020-01-01 10:00"
     )
   )
 
-  datetime_df <- dplyr::tibble(language = c("en", "dk"),
-                               value = c("2020-01-01 10:00",
-                                         "2022-01-01 10:00"))
+  datetime_df <- dplyr::tibble(
+    language = c("en", "dk"),
+    value = c(
+      "2020-01-01 10:00",
+      "2022-01-01 10:00"
+    )
+  )
 
   x5 <- px_last_updated(x3, datetime_df)
   expect_identical(px_last_updated(x5), datetime_df)
@@ -32,9 +38,12 @@ test_that("Table2 keyword is modified", {
   x6 <- px_last_updated(x5, NULL)
   expect_identical(px_last_updated(x6), NULL)
 
-  expect_error(px_last_updated(x3, data.frame(language = c("sv", "kl"),
-                                           value = datetime)),
-               regex = "LANGUAGE"
+  expect_error(
+    px_last_updated(x3, data.frame(
+      language = c("sv", "kl"),
+      value = datetime
+    )),
+    regex = "LANGUAGE"
   )
 })
 
@@ -102,7 +111,7 @@ test_that("Other keywords are modified and removed", {
   expect_identical(px_refperiod(x3), NULL)
 
   expect_error(px_contents(x3, NULL), regex = "mandatory")
-  expect_error(px_units(x3, NULL),    regex = "mandatory")
+  expect_error(px_units(x3, NULL), regex = "mandatory")
   expect_error(px_subject_area(x3, NULL), regex = "mandatory")
 })
 
@@ -125,4 +134,3 @@ test_that("Either TITLE or DESCRIPTION should be defined", {
 
   expect_error(px_description(x2, NULL), regex = "cannot be removed unless")
 })
-

@@ -1,17 +1,18 @@
-test_that('cellnote is modified and removed', {
+test_that("cellnote is modified and removed", {
   x <-
-    'BEXSTA' %>%
+    "BEXSTA" %>%
     get_data_path() %>%
     readRDS() %>%
     px()
 
   expect_identical(px_cellnote(x), NULL)
 
-  cellnote_df1 <- dplyr::tibble(`place of birth` = "*",
-                                gender = "K",
-                                time = "2018",
-                                cellnote = "This is a cellnote"
-                                )
+  cellnote_df1 <- dplyr::tibble(
+    `place of birth` = "*",
+    gender = "K",
+    time = "2018",
+    cellnote = "This is a cellnote"
+  )
 
   x1 <- px_cellnote(x, cellnote_df1)
   expect_identical(px_cellnote(x1), cellnote_df1)
@@ -52,12 +53,13 @@ test_that('cellnote is modified and removed', {
   expect_identical(px_cellnote(x2_lang), cellnote_df2_lang)
 
   # error if column is not in the data
-  cellnote_error1 <- dplyr::tibble(not_a_column = "fisk",
-                                   `place of birth` = "*",
-                                   gender = "K",
-                                   time = "2018",
-                                   cellnote = "This is a cellnote"
-                                   )
+  cellnote_error1 <- dplyr::tibble(
+    not_a_column = "fisk",
+    `place of birth` = "*",
+    gender = "K",
+    time = "2018",
+    cellnote = "This is a cellnote"
+  )
 
   expect_error(px_cellnote(x, cellnote_error1), regexp = "invalid column")
 

@@ -1,4 +1,4 @@
-test_that('CONTVARIABLE is handled correctly', {
+test_that("CONTVARIABLE is handled correctly", {
   x <- px(get_px_file_path("CONTVARIABLE"))
 
   contvariable_name <- "ContentsCode"

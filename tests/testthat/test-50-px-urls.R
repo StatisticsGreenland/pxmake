@@ -15,4 +15,3 @@ test_that("px can take a parquet url is a input", {
 
   expect_true(TRUE)
 })
-

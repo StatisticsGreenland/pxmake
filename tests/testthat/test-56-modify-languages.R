@@ -1,6 +1,6 @@
-test_that('LANGUAGE modified', {
+test_that("LANGUAGE modified", {
   x <-
-    'BEXSTA' %>%
+    "BEXSTA" %>%
     get_data_path() %>%
     readRDS() %>%
     px()
@@ -54,7 +54,7 @@ test_that('LANGUAGE modified', {
 
   x6 <-
     x %>%
-    px_language('da')
+    px_language("da")
 
   x7 <-
     x %>%
@@ -87,24 +87,25 @@ test_that('LANGUAGE modified', {
   expect_identical(x_before$table2, x_after$table2)
 })
 
-test_that('Setting languages preserves VALUENOTE(X)', {
+test_that("Setting languages preserves VALUENOTE(X)", {
   multilingual_valuenote <-
-    dplyr::tibble(`variable-code` = "year",
-                  code = "2020",
-                  language = c("en", "da"),
-                  valuenote = "great year"
-                  )
+    dplyr::tibble(
+      `variable-code` = "year",
+      code = "2020",
+      language = c("en", "da"),
+      valuenote = "great year"
+    )
 
   valuenote_after_language_change <-
     px(population_gl) %>%
     px_valuenote(multilingual_valuenote %>%
-                   dplyr::select(-language) %>%
-                   dplyr::distinct_all()
-                 ) %>%
+      dplyr::select(-language) %>%
+      dplyr::distinct_all()) %>%
     px_languages(c("en", "da")) %>%
     px_valuenote()
 
-  expect_equal(valuenote_after_language_change,
-               multilingual_valuenote
-               )
+  expect_equal(
+    valuenote_after_language_change,
+    multilingual_valuenote
+  )
 })

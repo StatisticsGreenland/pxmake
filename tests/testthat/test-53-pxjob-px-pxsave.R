@@ -30,11 +30,11 @@ test_that("pxjob exists without errors (exit code 0)", {
     px(input = women) %>% px_languages(c("en", "sv"))
   )
 
-  get_data_path('BEXSTA') %>%
+  get_data_path("BEXSTA") %>%
     px() %>%
     px_language("en") %>%
-    px_charset('ANSI') %>%
-    px_creation_date('2020-01-01 10:00') %>%
+    px_charset("ANSI") %>%
+    px_creation_date("2020-01-01 10:00") %>%
     px_decimals("1") %>%
     px_heading("gender") %>%
     px_stub("place of birth") %>%
@@ -42,22 +42,22 @@ test_that("pxjob exists without errors (exit code 0)", {
     px_next_update("2020-01-01 10:00") %>%
     px_matrix("bexsta") %>%
     px_timeval("time") %>%
-    px_valuenote(dplyr::tibble(`variable-code` = "gender",
-                               code = "K",
-                               valuenote = "Great value"
-                               )
-                 ) %>%
-    px_valuenotex(dplyr::tibble(`variable-code` = "time",
-                                code = "2020",
-                                valuenotex = "What a great year"
-                                )
-                  ) %>%
+    px_valuenote(dplyr::tibble(
+      `variable-code` = "gender",
+      code = "K",
+      valuenote = "Great value"
+    )) %>%
+    px_valuenotex(dplyr::tibble(
+      `variable-code` = "time",
+      code = "2020",
+      valuenotex = "What a great year"
+    )) %>%
     px_languages(c("en", "sv")) %>%
-    px_note(dplyr::tibble(`variable-code` = "time",
-                          language = c("en", "sv"),
-                          note = c("English time note", "Svensk tidsnote")
-                          )
-            ) %>%
+    px_note(dplyr::tibble(
+      `variable-code` = "time",
+      language = c("en", "sv"),
+      note = c("English time note", "Svensk tidsnote")
+    )) %>%
     px_notex("Mandatory note for entire table") %>%
     expect_that_pxjob_runs_without_errors()
 })

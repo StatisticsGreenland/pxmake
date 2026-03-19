@@ -1,6 +1,6 @@
-test_that('Table1 keywords are modified and removed', {
+test_that("Table1 keywords are modified and removed", {
   x <-
-    'BEXSTA' %>%
+    "BEXSTA" %>%
     get_data_path() %>%
     readRDS() %>%
     px() %>%
@@ -9,8 +9,8 @@ test_that('Table1 keywords are modified and removed', {
     px_matrix("BEXSTA") %>%
     px_decimals("1") %>%
     px_last_updated("2020-01-01 10:00") %>%
-    px_next_update(format("2022-01-01 10:00", format='%Y%m%d %H:%M')) %>%
-    px_subject_code('BEXSTA') %>%
+    px_next_update(format("2022-01-01 10:00", format = "%Y%m%d %H:%M")) %>%
+    px_subject_code("BEXSTA") %>%
     px_axis_version("2010") %>%
     px_codepage("iso-8859-1") %>%
     px_confidential("1") %>%

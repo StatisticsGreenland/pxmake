@@ -5,9 +5,10 @@ test_that("MAP is added in variables2", {
     x$table2 %>%
     dplyr::filter(keyword == "MAP")
 
-  expect_identical(map_rows_in_table_2,
-                   dplyr::filter(map_rows_in_table_2, FALSE)
-                   )
+  expect_identical(
+    map_rows_in_table_2,
+    dplyr::filter(map_rows_in_table_2, FALSE)
+  )
 
   map_rows_in_variables2 <-
     x$variables2 %>%

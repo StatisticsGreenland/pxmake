@@ -24,5 +24,10 @@ exclusions: list(
     "R/modify_helpers.R" = list(
         object_usage_linter = c(53, 123)
     ),
-    "R/modify_variable1.R" = list(object_usage_linter = 280)
+    "R/modify_variable1.R" = list(
+        object_usage_linter = 280
+    ),
+    "R/px_file.R" = list(
+        object_usage_linter = c(129 ,386)
+    )
     )

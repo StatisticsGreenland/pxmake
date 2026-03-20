@@ -29,7 +29,7 @@ exclusions: list(
         object_usage_linter = 280
     ),
     "R/px_file.R" = list(
-        object_usage_linter = c(129 ,386)
+        object_usage_linter = c(129, 293, 386)
     ),
     "R/r_script.R" = list(
         line_length_linter = 64:67

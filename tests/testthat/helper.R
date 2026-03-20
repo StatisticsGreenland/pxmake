@@ -7,14 +7,14 @@ get_data_path <- function(table_name) {
   if (tolower(table_name) %in% tolower(tables_with_data_in_excel)) {
     NULL
   } else if (tolower(table_name) %in% tolower(tabels_with_data_in_parquet)) {
-    test_path("fixtures", "data", paste0(table_name, ".parquet"))
+    testthat::test_path("fixtures", "data", paste0(table_name, ".parquet"))
   } else {
-    test_path("fixtures", "data", paste0(table_name, ".rds"))
+    testthat::test_path("fixtures", "data", paste0(table_name, ".rds"))
   }
 }
 
 get_classification_path <- function(name) {
-  test_path("fixtures", "classification", name)
+  testthat::test_path("fixtures", "classification", name)
 }
 
 classification_path <- function(name) {
@@ -35,24 +35,24 @@ vs_different_lengths <- classification_path("agg_different_lengths.vs")
 vs_pxvsbrche_path <- classification_path("PXVSBRCHE.vs")
 
 get_metadata_path <- function(table_name) {
-  test_path(
+  testthat::test_path(
     "fixtures", "metadata", stringr::str_glue("metadata_{table_name}.xlsx")
   )
 }
 
 get_px_file_path <- function(table_name) {
-  test_path("fixtures", "px", paste0(table_name, ".px"))
+  testthat::test_path("fixtures", "px", paste0(table_name, ".px"))
 }
 
 get_pxjob_file_path <- function(table_name) {
-  test_path("fixtures", paste0(table_name, "_pxjob.px"))
+  testthat::test_path("fixtures", paste0(table_name, "_pxjob.px"))
 }
 
 expect_equal_lines <- function(path1, path2) {
   lines1 <- readLines(path1)
   lines2 <- readLines(path2)
 
-  expect_equal(lines1, lines2)
+  testthat::expect_equal(lines1, lines2)
 }
 
 px_from_table_name <- function(table_name) {
@@ -106,5 +106,5 @@ expect_save_read_preserves_classification <- function(c) {
       vs_path = list.files(tempdir, pattern = ".*\\.vs", full.names = TRUE)
     )
 
-  expect_identical(c, c2)
+  testthat::expect_identical(c, c2)
 }

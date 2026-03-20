@@ -14,14 +14,16 @@ px_notex(x, value, validate)
 
 \item{value}{Optional. A character string, a data frame, or a list.
 \itemize{
-\item Use character, to set NOTEX for the entire table across all languages.
+\item Use character, to set NOTEX for the entire table across
+all languages.
 \item Use a data frame with columns 'language' and 'value' to set
 NOTEX for the entire table in a specific language.
 \item Use a data frame with the columns 'variable-code' and 'notex',
 to set NOTEX for a specific variable across all languages. Add the
 column 'language' to set NOTEX for specific language.
 \item Use a list of the above elements to set NOTEX in muliple ways.
-This is the same as calling NOTEX multiple times with different values.
+This is the same as calling NOTEX multiple times with different
+values.
 \item If missing, the current NOTEX is returned.
 \item If NULL, NOTEX is removed for the table and all variables.
 }}
@@ -35,8 +37,9 @@ A px object, a character string, a data frame, or a list of character strings an
 Inspect or change NOTEX.
 }
 \details{
-NOTEX has a lot of possible ways to specify \code{value}, because
-it can be set both for the entire PX-file and for individual variables.
+NOTEX has a lot of possible ways to specify \code{value},
+because it can be set both for the entire PX-file and for
+individual variables.
 }
 \examples{
 library(tibble)

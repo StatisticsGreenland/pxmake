@@ -17,7 +17,8 @@ validate_px_arguments(input, data)
 \item Direct download URL of a parquet file
 }
 
-If input is a data frame or NULL, a px object with minimal metadata is created.}
+If input is a data frame or NULL, a px object with minimal
+metadata is created.}
 
 \item{data}{Either a data frame or a path to an \code{.rds} or \code{.parquet} file
 with a data frame. This can only be used if \code{input} is an Excel metadata

@@ -1,0 +1,44 @@
+linters: linters_with_defaults(
+    object_length_linter(Inf)
+        )
+exclusions: list(
+    # excluded from object_usage_linter
+    "R/documentation.R" = list(
+        object_usage_linter = Inf,
+        return_linter = Inf
+        ),
+    "R/data.R" = list(
+        line_length_linter = Inf
+        ),
+    # Don't want to functionally alter the package
+    # Some compromises are necessary.
+    # Exceptions are added row-wise whenever it makes sense.
+    "R/helper_functions.R" = list(
+        object_name_linter = c(321,352)
+        ),
+    "R/metadata_df.R" = list(
+        line_length_linter = 18
+        ),
+    "R/add_totals.R" = list(
+        object_name_linter = c(15, 45, 62, 106)
+        ),
+    "R/modify_helpers.R" = list(
+        object_usage_linter = c(53, 123)
+    ),
+    "R/modify_variable1.R" = list(
+        object_usage_linter = 280
+    ),
+    "R/px_file.R" = list(
+        object_usage_linter = c(129, 293, 386)
+    ),
+    "R/r_script.R" = list(
+        line_length_linter = 64:67
+    ),
+    "tests/testthat/test-52-px-ordering.R" = list(
+        T_and_F_symbol_linter = 45
+    ),
+    "tests/testthat/test-74-pxsave-to-R-preserves.R" = list(
+        commented_code_linter = 53:61,
+        line_length_linter = 54
+    )
+    )

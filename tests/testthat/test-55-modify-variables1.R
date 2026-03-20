@@ -1,8 +1,8 @@
-test_that('Variables is modified', {
+test_that("Variables is modified", {
   x <-
-    'BEXSTA' %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_equal(px_stub(x), c("place of birth", "gender"))
@@ -33,9 +33,10 @@ test_that('Variables is modified', {
 
   x6_stub_vars <- px_stub(x6)
 
-  expect_identical(dplyr::filter(x5$variables1, `variable-code` %in% x6_stub_vars),
-                   dplyr::filter(x6$variables1, `variable-code` %in% x6_stub_vars)
-                   )
+  expect_identical(
+    dplyr::filter(x5$variables1, `variable-code` %in% x6_stub_vars),
+    dplyr::filter(x6$variables1, `variable-code` %in% x6_stub_vars)
+  )
 
   x7 <- px_timeval(x, value = "time")
   expect_equal(px_timeval(x7), "time")
@@ -46,21 +47,22 @@ test_that('Variables is modified', {
   x9 <- px_timeval(x8, NULL)
   expect_equal(px_timeval(x9), NULL)
 
-  elimination_df <- dplyr::tribble(~`variable-code`, ~elimination,
-                                   "gender", "Total"
-                                   )
+  elimination_df <- dplyr::tribble(
+    ~`variable-code`, ~elimination,
+    "gender", "Total"
+  )
 
   x10 <- px_elimination(x, elimination_df)
   expect_equal(px_elimination(x10), elimination_df)
 
-  x11 <- px_elimination(x10, 'T')
+  x11 <- px_elimination(x10, "T")
 
-  expect_equal(px_elimination(x11), dplyr::tribble(~`variable-code`, ~elimination,
-                                                   "place of birth", "T",
-                                                   "gender", "T",
-                                                   "time", "T"
-                                                   )
-               )
+  expect_equal(px_elimination(x11), dplyr::tribble(
+    ~`variable-code`, ~elimination,
+    "place of birth", "T",
+    "gender", "T",
+    "time", "T"
+  ))
 
   x11 <- px_elimination(x10, NULL)
 
@@ -69,16 +71,17 @@ test_that('Variables is modified', {
 
 test_that("VARIABLE-TYPE is changed", {
   x <-
-    'BEXSTA' %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_equal(px_variable_type(x), NULL)
 
-  variable_type_df1 <- dplyr::tibble(`variable-code` = "gender",
-                                     `variable-type` = "Time"
-                                     )
+  variable_type_df1 <- dplyr::tibble(
+    `variable-code` = "gender",
+    `variable-type` = "Time"
+  )
 
   x1 <- px_variable_type(x, variable_type_df1)
 
@@ -97,9 +100,9 @@ test_that("VARIABLE-TYPE is changed", {
 
 test_that("CONTVARIABLE is changed", {
   x <-
-    'BEXSTA' %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   x_lang <- px_languages(x, c("kl", "da"))
@@ -111,23 +114,24 @@ test_that("CONTVARIABLE is changed", {
   expect_equal(px_contvariable(x1), "gender")
 
   # Contvariable indexes some variables in table2
-  expect_equal(px_units(x1), dplyr::tibble(code = c(NA, "K", "M", "T"),
-                                           language = NA_character_,
-                                           value = default_value("UNITS")
-                                           )
-               )
+  expect_equal(px_units(x1), dplyr::tibble(
+    code = c(NA, "K", "M", "T"),
+    language = NA_character_,
+    value = default_value("UNITS")
+  ))
 
   x1_lang <- px_contvariable(x_lang, "gender")
 
-  expect_equal(px_units(x1_lang), dplyr::tibble(`code` = c(rep(NA, 2),
-                                                           rep("K", 2),
-                                                           rep("M", 2),
-                                                           rep("T", 2)
-                                                           ),
-                                                language = rep(c("kl", "da"), 4),
-                                                value = default_value("UNITS")
-                                                )
-               )
+  expect_equal(px_units(x1_lang), dplyr::tibble(
+    `code` = c(
+      rep(NA, 2),
+      rep("K", 2),
+      rep("M", 2),
+      rep("T", 2)
+    ),
+    language = rep(c("kl", "da"), 4),
+    value = default_value("UNITS")
+  ))
 
   x2 <- px_contvariable(x1, NULL)
 
@@ -137,56 +141,57 @@ test_that("CONTVARIABLE is changed", {
   expect_equal(px_units(x2), "units")
 })
 
-test_that('stub and heading modifies acrosscells', {
-  cellnote_df1 <- dplyr::tibble(`place of birth` = "*",
-                                gender = "K",
-                                time = "2018",
-                                cellnote = "This is a cellnote"
-                                )
+test_that("stub and heading modifies acrosscells", {
+  cellnote_df1 <- dplyr::tibble(
+    `place of birth` = "*",
+    gender = "K",
+    time = "2018",
+    cellnote = "This is a cellnote"
+  )
 
   x <-
-    'BEXSTA' %>%
-    get_data_path() %>%
-    readRDS() %>%
-    px() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
+    px() |>
     px_cellnote(cellnote_df1)
 
   x1 <-
-    x %>%
-    px_stub('time')
+    x |>
+    px_stub("time")
 
   expect1 <-
-    x$acrosscells %>%
+    x$acrosscells |>
     dplyr::relocate(time)
 
   expect_identical(expect1, x1$acrosscells)
 
   x2 <-
-    x1 %>%
-    px_heading(c('gender', 'place of birth'))
+    x1 |>
+    px_heading(c("gender", "place of birth"))
 
   expect2 <-
-    x$acrosscells %>%
+    x$acrosscells |>
     dplyr::relocate(time, gender, `place of birth`)
 
   expect_identical(expect2, x2$acrosscells)
 })
 
-test_that('changing px_figures removes it from cells', {
+test_that("changing px_figures removes it from cells", {
   x <-
-    population_gl %>%
-    dplyr::relocate(n) %>%
-    px() %>%
+    population_gl |>
+    dplyr::relocate(n) |>
+    px() |>
     px_figures("n")
 
-  x$cells1 %>%
-    dplyr::filter(`variable-code` == "n") %>%
-    nrow() %>%
+  x$cells1 |>
+    dplyr::filter(`variable-code` == "n") |>
+    nrow() |>
     expect_equal(0)
 
 
-  x$cells2 %>%
-    dplyr::filter(`variable-code` == "n") %>%
-    nrow() %>%
+  x$cells2 |>
+    dplyr::filter(`variable-code` == "n") |>
+    nrow() |>
     expect_equal(0)
 })

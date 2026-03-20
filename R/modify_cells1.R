@@ -27,7 +27,7 @@ px_precision <- function(x, value, validate) {
 #' @eval add_return_px_or_df()
 #' @eval add_cells1_example("PRECISION", 2, 3)
 #' @export
-px_precision.px <- function(x, value, validate= TRUE) {
+px_precision.px <- function(x, value, validate = TRUE) {
   handle_cells(x, value, "1", "precision", validate)
 }
 

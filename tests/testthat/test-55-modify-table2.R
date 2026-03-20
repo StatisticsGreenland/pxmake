@@ -1,8 +1,8 @@
 test_that("Table2 keyword is modified", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_identical(px_last_updated(x), NULL)
@@ -16,15 +16,21 @@ test_that("Table2 keyword is modified", {
   expect_identical(px_last_updated(x3), NULL)
 
   x4 <- px_last_updated(x3, datetime)
-  expect_identical(px_last_updated(x4),
-                   dplyr::tibble(language = c("en", "dk"),
-                                 value = "2020-01-01 10:00"
+  expect_identical(
+    px_last_updated(x4),
+    dplyr::tibble(
+      language = c("en", "dk"),
+      value = "2020-01-01 10:00"
     )
   )
 
-  datetime_df <- dplyr::tibble(language = c("en", "dk"),
-                               value = c("2020-01-01 10:00",
-                                         "2022-01-01 10:00"))
+  datetime_df <- dplyr::tibble(
+    language = c("en", "dk"),
+    value = c(
+      "2020-01-01 10:00",
+      "2022-01-01 10:00"
+    )
+  )
 
   x5 <- px_last_updated(x3, datetime_df)
   expect_identical(px_last_updated(x5), datetime_df)
@@ -32,34 +38,37 @@ test_that("Table2 keyword is modified", {
   x6 <- px_last_updated(x5, NULL)
   expect_identical(px_last_updated(x6), NULL)
 
-  expect_error(px_last_updated(x3, data.frame(language = c("sv", "kl"),
-                                           value = datetime)),
-               regex = "LANGUAGE"
+  expect_error(
+    px_last_updated(x3, data.frame(
+      language = c("sv", "kl"),
+      value = datetime
+    )),
+    regex = "LANGUAGE"
   )
 })
 
 test_that("Other keywords are modified and removed", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   x2 <-
-    x %>%
-    px_contents("content") %>%
-    px_description("description") %>%
-    px_subject_area("subject area") %>%
-    px_title("title") %>%
-    px_units("units") %>%
-    px_contact("Johan Ejstrud") %>%
-    px_link("The Legend of Zelda") %>%
-    px_infofile("infofile") %>%
-    px_baseperiod("baseperiod") %>%
-    px_stockfa("S") %>%
-    px_cfprices("C") %>%
-    px_source("Statistic Greenland") %>%
-    px_database("dbname") %>%
+    x |>
+    px_contents("content") |>
+    px_description("description") |>
+    px_subject_area("subject area") |>
+    px_title("title") |>
+    px_units("units") |>
+    px_contact("Johan Ejstrud") |>
+    px_link("The Legend of Zelda") |>
+    px_infofile("infofile") |>
+    px_baseperiod("baseperiod") |>
+    px_stockfa("S") |>
+    px_cfprices("C") |>
+    px_source("Statistic Greenland") |>
+    px_database("dbname") |>
     px_refperiod("year")
 
   expect_identical(px_contents(x2), "content")
@@ -78,16 +87,16 @@ test_that("Other keywords are modified and removed", {
   expect_identical(px_refperiod(x2), "year")
 
   x3 <-
-    x2 %>%
-    px_description(NULL) %>%
-    px_contact(NULL) %>%
-    px_link(NULL) %>%
-    px_infofile(NULL) %>%
-    px_baseperiod(NULL) %>%
-    px_stockfa(NULL) %>%
-    px_cfprices(NULL) %>%
-    px_source(NULL) %>%
-    px_database(NULL) %>%
+    x2 |>
+    px_description(NULL) |>
+    px_contact(NULL) |>
+    px_link(NULL) |>
+    px_infofile(NULL) |>
+    px_baseperiod(NULL) |>
+    px_stockfa(NULL) |>
+    px_cfprices(NULL) |>
+    px_source(NULL) |>
+    px_database(NULL) |>
     px_refperiod(NULL)
 
   expect_identical(px_description(x3), NULL)
@@ -102,15 +111,15 @@ test_that("Other keywords are modified and removed", {
   expect_identical(px_refperiod(x3), NULL)
 
   expect_error(px_contents(x3, NULL), regex = "mandatory")
-  expect_error(px_units(x3, NULL),    regex = "mandatory")
+  expect_error(px_units(x3, NULL), regex = "mandatory")
   expect_error(px_subject_area(x3, NULL), regex = "mandatory")
 })
 
 test_that("Either TITLE or DESCRIPTION should be defined", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_identical(px_title(x), "")
@@ -118,11 +127,10 @@ test_that("Either TITLE or DESCRIPTION should be defined", {
   expect_error(px_title(x, NULL), regex = "cannot be removed unless")
 
   x2 <-
-    px_description(x, "description") %>%
+    px_description(x, "description") |>
     px_title(NULL)
 
   expect_identical(px_description(x2), "description")
 
   expect_error(px_description(x2, NULL), regex = "cannot be removed unless")
 })
-

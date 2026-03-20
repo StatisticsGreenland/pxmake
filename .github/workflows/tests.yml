@@ -57,3 +57,24 @@ jobs:
       - name: Run PxJob tests
         run: devtools::test(filter="pxjob")
         shell: Rscript {0}
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - name: Install and cache dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::lintr, local::.
+          needs: lint
+      - name: Lint package
+        run: lintr::lint_package()
+        shell: Rscript {0}
+        env:
+          LINTR_ERROR_ON_LINT: true

@@ -10,8 +10,8 @@ aggregation_df(path)
 \item{path}{to an aggregation file}
 }
 \value{
-A data frame with columns 'valuecode' (character) and a second column
-(ordered) named after the aggregation
+A data frame with columns 'valuecode' (character) and a
+second column (ordered) named after the aggregation
 }
 \description{
 Get data set from aggregation file

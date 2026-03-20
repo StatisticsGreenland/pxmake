@@ -60,29 +60,30 @@ Only value sets of type 'V' are supported. Type values sets with type 'H' and
 # Create classification from data frame
 library(tibble)
 
-c1 <- px_classification(name = "Age5",
-                        prestext = "Ages 0-9 - 60+",
-                        domain = "age",
-                        df = tribble(
-                           ~valuecode,    ~valuetext,   ~`25 years classes`,
-                                "0-4",     "0-4 years",              "0-24",
-                                "5-9",     "5-9 years",              "0-24",
-                              "10-14",   "10-14 years",              "0-24",
-                              "15-19",   "15-19 years",              "0-24",
-                              "20-24",   "20-24 years",              "0-24",
-                              "25-29",   "25-29 years",             "25-49",
-                              "30-34",   "30-34 years",             "25-49",
-                              "35-39",   "35-39 years",             "25-49",
-                              "40-44",   "40-44 years",             "25-49",
-                              "45-49",   "45-49 years",             "25-49",
-                              "50-54",   "50-54 years",             "50-74",
-                              "55-59",   "55-59 years",             "50-74",
-                              "60-64",   "60-64 years",             "50-74",
-                              "65-69",   "65-69 years",             "50-74",
-                              "70-74",   "70-74 years",             "50-74",
-                                "75+",     "75+ years",               "75+"
-                                )
-                        )
+c1 <- px_classification(
+  name = "Age5",
+  prestext = "Ages 0-9 - 60+",
+  domain = "age",
+  df = tribble(
+    ~valuecode, ~valuetext, ~`25 years classes`,
+    "0-4", "0-4 years", "0-24",
+    "5-9", "5-9 years", "0-24",
+    "10-14", "10-14 years", "0-24",
+    "15-19", "15-19 years", "0-24",
+    "20-24", "20-24 years", "0-24",
+    "25-29", "25-29 years", "25-49",
+    "30-34", "30-34 years", "25-49",
+    "35-39", "35-39 years", "25-49",
+    "40-44", "40-44 years", "25-49",
+    "45-49", "45-49 years", "25-49",
+    "50-54", "50-54 years", "50-74",
+    "55-59", "55-59 years", "50-74",
+    "60-64", "60-64 years", "50-74",
+    "65-69", "65-69 years", "50-74",
+    "70-74", "70-74 years", "50-74",
+    "75+", "75+ years", "75+"
+  )
+)
 
 # Create classifications from files
 
@@ -97,10 +98,12 @@ if (vs_file != "" & all(agg_files != "")) {
   # Create classification from .vs file and use aggregations mentioned in .vs
   c2 <- px_classification(vs_path = vs_file)
 
-  # Create classification from .vs file and manually specify aggregation files
-  c3 <- px_classification(vs_path = vs_file,
-                          agg_paths = agg_files
-                          )
+  # Create classification from .vs file and manually specify aggregation
+  # files
+  c3 <- px_classification(
+    vs_path = vs_file,
+    agg_paths = agg_files
+  )
 
   identical(c2, c3)
 }

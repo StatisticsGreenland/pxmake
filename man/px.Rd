@@ -17,7 +17,8 @@ px(input = NULL, data = NULL, validate = TRUE)
 \item Direct download URL of a parquet file
 }
 
-If input is a data frame or NULL, a px object with minimal metadata is created.}
+If input is a data frame or NULL, a px object with minimal
+metadata is created.}
 
 \item{data}{Either a data frame or a path to an \code{.rds} or \code{.parquet} file
 with a data frame. This can only be used if \code{input} is an Excel metadata
@@ -37,12 +38,15 @@ frame.
 x1 <- px(population_gl)
 
 # Download PX-file for example
-download_succeeded <- tryCatch({
-  px_path <- tempfile(fileext = ".px")
-  url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
-  download.file(url, px_path)
-  TRUE
-}, error = function(e) FALSE)
+download_succeeded <- tryCatch(
+  {
+    px_path <- tempfile(fileext = ".px")
+    url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
+    download.file(url, px_path)
+    TRUE
+  },
+  error = function(e) FALSE
+)
 
 # Run examples only if file was downloaded
 if (download_succeeded) {

@@ -12,17 +12,17 @@ add_total_level_to_var <- function(df,
                                    variable,
                                    level_name = "Total",
                                    sum_var = "value",
-                                   na.rm = TRUE
-                                   ) {
-
+                                   na.rm = TRUE) {
   column_order <- names(df)
 
-  df %>%
-    dplyr::group_by(across(-any_of(c(variable, sum_var)))) %>%
-    dplyr::summarise(!!sum_var := sum(!!rlang::sym(sum_var), na.rm = !!na.rm)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate({{variable}} := level_name) %>%
-    dplyr::bind_rows(df) %>%
+  df |>
+    dplyr::group_by(across(-any_of(c(variable, sum_var)))) |>
+    dplyr::summarise(
+      !!sum_var := sum(!!rlang::sym(sum_var), na.rm = !!na.rm)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate({{ variable }} := level_name) |>
+    dplyr::bind_rows(df) |>
     dplyr::relocate(all_of(column_order))
 }
 
@@ -42,20 +42,19 @@ add_totals_to_df <- function(df,
                              variables,
                              level_names,
                              sum_var = "value",
-                             na.rm = TRUE
-                             ) {
+                             na.rm = TRUE) {
   params <- data.frame(variables = variables, level_names = level_names)
 
-  for (i in 1:nrow(params)) {
+  for (i in seq_len(nrow(params))) {
     df <- add_total_level_to_var(df,
-                                 variable = params$variables[i],
-                                 level_name = params$level_names[i],
-                                 sum_var = sum_var,
-                                 na.rm = !!na.rm
-                                 )
-    }
+      variable = params$variables[i],
+      level_name = params$level_names[i],
+      sum_var = sum_var,
+      na.rm = !!na.rm
+    )
+  }
 
-  return(df)
+  df
 }
 
 #' @rdname px_add_totals.px
@@ -113,25 +112,26 @@ px_add_totals.px <- function(x, value, na.rm = TRUE, validate = TRUE) {
 
   if (length(values_not_in_elimination) > 0) {
     default_elimination <-
-      dplyr::tibble(`variable-code` = values_not_in_elimination,
-                    elimination = "Total"
-                    )
+      dplyr::tibble(
+        `variable-code` = values_not_in_elimination,
+        elimination = "Total"
+      )
 
     x <- px_elimination(x, dplyr::bind_rows(elimination, default_elimination))
   }
 
   params <-
-    x$variables1 %>%
-    dplyr::filter(.data$`variable-code` %in% value) %>%
+    x$variables1 |>
+    dplyr::filter(.data$`variable-code` %in% value) |>
     dplyr::distinct(.data$`variable-code`, .data$elimination)
 
   x$data <-
     add_totals_to_df(x$data,
-                     variables = params$`variable-code`,
-                     level_names = params$elimination,
-                     sum_var = px_figures(x),
-                     na.rm = !!na.rm
-                     )
+      variables = params$`variable-code`,
+      level_names = params$elimination,
+      sum_var = px_figures(x),
+      na.rm = !!na.rm
+    )
 
   return_px(x, validate)
 }

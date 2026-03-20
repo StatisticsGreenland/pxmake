@@ -50,7 +50,7 @@ px_map(x2)
 
 # Set MAP for individual languages
 x3 <-
-  x2 \%>\%
+  x2 |>
   px_languages(c('en', 'kl')) |>
   px_map(tribble(~`variable-code`, ~language, ~map,
                     'gender',    'en',      'cities_en',

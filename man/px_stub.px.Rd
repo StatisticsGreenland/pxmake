@@ -29,11 +29,11 @@ x1 <- px(population_gl)
 # Print STUB
 px_stub(x1)
 # Add 'year' to STUB
-x2 <- px_stub(x1, 'year')
+x2 <- px_stub(x1, "year")
 px_stub(x2)
 
 # Change order of STUB
-x3 <- px_stub(x2, c('age', 'gender'))
+x3 <- px_stub(x2, c("age", "gender"))
 px_stub(x3)
 }
 \seealso{

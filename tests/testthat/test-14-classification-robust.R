@@ -2,7 +2,7 @@
 
 test_that(" ", {
   vs_path_inverse <- function(vs_path) {
-    px_classification(vs_path = vs_path) %>%
+    px_classification(vs_path = vs_path) |>
       expect_save_read_preserves_classification()
   }
 

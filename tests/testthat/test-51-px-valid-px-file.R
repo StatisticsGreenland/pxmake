@@ -6,7 +6,7 @@ test_that("PX-file is valid", {
   no_timeval_or_codes <- create_px_file("no_timeval_or_codes")
 
   test_that("px lines matches regexp", {
-    keywords <- px_keywords %>% dplyr::pull(keyword)
+    keywords <- px_keywords |> dplyr::pull(keyword)
 
     valid_lines <-
       c(
@@ -21,7 +21,8 @@ test_that("PX-file is valid", {
     expect_no_invalid_lines <- function(path) {
       px_lines <- readLines(path)
 
-      invalid_lines <- px_lines[stringr::str_detect(px_lines, regex, negate = TRUE)]
+      invalid_lines <-
+        px_lines[stringr::str_detect(px_lines, regex, negate = TRUE)]
 
       expect_equal(invalid_lines, character(0))
     }
@@ -62,11 +63,11 @@ test_that("PX-file is valid", {
       data_line_index <- stringr::str_which(px_lines, "^DATA=$")
 
       long_lines <-
-        tibble::tibble(line = px_lines[1:data_line_index]) %>%
+        tibble::tibble(line = px_lines[1:data_line_index]) |>
         dplyr::mutate(
           text = stringr::str_extract(line, "(?<==).+"),
           length = nchar(text)
-        ) %>%
+        ) |>
         dplyr::filter(length > 256)
 
       expect_equal(long_lines, dplyr::filter(long_lines, FALSE))

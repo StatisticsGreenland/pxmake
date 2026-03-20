@@ -1,8 +1,8 @@
 test_that("NOTE(X) is modified", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_identical(px_note(x), NULL)
@@ -84,8 +84,8 @@ test_that("NOTE(X) is modified", {
   expect_identical(px_note(x_lang4), variable_note_lang_df)
 
   x_lang5 <-
-    x_lang %>%
-    px_note(value = entire_table_note) %>%
+    x_lang |>
+    px_note(value = entire_table_note) |>
     px_note(value = variable_note_lang_df)
 
   expect_identical(px_note(x_lang5), list(

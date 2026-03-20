@@ -47,7 +47,7 @@ test_that("error - invalid px object", {
     data.frame(
       keyword = "NEXT-UPDATE",
       value = "2020-01-01 10:00"
-    ) %>%
+    ) |>
     align_data_frames(get_base_table2())
 
   expect_error(px_validate(base_px6),
@@ -57,7 +57,7 @@ test_that("error - invalid px object", {
   base_px7 <- get_base_px()
 
   base_px7$languages <-
-    data.frame(language = "en") %>%
+    data.frame(language = "en") |>
     align_data_frames(get_base_languages())
 
   base_px7$table2 <-
@@ -78,7 +78,10 @@ test_that("error - invalid px object", {
     dplyr::tibble(`variable-code` = "fisk")
   )
 
-  expect_error(px_validate(bexsta1), regexp = "variables1.*not in x\\$data:\\s*fisk")
+  expect_error(
+    px_validate(bexsta1),
+    regexp = "variables1.*not in x\\$data:\\s*fisk"
+  )
 
   bexsta2 <- bexsta
   bexsta2$variables2 <- dplyr::bind_rows(
@@ -89,7 +92,10 @@ test_that("error - invalid px object", {
     )
   )
 
-  expect_error(px_validate(bexsta2), regexp = c("variables2.*not in x\\$data:\\s*ost"))
+  expect_error(
+    px_validate(bexsta2),
+    regexp = c("variables2.*not in x\\$data:\\s*ost")
+  )
 
   bexsta3 <- bexsta
   bexsta3$cells1 <- dplyr::bind_rows(
@@ -100,7 +106,10 @@ test_that("error - invalid px object", {
     )
   )
 
-  expect_error(px_validate(bexsta3), regexp = "cells1.*not in x\\$data:\\s*sovs")
+  expect_error(
+    px_validate(bexsta3),
+    regexp = "cells1.*not in x\\$data:\\s*sovs"
+  )
 
   bexsta4 <- bexsta
   bexsta4$cells2 <- dplyr::bind_rows(
@@ -116,7 +125,10 @@ test_that("error - invalid px object", {
   bexsta5 <- bexsta
   bexsta5$data$new_variable <- 1
 
-  expect_error(px_validate(bexsta5), regexp = "not defined in x\\$variables1:\\s*new_variable")
+  expect_error(
+    px_validate(bexsta5),
+    regexp = "not defined in x\\$variables1:\\s*new_variable"
+  )
 
   bexsta5$variables1 <- dplyr::bind_rows(
     bexsta5$variables1,
@@ -126,7 +138,10 @@ test_that("error - invalid px object", {
     )
   )
 
-  expect_error(px_validate(bexsta5), regexp = "not defined in x\\$variables2:\\s*new_variable")
+  expect_error(
+    px_validate(bexsta5),
+    regexp = "not defined in x\\$variables2:\\s*new_variable"
+  )
 
   bexsta5$variables2 <- dplyr::bind_rows(
     bexsta5$variables2,

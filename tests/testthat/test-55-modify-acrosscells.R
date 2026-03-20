@@ -1,8 +1,8 @@
 test_that("cellnote is modified and removed", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_identical(px_cellnote(x), NULL)
@@ -27,7 +27,7 @@ test_that("cellnote is modified and removed", {
   x3 <- px_cellnote(x, cellnote_df2, na_to_star = FALSE)
 
   cellnote_df_no_star <-
-    cellnote_df1 %>%
+    cellnote_df1 |>
     dplyr::mutate(`place of birth` = NA_character_)
 
   expect_identical(px_cellnote(x3), cellnote_df_no_star)
@@ -39,15 +39,15 @@ test_that("cellnote is modified and removed", {
   x1_lang <- px_languages(x1, language_list)
 
   cellnote_df2_lang <-
-    tidyr::crossing(cellnote_df1, language = language_list) %>%
+    tidyr::crossing(cellnote_df1, language = language_list) |>
     dplyr::relocate(language, .before = "cellnote")
 
   expect_identical(px_cellnote(x1_lang), cellnote_df2_lang)
 
   # Set cellnote for multiple languages
   x2_lang <-
-    x %>%
-    px_languages(language_list) %>%
+    x |>
+    px_languages(language_list) |>
     px_cellnote(cellnote_df2_lang)
 
   expect_identical(px_cellnote(x2_lang), cellnote_df2_lang)
@@ -66,11 +66,13 @@ test_that("cellnote is modified and removed", {
   # cellnotex
   expect_identical(px_cellnotex(x), NULL)
 
-  cellnotex_df1 <- cellnote_df1 %>% dplyr::rename(cellnotex = cellnote)
+  cellnotex_df1 <- cellnote_df1 |> dplyr::rename(cellnotex = cellnote)
 
   x4 <- px_cellnote(x, dplyr::filter(cellnote_df1, FALSE))
 
-  expect_identical(px_cellnote(x4), px_cellnote(x)) # cellnote which no rows should not modify
+  expect_identical(
+    px_cellnote(x4), px_cellnote(x)
+  ) # cellnote which no rows should not modify
 
   x5 <- px_cellnotex(x, cellnotex_df1)
 

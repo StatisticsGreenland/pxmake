@@ -1,8 +1,8 @@
 test_that("Variables is modified", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_equal(px_stub(x), c("place of birth", "gender"))
@@ -71,9 +71,9 @@ test_that("Variables is modified", {
 
 test_that("VARIABLE-TYPE is changed", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_equal(px_variable_type(x), NULL)
@@ -100,9 +100,9 @@ test_that("VARIABLE-TYPE is changed", {
 
 test_that("CONTVARIABLE is changed", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   x_lang <- px_languages(x, c("kl", "da"))
@@ -150,28 +150,28 @@ test_that("stub and heading modifies acrosscells", {
   )
 
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
-    px() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
+    px() |>
     px_cellnote(cellnote_df1)
 
   x1 <-
-    x %>%
+    x |>
     px_stub("time")
 
   expect1 <-
-    x$acrosscells %>%
+    x$acrosscells |>
     dplyr::relocate(time)
 
   expect_identical(expect1, x1$acrosscells)
 
   x2 <-
-    x1 %>%
+    x1 |>
     px_heading(c("gender", "place of birth"))
 
   expect2 <-
-    x$acrosscells %>%
+    x$acrosscells |>
     dplyr::relocate(time, gender, `place of birth`)
 
   expect_identical(expect2, x2$acrosscells)
@@ -179,19 +179,19 @@ test_that("stub and heading modifies acrosscells", {
 
 test_that("changing px_figures removes it from cells", {
   x <-
-    population_gl %>%
-    dplyr::relocate(n) %>%
-    px() %>%
+    population_gl |>
+    dplyr::relocate(n) |>
+    px() |>
     px_figures("n")
 
-  x$cells1 %>%
-    dplyr::filter(`variable-code` == "n") %>%
-    nrow() %>%
+  x$cells1 |>
+    dplyr::filter(`variable-code` == "n") |>
+    nrow() |>
     expect_equal(0)
 
 
-  x$cells2 %>%
-    dplyr::filter(`variable-code` == "n") %>%
-    nrow() %>%
+  x$cells2 |>
+    dplyr::filter(`variable-code` == "n") |>
+    nrow() |>
     expect_equal(0)
 })

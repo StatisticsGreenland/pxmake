@@ -1,8 +1,8 @@
 test_that("cells1 is modified", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_identical(px_precision(x), NULL)
@@ -25,7 +25,7 @@ test_that("cells1 is modified", {
 
   precision_df2_expect <- tidyr::crossing(precision_df2,
     code = c("K", "M", "T")
-  ) %>%
+  ) |>
     dplyr::relocate(precision, .after = last_col())
 
   expect_identical(px_precision(x3), precision_df2_expect)
@@ -35,10 +35,10 @@ test_that("cells1 is modified", {
 
 
   reverse_order <-
-    px_precision(x, data.frame(precision = 1)) %>%
-    px_precision() %>%
-    dplyr::mutate(order = as.numeric(rev(dplyr::row_number()))) %>%
-    dplyr::select(-precision) %>%
+    px_precision(x, data.frame(precision = 1)) |>
+    px_precision() |>
+    dplyr::mutate(order = as.numeric(rev(dplyr::row_number()))) |>
+    dplyr::select(-precision) |>
     dplyr::arrange(
       match(.data$`variable-code`, names(px_data(x))),
       order

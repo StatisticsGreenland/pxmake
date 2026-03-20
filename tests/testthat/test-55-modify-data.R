@@ -16,15 +16,15 @@ test_that("Data table can be returned sorted", {
   )
 
   x2 <-
-    x1 %>%
+    x1 |>
     px_order(
-      px_order(x1) %>%
+      px_order(x1) |>
         dplyr::anti_join(total_level_last,
           by = dplyr::join_by(
             `variable-code`,
             code
           )
-        ) %>%
+        ) |>
         dplyr::bind_rows(total_level_last)
     )
 
@@ -42,14 +42,14 @@ test_that("Data table can be returned sorted", {
   ))
 
   x2_data_expected_codes <-
-    px_data(x2) %>%
+    px_data(x2) |>
     dplyr::arrange(
       match(`place of birth`, c("T", "N", "S")),
       match(gender, c("M", "K", "T"))
     )
 
   x2_data_expected_labels <-
-    px_data(x2, labels = TRUE) %>%
+    px_data(x2, labels = TRUE) |>
     dplyr::arrange(
       match(`place of birth`, c("Total", "Greenland", "Outside Greenland")),
       match(gender, c("Men", "Women", "Total"))
@@ -69,9 +69,9 @@ test_that("Data table can be returned sorted", {
 
 test_that("data is modified", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_identical(x$data, px_data(x))
@@ -90,23 +90,23 @@ test_that("data is modified", {
 test_that("modifying data updates metadata", {
   # Use a new data set where one variable changes name and one changes levels.
   population_gl_new <-
-    population_gl %>%
+    population_gl |>
     dplyr::mutate(age = dplyr::if_else(age %in% c("0-6", "7-16"),
       "0-16",
       age
-    )) %>%
-    dplyr::group_by(gender, age, year) %>%
-    dplyr::summarise(n = sum(n), .groups = "keep") %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(year = stringr::str_sub(year, 3, 4)) %>%
+    )) |>
+    dplyr::group_by(gender, age, year) |>
+    dplyr::summarise(n = sum(n), .groups = "keep") |>
+    dplyr::ungroup() |>
+    dplyr::mutate(year = stringr::str_sub(year, 3, 4)) |>
     dplyr::rename(shortyear = year)
 
   x1 <-
-    population_gl %>%
+    population_gl |>
     px()
 
   x2 <-
-    x1 %>%
+    x1 |>
     px_data(population_gl_new)
 
 
@@ -137,12 +137,12 @@ test_that("modifying data updates metadata", {
 
   ## Codes
   data_set_codes <- function(df) {
-    df %>%
-      dplyr::select(-n) %>%
+    df |>
+      dplyr::select(-n) |>
       tidyr::pivot_longer(everything(),
         names_to = "variable-code",
         values_to = "code"
-      ) %>%
+      ) |>
       dplyr::distinct_all()
   }
 
@@ -151,24 +151,24 @@ test_that("modifying data updates metadata", {
   df_codes <- data_set_codes(population_gl_new)
 
   removed_codes <-
-    old_codes %>%
+    old_codes |>
     dplyr::anti_join(df_codes, by = dplyr::join_by(`variable-code`, code))
 
   new_codes <-
-    df_codes %>%
+    df_codes |>
     dplyr::anti_join(old_codes, by = dplyr::join_by(`variable-code`, code))
 
   dplyr::semi_join(removed_codes, x2$cells1,
     by = dplyr::join_by(`variable-code`, code)
-  ) %>%
-    nrow() %>%
+  ) |>
+    nrow() |>
     expect_equal(0)
 
   expect_no_matches <- function(df1, df2) {
     dplyr::semi_join(df1, df2,
       by = dplyr::join_by(`variable-code`, code)
-    ) %>%
-      nrow() %>%
+    ) |>
+      nrow() |>
       expect_equal(0)
   }
 
@@ -178,8 +178,8 @@ test_that("modifying data updates metadata", {
   expect_all_matches <- function(df1, df2) {
     dplyr::anti_join(df1, df2,
       by = dplyr::join_by(`variable-code`, code)
-    ) %>%
-      nrow() %>%
+    ) |>
+      nrow() |>
       expect_equal(0)
   }
 
@@ -188,17 +188,17 @@ test_that("modifying data updates metadata", {
 
   ## Multilingual
   x_lang1 <-
-    population_gl %>%
-    px() %>%
+    population_gl |>
+    px() |>
     px_languages(c("en", "fr"))
 
   x_lang2 <-
-    x_lang1 %>%
+    x_lang1 |>
     px_data(population_gl_new)
 
-  x_lang2$variables2 %>%
-    dplyr::filter(`variable-code` == "shortyear") %>%
-    dplyr::pull(language) %>%
+  x_lang2$variables2 |>
+    dplyr::filter(`variable-code` == "shortyear") |>
+    dplyr::pull(language) |>
     expect_identical(c("en", "fr"))
 
   expect_identical(nrow(x_lang2$cells2), 18L)
@@ -217,28 +217,28 @@ test_that("Elimination values and order is preserved ", {
     order = 0
   )
   x1 <-
-    population_gl %>%
-    px() %>%
-    px_elimination(elimination_df) %>%
+    population_gl |>
+    px() |>
+    px_elimination(elimination_df) |>
     px_order(elimination_order)
 
   population_gl_2024 <-
-    population_gl %>%
+    population_gl |>
     dplyr::filter(year == 2024)
 
   x2 <-
-    x1 %>%
+    x1 |>
     px_data(population_gl_2024)
 
   expect_identical(px_elimination(x2), elimination_df)
 
-  px_order(x2) %>%
+  px_order(x2) |>
     dplyr::semi_join(elimination_df,
       by = c(
         "variable-code" = "variable-code",
         "code" = "elimination"
       )
-    ) %>%
+    ) |>
     expect_identical(elimination_order)
 })
 

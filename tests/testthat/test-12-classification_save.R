@@ -6,7 +6,7 @@ test_that("px_classification_save saves .vs and .agg files", {
     prestext = "Age table",
     domain = "age",
     df = age_classification
-  ) %>%
+  ) |>
     px_save_classification(path = tmp_dir)
 
   expect_equal(

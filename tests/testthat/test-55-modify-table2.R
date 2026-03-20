@@ -1,8 +1,8 @@
 test_that("Table2 keyword is modified", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_identical(px_last_updated(x), NULL)
@@ -49,26 +49,26 @@ test_that("Table2 keyword is modified", {
 
 test_that("Other keywords are modified and removed", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   x2 <-
-    x %>%
-    px_contents("content") %>%
-    px_description("description") %>%
-    px_subject_area("subject area") %>%
-    px_title("title") %>%
-    px_units("units") %>%
-    px_contact("Johan Ejstrud") %>%
-    px_link("The Legend of Zelda") %>%
-    px_infofile("infofile") %>%
-    px_baseperiod("baseperiod") %>%
-    px_stockfa("S") %>%
-    px_cfprices("C") %>%
-    px_source("Statistic Greenland") %>%
-    px_database("dbname") %>%
+    x |>
+    px_contents("content") |>
+    px_description("description") |>
+    px_subject_area("subject area") |>
+    px_title("title") |>
+    px_units("units") |>
+    px_contact("Johan Ejstrud") |>
+    px_link("The Legend of Zelda") |>
+    px_infofile("infofile") |>
+    px_baseperiod("baseperiod") |>
+    px_stockfa("S") |>
+    px_cfprices("C") |>
+    px_source("Statistic Greenland") |>
+    px_database("dbname") |>
     px_refperiod("year")
 
   expect_identical(px_contents(x2), "content")
@@ -87,16 +87,16 @@ test_that("Other keywords are modified and removed", {
   expect_identical(px_refperiod(x2), "year")
 
   x3 <-
-    x2 %>%
-    px_description(NULL) %>%
-    px_contact(NULL) %>%
-    px_link(NULL) %>%
-    px_infofile(NULL) %>%
-    px_baseperiod(NULL) %>%
-    px_stockfa(NULL) %>%
-    px_cfprices(NULL) %>%
-    px_source(NULL) %>%
-    px_database(NULL) %>%
+    x2 |>
+    px_description(NULL) |>
+    px_contact(NULL) |>
+    px_link(NULL) |>
+    px_infofile(NULL) |>
+    px_baseperiod(NULL) |>
+    px_stockfa(NULL) |>
+    px_cfprices(NULL) |>
+    px_source(NULL) |>
+    px_database(NULL) |>
     px_refperiod(NULL)
 
   expect_identical(px_description(x3), NULL)
@@ -117,9 +117,9 @@ test_that("Other keywords are modified and removed", {
 
 test_that("Either TITLE or DESCRIPTION should be defined", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_identical(px_title(x), "")
@@ -127,7 +127,7 @@ test_that("Either TITLE or DESCRIPTION should be defined", {
   expect_error(px_title(x, NULL), regex = "cannot be removed unless")
 
   x2 <-
-    px_description(x, "description") %>%
+    px_description(x, "description") |>
     px_title(NULL)
 
   expect_identical(px_description(x2), "description")

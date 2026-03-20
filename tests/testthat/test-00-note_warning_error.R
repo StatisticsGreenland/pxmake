@@ -35,13 +35,13 @@ test_that("Error if multiple time vars in variable", {
 })
 
 test_that("Error if timeval is not stub or heading", {
-  expect_error(px(population_gl) %>% px_timeval("n"),
+  expect_error(px(population_gl) |> px_timeval("n"),
     regexp = "TIMEVAL has to be a STUB or"
   )
 })
 
 test_that("Error if contvariable is not stub or heading", {
-  expect_error(px(population_gl) %>% px_contvariable("n"),
+  expect_error(px(population_gl) |> px_contvariable("n"),
     regexp = "CONTVARIABLE has to be a STUB or"
   )
 })
@@ -65,15 +65,13 @@ test_that("Error if any value contains quotation marks", {
     )
   }
 
-  expect_quotation_error(x %>% px_language(value = 'd"a'))
-  expect_quotation_error(x %>% px_matrix(value = 'quotation"marks"'))
-  expect_quotation_error(x %>% px_contents(value = 'val " with quo'))
-  expect_quotation_error(x %>% px_note(value = 'val " with quo'))
-  expect_quotation_error(x %>% px_valuenote(value = data.frame(valuenote = '"')))
-  expect_quotation_error(x %>% px_cellnote(value = data.frame(cellnote = '"')))
+  expect_quotation_error(x |> px_language(value = 'd"a'))
+  expect_quotation_error(x |> px_matrix(value = 'quotation"marks"'))
+  expect_quotation_error(x |> px_contents(value = 'val " with quo'))
+  expect_quotation_error(x |> px_note(value = 'val " with quo'))
+  expect_quotation_error(x |> px_valuenote(value = data.frame(valuenote = '"')))
+  expect_quotation_error(x |> px_cellnote(value = data.frame(cellnote = '"')))
 })
-
-# px_micro()
 
 test_that("px_micro arguments are validated", {
   expect_error(px_micro(x = data.frame()),
@@ -100,13 +98,13 @@ test_that("px with duplicates in data table cannot be saved", {
   # However, an error is raised when saving, becuase it will created lists
   # in figures.
   expect_error(
-    x %>%
+    x |>
       px_save(temp_px_file()),
     regexp = "contains duplicates"
   )
 
   expect_error(
-    x %>%
+    x |>
       px_save(temp_xlsx_file()),
     regexp = "contains duplicates"
   )

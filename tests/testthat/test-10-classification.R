@@ -60,7 +60,9 @@ test_that("Classification is robust to formatting differences in files", {
 
 test_that("Classification can be create without [Valuetext]", {
   expect_s3_class(
-    px_classification(vs_path = get_classification_path("vs_without_valuetext.vs")),
+    px_classification(
+      vs_path = get_classification_path("vs_without_valuetext.vs")
+    ),
     "classification"
   )
 })
@@ -69,7 +71,7 @@ test_that("Aggregation values are taken from Aggtext section", {
   c <- px_classification(vs_path = vs_pxvsbrche_path())
 
   expect_equal(
-    c$df$BRCH_BRCH_E %>% as.character(),
+    c$df$BRCH_BRCH_E |> as.character(),
     c(
       "All industries",
       "Agriculture, forestry and related industries",
@@ -94,7 +96,7 @@ test_that("Aggregation values are taken from Aggtext section", {
   )
 
   expect_equal(
-    c$df$BRCH_OFF_E %>% as.character(),
+    c$df$BRCH_OFF_E |> as.character(),
     c(
       rep(NA, 15),
       "Public administration and service",

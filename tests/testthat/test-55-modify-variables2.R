@@ -1,8 +1,8 @@
 test_that("variables 2 is modified", {
   x <-
-    "BEXSTA" %>%
-    get_data_path() %>%
-    readRDS() %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
     px()
 
   expect_identical(px_domain(x), NULL)
@@ -26,8 +26,8 @@ test_that("variables 2 is modified", {
 
   x4 <- px_domain(x3, domain_str)
   expect_identical(
-    px_domain(x4) %>% dplyr::arrange(`variable-code`),
-    tidyr::crossing(domain_df1, language = c("en", "da")) %>%
+    px_domain(x4) |> dplyr::arrange(`variable-code`),
+    tidyr::crossing(domain_df1, language = c("en", "da")) |>
       dplyr::relocate(domain, .after = last_col())
   )
 

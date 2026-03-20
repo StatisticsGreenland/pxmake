@@ -1,10 +1,14 @@
 test_that("PX-file = px_save(px(PX-file))", {
   expect_px_px_save_preserves_everything(px_from_table_name("BEXSTA"))
   expect_px_px_save_preserves_everything(px_from_table_name("FOTEST"))
-  expect_px_px_save_preserves_everything(px_from_table_name("no_timeval_or_codes"))
+  expect_px_px_save_preserves_everything(
+    px_from_table_name("no_timeval_or_codes")
+  )
   expect_px_px_save_preserves_everything(px_from_table_name("zero_heading"))
   expect_px_px_save_preserves_everything(px_from_table_name("zero_stub"))
-  expect_px_px_save_preserves_everything(px(get_px_file_path("semicolon_in_values")))
+  expect_px_px_save_preserves_everything(
+    px(get_px_file_path("semicolon_in_values"))
+  )
 
 
   # Cell values with closing parenthesis )
@@ -16,25 +20,25 @@ test_that("PX-file = px_save(px(PX-file))", {
       . == "25-64" ~ "25)-64",
       . == "65+" ~ "65(",
       TRUE ~ .
-    ))) %>%
-    px() %>%
+    ))) |>
+    px() |>
     px_precision(dplyr::tribble(
       ~`variable-code`, ~precision,
       "age", 3
-    )) %>%
+    )) |>
     px_cellnote(
       dplyr::tribble(
         ~gender, ~age, ~year, ~cellnote,
         "female", "*", "2014", "Uncertainty in ages",
         NA, "(0-6)", NA, "Note to value with parensthsis ()"
       )
-    ) %>%
+    ) |>
     expect_px_px_save_preserves_everything()
 
 
-  px(population_gl) %>%
+  px(population_gl) |>
     # change order or data columns
-    px_data(dplyr::relocate(population_gl, n)) %>%
+    px_data(dplyr::relocate(population_gl, n)) |>
     expect_px_px_save_preserves_everything()
 })
 

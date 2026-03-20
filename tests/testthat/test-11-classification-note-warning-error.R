@@ -156,4 +156,5 @@ test_that("Error if wrong input formats", {
 
 # WARNINGS
 # valuetext and valuecode have differing lengths
-# A chunk contains invalid formatted lines. All should be digit|Name|Pretext=value
+# A chunk contains invalid formatted lines.
+# All should be digit|Name|Pretext=value

@@ -12,6 +12,7 @@ exclusions: list(
         ),
     # Don't want to functionally alter the package
     # Some compromises are necessary.
+    # Exceptions are added row-wise whenever it makes sense.
     "R/helper_functions.R" = list(
         object_name_linter = c(321,352)
         ),
@@ -19,7 +20,7 @@ exclusions: list(
         line_length_linter = 18
         ),
     "R/add_totals.R" = list(
-        object_name_linter = Inf
+        object_name_linter = c(15, 45, 62, 106)
         ),
     "R/modify_helpers.R" = list(
         object_usage_linter = c(53, 123)
@@ -29,5 +30,8 @@ exclusions: list(
     ),
     "R/px_file.R" = list(
         object_usage_linter = c(129 ,386)
+    ),
+    "R/r_script.R" = list(
+        line_length_linter = 64:67
     )
     )

@@ -31,39 +31,43 @@ save_px_as_r_script <- function(x, path, data_path) {
   }
 
   data_code <-
-    pxmake::px_keywords %>%
+    pxmake::px_keywords |>
     # Remove unimplemented functions
-    dplyr::filter(.data$px_function %in% getNamespaceExports("pxmake")) %>%
+    dplyr::filter(.data$px_function %in% getNamespaceExports("pxmake")) |>
     # Add px_order
     dplyr::bind_rows(data.frame(
       keyword = NA_character_,
       px_function = "px_order"
-    )) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(value = list(eval(parse(text = paste0(.data$px_function, "(x)"))))) %>%
-    dplyr::ungroup() %>%
-    dplyr::filter(!purrr::map_lgl(.data$value, is.null)) %>%
+    )) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(
+      value = list(eval(parse(text = paste0(.data$px_function, "(x)"))))
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::filter(!purrr::map_lgl(.data$value, is.null)) |>
     # Remove rows where value is default value
-    dplyr::filter(!purrr::map2_lgl(.data$value, default_value, identical)) %>%
+    dplyr::filter(!purrr::map2_lgl(.data$value, default_value, identical)) |>
     # Expand values that are list of lists
     dplyr::mutate(value = purrr::map(.data$value, function(x) {
       if (is_list_of_lists(x)) x else list(x)
-    })) %>%
-    dplyr::filter(lengths(.data$value) > 0) %>%
-    tidyr::unnest("value") %>%
-    dplyr::mutate(value_constructor = purrr::map_chr(.data$value, convert_value_to_code)) %>%
-    dplyr::select("keyword", "px_function", "value_constructor") %>%
-    dplyr::arrange(.data$keyword != "DATA") %>%
-    dplyr::mutate(last_row = dplyr::row_number() == dplyr::n()) %>%
+    })) |>
+    dplyr::filter(lengths(.data$value) > 0) |>
+    tidyr::unnest("value") |>
+    dplyr::mutate(
+      value_constructor = purrr::map_chr(.data$value, convert_value_to_code)
+    ) |>
+    dplyr::select("keyword", "px_function", "value_constructor") |>
+    dplyr::arrange(.data$keyword != "DATA") |>
+    dplyr::mutate(last_row = dplyr::row_number() == dplyr::n()) |>
     dplyr::mutate(
       code = dplyr::case_when(
-        keyword == "DATA" & data_path == dummy_data_path() ~ stringr::str_glue("px(input = {.data$value_constructor}) %>%"),
-        keyword == "DATA" & data_path != dummy_data_path() ~ stringr::str_glue('px(input = "{normalizePath(data_path, winslash = "/", mustWork = FALSE)}") %>%'),
-        !last_row ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor}) %>%"),
+        keyword == "DATA" & data_path == dummy_data_path() ~ stringr::str_glue("px(input = {.data$value_constructor}) |>"),
+        keyword == "DATA" & data_path != dummy_data_path() ~ stringr::str_glue('px(input = "{normalizePath(data_path, winslash = "/", mustWork = FALSE)}") |>'),
+        !last_row ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor}) |>"),
         last_row ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor})")
       )
-    ) %>%
-    dplyr::pull(code) %>%
+    ) |>
+    dplyr::pull(code) |>
     paste(collapse = "\n")
 
   code <-
@@ -72,7 +76,7 @@ save_px_as_r_script <- function(x, path, data_path) {
       "library(pxmake)",
       "",
       data_code
-    ) %>%
+    ) |>
     paste(collapse = "\n")
 
   writeLines(code, path)
@@ -110,18 +114,18 @@ convert_value_to_code <- function(value) {
 #' @keywords internal
 convert_df_to_code <- function(df) {
   col_names <-
-    names(df) %>%
+    names(df) |>
     purrr::map_chr(function(x) {
       if (make.names(x) == x) {
         x
       } else {
         paste0("`", x, "`")
       }
-    }) %>%
-    paste0("~", ., collapse = ", ")
+    }) |>
+    (\(x) paste0("~", x, collapse = ", "))()
 
   rows <-
-    df %>%
+    df |>
     dplyr::mutate(
       across(
         where(~ is.factor(.) | is.character(.)),
@@ -131,8 +135,8 @@ convert_df_to_code <- function(df) {
         where(is.numeric),
         ~ dplyr::if_else(is.na(.), "NA", as.character(.))
       ),
-    ) %>%
-    tidyr::unite("rows", everything(), sep = ", ") %>%
+    ) |>
+    tidyr::unite("rows", everything(), sep = ", ") |>
     dplyr::pull(1)
 
   c(
@@ -140,6 +144,6 @@ convert_df_to_code <- function(df) {
     paste0("  ", col_names, ","),
     paste(" ", paste0(rows, ","), collapse = "\n"),
     "  )"
-  ) %>%
+  ) |>
     paste(collapse = "\n")
 }

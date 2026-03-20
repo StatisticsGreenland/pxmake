@@ -21,23 +21,23 @@ get_data_table <- function(x, value, labels, sort) {
   error_if_language_is_undefined(m_language, x)
 
   data_with_labels <-
-    data_table %>%
-    dplyr::mutate(id_ = dplyr::row_number()) %>%
+    data_table |>
+    dplyr::mutate(id_ = dplyr::row_number()) |>
     tidyr::pivot_longer(-c(px_figures(x), "id_"),
       names_to = "variable-code",
       values_to = "code"
-    ) %>%
+    ) |>
     dplyr::left_join(px_values(x),
       by = c("variable-code", "code"),
       relationship = "many-to-many"
-    ) %>%
-    {
+    ) |>
+    (\(.) {
       if (!"language" %in% names(.)) {
         dplyr::mutate(., language = m_language) # add dummy language
       } else {
         .
       }
-    } %>%
+    })() |>
     dplyr::mutate(
       language = ifelse(is.na(.data$language),
         m_language,
@@ -47,17 +47,17 @@ get_data_table <- function(x, value, labels, sort) {
         .data$code,
         .data$value
       )
-    ) %>%
-    dplyr::filter(.data$language %in% m_language) %>%
-    dplyr::select(-"code", -"language") %>%
+    ) |>
+    dplyr::filter(.data$language %in% m_language) |>
+    dplyr::select(-"code", -"language") |>
     tidyr::pivot_wider(
       names_from = "variable-code",
       values_from = "value"
-    ) %>%
-    dplyr::select(-"id_") %>%
+    ) |>
+    dplyr::select(-"id_") |>
     dplyr::relocate(names(data_table))
 
-  return(data_with_labels)
+  data_with_labels
 }
 
 #' Add value as data table in x
@@ -71,12 +71,12 @@ update_data_table <- function(x, value) {
   new_columns <- setdiff(df_columns, old_df_columns)
 
   dummy_px <-
-    px_from_data_df(value) %>%
+    px_from_data_df(value) |>
     px_languages(defined_languages(x))
 
   if (!is.null(px_elimination(x))) {
     elimination_values <-
-      px_values(x) %>%
+      px_values(x) |>
       dplyr::semi_join(px_elimination(x),
         by = c(
           "variable-code" = "variable-code",
@@ -85,7 +85,7 @@ update_data_table <- function(x, value) {
       )
 
     elimination_order <-
-      px_order(x) %>%
+      px_order(x) |>
       dplyr::semi_join(px_elimination(x),
         by = c(
           "variable-code" = "variable-code",
@@ -94,8 +94,8 @@ update_data_table <- function(x, value) {
       )
 
     dummy_px <-
-      dummy_px %>%
-      px_values(elimination_values) %>%
+      dummy_px |>
+      px_values(elimination_values) |>
       px_order(elimination_order)
   }
 
@@ -103,13 +103,13 @@ update_data_table <- function(x, value) {
   # not in x2.
   swap_in_variables_metadata <- function(x1, x2, element) {
     x1[[element]] <-
-      x1[[element]] %>%
-      dplyr::filter(.data$`variable-code` %in% df_columns) %>%
+      x1[[element]] |>
+      dplyr::filter(.data$`variable-code` %in% df_columns) |>
       dplyr::bind_rows(dplyr::filter(
         x2[[element]],
         .data$`variable-code` %in% new_columns
       ))
-    return(x1)
+    x1
   }
 
   x <- swap_in_variables_metadata(x, dummy_px, element = "variables1")
@@ -125,15 +125,15 @@ update_data_table <- function(x, value) {
     }
 
     new_codes <-
-      x2[[element]] %>%
+      x2[[element]] |>
       dplyr::anti_join(x1[[element]], by = join_vars)
 
     x1[[element]] <-
-      x1[[element]] %>%
-      dplyr::semi_join(x2[[element]], by = join_vars) %>%
+      x1[[element]] |>
+      dplyr::semi_join(x2[[element]], by = join_vars) |>
       dplyr::bind_rows(new_codes)
 
-    return(x1)
+    x1
   }
 
   x <- swap_in_cells_metadata(x, dummy_px, element = "cells1")
@@ -141,12 +141,12 @@ update_data_table <- function(x, value) {
 
   x$acrosscells <- get_base_acrosscells(c(px_stub(x), px_heading(x)))
 
-  x$cells1 <- x$cells1 %>% dplyr::filter(.data$`variable-code` != px_figures(x))
-  x$cells2 <- x$cells2 %>% dplyr::filter(.data$`variable-code` != px_figures(x))
+  x$cells1 <- x$cells1 |> dplyr::filter(.data$`variable-code` != px_figures(x))
+  x$cells2 <- x$cells2 |> dplyr::filter(.data$`variable-code` != px_figures(x))
 
   x$data <- value
 
-  return(x)
+  x
 }
 
 #' Sort data table by order
@@ -163,18 +163,18 @@ sort_data_table_by_order <- function(x) {
 
   for (column in rev(columns_to_sort)) {
     tmp <-
-      order_df %>%
-      dplyr::filter(.data$`variable-code` == column) %>%
+      order_df |>
+      dplyr::filter(.data$`variable-code` == column) |>
       tidyr::pivot_wider(names_from = "variable-code", values_from = "code")
 
     data_table <-
-      data_table %>%
-      dplyr::left_join(tmp, by = column) %>%
-      dplyr::arrange(order) %>%
+      data_table |>
+      dplyr::left_join(tmp, by = column) |>
+      dplyr::arrange(order) |>
       dplyr::select(-order)
   }
 
-  return(data_table)
+  data_table
 }
 
 #' @rdname px_data.px
@@ -184,8 +184,8 @@ px_data <- function(x, value, labels, sort, validate) {
 }
 
 #' @eval add_doc_keyword_function_intro("DATA")
-#' @param value Optional. A data frame. If missing, the current DATA is returned.
-#' If NULL, all data rows are removed.
+#' @param value Optional. A data frame. If missing, the current
+#' DATA is returned. If NULL, all data rows are removed.
 #' @eval add_return_px_or_df()
 #' @param labels Optional. Logic or character vector. If TRUE, the data table
 #' is returned with VALUES instead of CODES. By default the VALUES of the main
@@ -220,7 +220,8 @@ px_data <- function(x, value, labels, sort, validate) {
 #' px_data(x_mult, labels = "gl")
 #'
 #' @export
-px_data.px <- function(x, value, labels = FALSE, sort = FALSE, validate = TRUE) {
+px_data.px <- function(
+    x, value, labels = FALSE, sort = FALSE, validate = TRUE) {
   validate_px_data_arguments(x, value, labels, sort, validate)
 
   if (missing(value)) {

@@ -8,7 +8,12 @@ px_valuenote <- function(x, value, validate) {
 #' @param value `r cells_param_value("VALUENOTE", "2")`
 #' @eval param_validate()
 #' @eval add_return_px_or_df()
-#' @eval add_cells2_example("VALUENOTE", 'Counts are approximated', 'Some of the figures are from 2003', 'Kisitsisit ilaat 2003-imeersuupput')
+#' @eval add_cells2_example(
+#'  "VALUENOTE",
+#'  "Counts are approximated",
+#'  "Some of the figures are from 2003",
+#'  "Kisitsisit ilaat 2003-imeersuupput"
+#' )
 #' @export
 px_valuenote.px <- function(x, value, validate = TRUE) {
   handle_cells(x, value, "2", "valuenote", validate)
@@ -25,7 +30,12 @@ px_valuenotex <- function(x, value, validate) {
 #' @param value `r cells_param_value("VALUENOTEX", "2")`
 #' @eval param_validate()
 #' @eval add_return_px_or_df()
-#' @eval add_cells2_example("VALUENOTEX", 'Counts are approximated', 'Some of the figures are from 2003', 'Kisitsisit ilaat 2003-imeersuupput')
+#' @eval add_cells2_example(
+#'  "VALUENOTEX",
+#'  "Counts are approximated",
+#'  "Some of the figures are from 2003",
+#'  "Kisitsisit ilaat 2003-imeersuupput"
+#' )
 #' @export
 px_valuenotex.px <- function(x, value, validate = TRUE) {
   handle_cells(x, value, "2", "valuenotex", validate)

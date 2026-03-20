@@ -6,11 +6,11 @@
 #' @keywords internal
 defined_languages <- function(x) {
   if (!is.null(px_languages(x))) {
-    return(px_languages(x))
+    px_languages(x)
   } else if (!is.null(px_language(x))) {
-    return(px_language(x))
+    px_language(x)
   } else {
-    return(NA_character_)
+    NA_character_
   }
 }
 
@@ -29,9 +29,9 @@ modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
   keep <- dplyr::filter(df, .data$language %in% new_languages)
 
   new <-
-    df %>%
-    dplyr::select(all_of(keep_vars)) %>%
-    tidyr::expand_grid(language = add_languages) %>%
+    df |>
+    dplyr::select(all_of(keep_vars)) |>
+    tidyr::expand_grid(language = add_languages) |>
     align_data_frames(align_df)
 
   dplyr::bind_rows(keep, new)
@@ -61,7 +61,7 @@ modify_languages_in_px <- function(x, new_languages) {
       new_languages = new_languages,
       keep_vars = c("variable-code", "variable-label"),
       align_df = get_base_variables2()
-    ) %>%
+    ) |>
     sort_variables2(
       data_table_names = names(px_data(x)),
       languages = new_languages
@@ -76,7 +76,7 @@ modify_languages_in_px <- function(x, new_languages) {
         "valuenote", "valuenotex"
       ),
       align_df = get_base_cells2()
-    ) %>%
+    ) |>
     sort_cells2(
       data_table_names = names(px_data(x)),
       languages = new_languages
@@ -90,7 +90,7 @@ modify_languages_in_px <- function(x, new_languages) {
       align_df = get_base_acrosscells()
     )
 
-  return(x)
+  x
 }
 
 #' @rdname px_language.px
@@ -142,8 +142,10 @@ px_language.px <- function(x, value, validate = TRUE) {
     return(remove_keyword_table1(x, "LANGUAGE"))
   }
 
-  if (!is.null(px_languages(x)) & !value %in% px_languages(x)) {
-    x$languages <- modify_or_add_in_column(x$languages, "language", px_language(x), value)
+  if (!is.null(px_languages(x)) && !value %in% px_languages(x)) {
+    x$languages <- modify_or_add_in_column(
+      x$languages, "language", px_language(x), value
+    )
   }
 
   x <- modify_table1(x, "LANGUAGE", value)
@@ -209,7 +211,7 @@ px_languages.px <- function(x, value, validate = TRUE) {
   }
 
   x$languages <-
-    dplyr::tibble(language = value) %>%
+    dplyr::tibble(language = value) |>
     align_data_frames(get_base_languages())
 
   x <- modify_languages_in_px(x, new_languages = value)

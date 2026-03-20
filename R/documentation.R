@@ -9,14 +9,14 @@ function_to_keyword <- function(fnc_name) {
 }
 
 split_multiline_str_into_vector <- function(str) {
-  str %>%
-    stringr::str_split(pattern = "\n") %>%
+  str |>
+    stringr::str_split(pattern = "\n") |>
     magrittr::extract2(1)
 }
 
 add_documentation_function <- function(fnc) {
   function(...) {
-    fnc(...) %>%
+    fnc(...) |>
       split_multiline_str_into_vector()
   }
 }
@@ -33,7 +33,7 @@ add_documentation_table1 <- function(keyword, example_value) {
     table1_example(keyword, example_value),
     "@export",
     .sep = "\n"
-  ) %>%
+  ) |>
     split_multiline_str_into_vector()
 }
 
@@ -46,7 +46,7 @@ add_documentation_table2 <- function(keyword, example_value1, example_value2) {
     table2_example(keyword, example_value1, example_value2),
     "@export",
     .sep = "\n"
-  ) %>%
+  ) |>
     split_multiline_str_into_vector()
 }
 
@@ -58,11 +58,12 @@ add_documentation_head_stub <- function(keyword) {
     return_px_or_char_vector(),
     "@export",
     .sep = "\n"
-  ) %>%
+  ) |>
     split_multiline_str_into_vector()
 }
 
-add_documentation_variables2 <- function(keyword, example_value1, example_value2, example_value3) {
+add_documentation_variables2 <- function(
+    keyword, example_value1, example_value2, example_value3) {
   stringr::str_glue(
     doc_keyword_function_intro(keyword),
     "@param value {variables2_param_value(keyword)}",
@@ -71,7 +72,7 @@ add_documentation_variables2 <- function(keyword, example_value1, example_value2
     variables2_example(keyword, example_value1, example_value2, example_value3),
     "@export",
     .sep = "\n"
-  ) %>%
+  ) |>
     split_multiline_str_into_vector()
 }
 
@@ -85,7 +86,7 @@ add_documentation_acrosscells <- function(keyword) {
     acrosscells_example(keyword),
     "@export",
     .sep = "\n"
-  ) %>%
+  ) |>
     split_multiline_str_into_vector()
 }
 
@@ -93,14 +94,15 @@ add_documentation_note <- function(keyword) {
   stringr::str_glue(
     doc_keyword_function_intro(keyword),
     "@param value {note_param_value(keyword)}",
-    "@details {keyword} has a lot of possible ways to specify `value`, because ",
-    "it can be set both for the entire PX-file and for individual variables.",
+    "@details {keyword} has a lot of possible ways to specify `value`, ",
+    "because it can be set both for the entire PX-file and for ",
+    "individual variables.",
     param_validate(),
     return_px_char_df_or_list(),
     note_example(keyword),
     "@export",
     .sep = "\n"
-  ) %>%
+  ) |>
     split_multiline_str_into_vector()
 }
 
@@ -114,8 +116,8 @@ doc_keyword_function_intro <- function(keyword) {
     )
 
   url <-
-    pxmake::px_keywords %>%
-    dplyr::filter(keyword == !!keyword) %>%
+    pxmake::px_keywords |>
+    dplyr::filter(keyword == !!keyword) |>
     dplyr::pull(.data$documentation)
 
   if (!any(identical(url, character(0)), identical(url, ""))) {
@@ -206,7 +208,8 @@ table2_example <- function(keyword, example_value1, example_value2) {
   return(str)
 }
 
-variables2_example <- function(keyword, example_value1, example_value2, example_value3) {
+variables2_example <- function(
+    keyword, example_value1, example_value2, example_value3) {
   if (is.na(example_value1)) {
     return("")
   }
@@ -234,7 +237,7 @@ variables2_example <- function(keyword, example_value1, example_value2, example_
     "",
     "# Set {keyword} for individual languages",
     "x3 <-",
-    "  x2 %>%",
+    "  x2 |>",
     "  px_languages(c('en', 'kl')) |>",
     "  {px_function}(tribble(~`variable-code`, ~language, ~{tolower(keyword)},",
     "                    'gender',    'en',      '{example_value2}_en',",
@@ -281,7 +284,8 @@ cells1_example <- function(keyword, example_value1, example_value2) {
 
 add_cells1_example <- add_documentation_function(cells1_example)
 
-cells2_example <- function(keyword, example_value1, example_value2, example_value3) {
+cells2_example <- function(
+    keyword, example_value1, example_value2, example_value3) {
   px_function <- keyword_to_function(keyword)
 
   stringr::str_glue(
@@ -405,10 +409,11 @@ add_note_example <- add_documentation_function(note_example)
 
 param_validate <- function() {
   stringr::str_glue(
-    "@param validate Optional. If TRUE a number of validation checks are performed ",
-    "on the px object, and an error is thrown if the object is not valid. If FALSE, ",
-    "the checks are skipped, which can be usefull for large px objects where the ",
-    "check can be time consuming. Use [px_validate()] to manually preform the check."
+    "@param validate Optional. If TRUE a number of validation checks ",
+    "are performed on the px object, and an error is thrown if the ",
+    "object is not valid. If FALSE, the checks are skipped, which ",
+    "can be usefull for large px objects where the check can be time ",
+    "consuming. Use [px_validate()] to manually preform the check."
   )
 }
 
@@ -423,15 +428,19 @@ table_param_value_ending <- function(keyword) {
 }
 
 table1_param_value <- function(keyword) {
-  start <- stringr::str_glue("Optional. A character string. If missing, the current {keyword} is returned.")
+  start <- stringr::str_glue(
+    "Optional. A character string. If missing, ",
+    "the current {keyword} is returned."
+  )
 
   stringr::str_glue("{start} {table_param_value_ending(keyword)}")
 }
 
 table2_param_value <- function(keyword) {
   start <- stringr::str_glue(
-    "Optional. A character string to set the value for all languages or a data ",
-    "frame with columns 'language' and 'value' to set it for specific languages. ",
+    "Optional. A character string to set the value for all ",
+    "languages or a data frame with columns 'language' and ",
+    "'value' to set it for specific languages. ",
     "If 'value' is missing, the current {keyword} is returned."
   )
 
@@ -450,9 +459,10 @@ cells_param_value <- function(keyword, number) {
   }
 
   stringr::str_glue(
-    "Optional. A data frame with the columns '{colname}' and one or more of the ",
-    "columns: {optional_columns}. If 'value' is missing, the current {keyword} ",
-    "is returned. If NULL, {keyword} is removed."
+    "Optional. A data frame with the columns '{colname}' and one ",
+    "or more of the columns: {optional_columns}. If 'value' is ",
+    "missing, the current {keyword} is returned. If NULL, {keyword} ",
+    "is removed."
   )
 }
 
@@ -494,14 +504,16 @@ note_param_value <- function(keyword) {
     "
     Optional. A character string, a data frame, or a list.
      \\itemize{{
-       \\item Use character, to set {keyword} for the entire table across all languages.
+       \\item Use character, to set {keyword} for the entire table across
+       all languages.
        \\item Use a data frame with columns 'language' and 'value' to set
        {keyword} for the entire table in a specific language.
        \\item Use a data frame with the columns 'variable-code' and '{colname}',
        to set {keyword} for a specific variable across all languages. Add the
        column 'language' to set {keyword} for specific language.
        \\item Use a list of the above elements to set {keyword} in muliple ways.
-       This is the same as calling {keyword} multiple times with different values.
+       This is the same as calling {keyword} multiple times with different
+       values.
        \\item If missing, the current {keyword} is returned.
        \\item If NULL, {keyword} is removed for the table and all variables.
     }}

@@ -18,14 +18,14 @@ create_micro_file <- function(
 
   headings_with_only_na_values <-
     new_data |>
-    dplyr::select(all_of(px_heading(x))) %>%
-    {
+    dplyr::select(all_of(px_heading(x))) |>
+    (\(.) {
       if (length(px_heading(x)) > 0) {
         dplyr::anti_join(., headings_with_non_na_values, by = px_heading(x))
       } else {
         dplyr::filter(headings_with_non_na_values, FALSE)
       }
-    }
+    })()
 
   if (nrow(headings_with_non_na_values) == 0) {
     # Edge case: If all headings only contain NA values, all are kept
@@ -43,7 +43,7 @@ create_micro_file <- function(
 
   headings_with_only_na_values_long <-
     headings_with_only_na_values |>
-    (\(.){
+    (\(.) {
       if (nrow(.) > 0) {
         tidyr::pivot_longer(.,
           cols = px_heading(x),
@@ -101,7 +101,7 @@ create_micro_file <- function(
       value <-
         extra_keywords |>
         dplyr::filter(.data$keyword_function == fnc) |>
-        (\(.){
+        (\(.) {
           if (language_dependent_keyword && "language" %in% names(.)) {
             dplyr::distinct(., .data$language, .data$value)
           } else {

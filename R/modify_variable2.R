@@ -23,7 +23,12 @@ px_domain <- function(x, value, validate) {
   UseMethod("px_domain")
 }
 
-#' @eval add_documentation_variables2("DOMAIN", "aggregation1", "aggregation2", "aggregation3")
+#' @eval add_documentation_variables2(
+#'  "DOMAIN",
+#'  "aggregation1",
+#'  "aggregation2",
+#'  "aggregation3"
+#' )
 px_domain.px <- function(x, value, validate = TRUE) {
   handle_variables2_keyword(x, value, "DOMAIN", validate)
 }
@@ -34,7 +39,12 @@ px_map <- function(x, value, validate) {
   UseMethod("px_map")
 }
 
-#' @eval add_documentation_variables2("MAP", "greenland", "cities", "municipalities")
+#' @eval add_documentation_variables2(
+#'  "MAP",
+#'  "greenland",
+#'  "cities",
+#'  "municipalities"
+#' )
 px_map.px <- function(x, value, validate = TRUE) {
   handle_variables2_keyword(x, value, "MAP", validate)
 }

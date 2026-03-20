@@ -98,35 +98,35 @@ get_base_px <- function() {
 }
 
 sort_in_keyword_order <- function(df) {
-  df %>%
+  df |>
     dplyr::left_join(dplyr::select(pxmake::px_keywords, "keyword", "order"),
       by = "keyword"
-    ) %>%
-    dplyr::arrange(.data$order) %>%
+    ) |>
+    dplyr::arrange(.data$order) |>
     dplyr::select(-"order")
 }
 
 sort_table1 <- sort_in_keyword_order
 
 sort_table2 <- function(df, languages) {
-  df %>%
+  df |>
     dplyr::left_join(dplyr::select(pxmake::px_keywords, "keyword", "order"),
       by = "keyword"
-    ) %>%
+    ) |>
     dplyr::arrange(
       .data$order, !is.na(.data$code), .data$code,
       match(.data$language, languages)
-    ) %>%
+    ) |>
     dplyr::select(-"order")
 }
 
 sort_variables1 <- function(df) {
-  df %>%
+  df |>
     dplyr::arrange(desc(.data$pivot), .data$order)
 }
 
 sort_variables2 <- function(df, data_table_names, languages) {
-  df %>%
+  df |>
     dplyr::arrange(
       match(.data$`variable-code`, data_table_names),
       match(.data$language, languages)
@@ -134,7 +134,7 @@ sort_variables2 <- function(df, data_table_names, languages) {
 }
 
 sort_cells1 <- function(df, data_table_names) {
-  df %>%
+  df |>
     dplyr::arrange(
       match(.data$`variable-code`, data_table_names),
       .data$order
@@ -142,7 +142,7 @@ sort_cells1 <- function(df, data_table_names) {
 }
 
 sort_cells2 <- function(df, data_table_names, languages) {
-  df %>%
+  df |>
     dplyr::arrange(
       match(.data$`variable-code`, data_table_names),
       .data$code,

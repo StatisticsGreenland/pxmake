@@ -102,7 +102,11 @@ px_last_updated <- function(x, value, validate) {
   UseMethod("px_last_updated")
 }
 
-#' @eval add_documentation_table2("LAST-UPDATED",  "17070501 15:55", "20080621 15:55")
+#' @eval add_documentation_table2(
+#'  "LAST-UPDATED",
+#'  "17070501 15:55",
+#'  "20080621 15:55"
+#' )
 px_last_updated.px <- function(x, value, validate = TRUE) {
   handle_table2_keyword(x, value, "LAST-UPDATED", validate)
 }
@@ -114,7 +118,11 @@ px_link <- function(x, value, validate) {
   UseMethod("px_link")
 }
 
-#' @eval add_documentation_table2("LINK", "https://stat.gl/?lang=en", "https://stat.gl/")
+#' @eval add_documentation_table2(
+#'  "LINK",
+#'  "https://stat.gl/?lang=en",
+#'  "https://stat.gl/"
+#' )
 px_link.px <- function(x, value, validate = TRUE) {
   handle_table2_keyword(x, value, "LINK", validate)
 }
@@ -137,7 +145,11 @@ px_source <- function(x, value, validate) {
   UseMethod("px_source")
 }
 
-#' @eval add_documentation_table2("SOURCE", "Statistics Greenland", "Naatsorsueqqissaartarfik")
+#' @eval add_documentation_table2(
+#'  "SOURCE",
+#'  "Statistics Greenland",
+#'  "Naatsorsueqqissaartarfik"
+#' )
 px_source.px <- function(x, value, validate = TRUE) {
   handle_table2_keyword(x, value, "SOURCE", validate)
 }

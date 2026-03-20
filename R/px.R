@@ -13,7 +13,8 @@
 #'   \item Direct download URL of a parquet file
 #' }
 #'
-#' If input is a data frame or NULL, a px object with minimal metadata is created.
+#' If input is a data frame or NULL, a px object with minimal
+#' metadata is created.
 #' @param data Either a data frame or a path to an `.rds` or `.parquet` file
 #' with a data frame. This can only be used if `input` is an Excel metadata
 #' workbook.
@@ -191,7 +192,7 @@ fix_px <- function(x) {
 
   # Add missing variable-labels to variables2
   x$variables2 <-
-    x$variables2 %>%
+    x$variables2 |>
     dplyr::mutate(`variable-label` = ifelse(is.na(.data$`variable-label`),
       .data$`variable-code`,
       .data$`variable-label`
@@ -243,7 +244,7 @@ px_validate <- function(x) {
   error_if_language_not_in_languages(x)
   error_if_value_contains_quotation_marks(x)
 
-  return(x)
+  x
 }
 
 #' Return px object
@@ -255,8 +256,8 @@ px_validate <- function(x) {
 #' @keywords internal
 return_px <- function(x, validate) {
   if (validate) {
-    return(px_validate(x))
+    px_validate(x)
   } else {
-    return(x)
+    x
   }
 }

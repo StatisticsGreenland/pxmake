@@ -12,7 +12,9 @@ error <- function(msg) {
 
 error_if_excel_sheet_does_not_exist <- function(sheet_name, excel_path) {
   if (!excel_sheet_exists(sheet_name, excel_path)) {
-    error(stringr::str_glue("The sheet '{sheet_name}' is missing in: {excel_path}."))
+    error(
+      stringr::str_glue("The sheet '{sheet_name}' is missing in: {excel_path}.")
+    )
   }
 }
 
@@ -83,14 +85,20 @@ get_mandatory_variables <- function() {
   list(
     "Table" = c("keyword", "value"),
     "Table2" = c("keyword", "code"),
-    "Variables" = c("pivot", "order", "variable-code", "variable-label", "variable-type"),
+    "Variables" = c(
+      "pivot", "order", "variable-code", "variable-label", "variable-type"
+    ),
     "Cells" = c("variable-code", "sortorder", "code", "code-label", "precision")
   )
 }
 
 error_if_mandatory_keyword <- function(x, keyword) {
   if (keyword %in% mandatory_keywords()) {
-    error(stringr::str_glue("Keyword '{keyword}' is mandatory and cannot be removed."))
+    error(
+      stringr::str_glue(
+        "Keyword '{keyword}' is mandatory and cannot be removed."
+      )
+    )
   } else if (keyword %in% "TITLE") {
     if (is.null(px_description(x))) {
       error("Keyword TITLE cannot be removed unless DESCRIPTION is defined.")
@@ -197,13 +205,13 @@ error_if_variable_label_is_na <- function(x) {
 error_if_misplaced_keywords_in_table <- function(x, table_name) {
   if (table_name == "table1") {
     other_keywords <-
-      pxmake::px_keywords %>%
-      dplyr::filter(!(.data$table_meta & !.data$language_dependent)) %>%
+      pxmake::px_keywords |>
+      dplyr::filter(!(.data$table_meta & !.data$language_dependent)) |>
       dplyr::pull(.data$keyword)
   } else if (table_name == "table2") {
     other_keywords <-
-      pxmake::px_keywords %>%
-      dplyr::filter(!(.data$table_meta & .data$language_dependent)) %>%
+      pxmake::px_keywords |>
+      dplyr::filter(!(.data$table_meta & .data$language_dependent)) |>
       dplyr::pull(.data$keyword)
   } else {
     unexpected_error()
@@ -220,7 +228,9 @@ error_if_misplaced_keywords_in_table <- function(x, table_name) {
 }
 
 error_if_variable_code_not_in_data <- function(x, table_name) {
-  variables_not_in_data <- setdiff(x[[table_name]]$`variable-code`, names(x$data))
+  variables_not_in_data <- setdiff(
+    x[[table_name]]$`variable-code`, names(x$data)
+  )
 
   if (length(variables_not_in_data) > 0) {
     error(paste0(
@@ -236,8 +246,8 @@ error_if_used_languages_are_not_defined <- function(x) {
       x$table2$language,
       x$variables2$language,
       x$cells2$language
-    )) %>%
-    na.omit() %>%
+    )) |>
+    na.omit() |>
     as.character()
 
   undefined_languages <- setdiff(languages_in_tables, defined_languages(x))
@@ -266,7 +276,9 @@ error_if_language_is_undefined <- function(language, x) {
 }
 
 error_if_data_column_is_not_defined <- function(x, table_name) {
-  undefined_variables <- setdiff(colnames(x$data), x[[table_name]]$`variable-code`)
+  undefined_variables <- setdiff(
+    colnames(x$data), x[[table_name]]$`variable-code`
+  )
 
   if (length(undefined_variables) > 0) {
     error(paste0(
@@ -279,11 +291,11 @@ error_if_data_column_is_not_defined <- function(x, table_name) {
 error_if_value_contains_quotation_marks <- function(x) {
   df_contains_quotation_marks <-
     lapply(x, function(df) {
-      df %>%
-        dplyr::mutate(across(everything(), ~ grepl('"', .))) %>%
-        unlist() %>%
+      df |>
+        dplyr::mutate(across(everything(), ~ grepl('"', .))) |>
+        unlist() |>
         any()
-    }) %>%
+    }) |>
     unlist()
 
   if (any(df_contains_quotation_marks)) {
@@ -293,10 +305,10 @@ error_if_value_contains_quotation_marks <- function(x) {
 
 error_if_data_table_contains_duplicates <- function(x) {
   duplicates <-
-    x %>%
-    px_data() %>%
-    dplyr::select(-px_figures(x)) %>%
-    dplyr::group_by(across(everything())) %>%
+    x |>
+    px_data() |>
+    dplyr::select(-px_figures(x)) |>
+    dplyr::group_by(across(everything())) |>
     dplyr::filter(dplyr::n() > 1)
 
   if (nrow(duplicates) > 0) {
@@ -341,11 +353,13 @@ validate_px_arguments <- function(input, data) {
     }
   }
 
-  if (!any(is.null(data), is.data.frame(data), is_rds_file(data), is_parquet_file(data))) {
+  if (!any(
+    is.null(data), is.data.frame(data), is_rds_file(data), is_parquet_file(data)
+  )) {
     error("Argument 'data' has wrong format. See ?px.")
   }
 
-  if (!is.null(data) & !is_xlsx_file(input)) {
+  if (!is.null(data) && !is_xlsx_file(input)) {
     error("Argument 'data' can only be used if 'input' is an .xlsx file.")
   }
 }
@@ -365,12 +379,22 @@ validate_px_save_arguments <- function(x, path, save_data, data_path) {
     error("Argument 'save_data' must be TRUE or FALSE.")
   }
 
-  if (all(!is.null(data_path), all(!is_rds_file(data_path), !is_parquet_file(data_path)))) {
+  if (all(
+    !is.null(data_path),
+    all(
+      !is_rds_file(data_path),
+      !is_parquet_file(data_path)
+    )
+  )) {
     error("Argument 'data_path' must be a path to an .rds or .parquet file.")
   }
 
-  if (all(!is.null(data_path), all(!is_xlsx_file(path), !is_r_file(path)))) {
-    error("Argument 'data_path' can only be used if 'path' is an .xlsx or .R file.")
+  if (all(
+    !is.null(data_path), all(!is_xlsx_file(path), !is_r_file(path))
+  )) {
+    error(
+      "Argument 'data_path' can only be used if 'path' is an .xlsx or .R file."
+    )
   }
 
   if (all(!is.null(data_path), isFALSE(save_data))) {
@@ -444,7 +468,7 @@ validate_px_classification_arguments <- function(name,
   any_non_path_argument_is_defined <-
     (!missing(name) | !missing(prestext) | !missing(domain) | !missing(df))
 
-  if (any_path_argument_is_defined & any_non_path_argument_is_defined) {
+  if (any_path_argument_is_defined && any_non_path_argument_is_defined) {
     error(paste0(
       "Cannot use path arguments and other aguments together. ",
       "Either define only name/prestext/domain/df, or only ",
@@ -504,23 +528,23 @@ validate_px_data_arguments <- function(x, value, labels, sort, validate) {
   }
 
   if (!missing(value)) {
-    if (!(is.data.frame(value) | is.null(value))) {
+    if (!(is.data.frame(value) || is.null(value))) {
       error("Argument 'value' must be a data frame or NULL.")
     }
   }
 
   if (!missing(labels)) {
-    if (!is.logical(labels) & !is.character(labels)) {
+    if (!is.logical(labels) && !is.character(labels)) {
       error("Argument 'labels' must be TRUE/FALSE or a character string.")
     }
   }
 
   # labels and sort can only be used if value is missing
-  if (!missing(value) & !isFALSE(labels)) {
+  if (!missing(value) && !isFALSE(labels)) {
     error("Argument 'labels' can only be used if 'value' is missing.")
   }
 
-  if (!missing(value) & !isFALSE(sort)) {
+  if (!missing(value) && !isFALSE(sort)) {
     error("Argument 'sort' can only be used if 'value' is missing.")
   }
 

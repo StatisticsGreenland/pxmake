@@ -9,8 +9,8 @@ update_data_table(x, value)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame. If missing, the current DATA is returned.
-If NULL, all data rows are removed.}
+\item{value}{Optional. A data frame. If missing, the current
+DATA is returned. If NULL, all data rows are removed.}
 }
 \description{
 Add value as data table in x

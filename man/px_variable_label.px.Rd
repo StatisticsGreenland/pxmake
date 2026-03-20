@@ -37,20 +37,24 @@ The variable label is the name that is shown in the PX-file.
 library(tibble)
 x1 <-
   px(population_gl) |>
-  px_variable_label(tribble(~`variable-code`, ~`variable-label`,
-                            'gender',         'Gender',
-                            'age',            'Age'))
+  px_variable_label(tribble(
+    ~`variable-code`, ~`variable-label`,
+    "gender", "Gender",
+    "age", "Age"
+  ))
 px_variable_label(x1)
 
 # Set VARIABLE-LABEL for individual languages
 x2 <-
   x1 \%>\%
-  px_languages(c('en', 'kl')) |>
-  px_variable_label(tribble(~`variable-code`, ~language, ~`variable-label`,
-                            'gender',         'en',      'Gender',
-                            'gender',         'kl',      'Suiaassuseq',
-                            'age',            'en',      'Age',
-                            'age',            'kl',      'Ukiut'))
+  px_languages(c("en", "kl")) |>
+  px_variable_label(tribble(
+    ~`variable-code`, ~language, ~`variable-label`,
+    "gender", "en", "Gender",
+    "gender", "kl", "Suiaassuseq",
+    "age", "en", "Age",
+    "age", "kl", "Ukiut"
+  ))
 px_variable_label(x2)
 
 # Remove VARIABLE-LABEL

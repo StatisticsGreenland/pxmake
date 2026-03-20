@@ -29,7 +29,7 @@ Removing CONTVARIABLE removes the indexing from table2.
 # Set CONTVARIABLE
 x1 <-
   px(population_gl) |>
-  px_contvariable('gender')
+  px_contvariable("gender")
 
 # After setting CONTVARIABLE some variables are index by it, e.g. UNITS
 px_units(x1)

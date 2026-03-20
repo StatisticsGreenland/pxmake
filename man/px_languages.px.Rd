@@ -35,7 +35,7 @@ main language.
 x1 <-
   population_gl |>
   px() |>
-  px_languages(c('en', 'kl'))
+  px_languages(c("en", "kl"))
 
 # Print LANGUAGES
 px_languages(x1)

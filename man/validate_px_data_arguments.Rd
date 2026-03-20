@@ -9,8 +9,8 @@ validate_px_data_arguments(x, value, labels, sort, validate)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame. If missing, the current DATA is returned.
-If NULL, all data rows are removed.}
+\item{value}{Optional. A data frame. If missing, the current
+DATA is returned. If NULL, all data rows are removed.}
 
 \item{labels}{Optional. Logic or character vector. If TRUE, the data table
 is returned with VALUES instead of CODES. By default the VALUES of the main

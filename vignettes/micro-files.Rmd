@@ -143,9 +143,9 @@ px_micro(x2, out_dir = micro_dir, keyword_values = individual_keywords)
 DESCRIPTION is changed in the micro files: 
 
 ```{r}
-px(file.path(micro_dir, "age.px")) %>% px_description()
-px(file.path(micro_dir, "gender.px")) %>% px_description()
-px(file.path(micro_dir, "municipality.px")) %>% px_description()
+px(file.path(micro_dir, "age.px")) |> px_description()
+px(file.path(micro_dir, "gender.px")) |> px_description()
+px(file.path(micro_dir, "municipality.px")) |> px_description()
 ```
 
 

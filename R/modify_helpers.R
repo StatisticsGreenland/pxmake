@@ -50,7 +50,7 @@ modify_or_add_in_column <- function(df,
 }
 
 modify_with_df <- function(df1, df2, modify_column) {
-  valid_names <-
+  valid_names <- # nolint: object_usage_linter.
     names(df1) |>
     paste(collapse = ", ")
 

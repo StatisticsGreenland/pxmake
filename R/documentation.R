@@ -127,7 +127,8 @@ doc_keyword_function_intro <- function(keyword) {
         .sep = "\n"
       )
   }
-  return(str)
+
+  str
 }
 
 description_start <- function(keyword) {
@@ -162,7 +163,7 @@ table1_example <- function(keyword, example_value) {
       )
   }
 
-  return(str)
+  str
 }
 
 add_table1_example <- add_documentation_function(table1_example)
@@ -205,7 +206,7 @@ table2_example <- function(keyword, example_value1, example_value2) {
       )
   }
 
-  return(str)
+  str
 }
 
 variables2_example <- function(

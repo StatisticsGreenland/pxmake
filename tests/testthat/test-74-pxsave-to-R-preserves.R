@@ -51,7 +51,9 @@ test_that("px file is preserved when saved as R script", {
 
   # UNITS in wrong because of (#364)
   # expect_equal_all_px_element(px(get_px_file_path('CONTVARIABLE')))
-  # expect_equal_all_px_element(px(get_px_file_path('CONTVARIABLE_multiple_languages')))
+  # expect_equal_all_px_element(
+  #   px(get_px_file_path('CONTVARIABLE_multiple_languages'))
+  # )
 
   # TITLE differ, which is fine ("" vs NULL)
   # TIMEVAL differ, easy fix

@@ -61,10 +61,22 @@ save_px_as_r_script <- function(x, path, data_path) {
     dplyr::mutate(last_row = dplyr::row_number() == dplyr::n()) |>
     dplyr::mutate(
       code = dplyr::case_when(
-        keyword == "DATA" & data_path == dummy_data_path() ~ stringr::str_glue("px(input = {.data$value_constructor}) |>"),
-        keyword == "DATA" & data_path != dummy_data_path() ~ stringr::str_glue('px(input = "{normalizePath(data_path, winslash = "/", mustWork = FALSE)}") |>'),
-        !last_row ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor}) |>"),
-        last_row ~ stringr::str_glue("  {.data$px_function}({.data$value_constructor})")
+        keyword == "DATA" & data_path == dummy_data_path() ~
+          stringr::str_glue("px(input = {.data$value_constructor}) |>"),
+        keyword == "DATA" & data_path != dummy_data_path() ~
+          stringr::str_glue(
+            'px(input = "',
+            '{normalizePath(data_path, winslash = "/", mustWork = FALSE)}',
+            '") |>'
+          ),
+        !last_row ~
+          stringr::str_glue(
+            "  {.data$px_function}({.data$value_constructor}) |>"
+          ),
+        last_row ~
+          stringr::str_glue(
+            "  {.data$px_function}({.data$value_constructor})"
+          )
       )
     ) |>
     dplyr::pull(code) |>

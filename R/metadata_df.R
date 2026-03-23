@@ -15,7 +15,7 @@ get_px_metadata_regex <- function() {
     "(?:\")?", # Maybe closing " after cell value
     "(?:\"\\))?", # Maybe closing sub-key parentheses )
     "=", # definitely =
-    '(?<value>(?:"[^"]*"|[^;])*)', # Value is quoted strings or non-semicolon chars
+    '(?<value>(?:"[^"]*"|[^;])*)', # Val is quoted string or non-semicolon chars
     "(?:;$)?" # Maybe ;
   )
 }

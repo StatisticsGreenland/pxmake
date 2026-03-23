@@ -15,9 +15,6 @@ exclusions: list(
     "R/helper_functions.R" = list(
         object_name_linter = c(321,352)
         ),
-    "R/metadata_df.R" = list(
-        line_length_linter = 18
-        ),
     "R/add_totals.R" = list(
         object_name_linter = c(15, 45, 62, 106)
         ),
@@ -27,14 +24,10 @@ exclusions: list(
     "R/px_file.R" = list(
         object_usage_linter = c(129, 293, 386)
     ),
-    "R/r_script.R" = list(
-        line_length_linter = 64:67
-    ),
     "tests/testthat/test-52-px-ordering.R" = list(
         T_and_F_symbol_linter = 45
     ),
     "tests/testthat/test-74-pxsave-to-R-preserves.R" = list(
         commented_code_linter = 53:61,
-        line_length_linter = 54
     )
     )

@@ -28,6 +28,6 @@ exclusions: list(
         T_and_F_symbol_linter = 45
     ),
     "tests/testthat/test-74-pxsave-to-R-preserves.R" = list(
-        commented_code_linter = 53:61,
+        commented_code_linter = 53:61
     )
-    )
+  )

@@ -4,6 +4,8 @@
 - Support semicolons inside values. (#458)
 - Adds support for DATABASE. (#455)
 - Adds support for REFPERIOD (#455)
+- Use lintr on entire package. Causes almost no visible changes, except 
+when saving a PX-files as an R script. (#463)
 
 # pxmake 0.19.0
 

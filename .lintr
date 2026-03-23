@@ -25,6 +25,6 @@ exclusions: list(
         object_usage_linter = c(129, 293, 386)
     ),
     "tests/testthat/test-74-pxsave-to-R-preserves.R" = list(
-        commented_code_linter = 53:61
+        commented_code_linter = 53:63
     )
   )

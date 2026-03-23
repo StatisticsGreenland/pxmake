@@ -42,7 +42,7 @@ test_that("numerics are sorted", {
 test_that("px created from data frame orders variables properly", {
   df <-
     dplyr::tibble(
-      sick = c(T, F, F, NA, T),
+      sick = c(TRUE, FALSE, FALSE, NA, TRUE),
       age = as.integer(c(1, 10, 100, NA, 42)),
       income = c(9999, 20.1, 100, 999, NA),
       name = c("E", "A", "B", "D", "C"),

@@ -24,9 +24,6 @@ exclusions: list(
     "R/px_file.R" = list(
         object_usage_linter = c(129, 293, 386)
     ),
-    "tests/testthat/test-52-px-ordering.R" = list(
-        T_and_F_symbol_linter = 45
-    ),
     "tests/testthat/test-74-pxsave-to-R-preserves.R" = list(
         commented_code_linter = 53:61
     )

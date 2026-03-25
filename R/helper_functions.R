@@ -318,7 +318,7 @@ wrap_varaible_in_list <- function(df, var) {
 #'
 #' @returns A character vector
 #' @keywords internal
-readLines_with_encoding <- function(path, encoding) {
+read_lines_with_encoding <- function(path, encoding) {
   file_connection <- file(path, encoding = encoding)
   lines <- readLines(con = file_connection, warn = FALSE)
   close(file_connection)
@@ -335,7 +335,7 @@ readLines_with_encoding <- function(path, encoding) {
 #' @returns A character vector
 #' @keywords internal
 read_px_file <- function(px_path) {
-  readLines_with_encoding(
+  read_lines_with_encoding(
     path = px_path,
     encoding = get_encoding_from_px_file(px_path)
   )
@@ -349,8 +349,8 @@ read_px_file <- function(px_path) {
 #'
 #' @returns A character vector
 #' @keywords internal
-readLines_guess_encoding <- function(path) {
-  readLines_with_encoding(
+read_lines_guess_encoding <- function(path) {
+  read_lines_with_encoding(
     path = path,
     encoding = guess_file_encoding(path)
   )
@@ -395,11 +395,12 @@ get_encoding_from_px_file <- function(px_path) {
 #' @returns Character
 #' @keywords internal
 guess_file_encoding <- function(
-    path,
-    prefer = list(
-      "UTF-8" = .2,
-      "ISO-8859-1" = .2
-    )) {
+  path,
+  prefer = list(
+    "UTF-8" = .2,
+    "ISO-8859-1" = .2
+  )
+) {
   prefer_df <-
     prefer |>
     tibble::enframe(name = "Encoding", value = "Confidence") |>

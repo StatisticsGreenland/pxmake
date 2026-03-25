@@ -126,7 +126,7 @@ get_data_cube <- function(metadata_df, data_df) {
 format_px_object_as_lines <- function(x) {
   metadata_df <- get_metadata_df_from_px(x)
 
-  time_variables <-
+  time_variables <- # nolint: object_usage_linter
     metadata_df |>
     dplyr::filter(.data$keyword == "TIMEVAL") |>
     dplyr::pull(.data$variable)
@@ -383,7 +383,7 @@ px_from_px_file <- function(path) {
       dplyr::bind_rows(
         current_df,
         dplyr::anti_join(
-          dplyr::select(name_relation, -main_language),
+          dplyr::select(name_relation, -main_language), # nolint: object_usage_linter
           current_df,
           by = c("variable-code", "language", "variable-label")
         )

@@ -221,7 +221,8 @@ px_data <- function(x, value, labels, sort, validate) {
 #'
 #' @export
 px_data.px <- function(
-    x, value, labels = FALSE, sort = FALSE, validate = TRUE) {
+  x, value, labels = FALSE, sort = FALSE, validate = TRUE
+) {
   validate_px_data_arguments(x, value, labels, sort, validate)
 
   if (missing(value)) {

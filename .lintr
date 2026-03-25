@@ -12,18 +12,6 @@ exclusions: list(
     # Don't want to functionally alter the package
     # Some compromises are necessary.
     # Exceptions are added row-wise whenever it makes sense.
-    "R/helper_functions.R" = list(
-        object_name_linter = c(321,352)
-        ),
-    "R/add_totals.R" = list(
-        object_name_linter = c(15, 45, 62, 106)
-        ),
-    "R/modify_variable1.R" = list(
-        object_usage_linter = 280
-    ),
-    "R/px_file.R" = list(
-        object_usage_linter = c(129, 293, 386)
-    ),
     "tests/testthat/test-74-pxsave-to-R-preserves.R" = list(
         commented_code_linter = 53:63
     )

@@ -75,19 +75,19 @@ In general, modifying functions are named after the keyword they modify. It's po
 library(magrittr) # import pipe
 
 # Create px object from data frame
-x <- px(data.frame(year = as.character(rep(2021:2023, each = 3)), 
-                   group = c('a', 'b', 'c'), 
-                   value = runif(9)
-                   )
-        ) 
+x <- px(data.frame(
+  year = as.character(rep(2021:2023, each = 3)),
+  group = c("a", "b", "c"),
+  value = runif(9)
+))
 
 head(x$data, 4)
 
-x %>% 
-  px_timeval("year") %>%  # Set year as TIMEVAL
-  px_heading("year") %>%  # Set year as HEADING
-  px_stub("group") %>%    # Set group as STUB
-  px_decimals("2") %>%    # Set DECIMALS to 2
+x %>%
+  px_timeval("year") %>% # Set year as TIMEVAL
+  px_heading("year") %>% # Set year as HEADING
+  px_stub("group") %>% # Set group as STUB
+  px_decimals("2") %>% # Set DECIMALS to 2
   px_save("example.px") # Save as PX-file
 ```
 
@@ -100,7 +100,7 @@ unlink("example.px")
 
 ```{r, include = FALSE}
 priority1 <- c("AXIS-VERSION", "CODEPAGE", "CODES", "CONTACT", "CONTENTS", "CONTVARIABLE", "COPYRIGHT", "DATA", "DESCRIPTION", "DOMAIN", "ELIMINATION", "LANGUAGE", "LANGUAGES", "MAP", "NOTE", "NOTEX", "PRECISION", "SHOWDECIMALS", "SOURCE", "STOCKFA", "SUBJECT-AREA", "SUBJECT-CODE", "TABLEID", "UNITS", "UPDATE-FREQUENCY", "VALUENOTE", "VALUENOTE", "VALUENOTEX", "VALUES", "VARIABLE-TYPE", "VARIABLECODE")
-               
+
 priority2 <- c("BASEPERIOD", "CELLNOTE", "CELLNOTEX", "CFPRICES", "CONFIDENTIAL")
 
 easy <- c("AGGREGALLOWED", "AUTOPEN", "AXIS-VERSION", "CODEPAGE", "CONFIDENTIAL", "COPYRIGHT", "NEXT-UPDATE", "SHOWDECIMALS", "SUBJECT-CODE", "TABLEID", "UPDATE-FREQUENCY", "CFPRICES", "DATA", "MAP", "STOCKFA")
@@ -112,41 +112,43 @@ hard <- c("LANGUAGE", "LANGUAGES", "CONTVARIABLE", "NOTE", "NOTEX", "BASEPERIOD"
 dont_implement <- c("CODES", "VARIABLECODE")
 
 modifying_functions <-
-  readLines('NAMESPACE') %>%
+  readLines("NAMESPACE") %>%
   stringr::str_match("S3method\\((?<function>.*),px\\)") %>%
   as.data.frame() %>%
-  tidyr::drop_na() %>% 
+  tidyr::drop_na() %>%
   dplyr::pull("function")
 
-status <- 
+status <-
   px_keywords %>%
-  as.data.frame() %>% 
-  dplyr::select(Keyword = keyword) %>% 
-  dplyr::mutate(`Function name` = paste0("px_", gsub("-", "_", tolower(Keyword))),
-                implemented = `Function name` %in% modifying_functions
-                ) %>% 
-  dplyr::mutate(Priority = 
-                  dplyr::case_when(
-                    Keyword %in% priority1 ~ "**",
-                    Keyword %in% priority2 ~ "*",
-                    TRUE                   ~ ""
-                  ),
-                Complexity = 
-                  dplyr::case_when(
-                    Keyword %in% easy   ~ "Easy",
-                    Keyword %in% medium ~ "Medium",
-                    Keyword %in% hard   ~ "Hard",
-                    TRUE                ~ ""
-                  )
-                ) %>% 
+  as.data.frame() %>%
+  dplyr::select(Keyword = keyword) %>%
+  dplyr::mutate(
+    `Function name` = paste0("px_", gsub("-", "_", tolower(Keyword))),
+    implemented = `Function name` %in% modifying_functions
+  ) %>%
+  dplyr::mutate(
+    Priority =
+      dplyr::case_when(
+        Keyword %in% priority1 ~ "**",
+        Keyword %in% priority2 ~ "*",
+        TRUE ~ ""
+      ),
+    Complexity =
+      dplyr::case_when(
+        Keyword %in% easy ~ "Easy",
+        Keyword %in% medium ~ "Medium",
+        Keyword %in% hard ~ "Hard",
+        TRUE ~ ""
+      )
+  ) %>%
   dplyr::arrange(dplyr::across(everything()))
 
 implemented <- dplyr::filter(status, implemented)
 not_implemented <- dplyr::filter(status, !implemented & !Keyword %in% dont_implement)
 wont_implement <- dplyr::filter(status, Keyword %in% dont_implement)
 
-non_keyword_modifying_functions <- 
-  dplyr::tibble(`Function name` = setdiff(modifying_functions, status %>% dplyr::pull(`Function name`))) %>% 
+non_keyword_modifying_functions <-
+  dplyr::tibble(`Function name` = setdiff(modifying_functions, status %>% dplyr::pull(`Function name`))) %>%
   as.data.frame()
 ```
 
@@ -154,14 +156,14 @@ Currently the following `r nrow(implemented)` keywords have a modifying function
 
 ```{r, echo = FALSE}
 implemented %>%
-  dplyr::select(Keyword, `Function name`) %>% 
+  dplyr::select(Keyword, `Function name`) %>%
   print(row.names = FALSE, right = FALSE)
 ```
 
 In addition to the above, the following `r nrow(non_keyword_modifying_functions)` modifying functions are available:
 
 ```{r, echo = FALSE}
-non_keyword_modifying_functions %>% 
+non_keyword_modifying_functions %>%
   print(row.names = FALSE, right = FALSE)
 ```
 
@@ -171,8 +173,8 @@ See the help page for each modifying function for more information.
 <summary>Keywords without modifying functions</summary>
 These `r nrow(not_implemented)` keywords currently doesn't have a modifying function, but can be implemented.
 ```{r, echo = FALSE}
-not_implemented %>% 
-  dplyr::select(-implemented) %>% 
+not_implemented %>%
+  dplyr::select(-implemented) %>%
   print(row.names = FALSE, right = FALSE)
 ```
 
@@ -180,7 +182,7 @@ Finally these `r nrow(wont_implement)` keywords will not have a modifying functi
 
 ```{r, echo = FALSE}
 wont_implement %>%
-  dplyr::select(Keyword) %>% 
+  dplyr::select(Keyword) %>%
   print(row.names = FALSE, right = FALSE)
 ```
 </details>

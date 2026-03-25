@@ -104,7 +104,7 @@ test_that("do not ignore NA when summing", {
 
   result <-
     px(df) |>
-    px_add_totals("category", na.rm = FALSE) |>
+    px_add_totals("category", na_rm = FALSE) |>
     magrittr::extract2("data") |>
     dplyr::pull(n)
 

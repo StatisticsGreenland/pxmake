@@ -108,7 +108,7 @@ new_classification <- function(name, prestext, domain, df) {
 #' second column (ordered) named after the aggregation
 #' @keywords internal
 aggregation_df <- function(path) {
-  agg_lines <- readLines_guess_encoding(path)
+  agg_lines <- read_lines_guess_encoding(path) # nolint: object_usage_linter
 
   error_if_aggregation_file_is_missing_mandatory_headings(agg_lines)
 
@@ -187,7 +187,7 @@ aggregation_df <- function(path) {
 #' @returns A classification object
 #' @keywords internal
 px_classification_from_path <- function(vs_path, agg_paths) {
-  vs_lines <- readLines_guess_encoding(vs_path)
+  vs_lines <- read_lines_guess_encoding(vs_path)
 
   error_if_vs_file_is_missing_mandatory_headings(vs_lines)
 

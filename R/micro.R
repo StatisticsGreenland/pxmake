@@ -1,5 +1,6 @@
 create_micro_file <- function(
-    micro_var, x, filenames, keyword_values_long, out_dir) {
+  micro_var, x, filenames, keyword_values_long, out_dir
+) {
   figures_var <- "n"
 
   new_data <-

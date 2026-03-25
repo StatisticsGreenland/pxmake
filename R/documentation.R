@@ -63,7 +63,8 @@ add_documentation_head_stub <- function(keyword) {
 }
 
 add_documentation_variables2 <- function(
-    keyword, example_value1, example_value2, example_value3) {
+  keyword, example_value1, example_value2, example_value3
+) {
   stringr::str_glue(
     doc_keyword_function_intro(keyword),
     "@param value {variables2_param_value(keyword)}",
@@ -210,7 +211,8 @@ table2_example <- function(keyword, example_value1, example_value2) {
 }
 
 variables2_example <- function(
-    keyword, example_value1, example_value2, example_value3) {
+  keyword, example_value1, example_value2, example_value3
+) {
   if (is.na(example_value1)) {
     return("")
   }
@@ -286,7 +288,8 @@ cells1_example <- function(keyword, example_value1, example_value2) {
 add_cells1_example <- add_documentation_function(cells1_example)
 
 cells2_example <- function(
-    keyword, example_value1, example_value2, example_value3) {
+  keyword, example_value1, example_value2, example_value3
+) {
   px_function <- keyword_to_function(keyword)
 
   stringr::str_glue(

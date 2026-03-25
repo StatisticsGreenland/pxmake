@@ -12,13 +12,13 @@ add_total_level_to_var <- function(df,
                                    variable,
                                    level_name = "Total",
                                    sum_var = "value",
-                                   na.rm = TRUE) {
+                                   na_rm = TRUE) {
   column_order <- names(df)
 
   df |>
     dplyr::group_by(across(-any_of(c(variable, sum_var)))) |>
     dplyr::summarise(
-      !!sum_var := sum(!!rlang::sym(sum_var), na.rm = !!na.rm)
+      !!sum_var := sum(!!rlang::sym(sum_var), na.rm = !!na_rm)
     ) |>
     dplyr::ungroup() |>
     dplyr::mutate({{ variable }} := level_name) |>
@@ -42,7 +42,7 @@ add_totals_to_df <- function(df,
                              variables,
                              level_names,
                              sum_var = "value",
-                             na.rm = TRUE) {
+                             na_rm = TRUE) {
   params <- data.frame(variables = variables, level_names = level_names)
 
   for (i in seq_len(nrow(params))) {
@@ -50,7 +50,7 @@ add_totals_to_df <- function(df,
       variable = params$variables[i],
       level_name = params$level_names[i],
       sum_var = sum_var,
-      na.rm = !!na.rm
+      na_rm = !!na_rm
     )
   }
 
@@ -59,7 +59,7 @@ add_totals_to_df <- function(df,
 
 #' @rdname px_add_totals.px
 #' @export
-px_add_totals <- function(x, value, na.rm = TRUE, validate) {
+px_add_totals <- function(x, value, na_rm = TRUE, validate) {
   UseMethod("px_add_totals")
 }
 
@@ -74,7 +74,7 @@ px_add_totals <- function(x, value, na.rm = TRUE, validate) {
 #'
 #' @param x A px object
 #' @param value A character vector of variables to add total levels to.
-#' @param na.rm Optional. Logical. If TRUE, NAs are removed before summing.
+#' @param na_rm Optional. Logical. If TRUE, NAs are removed before summing.
 #' @eval param_validate()
 #'
 #' @returns A px object
@@ -103,7 +103,7 @@ px_add_totals <- function(x, value, na.rm = TRUE, validate) {
 #' px_data(x3)
 #'
 #' @export
-px_add_totals.px <- function(x, value, na.rm = TRUE, validate = TRUE) {
+px_add_totals.px <- function(x, value, na_rm = TRUE, validate = TRUE) {
   elimination <-
     px_elimination(x)
 
@@ -130,7 +130,7 @@ px_add_totals.px <- function(x, value, na.rm = TRUE, validate = TRUE) {
       variables = params$`variable-code`,
       level_names = params$elimination,
       sum_var = px_figures(x),
-      na.rm = !!na.rm
+      na_rm = !!na_rm
     )
 
   return_px(x, validate)

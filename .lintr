@@ -2,16 +2,12 @@ linters: linters_with_defaults(
     object_length_linter(Inf)
         )
 exclusions: list(
-    # excluded from object_usage_linter
     "R/documentation.R" = list(
         object_usage_linter = Inf
         ),
     "R/data.R" = list(
         line_length_linter = Inf
         ),
-    # Don't want to functionally alter the package
-    # Some compromises are necessary.
-    # Exceptions are added row-wise whenever it makes sense.
     "tests/testthat/test-74-pxsave-to-R-preserves.R" = list(
         commented_code_linter = 53:63
     )

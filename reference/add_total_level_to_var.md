@@ -10,7 +10,7 @@ add_total_level_to_var(
   variable,
   level_name = "Total",
   sum_var = "value",
-  na.rm = TRUE
+  na_rm = TRUE
 )
 ```
 
@@ -32,7 +32,7 @@ add_total_level_to_var(
 
   String, name of variable to sum over.
 
-- na.rm:
+- na_rm:
 
   Optional. Logical. If TRUE, NAs are removed before summing.
 

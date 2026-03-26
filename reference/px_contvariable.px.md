@@ -49,7 +49,7 @@ documentation](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-fi
 # Set CONTVARIABLE
 x1 <-
   px(population_gl) |>
-  px_contvariable('gender')
+  px_contvariable("gender")
 
 # After setting CONTVARIABLE some variables are index by it, e.g. UNITS
 px_units(x1)

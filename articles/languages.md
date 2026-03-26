@@ -13,7 +13,7 @@ x <- px(population_gl)
 Currently, `x` has neither a main language nor any additional languages.
 
 ``` r
-px_language(x)  # Main language
+px_language(x) # Main language
 #> NULL
 px_languages(x) # All languages
 #> NULL
@@ -50,11 +50,11 @@ x3 <- px_contact(x2, "Johan Ejstrud")
 or it can be set with distinct values for the two languages:
 
 ``` r
-x4 <- px_contact(x3, dplyr::tribble(~language, ~value,
-                                    "kl", "Lars Pedersen",
-                                    "da", "Johan Ejstrud"
-                                    )
-                 )
+x4 <- px_contact(x3, dplyr::tribble(
+  ~language, ~value,
+  "kl", "Lars Pedersen",
+  "da", "Johan Ejstrud"
+))
 ```
 
 In general, changing a keyword for multiple languages, requires a data

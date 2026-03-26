@@ -51,11 +51,11 @@ library(tibble)
 # Set ELIMINATION
 x1 <-
   px(population_gl) |>
-  px_elimination(tribble(~`variable-code`, ~elimination,
-                         "gender", "T",
-                         "age", "YES"
-                        )
-                )
+  px_elimination(tribble(
+    ~`variable-code`, ~elimination,
+    "gender", "T",
+    "age", "YES"
+  ))
 
 # Print ELIMINATION
 px_elimination(x1)

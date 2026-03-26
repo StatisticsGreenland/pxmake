@@ -54,12 +54,12 @@ px_heading(x1)
 #> [1] "year"
 
 # Add 'gender' to HEADING
-x2 <- px_heading(x1, 'gender')
+x2 <- px_heading(x1, "gender")
 px_heading(x2)
 #> [1] "gender" "year"  
 
 # Change order of HEADING
-x3 <- px_heading(x2, 'year')
+x3 <- px_heading(x2, "year")
 px_heading(x3)
 #> [1] "year"   "gender"
 ```

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,7 +95,9 @@ instead create a count of each individual variable.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/StatisticsGreenland/pxmake" class="external-link">pxmake</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">greenlanders</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange_all.html" class="external-link">arrange_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">greenlanders</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange_all.html" class="external-link">arrange_all</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 4</span></span></span>
 <span><span class="co">#&gt;    cohort gender   age municipality</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
@@ -147,8 +149,8 @@ for ‘gender’, ‘age’ and ‘municipality’.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x2</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">x</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/px_stub.px.html">px_stub</a></span><span class="op">(</span><span class="st">'age'</span><span class="op">)</span> <span class="op">|&gt;</span>    <span class="co"># Change age to STUB</span></span>
-<span>  <span class="fu"><a href="../reference/px_heading.px.html">px_heading</a></span><span class="op">(</span><span class="st">'cohort'</span><span class="op">)</span> <span class="co"># Change cohort to HEADING</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/px_stub.px.html">px_stub</a></span><span class="op">(</span><span class="st">"age"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Change age to STUB</span></span>
+<span>  <span class="fu"><a href="../reference/px_heading.px.html">px_heading</a></span><span class="op">(</span><span class="st">"cohort"</span><span class="op">)</span> <span class="co"># Change cohort to HEADING</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Clear folder</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"*.px"</span><span class="op">)</span><span class="op">)</span></span>
@@ -162,7 +164,7 @@ for ‘gender’, ‘age’ and ‘municipality’.</p>
 HEADING, and a variable ‘n’ which is the count of each combination of
 the variables.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">'age.px'</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"age.px"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 120 × 3</span></span></span>
 <span><span class="co">#&gt;    age   cohort     n</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -178,7 +180,7 @@ the variables.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 22    B         <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 110 more rows</span></span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">'gender.px'</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span></span>
+<span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"gender.px"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
 <span><span class="co">#&gt;   gender cohort     n</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -187,7 +189,7 @@ the variables.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> male   A         23</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> male   B         28</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">'municipality.px'</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span></span>
+<span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"municipality.px"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">data</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span></span>
 <span><span class="co">#&gt;    municipality cohort     n</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -219,22 +221,23 @@ change them in the px object before calling <code><a href="../reference/px_micro
 file. To do so, create a data frame with the column ‘variable’ and a
 column for each px keyword to change.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">individual_keywords</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">variable</span>     ,      <span class="op">~</span><span class="va">px_description</span>,</span>
-<span>                                       <span class="st">"age"</span>         ,    <span class="st">"Age count 18-99"</span>,</span>
-<span>                                       <span class="st">"gender"</span>      ,       <span class="st">"Gender count"</span>,</span>
-<span>                                       <span class="st">"municipality"</span>,  <span class="st">"Municipality 2024"</span></span>
-<span>                                       <span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">individual_keywords</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">variable</span>, <span class="op">~</span><span class="va">px_description</span>,</span>
+<span>  <span class="st">"age"</span>, <span class="st">"Age count 18-99"</span>,</span>
+<span>  <span class="st">"gender"</span>, <span class="st">"Gender count"</span>,</span>
+<span>  <span class="st">"municipality"</span>, <span class="st">"Municipality 2024"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>Supply this dataframe to the <code>keyword_values</code> argument of
 <code><a href="../reference/px_micro.html">px_micro()</a></code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/px_micro.html">px_micro</a></span><span class="op">(</span><span class="va">x2</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span>, keyword_values <span class="op">=</span> <span class="va">individual_keywords</span><span class="op">)</span></span></code></pre></div>
 <p>DESCRIPTION is changed in the micro files:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">'age.px'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/px_description.px.html">px_description</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"age.px"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/px_description.px.html">px_description</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Age count 18-99"</span></span>
-<span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">'gender.px'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/px_description.px.html">px_description</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"gender.px"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/px_description.px.html">px_description</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Gender count"</span></span>
-<span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">'municipality.px'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/px_description.px.html">px_description</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"municipality.px"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/px_description.px.html">px_description</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Municipality 2024"</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="multilingual-files">Multilingual files<a class="anchor" aria-label="anchor" href="#multilingual-files"></a>
@@ -248,15 +251,15 @@ column for each px keyword to change.</p>
 <span>  <span class="fu"><a href="../reference/px_languages.px.html">px_languages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"en"</span>, <span class="st">"kl"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span></span>
-<span><span class="va">individual_keywords_ml</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">individual_keywords_ml</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span>       <span class="op">~</span><span class="va">variable</span>, <span class="op">~</span><span class="va">language</span>,     <span class="op">~</span><span class="va">px_description</span>, <span class="op">~</span><span class="va">px_matrix</span>,</span>
-<span>           <span class="st">"age"</span>,      <span class="st">"en"</span>,   <span class="st">"Age count 18-99"</span>,      <span class="st">"AGE"</span>,</span>
-<span>           <span class="st">"age"</span>,      <span class="st">"kl"</span>,       <span class="st">"Ukiut 18-99"</span>,         <span class="cn">NA</span>,</span>
-<span>        <span class="st">"gender"</span>,      <span class="st">"en"</span>,      <span class="st">"Gender count"</span>,      <span class="st">"GEN"</span>,</span>
-<span>        <span class="st">"gender"</span>,      <span class="st">"kl"</span>,      <span class="st">" Suiaassuseq"</span>,         <span class="cn">NA</span>,</span>
-<span>  <span class="st">"municipality"</span>,      <span class="st">"en"</span>, <span class="st">"Municipality 2024"</span>,      <span class="st">"MUN"</span>,</span>
-<span>  <span class="st">"municipality"</span>,      <span class="st">"kl"</span>,      <span class="st">"Kommuni 2024"</span>,         <span class="cn">NA</span></span>
+<span>    <span class="op">~</span><span class="va">variable</span>, <span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">px_description</span>, <span class="op">~</span><span class="va">px_matrix</span>,</span>
+<span>    <span class="st">"age"</span>, <span class="st">"en"</span>, <span class="st">"Age count 18-99"</span>, <span class="st">"AGE"</span>,</span>
+<span>    <span class="st">"age"</span>, <span class="st">"kl"</span>, <span class="st">"Ukiut 18-99"</span>, <span class="cn">NA</span>,</span>
+<span>    <span class="st">"gender"</span>, <span class="st">"en"</span>, <span class="st">"Gender count"</span>, <span class="st">"GEN"</span>,</span>
+<span>    <span class="st">"gender"</span>, <span class="st">"kl"</span>, <span class="st">" Suiaassuseq"</span>, <span class="cn">NA</span>,</span>
+<span>    <span class="st">"municipality"</span>, <span class="st">"en"</span>, <span class="st">"Municipality 2024"</span>, <span class="st">"MUN"</span>,</span>
+<span>    <span class="st">"municipality"</span>, <span class="st">"kl"</span>, <span class="st">"Kommuni 2024"</span>, <span class="cn">NA</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/px_micro.html">px_micro</a></span><span class="op">(</span><span class="va">x3</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span>, keyword_values <span class="op">=</span> <span class="va">individual_keywords_ml</span><span class="op">)</span></span></code></pre></div>
@@ -272,7 +275,7 @@ language the value is set for.</p>
 variable, however these can also be changed by passing a ‘filename’
 column to ‘keyword_values’</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">individual_keywords2</span> <span class="op">&lt;-</span> </span>
+<code class="sourceCode R"><span><span class="va">individual_keywords2</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">individual_keywords</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">variable</span>, <span class="st">"_2024"</span>, <span class="st">".px"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>

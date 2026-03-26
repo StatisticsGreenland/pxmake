@@ -10,10 +10,10 @@ is set, in which case the elimination code is used.
 ## Usage
 
 ``` r
-px_add_totals(x, value, na.rm = TRUE, validate)
+px_add_totals(x, value, na_rm = TRUE, validate)
 
 # S3 method for class 'px'
-px_add_totals(x, value, na.rm = TRUE, validate = TRUE)
+px_add_totals(x, value, na_rm = TRUE, validate = TRUE)
 ```
 
 ## Arguments
@@ -26,7 +26,7 @@ px_add_totals(x, value, na.rm = TRUE, validate = TRUE)
 
   A character vector of variables to add total levels to.
 
-- na.rm:
+- na_rm:
 
   Optional. Logical. If TRUE, NAs are removed before summing.
 

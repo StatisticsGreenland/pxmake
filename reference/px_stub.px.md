@@ -52,12 +52,12 @@ x1 <- px(population_gl)
 px_stub(x1)
 #> [1] "gender" "age"   
 # Add 'year' to STUB
-x2 <- px_stub(x1, 'year')
+x2 <- px_stub(x1, "year")
 px_stub(x2)
 #> [1] "year"   "gender" "age"   
 
 # Change order of STUB
-x3 <- px_stub(x2, c('age', 'gender'))
+x3 <- px_stub(x2, c("age", "gender"))
 px_stub(x3)
 #> [1] "age"    "gender" "year"  
 ```

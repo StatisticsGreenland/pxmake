@@ -52,7 +52,7 @@ px_figures(x1)
 #> [1] "n"
 
 # Change 'age' to FIGURES variable, 'n' i changed to STUB
-x2 <- px_figures(x1, 'age')
+x2 <- px_figures(x1, "age")
 px_figures(x2)
 #> [1] "age"
 px_stub(x2)

@@ -27,11 +27,12 @@ Nothing.
 
 ``` r
 # Save classification as .vs as .agg files
-c <- px_classification(name = "Age5",
-                       prestext = "Ages 0-9 - 60+",
-                       domain = "age",
-                       df = age_classification
-                       )
+c <- px_classification(
+  name = "Age5",
+  prestext = "Ages 0-9 - 60+",
+  domain = "age",
+  df = age_classification
+)
 
 px_save_classification(c, path = tempdir())
 ```

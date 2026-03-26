@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@ built in data set <code>population_gl</code>.</p>
 <p>Currently, <code>x</code> has neither a main language nor any
 additional languages.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/px_language.px.html">px_language</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>  <span class="co"># Main language</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/px_language.px.html">px_language</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># Main language</span></span>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="fu"><a href="../reference/px_languages.px.html">px_languages</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># All languages</span></span>
 <span><span class="co">#&gt; NULL</span></span></code></pre></div>
@@ -98,11 +98,11 @@ languages:</p>
 <code class="sourceCode R"><span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/px_contact.px.html">px_contact</a></span><span class="op">(</span><span class="va">x2</span>, <span class="st">"Johan Ejstrud"</span><span class="op">)</span></span></code></pre></div>
 <p>or it can be set with distinct values for the two languages:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/px_contact.px.html">px_contact</a></span><span class="op">(</span><span class="va">x3</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">value</span>,</span>
-<span>                                    <span class="st">"kl"</span>, <span class="st">"Lars Pedersen"</span>,</span>
-<span>                                    <span class="st">"da"</span>, <span class="st">"Johan Ejstrud"</span></span>
-<span>                                    <span class="op">)</span></span>
-<span>                 <span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/px_contact.px.html">px_contact</a></span><span class="op">(</span><span class="va">x3</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">value</span>,</span>
+<span>  <span class="st">"kl"</span>, <span class="st">"Lars Pedersen"</span>,</span>
+<span>  <span class="st">"da"</span>, <span class="st">"Johan Ejstrud"</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>In general, changing a keyword for multiple languages, requires a
 data frame where the column ‘language’ has been added. See the help
 pages for each functions to see the exact details on which columns are

@@ -7,7 +7,7 @@ to add levels to total level to multiple variables.
 ## Usage
 
 ``` r
-add_totals_to_df(df, variables, level_names, sum_var = "value", na.rm = TRUE)
+add_totals_to_df(df, variables, level_names, sum_var = "value", na_rm = TRUE)
 ```
 
 ## Arguments
@@ -29,6 +29,6 @@ add_totals_to_df(df, variables, level_names, sum_var = "value", na.rm = TRUE)
 
   String, name of variable to sum over.
 
-- na.rm:
+- na_rm:
 
   Optional. Logical. If TRUE, NAs are removed before summing.

@@ -56,12 +56,15 @@ A px object
 x1 <- px(population_gl)
 
 # Download PX-file for example
-download_succeeded <- tryCatch({
-  px_path <- tempfile(fileext = ".px")
-  url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
-  download.file(url, px_path)
-  TRUE
-}, error = function(e) FALSE)
+download_succeeded <- tryCatch(
+  {
+    px_path <- tempfile(fileext = ".px")
+    url <- "https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d"
+    download.file(url, px_path)
+    TRUE
+  },
+  error = function(e) FALSE
+)
 
 # Run examples only if file was downloaded
 if (download_succeeded) {

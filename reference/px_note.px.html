@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,14 +59,16 @@
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>Optional. A character string, a data frame, or a list.</p><ul><li><p>Use character, to set NOTE for the entire table across all languages.</p></li>
+<dd><p>Optional. A character string, a data frame, or a list.</p><ul><li><p>Use character, to set NOTE for the entire table across
+all languages.</p></li>
 <li><p>Use a data frame with columns 'language' and 'value' to set
 NOTE for the entire table in a specific language.</p></li>
 <li><p>Use a data frame with the columns 'variable-code' and 'note',
 to set NOTE for a specific variable across all languages. Add the
 column 'language' to set NOTE for specific language.</p></li>
 <li><p>Use a list of the above elements to set NOTE in muliple ways.
-This is the same as calling NOTE multiple times with different values.</p></li>
+This is the same as calling NOTE multiple times with different
+values.</p></li>
 <li><p>If missing, the current NOTE is returned.</p></li>
 <li><p>If NULL, NOTE is removed for the table and all variables.</p></li>
 </ul></dd>
@@ -82,8 +84,9 @@ This is the same as calling NOTE multiple times with different values.</p></li>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>NOTE has a lot of possible ways to specify <code>value</code>, because
-it can be set both for the entire PX-file and for individual variables.</p>
+    <p>NOTE has a lot of possible ways to specify <code>value</code>,
+because it can be set both for the entire PX-file and for
+individual variables.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

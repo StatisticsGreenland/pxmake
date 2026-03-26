@@ -126,7 +126,7 @@ px object is not modified.
 
 ``` r
 x3 |>
-  px_codepage("UTF-8") |> # Change file encoding  
+  px_codepage("UTF-8") |> # Change file encoding
   px_matrix("pop") |>
   px_contact("Johan Ejstrud") |>
   px_subject_code("GL") |>
@@ -164,7 +164,7 @@ The resulting PX-file can be seen below.
     VARIABLECODE("gender")="gender";
     VARIABLECODE("year")="year";
     VARIABLECODE("n")="n";
-    LAST-UPDATED="20260317 18:05";
+    LAST-UPDATED="20260326 10:30";
     CONTACT="Johan Ejstrud";
     NOTE="See information about data: ?population_gl";
     DATA=

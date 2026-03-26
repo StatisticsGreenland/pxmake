@@ -34,7 +34,9 @@ In this example we will use the built-in data data set `greenlanders`.
 ``` r
 library(pxmake)
 
-greenlanders |> dplyr::sample_n(10) |> dplyr::arrange_all()
+greenlanders |>
+  dplyr::sample_n(10) |>
+  dplyr::arrange_all()
 #> # A tibble: 10 × 4
 #>    cohort gender   age municipality
 #>    <chr>  <chr>  <int> <chr>       
@@ -99,8 +101,8 @@ for ‘gender’, ‘age’ and ‘municipality’.
 ``` r
 x2 <-
   x |>
-  px_stub('age') |>    # Change age to STUB
-  px_heading('cohort') # Change cohort to HEADING
+  px_stub("age") |> # Change age to STUB
+  px_heading("cohort") # Change cohort to HEADING
 ```
 
 ``` r
@@ -122,7 +124,7 @@ HEADING, and a variable ‘n’ which is the count of each combination of
 the variables.
 
 ``` r
-px(file.path(micro_dir, 'age.px'))$data
+px(file.path(micro_dir, "age.px"))$data
 #> # A tibble: 120 × 3
 #>    age   cohort     n
 #>    <chr> <chr>  <dbl>
@@ -138,7 +140,7 @@ px(file.path(micro_dir, 'age.px'))$data
 #> 10 22    B         NA
 #> # ℹ 110 more rows
 
-px(file.path(micro_dir, 'gender.px'))$data
+px(file.path(micro_dir, "gender.px"))$data
 #> # A tibble: 4 × 3
 #>   gender cohort     n
 #>   <chr>  <chr>  <dbl>
@@ -147,7 +149,7 @@ px(file.path(micro_dir, 'gender.px'))$data
 #> 3 male   A         23
 #> 4 male   B         28
 
-px(file.path(micro_dir, 'municipality.px'))$data
+px(file.path(micro_dir, "municipality.px"))$data
 #> # A tibble: 10 × 3
 #>    municipality cohort     n
 #>    <chr>        <chr>  <dbl>
@@ -185,11 +187,12 @@ file. To do so, create a data frame with the column ‘variable’ and a
 column for each px keyword to change.
 
 ``` r
-individual_keywords <- tibble::tribble(~variable     ,      ~px_description,
-                                       "age"         ,    "Age count 18-99",
-                                       "gender"      ,       "Gender count",
-                                       "municipality",  "Municipality 2024"
-                                       )
+individual_keywords <- tibble::tribble(
+  ~variable, ~px_description,
+  "age", "Age count 18-99",
+  "gender", "Gender count",
+  "municipality", "Municipality 2024"
+)
 ```
 
 Supply this dataframe to the `keyword_values` argument of
@@ -202,11 +205,11 @@ px_micro(x2, out_dir = micro_dir, keyword_values = individual_keywords)
 DESCRIPTION is changed in the micro files:
 
 ``` r
-px(file.path(micro_dir, 'age.px')) %>% px_description()
+px(file.path(micro_dir, "age.px")) |> px_description()
 #> [1] "Age count 18-99"
-px(file.path(micro_dir, 'gender.px')) %>% px_description()
+px(file.path(micro_dir, "gender.px")) |> px_description()
 #> [1] "Gender count"
-px(file.path(micro_dir, 'municipality.px')) %>% px_description()
+px(file.path(micro_dir, "municipality.px")) |> px_description()
 #> [1] "Municipality 2024"
 ```
 
@@ -221,15 +224,15 @@ x3 <-
   px_languages(c("en", "kl"))
 
 
-individual_keywords_ml <- 
+individual_keywords_ml <-
   tibble::tribble(
-       ~variable, ~language,     ~px_description, ~px_matrix,
-           "age",      "en",   "Age count 18-99",      "AGE",
-           "age",      "kl",       "Ukiut 18-99",         NA,
-        "gender",      "en",      "Gender count",      "GEN",
-        "gender",      "kl",      " Suiaassuseq",         NA,
-  "municipality",      "en", "Municipality 2024",      "MUN",
-  "municipality",      "kl",      "Kommuni 2024",         NA
+    ~variable, ~language, ~px_description, ~px_matrix,
+    "age", "en", "Age count 18-99", "AGE",
+    "age", "kl", "Ukiut 18-99", NA,
+    "gender", "en", "Gender count", "GEN",
+    "gender", "kl", " Suiaassuseq", NA,
+    "municipality", "en", "Municipality 2024", "MUN",
+    "municipality", "kl", "Kommuni 2024", NA
   )
 
 px_micro(x3, out_dir = micro_dir, keyword_values = individual_keywords_ml)
@@ -247,7 +250,7 @@ variable, however these can also be changed by passing a ‘filename’
 column to ‘keyword_values’
 
 ``` r
-individual_keywords2 <- 
+individual_keywords2 <-
   individual_keywords |>
   dplyr::mutate(filename = paste0(variable, "_2024", ".px"))
 

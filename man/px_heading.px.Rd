@@ -31,11 +31,11 @@ x1 <- px(population_gl)
 px_heading(x1)
 
 # Add 'gender' to HEADING
-x2 <- px_heading(x1, 'gender')
+x2 <- px_heading(x1, "gender")
 px_heading(x2)
 
 # Change order of HEADING
-x3 <- px_heading(x2, 'year')
+x3 <- px_heading(x2, "year")
 px_heading(x3)
 }
 \seealso{

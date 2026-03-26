@@ -47,7 +47,7 @@ Since we provided no metadata, `px()` added a minimal set of metadata, which is 
 The resulting PX-file can be seen below.
 
 ```{r, comment="", echo = FALSE}
-readLines('population_gl.px') |> cat(sep = '\n')
+readLines("population_gl.px") |> cat(sep = "\n")
 ```
 
 ## How to create a PX-file from a PX-file
@@ -76,7 +76,7 @@ The `px_title()` function returns a new px object, with the title changed. The o
 
 ```{r}
 x3 |>
-  px_codepage("UTF-8") |> # Change file encoding  
+  px_codepage("UTF-8") |> # Change file encoding
   px_matrix("pop") |>
   px_contact("Johan Ejstrud") |>
   px_subject_code("GL") |>
@@ -93,7 +93,7 @@ x3 |>
 The resulting PX-file can be seen below.
 
 ```{r, comment="", echo = FALSE}
-readLines('population_gl_modified.px') |> cat(sep = '\n')
+readLines("population_gl_modified.px") |> cat(sep = "\n")
 ```
 
 ## Advanced use

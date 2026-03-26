@@ -14,14 +14,16 @@ px_note(x, value, validate)
 
 \item{value}{Optional. A character string, a data frame, or a list.
 \itemize{
-\item Use character, to set NOTE for the entire table across all languages.
+\item Use character, to set NOTE for the entire table across
+all languages.
 \item Use a data frame with columns 'language' and 'value' to set
 NOTE for the entire table in a specific language.
 \item Use a data frame with the columns 'variable-code' and 'note',
 to set NOTE for a specific variable across all languages. Add the
 column 'language' to set NOTE for specific language.
 \item Use a list of the above elements to set NOTE in muliple ways.
-This is the same as calling NOTE multiple times with different values.
+This is the same as calling NOTE multiple times with different
+values.
 \item If missing, the current NOTE is returned.
 \item If NULL, NOTE is removed for the table and all variables.
 }}
@@ -35,8 +37,9 @@ A px object, a character string, a data frame, or a list of character strings an
 Inspect or change NOTE.
 }
 \details{
-NOTE has a lot of possible ways to specify \code{value}, because
-it can be set both for the entire PX-file and for individual variables.
+NOTE has a lot of possible ways to specify \code{value},
+because it can be set both for the entire PX-file and for
+individual variables.
 }
 \examples{
 library(tibble)

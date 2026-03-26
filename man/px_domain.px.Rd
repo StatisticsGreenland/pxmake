@@ -50,7 +50,7 @@ px_domain(x2)
 
 # Set DOMAIN for individual languages
 x3 <-
-  x2 \%>\%
+  x2 |>
   px_languages(c('en', 'kl')) |>
   px_domain(tribble(~`variable-code`, ~language, ~domain,
                     'gender',    'en',      'aggregation2_en',

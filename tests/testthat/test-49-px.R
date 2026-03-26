@@ -1,8 +1,9 @@
 test_that("px runs without errors (excel file)", {
   expect_runs_without_errors <- function(table_name) {
-    px(input = get_metadata_path(table_name),
-       data = get_data_path(table_name)
-       )
+    px(
+      input = get_metadata_path(table_name),
+      data = get_data_path(table_name)
+    )
 
     expect_true(TRUE)
   }

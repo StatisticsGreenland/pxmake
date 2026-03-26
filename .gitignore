@@ -10,3 +10,8 @@ inst/doc
 docs
 /doc/
 /Meta/
+
+# renv-related files
+.Rprofile
+renv.lock
+renv/*

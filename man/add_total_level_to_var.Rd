@@ -9,7 +9,7 @@ add_total_level_to_var(
   variable,
   level_name = "Total",
   sum_var = "value",
-  na.rm = TRUE
+  na_rm = TRUE
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ add_total_level_to_var(
 
 \item{sum_var}{String, name of variable to sum over.}
 
-\item{na.rm}{Optional. Logical. If TRUE, NAs are removed before summing.}
+\item{na_rm}{Optional. Logical. If TRUE, NAs are removed before summing.}
 }
 \value{
 A data frame

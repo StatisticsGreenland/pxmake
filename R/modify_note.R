@@ -1,6 +1,8 @@
 handle_notes <- function(x, value, keyword, validate) {
   colname <- tolower(keyword)
-  error_msg <- stringr::str_glue("Argument 'value' has wrong format. See ?{colname}.")
+  error_msg <- stringr::str_glue(
+    "Argument 'value' has wrong format. See ?{colname}."
+  )
 
   if (missing(value)) {
     value_table2 <- get_table2_value(x, keyword)

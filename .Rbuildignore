@@ -1,3 +1,5 @@
+^renv$
+^renv\.lock$
 ^pxmake\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
@@ -16,3 +18,4 @@
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
 ^daily_downloads.R$
+^\.lintr$

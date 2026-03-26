@@ -30,7 +30,9 @@ library(tibble)
 # Set VARIABLE-TYPE
 x1 <-
   px(population_gl) |>
-  px_variable_type(tibble('variable-code' = 'year', 'variable-type' = 'time'))
+  px_variable_type(
+    tibble("variable-code" = "year", "variable-type" = "time")
+  )
 
 # Print VARIABLE-TYPE
 px_variable_type(x1)

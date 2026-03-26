@@ -5,12 +5,12 @@
 #' @returns A character vector
 #' @keywords internal
 defined_languages <- function(x) {
-  if (! is.null(px_languages(x))) {
-    return(px_languages(x))
-  } else if (! is.null(px_language(x))) {
-    return(px_language(x))
+  if (!is.null(px_languages(x))) {
+    px_languages(x)
+  } else if (!is.null(px_language(x))) {
+    px_language(x)
   } else {
-    return(NA_character_)
+    NA_character_
   }
 }
 
@@ -28,10 +28,10 @@ modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
 
   keep <- dplyr::filter(df, .data$language %in% new_languages)
 
-  new  <-
-    df %>%
-    dplyr::select(all_of(keep_vars)) %>%
-    tidyr::expand_grid(language = add_languages) %>%
+  new <-
+    df |>
+    dplyr::select(all_of(keep_vars)) |>
+    tidyr::expand_grid(language = add_languages) |>
     align_data_frames(align_df)
 
   dplyr::bind_rows(keep, new)
@@ -48,42 +48,49 @@ modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
 #' @keywords internal
 modify_languages_in_px <- function(x, new_languages) {
   x$table2 <-
-    modify_languages_in_table(df = x$table2,
-                              new_languages = new_languages,
-                              keep_vars = c("keyword", "value"),
-                              align_df = get_base_table2()
-                              )
+    modify_languages_in_table(
+      df = x$table2,
+      new_languages = new_languages,
+      keep_vars = c("keyword", "value"),
+      align_df = get_base_table2()
+    )
 
   x$variables2 <-
-    modify_languages_in_table(df = x$variables2,
-                              new_languages = new_languages,
-                              keep_vars = c("variable-code", "variable-label"),
-                              align_df = get_base_variables2()
-                              ) %>%
-    sort_variables2(data_table_names = names(px_data(x)),
-                    languages = new_languages
-                    )
+    modify_languages_in_table(
+      df = x$variables2,
+      new_languages = new_languages,
+      keep_vars = c("variable-code", "variable-label"),
+      align_df = get_base_variables2()
+    ) |>
+    sort_variables2(
+      data_table_names = names(px_data(x)),
+      languages = new_languages
+    )
 
   x$cells2 <-
-    modify_languages_in_table(df = x$cells2,
-                              new_languages = new_languages,
-                              keep_vars = c("variable-code", "code", "value",
-                                            "valuenote", "valuenotex"
-                                            ),
-                              align_df = get_base_cells2()
-                              ) %>%
-    sort_cells2(data_table_names = names(px_data(x)),
-                languages = new_languages
-                )
+    modify_languages_in_table(
+      df = x$cells2,
+      new_languages = new_languages,
+      keep_vars = c(
+        "variable-code", "code", "value",
+        "valuenote", "valuenotex"
+      ),
+      align_df = get_base_cells2()
+    ) |>
+    sort_cells2(
+      data_table_names = names(px_data(x)),
+      languages = new_languages
+    )
 
   x$acrosscells <-
-    modify_languages_in_table(df = x$acrosscells,
-                              new_languages = new_languages,
-                              keep_vars = c(px_stub(x), px_heading(x), 'cellnote'),
-                              align_df = get_base_acrosscells()
-                              )
+    modify_languages_in_table(
+      df = x$acrosscells,
+      new_languages = new_languages,
+      keep_vars = c(px_stub(x), px_heading(x), "cellnote"),
+      align_df = get_base_acrosscells()
+    )
 
-  return(x)
+  x
 }
 
 #' @rdname px_language.px
@@ -112,7 +119,7 @@ px_language <- function(x, value, validate) {
 #' x1 <-
 #'   population_gl |>
 #'   px() |>
-#'   px_language('en')
+#'   px_language("en")
 #'
 #' # Print LANGUAGE
 #' px_language(x1)
@@ -135,8 +142,10 @@ px_language.px <- function(x, value, validate = TRUE) {
     return(remove_keyword_table1(x, "LANGUAGE"))
   }
 
-  if (!is.null(px_languages(x)) & !value %in% px_languages(x)) {
-    x$languages <- modify_or_add_in_column(x$languages, "language", px_language(x), value)
+  if (!is.null(px_languages(x)) && !value %in% px_languages(x)) {
+    x$languages <- modify_or_add_in_column(
+      x$languages, "language", px_language(x), value
+    )
   }
 
   x <- modify_table1(x, "LANGUAGE", value)
@@ -177,7 +186,7 @@ px_languages <- function(x, value, validate) {
 #' x1 <-
 #'   population_gl |>
 #'   px() |>
-#'   px_languages(c('en', 'kl'))
+#'   px_languages(c("en", "kl"))
 #'
 #' # Print LANGUAGES
 #' px_languages(x1)
@@ -202,7 +211,7 @@ px_languages.px <- function(x, value, validate = TRUE) {
   }
 
   x$languages <-
-    dplyr::tibble(language = value) %>%
+    dplyr::tibble(language = value) |>
     align_data_frames(get_base_languages())
 
   x <- modify_languages_in_px(x, new_languages = value)

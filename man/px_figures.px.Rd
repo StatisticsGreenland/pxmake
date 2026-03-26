@@ -31,7 +31,7 @@ x1 <- px(population_gl)
 px_figures(x1)
 
 # Change 'age' to FIGURES variable, 'n' i changed to STUB
-x2 <- px_figures(x1, 'age')
+x2 <- px_figures(x1, "age")
 px_figures(x2)
 px_stub(x2)
 }

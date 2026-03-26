@@ -31,7 +31,7 @@ If LANGUAGES is defined, changing LANGUAGE will also add is to LANGUAGES.
 x1 <-
   population_gl |>
   px() |>
-  px_language('en')
+  px_language("en")
 
 # Print LANGUAGE
 px_language(x1)

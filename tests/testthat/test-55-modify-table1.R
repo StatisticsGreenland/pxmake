@@ -1,26 +1,26 @@
-test_that('Table1 keywords are modified and removed', {
+test_that("Table1 keywords are modified and removed", {
   x <-
-    'BEXSTA' %>%
-    get_data_path() %>%
-    readRDS() %>%
-    px() %>%
-    px_charset("ANSI") %>%
-    px_creation_date("2019-01-01 10:00") %>%
-    px_matrix("BEXSTA") %>%
-    px_decimals("1") %>%
-    px_last_updated("2020-01-01 10:00") %>%
-    px_next_update(format("2022-01-01 10:00", format='%Y%m%d %H:%M')) %>%
-    px_subject_code('BEXSTA') %>%
-    px_axis_version("2010") %>%
-    px_codepage("iso-8859-1") %>%
-    px_confidential("1") %>%
-    px_copyright("YES") %>%
-    px_showdecimals("3") %>%
-    px_tableid("BEXSTAid") %>%
-    px_update_frequency("yearly") %>%
-    px_aggregallowed("YES") %>%
-    px_autopen("NO") %>%
-    px_descriptiondefault("NO") %>%
+    "BEXSTA" |>
+    get_data_path() |>
+    readRDS() |>
+    px() |>
+    px_charset("ANSI") |>
+    px_creation_date("2019-01-01 10:00") |>
+    px_matrix("BEXSTA") |>
+    px_decimals("1") |>
+    px_last_updated("2020-01-01 10:00") |>
+    px_next_update(format("2022-01-01 10:00", format = "%Y%m%d %H:%M")) |>
+    px_subject_code("BEXSTA") |>
+    px_axis_version("2010") |>
+    px_codepage("iso-8859-1") |>
+    px_confidential("1") |>
+    px_copyright("YES") |>
+    px_showdecimals("3") |>
+    px_tableid("BEXSTAid") |>
+    px_update_frequency("yearly") |>
+    px_aggregallowed("YES") |>
+    px_autopen("NO") |>
+    px_descriptiondefault("NO") |>
     px_official_statistics("YES")
 
   expect_identical(px_charset(x), "ANSI")
@@ -43,21 +43,21 @@ test_that('Table1 keywords are modified and removed', {
   expect_identical(px_official_statistics(x), "YES")
 
   x2 <-
-    x %>%
-    px_charset(NULL) %>%
-    px_creation_date(NULL) %>%
-    px_last_updated(NULL) %>%
-    px_next_update(NULL) %>%
-    px_axis_version(NULL) %>%
-    px_codepage(NULL) %>%
-    px_confidential(NULL) %>%
-    px_copyright(NULL) %>%
-    px_showdecimals(NULL) %>%
-    px_tableid(NULL) %>%
-    px_update_frequency(NULL) %>%
-    px_aggregallowed(NULL) %>%
-    px_autopen(NULL) %>%
-    px_descriptiondefault(NULL) %>%
+    x |>
+    px_charset(NULL) |>
+    px_creation_date(NULL) |>
+    px_last_updated(NULL) |>
+    px_next_update(NULL) |>
+    px_axis_version(NULL) |>
+    px_codepage(NULL) |>
+    px_confidential(NULL) |>
+    px_copyright(NULL) |>
+    px_showdecimals(NULL) |>
+    px_tableid(NULL) |>
+    px_update_frequency(NULL) |>
+    px_aggregallowed(NULL) |>
+    px_autopen(NULL) |>
+    px_descriptiondefault(NULL) |>
     px_official_statistics(NULL)
 
   expect_identical(px_charset(x2), NULL)

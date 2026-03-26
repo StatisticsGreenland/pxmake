@@ -1,7 +1,6 @@
-test_that('px file is preserved when saved as R script', {
-
+test_that("px file is preserved when saved as R script", {
   save_as_r_and_open <- function(x, save_dataset = FALSE) {
-    tmp_r   <- temp_r_file()
+    tmp_r <- temp_r_file()
     tmp_rds <- temp_rds_file()
 
     if (isTRUE(save_dataset)) {
@@ -12,7 +11,7 @@ test_that('px file is preserved when saved as R script', {
 
     x2 <- source(tmp_r)$value
 
-    return(x2)
+    x2
   }
 
   expect_equal_all_px_element <- function(x, save_dataset = FALSE) {
@@ -32,18 +31,29 @@ test_that('px file is preserved when saved as R script', {
 
   expect_equal_all_px_element(px(population_gl))
   expect_equal_all_px_element(px(population_gl), save_dataset = TRUE)
-  expect_equal_all_px_element(px(get_px_file_path('BEXSTA_windows_1252')))
-  expect_equal_all_px_element(px(get_px_file_path('BEXSTA_windows_1252')), save_dataset = TRUE)
-  expect_equal_all_px_element(px(get_px_file_path('SOXATI4')))
-  expect_equal_all_px_element(px(get_px_file_path('SOXATI4')), save_dataset = TRUE)
-  expect_equal_all_px_element(px(get_px_file_path('TUX01')))
-  expect_equal_all_px_element(px(get_px_file_path('TUX01')), save_dataset = TRUE)
+  expect_equal_all_px_element(px(get_px_file_path("BEXSTA_windows_1252")))
+  expect_equal_all_px_element(
+    px(get_px_file_path("BEXSTA_windows_1252")),
+    save_dataset = TRUE
+  )
+  expect_equal_all_px_element(px(get_px_file_path("SOXATI4")))
+  expect_equal_all_px_element(
+    px(get_px_file_path("SOXATI4")),
+    save_dataset = TRUE
+  )
+  expect_equal_all_px_element(px(get_px_file_path("TUX01")))
+  expect_equal_all_px_element(
+    px(get_px_file_path("TUX01")),
+    save_dataset = TRUE
+  )
 
   # A couple of tests doens't work, but the functionality is 80 there
 
   # UNITS in wrong because of (#364)
   # expect_equal_all_px_element(px(get_px_file_path('CONTVARIABLE')))
-  # expect_equal_all_px_element(px(get_px_file_path('CONTVARIABLE_multiple_languages')))
+  # expect_equal_all_px_element(
+  #   px(get_px_file_path('CONTVARIABLE_multiple_languages'))
+  # )
 
   # TITLE differ, which is fine ("" vs NULL)
   # TIMEVAL differ, easy fix

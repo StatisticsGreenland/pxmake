@@ -7,7 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/pxmake)](https://cran.r-project.org/package=pxmake)
-![Tests](https://github.com/StatisticsGreenland/pxmake/actions/workflows/tests.yml/badge.svg)
+![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)
 [![Codecov test
 coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StatisticsGreenland/pxmake?branch=main)
 [![Mentioned in Awesome Official
@@ -63,11 +63,11 @@ tidyverse style by using the pipe operator `%>%`.
 library(magrittr) # import pipe
 
 # Create px object from data frame
-x <- px(data.frame(year = as.character(rep(2021:2023, each = 3)), 
-                   group = c('a', 'b', 'c'), 
-                   value = runif(9)
-                   )
-        ) 
+x <- px(data.frame(
+  year = as.character(rep(2021:2023, each = 3)),
+  group = c("a", "b", "c"),
+  value = runif(9)
+))
 
 head(x$data, 4)
 #> # A tibble: 4 × 3
@@ -78,17 +78,17 @@ head(x$data, 4)
 #> 3 2021  c     0.573
 #> 4 2022  a     0.908
 
-x %>% 
-  px_timeval("year") %>%  # Set year as TIMEVAL
-  px_heading("year") %>%  # Set year as HEADING
-  px_stub("group") %>%    # Set group as STUB
-  px_decimals("2") %>%    # Set DECIMALS to 2
+x %>%
+  px_timeval("year") %>% # Set year as TIMEVAL
+  px_heading("year") %>% # Set year as HEADING
+  px_stub("group") %>% # Set group as STUB
+  px_decimals("2") %>% # Set DECIMALS to 2
   px_save("example.px") # Save as PX-file
 ```
 
 ### Modifying functions
 
-Currently the following 52 keywords have a modifying function in pxmake:
+Currently the following 53 keywords have a modifying function in pxmake:
 
     #>  Keyword             Function name         
     #>  AGGREGALLOWED       px_aggregallowed      
@@ -108,6 +108,7 @@ Currently the following 52 keywords have a modifying function in pxmake:
     #>  CREATION-DATE       px_creation_date      
     #>  DATA                px_data               
     #>  DATABASE            px_database           
+    #>  DATASYMBOLNIL       px_datasymbolnil      
     #>  DECIMALS            px_decimals           
     #>  DESCRIPTION         px_description        
     #>  DESCRIPTIONDEFAULT  px_descriptiondefault 
@@ -161,7 +162,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 33 keywords currently doesn’t have a modifying function, but can
+These 32 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>  Keyword             Function name          Priority Complexity
@@ -177,7 +178,6 @@ be implemented.
     #>  DATASYMBOL4         px_datasymbol4                            
     #>  DATASYMBOL5         px_datasymbol5                            
     #>  DATASYMBOL6         px_datasymbol6                            
-    #>  DATASYMBOLNIL       px_datasymbolnil                          
     #>  DATASYMBOLSUM       px_datasymbolsum                          
     #>  DAYADJ              px_dayadj                                 
     #>  DEFAULT-GRAPH       px_default_graph                          

@@ -71,6 +71,19 @@ px_database.px <- function(x, value, validate = TRUE) {
   handle_table2_keyword(x, value, "DATABASE", validate)
 }
 
+
+#' @rdname px_datasymbolnil.px
+#' @export
+px_datasymbolnil <- function(x, value, validate) {
+  UseMethod("px_datasymbolnil")
+}
+
+#' @eval add_documentation_table2("DATASYMBOLNIL", "missing", "amigaataapput")
+px_datasymbolnil.px <- function(x, value, validate = TRUE) {
+  handle_table2_keyword(x, value, "DATASYMBOLNIL", validate)
+}
+
+
 #' @rdname px_description.px
 #' @export
 px_description <- function(x, value, validate) {

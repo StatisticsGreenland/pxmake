@@ -69,7 +69,8 @@ test_that("Other keywords are modified and removed", {
     px_cfprices("C") |>
     px_source("Statistic Greenland") |>
     px_database("dbname") |>
-    px_refperiod("year")
+    px_refperiod("year") |>
+    px_datasymbolnil("missing")
 
   expect_identical(px_contents(x2), "content")
   expect_identical(px_description(x2), "description")
@@ -85,6 +86,7 @@ test_that("Other keywords are modified and removed", {
   expect_identical(px_source(x2), "Statistic Greenland")
   expect_identical(px_database(x2), "dbname")
   expect_identical(px_refperiod(x2), "year")
+  expect_identical(px_datasymbolnil(x2), "missing")
 
   x3 <-
     x2 |>
@@ -97,7 +99,8 @@ test_that("Other keywords are modified and removed", {
     px_cfprices(NULL) |>
     px_source(NULL) |>
     px_database(NULL) |>
-    px_refperiod(NULL)
+    px_refperiod(NULL) |>
+    px_datasymbolnil(NULL)
 
   expect_identical(px_description(x3), NULL)
   expect_identical(px_contact(x3), NULL)
@@ -109,6 +112,7 @@ test_that("Other keywords are modified and removed", {
   expect_identical(px_source(x3), NULL)
   expect_identical(px_database(x3), NULL)
   expect_identical(px_refperiod(x3), NULL)
+  expect_identical(px_datasymbolnil(x3), NULL)
 
   expect_error(px_contents(x3, NULL), regex = "mandatory")
   expect_error(px_units(x3, NULL), regex = "mandatory")

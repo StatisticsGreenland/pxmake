@@ -146,7 +146,11 @@ px_link.px <- function(x, value, validate = TRUE) {
 px_refperiod <- function(x, value, validate) {
   UseMethod("px_refperiod")
 }
-#' @eval add_documentation_table2("REFPERIOD", "20250311-20260311", "20250101-20260330")
+#' @eval add_documentation_table2(
+#'  "REFPERIOD",
+#'  "20250311-20260311",
+#'  "20250101-20260330"
+#' )
 px_refperiod.px <- function(x, value, validate = TRUE) {
   handle_table2_keyword(x, value, "REFPERIOD", validate)
 }

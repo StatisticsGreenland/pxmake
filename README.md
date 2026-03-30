@@ -7,7 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/pxmake)](https://cran.r-project.org/package=pxmake)
-![R-CMD-check](https://github.com/StatisticsGreenland/pxmake/actions/workflows/R-CMD-check.yml/badge.svg)
+![Tests](https://github.com/StatisticsGreenland/pxmake/actions/workflows/tests.yml/badge.svg)
 [![Codecov test
 coverage](https://codecov.io/gh/StatisticsGreenland/pxmake/branch/main/graph/badge.svg)](https://app.codecov.io/gh/StatisticsGreenland/pxmake?branch=main)
 [![Mentioned in Awesome Official

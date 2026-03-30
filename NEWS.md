@@ -5,6 +5,7 @@
 - Adds support for DATABASE. (#455)
 - Adds support for REFPERIOD (#455)
 - Adds support for DATASYMBOLNIL (#468)
+- Adds support for DATASYMBOL1-6 (#467)
 - Use lintr on entire package. Causes almost no visible changes, except 
 when saving a PX-files as an R script. (#463)
 

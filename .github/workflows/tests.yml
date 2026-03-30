@@ -99,7 +99,7 @@ jobs:
         shell: Rscript {0}
       - name: Check README is up to date
         run: |
-          if ! git diff --exit-code REAMDE.md; then
+          if ! git diff --exit-code README.md; then
             echo "README.md and README.rmd are out of sync. Run devtools::build_readme() and commit."
             exit 1
           fi

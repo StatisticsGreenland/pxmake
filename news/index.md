@@ -10,6 +10,8 @@
   ([\#455](https://github.com/StatisticsGreenland/pxmake/issues/455))
 - Adds support for REFPERIOD
   ([\#455](https://github.com/StatisticsGreenland/pxmake/issues/455))
+- Adds support for DATASYMBOLNIL
+  ([\#468](https://github.com/StatisticsGreenland/pxmake/issues/468))
 - Use lintr on entire package. Causes almost no visible changes, except
   when saving a PX-files as an R script.
   ([\#463](https://github.com/StatisticsGreenland/pxmake/issues/463))

@@ -54,6 +54,8 @@ Modifying functions that match a specific px keyword.
   : CREATION-DATE
 - [`px_data()`](https://statisticsgreenland.github.io/pxmake/reference/px_data.px.md)
   : DATA
+- [`px_datasymbolnil()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbolnil.px.md)
+  : DATASYMBOLNIL
 - [`px_database()`](https://statisticsgreenland.github.io/pxmake/reference/px_database.px.md)
   : DATABASE
 - [`px_decimals()`](https://statisticsgreenland.github.io/pxmake/reference/px_decimals.px.md)

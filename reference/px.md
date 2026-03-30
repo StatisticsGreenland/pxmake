@@ -65,6 +65,7 @@ download_succeeded <- tryCatch(
   },
   error = function(e) FALSE
 )
+#> Warning: URL 'https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d': Timeout of 60 seconds was reached
 
 # Run examples only if file was downloaded
 if (download_succeeded) {

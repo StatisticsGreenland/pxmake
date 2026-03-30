@@ -34,6 +34,12 @@ reference:
    - px_copyright
    - px_creation_date
    - px_data
+   - px_datasymbol1
+   - px_datasymbol2
+   - px_datasymbol3
+   - px_datasymbol4
+   - px_datasymbol5
+   - px_datasymbol6
    - px_datasymbolnil
    - px_database
    - px_decimals

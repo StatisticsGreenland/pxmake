@@ -88,7 +88,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 53 keywords have a modifying function in pxmake:
+Currently the following 59 keywords have a modifying function in pxmake:
 
     #>  Keyword             Function name         
     #>  AGGREGALLOWED       px_aggregallowed      
@@ -108,6 +108,12 @@ Currently the following 53 keywords have a modifying function in pxmake:
     #>  CREATION-DATE       px_creation_date      
     #>  DATA                px_data               
     #>  DATABASE            px_database           
+    #>  DATASYMBOL1         px_datasymbol1        
+    #>  DATASYMBOL2         px_datasymbol2        
+    #>  DATASYMBOL3         px_datasymbol3        
+    #>  DATASYMBOL4         px_datasymbol4        
+    #>  DATASYMBOL5         px_datasymbol5        
+    #>  DATASYMBOL6         px_datasymbol6        
     #>  DATASYMBOLNIL       px_datasymbolnil      
     #>  DECIMALS            px_decimals           
     #>  DESCRIPTION         px_description        
@@ -162,7 +168,7 @@ See the help page for each modifying function for more information.
 Keywords without modifying functions
 </summary>
 
-These 32 keywords currently doesn’t have a modifying function, but can
+These 26 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
     #>  Keyword             Function name          Priority Complexity
@@ -172,12 +178,6 @@ be implemented.
     #>  DATANOTE            px_datanote                               
     #>  DATANOTECELL        px_datanotecell                           
     #>  DATANOTESUM         px_datanotesum                            
-    #>  DATASYMBOL1         px_datasymbol1                            
-    #>  DATASYMBOL2         px_datasymbol2                            
-    #>  DATASYMBOL3         px_datasymbol3                            
-    #>  DATASYMBOL4         px_datasymbol4                            
-    #>  DATASYMBOL5         px_datasymbol5                            
-    #>  DATASYMBOL6         px_datasymbol6                            
     #>  DATASYMBOLSUM       px_datasymbolsum                          
     #>  DAYADJ              px_dayadj                                 
     #>  DEFAULT-GRAPH       px_default_graph                          

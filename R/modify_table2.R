@@ -72,6 +72,78 @@ px_database.px <- function(x, value, validate = TRUE) {
 }
 
 
+#' @rdname px_datasymbol1.px
+#' @export
+px_datasymbol1 <- function(x, value, validate) {
+  UseMethod("px_datasymbol1")
+}
+
+#' @eval add_documentation_table2("DATASYMBOL1", "missing", "amigaataapput")
+px_datasymbol1.px <- function(x, value, validate = TRUE) {
+  handle_table2_keyword(x, value, "DATASYMBOL1", validate)
+}
+
+
+#' @rdname px_datasymbol2.px
+#' @export
+px_datasymbol2 <- function(x, value, validate) {
+  UseMethod("px_datasymbol2")
+}
+
+#' @eval add_documentation_table2("DATASYMBOL2", "missing", "amigaataapput")
+px_datasymbol2.px <- function(x, value, validate = TRUE) {
+  handle_table2_keyword(x, value, "DATASYMBOL2", validate)
+}
+
+
+#' @rdname px_datasymbol3.px
+#' @export
+px_datasymbol3 <- function(x, value, validate) {
+  UseMethod("px_datasymbol3")
+}
+
+#' @eval add_documentation_table2("DATASYMBOL3", "missing", "amigaataapput")
+px_datasymbol3.px <- function(x, value, validate = TRUE) {
+  handle_table2_keyword(x, value, "DATASYMBOL3", validate)
+}
+
+
+#' @rdname px_datasymbol4.px
+#' @export
+px_datasymbol4 <- function(x, value, validate) {
+  UseMethod("px_datasymbol4")
+}
+
+#' @eval add_documentation_table2("DATASYMBOL4", "missing", "amigaataapput")
+px_datasymbol4.px <- function(x, value, validate = TRUE) {
+  handle_table2_keyword(x, value, "DATASYMBOL4", validate)
+}
+
+
+#' @rdname px_datasymbol5.px
+#' @export
+px_datasymbol5 <- function(x, value, validate) {
+  UseMethod("px_datasymbol5")
+}
+
+#' @eval add_documentation_table2("DATASYMBOL5", "missing", "amigaataapput")
+px_datasymbol5.px <- function(x, value, validate = TRUE) {
+  handle_table2_keyword(x, value, "DATASYMBOL5", validate)
+}
+
+
+#' @rdname px_datasymbol6.px
+#' @export
+px_datasymbol6 <- function(x, value, validate) {
+  UseMethod("px_datasymbol6")
+}
+
+#' @eval add_documentation_table2("DATASYMBOL6", "missing", "amigaataapput")
+px_datasymbol6.px <- function(x, value, validate = TRUE) {
+  handle_table2_keyword(x, value, "DATASYMBOL6", validate)
+}
+
+
 #' @rdname px_datasymbolnil.px
 #' @export
 px_datasymbolnil <- function(x, value, validate) {

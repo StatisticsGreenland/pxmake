@@ -70,7 +70,13 @@ test_that("Other keywords are modified and removed", {
     px_source("Statistic Greenland") |>
     px_database("dbname") |>
     px_refperiod("year") |>
-    px_datasymbolnil("missing")
+    px_datasymbolnil("missing") |>
+    px_datasymbol1("missingtype1") |>
+    px_datasymbol2("missingtype2") |>
+    px_datasymbol3("missingtype3") |>
+    px_datasymbol4("missingtype4") |>
+    px_datasymbol5("missingtype5") |>
+    px_datasymbol6("missingtype6")
 
   expect_identical(px_contents(x2), "content")
   expect_identical(px_description(x2), "description")
@@ -87,6 +93,12 @@ test_that("Other keywords are modified and removed", {
   expect_identical(px_database(x2), "dbname")
   expect_identical(px_refperiod(x2), "year")
   expect_identical(px_datasymbolnil(x2), "missing")
+  expect_identical(px_datasymbol1(x2), "missingtype1")
+  expect_identical(px_datasymbol2(x2), "missingtype2")
+  expect_identical(px_datasymbol3(x2), "missingtype3")
+  expect_identical(px_datasymbol4(x2), "missingtype4")
+  expect_identical(px_datasymbol5(x2), "missingtype5")
+  expect_identical(px_datasymbol6(x2), "missingtype6")
 
   x3 <-
     x2 |>

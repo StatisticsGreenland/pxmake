@@ -74,7 +74,7 @@ x %>%
 
 ### Modifying functions
 
-Currently the following 53 keywords have a modifying function in pxmake:
+Currently the following 59 keywords have a modifying function in pxmake:
 
 ``` R
 #>  Keyword             Function name         
@@ -95,6 +95,12 @@ Currently the following 53 keywords have a modifying function in pxmake:
 #>  CREATION-DATE       px_creation_date      
 #>  DATA                px_data               
 #>  DATABASE            px_database           
+#>  DATASYMBOL1         px_datasymbol1        
+#>  DATASYMBOL2         px_datasymbol2        
+#>  DATASYMBOL3         px_datasymbol3        
+#>  DATASYMBOL4         px_datasymbol4        
+#>  DATASYMBOL5         px_datasymbol5        
+#>  DATASYMBOL6         px_datasymbol6        
 #>  DATASYMBOLNIL       px_datasymbolnil      
 #>  DECIMALS            px_decimals           
 #>  DESCRIPTION         px_description        
@@ -147,7 +153,7 @@ See the help page for each modifying function for more information.
 
 Keywords without modifying functions
 
-These 32 keywords currently doesn’t have a modifying function, but can
+These 26 keywords currently doesn’t have a modifying function, but can
 be implemented.
 
 ``` R
@@ -158,12 +164,6 @@ be implemented.
 #>  DATANOTE            px_datanote                               
 #>  DATANOTECELL        px_datanotecell                           
 #>  DATANOTESUM         px_datanotesum                            
-#>  DATASYMBOL1         px_datasymbol1                            
-#>  DATASYMBOL2         px_datasymbol2                            
-#>  DATASYMBOL3         px_datasymbol3                            
-#>  DATASYMBOL4         px_datasymbol4                            
-#>  DATASYMBOL5         px_datasymbol5                            
-#>  DATASYMBOL6         px_datasymbol6                            
 #>  DATASYMBOLSUM       px_datasymbolsum                          
 #>  DAYADJ              px_dayadj                                 
 #>  DEFAULT-GRAPH       px_default_graph                          
@@ -279,6 +279,18 @@ Modifying functions that match a specific px keyword.
   : CREATION-DATE
 - [`px_data()`](https://statisticsgreenland.github.io/pxmake/reference/px_data.px.md)
   : DATA
+- [`px_datasymbol1()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol1.px.md)
+  : DATASYMBOL1
+- [`px_datasymbol2()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol2.px.md)
+  : DATASYMBOL2
+- [`px_datasymbol3()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol3.px.md)
+  : DATASYMBOL3
+- [`px_datasymbol4()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol4.px.md)
+  : DATASYMBOL4
+- [`px_datasymbol5()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol5.px.md)
+  : DATASYMBOL5
+- [`px_datasymbol6()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol6.px.md)
+  : DATASYMBOL6
 - [`px_datasymbolnil()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbolnil.px.md)
   : DATASYMBOLNIL
 - [`px_database()`](https://statisticsgreenland.github.io/pxmake/reference/px_database.px.md)

@@ -54,6 +54,18 @@ Modifying functions that match a specific px keyword.
   : CREATION-DATE
 - [`px_data()`](https://statisticsgreenland.github.io/pxmake/reference/px_data.px.md)
   : DATA
+- [`px_datasymbol1()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol1.px.md)
+  : DATASYMBOL1
+- [`px_datasymbol2()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol2.px.md)
+  : DATASYMBOL2
+- [`px_datasymbol3()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol3.px.md)
+  : DATASYMBOL3
+- [`px_datasymbol4()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol4.px.md)
+  : DATASYMBOL4
+- [`px_datasymbol5()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol5.px.md)
+  : DATASYMBOL5
+- [`px_datasymbol6()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbol6.px.md)
+  : DATASYMBOL6
 - [`px_datasymbolnil()`](https://statisticsgreenland.github.io/pxmake/reference/px_datasymbolnil.px.md)
   : DATASYMBOLNIL
 - [`px_database()`](https://statisticsgreenland.github.io/pxmake/reference/px_database.px.md)

@@ -95,7 +95,6 @@ workbook.</p></dd>
 <span class="r-in"><span>  <span class="op">}</span>,</span></span>
 <span class="r-in"><span>  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>URL 'https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d': Timeout of 60 seconds was reached</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Run examples only if file was downloaded</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">download_succeeded</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -105,6 +104,8 @@ workbook.</p></dd>
 <span class="r-in"><span>  <span class="co"># Create px object from URL</span></span></span>
 <span class="r-in"><span>  <span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu">px</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in curl::curl_download(url, tmp_file_path, quiet = TRUE):</span> Stream error in the HTTP/2 framing layer [bank.stat.gl]:</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> HTTP/2 stream 1 was not closed cleanly: CANCEL (err 8)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create minimal px object</span></span></span>
 <span class="r-in"><span><span class="va">x4</span> <span class="op">&lt;-</span> <span class="fu">px</span><span class="op">(</span><span class="op">)</span></span></span>

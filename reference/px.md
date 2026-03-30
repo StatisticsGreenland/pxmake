@@ -65,7 +65,6 @@ download_succeeded <- tryCatch(
   },
   error = function(e) FALSE
 )
-#> Warning: URL 'https://bank.stat.gl:443/sq/0cf06962-19f1-4d5c-8d43-b7ed0009617d': Timeout of 60 seconds was reached
 
 # Run examples only if file was downloaded
 if (download_succeeded) {
@@ -75,6 +74,8 @@ if (download_succeeded) {
   # Create px object from URL
   x3 <- px(url)
 }
+#> Error in curl::curl_download(url, tmp_file_path, quiet = TRUE): Stream error in the HTTP/2 framing layer [bank.stat.gl]:
+#> HTTP/2 stream 1 was not closed cleanly: CANCEL (err 8)
 
 # Create minimal px object
 x4 <- px()

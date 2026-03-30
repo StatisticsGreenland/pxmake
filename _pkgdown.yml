@@ -34,6 +34,7 @@ reference:
    - px_copyright
    - px_creation_date
    - px_data
+   - px_datasymbolnil
    - px_database
    - px_decimals
    - px_description

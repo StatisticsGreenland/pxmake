@@ -19,8 +19,10 @@ px_database(x, value, validate = TRUE)
 
 - value:
 
-  Optional. A character string. If missing, the current DATABASE is
-  returned. If NULL, DATABASE is removed.
+  Optional. A character string to set the value for all languages or a
+  data frame with columns 'language' and 'value' to set it for specific
+  languages. If 'value' is missing, the current DATABASE is returned. If
+  NULL, DATABASE is removed.
 
 - validate:
 
@@ -33,7 +35,7 @@ px_database(x, value, validate = TRUE)
 
 ## Value
 
-A px object or a character string.
+A px object, a character string, or a data frame.
 
 ## See also
 
@@ -43,17 +45,32 @@ documentation](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-fi
 ## Examples
 
 ``` r
-# Set DATABASE
+# Set DATABASE for all languages
 x1 <-
-   px(population_gl) |>
-   px_database('DB_NAME')
+  px(population_gl) |>
+  px_database('DB_NAME')
 
 # Print DATABASE
 px_database(x1)
 #> [1] "DB_NAME"
 
-# Remove DATABASE
-x2 <- px_database(x1, NULL)
+# Set DATABASE for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_database(tribble(~language, ~value,
+                      'en', 'DB_NAME',
+                      'kl', 'DB_NAME_KL'))
 px_database(x2)
+#> # A tibble: 2 × 2
+#>   language value     
+#>   <chr>    <chr>     
+#> 1 en       DB_NAME   
+#> 2 kl       DB_NAME_KL
+
+# Remove DATABASE
+x3 <- px_database(x2, NULL)
+px_database(x3)
 #> NULL
 ```

@@ -74,8 +74,6 @@ if (download_succeeded) {
   # Create px object from URL
   x3 <- px(url)
 }
-#> Error in curl::curl_download(url, tmp_file_path, quiet = TRUE): Stream error in the HTTP/2 framing layer [bank.stat.gl]:
-#> HTTP/2 stream 1 was not closed cleanly: CANCEL (err 8)
 
 # Create minimal px object
 x4 <- px()

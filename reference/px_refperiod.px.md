@@ -19,8 +19,10 @@ px_refperiod(x, value, validate = TRUE)
 
 - value:
 
-  Optional. A character string. If missing, the current REFPERIOD is
-  returned. If NULL, REFPERIOD is removed.
+  Optional. A character string to set the value for all languages or a
+  data frame with columns 'language' and 'value' to set it for specific
+  languages. If 'value' is missing, the current REFPERIOD is returned.
+  If NULL, REFPERIOD is removed.
 
 - validate:
 
@@ -33,7 +35,7 @@ px_refperiod(x, value, validate = TRUE)
 
 ## Value
 
-A px object or a character string.
+A px object, a character string, or a data frame.
 
 ## See also
 
@@ -43,17 +45,32 @@ documentation](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-fi
 ## Examples
 
 ``` r
-# Set REFPERIOD
+# Set REFPERIOD for all languages
 x1 <-
-   px(population_gl) |>
-   px_refperiod('20250311-20260311')
+  px(population_gl) |>
+  px_refperiod('20250311-20260311')
 
 # Print REFPERIOD
 px_refperiod(x1)
 #> [1] "20250311-20260311"
 
-# Remove REFPERIOD
-x2 <- px_refperiod(x1, NULL)
+# Set REFPERIOD for individual languages
+library(tibble)
+x2 <-
+  x1 |>
+  px_languages(c('en', 'kl')) |>
+  px_refperiod(tribble(~language, ~value,
+                      'en', '20250311-20260311',
+                      'kl', '20250101-20260330'))
 px_refperiod(x2)
+#> # A tibble: 2 × 2
+#>   language value            
+#>   <chr>    <chr>            
+#> 1 en       20250311-20260311
+#> 2 kl       20250101-20260330
+
+# Remove REFPERIOD
+x3 <- px_refperiod(x2, NULL)
+px_refperiod(x3)
 #> NULL
 ```

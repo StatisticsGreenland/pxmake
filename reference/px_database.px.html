@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,7 +59,7 @@
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>Optional. A character string. If missing, the current DATABASE is returned. If NULL, DATABASE is removed.</p></dd>
+<dd><p>Optional. A character string to set the value for all languages or a data frame with columns 'language' and 'value' to set it for specific languages. If 'value' is missing, the current DATABASE is returned. If NULL, DATABASE is removed.</p></dd>
 
 
 <dt id="arg-validate">validate<a class="anchor" aria-label="anchor" href="#arg-validate"></a></dt>
@@ -68,7 +68,7 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A px object or a character string.</p>
+    <p>A px object, a character string, or a data frame.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -77,18 +77,33 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set DATABASE</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set DATABASE for all languages</span></span></span>
 <span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="px.html">px</a></span><span class="op">(</span><span class="va">population_gl</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>   <span class="fu">px_database</span><span class="op">(</span><span class="st">'DB_NAME'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="px.html">px</a></span><span class="op">(</span><span class="va">population_gl</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">px_database</span><span class="op">(</span><span class="st">'DB_NAME'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print DATABASE</span></span></span>
 <span class="r-in"><span><span class="fu">px_database</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "DB_NAME"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Remove DATABASE</span></span></span>
-<span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu">px_database</span><span class="op">(</span><span class="va">x1</span>, <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Set DATABASE for individual languages</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">x1</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="px_languages.px.html">px_languages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'en'</span>, <span class="st">'kl'</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">px_database</span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">language</span>, <span class="op">~</span><span class="va">value</span>,</span></span>
+<span class="r-in"><span>                      <span class="st">'en'</span>, <span class="st">'DB_NAME'</span>,</span></span>
+<span class="r-in"><span>                      <span class="st">'kl'</span>, <span class="st">'DB_NAME_KL'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">px_database</span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   language value     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> en       DB_NAME   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> kl       DB_NAME_KL</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove DATABASE</span></span></span>
+<span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu">px_database</span><span class="op">(</span><span class="va">x2</span>, <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">px_database</span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 </code></pre></div>
     </div>

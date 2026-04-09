@@ -32,10 +32,20 @@ version <-
 
 hardware <-
   tibble(
-    os            = Sys.info()[["sysname"]],
-    machine       = Sys.info()[["nodename"]],
-    github_runner = Sys.getenv("RUNNER_NAME", unset = NA),
-    github_arch   = Sys.getenv("RUNNER_ARCH", unset = NA)
+    os = Sys.info()[["sysname"]],
+    github_arch = Sys.getenv("RUNNER_ARCH", unset = NA),
+    cpu_model = if (file.exists("/proc/cpuinfo")) {
+      system(
+        "grep 'model name' /proc/cpuinfo | head -1 | cut -d: -f2 | xargs",
+        intern = TRUE
+      )
+    } else {
+      "unknown"
+    },
+    n_cores = parallel::detectCores(),
+    stable_benchmark_ms = round(as.numeric(
+      bench::mark(sort(runif(1e6)), min_iterations = 5)$median
+    ) * 1000) # s to ms
   )
 
 results <-

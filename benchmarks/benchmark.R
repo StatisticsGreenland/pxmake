@@ -5,7 +5,11 @@ suppressPackageStartupMessages({
   library(purrr)
 })
 
-files <- list.files(file.path("benchmarks", "fixtures"), full.names = TRUE)
+options(width = 120)
+
+benchmarks_dir <- "benchmarks"
+
+files <- list.files(file.path(benchmarks_dir, "fixtures"), full.names = TRUE)
 
 benchmark_file <- function(path) {
   message("Benchmarking: ", basename(path))
@@ -43,7 +47,7 @@ hardware <-
       "unknown"
     },
     n_cores = parallel::detectCores(),
-    stable_benchmark_ms = round(as.numeric(
+    benchmark_ms = round(as.numeric(
       bench::mark(sort(runif(1e6)), min_iterations = 5)$median
     ) * 1000) # s to ms
   )
@@ -55,11 +59,17 @@ results <-
   select(expression, file_size_kb, file, median, mem_alloc, n_itr, total_time) |>
   arrange_all()
 
-message("\nVersion:")
-print(version)
+output <- c(
+  "\nVersion:",
+  capture.output(glimpse(version)),
+  "\nHardware:",
+  capture.output(glimpse(hardware)),
+  "\nResults:",
+  capture.output(print(results))
+)
 
-message("\nHardware:")
-print(hardware)
+cat(output, sep = "\n")
 
-message("\nResults:")
-print(results)
+if (Sys.getenv("GITHUB_ACTIONS") == "true") {
+  writeLines(output, file.path(benchmarks_dir, "benchmark.txt"))
+}

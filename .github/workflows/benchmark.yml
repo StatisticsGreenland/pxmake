@@ -6,7 +6,7 @@ on:
       commit_results:
         description: 'Commit benchmark to repo'
         type: boolean
-        default: true
+        default: false
 
 permissions:
   contents: write

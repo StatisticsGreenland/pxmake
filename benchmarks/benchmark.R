@@ -24,29 +24,24 @@ benchmark_file <- function(path) {
     )
 }
 
-version <-
-  tibble(
-    pxmake_version = as.character(packageVersion("pxmake")),
-    r_version      = R.version$version.string
-  )
+version_txt <- c(
+  paste("pxmake", as.character(packageVersion("pxmake")), sep = "\t"),
+  paste("R", R.version$version, sep = "\t")
+)
 
-hardware <-
-  tibble(
-    os = Sys.info()[["sysname"]],
-    github_arch = Sys.getenv("RUNNER_ARCH", unset = NA),
-    cpu_model = if (file.exists("/proc/cpuinfo")) {
-      system(
-        "grep 'model name' /proc/cpuinfo | head -1 | cut -d: -f2 | xargs",
-        intern = TRUE
-      )
-    } else {
-      "unknown"
-    },
-    n_cores = parallel::detectCores(),
-    stable_benchmark_ms = round(as.numeric(
-      bench::mark(sort(runif(1e6)), min_iterations = 5)$median
-    ) * 1000) # s to ms
-  )
+hardware_txt <- c(
+  paste("os", Sys.info()[["sysname"]], sep = "\t"),
+  paste("github_arch", Sys.getenv("RUNNER_ARCH", unset = NA), sep = "\t"),
+  paste("cpu_model", if (file.exists("/proc/cpuinfo")) {
+    system("grep 'model name' /proc/cpuinfo | head -1 | cut -d: -f2 | xargs", intern = TRUE)
+  } else {
+    "unknown"
+  }, sep = "\t"),
+  paste("n_cores", parallel::detectCores(), sep = "\t"),
+  paste("benchmark_ms", round(as.numeric(
+    bench::mark(sort(runif(1e6)), min_iterations = 5)$median
+  ) * 1000), sep = "\t")
+)
 
 results <-
   files |>
@@ -56,10 +51,10 @@ results <-
   arrange_all()
 
 message("\nVersion:")
-print(version)
+cat(paste0("  ", version_txt), sep = "\n")
 
 message("\nHardware:")
-print(hardware)
+cat(paste0("  ", hardware_txt), sep = "\n")
 
 message("\nResults:")
 print(results)

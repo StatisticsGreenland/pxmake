@@ -9,7 +9,12 @@ options(width = 120)
 
 benchmarks_dir <- "benchmarks"
 
-files <- list.files(file.path(benchmarks_dir, "fixtures"), full.names = TRUE)
+benchmark_filenames <- c(
+  "TUX01.px",
+  "BEXSTA_windows_1252.px"
+)
+
+files <- file.path(benchmarks_dir, "fixtures", benchmark_filenames)
 
 benchmark_file <- function(path) {
   message("Benchmarking: ", basename(path))

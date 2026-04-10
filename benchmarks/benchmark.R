@@ -6,6 +6,8 @@ suppressPackageStartupMessages({
   library(purrr)
 })
 
+options(width = 120)
+
 benchmarks_dir <- "benchmarks"
 
 save_benchmark_px <- function(dir, filename, n_municipality) {
@@ -98,7 +100,7 @@ results <-
     total_time_s = round(as.numeric(total_time), 1),
     .keep = "unused"
   ) |>
-  select(expression, file_size_mb, file, median_s, mem_alloc_mb, total_time_s) |>
+  select(expression, file_size_mb, file, median_s, mem_alloc_mb) |>
   arrange_all()
 
 output <- c(

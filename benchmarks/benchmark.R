@@ -6,8 +6,6 @@ suppressPackageStartupMessages({
   library(purrr)
 })
 
-options(width = 120)
-
 benchmarks_dir <- "benchmarks"
 
 save_benchmark_px <- function(dir, filename, n_municipality) {
@@ -31,19 +29,19 @@ save_benchmark_px <- function(dir, filename, n_municipality) {
 }
 
 generate_benchmark_px_files <- function(dir) {
-  save_benchmark_px(dir, "benchmark_100k_cells.px", n_municipality = 10)
-  save_benchmark_px(dir, "benchmark_300k_cells.px", n_municipality = 30)
-  save_benchmark_px(dir, "benchmark_1m_cells.px", n_municipality = 100)
-  save_benchmark_px(dir, "benchmark_3m_cells.px", n_municipality = 300)
+  save_benchmark_px(dir, "100k_cells.px", n_municipality = 10)
+  save_benchmark_px(dir, "300k_cells.px", n_municipality = 30)
+  save_benchmark_px(dir, "1m_cells.px", n_municipality = 100)
+  save_benchmark_px(dir, "3m_cells.px", n_municipality = 300)
 }
 
 generate_benchmark_px_files(file.path(benchmarks_dir, "fixtures"))
 
 benchmark_filenames <- c(
-  "benchmark_100k_cells.px",
-  "benchmark_300k_cells.px",
-  "benchmark_1m_cells.px",
-  "benchmark_3m_cells.px"
+  "100k_cells.px",
+  "300k_cells.px",
+  "1m_cells.px",
+  "3m_cells.px"
 )
 
 files <- file.path(benchmarks_dir, "fixtures", benchmark_filenames)
@@ -93,11 +91,18 @@ results <-
   files |>
   map(benchmark_file) |>
   list_rbind() |>
-  select(expression, file_size_kb, file, median, mem_alloc, n_itr, total_time) |>
+  mutate(
+    file_size_mb = round(file_size_kb / 1000, 1),
+    median_s     = round(as.numeric(median), 1),
+    mem_alloc_mb = round(as.numeric(mem_alloc) / 1e6, 0),
+    total_time_s = round(as.numeric(total_time), 1),
+    .keep = "unused"
+  ) |>
+  select(expression, file_size_mb, file, median_s, mem_alloc_mb, total_time_s) |>
   arrange_all()
 
 output <- c(
-  "\nVersion:",
+  "Version:",
   capture.output(glimpse(version)),
   "\nHardware:",
   capture.output(glimpse(hardware)),
@@ -105,7 +110,7 @@ output <- c(
   capture.output(print(results))
 )
 
-cat(output, sep = "\n")
+cat(c("", output), sep = "\n")
 
 if (Sys.getenv("GITHUB_ACTIONS") == "true") {
   writeLines(output, file.path(benchmarks_dir, "benchmark.txt"))

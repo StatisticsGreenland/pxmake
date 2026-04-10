@@ -4,12 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       commit_results:
-        description: 'Commit benchmark to repo'
+        description: 'Open PR with updated benchmark'
         type: boolean
         default: false
 
 permissions:
   contents: write
+  pull-request: write
 
 jobs:
   benchmark:

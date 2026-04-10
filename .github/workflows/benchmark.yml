@@ -39,3 +39,15 @@ jobs:
           git add benchmarks/benchmark.txt
           git diff --staged --quiet || git commit -m 'Update benchmark'
           git push origin benchmark-result --force
+
+      - name: Open PR
+        if: inputs.commit_results
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --head benchmark-result \
+            --base main \
+            --title "Update benchmark" \
+            --body "Reran benchmark" \
+          || echo "PR already exists"

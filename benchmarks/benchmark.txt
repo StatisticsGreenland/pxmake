@@ -11,7 +11,7 @@ $ os           <chr> "Linux"
 $ github_arch  <chr> "X64"
 $ cpu_model    <chr> "AMD EPYC 7763 64-Core Processor"
 $ n_cores      <int> 4
-$ benchmark_ms <dbl> 69
+$ benchmark_ms <dbl> 68
 
 Results:
 # A tibble: 8 × 5
@@ -19,9 +19,9 @@ Results:
   <bch:expr>        <dbl> <chr>            <dbl>        <dbl>
 1 px                  0.4 100k_cells.px      0.7           26
 2 px                  1.2 300k_cells.px      1.6           73
-3 px                  3.9 1m_cells.px        4.6          245
-4 px                 11.6 3m_cells.px       17.5          727
+3 px                  3.9 1m_cells.px        4.7          248
+4 px                 11.6 3m_cells.px       17.8          727
 5 px_save             0.4 100k_cells.px      1.9          275
-6 px_save             1.2 300k_cells.px      4.8          847
-7 px_save             3.9 1m_cells.px       15.5         2826
-8 px_save            11.6 3m_cells.px       54.5         8126
+6 px_save             1.2 300k_cells.px      5            847
+7 px_save             3.9 1m_cells.px       15.6         2826
+8 px_save            11.6 3m_cells.px       55.7         8126

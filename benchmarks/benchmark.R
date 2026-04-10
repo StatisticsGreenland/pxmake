@@ -2,6 +2,7 @@ suppressPackageStartupMessages({
   library(pxmake)
   library(bench)
   library(dplyr)
+  library(tidyr)
   library(purrr)
 })
 
@@ -9,10 +10,37 @@ options(width = 120)
 
 benchmarks_dir <- "benchmarks"
 
-benchmark_filenames <- c(
-  "TUX01.px",
-  "BEXSTA_windows_1252.px"
-)
+save_benchmark_px <- function(dir, filename, n_municipality) {
+  path <- file.path(dir, filename)
+
+  if (file.exists(path)) return(invisible(NULL))
+
+  message("Generating: ", filename)
+  expand_grid(
+    municipality   = paste0("municipality", seq_len(n_municipality)),
+    gender         = paste0("gender", 1:3),
+    age            = paste0("age", 1:100),
+    residence_type = paste0("res", 1:11),
+    time           = as.character(1975:1977)
+  ) |>
+    mutate(figures = round(runif(n()) * 1000)) |>
+    px() |>
+    px_save(path)
+}
+
+generate_benchmark_px_files <- function(dir) {
+  save_benchmark_px(dir, "benchmark_100k_cells.px", n_municipality = 10)  
+  save_benchmark_px(dir, "benchmark_300k_cells.px", n_municipality = 30) 
+  save_benchmark_px(dir, "benchmark_1m_cells.px",   n_municipality = 100)
+  save_benchmark_px(dir, "benchmark_3m_cells.px",   n_municipality = 300)
+}
+
+generate_benchmark_px_files(file.path(benchmarks_dir, "fixtures"))
+
+benchmark_filenames <- c("benchmark_100k_cells.px",
+                         "benchmark_300k_cells.px",
+                         "benchmark_1m_cells.px",
+                         "benchmark_3m_cells.px")
 
 files <- file.path(benchmarks_dir, "fixtures", benchmark_filenames)
 

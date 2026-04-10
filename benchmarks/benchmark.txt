@@ -10,15 +10,15 @@ Rows: 1
 Columns: 5
 $ os           <chr> "Linux"
 $ github_arch  <chr> "X64"
-$ cpu_model    <chr> "AMD EPYC 7763 64-Core Processor"
+$ cpu_model    <chr> "AMD EPYC 9V74 80-Core Processor"
 $ n_cores      <int> 4
-$ benchmark_ms <dbl> 75
+$ benchmark_ms <dbl> 69
 
 Results:
 # A tibble: 4 × 7
   expression file_size_kb file                     median mem_alloc n_itr total_time
   <bch:expr>        <dbl> <chr>                  <bch:tm> <bch:byt> <int>   <bch:tm>
-1 px                  8.7 TUX01.px               334.64ms    1.08MB     2   669.28ms
-2 px                 40.1 BEXSTA_windows_1252.px 371.04ms    3.64MB     2   742.08ms
-3 px_save             8.7 TUX01.px               942.42ms       3MB     1   942.42ms
-4 px_save            40.1 BEXSTA_windows_1252.px    1.22s   26.17MB     1      1.22s
+1 px                  8.7 TUX01.px               286.04ms     1.1MB     2   572.07ms
+2 px                 40.1 BEXSTA_windows_1252.px 302.95ms    3.58MB     2   605.91ms
+3 px_save             8.7 TUX01.px               848.66ms    4.59MB     1   848.66ms
+4 px_save            40.1 BEXSTA_windows_1252.px    1.04s   24.59MB     1      1.04s

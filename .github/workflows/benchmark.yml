@@ -10,7 +10,7 @@ on:
 
 permissions:
   contents: write
-  pull-request: write
+  pull-requests: write
 
 jobs:
   benchmark:

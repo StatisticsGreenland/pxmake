@@ -13,7 +13,9 @@ benchmarks_dir <- "benchmarks"
 save_benchmark_px <- function(dir, filename, n_municipality) {
   path <- file.path(dir, filename)
 
-  if (file.exists(path)) return(invisible(NULL))
+  if (file.exists(path)) {
+    return(invisible(NULL))
+  }
 
   message("Generating: ", filename)
   expand_grid(
@@ -29,18 +31,20 @@ save_benchmark_px <- function(dir, filename, n_municipality) {
 }
 
 generate_benchmark_px_files <- function(dir) {
-  save_benchmark_px(dir, "benchmark_100k_cells.px", n_municipality = 10)  
-  save_benchmark_px(dir, "benchmark_300k_cells.px", n_municipality = 30) 
-  save_benchmark_px(dir, "benchmark_1m_cells.px",   n_municipality = 100)
-  save_benchmark_px(dir, "benchmark_3m_cells.px",   n_municipality = 300)
+  save_benchmark_px(dir, "benchmark_100k_cells.px", n_municipality = 10)
+  save_benchmark_px(dir, "benchmark_300k_cells.px", n_municipality = 30)
+  save_benchmark_px(dir, "benchmark_1m_cells.px", n_municipality = 100)
+  save_benchmark_px(dir, "benchmark_3m_cells.px", n_municipality = 300)
 }
 
 generate_benchmark_px_files(file.path(benchmarks_dir, "fixtures"))
 
-benchmark_filenames <- c("benchmark_100k_cells.px",
-                         "benchmark_300k_cells.px",
-                         "benchmark_1m_cells.px",
-                         "benchmark_3m_cells.px")
+benchmark_filenames <- c(
+  "benchmark_100k_cells.px",
+  "benchmark_300k_cells.px",
+  "benchmark_1m_cells.px",
+  "benchmark_3m_cells.px"
+)
 
 files <- file.path(benchmarks_dir, "fixtures", benchmark_filenames)
 

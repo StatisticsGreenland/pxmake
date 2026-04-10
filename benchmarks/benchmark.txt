@@ -1,4 +1,3 @@
-
 Version:
 Rows: 1
 Columns: 2
@@ -12,13 +11,17 @@ $ os           <chr> "Linux"
 $ github_arch  <chr> "X64"
 $ cpu_model    <chr> "AMD EPYC 7763 64-Core Processor"
 $ n_cores      <int> 4
-$ benchmark_ms <dbl> 75
+$ benchmark_ms <dbl> 69
 
 Results:
-# A tibble: 4 × 7
-  expression file_size_kb file                     median mem_alloc n_itr total_time
-  <bch:expr>        <dbl> <chr>                  <bch:tm> <bch:byt> <int>   <bch:tm>
-1 px                  8.7 TUX01.px               334.64ms    1.08MB     2   669.28ms
-2 px                 40.1 BEXSTA_windows_1252.px 371.04ms    3.64MB     2   742.08ms
-3 px_save             8.7 TUX01.px               942.42ms       3MB     1   942.42ms
-4 px_save            40.1 BEXSTA_windows_1252.px    1.22s   26.17MB     1      1.22s
+# A tibble: 8 × 5
+  expression file_size_mb file          median_s mem_alloc_mb
+  <bch:expr>        <dbl> <chr>            <dbl>        <dbl>
+1 px                  0.4 100k_cells.px      0.7           26
+2 px                  1.2 300k_cells.px      1.6           73
+3 px                  3.9 1m_cells.px        4.6          245
+4 px                 11.6 3m_cells.px       17.5          727
+5 px_save             0.4 100k_cells.px      1.9          275
+6 px_save             1.2 300k_cells.px      4.8          847
+7 px_save             3.9 1m_cells.px       15.5         2826
+8 px_save            11.6 3m_cells.px       54.5         8126

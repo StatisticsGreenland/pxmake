@@ -1,5 +1,5 @@
 suppressPackageStartupMessages({
-  library(pxmake)
+  pkgload::load_all(quiet = TRUE)
   library(bench)
   library(dplyr)
   library(tidyr)

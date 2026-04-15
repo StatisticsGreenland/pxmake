@@ -48,11 +48,29 @@ benchmark_filenames <- c(
 
 files <- file.path(benchmarks_dir, "fixtures", benchmark_filenames)
 
+mem_peak_mb <- function(expr) {
+  vcells_to_mb <- 8 / 1e6
+
+  gc()
+  baseline <- gc(reset=TRUE)["Vcells", "used"] * vcells_to_mb
+  expr
+  peak <- gc()["Vcells", "max used"] * vcells_to_mb
+  round(peak - baseline, 0)
+}
+
 benchmark_file <- function(path) {
   message("Benchmarking: ", basename(path))
   x <- px(path)
   tmp <- tempfile(fileext = ".px")
   on.exit(unlink(tmp))
+
+  peak_mem <- tibble(
+    expression = c("px", "px_save"),
+    mem_peak_mb = c(
+      mem_peak_mb(px(path)),
+      mem_peak_mb(px_save(x, tmp))
+    )
+  )
 
   bench::mark(
     px = px(path),
@@ -60,9 +78,11 @@ benchmark_file <- function(path) {
     check = FALSE
   ) |>
     mutate(
+      expression = as.character(expression),
       file = basename(path),
       file_size_kb = round(file.size(path) / 1e3, 1)
-    )
+    ) |>
+    left_join(peak_mem, by = c("expression"))
 }
 
 version <-
@@ -96,11 +116,11 @@ results <-
   mutate(
     file_size_mb = round(file_size_kb / 1000, 1),
     median_s     = round(as.numeric(median), 1),
-    mem_alloc_mb = round(as.numeric(mem_alloc) / 1e6, 0),
+    mem_total_mb = round(as.numeric(mem_alloc) / 1e6, 0),
     total_time_s = round(as.numeric(total_time), 1),
     .keep = "unused"
   ) |>
-  select(expression, file_size_mb, file, median_s, mem_alloc_mb) |>
+  select(expression, file_size_mb, file, median_s, mem_peak_mb, mem_total_mb) |>
   arrange_all()
 
 output <- c(

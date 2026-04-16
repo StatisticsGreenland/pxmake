@@ -6,9 +6,9 @@
 
 - Optimization.
   ([\#454](https://github.com/StatisticsGreenland/pxmake/issues/454),
-  commits: 5c17f1d)
+  commits: 5c17f1d, e22f44d)
   - [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md)s
-    peak memory usage reduced by ~50 % and speed up by ~40 %.
+    peak memory usage reduced by ~50 % and speed up by ~60 %.
 
 ### Bug fixes and minor improvements
 

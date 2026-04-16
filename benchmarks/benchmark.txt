@@ -1,7 +1,7 @@
 Version:
 Rows: 1
 Columns: 2
-$ pxmake_version <chr> "0.19.0.9012"
+$ pxmake_version <chr> "0.19.0.9013"
 $ r_version      <chr> "R version 4.5.3 (2026-03-11)"
 
 Hardware:
@@ -9,21 +9,21 @@ Rows: 1
 Columns: 5
 $ os           <chr> "Linux"
 $ github_arch  <chr> "X64"
-$ cpu_model    <chr> "AMD EPYC 9V74 80-Core Processor"
+$ cpu_model    <chr> "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"
 $ n_cores      <int> 4
-$ benchmark_ms <dbl> 50
+$ benchmark_ms <dbl> 83
 
 Results:
 # A tibble: 10 × 6
    expression file_size_mb file          median_s mem_peak_mb mem_total_mb
    <chr>             <dbl> <chr>            <dbl>       <dbl>        <dbl>
- 1 px                  0.4 100k_cells.px      0.3          15           14
- 2 px                  1.2 300k_cells.px      0.4          47           39
- 3 px                  3.9 1m_cells.px        0.7         147          128
- 4 px                 11.6 3m_cells.px        2.1         247          374
- 5 px                 38.6 10m_cells.px       7.3         700         1256
- 6 px_save             0.4 100k_cells.px      0.5         100          115
- 7 px_save             1.2 300k_cells.px      1           248          347
- 8 px_save             3.9 1m_cells.px        2.7         364         1104
- 9 px_save            11.6 3m_cells.px        8.7         664         3306
-10 px_save            38.6 10m_cells.px      26.5        2417        11361
+ 1 px                  0.4 100k_cells.px      0.4          14           14
+ 2 px                  1.2 300k_cells.px      0.5          47           39
+ 3 px                  3.9 1m_cells.px        1           127          128
+ 4 px                 11.6 3m_cells.px        2.9         246          374
+ 5 px                 38.6 10m_cells.px      13.2         739         1256
+ 6 px_save             0.4 100k_cells.px      0.7          93          114
+ 7 px_save             1.2 300k_cells.px      1.1         168          346
+ 8 px_save             3.9 1m_cells.px        3           273         1100
+ 9 px_save            11.6 3m_cells.px        6.7         643         3294
+10 px_save            38.6 10m_cells.px      23.8        2166        11321

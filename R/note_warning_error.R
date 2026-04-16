@@ -304,14 +304,13 @@ error_if_value_contains_quotation_marks <- function(x) {
 }
 
 error_if_data_table_contains_duplicates <- function(x) {
-  duplicates <-
-    x |>
-    px_data() |>
-    dplyr::select(-px_figures(x)) |>
-    dplyr::group_by(across(everything())) |>
-    dplyr::filter(dplyr::n() > 1)
+  key_data <- px_data(x) |> dplyr::select(-px_figures(x))
 
-  if (nrow(duplicates) > 0) {
+  if (anyDuplicated(key_data) > 0) {
+    duplicates <- key_data |>
+      dplyr::group_by(across(everything())) |>
+      dplyr::filter(dplyr::n() > 1)
+
     error(paste0(
       "px save: cannot save because data table contains duplicates:\n\n",
       paste(utils::capture.output(print(duplicates)),

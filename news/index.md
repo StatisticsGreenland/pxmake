@@ -4,19 +4,22 @@
 
 ### New features
 
-- Optimization.
+- Optimization of
+  [`px()`](https://statisticsgreenland.github.io/pxmake/reference/px.md)
+  and
+  [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md):
+  speed is significantly improved for larger files.
   ([\#454](https://github.com/StatisticsGreenland/pxmake/issues/454))
-  - [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md)
-    (commits: 5c17f1d, e22f44d, e7b4163, c0ee1c8, 75f003f)
-    - Speed: ~4-6x faster.
-    - Peak memory usage: reduced by ~40-55 %
-    - Total memory usage: reduced by ~60 %
   - [`px()`](https://statisticsgreenland.github.io/pxmake/reference/px.md)
     (commits: c12fe3d, 3bf5520)
-    - Speed: ~3-7x faster.
+    - Speed: ~3-8x faster.
     - Peak memory usage: reduced by ~50-75 %
     - Total memory usage: reduced by ~50 %
-    - Scaling with file size is significantly improved.
+  - [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md)
+    (commits: 5c17f1d, e22f44d, e7b4163, c0ee1c8, 75f003f)
+    - Speed: ~4-7x faster.
+    - Peak memory usage: reduced by ~45-65 %
+    - Total memory usage: reduced by ~60 %
 
 ### Bug fixes and minor improvements
 

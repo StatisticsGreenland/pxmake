@@ -2,6 +2,14 @@
 
 ## pxmake (development version)
 
+### New features
+
+- Optimization.
+  ([\#454](https://github.com/StatisticsGreenland/pxmake/issues/454),
+  commits: 5c17f1d)
+  - [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md)s
+    peak memory usage reduced by ~50 % and speed up by ~40 %.
+
 ### Bug fixes and minor improvements
 
 - Support semicolons inside values.

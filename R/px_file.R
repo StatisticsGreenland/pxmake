@@ -83,18 +83,24 @@ get_data_cube <- function(metadata_df, data_df) {
     tidyr::complete(!!!data_and_cells_values)
 
   # Add sortorder variables one-by-one
-  for (variable in head_stub_variable_names) {
+  for (v in head_stub_variable_names) {
     sortorder_df <-
       cells |>
-      dplyr::filter(.data$variable == .env$variable) |>
-      dplyr::select(!!variable := "code", !!paste0("sortorder_", variable) := "sortorder")
+      dplyr::filter(.data$variable == v) |>
+      dplyr::select(
+        !!v := "code",
+        !!paste0("sortorder_", v) := "sortorder"
+      )
 
-    data_completed <- dplyr::left_join(data_completed, sortorder_df, by = variable)
+    data_completed <- dplyr::left_join(data_completed, sortorder_df, by = v)
   }
 
   data_cube <-
     data_completed |>
-    dplyr::rename_with(\(x) paste0("code_", x), all_of(head_stub_variable_names)) |>
+    dplyr::rename_with(
+      \(x) paste0("code_", x),
+      all_of(head_stub_variable_names)
+    ) |>
     # Sort by sortorder for first heading var, codes for first heading var,
     # sortorder for second heading var, etc.
     dplyr::arrange(

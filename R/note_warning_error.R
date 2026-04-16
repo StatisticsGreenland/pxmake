@@ -300,10 +300,7 @@ error_if_value_contains_quotation_marks <- function(x) {
 error_if_data_table_contains_duplicates <- function(x) {
   key_data <- px_data(x) |> dplyr::select(-px_figures(x))
 
-  has_duplicates <-
-    ncol(key_data) > 0 &&
-    # collapse data.frame to strings, because anyDuplicated is faster on string
-    anyDuplicated(do.call(paste, c(as.list(key_data), list(sep = "\x01")))) > 0
+  has_duplicates <- ncol(key_data) > 0 && vctrs::vec_duplicate_any(key_data)
 
   if (has_duplicates) {
     duplicates <- key_data |>

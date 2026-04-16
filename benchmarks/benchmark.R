@@ -35,6 +35,7 @@ generate_benchmark_px_files <- function(dir) {
   save_benchmark_px(dir, "300k_cells.px", n_municipality = 30)
   save_benchmark_px(dir, "1m_cells.px", n_municipality = 100)
   save_benchmark_px(dir, "3m_cells.px", n_municipality = 300)
+  save_benchmark_px(dir, "10m_cells.px", n_municipality = 1000)
 }
 
 generate_benchmark_px_files(file.path(benchmarks_dir, "fixtures"))
@@ -43,7 +44,8 @@ benchmark_filenames <- c(
   "100k_cells.px",
   "300k_cells.px",
   "1m_cells.px",
-  "3m_cells.px"
+  "3m_cells.px",
+  "10m_cells.px"
 )
 
 files <- file.path(benchmarks_dir, "fixtures", benchmark_filenames)

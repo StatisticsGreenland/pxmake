@@ -2,8 +2,8 @@
 
 ## New features
 
-- Optimization. (#454, commits: 5c17f1d, e22f44d)
-  - `px_save()`s peak memory usage reduced by ~50 % and speed up by ~60 %.
+- Optimization. (#454, commits: 5c17f1d, e22f44d, e7b4163)
+  - `px_save()`s peak memory usage reduced by ~50 % and speed up by ~4x.
 
 ## Bug fixes and minor improvements
 

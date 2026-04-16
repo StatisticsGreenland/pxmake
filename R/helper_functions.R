@@ -373,17 +373,17 @@ get_default_encoding <- function() {
 #' @returns Character
 #' @keywords internal
 get_encoding_from_px_file <- function(px_path) {
-  encoding <-
-    px_path |>
-    readLines(warn = FALSE) |>
-    paste(collapse = "\n") |>
-    stringr::str_extract('(?<=CODEPAGE=").+(?=";)')
+  con <- file(px_path, open = "r")
+  on.exit(close(con))
 
-  if (is.na(encoding)) {
-    encoding <- get_default_encoding()
+  while (length(line <- readLines(con, n = 1, warn = FALSE)) > 0) {
+    if (startsWith(line, "CODEPAGE=")) {
+      return(sub('^CODEPAGE="(.+)";?$', "\\1", line))
+    }
+    if (startsWith(line, "DATA=")) break
   }
 
-  encoding
+  get_default_encoding()
 }
 
 #' Guess encoding of file

@@ -5,12 +5,13 @@
 - Optimization. (#454)
   - `px_save()` (commits: 5c17f1d, e22f44d, e7b4163)
     - Speed: ~4x faster.
-    - Peak memory usage: reduced by ~50 %
+    - Peak memory usage: reduced by ~40 %
     - Total memory usage: reduced by ~40 %
-  - `px()` (commits: c12fe3d)
-    - Speed: ~2x faster.
-    - Peak memory usage: reduced by ~50-70 % with biggest improvement on bigger files.
-    - Total memory usage: reduced by ~40 %
+  - `px()` (commits: c12fe3d, 3bf5520)
+    - Speed: ~3-7x faster.
+    - Peak memory usage: reduced by ~50-75 %
+    - Total memory usage: reduced by ~50 %
+    - Scaling with file size is significantly improved.
 
 ## Bug fixes and minor improvements
 

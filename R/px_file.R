@@ -77,22 +77,24 @@ get_data_cube <- function(metadata_df, data_df) {
   stub_code_vars <- paste0("code_", stub_vars, recycle0 = TRUE)
   stub_sortorder_vars <- paste0("sortorder_", stub_vars, recycle0 = TRUE)
 
-  data_cube <-
+  data_completed <-
     data_df |>
     mutate_all_vars_to_character() |>
-    tidyr::complete(!!!data_and_cells_values) |>
-    dplyr::mutate(id_ = dplyr::row_number()) |> # used to unpivot data later
-    tidyr::pivot_longer(
-      cols = all_of(head_stub_variable_names),
-      names_to = "variable",
-      values_to = "code"
-    ) |>
-    dplyr::left_join(cells, by = c("variable", "code")) |>
-    tidyr::pivot_wider(
-      names_from = "variable",
-      values_from = c("code", "sortorder")
-    ) |>
-    dplyr::select(-"id_") |>
+    tidyr::complete(!!!data_and_cells_values)
+
+  # Add sortorder variables one-by-one
+  for (variable in head_stub_variable_names) {
+    sortorder_df <-
+      cells |>
+      dplyr::filter(.data$variable == .env$variable) |>
+      dplyr::select(!!variable := "code", !!paste0("sortorder_", variable) := "sortorder")
+
+    data_completed <- dplyr::left_join(data_completed, sortorder_df, by = variable)
+  }
+
+  data_cube <-
+    data_completed |>
+    dplyr::rename_with(\(x) paste0("code_", x), all_of(head_stub_variable_names)) |>
     # Sort by sortorder for first heading var, codes for first heading var,
     # sortorder for second heading var, etc.
     dplyr::arrange(

@@ -289,16 +289,10 @@ error_if_data_column_is_not_defined <- function(x, table_name) {
 }
 
 error_if_value_contains_quotation_marks <- function(x) {
-  df_contains_quotation_marks <-
-    lapply(x, function(df) {
-      df |>
-        dplyr::mutate(across(everything(), ~ grepl('"', .))) |>
-        unlist() |>
-        any()
-    }) |>
-    unlist()
+  contains_quote <- function(col) any(grepl('"', col, fixed = TRUE))
+  metadata_frames <- x[names(x) != "data"]
 
-  if (any(df_contains_quotation_marks)) {
+  if (any(rapply(metadata_frames, contains_quote, classes = "character"))) {
     error("px object: values cannot contain quotation marks")
   }
 }

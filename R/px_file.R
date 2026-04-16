@@ -84,11 +84,12 @@ get_data_cube <- function(metadata_df, data_df) {
 
   # Add sortorder variables one-by-one
   for (v in head_stub_variable_names) {
-    # Add sortorder using base R syntax because 
+    # Add sortorder using base R syntax because
     # it uses less memory than dplyr::left_join
     cells_v <- cells[cells$variable == v, ]
     sortorder_index <- match(data_completed[[v]], cells_v$code)
-    data_completed[[paste0("sortorder_", v)]] <- cells_v$sortorder[sortorder_index]
+    data_completed[[paste0("sortorder_", v)]] <-
+      cells_v$sortorder[sortorder_index]
   }
 
   data_cube <-

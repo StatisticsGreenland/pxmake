@@ -15,12 +15,12 @@ Source:
 [`DESCRIPTION`](https://github.com/StatisticsGreenland/pxmake/blob/main/DESCRIPTION)
 
 Ejstrud J, Lars Pedersen (2026). *pxmake: Make PX-Files in R*. R package
-version 0.19.0.9012, <https://github.com/StatisticsGreenland/pxmake>.
+version 0.19.0.9013, <https://github.com/StatisticsGreenland/pxmake>.
 
     @Manual{,
       title = {pxmake: Make PX-Files in R},
       author = {Johan Ejstrud and {Lars Pedersen}},
       year = {2026},
-      note = {R package version 0.19.0.9012},
+      note = {R package version 0.19.0.9013},
       url = {https://github.com/StatisticsGreenland/pxmake},
     }

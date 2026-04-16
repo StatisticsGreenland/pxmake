@@ -75,7 +75,8 @@ benchmark_file <- function(path) {
   bench::mark(
     px = px(path),
     px_save = px_save(x, tmp),
-    check = FALSE
+    check = FALSE,
+    min_time = 5
   ) |>
     mutate(
       expression = as.character(expression),

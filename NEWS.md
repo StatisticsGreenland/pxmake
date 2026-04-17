@@ -1,3 +1,9 @@
+# pxmake 0.20.1
+
+## Bug fixes and minor improvements
+
+- Fixed submission note.
+
 # pxmake 0.20.0
 
 This release optimized, aligned, and added a few new keywords.

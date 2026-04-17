@@ -388,7 +388,7 @@ px_from_px_file <- function(path) {
       dplyr::bind_rows(
         current_df,
         dplyr::anti_join(
-          dplyr::select(name_relation, -main_language), # nolint: object_usage_linter
+          dplyr::select(name_relation, -.data$main_language), # nolint: object_usage_linter
           current_df,
           by = c("variable-code", "language", "variable-label")
         )

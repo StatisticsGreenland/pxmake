@@ -20,3 +20,4 @@
 ^daily_downloads.R$
 ^\.lintr$
 ^benchmarks$
+^\.claude$

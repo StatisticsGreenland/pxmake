@@ -2,6 +2,14 @@
 
 ## pxmake (development version)
 
+This release optimized, aligned, and added a few new keywords.
+
+It’s also the first release with large contributions not made by
+Statistics Greenland, since [@dsvedberg](https://github.com/dsvedberg)
+closed issue
+[\#455](https://github.com/StatisticsGreenland/pxmake/issues/455) and
+[\#463](https://github.com/StatisticsGreenland/pxmake/issues/463).
+
 ### New features
 
 - Optimization of
@@ -27,8 +35,10 @@
   ([\#458](https://github.com/StatisticsGreenland/pxmake/issues/458))
 - Adds support for DATABASE.
   ([\#455](https://github.com/StatisticsGreenland/pxmake/issues/455))
+  [@dsvedberg](https://github.com/dsvedberg)
 - Adds support for REFPERIOD
   ([\#455](https://github.com/StatisticsGreenland/pxmake/issues/455))
+  [@dsvedberg](https://github.com/dsvedberg)
 - Adds support for DATASYMBOLNIL
   ([\#468](https://github.com/StatisticsGreenland/pxmake/issues/468))
 - Adds support for DATASYMBOL1-6
@@ -36,6 +46,7 @@
 - Use lintr on entire package. Causes almost no visible changes, except
   when saving a PX-files as an R script.
   ([\#463](https://github.com/StatisticsGreenland/pxmake/issues/463))
+  [@dsvedberg](https://github.com/dsvedberg)
 
 ## pxmake 0.19.0
 

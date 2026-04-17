@@ -1,6 +1,6 @@
 # Changelog
 
-## pxmake (development version)
+## pxmake 0.20.0
 
 This release optimized, aligned, and added a few new keywords.
 

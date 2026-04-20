@@ -1,5 +1,13 @@
 # Changelog
 
+## pxmake 0.20.1
+
+CRAN release: 2026-04-18
+
+### Bug fixes and minor improvements
+
+- Fixed submission note.
+
 ## pxmake 0.20.0
 
 This release optimized, aligned, and added a few new keywords.

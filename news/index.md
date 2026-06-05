@@ -2,6 +2,11 @@
 
 ## pxmake (development version)
 
+### Bug fixes and minor improvements
+
+- Support tab, colon and semicolon as separators in DATA block.
+  ([\#492](https://github.com/StatisticsGreenland/pxmake/issues/492))
+
 ## pxmake 0.20.1
 
 CRAN release: 2026-04-18

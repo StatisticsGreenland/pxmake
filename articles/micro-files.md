@@ -32,6 +32,7 @@ will instead create a count of each individual variable.
 In this example we will use the built-in data data set `greenlanders`.
 
 ``` r
+
 library(pxmake)
 
 greenlanders |>
@@ -60,6 +61,7 @@ and pass it to
 [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.md).
 
 ``` r
+
 # Create px object
 x <- px(greenlanders)
 
@@ -75,6 +77,7 @@ The folder now contains three PX-files, one for each variable except
 ‘age’.
 
 ``` r
+
 list.files(micro_dir)
 #> [1] "cohort.px"       "gender.px"       "municipality.px"
 ```
@@ -86,6 +89,7 @@ creates a file for each non-HEADING variable. Instead the HEADNING
 variable is used in all the created PX-files.
 
 ``` r
+
 # Print HEADING variables
 px_heading(x)
 #> [1] "age"
@@ -99,6 +103,7 @@ In this case, we want ‘cohort’ to be heading, and to create a PX-file
 for ‘gender’, ‘age’ and ‘municipality’.
 
 ``` r
+
 x2 <-
   x |>
   px_stub("age") |> # Change age to STUB
@@ -106,6 +111,7 @@ x2 <-
 ```
 
 ``` r
+
 # Clear folder
 unlink(file.path(micro_dir, "*.px"))
 
@@ -115,6 +121,7 @@ px_micro(x2, out_dir = micro_dir)
 The folder now contains the files we wanted.
 
 ``` r
+
 list.files(micro_dir)
 #> [1] "age.px"          "gender.px"       "municipality.px"
 ```
@@ -124,6 +131,7 @@ HEADING, and a variable ‘n’ which is the count of each combination of
 the variables.
 
 ``` r
+
 px(file.path(micro_dir, "age.px"))$data
 #> # A tibble: 120 × 3
 #>    age   cohort     n
@@ -176,6 +184,7 @@ them in the px object before calling
 [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.md).
 
 ``` r
+
 # Change CONTACT in all micro files
 x2 |>
   px_contact("Johan Ejstrud") |>
@@ -187,6 +196,7 @@ file. To do so, create a data frame with the column ‘variable’ and a
 column for each px keyword to change.
 
 ``` r
+
 individual_keywords <- tibble::tribble(
   ~variable, ~px_description,
   "age", "Age count 18-99",
@@ -199,12 +209,14 @@ Supply this dataframe to the `keyword_values` argument of
 [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.md).
 
 ``` r
+
 px_micro(x2, out_dir = micro_dir, keyword_values = individual_keywords)
 ```
 
 DESCRIPTION is changed in the micro files:
 
 ``` r
+
 px(file.path(micro_dir, "age.px")) |> px_description()
 #> [1] "Age count 18-99"
 px(file.path(micro_dir, "gender.px")) |> px_description()
@@ -218,6 +230,7 @@ px(file.path(micro_dir, "municipality.px")) |> px_description()
 For multilingual files add a ‘language’ column to `keyword_values`.
 
 ``` r
+
 x3 <-
   x2 |>
   px_language("en") |>
@@ -250,6 +263,7 @@ variable, however these can also be changed by passing a ‘filename’
 column to ‘keyword_values’
 
 ``` r
+
 individual_keywords2 <-
   individual_keywords |>
   dplyr::mutate(filename = paste0(variable, "_2024", ".px"))

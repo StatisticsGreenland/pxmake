@@ -11,6 +11,7 @@ to create a *px object*. Here we are using the built in dataset
 `population_gl`.
 
 ``` r
+
 library(pxmake)
 
 population_gl |>
@@ -36,6 +37,7 @@ To create the px object, simply pass the data set to the
 function.
 
 ``` r
+
 x <- px(population_gl)
 ```
 
@@ -48,6 +50,7 @@ Use
 to save the px object as a PX-file.
 
 ``` r
+
 px_save(x, "population_gl.px")
 ```
 
@@ -99,6 +102,7 @@ simple pass the path of the file, to the
 function.
 
 ``` r
+
 x2 <- px("population_gl.px")
 ```
 
@@ -116,6 +120,7 @@ example, to change the title of the PX-file, you can use the
 function.
 
 ``` r
+
 x3 <- px_title(x, "Population in Greenland")
 ```
 
@@ -125,6 +130,7 @@ function returns a new px object, with the title changed. The original
 px object is not modified.
 
 ``` r
+
 x3 |>
   px_codepage("UTF-8") |> # Change file encoding
   px_matrix("pop") |>
@@ -164,7 +170,7 @@ The resulting PX-file can be seen below.
     VARIABLECODE("gender")="gender";
     VARIABLECODE("year")="year";
     VARIABLECODE("n")="n";
-    LAST-UPDATED="20260420 10:45";
+    LAST-UPDATED="20260605 13:11";
     CONTACT="Johan Ejstrud";
     NOTE="See information about data: ?population_gl";
     DATA=

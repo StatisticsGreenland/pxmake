@@ -52,6 +52,7 @@ to change file encoding.
 ## Examples
 
 ``` r
+
 # Save px object to PX-file
 tmp_dir <- tempdir()
 

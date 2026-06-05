@@ -600,7 +600,7 @@ px_from_px_file <- function(path) {
   figures <-
     data_lines |>
     stringr::str_replace_all(";", "") |>
-    stringr::str_split(" ") |>
+    stringr::str_split("[, ;\t]+") |>
     unlist() |>
     stringr::str_subset("^$", negate = TRUE) |>
     tibble::enframe(name = NULL, value = figures_variable) |>

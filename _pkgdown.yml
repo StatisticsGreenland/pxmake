@@ -1,5 +1,8 @@
 url: https://statisticsgreenland.github.io/pxmake/
 
+development:
+  mode: auto
+
 template:
   bootstrap: 5
 

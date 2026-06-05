@@ -7,7 +7,7 @@
 download_px_or_parquet_and_return_path(url)
 }
 \arguments{
-\item{url}{}
+\item{url}{URL to px or parquet file}
 }
 \value{
 Character

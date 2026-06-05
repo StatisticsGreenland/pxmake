@@ -25,6 +25,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Johan Ejstrud \email{johan@ejstrud.com}
   \item Lars Pedersen \email{larp@stat.gl}
 }
 

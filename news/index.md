@@ -6,6 +6,7 @@
 
 - Support tab, colon and semicolon as separators in DATA block.
   ([\#492](https://github.com/StatisticsGreenland/pxmake/issues/492))
+- Bump to Roxygen version 8.0.0
 
 ## pxmake 0.20.1
 

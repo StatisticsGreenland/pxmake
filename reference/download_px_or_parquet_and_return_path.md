@@ -12,6 +12,8 @@ download_px_or_parquet_and_return_path(url)
 
 - url:
 
+  URL to px or parquet file
+
 ## Value
 
 Character

@@ -20,6 +20,8 @@ Useful links:
 
 Authors:
 
+- Johan Ejstrud <johan@ejstrud.com>
+
 - Lars Pedersen <larp@stat.gl>
 
 Other contributors:

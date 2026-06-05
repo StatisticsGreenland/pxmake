@@ -547,7 +547,7 @@ asterisk_tibble <- create_dummy_tibbles("*")
 #'
 #' Assumes the file is .px, or parquet.
 #'
-#' @param url
+#' @param url URL to px or parquet file
 #'
 #' @returns Character
 #' @keywords internal

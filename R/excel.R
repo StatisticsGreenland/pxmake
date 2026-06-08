@@ -210,7 +210,8 @@ px_from_excel <- function(excel_path, data = NULL) {
     cells2 = cells2,
     acrosscells = acrosscells,
     data = data_df
-  )
+  ) |>
+    set_data_factors_from_cells1()
 }
 
 #' Add a data frame as a sheet to an Excel workbook

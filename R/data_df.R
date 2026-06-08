@@ -151,5 +151,6 @@ px_from_data_df <- function(df) {
     data = data_df
   ) |>
     px_title("") |>
-    px_charset("ANSI")
+    px_charset("ANSI") |>
+    set_data_factors_from_cells1()
 }

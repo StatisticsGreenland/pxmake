@@ -91,7 +91,7 @@ test_that("metadata without elimination values use default value", {
     dplyr::pull(gender) |>
     unique()
 
-  expect_equal(levels, c("Total", "K", "M"))
+  expect_equal(as.character(levels), c("Total", "M", "K"))
 })
 
 test_that("do not ignore NA when summing", {
@@ -130,7 +130,7 @@ test_that("Add totals work for multiple languages", {
     dplyr::distinct(gender) |>
     dplyr::pull(gender)
 
-  expect_identical(gender_levels, c("Total", "male", "female"))
+  expect_identical(as.character(gender_levels), c("Total", "female", "male"))
 })
 
 test_that("Add totals adds elimination", {

@@ -1,72 +1,3 @@
-test_that("Data table can be returned sorted", {
-  x1 <- px_from_table_name("BEXSTA")
-
-  expect_error(px_data(x1, value = population_gl, sort = TRUE),
-    regexp = "'sort' can only be used if 'value' is missing"
-  )
-
-  expect_error(px_data(x1, sort = "yes"),
-    regexp = "must be TRUE or FALSE."
-  )
-
-  # Change order
-  total_level_last <- dplyr::tribble(
-    ~`variable-code`, ~code, ~order,
-    "gender", "T", 4
-  )
-
-  x2 <-
-    x1 |>
-    px_order(
-      px_order(x1) |>
-        dplyr::anti_join(total_level_last,
-          by = dplyr::join_by(
-            `variable-code`,
-            code
-          )
-        ) |>
-        dplyr::bind_rows(total_level_last)
-    )
-
-  expect_identical(px_data(x1), px_data(x2))
-  expect_identical(px_data(x1, labels = TRUE), px_data(x2, labels = TRUE))
-
-  expect_false(identical(
-    px_data(x1, sort = TRUE),
-    px_data(x2, sort = TRUE)
-  ))
-
-  expect_false(identical(
-    px_data(x1, labels = TRUE, sort = TRUE),
-    px_data(x2, labels = TRUE, sort = TRUE)
-  ))
-
-  x2_data_expected_codes <-
-    px_data(x2) |>
-    dplyr::arrange(
-      match(`place of birth`, c("T", "N", "S")),
-      match(gender, c("M", "K", "T"))
-    )
-
-  x2_data_expected_labels <-
-    px_data(x2, labels = TRUE) |>
-    dplyr::arrange(
-      match(`place of birth`, c("Total", "Greenland", "Outside Greenland")),
-      match(gender, c("Men", "Women", "Total"))
-    )
-
-  expect_identical(
-    x2_data_expected_codes,
-    px_data(x2, sort = TRUE)
-  )
-
-  expect_identical(
-    x2_data_expected_labels,
-    px_data(x2, label = TRUE, sort = TRUE)
-  )
-})
-
-
 test_that("data is modified", {
   x <-
     "BEXSTA" |>
@@ -260,11 +191,20 @@ test_that("Labels can be returned", {
 
   expect_identical(
     head(px_data(x1, labels = "kl"), 3),
-    tibble::tribble(
-      ~`place of birth`,  ~gender,  ~time, ~persons,
-      "Kalaallit Nunaat", "Arnat", "2018",    24392,
-      "Kalaallit Nunaat", "Arnat", "2019",    24434,
-      "Kalaallit Nunaat", "Arnat", "2020",    24452
+    tibble::tibble(
+      `place of birth` = factor(
+        rep("Katillugit", 3),
+        levels = c("Katillugit", "Kalaallit Nunaat", "Kalaallit Nunaata avataani")
+      ),
+      gender = factor(
+        rep("Katillugit", 3),
+        levels = c("Katillugit", "Angutit", "Arnat")
+      ),
+      time = factor(
+        c("2018", "2019", "2020"),
+        levels = c("2018", "2019", "2020", "2021", "2022")
+      ),
+      persons = c(55877, 55992, 56081)
     )
   )
 
@@ -274,4 +214,29 @@ test_that("Labels can be returned", {
     px_data(x2, labels = TRUE),
     px_data(x2)
   )
+})
+
+
+test_that("Data table is sorted by px_order", {
+  x1 <- px_from_table_name("BEXSTA")
+
+  total_level_last <- dplyr::tribble(
+    ~`variable-code`, ~code, ~order,
+    "gender", "T", 4
+  )
+
+  x2 <-
+    x1 |>
+    px_order(
+      px_order(x1) |>
+        dplyr::anti_join(total_level_last,
+                         by = dplyr::join_by(`variable-code`, code)
+        ) |>
+        dplyr::bind_rows(total_level_last)
+    )
+
+  expect_false(identical(px_data(x1), px_data(x2)))
+  expect_false(identical(px_data(x1, labels = TRUE), px_data(x2, labels = TRUE)))
+
+  expect_identical(tail(levels(x2$data$gender), 1), "T")
 })

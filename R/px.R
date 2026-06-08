@@ -170,7 +170,8 @@ new_px <- function(languages, table1, table2, variables1, variables2,
     data = dplyr::as_tibble(data)
   )
 
-  structure(x, class = "px")
+  structure(x, class = "px") |>
+    set_data_factors_based_on_ordering_and_sort()
 }
 
 #' Fix some common issues in px objects

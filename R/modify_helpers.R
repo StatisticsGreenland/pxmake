@@ -143,6 +143,7 @@ modify_cells <- function(x, number, column, value) {
 
   if (number == "1") {
     x$cells1 <- sort_cells1(x$cells1, data_table_names = names(px_data(x)))
+    x <- set_data_factors_based_on_ordering_and_sort(x)
   } else if (number == "2") {
     x$cells2 <- sort_cells2(x$cells2,
       data_table_names = names(px_data(x)),

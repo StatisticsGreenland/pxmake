@@ -1,5 +1,13 @@
 # pxmake (development version)
 
+## Breaking changes
+- 'sort' argument has been removed from 'px_data'. Data table is now always
+return sorted.
+
+## New features
+- Data table variables are stored as factors instead of characters. This roughly
+halves the size of large PX objects. (#487)
+
 ## Bug fixes and minor improvements
 
 - Support tab, colon and semicolon as separators in DATA block. (#492)

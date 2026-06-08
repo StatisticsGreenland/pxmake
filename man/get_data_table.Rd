@@ -4,7 +4,7 @@
 \alias{get_data_table}
 \title{Return data table from px object}
 \usage{
-get_data_table(x, value, labels, sort)
+get_data_table(x, value, labels)
 }
 \arguments{
 \item{x}{A px object}
@@ -16,9 +16,6 @@ DATA is returned. If NULL, all data rows are removed.}
 is returned with VALUES instead of CODES. By default the VALUES of the main
 language are returned, use a character language code to return VALUES for a
 specific language.}
-
-\item{sort}{Optional. If TRUE, the data table is returned in the sort order
-defined by \code{\link[=px_order]{px_order()}}. If FALSE, the data table is returned as is.}
 }
 \description{
 Return data table from px object

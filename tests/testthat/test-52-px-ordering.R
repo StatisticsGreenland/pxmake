@@ -93,3 +93,43 @@ test_that("px created from data frame orders variables properly", {
 
   expect_identical(px(df)$cells1, cells1_expect)
 })
+
+test_that("data columns are stored as factors matching cells1 order", {
+  x <- px(population_gl)
+
+  non_figures <- setdiff(names(x$data), px_figures(x))
+
+  for (col in non_figures) {
+    expect_true(is.factor(x$data[[col]]))
+  }
+
+  expected_gender_levels <-
+    x$cells1 |>
+    dplyr::filter(`variable-code` == "gender") |>
+    dplyr::arrange(order) |>
+    dplyr::pull(code)
+
+  expect_identical(levels(x$data$gender), expected_gender_levels)
+})
+
+test_that("data is re-sorted when px_order changes", {
+  x1 <- px(population_gl)
+
+  new_gender_order <-
+    x1$cells1 |>
+    dplyr::filter(`variable-code` == "gender") |>
+    dplyr::arrange(desc(order)) |>
+    dplyr::mutate(order = dplyr::row_number()) |>
+    dplyr::select("variable-code", "code", "order")
+
+  x2 <- px_order(x1, new_gender_order)
+
+  expect_false(identical(x1$data$gender, x2$data$gender))
+
+  expect_identical(
+    levels(x2$data$gender),
+    new_gender_order |>
+      dplyr::arrange(order) |>
+      dplyr::pull(code)
+  )
+})

@@ -3,12 +3,8 @@
 #' @inheritParams px_data
 #'
 #' @keywords internal
-get_data_table <- function(x, value, labels, sort) {
-  if (isTRUE(sort)) {
-    data_table <- sort_data_table_by_order(x)
-  } else {
-    data_table <- x$data
-  }
+get_data_table <- function(x, value, labels) {
+  data_table <- x$data
 
   if (isFALSE(labels)) {
     return(data_table)
@@ -55,7 +51,10 @@ get_data_table <- function(x, value, labels, sort) {
       values_from = "value"
     ) |>
     dplyr::select(-"id_") |>
-    dplyr::relocate(names(data_table))
+    dplyr::relocate(names(data_table)) |>
+    dplyr::mutate(dplyr::across(-all_of(px_figures(x)),
+                  ~ factor(.x, levels = unique(.x)))
+                  )
 
   data_with_labels
 }
@@ -149,37 +148,44 @@ update_data_table <- function(x, value) {
   x
 }
 
-#' Sort data table by order
+
+#' Set data table vars as factors
 #'
 #' @keywords internal
-sort_data_table_by_order <- function(x) {
-  data_table <- x$data
+set_data_factors_based_on_ordering_and_sort <- function(x) {
+  non_figures_variables <- setdiff(names(x$data), px_figures(x))
+
   order_df <- px_order(x)
 
-  columns_to_sort <- intersect(
-    names(data_table),
-    dplyr::pull(order_df, .data$`variable-code`)
-  )
+  for (var in non_figures_variables) {
+    if (is.null(order_df)) {
+      defined_levels <- NULL
+    } else {
+      defined_levels <-
+        order_df |>
+        dplyr::filter(.data$`variable-code` == var) |>
+        dplyr::arrange(.data$order) |>
+        dplyr::pull(.data$code)
+    }
 
-  for (column in rev(columns_to_sort)) {
-    tmp <-
-      order_df |>
-      dplyr::filter(.data$`variable-code` == column) |>
-      tidyr::pivot_wider(names_from = "variable-code", values_from = "code")
+    data_levels <- x$data[[var]] |> unique() |> sort()
 
-    data_table <-
-      data_table |>
-      dplyr::left_join(tmp, by = column) |>
-      dplyr::arrange(order) |>
-      dplyr::select(-order)
+    undefined_levels <- setdiff(data_levels, defined_levels)
+
+    factor_levels <- c(defined_levels, undefined_levels)
+
+    x$data[[var]] <- factor(x$data[[var]], levels = factor_levels)
   }
 
-  data_table
+  x$data <- dplyr::arrange(x$data, dplyr::across(dplyr::all_of(non_figures_variables)))
+
+  x
 }
+
 
 #' @rdname px_data.px
 #' @export
-px_data <- function(x, value, labels, sort, validate) {
+px_data <- function(x, value, labels, validate) {
   UseMethod("px_data")
 }
 
@@ -191,8 +197,6 @@ px_data <- function(x, value, labels, sort, validate) {
 #' is returned with VALUES instead of CODES. By default the VALUES of the main
 #' language are returned, use a character language code to return VALUES for a
 #' specific language.
-#' @param sort Optional. If TRUE, the data table is returned in the sort order
-#' defined by [px_order()]. If FALSE, the data table is returned as is.
 #' @eval param_validate()
 #'
 #' @details If adding a new data frame, metadata is generated for the new
@@ -221,12 +225,12 @@ px_data <- function(x, value, labels, sort, validate) {
 #'
 #' @export
 px_data.px <- function(
-  x, value, labels = FALSE, sort = FALSE, validate = TRUE
+  x, value, labels = FALSE, validate = TRUE
 ) {
-  validate_px_data_arguments(x, value, labels, sort, validate)
+  validate_px_data_arguments(x, value, labels, validate)
 
   if (missing(value)) {
-    return(get_data_table(x = x, value = value, labels = labels, sort = sort))
+    return(get_data_table(x = x, value = value, labels = labels))
   } else if (is.null(value)) {
     x$data <- dplyr::filter(x$data, FALSE)
   } else {

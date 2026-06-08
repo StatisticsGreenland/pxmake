@@ -379,7 +379,6 @@ get_metadata_df_from_px <- function(x) {
     dplyr::select(
       dplyr::all_of(intersect(stub_heading_variables, names(x$data)))
     ) |>
-    dplyr::mutate(dplyr::across(everything(), as.character)) |>
     tidyr::pivot_longer(
       cols = everything(),
       names_to = "variable-code",

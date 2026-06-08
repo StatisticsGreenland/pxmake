@@ -241,8 +241,5 @@ test_that("px_micro removes headings where all values are NA", {
     dplyr::select(pnr, taar, n) |>
     dplyr::mutate(n = as.double(n))
 
-  expect_identical(
-    dplyr::mutate(micro_df, dplyr::across(where(is.factor), as.character)),
-    target
-  )
+  expect_identical(micro_df, target)
 })

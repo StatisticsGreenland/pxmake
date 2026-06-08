@@ -621,6 +621,5 @@ px_from_px_file <- function(path) {
     cells2 = cells2,
     acrosscells = acrosscells,
     data = data_df
-  ) |>
-    set_data_factors_from_cells1()
+  )
 }

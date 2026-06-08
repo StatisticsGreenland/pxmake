@@ -1,33 +1,14 @@
-#' Set data columns as ordered factors with levels from cells1
-#'
-#' @keywords internal
-set_data_factors_from_cells1 <- function(x) {
-  vars <- intersect(names(x$data), x$cells1$`variable-code`)
-
-  for (var in vars) {
-    lvls <-
-      x$cells1 |>
-      dplyr::filter(.data$`variable-code` == var) |>
-      dplyr::arrange(.data$order) |>
-      dplyr::pull(.data$code)
-
-    x$data[[var]] <- factor(x$data[[var]], levels = lvls, ordered = TRUE)
-  }
-
-  if (length(vars) > 0) {
-    x$data <- dplyr::arrange(x$data, dplyr::across(dplyr::all_of(vars)))
-  }
-
-  x
-}
-
 #' Return data table from px object
 #'
 #' @inheritParams px_data
 #'
 #' @keywords internal
-get_data_table <- function(x, labels) {
-  data_table <- x$data
+get_data_table <- function(x, value, labels, sort) {
+  if (isTRUE(sort)) {
+    data_table <- sort_data_table_by_order(x)
+  } else {
+    data_table <- x$data
+  }
 
   if (isFALSE(labels)) {
     return(data_table)
@@ -42,7 +23,6 @@ get_data_table <- function(x, labels) {
   data_with_labels <-
     data_table |>
     dplyr::mutate(id_ = dplyr::row_number()) |>
-    dplyr::mutate(dplyr::across(-c(dplyr::all_of(px_figures(x)), "id_"), as.character)) |>
     tidyr::pivot_longer(-c(px_figures(x), "id_"),
       names_to = "variable-code",
       values_to = "code"
@@ -169,9 +149,37 @@ update_data_table <- function(x, value) {
   x
 }
 
+#' Sort data table by order
+#'
+#' @keywords internal
+sort_data_table_by_order <- function(x) {
+  data_table <- x$data
+  order_df <- px_order(x)
+
+  columns_to_sort <- intersect(
+    names(data_table),
+    dplyr::pull(order_df, .data$`variable-code`)
+  )
+
+  for (column in rev(columns_to_sort)) {
+    tmp <-
+      order_df |>
+      dplyr::filter(.data$`variable-code` == column) |>
+      tidyr::pivot_wider(names_from = "variable-code", values_from = "code")
+
+    data_table <-
+      data_table |>
+      dplyr::left_join(tmp, by = column) |>
+      dplyr::arrange(order) |>
+      dplyr::select(-order)
+  }
+
+  data_table
+}
+
 #' @rdname px_data.px
 #' @export
-px_data <- function(x, value, labels, validate) {
+px_data <- function(x, value, labels, sort, validate) {
   UseMethod("px_data")
 }
 
@@ -213,12 +221,12 @@ px_data <- function(x, value, labels, validate) {
 #'
 #' @export
 px_data.px <- function(
-  x, value, labels = FALSE, validate = TRUE
+  x, value, labels = FALSE, sort = FALSE, validate = TRUE
 ) {
-  validate_px_data_arguments(x, value, labels, validate)
+  validate_px_data_arguments(x, value, labels, sort, validate)
 
   if (missing(value)) {
-    return(get_data_table(x = x, labels = labels))
+    return(get_data_table(x = x, value = value, labels = labels, sort = sort))
   } else if (is.null(value)) {
     x$data <- dplyr::filter(x$data, FALSE)
   } else {

@@ -153,7 +153,7 @@ update_data_table <- function(x, value) {
 #' Set data table vars as factors
 #'
 #' @keywords internal
-wset_data_factors_based_on_ordering_and_sort <- function(x) {
+set_data_factors_based_on_ordering_and_sort <- function(x) {
   non_figures_variables <- setdiff(names(x$data), px_figures(x))
 
   order_df <- px_order(x)

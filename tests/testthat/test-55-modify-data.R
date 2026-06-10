@@ -23,8 +23,8 @@ test_that("modifying data updates metadata", {
   population_gl_new <-
     population_gl |>
     dplyr::mutate(age = dplyr::if_else(age %in% c("0-6", "7-16"),
-      "0-16",
-      age
+                                       "0-16",
+                                       age
     )) |>
     dplyr::group_by(gender, age, year) |>
     dplyr::summarise(n = sum(n), .groups = "keep") |>
@@ -71,8 +71,8 @@ test_that("modifying data updates metadata", {
     df |>
       dplyr::select(-n) |>
       tidyr::pivot_longer(everything(),
-        names_to = "variable-code",
-        values_to = "code"
+                          names_to = "variable-code",
+                          values_to = "code"
       ) |>
       dplyr::distinct_all()
   }
@@ -90,14 +90,14 @@ test_that("modifying data updates metadata", {
     dplyr::anti_join(old_codes, by = dplyr::join_by(`variable-code`, code))
 
   dplyr::semi_join(removed_codes, x2$cells1,
-    by = dplyr::join_by(`variable-code`, code)
+                   by = dplyr::join_by(`variable-code`, code)
   ) |>
     nrow() |>
     expect_equal(0)
 
   expect_no_matches <- function(df1, df2) {
     dplyr::semi_join(df1, df2,
-      by = dplyr::join_by(`variable-code`, code)
+                     by = dplyr::join_by(`variable-code`, code)
     ) |>
       nrow() |>
       expect_equal(0)
@@ -108,7 +108,7 @@ test_that("modifying data updates metadata", {
 
   expect_all_matches <- function(df1, df2) {
     dplyr::anti_join(df1, df2,
-      by = dplyr::join_by(`variable-code`, code)
+                     by = dplyr::join_by(`variable-code`, code)
     ) |>
       nrow() |>
       expect_equal(0)
@@ -165,10 +165,10 @@ test_that("Elimination values and order is preserved ", {
 
   px_order(x2) |>
     dplyr::semi_join(elimination_df,
-      by = c(
-        "variable-code" = "variable-code",
-        "code" = "elimination"
-      )
+                     by = c(
+                       "variable-code" = "variable-code",
+                       "code" = "elimination"
+                     )
     ) |>
     expect_identical(elimination_order)
 })
@@ -177,11 +177,11 @@ test_that("Labels can be returned", {
   x1 <- px_from_table_name("BEXSTA")
 
   expect_error(px_data(x1, value = population_gl, labels = TRUE),
-    regexp = "can only be used"
+               regexp = "can only be used"
   )
 
   expect_error(px_data(x1, labels = "fr"),
-    regexp = "Language.*is not defined"
+               regexp = "Language.*is not defined"
   )
 
   expect_identical(
@@ -194,7 +194,10 @@ test_that("Labels can be returned", {
     tibble::tibble(
       `place of birth` = factor(
         rep("Katillugit", 3),
-        levels = c("Katillugit", "Kalaallit Nunaat", "Kalaallit Nunaata avataani")
+        levels = c("Katillugit",
+                   "Kalaallit Nunaat",
+                   "Kalaallit Nunaata avataani"
+                   )
       ),
       gender = factor(
         rep("Katillugit", 3),
@@ -236,7 +239,8 @@ test_that("Data table is sorted by px_order", {
     )
 
   expect_false(identical(px_data(x1), px_data(x2)))
-  expect_false(identical(px_data(x1, labels = TRUE), px_data(x2, labels = TRUE)))
+  expect_false(identical(px_data(x1, labels = TRUE),
+                         px_data(x2, labels = TRUE)))
 
   expect_identical(tail(levels(x2$data$gender), 1), "T")
 })

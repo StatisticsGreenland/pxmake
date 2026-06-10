@@ -52,9 +52,10 @@ get_data_table <- function(x, value, labels) {
     ) |>
     dplyr::select(-"id_") |>
     dplyr::relocate(names(data_table)) |>
-    dplyr::mutate(dplyr::across(-all_of(px_figures(x)),
-                  ~ factor(.x, levels = unique(.x)))
-                  )
+    dplyr::mutate(dplyr::across(
+      -all_of(px_figures(x)),
+      ~ factor(.x, levels = unique(.x))
+    ))
 
   data_with_labels
 }
@@ -152,7 +153,7 @@ update_data_table <- function(x, value) {
 #' Set data table vars as factors
 #'
 #' @keywords internal
-set_data_factors_based_on_ordering_and_sort <- function(x) {
+wset_data_factors_based_on_ordering_and_sort <- function(x) {
   non_figures_variables <- setdiff(names(x$data), px_figures(x))
 
   order_df <- px_order(x)
@@ -168,7 +169,9 @@ set_data_factors_based_on_ordering_and_sort <- function(x) {
         dplyr::pull(.data$code)
     }
 
-    data_levels <- x$data[[var]] |> unique() |> sort()
+    data_levels <- x$data[[var]] |>
+      unique() |>
+      sort()
 
     undefined_levels <- setdiff(data_levels, defined_levels)
 
@@ -177,7 +180,10 @@ set_data_factors_based_on_ordering_and_sort <- function(x) {
     x$data[[var]] <- factor(x$data[[var]], levels = factor_levels)
   }
 
-  x$data <- dplyr::arrange(x$data, dplyr::across(dplyr::all_of(non_figures_variables)))
+  x$data <- dplyr::arrange(
+    x$data,
+    dplyr::across(dplyr::all_of(non_figures_variables))
+  )
 
   x
 }

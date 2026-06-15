@@ -20,6 +20,7 @@
 - Bump to Roxygen version 8.0.0
 - Publish latest release on documentation site, rather than development
   version.
+- Fix incorrect number of elements in TLIST expansion.
 
 ## pxmake 0.20.1
 

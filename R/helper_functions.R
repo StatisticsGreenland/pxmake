@@ -221,7 +221,10 @@ get_values_from_time_format <- function(str) {
         dplyr::mutate(
           value = paste0(.data$year, .data$index), .keep = "none"
         ) |>
-        dplyr::filter(as.numeric(.data$value) < interval_end) |>
+        dplyr::filter(
+          as.numeric(.data$value) >= interval_start,
+          as.numeric(.data$value) <= interval_end
+        ) |>
         dplyr::pull(1)
     }
   } else {

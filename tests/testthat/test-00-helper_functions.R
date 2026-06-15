@@ -152,8 +152,8 @@ test_that("TIMEVAL short syntax is expanded", {
     expect1
   )
 
-  timeval2 <- 'TLIST(Q1, "19951"-"19962")'
-  expect2 <- c("1995Q1", "1995Q2", "1995Q3", "1995Q4", "1996Q1")
+  timeval2 <- 'TLIST(Q1, "19952"-"19962")'
+  expect2 <- c("1995Q2", "1995Q3", "1995Q4", "1996Q1", "1996Q2")
 
   expect_equal(
     get_values_from_time_format(timeval2),

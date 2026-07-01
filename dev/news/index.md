@@ -21,6 +21,8 @@
 - Publish latest release on documentation site, rather than development
   version.
 - Fix incorrect number of elements in TLIST expansion.
+- Avoid building data cube when saving R script with external data path.
+  ([\#500](https://github.com/StatisticsGreenland/pxmake/issues/500))
 
 ## pxmake 0.20.1
 

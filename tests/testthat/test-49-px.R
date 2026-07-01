@@ -56,10 +56,34 @@ test_that("px runs without errors (data frame and parquet path)", {
   expect_runs_without_errors("BEXSTA_parquet")
 })
 
+test_that("px runs without errors (.pxk file)", {
+  expect_runs_without_errors <- function(name) {
+    px(input = get_pxk_file_path(name))
+
+    expect_true(TRUE)
+  }
+
+  expect_runs_without_errors("no_timeval_or_codes2")
+})
+
+test_that("px from .pxk has empty data table", {
+  x <- px(get_pxk_file_path("no_timeval_or_codes2"))
+  expect_equal(nrow(x$data), 0)
+})
+
 test_that("px can run on an Excel workbook without a 'Data' sheet", {
   px(input = get_metadata_path("BEXSTA"))
 
   expect_true(TRUE)
+})
+
+test_that("px from .pxk is identical to px file without data", {
+  px_file <-
+    px(get_px_file_path("no_timeval_or_codes2")) |>
+    px_data(NULL)
+  pxk_file <- px(get_pxk_file_path("no_timeval_or_codes2"))
+
+  expect_equal(px_file, pxk_file)
 })
 
 test_that("Minimal px object can be created without data", {

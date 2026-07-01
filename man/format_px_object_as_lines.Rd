@@ -4,10 +4,12 @@
 \alias{format_px_object_as_lines}
 \title{Get lines for PX-file from px object}
 \usage{
-format_px_object_as_lines(x)
+format_px_object_as_lines(x, path)
 }
 \arguments{
 \item{x}{A px object}
+
+\item{path}{Path to save file at}
 }
 \value{
 A character vector

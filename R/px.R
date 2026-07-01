@@ -11,6 +11,7 @@
 #'   \item Path to an `.rds` or `.parquet` file with a data frame
 #'   \item Direct download URL of a PX-file
 #'   \item Direct download URL of a parquet file
+#'   \item Path to a `.pxk` file (a metadata only PX-file)
 #' }
 #'
 #' If input is a data frame or NULL, a px object with minimal
@@ -79,7 +80,7 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
     data <- arrow::read_parquet(data)
   }
 
-  if (is_px_file(input)) {
+  if (is_px_file(input) || is_pxk_file(input)) {
     px <- px_from_px_file(input)
   } else if (is_xlsx_file(input)) {
     px <- px_from_excel(input, data)
@@ -97,6 +98,7 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
 #' @param x A px object.
 #' @param path Path to file. The file extension determines the format. Can be:
 #' - `.px` to save as a PX-file
+#' - `.pxk` to save a metadata only PX-file
 #' - `.xlsx` to save as an Excel workbook
 #' - `.R` to save an R-script that creates the px object
 #' @param save_data If FALSE, no 'Data' sheet is created in the Excel workbook.
@@ -129,7 +131,7 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
 px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
   validate_px_save_arguments(x, path, save_data, data_path)
 
-  if (is_px_file(path)) {
+  if (is_px_file(path) || is_pxk_file(path)) {
     save_px_as_px_file(x, path)
   } else if (is_xlsx_file(path)) {
     save_px_as_xlsx(x, path, save_data, data_path)

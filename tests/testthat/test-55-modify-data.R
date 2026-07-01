@@ -240,8 +240,10 @@ test_that("Data table is sorted by px_order", {
     )
 
   expect_false(identical(px_data(x1), px_data(x2)))
-  expect_false(identical(px_data(x1, labels = TRUE),
-                         px_data(x2, labels = TRUE)))
+  expect_false(identical(
+    px_data(x1, labels = TRUE),
+    px_data(x2, labels = TRUE)
+  ))
 
   expect_identical(tail(levels(x2$data$gender), 1), "T")
 })

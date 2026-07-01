@@ -445,6 +445,7 @@ is_rds_file <- is_path_extension("rds")
 is_parquet_file <- is_path_extension("parquet")
 is_xlsx_file <- is_path_extension("xlsx")
 is_px_file <- is_path_extension("px")
+is_pxk_file <- is_path_extension("pxk")
 is_r_file <- is_path_extension("R")
 
 #' Create and return path to temporary directory
@@ -482,6 +483,7 @@ temp_file_with_extension <- function(extension) {
 }
 
 temp_px_file <- temp_file_with_extension(".px")
+temp_pxk_file <- temp_file_with_extension(".pxk")
 temp_rds_file <- temp_file_with_extension(".rds")
 temp_xlsx_file <- temp_file_with_extension(".xlsx")
 temp_r_file <- temp_file_with_extension(".R")

@@ -25,6 +25,9 @@ save_px_as_r_script <- function(x, path, data_path) {
     } else {
       unexpected_error()
     }
+
+    # Remove data after saving to make remaining processing faster
+    x <- px_data(x, NULL, validate = FALSE)
   } else {
     # Use dummy path because normalizePath() gives errors when data_path = NULL
     data_path <- dummy_data_path()

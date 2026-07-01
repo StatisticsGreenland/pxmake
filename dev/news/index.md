@@ -12,6 +12,8 @@
 - Data table variables are stored as factors instead of characters. This
   roughly halves the size of large PX objects.
   ([\#487](https://github.com/StatisticsGreenland/pxmake/issues/487))
+- Support reading and saving .pxk files.
+  ([\#493](https://github.com/StatisticsGreenland/pxmake/issues/493))
 
 ### Bug fixes and minor improvements
 

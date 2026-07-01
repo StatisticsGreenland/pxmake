@@ -5,7 +5,7 @@ Get lines for PX-file from px object
 ## Usage
 
 ``` r
-format_px_object_as_lines(x)
+format_px_object_as_lines(x, path)
 ```
 
 ## Arguments
@@ -13,6 +13,10 @@ format_px_object_as_lines(x)
 - x:
 
   A px object
+
+- path:
+
+  Path to save file at
 
 ## Value
 

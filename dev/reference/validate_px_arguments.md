@@ -26,6 +26,8 @@ validate_px_arguments(input, data)
 
   - Direct download URL of a parquet file
 
+  - Path to a `.pxk` file (a metadata only PX-file)
+
   If input is a data frame or NULL, a px object with minimal metadata is
   created.
 

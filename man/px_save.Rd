@@ -12,6 +12,7 @@ px_save(x, path, save_data = TRUE, data_path = NULL)
 \item{path}{Path to file. The file extension determines the format. Can be:
 \itemize{
 \item \code{.px} to save as a PX-file
+\item \code{.pxk} to save a metadata only PX-file
 \item \code{.xlsx} to save as an Excel workbook
 \item \code{.R} to save an R-script that creates the px object
 }}

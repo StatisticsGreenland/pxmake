@@ -7,6 +7,7 @@ return sorted.
 ## New features
 - Data table variables are stored as factors instead of characters. This roughly
 halves the size of large PX objects. (#487)
+- Support reading and saving .pxk files. (#493)
 
 ## Bug fixes and minor improvements
 

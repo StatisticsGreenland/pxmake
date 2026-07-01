@@ -74,3 +74,19 @@ test_that("px_save save_data and data_path arguments works", {
   expect_true(!excel_sheet_exists("Data", temp_xlsx))
   expect_identical(x$data, readRDS(temp_rds))
 })
+
+test_that("px_save can save pxk file", {
+  x <- px(get_px_file_path("no_timeval_or_codes2"))
+
+  px_path <- temp_px_file()
+  pxk_path <- temp_pxk_file()
+
+  px_save(x, px_path)
+  px_save(x, pxk_path)
+
+  px_lines <- readLines(px_path)
+  pxk_lines <- readLines(pxk_path)
+
+  data_line <- which(px_lines == "DATA=")
+  expect_equal(px_lines[seq_len(data_line)], pxk_lines[seq_len(data_line)])
+})

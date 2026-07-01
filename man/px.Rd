@@ -15,6 +15,7 @@ px(input = NULL, data = NULL, validate = TRUE)
 \item Path to an \code{.rds} or \code{.parquet} file with a data frame
 \item Direct download URL of a PX-file
 \item Direct download URL of a parquet file
+\item Path to a \code{.pxk} file (a metadata only PX-file)
 }
 
 If input is a data frame or NULL, a px object with minimal

@@ -44,6 +44,10 @@ get_px_file_path <- function(table_name) {
   testthat::test_path("fixtures", "px", paste0(table_name, ".px"))
 }
 
+get_pxk_file_path <- function(table_name) {
+  testthat::test_path("fixtures", "px", paste0(table_name, ".pxk"))
+}
+
 get_pxjob_file_path <- function(table_name) {
   testthat::test_path("fixtures", paste0(table_name, "_pxjob.px"))
 }

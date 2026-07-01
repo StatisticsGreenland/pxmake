@@ -2,17 +2,17 @@
 % Please edit documentation in R/px_file.R
 \name{px_from_px_file}
 \alias{px_from_px_file}
-\title{Create a px object form a PX-file}
+\title{Create a px object form a PX-file or .pxk file}
 \usage{
 px_from_px_file(path)
 }
 \arguments{
-\item{path}{Path to a PX-file}
+\item{path}{Path to a PX-file or .pxk file}
 }
 \value{
 A px object
 }
 \description{
-Create a px object form a PX-file
+Create a px object form a PX-file or .pxk file
 }
 \keyword{internal}

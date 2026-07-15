@@ -41,8 +41,7 @@ pak::pak("StatisticsGreenland/pxmake")
 
 ## How to use
 
-*(Find complete documentation on [pxmake
-webpage](https://statisticsgreenland.github.io/pxmake/).)*
+*(See complete documentation of [latest release](https://statisticsgreenland.github.io/pxmake/) or [latest development version](https://statisticsgreenland.github.io/pxmake/dev/).)*
 
 Use `px()` to import an existing PX-file into R.
 

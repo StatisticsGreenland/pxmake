@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.21.0
 
 ## Breaking changes
 - 'sort' argument has been removed from 'px_data'. Data table is now always

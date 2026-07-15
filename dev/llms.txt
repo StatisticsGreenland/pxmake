@@ -26,10 +26,8 @@ pak::pak("StatisticsGreenland/pxmake")
 
 ## How to use
 
-*(See complete documentation of [latest
-release](https://statisticsgreenland.github.io/pxmake/) or [latest
-development
-version](https://statisticsgreenland.github.io/pxmake/dev/).)*
+*(Find complete documentation on [pxmake
+webpage](https://statisticsgreenland.github.io/pxmake/).)*
 
 Use
 [`px()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px.md)
@@ -144,17 +142,19 @@ Currently the following 59 keywords have a modifying function in pxmake:
 #>  VARIABLE-TYPE       px_variable_type
 ```
 
-In addition to the above, the following 3 modifying functions are
-available:
+In addition to the above, the following 6 functions are available:
 
 ``` R
 #>  Function name
 #>  px_add_totals
 #>  px_figures   
-#>  px_order
+#>  px_micro     
+#>  px_order     
+#>  px_save      
+#>  px_validate
 ```
 
-See the help page for each modifying function for more information.
+See their help pages for more information.
 
 Keywords without modifying functions
 

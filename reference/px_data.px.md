@@ -5,10 +5,10 @@ Inspect or change DATA.
 ## Usage
 
 ``` r
-px_data(x, value, labels, sort, validate)
+px_data(x, value, labels, validate)
 
 # S3 method for class 'px'
-px_data(x, value, labels = FALSE, sort = FALSE, validate = TRUE)
+px_data(x, value, labels = FALSE, validate = TRUE)
 ```
 
 ## Arguments
@@ -28,13 +28,6 @@ px_data(x, value, labels = FALSE, sort = FALSE, validate = TRUE)
   returned with VALUES instead of CODES. By default the VALUES of the
   main language are returned, use a character language code to return
   VALUES for a specific language.
-
-- sort:
-
-  Optional. If TRUE, the data table is returned in the sort order
-  defined by
-  [`px_order()`](https://statisticsgreenland.github.io/pxmake/reference/px_order.px.md).
-  If FALSE, the data table is returned as is.
 
 - validate:
 
@@ -68,17 +61,17 @@ x1 <- px(population_gl)
 px_data(x1)
 #> # A tibble: 30 × 4
 #>    gender age   year      n
-#>    <chr>  <chr> <chr> <dbl>
-#>  1 male   0-6   2004   3237
-#>  2 male   0-6   2014   2950
-#>  3 male   0-6   2024   2769
-#>  4 male   7-16  2004   5085
-#>  5 male   7-16  2014   4040
-#>  6 male   7-16  2024   3865
-#>  7 male   17-24 2004   3191
-#>  8 male   17-24 2014   3614
-#>  9 male   17-24 2024   2940
-#> 10 male   25-64 2004  17328
+#>    <fct>  <fct> <fct> <dbl>
+#>  1 female 0-6   2004   3109
+#>  2 female 0-6   2014   2644
+#>  3 female 0-6   2024   2668
+#>  4 female 17-24 2004   3003
+#>  5 female 17-24 2014   3528
+#>  6 female 17-24 2024   2862
+#>  7 female 25-64 2004  13744
+#>  8 female 25-64 2014  14397
+#>  9 female 25-64 2024  15098
+#> 10 female 65+   2004   1630
 #> # ℹ 20 more rows
 
 # Change data table
@@ -90,17 +83,17 @@ x2 <- px_data(x1, population_gl_2024)
 px_data(x1, labels = TRUE)
 #> # A tibble: 30 × 4
 #>    gender age   year      n
-#>    <chr>  <chr> <chr> <dbl>
-#>  1 male   0-6   2004   3237
-#>  2 male   0-6   2014   2950
-#>  3 male   0-6   2024   2769
-#>  4 male   7-16  2004   5085
-#>  5 male   7-16  2014   4040
-#>  6 male   7-16  2024   3865
-#>  7 male   17-24 2004   3191
-#>  8 male   17-24 2014   3614
-#>  9 male   17-24 2024   2940
-#> 10 male   25-64 2004  17328
+#>    <fct>  <fct> <fct> <dbl>
+#>  1 female 0-6   2004   3109
+#>  2 female 0-6   2014   2644
+#>  3 female 0-6   2024   2668
+#>  4 female 17-24 2004   3003
+#>  5 female 17-24 2014   3528
+#>  6 female 17-24 2024   2862
+#>  7 female 25-64 2004  13744
+#>  8 female 25-64 2014  14397
+#>  9 female 25-64 2024  15098
+#> 10 female 65+   2004   1630
 #> # ℹ 20 more rows
 
 # Return VALUES for a specific language
@@ -111,16 +104,16 @@ x_mult <-
 px_data(x_mult, labels = "gl")
 #> # A tibble: 30 × 4
 #>    gender age   year      n
-#>    <chr>  <chr> <chr> <dbl>
-#>  1 male   0-6   2004   3237
-#>  2 male   0-6   2014   2950
-#>  3 male   0-6   2024   2769
-#>  4 male   7-16  2004   5085
-#>  5 male   7-16  2014   4040
-#>  6 male   7-16  2024   3865
-#>  7 male   17-24 2004   3191
-#>  8 male   17-24 2014   3614
-#>  9 male   17-24 2024   2940
-#> 10 male   25-64 2004  17328
+#>    <fct>  <fct> <fct> <dbl>
+#>  1 female 0-6   2004   3109
+#>  2 female 0-6   2014   2644
+#>  3 female 0-6   2024   2668
+#>  4 female 17-24 2004   3003
+#>  5 female 17-24 2014   3528
+#>  6 female 17-24 2024   2862
+#>  7 female 25-64 2004  13744
+#>  8 female 25-64 2014  14397
+#>  9 female 25-64 2024  15098
+#> 10 female 65+   2004   1630
 #> # ℹ 20 more rows
 ```

@@ -13,7 +13,7 @@ is set, in which case the elimination code is used."><meta property="og:image" c
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.1.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.21.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,36 +95,36 @@ is set, in which case the elimination code is used.</p>
 <span class="r-in"><span><span class="fu"><a href="px_data.px.html">px_data</a></span><span class="op">(</span><span class="va">x0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   gender age   year      n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> male   65+   2004   <span style="text-decoration: underline;">1</span>481</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> male   65+   2014   <span style="text-decoration: underline;">2</span>238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> male   65+   2024   <span style="text-decoration: underline;">3</span>116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> female 65+   2004   <span style="text-decoration: underline;">1</span>630</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> female 65+   2014   <span style="text-decoration: underline;">2</span>004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> female 65+   2024   <span style="text-decoration: underline;">2</span>616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> female 65+   2004   <span style="text-decoration: underline;">1</span>630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> female 65+   2014   <span style="text-decoration: underline;">2</span>004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> female 65+   2024   <span style="text-decoration: underline;">2</span>616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> male   65+   2004   <span style="text-decoration: underline;">1</span>481</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> male   65+   2014   <span style="text-decoration: underline;">2</span>238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> male   65+   2024   <span style="text-decoration: underline;">3</span>116</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add total level to one variable</span></span></span>
 <span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu">px_add_totals</span><span class="op">(</span><span class="va">x0</span>, <span class="st">"gender"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="px_data.px.html">px_data</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   gender age   year      n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Total  65+   2004   <span style="text-decoration: underline;">3</span>111</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Total  65+   2014   <span style="text-decoration: underline;">4</span>242</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Total  65+   2024   <span style="text-decoration: underline;">5</span>732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> male   65+   2004   <span style="text-decoration: underline;">1</span>481</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> male   65+   2014   <span style="text-decoration: underline;">2</span>238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> male   65+   2024   <span style="text-decoration: underline;">3</span>116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> female 65+   2004   <span style="text-decoration: underline;">1</span>630</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> female 65+   2014   <span style="text-decoration: underline;">2</span>004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> female 65+   2024   <span style="text-decoration: underline;">2</span>616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> female 65+   2004   <span style="text-decoration: underline;">1</span>630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> female 65+   2014   <span style="text-decoration: underline;">2</span>004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> female 65+   2024   <span style="text-decoration: underline;">2</span>616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> male   65+   2004   <span style="text-decoration: underline;">1</span>481</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> male   65+   2014   <span style="text-decoration: underline;">2</span>238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> male   65+   2024   <span style="text-decoration: underline;">3</span>116</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add total level to multiple variables</span></span></span>
 <span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu">px_add_totals</span><span class="op">(</span><span class="va">x0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"age"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="px_data.px.html">px_data</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 18 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    gender age   year      n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Total  Total 2004   <span style="text-decoration: underline;">3</span>111</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Total  Total 2014   <span style="text-decoration: underline;">4</span>242</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Total  Total 2024   <span style="text-decoration: underline;">5</span>732</span>
@@ -137,12 +137,12 @@ is set, in which case the elimination code is used.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Total  65+   2004   <span style="text-decoration: underline;">3</span>111</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Total  65+   2014   <span style="text-decoration: underline;">4</span>242</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Total  65+   2024   <span style="text-decoration: underline;">5</span>732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> male   65+   2004   <span style="text-decoration: underline;">1</span>481</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> male   65+   2014   <span style="text-decoration: underline;">2</span>238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> male   65+   2024   <span style="text-decoration: underline;">3</span>116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> female 65+   2004   <span style="text-decoration: underline;">1</span>630</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> female 65+   2014   <span style="text-decoration: underline;">2</span>004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> female 65+   2024   <span style="text-decoration: underline;">2</span>616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> female 65+   2004   <span style="text-decoration: underline;">1</span>630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> female 65+   2014   <span style="text-decoration: underline;">2</span>004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> female 65+   2024   <span style="text-decoration: underline;">2</span>616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> male   65+   2004   <span style="text-decoration: underline;">1</span>481</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> male   65+   2014   <span style="text-decoration: underline;">2</span>238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> male   65+   2024   <span style="text-decoration: underline;">3</span>116</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The name of the total level can be changed with px_elimination()</span></span></span>
 <span class="r-in"><span><span class="va">x3</span> <span class="op">&lt;-</span></span></span>
@@ -153,16 +153,16 @@ is set, in which case the elimination code is used.</p>
 <span class="r-in"><span><span class="fu"><a href="px_data.px.html">px_data</a></span><span class="op">(</span><span class="va">x3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   gender age   year      n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> T      65+   2004   <span style="text-decoration: underline;">3</span>111</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> T      65+   2014   <span style="text-decoration: underline;">4</span>242</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> T      65+   2024   <span style="text-decoration: underline;">5</span>732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> male   65+   2004   <span style="text-decoration: underline;">1</span>481</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> male   65+   2014   <span style="text-decoration: underline;">2</span>238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> male   65+   2024   <span style="text-decoration: underline;">3</span>116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> female 65+   2004   <span style="text-decoration: underline;">1</span>630</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> female 65+   2014   <span style="text-decoration: underline;">2</span>004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> female 65+   2024   <span style="text-decoration: underline;">2</span>616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> female 65+   2004   <span style="text-decoration: underline;">1</span>630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> female 65+   2014   <span style="text-decoration: underline;">2</span>004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> female 65+   2024   <span style="text-decoration: underline;">2</span>616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> male   65+   2004   <span style="text-decoration: underline;">1</span>481</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> male   65+   2014   <span style="text-decoration: underline;">2</span>238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> male   65+   2024   <span style="text-decoration: underline;">3</span>116</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -175,7 +175,7 @@ is set, in which case the elimination code is used.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

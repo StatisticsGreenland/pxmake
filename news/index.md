@@ -1,12 +1,30 @@
 # Changelog
 
-## pxmake (development version)
+## pxmake 0.21.0
+
+### Breaking changes
+
+- ‘sort’ argument has been removed from ‘px_data’. Data table is now
+  always return sorted.
+
+### New features
+
+- Data table variables are stored as factors instead of characters. This
+  roughly halves the size of large PX objects.
+  ([\#487](https://github.com/StatisticsGreenland/pxmake/issues/487))
+- Support reading and saving .pxk files.
+  ([\#493](https://github.com/StatisticsGreenland/pxmake/issues/493))
 
 ### Bug fixes and minor improvements
 
 - Support tab, colon and semicolon as separators in DATA block.
   ([\#492](https://github.com/StatisticsGreenland/pxmake/issues/492))
 - Bump to Roxygen version 8.0.0
+- Publish latest release on documentation site, rather than development
+  version.
+- Fix incorrect number of elements in TLIST expansion.
+- Avoid building data cube when saving R script with external data path.
+  ([\#500](https://github.com/StatisticsGreenland/pxmake/issues/500))
 
 ## pxmake 0.20.1
 

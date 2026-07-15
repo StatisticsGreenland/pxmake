@@ -55,36 +55,36 @@ x0 <- px(subset(population_gl, age == "65+"))
 px_data(x0)
 #> # A tibble: 6 × 4
 #>   gender age   year      n
-#>   <chr>  <chr> <chr> <dbl>
-#> 1 male   65+   2004   1481
-#> 2 male   65+   2014   2238
-#> 3 male   65+   2024   3116
-#> 4 female 65+   2004   1630
-#> 5 female 65+   2014   2004
-#> 6 female 65+   2024   2616
+#>   <fct>  <fct> <fct> <dbl>
+#> 1 female 65+   2004   1630
+#> 2 female 65+   2014   2004
+#> 3 female 65+   2024   2616
+#> 4 male   65+   2004   1481
+#> 5 male   65+   2014   2238
+#> 6 male   65+   2024   3116
 
 # Add total level to one variable
 x1 <- px_add_totals(x0, "gender")
 px_data(x1)
 #> # A tibble: 9 × 4
 #>   gender age   year      n
-#>   <chr>  <chr> <chr> <dbl>
+#>   <chr>  <fct> <fct> <dbl>
 #> 1 Total  65+   2004   3111
 #> 2 Total  65+   2014   4242
 #> 3 Total  65+   2024   5732
-#> 4 male   65+   2004   1481
-#> 5 male   65+   2014   2238
-#> 6 male   65+   2024   3116
-#> 7 female 65+   2004   1630
-#> 8 female 65+   2014   2004
-#> 9 female 65+   2024   2616
+#> 4 female 65+   2004   1630
+#> 5 female 65+   2014   2004
+#> 6 female 65+   2024   2616
+#> 7 male   65+   2004   1481
+#> 8 male   65+   2014   2238
+#> 9 male   65+   2024   3116
 
 # Add total level to multiple variables
 x2 <- px_add_totals(x0, c("gender", "age"))
 px_data(x2)
 #> # A tibble: 18 × 4
 #>    gender age   year      n
-#>    <chr>  <chr> <chr> <dbl>
+#>    <chr>  <chr> <fct> <dbl>
 #>  1 Total  Total 2004   3111
 #>  2 Total  Total 2014   4242
 #>  3 Total  Total 2024   5732
@@ -97,12 +97,12 @@ px_data(x2)
 #> 10 Total  65+   2004   3111
 #> 11 Total  65+   2014   4242
 #> 12 Total  65+   2024   5732
-#> 13 male   65+   2004   1481
-#> 14 male   65+   2014   2238
-#> 15 male   65+   2024   3116
-#> 16 female 65+   2004   1630
-#> 17 female 65+   2014   2004
-#> 18 female 65+   2024   2616
+#> 13 female 65+   2004   1630
+#> 14 female 65+   2014   2004
+#> 15 female 65+   2024   2616
+#> 16 male   65+   2004   1481
+#> 17 male   65+   2014   2238
+#> 18 male   65+   2024   3116
 
 # The name of the total level can be changed with px_elimination()
 x3 <-
@@ -113,14 +113,14 @@ x3 <-
 px_data(x3)
 #> # A tibble: 9 × 4
 #>   gender age   year      n
-#>   <chr>  <chr> <chr> <dbl>
+#>   <chr>  <fct> <fct> <dbl>
 #> 1 T      65+   2004   3111
 #> 2 T      65+   2014   4242
 #> 3 T      65+   2024   5732
-#> 4 male   65+   2004   1481
-#> 5 male   65+   2014   2238
-#> 6 male   65+   2024   3116
-#> 7 female 65+   2004   1630
-#> 8 female 65+   2014   2004
-#> 9 female 65+   2024   2616
+#> 4 female 65+   2004   1630
+#> 5 female 65+   2014   2004
+#> 6 female 65+   2024   2616
+#> 7 male   65+   2004   1481
+#> 8 male   65+   2014   2238
+#> 9 male   65+   2024   3116
 ```

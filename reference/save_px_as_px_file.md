@@ -1,6 +1,6 @@
-# Save px object to PX-file
+# Save px object to PX-file or .pxk file
 
-Save px object to PX-file
+Save px object to PX-file or .pxk file
 
 ## Usage
 
@@ -16,7 +16,7 @@ save_px_as_px_file(x, path)
 
 - path:
 
-  Path to save PX-file at
+  Path to save file at
 
 ## Value
 

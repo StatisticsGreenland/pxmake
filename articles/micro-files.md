@@ -135,7 +135,7 @@ the variables.
 px(file.path(micro_dir, "age.px"))$data
 #> # A tibble: 120 × 3
 #>    age   cohort     n
-#>    <chr> <chr>  <dbl>
+#>    <fct> <fct>  <dbl>
 #>  1 18    A         NA
 #>  2 18    B          1
 #>  3 19    A         NA
@@ -151,7 +151,7 @@ px(file.path(micro_dir, "age.px"))$data
 px(file.path(micro_dir, "gender.px"))$data
 #> # A tibble: 4 × 3
 #>   gender cohort     n
-#>   <chr>  <chr>  <dbl>
+#>   <fct>  <fct>  <dbl>
 #> 1 female A         31
 #> 2 female B         18
 #> 3 male   A         23
@@ -160,7 +160,7 @@ px(file.path(micro_dir, "gender.px"))$data
 px(file.path(micro_dir, "municipality.px"))$data
 #> # A tibble: 10 × 3
 #>    municipality cohort     n
-#>    <chr>        <chr>  <dbl>
+#>    <fct>        <fct>  <dbl>
 #>  1 Avannaata    A         11
 #>  2 Avannaata    B         11
 #>  3 Kujalleq     A         12

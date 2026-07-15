@@ -20,6 +20,8 @@ px_save(x, path, save_data = TRUE, data_path = NULL)
 
   - `.px` to save as a PX-file
 
+  - `.pxk` to save a metadata only PX-file
+
   - `.xlsx` to save as an Excel workbook
 
   - `.R` to save an R-script that creates the px object

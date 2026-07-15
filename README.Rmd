@@ -160,14 +160,14 @@ implemented %>%
   print(row.names = FALSE, right = FALSE)
 ```
 
-In addition to the above, the following `r nrow(non_keyword_modifying_functions)` modifying functions are available:
+In addition to the above, the following `r nrow(non_keyword_modifying_functions)` functions are available:
 
 ```{r, echo = FALSE}
 non_keyword_modifying_functions %>%
   print(row.names = FALSE, right = FALSE)
 ```
 
-See the help page for each modifying function for more information.
+See their help pages for more information.
 
 <details>
 <summary>Keywords without modifying functions</summary>

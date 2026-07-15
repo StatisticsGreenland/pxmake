@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.21.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.21.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,7 @@
 <div class="section level2">
 <h2 id="use-case">Use case<a class="anchor" aria-label="anchor" href="#use-case"></a>
 </h2>
-<p><code><a href="../reference/px_micro.html">px_micro()</a></code> exists to support a specific use case for <a href="https://stat.gl/default.asp?lang=en" class="external-link">Statistics Greenland</a>.</p>
+<p><code><a href="../reference/px_micro.px.html">px_micro()</a></code> exists to support a specific use case for <a href="https://stat.gl/default.asp?lang=en" class="external-link">Statistics Greenland</a>.</p>
 <p>They use it to create small PX-files to showcase and present metadata
 from a lager data set which cannot be made publicly available. See an
 example on <a href="https://bank.stat.gl/pxweb/en/GSmicro/" class="external-link">Statistic
@@ -80,16 +80,16 @@ Greenland’s microdata for Research and Analysis</a>.</p>
 <h2 id="px_micro">
 <code>px_micro()</code><a class="anchor" aria-label="anchor" href="#px_micro"></a>
 </h2>
-<p>Apart from <code><a href="../reference/px_save.html">px_save()</a></code>, <code><a href="../reference/px_micro.html">px_micro()</a></code> is the
+<p>Apart from <code><a href="../reference/px_save.px.html">px_save()</a></code>, <code><a href="../reference/px_micro.px.html">px_micro()</a></code> is the
 only other function that can save px objects as PX-files.</p>
-<p><code><a href="../reference/px_micro.html">px_micro()</a></code> turns a px object into many smaller PX-files,
+<p><code><a href="../reference/px_micro.px.html">px_micro()</a></code> turns a px object into many smaller PX-files,
 each containing a subset of the variables in the original px object.</p>
 </div>
 <div class="section level2">
 <h2 id="input-data">Input data<a class="anchor" aria-label="anchor" href="#input-data"></a>
 </h2>
 <p>The basis of micro files are usually a data set which doesn’t have a
-count variable (like most PX-files). <code><a href="../reference/px_micro.html">px_micro()</a></code> will
+count variable (like most PX-files). <code><a href="../reference/px_micro.px.html">px_micro()</a></code> will
 instead create a count of each individual variable.</p>
 <p>In this example we will use the built-in data data set
 <code>greenlanders</code>.</p>
@@ -117,7 +117,7 @@ instead create a count of each individual variable.</p>
 <h2 id="how-to-create-micro-files">How to create micro files<a class="anchor" aria-label="anchor" href="#how-to-create-micro-files"></a>
 </h2>
 <p>Create a px object with <code><a href="../reference/px.html">px()</a></code>, and pass it to
-<code><a href="../reference/px_micro.html">px_micro()</a></code>.</p>
+<code><a href="../reference/px_micro.px.html">px_micro()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create px object</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="va">greenlanders</span><span class="op">)</span></span>
@@ -127,14 +127,14 @@ instead create a count of each individual variable.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">micro_dir</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Write micro files to folder</span></span>
-<span><span class="fu"><a href="../reference/px_micro.html">px_micro</a></span><span class="op">(</span><span class="va">x</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/px_micro.px.html">px_micro</a></span><span class="op">(</span><span class="va">x</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span><span class="op">)</span></span></code></pre></div>
 <p>The folder now contains three PX-files, one for each variable except
 ‘age’.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">micro_dir</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "cohort.px"       "gender.px"       "municipality.px"</span></span></code></pre></div>
 <p>The reason ‘age’ didn’t get a PX-file is because it is the HEADING
-variable in <code>x</code>, and <code><a href="../reference/px_micro.html">px_micro()</a></code> creates a file
+variable in <code>x</code>, and <code><a href="../reference/px_micro.px.html">px_micro()</a></code> creates a file
 for each non-HEADING variable. Instead the HEADNING variable is used in
 all the created PX-files.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -156,7 +156,7 @@ for ‘gender’, ‘age’ and ‘municipality’.</p>
 <code class="sourceCode R"><span><span class="co"># Clear folder</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"*.px"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/px_micro.html">px_micro</a></span><span class="op">(</span><span class="va">x2</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/px_micro.px.html">px_micro</a></span><span class="op">(</span><span class="va">x2</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span><span class="op">)</span></span></code></pre></div>
 <p>The folder now contains the files we wanted.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">micro_dir</span><span class="op">)</span></span>
@@ -212,12 +212,12 @@ the variables.</p>
 the micro files. This is the case for keywords like ‘MATRIX’,
 ‘SUBJECT-CODE’, ‘CONTACT’, ‘LANGUAGE’, ‘CODEPAGE’, etc.</p>
 <p>To change keywords across all the micro files, the easiest is to
-change them in the px object before calling <code><a href="../reference/px_micro.html">px_micro()</a></code>.</p>
+change them in the px object before calling <code><a href="../reference/px_micro.px.html">px_micro()</a></code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Change CONTACT in all micro files</span></span>
 <span><span class="va">x2</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/px_contact.px.html">px_contact</a></span><span class="op">(</span><span class="st">"Johan Ejstrud"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/px_micro.html">px_micro</a></span><span class="op">(</span>out_dir <span class="op">=</span> <span class="va">micro_dir</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/px_micro.px.html">px_micro</a></span><span class="op">(</span>out_dir <span class="op">=</span> <span class="va">micro_dir</span><span class="op">)</span></span></code></pre></div>
 <p>However, some keywords need to be changed individually for each micro
 file. To do so, create a data frame with the column ‘variable’ and a
 column for each px keyword to change.</p>
@@ -229,9 +229,9 @@ column for each px keyword to change.</p>
 <span>  <span class="st">"municipality"</span>, <span class="st">"Municipality 2024"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Supply this dataframe to the <code>keyword_values</code> argument of
-<code><a href="../reference/px_micro.html">px_micro()</a></code>.</p>
+<code><a href="../reference/px_micro.px.html">px_micro()</a></code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/px_micro.html">px_micro</a></span><span class="op">(</span><span class="va">x2</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span>, keyword_values <span class="op">=</span> <span class="va">individual_keywords</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/px_micro.px.html">px_micro</a></span><span class="op">(</span><span class="va">x2</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span>, keyword_values <span class="op">=</span> <span class="va">individual_keywords</span><span class="op">)</span></span></code></pre></div>
 <p>DESCRIPTION is changed in the micro files:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/px.html">px</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"age.px"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/px_description.px.html">px_description</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -263,7 +263,7 @@ column for each px keyword to change.</p>
 <span>    <span class="st">"municipality"</span>, <span class="st">"kl"</span>, <span class="st">"Kommuni 2024"</span>, <span class="cn">NA</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/px_micro.html">px_micro</a></span><span class="op">(</span><span class="va">x3</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span>, keyword_values <span class="op">=</span> <span class="va">individual_keywords_ml</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/px_micro.px.html">px_micro</a></span><span class="op">(</span><span class="va">x3</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span>, keyword_values <span class="op">=</span> <span class="va">individual_keywords_ml</span><span class="op">)</span></span></code></pre></div>
 <p>Here ‘px_description’ varies for each language, and ‘px_matrix’ is
 only set for one of the languages, since it is not a language dependent
 keywords. For language independant keywords it doesn’t matter which
@@ -283,7 +283,7 @@ column to ‘keyword_values’</p>
 <span><span class="co"># Clear folder</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">micro_dir</span>, <span class="st">"*.px"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/px_micro.html">px_micro</a></span><span class="op">(</span><span class="va">x2</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span>, keyword_values <span class="op">=</span> <span class="va">individual_keywords2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/px_micro.px.html">px_micro</a></span><span class="op">(</span><span class="va">x2</span>, out_dir <span class="op">=</span> <span class="va">micro_dir</span>, keyword_values <span class="op">=</span> <span class="va">individual_keywords2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">micro_dir</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "age_2024.px"          "gender_2024.px"       "municipality_2024.px"</span></span></code></pre></div>

@@ -2,7 +2,7 @@
 
 ## Use case
 
-[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.md)
+[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md)
 exists to support a specific use case for [Statistics
 Greenland](https://stat.gl/default.asp?lang=en).
 
@@ -14,11 +14,11 @@ Analysis](https://bank.stat.gl/pxweb/en/GSmicro/).
 ## `px_micro()`
 
 Apart from
-[`px_save()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_save.md),
-[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.md)
+[`px_save()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_save.px.md),
+[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md)
 is the only other function that can save px objects as PX-files.
 
-[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.md)
+[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md)
 turns a px object into many smaller PX-files, each containing a subset
 of the variables in the original px object.
 
@@ -26,7 +26,7 @@ of the variables in the original px object.
 
 The basis of micro files are usually a data set which doesn’t have a
 count variable (like most PX-files).
-[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.md)
+[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md)
 will instead create a count of each individual variable.
 
 In this example we will use the built-in data data set `greenlanders`.
@@ -58,7 +58,7 @@ greenlanders |>
 Create a px object with
 [`px()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px.md),
 and pass it to
-[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.md).
+[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md).
 
 ``` r
 
@@ -84,7 +84,7 @@ list.files(micro_dir)
 
 The reason ‘age’ didn’t get a PX-file is because it is the HEADING
 variable in `x`, and
-[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.md)
+[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md)
 creates a file for each non-HEADING variable. Instead the HEADNING
 variable is used in all the created PX-files.
 
@@ -181,7 +181,7 @@ micro files. This is the case for keywords like ‘MATRIX’,
 
 To change keywords across all the micro files, the easiest is to change
 them in the px object before calling
-[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.md).
+[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md).
 
 ``` r
 
@@ -206,7 +206,7 @@ individual_keywords <- tibble::tribble(
 ```
 
 Supply this dataframe to the `keyword_values` argument of
-[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.md).
+[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md).
 
 ``` r
 

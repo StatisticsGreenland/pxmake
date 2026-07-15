@@ -28,7 +28,7 @@ px_codepage(x, value, validate = TRUE)
   px object, and an error is thrown if the object is not valid. If
   FALSE, the checks are skipped, which can be usefull for large px
   objects where the check can be time consuming. Use
-  [`px_validate()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_validate.md)
+  [`px_validate()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_validate.px.md)
   to manually preform the check.
 
 ## Value
@@ -46,7 +46,7 @@ encodings on your system.
 [Statistics Sweden's
 documentation](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf#%5B%7B%22num%22%3A41%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C184%2C497%2C0%5D)
 
-[`px_save()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_save.md)
+[`px_save()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_save.px.md)
 
 ## Examples
 

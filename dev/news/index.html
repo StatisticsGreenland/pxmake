@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.21.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.21.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="pxmake-development-version">pxmake (development version)<a class="anchor" aria-label="anchor" href="#pxmake-development-version"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-and-minor-improvements-development-version">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-development-version"></a></h3>
+<ul><li>Add generic fors ‘px_micro’, ‘px_save’ and ‘px_validate’ to automatically check that input is px object, and align with other functions.</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.21.0" id="pxmake-0210">pxmake 0.21.0<a class="anchor" aria-label="anchor" href="#pxmake-0210"></a></h2>
@@ -73,7 +77,7 @@
 <p>It’s also the first release with large contributions not made by Statistics Greenland, since <a href="https://github.com/dsvedberg" class="external-link">@dsvedberg</a> closed issue <a href="https://github.com/StatisticsGreenland/pxmake/issues/455" class="external-link">#455</a> and <a href="https://github.com/StatisticsGreenland/pxmake/issues/463" class="external-link">#463</a>.</p>
 <div class="section level3">
 <h3 id="new-features-0-20-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-20-0"></a></h3>
-<ul><li>Optimization of <code><a href="../reference/px.html">px()</a></code> and <code><a href="../reference/px_save.html">px_save()</a></code>: speed is significantly improved for larger files. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/454" class="external-link">#454</a>)
+<ul><li>Optimization of <code><a href="../reference/px.html">px()</a></code> and <code><a href="../reference/px_save.px.html">px_save()</a></code>: speed is significantly improved for larger files. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/454" class="external-link">#454</a>)
 <ul><li>
 <code><a href="../reference/px.html">px()</a></code> (commits: c12fe3d, 3bf5520)
 <ul><li>Speed: ~3-8x faster.</li>
@@ -81,7 +85,7 @@
 <li>Total memory usage: reduced by ~50 %</li>
 </ul></li>
 <li>
-<code><a href="../reference/px_save.html">px_save()</a></code> (commits: 5c17f1d, e22f44d, e7b4163, c0ee1c8, 75f003f)
+<code><a href="../reference/px_save.px.html">px_save()</a></code> (commits: 5c17f1d, e22f44d, e7b4163, c0ee1c8, 75f003f)
 <ul><li>Speed: ~4-7x faster.</li>
 <li>Peak memory usage: reduced by ~45-65 %</li>
 <li>Total memory usage: reduced by ~60 %</li>
@@ -144,7 +148,7 @@
 <li>
 <code><a href="../reference/px_data.px.html">px_data()</a></code> updates metadata to match new data frame. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/385" class="external-link">#385</a> <a href="https://github.com/StatisticsGreenland/pxmake/issues/396" class="external-link">#396</a> <a href="https://github.com/StatisticsGreenland/pxmake/issues/399" class="external-link">#399</a>)</li>
 <li>When adding more languages dummy values are added as VALUES instead of blanks.</li>
-<li>Throw error when using <code><a href="../reference/px_save.html">px_save()</a></code> on a px object that contains duplicates in the data table. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/402" class="external-link">#402</a>)</li>
+<li>Throw error when using <code><a href="../reference/px_save.px.html">px_save()</a></code> on a px object that contains duplicates in the data table. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/402" class="external-link">#402</a>)</li>
 <li>Don’t save NA values in aggregations files. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/401" class="external-link">#401</a>)</li>
 </ul></div>
 <div class="section level3">
@@ -183,11 +187,11 @@
 <li>
 <code><a href="../reference/px.html">px()</a></code> supports URLs as input. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/353" class="external-link">#353</a>)</li>
 <li>
-<code><a href="../reference/px_save.html">px_save()</a></code> can save px object as an R script that, when run, regenerates the px object. The implementation is not fully reliable; in some cases, running the generated R script produces a slightly different px object. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/350" class="external-link">#350</a>)</li>
+<code><a href="../reference/px_save.px.html">px_save()</a></code> can save px object as an R script that, when run, regenerates the px object. The implementation is not fully reliable; in some cases, running the generated R script produces a slightly different px object. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/350" class="external-link">#350</a>)</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-15-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-15-0"></a></h3>
-<ul><li>Bugfix: <code><a href="../reference/px_micro.html">px_micro()</a></code> sometimes ordered variable references incorrectly in CELLNOTES. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/348" class="external-link">#348</a>)</li>
+<ul><li>Bugfix: <code><a href="../reference/px_micro.px.html">px_micro()</a></code> sometimes ordered variable references incorrectly in CELLNOTES. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/348" class="external-link">#348</a>)</li>
 <li>Removed <code>dontrun</code> example from <code><a href="../reference/px_classification.html">px_classification()</a></code> by updating package files. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/346" class="external-link">#346</a>)</li>
 <li>Use <em>main language</em> VALUES as CODES in PX-files without CODES. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/361" class="external-link">#361</a>)</li>
 </ul></div>
@@ -215,7 +219,7 @@
 <h3 id="bug-fixes-and-minor-improvements-0-14-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-14-0"></a></h3>
 <ul><li>
 <code><a href="../reference/px_elimination.px.html">px_elimination()</a></code>, <code><a href="../reference/px_map.px.html">px_map()</a></code>, and <code><a href="../reference/px_domain.px.html">px_domain()</a></code> now only sets value for STUB/HEADING variables if value is character. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/325" class="external-link">#325</a>)</li>
-<li>Optimize <code><a href="../reference/px_micro.html">px_micro()</a></code> by only setting stub once, instead of for all files.</li>
+<li>Optimize <code><a href="../reference/px_micro.px.html">px_micro()</a></code> by only setting stub once, instead of for all files.</li>
 <li>Add <code>na_to_star</code> option to <code><a href="../reference/px_cellnote.px.html">px_cellnote()</a></code> and <code><a href="../reference/px_cellnotex.px.html">px_cellnotex()</a></code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/335" class="external-link">#335</a>)</li>
 <li>Support PX-files with cell values that contain closing parentheses. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/337" class="external-link">#337</a>)</li>
 <li>Avoid all R CMD Check notes, warning and errors.</li>
@@ -231,7 +235,7 @@
 <div class="section level3">
 <h3 id="new-features-0-12-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-12-1"></a></h3>
 <ul><li>
-<code><a href="../reference/px.html">px()</a></code> and <code><a href="../reference/px_save.html">px_save()</a></code> can write and read to and from <code>.parquet</code> files.</li>
+<code><a href="../reference/px.html">px()</a></code> and <code><a href="../reference/px_save.px.html">px_save()</a></code> can write and read to and from <code>.parquet</code> files.</li>
 <li>Change default value for all mandatory keywords to be descriptive rather than empty string ““. This was done because PxWin does not allow empty strings in mandatory keywords. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/320" class="external-link">#320</a>)</li>
 <li>Improve implementation and fix bugs in <code><a href="../reference/px_cellnote.px.html">px_cellnote()</a></code> and <code><a href="../reference/px_cellnotex.px.html">px_cellnotex()</a></code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/289" class="external-link">#289</a>)</li>
 </ul></div>
@@ -243,7 +247,7 @@
 <li>Change sorting order of PX-file, so variables within keywords are in stub/heading order instead of alphabetic. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/264" class="external-link">#264</a>)</li>
 <li>Throw error if any value contains quotation marks (“). (<a href="https://github.com/StatisticsGreenland/pxmake/issues/238" class="external-link">#238</a>)</li>
 <li>Allow minimal px object to be created even if no input is provided. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/234" class="external-link">#234</a>)</li>
-<li>Bugfix <code><a href="../reference/px_micro.html">px_micro()</a></code> used undefined function. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/290" class="external-link">#290</a>)</li>
+<li>Bugfix <code><a href="../reference/px_micro.px.html">px_micro()</a></code> used undefined function. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/290" class="external-link">#290</a>)</li>
 <li>Changing figures removes previous figures variable form cells1 and cells2. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/300" class="external-link">#300</a>)</li>
 <li>Add validation check that CONTVARIABLE and TIMEVAL has to be STUB or HEADING variables. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/305" class="external-link">#305</a>)</li>
 <li>Add pxmake logo.</li>
@@ -263,12 +267,12 @@
 </li>
 <li>Add example data sets <code>population_gl</code> and <code>greenlanders</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/282" class="external-link">#282</a>)</li>
 <li>
-<code><a href="../reference/px_micro.html">px_micro()</a></code> support multilingual <code>keyword_values</code> arguments. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/306" class="external-link">#306</a>)</li>
+<code><a href="../reference/px_micro.px.html">px_micro()</a></code> support multilingual <code>keyword_values</code> arguments. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/306" class="external-link">#306</a>)</li>
 <li>Add example section to most help pages.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-and-minor-improvements-0-12-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-0-12-0"></a></h3>
-<ul><li>Update <code><a href="../reference/px_micro.html">px_micro()</a></code> documentation.</li>
+<ul><li>Update <code><a href="../reference/px_micro.px.html">px_micro()</a></code> documentation.</li>
 <li>Bugfix: <code><a href="../reference/px_add_totals.px.html">px_add_totals()</a></code> now uses default value ‘Total’ if <code>x$variables2$elimination</code> is <code>NA</code>. (<a href="https://github.com/StatisticsGreenland/pxmake/issues/284" class="external-link">#284</a>)</li>
 <li>Add <code>na.rm</code> argument to <code>px_add_totalts()</code>.</li>
 <li>
@@ -289,8 +293,8 @@
 <h3 id="how-to-update-code-from-before-version-0-11-0">How to update code from before version 0.11.0<a class="anchor" aria-label="anchor" href="#how-to-update-code-from-before-version-0-11-0"></a></h3>
 <ul><li>Rename functions
 <ul><li>Change all modifying functions by adding the prefix <code>px_</code>. E.g. change <code>stub()</code> to <code><a href="../reference/px_stub.px.html">px_stub()</a></code>, <code>heading()</code> to <code><a href="../reference/px_heading.px.html">px_heading()</a></code>, etc.</li>
-<li>Change <code>pxsave()</code> to <code><a href="../reference/px_save.html">px_save()</a></code>.</li>
-<li>Change <code>micromake()</code> to <code><a href="../reference/px_micro.html">px_micro()</a></code>.</li>
+<li>Change <code>pxsave()</code> to <code><a href="../reference/px_save.px.html">px_save()</a></code>.</li>
+<li>Change <code>micromake()</code> to <code><a href="../reference/px_micro.px.html">px_micro()</a></code>.</li>
 </ul></li>
 <li>Remove functions
 <ul><li>These functions have been deprecated and can no longer be used: <code>metamake()</code>, <code><a href="../reference/pxmake-package.html">pxmake()</a></code>, <code>make_template()</code>.</li>

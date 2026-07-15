@@ -7,7 +7,7 @@
 
 ## Create files
 
-- [`px_save()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_save.md)
+- [`px_save()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_save.px.md)
   : Save px object to file
 - [`px_save_classification()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_save_classification.md)
   : Save classification as .vs and .agg files
@@ -154,9 +154,9 @@ Modifying functions that do not relate to a specific px keyword.
 
 ## Special functions
 
-- [`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.md)
+- [`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md)
   : Create micro PX-files
-- [`px_validate()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_validate.md)
+- [`px_validate()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_validate.px.md)
   : Check px object
 
 ## Collections (value set and aggregations)

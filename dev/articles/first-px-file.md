@@ -46,7 +46,7 @@ stored in a specific format that all functions in the pxmake package
 uses.
 
 Use
-[`px_save()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_save.md)
+[`px_save()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_save.px.md)
 to save the px object as a PX-file.
 
 ``` r
@@ -170,7 +170,7 @@ The resulting PX-file can be seen below.
     VARIABLECODE("gender")="gender";
     VARIABLECODE("year")="year";
     VARIABLECODE("n")="n";
-    LAST-UPDATED="20260715 15:24";
+    LAST-UPDATED="20260715 15:27";
     CONTACT="Johan Ejstrud";
     NOTE="See information about data: ?population_gl";
     DATA=

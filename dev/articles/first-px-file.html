@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pxmake</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.21.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.21.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,9 +101,9 @@ built in dataset <code>population_gl</code>.</p>
 <p><code>x</code> is now a px object. The word <em>object</em> just
 means that the PX-file is stored in a specific format that all functions
 in the pxmake package uses.</p>
-<p>Use <code><a href="../reference/px_save.html">px_save()</a></code> to save the px object as a PX-file.</p>
+<p>Use <code><a href="../reference/px_save.px.html">px_save()</a></code> to save the px object as a PX-file.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/px_save.html">px_save</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"population_gl.px"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/px_save.px.html">px_save</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"population_gl.px"</span><span class="op">)</span></span></code></pre></div>
 <p>Since we provided no metadata, <code><a href="../reference/px.html">px()</a></code> added a minimal set
 of metadata, which is necessary for creating a valid PX-file.</p>
 <p>The resulting PX-file can be seen below.</p>
@@ -176,7 +176,7 @@ the title changed. The original px object is not modified.</p>
 <span>  <span class="fu"><a href="../reference/px_note.px.html">px_note</a></span><span class="op">(</span><span class="st">"See information about data: ?population_gl"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/px_last_updated.px.html">px_last_updated</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y%m%d %H:%M"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/px_stub.px.html">px_stub</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"gender"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Change order of STUB variables</span></span>
-<span>  <span class="fu"><a href="../reference/px_save.html">px_save</a></span><span class="op">(</span><span class="st">"population_gl_modified.px"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/px_save.px.html">px_save</a></span><span class="op">(</span><span class="st">"population_gl_modified.px"</span><span class="op">)</span></span></code></pre></div>
 <p>The resulting PX-file can be seen below.</p>
 <pre><code>CHARSET="ANSI";
 CODEPAGE="UTF-8";
@@ -200,7 +200,7 @@ VARIABLECODE("age")="age";
 VARIABLECODE("gender")="gender";
 VARIABLECODE("year")="year";
 VARIABLECODE("n")="n";
-LAST-UPDATED="20260715 15:24";
+LAST-UPDATED="20260715 15:27";
 CONTACT="Johan Ejstrud";
 NOTE="See information about data: ?population_gl";
 DATA=

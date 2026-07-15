@@ -30,7 +30,7 @@ px_database(x, value, validate = TRUE)
   px object, and an error is thrown if the object is not valid. If
   FALSE, the checks are skipped, which can be usefull for large px
   objects where the check can be time consuming. Use
-  [`px_validate()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_validate.md)
+  [`px_validate()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_validate.px.md)
   to manually preform the check.
 
 ## Value

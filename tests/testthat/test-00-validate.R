@@ -1,7 +1,5 @@
 test_that("error - invalid px object", {
-  expect_error(px_validate(1),
-    regexp = "px object must be a list"
-  )
+  expect_error(px_validate(1))
 
   base_px <- get_base_px()
   base_px$cells1 <- NULL

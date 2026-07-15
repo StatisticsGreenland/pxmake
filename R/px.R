@@ -93,6 +93,12 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
   return_px(px, validate)
 }
 
+#' @rdname px_save.px
+#' @export
+px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
+  UseMethod("px_save")
+}
+
 #' Save px object to file
 #'
 #' @param x A px object.
@@ -128,7 +134,7 @@ px <- function(input = NULL, data = NULL, validate = TRUE) {
 #' px_save(x, file.path(tmp_dir, "population.R"))
 #'
 #' @export
-px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
+px_save.px <- function(x, path, save_data = TRUE, data_path = NULL) {
   validate_px_save_arguments(x, path, save_data, data_path)
 
   if (is_px_file(path) || is_pxk_file(path)) {
@@ -204,6 +210,12 @@ fix_px <- function(x) {
   x
 }
 
+#' @rdname px_validate.px
+#' @export
+px_validate <- function(x) {
+  UseMethod("px_validate")
+}
+
 #' Check px object
 #'
 #' Runs a number of checks on px object to see if it is valid.
@@ -225,9 +237,7 @@ fix_px <- function(x) {
 #'   px_validate()
 #'
 #' @export
-px_validate <- function(x) {
-  error_if_not_list(x)
-  error_if_not_class_px(x)
+px_validate.px <- function(x) {
   error_if_not_list_of_data_frames(x)
   error_if_list_names_are_wrong(x)
   error_if_data_frame_is_missing_column(x)

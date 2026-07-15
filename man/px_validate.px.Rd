@@ -2,9 +2,12 @@
 % Please edit documentation in R/px.R
 \name{px_validate}
 \alias{px_validate}
+\alias{px_validate.px}
 \title{Check px object}
 \usage{
 px_validate(x)
+
+\method{px_validate}{px}(x)
 }
 \arguments{
 \item{x}{A supposed px object.}

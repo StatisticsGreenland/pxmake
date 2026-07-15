@@ -74,9 +74,7 @@ test_that("Error if any value contains quotation marks", {
 })
 
 test_that("px_micro arguments are validated", {
-  expect_error(px_micro(x = data.frame()),
-    regexp = "px object"
-  )
+  expect_error(px_micro(x = data.frame()))
 
   expect_error(px_micro(x = px(women), out_dir = 5),
     regexp = "character"

@@ -126,6 +126,12 @@ create_micro_file <- function(
   px_save(x = x_micro, path = file.path(out_dir, filename))
 }
 
+#' @rdname px_micro.px
+#' @export
+px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
+  UseMethod("px_micro")
+}
+
 #' Create micro PX-files
 #'
 #' Split one px object into many small PX-files (micro files), with count of
@@ -166,7 +172,7 @@ create_micro_file <- function(
 #' px_micro(x)
 #'
 #' @export
-px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
+px_micro.px <- function(x, out_dir = NULL, keyword_values = NULL) {
   validate_px_micro_arguments(x, out_dir)
 
   print_out_dir <- is.null(out_dir)

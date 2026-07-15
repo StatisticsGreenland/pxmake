@@ -2,9 +2,12 @@
 % Please edit documentation in R/px.R
 \name{px_save}
 \alias{px_save}
+\alias{px_save.px}
 \title{Save px object to file}
 \usage{
 px_save(x, path, save_data = TRUE, data_path = NULL)
+
+\method{px_save}{px}(x, path, save_data = TRUE, data_path = NULL)
 }
 \arguments{
 \item{x}{A px object.}

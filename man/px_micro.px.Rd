@@ -2,9 +2,12 @@
 % Please edit documentation in R/micro.R
 \name{px_micro}
 \alias{px_micro}
+\alias{px_micro.px}
 \title{Create micro PX-files}
 \usage{
 px_micro(x, out_dir = NULL, keyword_values = NULL)
+
+\method{px_micro}{px}(x, out_dir = NULL, keyword_values = NULL)
 }
 \arguments{
 \item{x}{A px object.}

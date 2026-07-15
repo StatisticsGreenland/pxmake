@@ -1,5 +1,9 @@
 # pxmake (development version)
 
+## Bug fixes and minor improvements
+- Add generic fors 'px_micro', 'px_save' and 'px_validate' to automatically
+check that input is px object, and align with other functions.
+
 # pxmake 0.21.0
 
 ## Breaking changes

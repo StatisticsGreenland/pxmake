@@ -42,14 +42,25 @@ create_micro_file <- function(
 
   data_names <- names(new_data)
 
-  headings_with_only_na_values_long <-
+  heading_codes_long <- function(df) {
+    df |>
+      dplyr::select(all_of(px_heading(x))) |>
+      tidyr::pivot_longer(
+        cols = everything(),
+        names_to = "variable-code",
+        values_to = "code"
+      ) |>
+      dplyr::distinct()
+  }
+
+  removed_heading_codes <-
     headings_with_only_na_values |>
     (\(.) {
       if (nrow(.) > 0) {
-        tidyr::pivot_longer(.,
-          cols = px_heading(x),
-          names_to = "variable-code",
-          values_to = "code"
+        dplyr::anti_join(
+          heading_codes_long(.),
+          heading_codes_long(new_data),
+          by = c("variable-code", "code")
         )
       } else {
         dplyr::tibble(`variable-code` = character(), code = character())
@@ -68,11 +79,11 @@ create_micro_file <- function(
         x$variables2, .data$`variable-code` %in% data_names
       ),
       cells1 = dplyr::filter(x$cells1, .data$`variable-code` %in% data_names) |>
-        dplyr::anti_join(headings_with_only_na_values_long,
+        dplyr::anti_join(removed_heading_codes,
           by = c("variable-code", "code")
         ),
       cells2 = dplyr::filter(x$cells2, .data$`variable-code` %in% data_names) |>
-        dplyr::anti_join(headings_with_only_na_values_long,
+        dplyr::anti_join(removed_heading_codes,
           by = c("variable-code", "code")
         ),
       acrosscells = dplyr::select(

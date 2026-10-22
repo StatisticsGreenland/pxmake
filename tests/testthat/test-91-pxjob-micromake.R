@@ -247,3 +247,22 @@ test_that("px_micro removes headings where all values are NA", {
 
   expect_identical(micro_df, target)
 })
+
+test_that("px_micro preserves heading order with partially NA headings", {
+  df <- dplyr::tibble(
+    studie = c("2006", "2010", "2006"),
+    municipality = c("M1", "M1", "M2"),
+    a = c("x", "x", NA)
+  )
+
+  out_dir <- temp_dir()
+
+  px(df) |>
+    px_heading(c("studie", "municipality")) |>
+    px_micro(out_dir = out_dir)
+
+  x_micro <- px(file.path(out_dir, "a.px"))
+
+  expect_identical(levels(x_micro$data$studie), c("2006", "2010"))
+  expect_identical(levels(x_micro$data$municipality), "M1")
+})

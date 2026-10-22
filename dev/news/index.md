@@ -7,8 +7,11 @@
 - Add generic fors ‘px_micro’, ‘px_save’ and ‘px_validate’ to
   automatically check that input is px object, and align with other
   functions.
+- Sort headings properly when multiple headings exist in micro files.
 
 ## pxmake 0.21.0
+
+CRAN release: 2026-07-15
 
 ### Breaking changes
 

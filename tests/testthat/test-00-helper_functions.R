@@ -339,3 +339,13 @@ test_that("Dummy tibbles are create", {
     dplyr::tibble()
   )
 })
+
+test_that("metadata with '=' is parsed correctly (", {
+  df <- get_metadata_df_from_px_lines(
+    'LAST-UPDATED("Konsumprisindeks (2015=100)")="20250110 08:00";'
+  )
+
+  expect_equal(df$keyword, "LAST-UPDATED")
+  expect_equal(df$cell, "Konsumprisindeks (2015=100)")
+  expect_equal(unlist(df$value), "20250110 08:00")
+})

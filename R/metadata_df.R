@@ -8,12 +8,10 @@ get_px_metadata_regex <- function() {
     "(?:\\[)?", # Maybe opening language bracket [
     "(?<language>[[:alpha:]_-]+)?", # Maybe language
     "(?:\\])?", # Maybe closing language bracket ]
-    "(?:\\(\")?", # Maybe opening sub-key parentheses (
-    "(?<variable>[^\"=]+)?", # Maybe sub-key
-    "(?:\",\")?", # Maybe comma before cell value
-    "(?<cell>[^=]+?)?(?=\\)=|=)", # Maybe cell value
-    "(?:\")?", # Maybe closing " after cell value
-    "(?:\"\\))?", # Maybe closing sub-key parentheses )
+    "(?:\\(\"", # Maybe opening sub-key parentheses (
+    "(?<variable>[^\"]+)\"", # Sub-key
+    "(?:,\"(?<cell>.+?)\")?", # Maybe cell value(s)
+    "\\))?", # Closing sub-key parentheses )
     "=", # definitely =
     '(?<value>(?:"[^"]*"|[^;])*)', # Val is quoted string or non-semicolon chars
     "(?:;$)?" # Maybe ;

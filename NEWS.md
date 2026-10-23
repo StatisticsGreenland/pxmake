@@ -4,6 +4,7 @@
 - Add generic fors 'px_micro', 'px_save' and 'px_validate' to automatically
 check that input is px object, and align with other functions.
 - Sort headings properly when multiple headings exist in micro files.
+- Setting `px_figures` to current figures variable no longer breaks. (#510)
 
 # pxmake 0.21.0
 

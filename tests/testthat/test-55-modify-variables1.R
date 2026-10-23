@@ -195,3 +195,13 @@ test_that("changing px_figures removes it from cells", {
     nrow() |>
     expect_equal(0)
 })
+
+test_that("setting px_figures to current figures does nothing", {
+  x <- px(population_gl)
+
+  x2 <- px_figures(x, px_figures(x))
+
+  expect_equal(px_figures(x2), px_figures(x))
+  expect_equal(px_stub(x2), px_stub(x))
+  expect_equal(px_heading(x2), px_heading(x))
+})

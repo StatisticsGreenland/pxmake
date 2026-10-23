@@ -156,7 +156,9 @@ px_figures.px <- function(x, value, validate = TRUE) {
 
   x <- change_pivot_variables(x, value, "FIGURES")
 
-  x <- change_pivot_variables(x, old_figures_variable, "STUB")
+  if (!identical(old_figures_variable, value)) {
+    x <- change_pivot_variables(x, old_figures_variable, "STUB")
+  }
 
   x$cells1 <-
     x$cells1 |>

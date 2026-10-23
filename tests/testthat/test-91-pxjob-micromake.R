@@ -266,3 +266,26 @@ test_that("px_micro preserves heading order with partially NA headings", {
   expect_identical(levels(x_micro$data$studie), c("2006", "2010"))
   expect_identical(levels(x_micro$data$municipality), "M1")
 })
+
+test_that("px_micro keeps value notes on heading codes still in table", {
+  df <- dplyr::tibble(
+    year = c("2018", "2010"),
+    municipality = c("a", "a"),
+    question = c("yes", NA)
+  )
+
+  out_dir <- temp_dir()
+
+  px(df) |>
+    px_heading(c("year", "municipality")) |>
+    px_valuenote(dplyr::tibble(
+      `variable-code` = "municipality",
+      code = "a",
+      valuenote = "note"
+    )) |>
+    px_micro(out_dir = out_dir)
+
+  x_micro <- px(file.path(out_dir, "question.px"))
+
+  expect_identical(px_valuenote(x_micro)$valuenote, "note")
+})

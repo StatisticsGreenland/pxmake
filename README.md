@@ -23,10 +23,17 @@ downloads](https://cranlogs.r-pkg.org/badges/last-month/pxmake)](https://cran.r-
 With pxmake you can:
 
 - Import a PX-file, modify it, and save it as a new PX-file.
+- Create PX-files directly from a data frame, Excel workbook, or
+  .parquet file.
 - Modify all metadata keywords in a PX-file.
+- Handle PX-files with metadata in multiple languages.
 - Do complex modifications to a PX-file, like adding total levels to a
   variable.
-- Save a PX-file as an Excel workbook.
+- Save a PX-file as an Excel workbook that contains all metadata.
+
+PX-files are used by national statistics offices to publish their data,
+for example in PxWeb. pxmake is therefore an alternative to software
+like PxEdit, which can also create PX-files.
 
 ## Installation
 

@@ -10,6 +10,9 @@
 - Sort headings properly when multiple headings exist in micro files.
 - Setting `px_figures` to current figures variable no longer breaks.
   ([\#510](https://github.com/StatisticsGreenland/pxmake/issues/510))
+- Changes ‘values’ to ‘value’ in `px_values` documentation and throw an
+  error both ‘value’ and ‘values’ are used.
+  ([\#509](https://github.com/StatisticsGreenland/pxmake/issues/509))
 
 ## pxmake 0.21.0
 

@@ -8,6 +8,8 @@
   automatically check that input is px object, and align with other
   functions.
 - Sort headings properly when multiple headings exist in micro files.
+- Setting `px_figures` to current figures variable no longer breaks.
+  ([\#510](https://github.com/StatisticsGreenland/pxmake/issues/510))
 
 ## pxmake 0.21.0
 

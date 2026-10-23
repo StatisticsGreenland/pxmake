@@ -16,6 +16,8 @@
 - Changes ‘values’ to ‘value’ in `px_values` documentation and throw an
   error both ‘value’ and ‘values’ are used.
   ([\#509](https://github.com/StatisticsGreenland/pxmake/issues/509))
+- `px` handles metadata sub-keys that contain ‘=’.
+  ([\#356](https://github.com/StatisticsGreenland/pxmake/issues/356))
 
 ## pxmake 0.21.0
 

@@ -9,6 +9,7 @@ check that input is px object, and align with other functions.
 px file. (#517)
 - Changes 'values' to 'value' in `px_values` documentation and throw an error
 both 'value' and 'values' are used. (#509)
+- `px` handles metadata sub-keys that contain '='. (#356)
 
 # pxmake 0.21.0
 

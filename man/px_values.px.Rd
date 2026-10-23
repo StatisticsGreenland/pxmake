@@ -12,7 +12,7 @@ px_values(x, value, validate)
 \arguments{
 \item{x}{A px object}
 
-\item{value}{Optional. A data frame with the columns 'values' and one or more of the columns: 'variable-code', 'code', and 'language'. If 'value' is missing, the current VALUES is returned. If NULL, VALUES is removed.}
+\item{value}{Optional. A data frame with the columns 'value' and one or more of the columns: 'variable-code', 'code', and 'language'. If 'value' is missing, the current VALUES is returned. If NULL, VALUES is removed.}
 
 \item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }
@@ -29,7 +29,7 @@ x1 <-
   population_gl |>
   px() |>
   px_values(
-    tribble(~`variable-code`, ~code,  ~values,
+    tribble(~`variable-code`, ~code,  ~value,
             'year', '2004', 'Year 2024'))
 
 # Print VALUES
@@ -40,7 +40,7 @@ x2 <-
   x1 |>
   px_languages(c('en', 'kl')) |>
   px_values(
-    tribble(~`variable-code`, ~code,  ~language, ~values,
+    tribble(~`variable-code`, ~code,  ~language, ~value,
             'age', '0-6', 'en', 'toddler',
             'age', '0-6', 'kl', 'meeraaqqap'))
 px_values(x2)

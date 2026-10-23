@@ -304,6 +304,15 @@ error_if_data_table_contains_duplicates <- function(x) {
   }
 }
 
+error_if_both_value_and_values_are_used <- function(df) {
+  if (all(c("value", "values") %in% names(df))) {
+    error(stringr::str_glue(
+      "The data frame can't contain both columns 'value' and 'values'. ",
+      "Use only one of them, preferably 'value'."
+    ))
+  }
+}
+
 is_url <- function(path) {
   if (!is.character(path) || length(path) != 1) {
     return(FALSE)

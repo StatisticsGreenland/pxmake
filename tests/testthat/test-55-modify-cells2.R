@@ -120,3 +120,18 @@ test_that("px_values()", {
 
   expect_identical(px_values(x3), NULL)
 })
+
+test_that("px_values() errors if both 'value' and 'values' are used", {
+  x <- px(population_gl)
+
+  value_and_values_df <-
+    dplyr::bind_rows(
+      px_values(x),
+      dplyr::tibble(`variable-code` = "gender", code = "K", values = "Kvinde")
+    )
+
+  expect_error(
+    px_values(x, value_and_values_df),
+    regexp = "'value' and 'values'"
+  )
+})

@@ -4,6 +4,14 @@ keyword_to_function <- function(keyword) {
   paste0("px_", gsub("-", "_", tolower(keyword)))
 }
 
+keyword_to_column <- function(keyword) {
+  if (keyword == "VALUES") {
+    return("value")
+  }
+
+  tolower(keyword)
+}
+
 function_to_keyword <- function(fnc_name) {
   toupper(substr(gsub("_", "-", fnc_name), 4, nchar(fnc_name)))
 }
@@ -291,6 +299,7 @@ cells2_example <- function(
   keyword, example_value1, example_value2, example_value3
 ) {
   px_function <- keyword_to_function(keyword)
+  colname <- keyword_to_column(keyword)
 
   stringr::str_glue(
     "@examples",
@@ -300,7 +309,7 @@ cells2_example <- function(
     "  population_gl |>",
     "  px() |>",
     "  {px_function}(",
-    "    tribble(~`variable-code`, ~code,  ~{tolower(keyword)},",
+    "    tribble(~`variable-code`, ~code,  ~{colname},",
     "            'year', '2004', '{example_value1}'))",
     "",
     "# Print {keyword}",
@@ -311,7 +320,7 @@ cells2_example <- function(
     "  x1 |>",
     "  px_languages(c('en', 'kl')) |>",
     "  {px_function}(",
-    "    tribble(~`variable-code`, ~code,  ~language, ~{tolower(keyword)},",
+    "    tribble(~`variable-code`, ~code,  ~language, ~{colname},",
     "            'age', '0-6', 'en', '{example_value2}',",
     "            'age', '0-6', 'kl', '{example_value3}'))",
     "{px_function}(x2)",
@@ -452,7 +461,7 @@ table2_param_value <- function(keyword) {
 }
 
 cells_param_value <- function(keyword, number) {
-  colname <- tolower(keyword)
+  colname <- keyword_to_column(keyword)
 
   if (number == "1") {
     optional_columns <- "'variable-code', and 'code'"

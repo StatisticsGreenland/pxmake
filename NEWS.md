@@ -5,6 +5,8 @@
 check that input is px object, and align with other functions.
 - Sort headings properly when multiple headings exist in micro files.
 - Setting `px_figures` to current figures variable no longer breaks. (#510)
+- Changes 'values' to 'value' in `px_values` documentation and throw an error
+both 'value' and 'values' are used. (#509)
 
 # pxmake 0.21.0
 

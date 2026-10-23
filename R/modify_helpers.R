@@ -133,6 +133,8 @@ get_cells_name <- function(number) {
 }
 
 modify_cells <- function(x, number, column, value) {
+  error_if_both_value_and_values_are_used(value)
+
   if ("values" %in% names(value)) {
     value <- dplyr::rename(value, "value" = "values")
   }

@@ -111,3 +111,36 @@ test_that("Setting languages preserves VALUENOTE(X)", {
     multilingual_valuenote
   )
 })
+
+test_that("Adding languages to multilingual px copies main language once", {
+  x <-
+    px(population_gl) |>
+    px_languages(c("en", "da")) |>
+    px_title(dplyr::tibble(
+      language = c("en", "da"),
+      value = c("Population", "Befolkningen")
+    ))
+
+  x_lang <- px_languages(x, c("en", "da", "sv"))
+
+  expect_equal(
+    px_title(x_lang),
+    dplyr::tibble(
+      language = c("en", "da", "sv"),
+      value = c("Population", "Befolkningen", "Population")
+    )
+  )
+
+  expect_equal(nrow(x_lang$cells2), nrow(x$cells2) / 2 * 3)
+
+  # If LANGUAGE is set its values are used as placeholder for the new languages
+  x_da <-
+    x |>
+    px_language("da") |>
+    px_languages(c("en", "da", "sv"))
+
+  expect_equal(
+    dplyr::filter(px_title(x_da), language == "sv")$value,
+    "Befolkningen"
+  )
+})

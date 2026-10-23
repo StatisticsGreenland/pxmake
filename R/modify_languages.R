@@ -20,16 +20,24 @@ defined_languages <- function(x) {
 #' @param new_languages A character vector
 #' @param keep_vars A character vector
 #' @param align_df A data frame to align with
+#' @param main_language A character string. Language to copy values from when
+#' adding new languages. If not in `df`, the first language in `df` is used.
 #'
 #' @returns A data frame
 #' @keywords internal
-modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
+modify_languages_in_table <- function(df, new_languages, keep_vars,
+                                      align_df, main_language) {
   add_languages <- setdiff(new_languages, df$language)
 
   keep <- dplyr::filter(df, .data$language %in% new_languages)
 
+  if (!isTRUE(main_language %in% df$language)) {
+    main_language <- dplyr::first(df$language)
+  }
+
   new <-
     df |>
+    dplyr::filter(.data$language %in% main_language) |>
     dplyr::select(all_of(keep_vars)) |>
     tidyr::expand_grid(language = add_languages) |>
     align_data_frames(align_df)
@@ -47,12 +55,15 @@ modify_languages_in_table <- function(df, new_languages, keep_vars, align_df) {
 #' @returns A px object
 #' @keywords internal
 modify_languages_in_px <- function(x, new_languages) {
+  main_language <- px_language(x)
+
   x$table2 <-
     modify_languages_in_table(
       df = x$table2,
       new_languages = new_languages,
       keep_vars = c("keyword", "value"),
-      align_df = get_base_table2()
+      align_df = get_base_table2(),
+      main_language = main_language
     )
 
   x$variables2 <-
@@ -60,7 +71,8 @@ modify_languages_in_px <- function(x, new_languages) {
       df = x$variables2,
       new_languages = new_languages,
       keep_vars = c("variable-code", "variable-label"),
-      align_df = get_base_variables2()
+      align_df = get_base_variables2(),
+      main_language = main_language
     ) |>
     sort_variables2(
       data_table_names = names(px_data(x)),
@@ -75,7 +87,8 @@ modify_languages_in_px <- function(x, new_languages) {
         "variable-code", "code", "value",
         "valuenote", "valuenotex"
       ),
-      align_df = get_base_cells2()
+      align_df = get_base_cells2(),
+      main_language = main_language
     ) |>
     sort_cells2(
       data_table_names = names(px_data(x)),
@@ -87,7 +100,8 @@ modify_languages_in_px <- function(x, new_languages) {
       df = x$acrosscells,
       new_languages = new_languages,
       keep_vars = c(px_stub(x), px_heading(x), "cellnote"),
-      align_df = get_base_acrosscells()
+      align_df = get_base_acrosscells(),
+      main_language = main_language
     )
 
   x

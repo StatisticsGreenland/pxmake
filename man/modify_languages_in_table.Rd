@@ -4,7 +4,13 @@
 \alias{modify_languages_in_table}
 \title{Change language in table}
 \usage{
-modify_languages_in_table(df, new_languages, keep_vars, align_df)
+modify_languages_in_table(
+  df,
+  new_languages,
+  keep_vars,
+  align_df,
+  main_language
+)
 }
 \arguments{
 \item{df}{A data frame to change languages in}
@@ -14,6 +20,9 @@ modify_languages_in_table(df, new_languages, keep_vars, align_df)
 \item{keep_vars}{A character vector}
 
 \item{align_df}{A data frame to align with}
+
+\item{main_language}{A character string. Language to copy values from when
+adding new languages. If not in \code{df}, the first language in \code{df} is used.}
 }
 \value{
 A data frame

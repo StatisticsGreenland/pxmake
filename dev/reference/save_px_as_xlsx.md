@@ -27,7 +27,7 @@ save_px_as_xlsx(x, path, save_data, data_path)
 
   Path to an `.rds` or `.parquet` file to save data table at. Can only
   be used if `path` is an `.xlsx` or `.R` file, and `save_data` is
-  `TRUE`.
+  `TRUE`. Saving `.parquet` files requires the arrow package.
 
 ## Value
 

@@ -22,6 +22,9 @@ is the only other function that can save px objects as PX-files.
 turns a px object into many smaller PX-files, each containing a subset
 of the variables in the original px object.
 
+[`px_micro()`](https://statisticsgreenland.github.io/pxmake/dev/reference/px_micro.px.md)
+requires the furrr package. Install it with `install.packages("furrr")`.
+
 ## Input data
 
 The basis of micro files are usually a data set which doesn’t have a

@@ -18,6 +18,8 @@
   ([\#509](https://github.com/StatisticsGreenland/pxmake/issues/509))
 - `px` handles metadata sub-keys that contain ‘=’.
   ([\#356](https://github.com/StatisticsGreenland/pxmake/issues/356))
+- Add documentation for VARIABLECODE
+  ([\#161](https://github.com/StatisticsGreenland/pxmake/issues/161))
 
 ## pxmake 0.21.0
 

@@ -207,6 +207,11 @@ they are automatically determined by the data.
 #>  VARIABLECODE
 ```
 
+The keyword VARIABLECODE is not part of the [PX
+specification](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf),
+but is still used. It gives each variable a code that is the same across
+all languages.
+
 ## Need help?
 
 If you have any questions or need help, feel free to [open an

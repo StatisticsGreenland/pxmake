@@ -212,8 +212,8 @@ fix_px <- function(x) {
 
 #' @rdname px_validate.px
 #' @export
-px_validate <- function( x ){
-  UseMethod( "px_validate" )
+px_validate <- function(x) {
+  UseMethod("px_validate")
 }
 
 #' Check px object

@@ -10,6 +10,7 @@ test_that("px runs without errors (URL)", {
 })
 
 test_that("px can take a parquet url is a input", {
+  skip_if_not_installed("arrow")
   skip_if_offline(host = "raw.githubusercontent.com")
 
   px(

@@ -16,7 +16,7 @@ Can only be used if \code{path} is an \code{.xlsx} file.}
 
 \item{data_path}{Path to an \code{.rds} or \code{.parquet} file to save data table at.
 Can only be used if \code{path} is an \code{.xlsx} or \code{.R} file, and \code{save_data} is
-\code{TRUE}.}
+\code{TRUE}. Saving \code{.parquet} files requires the arrow package.}
 }
 \value{
 Nothing

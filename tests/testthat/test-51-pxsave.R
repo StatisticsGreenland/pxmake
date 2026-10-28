@@ -9,11 +9,17 @@ test_that("px_save basic functionality", {
   px(population_gl) |>
     px_save(path = temp_r_file(), data_path = temp_rds_file())
 
+  expect_error(px_save(x), regexp = 'argument "path" is missing')
+  expect_error(px_save(x, temp_rds_file()), regexp = "Argument 'path'")
+})
+
+test_that("px_save can save data as parquet", {
+  skip_if_not_installed("arrow")
+
   px(population_gl) |>
     px_save(path = temp_r_file(), data_path = temp_parquet_file())
 
-  expect_error(px_save(x), regexp = 'argument "path" is missing')
-  expect_error(px_save(x, temp_rds_file()), regexp = "Argument 'path'")
+  expect_true(TRUE)
 })
 
 test_that("px_save save_data and data_path arguments works", {

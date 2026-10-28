@@ -152,8 +152,8 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
 #' for each non-HEADING variable. The new PX-files are saved in a directory
 #' specified by `out_dir`.
 #'
-#' The main loop uses the furrr package for parallelisation. Use future::plan()
-#' to choose how to parallelise.
+#' Requires the furrr package. The main loop uses furrr for parallelisation. Use
+#' future::plan() to choose how to parallelise.
 #'
 #' @param x A px object.
 #' @param out_dir Directory to save PX-files in.
@@ -170,7 +170,7 @@ px_micro <- function(x, out_dir = NULL, keyword_values = NULL) {
 #'
 #' @returns Nothing
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("furrr")
 #' # Create px object with cohort as HEADING
 #' x <-
 #'   greenlanders |>

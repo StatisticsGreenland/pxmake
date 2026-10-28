@@ -12,7 +12,8 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = rlang::is_installed("furrr")
 )
 ```
 
@@ -27,6 +28,8 @@ They use it to create small PX-files to showcase and present metadata from a lag
 Apart from `px_save()`, `px_micro()` is the only other function that can save px objects as PX-files.
 
 `px_micro()` turns a px object into many smaller PX-files, each containing a subset of the variables in the original px object.
+
+`px_micro()` requires the furrr package. Install it with `install.packages("furrr")`.
 
 ## Input data
 

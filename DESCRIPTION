@@ -24,7 +24,6 @@ Roxygen: list(markdown = TRUE)
 Imports: 
     arrow,
     dplyr,
-    furrr,
     magrittr,
     methods,
     openxlsx,
@@ -44,7 +43,8 @@ Suggests:
     rmarkdown,
     withr,
     testthat (>= 3.0.0),
-    curl
+    curl,
+    furrr
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/testthat/start-first: 60-metamake-bexltall

@@ -19,11 +19,13 @@ px(input = NULL, data = NULL, validate = TRUE)
 }
 
 If input is a data frame or NULL, a px object with minimal
-metadata is created.}
+metadata is created.
+
+Reading \code{.parquet} files requires the arrow package.}
 
 \item{data}{Either a data frame or a path to an \code{.rds} or \code{.parquet} file
 with a data frame. This can only be used if \code{input} is an Excel metadata
-workbook.}
+workbook. Reading \code{.parquet} files requires the arrow package.}
 
 \item{validate}{Optional. If TRUE a number of validation checks are performed on the px object, and an error is thrown if the object is not valid. If FALSE, the checks are skipped, which can be usefull for large px objects where the check can be time consuming. Use \code{\link[=px_validate]{px_validate()}} to manually preform the check.}
 }

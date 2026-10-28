@@ -46,6 +46,8 @@ test_that("px runs without errors (data frame and rds path)", {
 })
 
 test_that("px runs without errors (data frame and parquet path)", {
+  skip_if_not_installed("arrow")
+
   expect_runs_without_errors <- function(name) {
     px(input = arrow::read_parquet(get_data_path(name)))
     px(input = get_data_path(name))

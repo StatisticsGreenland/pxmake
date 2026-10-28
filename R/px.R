@@ -16,9 +16,11 @@
 #'
 #' If input is a data frame or NULL, a px object with minimal
 #' metadata is created.
+#'
+#' Reading `.parquet` files requires the arrow package.
 #' @param data Either a data frame or a path to an `.rds` or `.parquet` file
 #' with a data frame. This can only be used if `input` is an Excel metadata
-#' workbook.
+#' workbook. Reading `.parquet` files requires the arrow package.
 #' @eval param_validate()
 #'
 #' @returns A px object
@@ -111,7 +113,7 @@ px_save <- function(x, path, save_data = TRUE, data_path = NULL) {
 #' Can only be used if `path` is an `.xlsx` file.
 #' @param data_path Path to an `.rds` or `.parquet` file to save data table at.
 #' Can only be used if `path` is an `.xlsx` or `.R` file, and `save_data` is
-#' `TRUE`.
+#' `TRUE`. Saving `.parquet` files requires the arrow package.
 #' @details
 #' Use `px_codepage()` to change file encoding.
 #'

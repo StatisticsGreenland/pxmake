@@ -10,6 +10,7 @@ px file. (#517)
 - Changes 'values' to 'value' in `px_values` documentation and throw an error
 both 'value' and 'values' are used. (#509)
 - `px` handles metadata sub-keys that contain '='. (#356)
+- Move furrr and arrow to Suggests to reduce package install. (#478)
 - Add documentation for VARIABLECODE (#161)
 
 # pxmake 0.21.0

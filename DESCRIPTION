@@ -1,6 +1,6 @@
 Package: pxmake
 Title: Make PX-Files in R
-Version: 0.21.0.9009
+Version: 0.21.0.9010
 Authors@R: c(
              person("Johan", "Ejstrud", 
                     email = "johan@ejstrud.com",
@@ -21,10 +21,8 @@ Description: Create PX-files from scratch or read and modify existing ones.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-Imports: 
-    arrow,
+Imports:
     dplyr,
-    furrr,
     magrittr,
     methods,
     openxlsx,
@@ -44,7 +42,9 @@ Suggests:
     rmarkdown,
     withr,
     testthat (>= 3.0.0),
-    curl
+    curl,
+    furrr,
+    arrow
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/testthat/start-first: 60-metamake-bexltall

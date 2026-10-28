@@ -11,6 +11,7 @@ px file. (#517)
 both 'value' and 'values' are used. (#509)
 - `px` handles metadata sub-keys that contain '='. (#356)
 - Move furrr to Suggests to reduce package install. (#478)
+- Add documentation for VARIABLECODE (#161)
 
 # pxmake 0.21.0
 

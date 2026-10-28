@@ -16,7 +16,7 @@ px_validate(x)
 A valid px object.
 }
 \description{
-Runs a number of checks on px object to see if it is valid.
+Runs a number of checks on px object to see if it is valid. (Testing /document.)
 }
 \details{
 This check is run by default by all \verb{px_*} functions, but can be skipped by

@@ -212,13 +212,13 @@ fix_px <- function(x) {
 
 #' @rdname px_validate.px
 #' @export
-px_validate <- function(x) {
-  UseMethod("px_validate")
+px_validate <- function( x ){
+  UseMethod( "px_validate" )
 }
 
 #' Check px object
 #'
-#' Runs a number of checks on px object to see if it is valid.
+#' Runs a number of checks on px object to see if it is valid. (Testing /document.)
 #'
 #' This check is run by default by all `px_*` functions, but can be skipped by
 #' using `validate = FALSE`. This can be useful on large px objects where the

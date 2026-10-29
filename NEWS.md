@@ -1,4 +1,4 @@
-# pxmake (development version)
+# pxmake 0.22.0
 
 ## Bug fixes and minor improvements
 - Add generic fors 'px_micro', 'px_save' and 'px_validate' to automatically

@@ -31,11 +31,13 @@ validate_px_arguments(input, data)
   If input is a data frame or NULL, a px object with minimal metadata is
   created.
 
+  Reading `.parquet` files requires the arrow package.
+
 - data:
 
   Either a data frame or a path to an `.rds` or `.parquet` file with a
   data frame. This can only be used if `input` is an Excel metadata
-  workbook.
+  workbook. Reading `.parquet` files requires the arrow package.
 
 ## Value
 

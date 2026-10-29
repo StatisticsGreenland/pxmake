@@ -19,8 +19,8 @@ px_values(x, value, validate = TRUE)
 
 - value:
 
-  Optional. A data frame with the columns 'values' and one or more of
-  the columns: 'variable-code', 'code', and 'language'. If 'value' is
+  Optional. A data frame with the columns 'value' and one or more of the
+  columns: 'variable-code', 'code', and 'language'. If 'value' is
   missing, the current VALUES is returned. If NULL, VALUES is removed.
 
 - validate:
@@ -29,7 +29,7 @@ px_values(x, value, validate = TRUE)
   px object, and an error is thrown if the object is not valid. If
   FALSE, the checks are skipped, which can be usefull for large px
   objects where the check can be time consuming. Use
-  [`px_validate()`](https://statisticsgreenland.github.io/pxmake/reference/px_validate.md)
+  [`px_validate()`](https://statisticsgreenland.github.io/pxmake/reference/px_validate.px.md)
   to manually preform the check.
 
 ## Value
@@ -50,7 +50,7 @@ x1 <-
   population_gl |>
   px() |>
   px_values(
-    tribble(~`variable-code`, ~code,  ~values,
+    tribble(~`variable-code`, ~code,  ~value,
             'year', '2004', 'Year 2024'))
 
 # Print VALUES
@@ -74,7 +74,7 @@ x2 <-
   x1 |>
   px_languages(c('en', 'kl')) |>
   px_values(
-    tribble(~`variable-code`, ~code,  ~language, ~values,
+    tribble(~`variable-code`, ~code,  ~language, ~value,
             'age', '0-6', 'en', 'toddler',
             'age', '0-6', 'kl', 'meeraaqqap'))
 px_values(x2)

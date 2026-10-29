@@ -1,6 +1,31 @@
 # Changelog
 
+## pxmake 0.22.0
+
+### Bug fixes and minor improvements
+
+- Add generic fors ‘px_micro’, ‘px_save’ and ‘px_validate’ to
+  automatically check that input is px object, and align with other
+  functions.
+- Sort headings properly when multiple headings exist in micro files.
+- Setting `px_figures` to current figures variable no longer breaks.
+  ([\#510](https://github.com/StatisticsGreenland/pxmake/issues/510))
+- Only copy main language when adding languages to an already
+  multilingual px file.
+  ([\#517](https://github.com/StatisticsGreenland/pxmake/issues/517))
+- Changes ‘values’ to ‘value’ in `px_values` documentation and throw an
+  error both ‘value’ and ‘values’ are used.
+  ([\#509](https://github.com/StatisticsGreenland/pxmake/issues/509))
+- `px` handles metadata sub-keys that contain ‘=’.
+  ([\#356](https://github.com/StatisticsGreenland/pxmake/issues/356))
+- Move furrr and arrow to Suggests to reduce package install.
+  ([\#478](https://github.com/StatisticsGreenland/pxmake/issues/478))
+- Add documentation for VARIABLECODE
+  ([\#161](https://github.com/StatisticsGreenland/pxmake/issues/161))
+
 ## pxmake 0.21.0
+
+CRAN release: 2026-07-15
 
 ### Breaking changes
 
@@ -49,7 +74,7 @@ closed issue
 - Optimization of
   [`px()`](https://statisticsgreenland.github.io/pxmake/reference/px.md)
   and
-  [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md):
+  [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.px.md):
   speed is significantly improved for larger files.
   ([\#454](https://github.com/StatisticsGreenland/pxmake/issues/454))
   - [`px()`](https://statisticsgreenland.github.io/pxmake/reference/px.md)
@@ -57,7 +82,7 @@ closed issue
     - Speed: ~3-8x faster.
     - Peak memory usage: reduced by ~50-75 %
     - Total memory usage: reduced by ~50 %
-  - [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md)
+  - [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.px.md)
     (commits: 5c17f1d, e22f44d, e7b4163, c0ee1c8, 75f003f)
     - Speed: ~4-7x faster.
     - Peak memory usage: reduced by ~45-65 %
@@ -159,7 +184,7 @@ CRAN release: 2025-04-07
 - When adding more languages dummy values are added as VALUES instead of
   blanks.
 - Throw error when using
-  [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md)
+  [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.px.md)
   on a px object that contains duplicates in the data table.
   ([\#402](https://github.com/StatisticsGreenland/pxmake/issues/402))
 - Don’t save NA values in aggregations files.
@@ -212,7 +237,7 @@ CRAN release: 2025-02-17
 - [`px()`](https://statisticsgreenland.github.io/pxmake/reference/px.md)
   supports URLs as input.
   ([\#353](https://github.com/StatisticsGreenland/pxmake/issues/353))
-- [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md)
+- [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.px.md)
   can save px object as an R script that, when run, regenerates the px
   object. The implementation is not fully reliable; in some cases,
   running the generated R script produces a slightly different px
@@ -222,7 +247,7 @@ CRAN release: 2025-02-17
 ### Bug fixes and minor improvements
 
 - Bugfix:
-  [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.md)
+  [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.px.md)
   sometimes ordered variable references incorrectly in CELLNOTES.
   ([\#348](https://github.com/StatisticsGreenland/pxmake/issues/348))
 - Removed `dontrun` example from
@@ -268,7 +293,7 @@ CRAN release: 2025-01-22
   now only sets value for STUB/HEADING variables if value is character.
   ([\#325](https://github.com/StatisticsGreenland/pxmake/issues/325))
 - Optimize
-  [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.md)
+  [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.px.md)
   by only setting stub once, instead of for all files.
 - Add `na_to_star` option to
   [`px_cellnote()`](https://statisticsgreenland.github.io/pxmake/reference/px_cellnote.px.md)
@@ -291,7 +316,7 @@ CRAN release: 2025-01-22
 
 - [`px()`](https://statisticsgreenland.github.io/pxmake/reference/px.md)
   and
-  [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md)
+  [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.px.md)
   can write and read to and from `.parquet` files.
 - Change default value for all mandatory keywords to be descriptive
   rather than empty string ““. This was done because PxWin does not
@@ -322,7 +347,7 @@ CRAN release: 2025-01-22
 - Allow minimal px object to be created even if no input is provided.
   ([\#234](https://github.com/StatisticsGreenland/pxmake/issues/234))
 - Bugfix
-  [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.md)
+  [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.px.md)
   used undefined function.
   ([\#290](https://github.com/StatisticsGreenland/pxmake/issues/290))
 - Changing figures removes previous figures variable form cells1 and
@@ -360,7 +385,7 @@ CRAN release: 2025-01-22
   <https://statisticsgreenland.github.io/pxmake/>
 - Add example data sets `population_gl` and `greenlanders`.
   ([\#282](https://github.com/StatisticsGreenland/pxmake/issues/282))
-- [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.md)
+- [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.px.md)
   support multilingual `keyword_values` arguments.
   ([\#306](https://github.com/StatisticsGreenland/pxmake/issues/306))
 - Add example section to most help pages.
@@ -368,7 +393,7 @@ CRAN release: 2025-01-22
 ### Bug fixes and minor improvements
 
 - Update
-  [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.md)
+  [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.px.md)
   documentation.
 - Bugfix:
   [`px_add_totals()`](https://statisticsgreenland.github.io/pxmake/reference/px_add_totals.px.md)
@@ -409,9 +434,9 @@ more consistent.
     [`px_heading()`](https://statisticsgreenland.github.io/pxmake/reference/px_heading.px.md),
     etc.
   - Change `pxsave()` to
-    [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.md).
+    [`px_save()`](https://statisticsgreenland.github.io/pxmake/reference/px_save.px.md).
   - Change `micromake()` to
-    [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.md).
+    [`px_micro()`](https://statisticsgreenland.github.io/pxmake/reference/px_micro.px.md).
 - Remove functions
   - These functions have been deprecated and can no longer be used:
     `metamake()`,

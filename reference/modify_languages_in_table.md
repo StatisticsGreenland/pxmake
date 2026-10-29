@@ -5,7 +5,13 @@ Change language in table
 ## Usage
 
 ``` r
-modify_languages_in_table(df, new_languages, keep_vars, align_df)
+modify_languages_in_table(
+  df,
+  new_languages,
+  keep_vars,
+  align_df,
+  main_language
+)
 ```
 
 ## Arguments
@@ -25,6 +31,11 @@ modify_languages_in_table(df, new_languages, keep_vars, align_df)
 - align_df:
 
   A data frame to align with
+
+- main_language:
+
+  A character string. Language to copy values from when adding new
+  languages. If not in `df`, the first language in `df` is used.
 
 ## Value
 

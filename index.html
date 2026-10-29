@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">pxmake</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.21.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.22.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,10 +70,13 @@
 <p>With pxmake you can:</p>
 <ul>
 <li>Import a PX-file, modify it, and save it as a new PX-file.</li>
+<li>Create PX-files directly from a data frame, Excel workbook, or .parquet file.</li>
 <li>Modify all metadata keywords in a PX-file.</li>
+<li>Handle PX-files with metadata in multiple languages.</li>
 <li>Do complex modifications to a PX-file, like adding total levels to a variable.</li>
-<li>Save a PX-file as an Excel workbook.</li>
+<li>Save a PX-file as an Excel workbook that contains all metadata.</li>
 </ul>
+<p>PX-files are used by national statistics offices to publish their data, for example in PxWeb. pxmake is therefore an alternative to software like PxEdit, which can also create PX-files.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -122,7 +125,7 @@
 <span>  <span class="fu"><a href="reference/px_heading.px.html">px_heading</a></span><span class="op">(</span><span class="st">"year"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># Set year as HEADING</span></span>
 <span>  <span class="fu"><a href="reference/px_stub.px.html">px_stub</a></span><span class="op">(</span><span class="st">"group"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># Set group as STUB</span></span>
 <span>  <span class="fu"><a href="reference/px_decimals.px.html">px_decimals</a></span><span class="op">(</span><span class="st">"2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># Set DECIMALS to 2</span></span>
-<span>  <span class="fu"><a href="reference/px_save.html">px_save</a></span><span class="op">(</span><span class="st">"example.px"</span><span class="op">)</span> <span class="co"># Save as PX-file</span></span></code></pre></div>
+<span>  <span class="fu"><a href="reference/px_save.px.html">px_save</a></span><span class="op">(</span><span class="st">"example.px"</span><span class="op">)</span> <span class="co"># Save as PX-file</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="modifying-functions">Modifying functions<a class="anchor" aria-label="anchor" href="#modifying-functions"></a>
 </h3>
@@ -187,12 +190,15 @@
 <span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a><span class="co">#&gt;  VALUES              px_values             </span></span>
 <span id="cb4-59"><a href="#cb4-59" tabindex="-1"></a><span class="co">#&gt;  VARIABLE-LABEL      px_variable_label     </span></span>
 <span id="cb4-60"><a href="#cb4-60" tabindex="-1"></a><span class="co">#&gt;  VARIABLE-TYPE       px_variable_type</span></span></code></pre></div>
-<p>In addition to the above, the following 3 modifying functions are available:</p>
+<p>In addition to the above, the following 6 functions are available:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt;  Function name</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;  px_add_totals</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;  px_figures   </span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;  px_order</span></span></code></pre></div>
-<p>See the help page for each modifying function for more information.</p>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;  px_micro     </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;  px_order     </span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;  px_save      </span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  px_validate</span></span></code></pre></div>
+<p>See their help pages for more information.</p>
 <details><summary>
 Keywords without modifying functions
 </summary><p>These 26 keywords currently doesn’t have a modifying function, but can be implemented.</p>
@@ -227,6 +233,7 @@ Keywords without modifying functions
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">#&gt;  Keyword     </span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt;  CODES       </span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt;  VARIABLECODE</span></span></code></pre></div>
+<p>The keyword VARIABLECODE is not part of the <a href="https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf" class="external-link">PX specification</a>, but is still used. It gives each variable a code that is the same across all languages.</p>
 </details>
 </div>
 </div>

@@ -32,11 +32,13 @@ px(input = NULL, data = NULL, validate = TRUE)
   If input is a data frame or NULL, a px object with minimal metadata is
   created.
 
+  Reading `.parquet` files requires the arrow package.
+
 - data:
 
   Either a data frame or a path to an `.rds` or `.parquet` file with a
   data frame. This can only be used if `input` is an Excel metadata
-  workbook.
+  workbook. Reading `.parquet` files requires the arrow package.
 
 - validate:
 
@@ -44,7 +46,7 @@ px(input = NULL, data = NULL, validate = TRUE)
   px object, and an error is thrown if the object is not valid. If
   FALSE, the checks are skipped, which can be usefull for large px
   objects where the check can be time consuming. Use
-  [`px_validate()`](https://statisticsgreenland.github.io/pxmake/reference/px_validate.md)
+  [`px_validate()`](https://statisticsgreenland.github.io/pxmake/reference/px_validate.px.md)
   to manually preform the check.
 
 ## Value

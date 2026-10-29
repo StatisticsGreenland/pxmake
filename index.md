@@ -7,10 +7,17 @@
 With pxmake you can:
 
 - Import a PX-file, modify it, and save it as a new PX-file.
+- Create PX-files directly from a data frame, Excel workbook, or
+  .parquet file.
 - Modify all metadata keywords in a PX-file.
+- Handle PX-files with metadata in multiple languages.
 - Do complex modifications to a PX-file, like adding total levels to a
   variable.
-- Save a PX-file as an Excel workbook.
+- Save a PX-file as an Excel workbook that contains all metadata.
+
+PX-files are used by national statistics offices to publish their data,
+for example in PxWeb. pxmake is therefore an alternative to software
+like PxEdit, which can also create PX-files.
 
 ## Installation
 
@@ -142,17 +149,19 @@ Currently the following 59 keywords have a modifying function in pxmake:
 #>  VARIABLE-TYPE       px_variable_type
 ```
 
-In addition to the above, the following 3 modifying functions are
-available:
+In addition to the above, the following 6 functions are available:
 
 ``` R
 #>  Function name
 #>  px_add_totals
 #>  px_figures   
-#>  px_order
+#>  px_micro     
+#>  px_order     
+#>  px_save      
+#>  px_validate
 ```
 
-See the help page for each modifying function for more information.
+See their help pages for more information.
 
 Keywords without modifying functions
 
@@ -197,6 +206,11 @@ they are automatically determined by the data.
 #>  CODES       
 #>  VARIABLECODE
 ```
+
+The keyword VARIABLECODE is not part of the [PX
+specification](https://www.scb.se/globalassets/vara-tjanster/px-programmen/px-file_format_specification_2013.pdf),
+but is still used. It gives each variable a code that is the same across
+all languages.
 
 ## Need help?
 
